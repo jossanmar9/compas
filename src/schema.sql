@@ -65,7 +65,6 @@ CREATE TABLE IF NOT EXISTS tutories (
     tipus_relacio       TEXT,
     principal           INTEGER NOT NULL DEFAULT 0,
     rep_comunicacions   INTEGER NOT NULL DEFAULT 1,
-    consulta_academica  INTEGER NOT NULL DEFAULT 1,
     observacions        TEXT,
     UNIQUE (alumne_id, tutor_id)
 );
@@ -216,12 +215,11 @@ CREATE TABLE IF NOT EXISTS cessions (
     observacions   TEXT
 );
 
--- Accés: usuaris, rols i capacitats
+-- Accés: usuaris i dos rols fixos (administrador i administratiu)
 CREATE TABLE IF NOT EXISTS usuaris (
     id          INTEGER PRIMARY KEY,
     usuari      TEXT NOT NULL UNIQUE COLLATE NOCASE,
     contrasenya TEXT NOT NULL,
-    persona_id  INTEGER UNIQUE REFERENCES persones(id) ON DELETE SET NULL,
     actiu       INTEGER NOT NULL DEFAULT 1,
     idioma      TEXT,
     ultim_acces TEXT,

@@ -32,6 +32,14 @@ $r = (string)get('r', 'inici');
 $post = $_SERVER['REQUEST_METHOD'] === 'POST';
 
 try {
+    // Peticions que no necessiten sessió
+    if ($r === 'copia_tancament') {
+        copia_en_tancar();
+    }
+    if ($r === 'logo') {
+        serveix_logo();
+    }
+
     // Primera execució: no hi ha cap usuari
     if ((int)valor('SELECT COUNT(*) FROM usuaris') === 0) {
         pagina_configuracio_inicial();
@@ -82,9 +90,6 @@ try {
                 accio_elimina((string)get('e'), (int)get('id'));
             }
             redirigeix('inici');
-        case 'portal':
-            pagina_portal();
-            break;
         case 'perfil':
             pagina_perfil();
             break;
@@ -97,11 +102,11 @@ try {
         case 'notes':
             pagina_notes();
             break;
+        case 'butlleti':
+            pagina_butlleti();
+            break;
         case 'usuaris':
             pagina_usuaris();
-            break;
-        case 'rols':
-            pagina_rols();
             break;
         case 'configuracio':
             pagina_configuracio();

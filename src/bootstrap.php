@@ -29,13 +29,13 @@ function db(): PDO
         mkdir(DADES_DIR, 0770, true);
     }
     $fitxer = DADES_DIR . DIRECTORY_SEPARATOR . 'compas.db';
-    // Restauració pendent: es fa ací, abans d'obrir la base de dades
+    // Restauració pendent: es fa ací, abans d'obrir la base de dades.
+    // Abans de deixar-la preparada ja s'ha fet una còpia «abans-restaurar» de les dades actuals.
     $restaura = DADES_DIR . DIRECTORY_SEPARATOR . 'restaura.db';
     if (is_file($restaura)) {
-        $abans = DADES_DIR . DIRECTORY_SEPARATOR . 'compas-abans-restaurar-' . date('Ymd-His') . '.db';
         foreach (['', '-wal', '-shm'] as $s) {
             if (is_file($fitxer . $s)) {
-                rename($fitxer . $s, $abans . $s);
+                unlink($fitxer . $s);
             }
         }
         rename($restaura, $fitxer);
@@ -49,6 +49,14 @@ function db(): PDO
     $pdo->exec('PRAGMA busy_timeout = 5000');
     $pdo->exec(file_get_contents(SRC_DIR . '/schema.sql'));
     sembra_rols($pdo);
+    // Després de restaurar es manté la configuració de còpies que hi havia
+    $conservada = DADES_DIR . DIRECTORY_SEPARATOR . 'restaura-config.json';
+    if (is_file($conservada)) {
+        foreach ((array)json_decode((string)file_get_contents($conservada), true) as $clau => $valor) {
+            $pdo->prepare('INSERT INTO config(clau, valor) VALUES(?, ?) ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor')->execute([$clau, $valor]);
+        }
+        unlink($conservada);
+    }
     return $pdo;
 }
 
@@ -186,16 +194,6 @@ function requereix(string $capacitat): void
         pagina(t('err.permis'), '<div class="buit">' . h(t('err.permis_text')) . '</div>');
         exit;
     }
-}
-
-/** Fila de professor de l'usuari actual, si n'hi ha */
-function el_meu_professor(): ?array
-{
-    $u = usuari();
-    if (!$u || !$u['persona_id']) {
-        return null;
-    }
-    return fila('SELECT * FROM professors WHERE persona_id = ?', [$u['persona_id']]);
 }
 
 /* ---------------- Auditoria ---------------- */

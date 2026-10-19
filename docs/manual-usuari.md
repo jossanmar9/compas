@@ -2,18 +2,23 @@
 
 ## Primers passos
 
-La primera vegada que s'obri Compàs demana el nom de la societat musical i crea el compte d'**administrador del sistema**. Si marques «Carrega dades d'exemple» tindràs persones, grups i instruments de prova per a conéixer el programa.
+Compàs funciona en un sol ordinador amb Windows i té dos comptes:
+
+- **Administrador/a**: ho pot fer tot, també gestionar usuaris, la configuració, el registre d'activitat i restaurar còpies.
+- **Administratiu/va**: porta la gestió diària (persones, socis, escola, notes, agrupacions, instruments) i pot fer còpies de seguretat.
+
+La primera vegada que s'obri Compàs demana el nom de la societat, crea el compte d'administrador i, si vols, també el d'administratiu. Si marques «Carrega dades d'exemple» tindràs persones, grups i instruments de prova per a conéixer el programa.
 
 Ordre recomanat per a començar de zero:
 
-1. **Configuració**: revisa les dades de la societat.
-2. **Cursos acadèmics**: crea el curs (per exemple `2026/2027`), marca'l com a **curs actual** i afig-hi els **períodes d'avaluació** (1r trimestre, 2n trimestre…).
-3. **Assignatures** i **Aules**.
-4. **Persones**: dona d'alta totes les persones (socis, músics, alumnat, professorat, tutors…).
-5. Des de la fitxa de cada persona, crea les seues **funcions**: soci, alumne, professor, membre d'una agrupació…
-6. **Grups**: per a cada assignatura del curs, crea els grups, assigna professor i aula, i afig les **franges horàries**.
-7. **Matrícules**: matricula cada alumne en el curs i inscriu-lo als grups.
-8. **Usuaris**: crea els comptes de qui ha d'entrar al programa i vincula'ls amb la seua persona.
+1. **Configuració**: dades de la societat i **logotip** (ix al menú i als butlletins).
+2. **Còpies de seguretat**: indica una **carpeta externa** (disc USB o carpeta del núvol).
+3. **Cursos acadèmics**: crea el curs (per exemple `2026/2027`), marca'l com a **curs actual** i afig-hi els **períodes d'avaluació** (1r trimestre, 2n trimestre…).
+4. **Assignatures** i **Aules**.
+5. **Persones**: dona d'alta totes les persones (socis, músics, alumnat, professorat, tutors…).
+6. Des de la fitxa de cada persona, crea les seues **funcions**: soci, alumne, professor, membre d'una agrupació…
+7. **Grups**: per a cada assignatura del curs, crea els grups, assigna professor i aula, i afig les **franges horàries**.
+8. **Matrícules**: matricula cada alumne en el curs i inscriu-lo als grups.
 
 ## Com està organitzat
 
@@ -40,11 +45,12 @@ Compàs no deixa eliminar res que tinga historial relacionat (matrícules, cessi
 ### Alumnat, professorat i tutors legals
 
 - Una persona es converteix en alumne o professor creant-li la fitxa corresponent.
-- Els **tutors legals** són persones registrades. Des de la fitxa de l'alumne, afig-ne els que calga i indica si poden consultar la informació acadèmica i si reben comunicacions.
+- Els **tutors legals** són persones registrades. Des de la fitxa de l'alumne, afig-ne els que calga.
+- La fitxa de l'alumne mostra el resum del curs actual: grups, horari, faltes i notes, amb un botó per a **imprimir-ne el butlletí**.
 
 ### Cursos, períodes i grups
 
-- Només un curs pot ser el **curs actual**. És el que es fa servir a l'inici, en l'assistència i en «La meua fitxa».
+- Només un curs pot ser el **curs actual**. És el que es fa servir a l'inici, en l'assistència i en les notes.
 - Un **grup** és una assignatura impartida en un curs (per exemple, *Llenguatge musical · 1r A*). Pot tindre diverses franges horàries.
 
 ### Matrícules
@@ -61,13 +67,28 @@ Mostra totes les classes del curs per dies. Pots filtrar per professor o per aul
 2. Tots apareixen com a **presents**. Canvia només els que falten: **F** falta, **FJ** falta justificada, **R** retard.
 3. Prem **Desa**.
 
-Si tornes a obrir el mateix dia es veu el que es va desar i es pot corregir. Davall hi ha la llista de dies registrats.
+Si tornes a obrir el mateix dia es veu el que es va desar i es pot corregir.
 
 ### Qualificacions
 
-Tria el grup i el període i escriu la nota de cada alumne (text lliure: `7`, `8,5`, `Notable`, `Apte`…) i, si vols, observacions. L'alumnat i els tutors la veuen en «La meua fitxa».
+El professorat passa les notes a administració i administració les introdueix:
 
-> El professorat només veu els **seus** grups. Perquè funcione, el compte d'usuari del professor ha d'estar vinculat a la seua persona, i eixa persona ha de tindre fitxa de professor.
+1. Ves a **Qualificacions**, tria el **grup** i l'**avaluació**.
+2. Escriu la nota de cada alumne (text lliure: `7`, `8,5`, `Notable`, `Apte`…) i, si cal, les observacions del professor.
+3. Prem **Desa**. Per a esborrar una nota, deixa la nota i les observacions en blanc.
+
+### Butlletins
+
+Des de **Butlletins** (o amb el botó de la pàgina de qualificacions o de la fitxa d'un alumne):
+
+1. Tria el curs i l'**avaluació**. El butlletí mostra les notes d'eixa avaluació i de les anteriors; les observacions són les de l'avaluació triada.
+2. Tria de qui: tot l'alumnat matriculat, l'alumnat d'un grup o un sol alumne.
+3. Si vols, escriu un **text al peu** (es recorda per a la pròxima vegada).
+4. Prem **Prepara els butlletins**. S'obri una pestanya nova amb un full A4 per alumne. Prem **Imprimeix**.
+
+> Per a guardar-los en PDF (per a enviar-los per correu), tria «Microsoft Print to PDF» com a impressora.
+
+El butlletí porta el logotip i les dades de la societat, les notes, les faltes, les observacions i espai per a les signatures.
 
 ## Agrupacions
 
@@ -79,34 +100,38 @@ Banda, banda juvenil, coral, orquestra, grups de cambra… Cada agrupació té e
 - **Cessions**: per a deixar un instrument, crea una cessió amb la persona, la data d'entrega i la de devolució prevista. Quan el tornen, edita la cessió i posa la **data de devolució**. Un instrument no es pot cedir dues vegades alhora.
 - A l'inici apareixen les cessions amb la devolució **vençuda**.
 
-## La meua fitxa
-
-Qualsevol usuari vinculat a una persona pot veure:
-
-- les seues dades de contacte i de soci;
-- si és alumne: grups, horari, faltes i notes del curs actual;
-- si és tutor legal: el mateix per a cada alumne que té a càrrec (si té permís de consulta);
-- si és professor: els seus grups, amb accés directe a l'assistència i les notes;
-- les seues agrupacions i els instruments que té cedits.
-
-## Usuaris, rols i permisos
-
-- **Usuaris**: crea un compte per a cada persona que haja d'entrar. Pots assignar-li **diversos rols**; els permisos se sumen.
-- **Rols i permisos**: una taula per a decidir què pot fer cada rol. Pots canviar el nom dels rols i crear-ne de nous. L'administrador del sistema sempre ho pot tot.
-- Sempre ha de quedar almenys un usuari actiu que puga gestionar usuaris.
-- Si algú oblida la contrasenya, l'administrador n'hi posa una de nova des de la seua fitxa d'usuari. Cadascú pot canviar la seua des de **El meu compte** (fent clic en el nom d'usuari, a dalt a la dreta).
-
 ## Còpies de seguretat
 
-- Compàs fa **una còpia automàtica cada dia** que s'utilitza i guarda les 14 últimes a `data\copies`.
-- Des de **Còpies de seguretat** pots baixar una còpia en qualsevol moment. Guarda-la fora de l'ordinador (USB, núvol de la societat…).
-- **Restaurar** substitueix totes les dades per les de la còpia. Les dades anteriors es guarden a la carpeta de dades amb el nom `compas-abans-restaurar-…`.
+Totes les dades estan en un sol fitxer, `data\compas.db`. Compàs en fa còpies així:
 
-> Les còpies contenen dades personals, també de menors. Guarda-les en un lloc segur i no les envies per canals oberts.
+| Quan | Tipus |
+|---|---|
+| La primera vegada que s'utilitza cada dia | Automàtica (diària) |
+| En tancar Compàs, si hi ha hagut canvis | Automàtica (en tancar) |
+| Quan prems **Fes una còpia ara** | Manual |
+| Just abans de restaurar | Abans de restaurar |
+
+- Les còpies es guarden a `data\copies`. Es conserven les últimes automàtiques (30 per defecte, configurable); les manuals no s'esborren soles.
+- **Carpeta externa** (molt recomanable): si l'ordinador s'espatlla, les còpies de dins es perden amb ell. A **Còpies de seguretat → Configuració** indica una carpeta en un **disc USB** o en una carpeta **sincronitzada amb el núvol** (OneDrive, Google Drive…). Cada còpia es guardarà també allí.
+- Si no hi ha carpeta externa, o fa més de 7 dies que no s'hi guarda res (per exemple, perquè el USB no està connectat), l'inici ho avisa.
+- **Baixa una còpia a l'ordinador** descarrega una còpia per a guardar-la on vulgues.
+
+### Restaurar (només l'administrador/a)
+
+- Des de la llista: botó **Restaura** de la còpia que vulgues.
+- Des d'un fitxer: **Restaura des d'un fitxer** i tria el `.db`.
+
+Abans de restaurar, Compàs fa una còpia de les dades actuals («Abans de restaurar»), així que sempre es pot tornar arrere. La configuració de la carpeta externa es conserva. Després cal tornar a entrar.
+
+> Les còpies contenen dades personals, també de menors. Guarda-les en un lloc segur.
+
+## Usuaris
+
+Només l'administrador/a. Des d'**Usuaris** pots canviar el nom, el rol, l'idioma i la contrasenya de cada compte, o desactivar-lo. Si algú oblida la contrasenya, l'administrador n'hi posa una de nova. Cadascú pot canviar la seua des de **El meu compte** (fent clic en el nom d'usuari, a dalt a la dreta).
 
 ## Registre d'activitat
 
-Anota qui ha creat, modificat o eliminat cada element, les entrades al programa (també les fallides), les exportacions i les còpies.
+Només l'administrador/a. Anota qui ha creat, modificat o eliminat cada element, les entrades al programa (també les fallides), les exportacions, els butlletins impresos i les còpies.
 
 ## Idioma
 
@@ -116,8 +141,6 @@ Compàs funciona en **valencià** i **castellà**. Canvia l'idioma amb els boton
 
 **He d'estar connectat a Internet?** No. Compàs funciona sense Internet.
 
-**On estan les dades?** En un sol fitxer: `data\compas.db`, dins de la carpeta del programa. La ruta exacta es veu a **Configuració**.
+**On estan les dades?** A `data\compas.db`, dins de la carpeta del programa. La ruta exacta es veu a **Configuració**.
 
-**Poden entrar diverses persones alhora?** Sí, si s'activa l'accés des de la xarxa (vegeu la guia d'instal·lació). L'ordinador on s'executa Compàs ha d'estar encés i amb el programa obert.
-
-**Com passe Compàs a un altre ordinador?** Fes una còpia de seguretat, instal·la Compàs a l'ordinador nou i restaura-la. També pots copiar la carpeta `data` sencera amb Compàs tancat.
+**Com passe Compàs a un altre ordinador?** Instal·la Compàs a l'ordinador nou i restaura-hi l'última còpia (des d'un fitxer). També pots copiar la carpeta `data` sencera amb Compàs tancat.

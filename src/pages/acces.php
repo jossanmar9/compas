@@ -26,13 +26,25 @@ function pagina_configuracio_inicial(): void
         if (!$nom || !preg_match('/^[\p{L}\p{N}._-]{3,40}$/u', $usuari)) {
             $error = t('err.dades_inicials');
         }
+        $usuari2 = post('usuari2');
+        if (!$error && $usuari2 !== '') {
+            if (!preg_match('/^[\p{L}\p{N}._-]{3,40}$/u', $usuari2) || mb_strtolower($usuari2) === mb_strtolower($usuari)) {
+                $error = t('err.nom_usuari');
+            } else {
+                $error = valida_contrasenya((string)post('contrasenya_b'), (string)post('contrasenya_b2'));
+            }
+        }
         if (!$error) {
             db()->beginTransaction();
             desa_config('societat_nom', $nom);
             desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
             q('INSERT INTO usuaris(usuari, contrasenya, idioma) VALUES(?, ?, ?)', [$usuari, password_hash(post('contrasenya'), PASSWORD_DEFAULT), $l]);
             $id = (int)db()->lastInsertId();
-            q("INSERT INTO usuari_rols(usuari_id, rol_id) SELECT ?, id FROM rols WHERE clau = 'admin'", [$id]);
+            assigna_rol($id, 'admin');
+            if ($usuari2 !== '') {
+                q('INSERT INTO usuaris(usuari, contrasenya, idioma) VALUES(?, ?, ?)', [$usuari2, password_hash(post('contrasenya_b'), PASSWORD_DEFAULT), $l]);
+                assigna_rol((int)db()->lastInsertId(), 'administratiu');
+            }
             if (post('exemple') === '1') {
                 carrega_dades_exemple();
             }
@@ -59,6 +71,10 @@ function pagina_configuracio_inicial(): void
         . '<div class="camp"><label>' . h(t('setup.usuari_admin')) . '</label><input name="usuari" required autocomplete="username" value="' . h(post('usuari', 'admin')) . '"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya" required minlength="' . MIN_CONTRASENYA . '" autocomplete="new-password"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya2" required autocomplete="new-password"></div>'
+        . '<fieldset class="camp"><legend>' . h(t('setup.administratiu')) . '</legend><small>' . h(t('setup.administratiu_ajuda')) . '</small>'
+        . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari2" autocomplete="off" value="' . h(post('usuari2')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya_b" autocomplete="new-password"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya_b2" autocomplete="new-password"></div></fieldset>'
         . '<div class="camp camp-check"><label><input type="checkbox" name="exemple" value="1"> ' . h(t('setup.exemple')) . '</label><small>' . h(t('setup.exemple_ajuda')) . '</small></div>'
         . '<button>' . h(t('setup.comenca')) . '</button></form>';
     $html .= '<p class="idiomes-peu">' . enllacos_idioma() . '</p>';
@@ -135,10 +151,8 @@ function pagina_perfil(): void
         }
     }
     $rols = array_map('nom_rol', q('SELECT r.* FROM rols r JOIN usuari_rols ur ON ur.rol_id = r.id WHERE ur.usuari_id = ?', [$u['id']])->fetchAll());
-    $persona = $u['persona_id'] ? fila('SELECT * FROM persones WHERE id = ?', [$u['persona_id']]) : null;
     $html = '<dl class="fitxa"><dt>' . h(t('camp.usuari')) . '</dt><dd>' . h($u['usuari']) . '</dd>'
-        . '<dt>' . h(t('camp.persona_id')) . '</dt><dd>' . h($persona ? nom_persona($persona) : '—') . '</dd>'
-        . '<dt>' . h(t('menu.rols')) . '</dt><dd>' . h(implode(', ', $rols) ?: '—') . '</dd></dl>';
+        . '<dt>' . h(t('camp.rol')) . '</dt><dd>' . h(implode(', ', $rols) ?: '—') . '</dd></dl>';
     $html .= '<section class="fill"><header><h2>' . h(t('canvia_contrasenya')) . '</h2></header>';
     if ($error) {
         $html .= '<div class="avis error">' . h($error) . '</div>';

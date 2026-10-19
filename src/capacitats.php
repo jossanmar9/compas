@@ -1,67 +1,58 @@
 <?php
-// Capacitats i rols per defecte
+// Rols i capacitats. Compàs té dos rols fixos: administrador i administratiu.
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-/** Totes les capacitats, agrupades per mòdul (l'etiqueta es tradueix amb "cap.<clau>") */
-function capacitats(): array
-{
-    return [
-        'persones' => ['persones.view', 'persones.edit'],
-        'socis' => ['socis.view', 'socis.edit'],
-        'escola' => ['escola.view', 'escola.edit', 'escola.assistencia', 'escola.notes', 'escola.totsgrups'],
-        'agrupacions' => ['agrupacions.view', 'agrupacions.edit'],
-        'instruments' => ['instruments.view', 'instruments.edit'],
-        'sistema' => ['usuaris.manage', 'config.manage', 'auditoria.view', 'copia.manage'],
-    ];
-}
+const ROLS = ['admin', 'administratiu'];
 
 function totes_capacitats(): array
 {
-    return array_merge(...array_values(capacitats()));
-}
-
-/** Rols inicials, segons docs/rols-permisos.md. Cada societat els pot adaptar. */
-function rols_per_defecte(): array
-{
-    $vistes = ['persones.view', 'socis.view', 'escola.view', 'agrupacions.view', 'instruments.view'];
-    $gestio = ['persones.view', 'persones.edit', 'socis.view', 'socis.edit', 'escola.view', 'escola.edit',
-        'escola.assistencia', 'escola.notes', 'escola.totsgrups', 'agrupacions.view', 'agrupacions.edit',
-        'instruments.view', 'instruments.edit', 'copia.manage'];
     return [
-        'admin' => totes_capacitats(),
-        'administratiu' => $gestio,
-        'president' => array_merge($vistes, ['auditoria.view']),
-        'secretari' => ['persones.view', 'persones.edit', 'socis.view', 'socis.edit', 'agrupacions.view',
-            'agrupacions.edit', 'escola.view', 'instruments.view'],
-        'tresorer' => ['persones.view', 'socis.view', 'instruments.view'],
-        'director_escola' => ['persones.view', 'escola.view', 'escola.edit', 'escola.assistencia',
-            'escola.notes', 'escola.totsgrups'],
-        'professor' => ['escola.assistencia', 'escola.notes'],
-        'director_agrupacio' => ['persones.view', 'agrupacions.view', 'agrupacions.edit'],
-        'music' => [],
-        'alumne' => [],
-        'tutor' => [],
+        'persones.view', 'persones.edit',
+        'socis.view', 'socis.edit',
+        'escola.view', 'escola.edit', 'escola.assistencia', 'escola.notes',
+        'agrupacions.view', 'agrupacions.edit',
+        'instruments.view', 'instruments.edit',
+        'copia.manage',
+        // Només l'administrador
+        'usuaris.manage', 'config.manage', 'auditoria.view', 'copia.restaura',
     ];
 }
 
-function sembra_rols(PDO $pdo): void
+function rols_per_defecte(): array
 {
-    if ((int)$pdo->query('SELECT COUNT(*) FROM rols')->fetchColumn() > 0) {
-        return;
-    }
-    $ins = $pdo->prepare('INSERT INTO rols(clau, nom) VALUES(?, NULL)');
-    $cap = $pdo->prepare('INSERT INTO rol_capacitats(rol_id, capacitat) VALUES(?, ?)');
-    foreach (rols_per_defecte() as $clau => $caps) {
-        $ins->execute([$clau]);
-        $id = (int)$pdo->lastInsertId();
-        foreach ($caps as $c) {
-            $cap->execute([$id, $c]);
-        }
-    }
+    $nomesAdmin = ['usuaris.manage', 'config.manage', 'auditoria.view', 'copia.restaura'];
+    return [
+        'admin' => totes_capacitats(),
+        'administratiu' => array_values(array_diff(totes_capacitats(), $nomesAdmin)),
+    ];
 }
 
-/** Nom visible d'un rol: el personalitzat o el traduït */
+/** Crea els dos rols i n'actualitza les capacitats (també en bases de dades d'una versió anterior) */
+function sembra_rols(PDO $pdo): void
+{
+    $versio = 'rols-2';
+    $st = $pdo->prepare('SELECT valor FROM config WHERE clau = ?');
+    $st->execute(['versio_rols']);
+    if ($st->fetchColumn() === $versio) {
+        return;
+    }
+    $pdo->beginTransaction();
+    foreach (rols_per_defecte() as $clau => $caps) {
+        $pdo->prepare('INSERT OR IGNORE INTO rols(clau, nom) VALUES(?, NULL)')->execute([$clau]);
+        $st = $pdo->prepare('SELECT id FROM rols WHERE clau = ?');
+        $st->execute([$clau]);
+        $id = (int)$st->fetchColumn();
+        $pdo->prepare('DELETE FROM rol_capacitats WHERE rol_id = ?')->execute([$id]);
+        $ins = $pdo->prepare('INSERT INTO rol_capacitats(rol_id, capacitat) VALUES(?, ?)');
+        foreach ($caps as $c) {
+            $ins->execute([$id, $c]);
+        }
+    }
+    $pdo->prepare('INSERT INTO config(clau, valor) VALUES(?, ?) ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor')->execute(['versio_rols', $versio]);
+    $pdo->commit();
+}
+
 function nom_rol(array $rol): string
 {
-    return $rol['nom'] ?: t('rol.' . $rol['clau']);
+    return t('rol.' . $rol['clau']);
 }

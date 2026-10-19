@@ -26,9 +26,11 @@ Para actualizar, descomprime la versión nueva y copia en ella la carpeta `data`
 
 ## Cómo funciona
 
-Al abrir `Compas.exe` aparece una ventana pequeña y se abre el navegador en `http://localhost:8740`. **Mientras la ventana esté abierta, Compàs funciona.** Al cerrarla, se detiene.
+Al abrir `Compas.exe` aparece una ventana pequeña y se abre el navegador en `http://localhost:8740`. **Mientras la ventana esté abierta, Compàs funciona.** Al cerrarla, hace una copia de seguridad (si ha habido cambios) y se detiene.
 
-La primera vez pide el nombre de la sociedad y crea la cuenta de administrador. Apunta la contraseña: si se pierde y no hay ningún otro administrador, no se puede recuperar.
+Compàs solo se puede usar desde este ordenador: no es accesible desde la red ni desde Internet.
+
+La primera vez pide el nombre de la sociedad y crea la cuenta de administrador y, opcionalmente, la de administrativo/a. Apunta la contraseña: si se pierde y no hay ningún otro administrador, no se puede recuperar.
 
 ## Carpeta del programa
 
@@ -47,26 +49,11 @@ Compas\
 Ábrelo con el Bloc de notas. Después de cambiarlo, cierra y vuelve a abrir Compàs.
 
 - `port = 8740` — cámbialo si otro programa ya lo usa.
-- `xarxa = 0` — solo se puede entrar desde este ordenador.
 - `navegador = 1` — abre el navegador al arrancar.
-
-### Usarlo desde otros ordenadores de la red
-
-Si quieres que el profesorado o la secretaría entren desde sus equipos (o desde el móvil, con la wifi del local):
-
-1. Pon `xarxa = 1` en `compas.ini` y vuelve a abrir Compàs.
-2. Windows pedirá permiso al **cortafuegos**: acepta solo para **redes privadas**.
-3. La ventana de Compàs muestra la dirección para el resto de equipos, por ejemplo `http://192.168.1.20:8740/`.
-
-Ten en cuenta:
-
-- El ordenador con Compàs debe estar **encendido y con la ventana abierta**.
-- La conexión dentro de la red local **no va cifrada** (HTTP). Hazlo solo en una red de confianza, nunca en una wifi abierta. No abras el puerto en el router hacia Internet.
-- Conviene que el ordenador tenga siempre la misma IP (se puede reservar en el router).
 
 ## Copias de seguridad
 
-Compàs hace una copia automática diaria en `data\copies`. Además, descarga una periódicamente desde **Copias de seguridad** y guárdala fuera del ordenador.
+Compàs hace copias automáticas cada día y al cerrar el programa (si ha habido cambios), en `data\copies`. **Configura una carpeta externa** (disco USB o carpeta de la nube) en **Copias de seguridad** para que cada copia se guarde también fuera del ordenador. Ver el manual de usuario.
 
 ## Solución de problemas
 
@@ -77,7 +64,6 @@ Compàs hace una copia automática diaria en `data\copies`. Además, descarga un
 | «El servidor se ha detenido» | Mira `data\servidor.log` y `data\php-errors.log`. |
 | No arranca y dice que faltan archivos | Vuelve a instalar o a descomprimir. El antivirus puede haber puesto en cuarentena `php.exe`. |
 | Falta `VCRUNTIME140.dll` | Instala el *Microsoft Visual C++ Redistributable* (x64) desde la web de Microsoft. |
-| Otros equipos no pueden entrar | Comprueba `xarxa = 1`, el cortafuegos de Windows (red privada) y que estén en la misma red. |
 
 ## Para desarrollar
 

@@ -5,7 +5,6 @@
 // Es compila amb el csc.exe de .NET Framework 4 (C# 5), sense dependències externes.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -57,7 +56,6 @@ namespace Compas
     class Config
     {
         public int Port = 8740;
-        public bool Xarxa = false;
         public bool Navegador = true;
         public string Arrel;
 
@@ -75,7 +73,6 @@ namespace Compas
                 string valor = l.Substring(l.IndexOf('=') + 1).Trim();
                 int n;
                 if (clau == "port" && int.TryParse(valor, out n) && n > 1023 && n < 65536) c.Port = n;
-                if (clau == "xarxa") c.Xarxa = valor == "1" || valor.ToLowerInvariant() == "si" || valor.ToLowerInvariant() == "true";
                 if (clau == "navegador") c.Navegador = !(valor == "0" || valor.ToLowerInvariant() == "no" || valor.ToLowerInvariant() == "false");
             }
             return c;
@@ -88,7 +85,7 @@ namespace Compas
         Process php;
         readonly Label estat = new Label();
         readonly LinkLabel enllac = new LinkLabel();
-        readonly Label xarxa = new Label();
+        readonly string token = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
         readonly Button obri = new Button();
         StreamWriter registre;
         bool tancant;
@@ -131,10 +128,6 @@ namespace Compas
             enllac.LinkClicked += delegate { ObriNavegador(Url); };
             Controls.Add(enllac);
 
-            xarxa.Location = new Point(20, 160);
-            xarxa.Size = new Size(400, 40);
-            xarxa.ForeColor = Color.FromArgb(93, 103, 120);
-            Controls.Add(xarxa);
 
             obri.Text = Textos.T("Obri Compàs", "Abrir Compàs");
             obri.Location = new Point(20, 212);
@@ -188,7 +181,8 @@ namespace Compas
             }
             catch { registre = null; }
 
-            string host = config.Xarxa ? "0.0.0.0" : "127.0.0.1";
+            // Només s'escolta en aquest ordinador
+            string host = "127.0.0.1";
             string phpDir = Path.Combine(config.Arrel, "php");
             var args = new StringBuilder();
             args.Append("-c \"").Append(Path.Combine(phpDir, "php.ini")).Append("\" ");
@@ -206,6 +200,7 @@ namespace Compas
                 WorkingDirectory = config.Arrel
             };
             psi.EnvironmentVariables["COMPAS_DADES"] = Dades;
+            psi.EnvironmentVariables["COMPAS_TOKEN"] = token;
             php = new Process { StartInfo = psi, EnableRaisingEvents = true };
             php.ErrorDataReceived += Registra;
             php.OutputDataReceived += Registra;
@@ -242,11 +237,6 @@ namespace Compas
                     estat.Text = "✔ " + Textos.T("Compàs està en marxa en aquest ordinador:", "Compàs está en marcha en este ordenador:");
                     estat.ForeColor = Color.FromArgb(30, 125, 79);
                     obri.Enabled = true;
-                    if (config.Xarxa)
-                    {
-                        string ips = string.Join("  ·  ", AdrecesLocals());
-                        xarxa.Text = Textos.T("Des d'altres equips de la xarxa: ", "Desde otros equipos de la red: ") + ips;
-                    }
                     if (config.Navegador) ObriNavegador(Url);
                 }
                 else if (intents > 60)
@@ -296,19 +286,6 @@ namespace Compas
             return true;
         }
 
-        static List<string> AdrecesLocals()
-        {
-            var r = new List<string>();
-            foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                if (ni.OperationalStatus != OperationalStatus.Up || ni.NetworkInterfaceType == NetworkInterfaceType.Loopback) continue;
-                foreach (var a in ni.GetIPProperties().UnicastAddresses)
-                    if (a.Address.AddressFamily == AddressFamily.InterNetwork)
-                        r.Add("http://" + a.Address + ":" + Config.Llig().Port + "/");
-            }
-            return r;
-        }
-
         void Error(string text)
         {
             estat.Text = "✖ " + Textos.T("No s'ha pogut arrancar", "No se ha podido arrancar");
@@ -322,12 +299,40 @@ namespace Compas
             if (php != null && !php.HasExited && e.CloseReason == CloseReason.UserClosing)
             {
                 var r = MessageBox.Show(this,
-                    Textos.T("Si tanques Compàs, ningú no podrà utilitzar-lo fins que el tornes a obrir. Vols tancar-lo?",
-                             "Si cierras Compàs, nadie podrá usarlo hasta que lo vuelvas a abrir. ¿Quieres cerrarlo?"),
+                    Textos.T("Vols tancar Compàs? Si hi ha hagut canvis, abans es farà una còpia de seguretat.",
+                             "¿Quieres cerrar Compàs? Si ha habido cambios, antes se hará una copia de seguridad."),
                     "Compàs", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (r != DialogResult.Yes) { e.Cancel = true; return; }
             }
             tancant = true;
+            if (php != null && !php.HasExited)
+            {
+                // Còpia de seguretat en tancar (només si hi ha hagut canvis)
+                estat.Text = Textos.T("Guardant la còpia de seguretat…", "Guardando la copia de seguridad…");
+                estat.ForeColor = Color.FromArgb(93, 103, 120);
+                Cursor = Cursors.WaitCursor;
+                Refresh();
+                try
+                {
+                    var peticio = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + config.Port + "/?r=copia_tancament&token=" + token);
+                    peticio.Proxy = null;
+                    peticio.Timeout = 60000;
+                    using (var resposta = (HttpWebResponse)peticio.GetResponse())
+                    using (var lector = new StreamReader(resposta.GetResponseStream()))
+                    {
+                        string r = lector.ReadToEnd();
+                        if (r == "ok-externa-error")
+                            MessageBox.Show(this, Textos.T("S'ha fet la còpia, però no s'ha pogut guardar a la carpeta externa. Comprova que el disc està connectat.",
+                                                           "Se ha hecho la copia, pero no se ha podido guardar en la carpeta externa. Comprueba que el disco está conectado."),
+                                            "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(this, Textos.T("No s'ha pogut fer la còpia en tancar: ", "No se ha podido hacer la copia al cerrar: ") + ex.Message,
+                                    "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
             try { if (php != null && !php.HasExited) { php.Kill(); php.WaitForExit(3000); } } catch { }
             if (registre != null) { try { registre.Dispose(); } catch { } }
         }

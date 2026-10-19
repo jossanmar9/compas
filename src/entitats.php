@@ -93,7 +93,6 @@ function entitats(): array
                 'tipus_relacio' => ['tipus' => 'select', 'opcions' => ['mare', 'pare', 'tutor_legal', 'altre'], 'llista' => 1],
                 'principal' => ['tipus' => 'bool', 'llista' => 1],
                 'rep_comunicacions' => ['tipus' => 'bool', 'defecte' => 1],
-                'consulta_academica' => ['tipus' => 'bool', 'defecte' => 1],
                 'observacions' => $obs,
             ],
         ],

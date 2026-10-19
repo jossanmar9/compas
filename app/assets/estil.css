@@ -54,7 +54,8 @@ code { background: var(--blau-clar); padding: 1px 5px; border-radius: 4px; font-
 }
 .marca { display: flex; gap: 10px; align-items: center; padding: 16px 16px 12px; color: #fff; }
 .marca:hover { text-decoration: none; }
-.marca img { width: 40px; height: 40px; background: #fff; border-radius: 50%; padding: 3px; }
+.marca img { width: 40px; height: 40px; background: #fff; border-radius: 50%; padding: 3px; flex: none; }
+.marca img.logo-societat { width: 52px; height: 52px; border-radius: 8px; object-fit: contain; }
 .marca b { display: block; font-size: 1.15rem; letter-spacing: .3px; }
 .marca small { display: block; font-size: .75rem; color: #a9b8d3; line-height: 1.2; }
 .obre-menu { display: none; }
@@ -147,6 +148,9 @@ fieldset.camp { border: 1px solid var(--vora); border-radius: var(--radi); paddi
 .fill h2 { font-size: 1.1rem; }
 .fill h2 small { color: var(--suau); font-weight: 400; }
 .compte { background: var(--blau-clar); color: var(--blau); border-radius: 10px; padding: 1px 8px; font-size: .8rem; }
+.accions-fila { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+.accions-fila form { margin: 0; }
+.logo-previ { max-height: 90px; max-width: 220px; background: #fff; border: 1px solid var(--vora); border-radius: 8px; padding: 6px; }
 .perill-zona { border-top: 2px solid var(--error-fons); padding-top: 12px; }
 
 /* Avisos i etiquetes */

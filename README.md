@@ -2,13 +2,14 @@
 
 # Compàs
 
-**Gestió lliure per a societats musicals.** Un programa per a Windows que porta en un sol lloc les persones, els socis, l'escola de música, les agrupacions i els instruments d'una societat musical.
+**Gestió lliure per a societats musicals.** Un programa per a un ordinador amb Windows que porta en un sol lloc les persones, els socis, l'escola de música, les agrupacions i els instruments d'una societat musical.
 
 *Gestión libre para sociedades musicales. Programa para Windows en valenciano y castellano.*
 
 - 🖥️ **Un sol programa per a Windows**: instal·lador o versió portable. Porta PHP i la base de dades dins; no cal instal·lar res més.
 - 🔌 **Sense Internet i sense servidor**: les dades es queden a l'ordinador de la societat, en un sol fitxer.
-- 👥 **Multiusuari**: cada persona amb el seu compte i els seus permisos. Opcionalment, accessible des d'altres equips de la xarxa local.
+- 👥 **Dos comptes**: administrador/a i administratiu/va.
+- 💾 **Còpies de seguretat** automàtiques (cada dia i en tancar) i a una carpeta externa (USB o núvol).
 - 🗣️ **Valencià i castellà**.
 
 ## Mòduls (v1.0)
@@ -18,11 +19,11 @@
 | **Persones** | Registre únic de persones. Una mateixa persona pot ser sòcia, música, alumna, professora i tutora alhora sense duplicar dades. |
 | **Socis** | Número, tipus, altes i baixes. |
 | **Escola de música** | Cursos acadèmics i períodes, assignatures, aules, grups amb horari, matrícules, alumnat, professorat i tutors legals. |
-| **Assistència i qualificacions** | El professorat passa llista i posa notes dels seus grups. |
+| **Assistència i qualificacions** | Administració registra les faltes i les notes que passa el professorat. |
+| **Butlletins** | Butlletins de notes per a imprimir o guardar en PDF, amb el logotip de la societat. |
 | **Agrupacions** | Banda, coral, orquestra… amb membres, instrument o veu i direcció. |
 | **Instruments** | Inventari, manteniments i cessions amb control de devolucions vençudes. |
-| **La meua fitxa** | Cada usuari veu el seu horari, faltes i notes; els tutors, les dels seus fills. |
-| **Administració** | Usuaris, rols i permisos configurables, registre d'activitat, còpies de seguretat automàtiques i manuals. |
+| **Administració** | Usuaris, configuració i logotip, registre d'activitat, còpies de seguretat i restauració. |
 
 Pròximament: gestió econòmica (quotes, rebuts, remeses), loteria, comunicacions, calendari i documents.
 

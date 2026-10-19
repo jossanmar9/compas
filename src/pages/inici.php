@@ -1,5 +1,5 @@
 <?php
-// Inici, portal personal ("La meua fitxa") i horari general
+// Inici, resum acadèmic de l'alumne i horari general
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 function targeta(string $xifra, string $text, ?string $enllac = null): string
@@ -11,7 +11,7 @@ function targeta(string $xifra, string $text, ?string $enllac = null): string
 function pagina_inici(): void
 {
     $curs = curs_actual();
-    $html = '<div class="targetes">';
+    $html = avis_copies() . '<div class="targetes">';
     if (pot('persones.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM persones WHERE actiu = 1'), t('ent.persones'), url('llista', ['e' => 'persones']));
     }
@@ -50,13 +50,9 @@ function pagina_inici(): void
     }
 
     // Classes de hui
-    if ($curs && (pot('escola.view') || el_meu_professor())) {
+    if ($curs && pot('escola.view')) {
         $params = [$curs['id'], (int)date('N')];
         $filtre = '';
-        if (!pot('escola.view')) {
-            $filtre = ' AND g.professor_id = ?';
-            $params[] = el_meu_professor()['id'];
-        }
         $classes = q("SELECT g.id, a.nom AS assignatura, g.nom, h.hora_inici, h.hora_fi, au.nom AS aula FROM horaris h JOIN grups g ON g.id = h.grup_id
             JOIN assignatures a ON a.id = g.assignatura_id LEFT JOIN aules au ON au.id = g.aula_id
             WHERE g.curs_id = ? AND h.dia = ? AND g.estat = 'actiu' $filtre ORDER BY h.hora_inici", $params)->fetchAll();
@@ -78,9 +74,6 @@ function pagina_inici(): void
         $html .= '</section>';
     }
 
-    if (usuari()['persona_id']) {
-        $html .= '<p><a class="boto secundari" href="' . h(url('portal')) . '">' . h(t('menu.portal')) . ' →</a></p>';
-    }
     pagina(t('menu.inici'), $html, config('societat_nom'));
 }
 
@@ -89,7 +82,7 @@ function resum_alumne(int $alumneId, array $curs): string
 {
     $m = fila('SELECT * FROM matricules WHERE alumne_id = ? AND curs_id = ?', [$alumneId, $curs['id']]);
     if (!$m) {
-        return '<p class="buit petit">' . h(t('portal.sense_matricula', $curs['nom'])) . '</p>';
+        return '<p class="buit petit">' . h(t('resum.sense_matricula', $curs['nom'])) . '</p>';
     }
     $grups = q("SELECT g.id, a.nom AS assignatura, g.nom, " . NOM_PERSONA_SQL . " AS professor,
         (SELECT group_concat(h.dia || '|' || h.hora_inici || '|' || h.hora_fi, ';') FROM horaris h WHERE h.grup_id = g.id) AS horari
@@ -99,7 +92,7 @@ function resum_alumne(int $alumneId, array $curs): string
     $periodes = q('SELECT * FROM periodes WHERE curs_id = ? ORDER BY ordre', [$curs['id']])->fetchAll();
 
     $html = '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . h(t('camp.assignatura_id')) . '</th><th>' . h(t('camp.professor_id')) . '</th><th>'
-        . h(t('menu.horari')) . '</th><th>' . h(t('portal.faltes')) . '</th>';
+        . h(t('menu.horari')) . '</th><th>' . h(t('resum.faltes')) . '</th>';
     foreach ($periodes as $pe) {
         $html .= '<th>' . h($pe['nom']) . '</th>';
     }
@@ -120,75 +113,7 @@ function resum_alumne(int $alumneId, array $curs): string
         }
         $html .= '</tr>';
     }
-    return $html . '</tbody></table></div><p class="peu-taula">' . h(t('portal.llegenda_faltes')) . '</p>';
-}
-
-function pagina_portal(): void
-{
-    $u = usuari();
-    if (!$u['persona_id']) {
-        redirigeix('inici');
-    }
-    $p = fila('SELECT * FROM persones WHERE id = ?', [$u['persona_id']]);
-    $curs = curs_actual();
-    $html = '<dl class="fitxa">';
-    foreach (['telefon', 'email', 'adreca', 'poblacio'] as $c) {
-        if ($p[$c]) {
-            $html .= '<dt>' . h(t('camp.' . $c)) . '</dt><dd>' . h($p[$c]) . '</dd>';
-        }
-    }
-    $soci = fila('SELECT * FROM socis WHERE persona_id = ?', [$p['id']]);
-    if ($soci) {
-        $html .= '<dt>' . h(t('ent1.socis')) . '</dt><dd>' . h(t('portal.soci', $soci['numero'] ?? '—', t('opt.' . $soci['estat']))) . '</dd>';
-    }
-    $html .= '</dl><p class="nota">' . h(t('portal.dades_errors')) . '</p>';
-
-    if ($curs) {
-        $alumne = fila('SELECT * FROM alumnes WHERE persona_id = ?', [$p['id']]);
-        if ($alumne) {
-            $html .= '<section class="fill"><header><h2>' . h(t('portal.escola', $curs['nom'])) . '</h2></header>' . resum_alumne((int)$alumne['id'], $curs) . '</section>';
-        }
-        $tutelats = q("SELECT al.id, " . NOM_PERSONA_SQL . " AS nom FROM tutories tu JOIN alumnes al ON al.id = tu.alumne_id JOIN persones p ON p.id = al.persona_id
-            WHERE tu.tutor_id = ? AND tu.consulta_academica = 1 ORDER BY nom", [$p['id']])->fetchAll();
-        foreach ($tutelats as $tt) {
-            $html .= '<section class="fill"><header><h2>' . h($tt['nom']) . ' <small>(' . h($curs['nom']) . ')</small></h2></header>' . resum_alumne((int)$tt['id'], $curs) . '</section>';
-        }
-        $prof = el_meu_professor();
-        if ($prof) {
-            $grups = q("SELECT g.id, a.nom || ' · ' || g.nom AS nom, (SELECT COUNT(*) FROM matricula_grups mg WHERE mg.grup_id = g.id) AS n FROM grups g
-                JOIN assignatures a ON a.id = g.assignatura_id WHERE g.professor_id = ? AND g.curs_id = ? ORDER BY nom", [$prof['id'], $curs['id']])->fetchAll();
-            $html .= '<section class="fill"><header><h2>' . h(t('portal.els_meus_grups')) . '</h2></header><ul class="llista-simple">';
-            foreach ($grups as $g) {
-                $html .= '<li>' . h($g['nom']) . ' <span class="etiqueta">' . h(t('portal.n_alumnes', $g['n'])) . '</span>';
-                if (pot('escola.assistencia')) {
-                    $html .= ' <a class="boto petit secundari" href="' . h(url('assistencia', ['grup' => $g['id']])) . '">' . h(t('menu.assistencia')) . '</a>';
-                }
-                if (pot('escola.notes')) {
-                    $html .= ' <a class="boto petit secundari" href="' . h(url('notes', ['grup' => $g['id']])) . '">' . h(t('menu.notes')) . '</a>';
-                }
-                $html .= '</li>';
-            }
-            $html .= ($grups ? '' : '<li class="buit petit">' . h(t('cap_element')) . '</li>') . '</ul></section>';
-        }
-    }
-
-    $membres = q("SELECT a.nom, m.instrument_veu, m.funcio FROM membres m JOIN agrupacions a ON a.id = m.agrupacio_id WHERE m.persona_id = ? AND m.estat = 'actiu' ORDER BY a.nom", [$p['id']])->fetchAll();
-    if ($membres) {
-        $html .= '<section class="fill"><header><h2>' . h(t('ent.agrupacions')) . '</h2></header><ul class="llista-simple">';
-        foreach ($membres as $m) {
-            $html .= '<li>' . h($m['nom']) . ($m['instrument_veu'] ? ' — ' . h($m['instrument_veu']) : '') . ($m['funcio'] !== 'membre' ? ' <span class="etiqueta">' . h(t('opt.' . $m['funcio'])) . '</span>' : '') . '</li>';
-        }
-        $html .= '</ul></section>';
-    }
-    $cessions = q('SELECT c.*, i.inventari, i.tipus FROM cessions c JOIN instruments i ON i.id = c.instrument_id WHERE c.persona_id = ? AND c.data_retorn IS NULL', [$p['id']])->fetchAll();
-    if ($cessions) {
-        $html .= '<section class="fill"><header><h2>' . h(t('portal.instruments_cedits')) . '</h2></header><ul class="llista-simple">';
-        foreach ($cessions as $c) {
-            $html .= '<li>' . h($c['inventari'] . ' · ' . $c['tipus']) . ($c['data_prevista'] ? ' <span class="etiqueta">' . h(t('inici.prevista', data_llegible($c['data_prevista']))) . '</span>' : '') . '</li>';
-        }
-        $html .= '</ul></section>';
-    }
-    pagina(nom_persona($p), $html, t('menu.portal'));
+    return $html . '</tbody></table></div><p class="peu-taula">' . h(t('resum.llegenda_faltes')) . '</p>';
 }
 
 function pagina_horari(): void

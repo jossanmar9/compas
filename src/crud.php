@@ -250,6 +250,12 @@ function pagina_fitxa(string $nom, int $id): void
         echo '</p>';
     }
 
+    if ($nom === 'alumnes' && ($curs = curs_actual())) {
+        echo '<section class="fill"><header><h2>' . h(t('resum.titol', $curs['nom'])) . '</h2><a class="boto petit secundari" target="_blank" href="'
+            . h(url('butlleti', ['imprimir' => 1, 'curs' => $curs['id'], 'ambit' => 'alumne', 'alumne' => $id, 'periode' => valor('SELECT id FROM periodes WHERE curs_id = ? ORDER BY ordre DESC LIMIT 1', [$curs['id']])]))
+            . '">🖨 ' . h(t('butlleti.imprimeix')) . '</a></header>' . resum_alumne($id, $curs) . '</section>';
+    }
+
     $tornar = url('fitxa', ['e' => $nom, 'id' => $id]);
     foreach ($e['fills'] as [$fill, $fk]) {
         $ef = entitat($fill);

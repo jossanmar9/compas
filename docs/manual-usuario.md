@@ -2,18 +2,23 @@
 
 ## Primeros pasos
 
-La primera vez que se abre Compàs pide el nombre de la sociedad musical y crea la cuenta de **administrador del sistema**. Si marcas «Cargar datos de ejemplo» tendrás personas, grupos e instrumentos de prueba para conocer el programa.
+Compàs funciona en un solo ordenador con Windows y tiene dos cuentas:
+
+- **Administrador/a**: lo puede todo, también gestionar usuarios, la configuración, el registro de actividad y restaurar copias.
+- **Administrativo/a**: lleva la gestión diaria (personas, socios, escuela, notas, agrupaciones, instrumentos) y puede hacer copias de seguridad.
+
+La primera vez que se abre Compàs pide el nombre de la sociedad, crea la cuenta de administrador y, si quieres, también la de administrativo. Si marcas «Cargar datos de ejemplo» tendrás personas, grupos e instrumentos de prueba para conocer el programa.
 
 Orden recomendado para empezar de cero:
 
-1. **Configuración**: revisa los datos de la sociedad.
-2. **Cursos académicos**: crea el curso (por ejemplo `2026/2027`), márcalo como **curso actual** y añade los **periodos de evaluación** (1.er trimestre, 2.º trimestre…).
-3. **Asignaturas** y **Aulas**.
-4. **Personas**: da de alta a todas las personas (socios, músicos, alumnado, profesorado, tutores…).
-5. Desde la ficha de cada persona, crea sus **funciones**: socio, alumno, profesor, miembro de una agrupación…
-6. **Grupos**: para cada asignatura del curso, crea los grupos, asigna profesor y aula, y añade las **franjas horarias**.
-7. **Matrículas**: matricula a cada alumno en el curso e inscríbelo en los grupos.
-8. **Usuarios**: crea las cuentas de quien tenga que entrar al programa y vincúlalas con su persona.
+1. **Configuración**: datos de la sociedad y **logotipo** (sale en el menú y en los boletines).
+2. **Copias de seguridad**: indica una **carpeta externa** (disco USB o carpeta de la nube).
+3. **Cursos académicos**: crea el curso (por ejemplo `2026/2027`), márcalo como **curso actual** y añade los **periodos de evaluación** (1.er trimestre, 2.º trimestre…).
+4. **Asignaturas** y **Aulas**.
+5. **Personas**: da de alta a todas las personas (socios, músicos, alumnado, profesorado, tutores…).
+6. Desde la ficha de cada persona, crea sus **funciones**: socio, alumno, profesor, miembro de una agrupación…
+7. **Grupos**: para cada asignatura del curso, crea los grupos, asigna profesor y aula, y añade las **franjas horarias**.
+8. **Matrículas**: matricula a cada alumno en el curso e inscríbelo en los grupos.
 
 ## Cómo está organizado
 
@@ -40,11 +45,12 @@ Compàs no deja eliminar nada que tenga historial relacionado (matrículas, cesi
 ### Alumnado, profesorado y tutores legales
 
 - Una persona se convierte en alumno o profesor creándole la ficha correspondiente.
-- Los **tutores legales** son personas registradas. Desde la ficha del alumno, añade los que hagan falta e indica si pueden consultar la información académica y si reciben comunicaciones.
+- Los **tutores legales** son personas registradas. Desde la ficha del alumno, añade los que hagan falta.
+- La ficha del alumno muestra el resumen del curso actual: grupos, horario, faltas y notas, con un botón para **imprimir su boletín**.
 
 ### Cursos, periodos y grupos
 
-- Solo un curso puede ser el **curso actual**. Es el que se usa en el inicio, en la asistencia y en «Mi ficha».
+- Solo un curso puede ser el **curso actual**. Es el que se usa en el inicio, en la asistencia y en las notas.
 - Un **grupo** es una asignatura impartida en un curso (por ejemplo, *Lenguaje musical · 1.º A*). Puede tener varias franjas horarias.
 
 ### Matrículas
@@ -61,13 +67,28 @@ Muestra todas las clases del curso por días. Puedes filtrar por profesor o por 
 2. Todos aparecen como **presentes**. Cambia solo los que faltan: **F** falta, **FJ** falta justificada, **R** retraso.
 3. Pulsa **Guardar**.
 
-Si vuelves a abrir el mismo día se ve lo que se guardó y se puede corregir. Debajo está la lista de días registrados.
+Si vuelves a abrir el mismo día se ve lo que se guardó y se puede corregir.
 
 ### Calificaciones
 
-Elige el grupo y el periodo y escribe la nota de cada alumno (texto libre: `7`, `8,5`, `Notable`, `Apto`…) y, si quieres, observaciones. El alumnado y los tutores la ven en «Mi ficha».
+El profesorado pasa las notas a administración y administración las introduce:
 
-> El profesorado solo ve **sus** grupos. Para que funcione, la cuenta de usuario del profesor debe estar vinculada a su persona, y esa persona debe tener ficha de profesor.
+1. Ve a **Calificaciones**, elige el **grupo** y la **evaluación**.
+2. Escribe la nota de cada alumno (texto libre: `7`, `8,5`, `Notable`, `Apto`…) y, si hace falta, las observaciones del profesor.
+3. Pulsa **Guardar**. Para borrar una nota, deja la nota y las observaciones en blanco.
+
+### Boletines
+
+Desde **Boletines** (o con el botón de la página de calificaciones o de la ficha de un alumno):
+
+1. Elige el curso y la **evaluación**. El boletín muestra las notas de esa evaluación y de las anteriores; las observaciones son las de la evaluación elegida.
+2. Elige de quién: todo el alumnado matriculado, el alumnado de un grupo o un solo alumno.
+3. Si quieres, escribe un **texto al pie** (se recuerda para la próxima vez).
+4. Pulsa **Preparar los boletines**. Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir**.
+
+> Para guardarlos en PDF (para enviarlos por correo), elige «Microsoft Print to PDF» como impresora.
+
+El boletín lleva el logotipo y los datos de la sociedad, las notas, las faltas, las observaciones y espacio para las firmas.
 
 ## Agrupaciones
 
@@ -79,34 +100,38 @@ Banda, banda juvenil, coral, orquesta, grupos de cámara… Cada agrupación tie
 - **Cesiones**: para prestar un instrumento, crea una cesión con la persona, la fecha de entrega y la de devolución prevista. Cuando lo devuelvan, edita la cesión y pon la **fecha de devolución**. Un instrumento no se puede ceder dos veces a la vez.
 - En el inicio aparecen las cesiones con la devolución **vencida**.
 
-## Mi ficha
-
-Cualquier usuario vinculado a una persona puede ver:
-
-- sus datos de contacto y de socio;
-- si es alumno: grupos, horario, faltas y notas del curso actual;
-- si es tutor legal: lo mismo para cada alumno a su cargo (si tiene permiso de consulta);
-- si es profesor: sus grupos, con acceso directo a la asistencia y las notas;
-- sus agrupaciones y los instrumentos que tiene cedidos.
-
-## Usuarios, roles y permisos
-
-- **Usuarios**: crea una cuenta para cada persona que tenga que entrar. Puedes asignarle **varios roles**; los permisos se suman.
-- **Roles y permisos**: una tabla para decidir qué puede hacer cada rol. Puedes cambiar el nombre de los roles y crear otros nuevos. El administrador del sistema siempre lo puede todo.
-- Siempre debe quedar al menos un usuario activo que pueda gestionar usuarios.
-- Si alguien olvida la contraseña, el administrador le pone una nueva desde su ficha de usuario. Cada uno puede cambiar la suya desde **Mi cuenta** (haciendo clic en el nombre de usuario, arriba a la derecha).
-
 ## Copias de seguridad
 
-- Compàs hace **una copia automática cada día** que se usa y guarda las 14 últimas en `data\copies`.
-- Desde **Copias de seguridad** puedes descargar una copia en cualquier momento. Guárdala fuera del ordenador (USB, nube de la sociedad…).
-- **Restaurar** sustituye todos los datos por los de la copia. Los datos anteriores se guardan en la carpeta de datos con el nombre `compas-abans-restaurar-…`.
+Todos los datos están en un solo archivo, `data\compas.db`. Compàs hace copias así:
 
-> Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro y no las envíes por canales abiertos.
+| Cuándo | Tipo |
+|---|---|
+| La primera vez que se usa cada día | Automática (diaria) |
+| Al cerrar Compàs, si ha habido cambios | Automática (al cerrar) |
+| Cuando pulsas **Hacer una copia ahora** | Manual |
+| Justo antes de restaurar | Antes de restaurar |
+
+- Las copias se guardan en `data\copies`. Se conservan las últimas automáticas (30 por defecto, configurable); las manuales no se borran solas.
+- **Carpeta externa** (muy recomendable): si el ordenador se estropea, las copias de dentro se pierden con él. En **Copias de seguridad → Configuración** indica una carpeta en un **disco USB** o en una carpeta **sincronizada con la nube** (OneDrive, Google Drive…). Cada copia se guardará también allí.
+- Si no hay carpeta externa, o hace más de 7 días que no se guarda nada en ella (por ejemplo, porque el USB no está conectado), el inicio lo avisa.
+- **Descargar una copia al ordenador** descarga una copia para guardarla donde quieras.
+
+### Restaurar (solo el administrador/a)
+
+- Desde la lista: botón **Restaurar** de la copia que quieras.
+- Desde un archivo: **Restaurar desde un archivo** y elige el `.db`.
+
+Antes de restaurar, Compàs hace una copia de los datos actuales («Antes de restaurar»), así que siempre se puede volver atrás. La configuración de la carpeta externa se conserva. Después hay que volver a entrar.
+
+> Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro.
+
+## Usuarios
+
+Solo el administrador/a. Desde **Usuarios** puedes cambiar el nombre, el rol, el idioma y la contraseña de cada cuenta, o desactivarla. Si alguien olvida la contraseña, el administrador le pone una nueva. Cada uno puede cambiar la suya desde **Mi cuenta** (haciendo clic en el nombre de usuario, arriba a la derecha).
 
 ## Registro de actividad
 
-Anota quién ha creado, modificado o eliminado cada elemento, las entradas al programa (también las fallidas), las exportaciones y las copias.
+Solo el administrador/a. Anota quién ha creado, modificado o eliminado cada elemento, las entradas al programa (también las fallidas), las exportaciones, los boletines impresos y las copias.
 
 ## Idioma
 
@@ -116,8 +141,6 @@ Compàs funciona en **valenciano** y **castellano**. Cambia el idioma con los bo
 
 **¿Tengo que estar conectado a Internet?** No. Compàs funciona sin Internet.
 
-**¿Dónde están los datos?** En un solo archivo: `data\compas.db`, dentro de la carpeta del programa. La ruta exacta se ve en **Configuración**.
+**¿Dónde están los datos?** En `data\compas.db`, dentro de la carpeta del programa. La ruta exacta se ve en **Configuración**.
 
-**¿Pueden entrar varias personas a la vez?** Sí, si se activa el acceso desde la red (ver la guía de instalación). El ordenador donde se ejecuta Compàs debe estar encendido y con el programa abierto.
-
-**¿Cómo paso Compàs a otro ordenador?** Haz una copia de seguridad, instala Compàs en el ordenador nuevo y restáurala. También puedes copiar la carpeta `data` entera con Compàs cerrado.
+**¿Cómo paso Compàs a otro ordenador?** Instala Compàs en el ordenador nuevo y restaura en él la última copia (desde un archivo). También puedes copiar la carpeta `data` entera con Compàs cerrado.

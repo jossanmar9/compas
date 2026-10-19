@@ -6,7 +6,6 @@ function menu(): array
 {
     return [
         ['inici', 'menu.inici', null, '⌂'],
-        ['portal', 'menu.portal', 'portal', '☺'],
         ['persones', 'ent.persones', 'persones.view', '👤'],
         ['socis', 'ent.socis', 'socis.view', '★'],
         ['_escola', 'menu.escola', null, null],
@@ -17,6 +16,7 @@ function menu(): array
         ['horari', 'menu.horari', 'escola.view', '🕑'],
         ['assistencia', 'menu.assistencia', 'escola.assistencia', '✓'],
         ['notes', 'menu.notes', 'escola.notes', '✎'],
+        ['butlleti', 'menu.butlletins', 'escola.view', '🖨'],
         ['cursos', 'ent.cursos', 'escola.view', '📅'],
         ['assignatures', 'ent.assignatures', 'escola.view', '♪'],
         ['aules', 'ent.aules', 'escola.view', '🚪'],
@@ -28,7 +28,6 @@ function menu(): array
         ['cessions', 'ent.cessions', 'instruments.view', '⇄'],
         ['_admin', 'menu.administracio', null, null],
         ['usuaris', 'menu.usuaris', 'usuaris.manage', '🔑'],
-        ['rols', 'menu.rols', 'usuaris.manage', '🛡'],
         ['configuracio', 'menu.configuracio', 'config.manage', '⚙'],
         ['auditoria', 'menu.auditoria', 'auditoria.view', '📜'],
         ['copia', 'menu.copia', 'copia.manage', '💾'],
@@ -47,7 +46,6 @@ function html_menu(): string
     if (in_array($actual, ['llista', 'fitxa', 'edita'], true)) {
         $actual = get('e');
     }
-    $u = usuari();
     $items = [];
     $seccio = null;
     foreach (menu() as [$clau, $etq, $cap, $icona]) {
@@ -55,11 +53,7 @@ function html_menu(): string
             $seccio = '<li class="seccio">' . h(t($etq)) . '</li>';
             continue;
         }
-        if ($cap === 'portal') {
-            if (!$u['persona_id']) {
-                continue;
-            }
-        } elseif ($cap && !pot($cap)) {
+        if ($cap && !pot($cap)) {
             continue;
         }
         if ($seccio) {
@@ -107,8 +101,9 @@ function pagina(string $titol, string $cos, ?string $subtitol = null): void
     }
     echo capcalera_html($titol);
     echo '<body><div class="app">';
-    echo '<aside class="lateral"><a class="marca" href="?"><img src="assets/icona.png" alt=""><span><b>Compàs</b><small>'
-        . h($societat) . '</small></span></a><button class="obre-menu" type="button" aria-label="Menú">☰</button><nav>' . html_menu() . '</nav></aside>';
+    $logo = url_logo();
+    echo '<aside class="lateral"><a class="marca" href="?"><img src="' . h($logo ?? 'assets/icona.png') . '" alt="" class="' . ($logo ? 'logo-societat' : '') . '"><span><b>' . h($societat)
+        . '</b><small>Compàs</small></span></a><button class="obre-menu" type="button" aria-label="Menú">☰</button><nav>' . html_menu() . '</nav></aside>';
     echo '<main><header class="superior"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>';
     echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.perfil')) . '">'
         . h($u['usuari']) . '</a><form method="post" action="' . h(url('eixir')) . '">' . csrf_camp() . '<button class="enllac">' . h(t('eixir')) . '</button></form></div></header>';

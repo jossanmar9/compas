@@ -4,33 +4,20 @@
 
 const ESTATS_ASSISTENCIA = ['P', 'F', 'FJ', 'R'];
 
-/** Grups on l'usuari pot passar llista o posar notes */
+/** Grups actius del curs actual */
 function grups_permesos(): array
 {
     $curs = curs_actual();
     if (!$curs) {
         return [];
     }
-    $sql = "SELECT g.id, a.nom || ' · ' || g.nom AS e FROM grups g JOIN assignatures a ON a.id = g.assignatura_id WHERE g.curs_id = ? AND g.estat = 'actiu'";
-    $params = [$curs['id']];
-    if (!pot('escola.totsgrups')) {
-        $prof = el_meu_professor();
-        if (!$prof) {
-            return [];
-        }
-        $sql .= ' AND g.professor_id = ?';
-        $params[] = $prof['id'];
-    }
-    return array_column(q($sql . ' ORDER BY e', $params)->fetchAll(), 'e', 'id');
+    return array_column(q("SELECT g.id, a.nom || ' · ' || g.nom AS e FROM grups g JOIN assignatures a ON a.id = g.assignatura_id
+        WHERE g.curs_id = ? AND g.estat = 'actiu' ORDER BY e", [$curs['id']])->fetchAll(), 'e', 'id');
 }
 
 function pot_grup(int $grupId): bool
 {
-    if (pot('escola.totsgrups')) {
-        return (bool)valor('SELECT 1 FROM grups WHERE id = ?', [$grupId]);
-    }
-    $prof = el_meu_professor();
-    return $prof && (bool)valor('SELECT 1 FROM grups WHERE id = ? AND professor_id = ?', [$grupId, $prof['id']]);
+    return (bool)valor('SELECT 1 FROM grups WHERE id = ?', [$grupId]);
 }
 
 function alumnes_grup(int $grupId): array
@@ -55,7 +42,7 @@ function sense_grups(): string
     if (!curs_actual()) {
         return '<div class="buit">' . h(t('inici.sense_curs')) . '</div>';
     }
-    return '<div class="buit">' . h(pot('escola.totsgrups') ? t('escola.sense_grups') : t('escola.sense_grups_prof')) . '</div>';
+    return '<div class="buit">' . h(t('escola.sense_grups')) . '</div>';
 }
 
 function pagina_assistencia(): void
@@ -172,7 +159,7 @@ function pagina_notes(): void
     if ($grup && $periode && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $notes = (array)($_POST['nota'] ?? []);
         $obs = (array)($_POST['obs'] ?? []);
-        $prof = el_meu_professor()['id'] ?? null;
+        $prof = valor('SELECT professor_id FROM grups WHERE id = ?', [$grup]);
         db()->beginTransaction();
         foreach (alumnes_grup($grup) as $al) {
             $n = mb_substr(trim((string)($notes[$al['id']] ?? '')), 0, 20);
@@ -213,7 +200,8 @@ function pagina_notes(): void
             $html .= '<tr><td>' . h($al['nom']) . '</td><td><input class="nota" name="nota[' . (int)$al['id'] . ']" maxlength="20" value="' . h($fet[$al['id']]['nota'] ?? '') . '"></td>'
                 . '<td><textarea rows="1" name="obs[' . (int)$al['id'] . ']">' . h($fet[$al['id']]['observacions'] ?? '') . '</textarea></td></tr>';
         }
-        $html .= '</tbody></table></div><p class="peu-taula">' . h(t('notes.ajuda')) . '</p><div class="accions"><button>' . h(t('desa')) . '</button></div></form>';
+        $html .= '</tbody></table></div><p class="peu-taula">' . h(t('notes.ajuda')) . '</p><div class="accions"><button>' . h(t('desa')) . '</button>'
+            . '<a class="boto secundari" href="' . h(url('butlleti', ['curs' => $cursId, 'grup' => $grup])) . '">🖨 ' . h(t('menu.butlletins')) . '</a></div></form>';
     }
     pagina(t('menu.notes'), $html, $grups[$grup] . ' · ' . $periodes[$periode]);
 }

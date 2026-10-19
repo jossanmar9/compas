@@ -1,6 +1,6 @@
 # Arquitectura de Compàs
 
-Compàs és un programa de gestió per a una única societat musical. No té web pública: només la part interna de gestió.
+Compàs és un programa de gestió per a una única societat musical, en un sol ordinador amb Windows i amb dos comptes (administrador/a i administratiu/va). No té web pública ni accés per xarxa.
 
 ## Peces
 
@@ -17,7 +17,7 @@ app/index.php  ──►  src/  (lògica en PHP)
                data/compas.db  (SQLite, un sol fitxer)
 ```
 
-- **Llançador** (`launcher/Compas.cs`): finestra menuda que arranca PHP, espera que responga, obri el navegador i atura PHP en tancar. Llig `compas.ini`.
+- **Llançador** (`launcher/Compas.cs`): finestra menuda que arranca PHP només a `127.0.0.1`, espera que responga i obri el navegador. En tancar, demana a PHP una còpia de seguretat (amb un testimoni secret que només coneixen el llançador i PHP) i l'atura. Llig `compas.ini`.
 - **PHP portable**: es baixa de windows.php.net en construir la versió. Extensions: `pdo_sqlite`, `sqlite3`, `mbstring`, `fileinfo`, `opcache`.
 - **Aplicació**: PHP sense dependències ni frameworks, HTML i CSS propis i un poc de JavaScript. Funciona sense Internet.
 - **Base de dades**: SQLite a través de PDO. Tot l'SQL usa consultes preparades. Es pot migrar a MariaDB/MySQL més endavant canviant la connexió i adaptant `schema.sql`.
@@ -32,7 +32,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/capacitats.php` | Capacitats i rols per defecte. |
 | `src/entitats.php` | Definició declarativa de cada entitat: camps, relacions i validacions. |
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
-| `src/pages/*.php` | Pantalles específiques: inici, «La meua fitxa», horari, assistència, qualificacions, usuaris, rols, configuració, auditoria, còpies, ajuda. |
+| `src/pages/*.php` | Pantalles específiques: inici, horari, assistència, qualificacions, butlletins i logotip, usuaris, configuració, auditoria, còpies, ajuda. |
 | `src/lang/ca.php`, `es.php` | Textos en valencià i castellà. |
 | `app/assets/` | Estil, JavaScript, logotip i icona. |
 
@@ -44,19 +44,19 @@ Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `
 - Les funcions són taules separades vinculades a la persona: `socis`, `alumnes`, `professors`, `membres` (d'agrupacions), `tutories` (alumne ↔ tutor legal, molts a molts), `cessions`.
 - Escola: `cursos` → `periodes`, `grups` (assignatura + curs + professor + aula) → `horaris`; `matricules` (alumne + curs) → `matricula_grups`; `assistencia` (grup + alumne + data); `qualificacions` (grup + alumne + període).
 - Inventari: `instruments` → `cessions`, `manteniments`.
-- Accés: `usuaris` (opcionalment vinculat a una persona), `rols`, `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
+- Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
 - `auditoria` registra les operacions sensibles.
 - Les claus foranes no deixen esborrar res amb historial: les baixes es marquen amb estat o data de baixa.
 
 ## Seguretat
 
-- Per defecte només escolta a `127.0.0.1`. L'accés des de la xarxa s'activa explícitament.
+- Només escolta a `127.0.0.1`: no és accessible des de la xarxa.
 - Contrasenyes amb `password_hash`. Bloqueig temporal després de 5 intents fallits.
 - Token CSRF en tots els formularis. Cookies `HttpOnly` i `SameSite=Strict`.
 - Tota l'eixida s'escapa amb `htmlspecialchars`.
 - La carpeta de dades queda fora de la carpeta pública (`app/`); el servidor només serveix `app/assets/`.
-- El professorat només veu i modifica l'assistència i les notes dels seus grups (si no té la capacitat `escola.totsgrups`).
-- Còpia automàtica diària (14 últimes) i còpia/restauració manual.
+- L'administratiu/va no pot gestionar usuaris, configuració, registre d'activitat ni restaurar còpies.
+- Còpies amb `VACUUM INTO` (consistents encara que el programa estiga obert): diària, en tancar si hi ha canvis, manual i abans de restaurar; duplicades a una carpeta externa opcional.
 
 ## Pendent (pròximes versions)
 

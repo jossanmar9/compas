@@ -1,0 +1,329 @@
+<?php
+// Còpies de seguretat de la base de dades
+// SPDX-License-Identifier: GPL-2.0-or-later
+//
+// - Automàtica: la primera vegada que s'utilitza Compàs cada dia, i en tancar el programa si hi ha hagut canvis.
+// - Manual: botó «Fes una còpia ara» o baixada directa.
+// - Cada còpia es guarda a data\copies i, si està configurada, també a una carpeta externa (USB, disc extern, núvol…).
+
+const PATRO_COPIA = '/^compas-\d{8}-\d{6}-(auto|manual|tancament|abans-restaurar)\.db$/';
+const ACCIONS_SENSE_CANVIS = ['entrada', 'eixida', 'entrada_fallida', 'exporta', 'copia_baixada', 'copia_feta'];
+
+function carpeta_copies(): string
+{
+    $d = DADES_DIR . DIRECTORY_SEPARATOR . 'copies';
+    if (!is_dir($d)) {
+        mkdir($d, 0770, true);
+    }
+    return $d;
+}
+
+function carpeta_externa(): ?string
+{
+    $c = config('copia_externa');
+    return $c ? rtrim($c, '/\\') : null;
+}
+
+function copies_a_conservar(): int
+{
+    return max(3, min(365, (int)config('copia_conservar', '30')));
+}
+
+/** Hi ha canvis en les dades des de l'última còpia? */
+function hi_ha_canvis(): bool
+{
+    $marques = implode(',', array_fill(0, count(ACCIONS_SENSE_CANVIS), '?'));
+    $ultim = (int)valor("SELECT COALESCE(MAX(id), 0) FROM auditoria WHERE accio NOT IN ($marques)", ACCIONS_SENSE_CANVIS);
+    return $ultim > (int)config('copia_ultim_canvi', '0');
+}
+
+/**
+ * Fa una còpia consistent amb VACUUM INTO i la copia a la carpeta externa.
+ * Retorna [nom del fitxer, error de la carpeta externa o null].
+ */
+function fes_copia(string $tipus): array
+{
+    $nom = 'compas-' . date('Ymd-His') . '-' . $tipus . '.db';
+    $desti = carpeta_copies() . DIRECTORY_SEPARATOR . $nom;
+    if (is_file($desti)) {
+        unlink($desti);
+    }
+    q('VACUUM INTO ?', [$desti]);
+
+    $marques = implode(',', array_fill(0, count(ACCIONS_SENSE_CANVIS), '?'));
+    desa_config('copia_ultim_canvi', (string)valor("SELECT COALESCE(MAX(id), 0) FROM auditoria WHERE accio NOT IN ($marques)", ACCIONS_SENSE_CANVIS));
+    desa_config('copia_ultima', date('Y-m-d H:i:s'));
+
+    $errorExterna = null;
+    if ($ext = carpeta_externa()) {
+        if (!is_dir($ext) || !is_writable($ext)) {
+            $errorExterna = t('copia.err_externa', $ext);
+        } elseif (!@copy($desti, $ext . DIRECTORY_SEPARATOR . $nom)) {
+            $errorExterna = t('copia.err_copiar', $ext);
+        } else {
+            desa_config('copia_ultima_externa', date('Y-m-d H:i:s'));
+            neteja_copies($ext);
+        }
+        desa_config('copia_error_externa', $errorExterna);
+    }
+    neteja_copies(carpeta_copies());
+    audita('copia_feta', null, null, $nom . ($errorExterna ? ' · ' . $errorExterna : ''));
+    return [$nom, $errorExterna];
+}
+
+/** Esborra les còpies automàtiques més antigues; les manuals es conserven */
+function neteja_copies(string $carpeta): void
+{
+    $auto = array_filter(glob($carpeta . DIRECTORY_SEPARATOR . 'compas-*.db') ?: [], fn($f) => preg_match('/-(auto|tancament)\.db$/', $f));
+    sort($auto);
+    foreach (array_slice($auto, 0, max(0, count($auto) - copies_a_conservar())) as $vella) {
+        @unlink($vella);
+    }
+}
+
+/** Còpia automàtica diària (es crida en cada pàgina, després d'entrar) */
+function copia_automatica(): void
+{
+    $avui = date('Y-m-d');
+    if (config('copia_auto_dia') === $avui) {
+        return;
+    }
+    desa_config('copia_auto_dia', $avui);
+    try {
+        fes_copia('auto');
+    } catch (Throwable $e) {
+        error_log('Còpia automàtica: ' . $e->getMessage());
+    }
+}
+
+/** Còpia en tancar: la demana el llançador amb un testimoni secret abans d'aturar PHP */
+function copia_en_tancar(): void
+{
+    $token = getenv('COMPAS_TOKEN');
+    header('Content-Type: text/plain; charset=UTF-8');
+    if (!$token || !hash_equals($token, (string)get('token'))) {
+        http_response_code(403);
+        exit('no');
+    }
+    if ((int)valor('SELECT COUNT(*) FROM usuaris') > 0 && hi_ha_canvis()) {
+        [$nom, $err] = fes_copia('tancament');
+        exit($err ? 'ok-externa-error' : 'ok');
+    }
+    exit('sense-canvis');
+}
+
+function llista_copies(): array
+{
+    $files = [];
+    foreach (glob(carpeta_copies() . DIRECTORY_SEPARATOR . 'compas-*.db') ?: [] as $f) {
+        $nom = basename($f);
+        if (preg_match(PATRO_COPIA, $nom, $m)) {
+            $files[] = ['nom' => $nom, 'tipus' => $m[1], 'mida' => filesize($f), 'data' => filemtime($f)];
+        }
+    }
+    usort($files, fn($a, $b) => strcmp($b['nom'], $a['nom']));
+    return $files;
+}
+
+function ruta_copia(string $nom): ?string
+{
+    $nom = basename($nom);
+    $f = carpeta_copies() . DIRECTORY_SEPARATOR . $nom;
+    return preg_match(PATRO_COPIA, $nom) && is_file($f) ? $f : null;
+}
+
+function es_bd_compas(string $fitxer): bool
+{
+    if (filesize($fitxer) < 100 || file_get_contents($fitxer, false, null, 0, 16) !== "SQLite format 3\0") {
+        return false;
+    }
+    try {
+        $p = new PDO('sqlite:' . $fitxer, null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $ok = (int)$p->query("SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name IN ('usuaris','persones','rols')")->fetchColumn() === 3
+            && (int)$p->query('SELECT COUNT(*) FROM usuaris')->fetchColumn() > 0;
+        $p = null;
+        return $ok;
+    } catch (Throwable $e) {
+        return false;
+    }
+}
+
+/** Deixa preparada una còpia per a restaurar-la en la pròxima petició */
+function prepara_restauracio(string $origen, bool $pujat): void
+{
+    $conserva = [];
+    foreach (['copia_externa', 'copia_conservar', 'copia_ultima_externa', 'copia_auto_dia'] as $c) {
+        $conserva[$c] = config($c);
+    }
+    $conserva['copia_error_externa'] = null;
+    file_put_contents(DADES_DIR . DIRECTORY_SEPARATOR . 'restaura-config.json', json_encode($conserva));
+    $desti = DADES_DIR . DIRECTORY_SEPARATOR . 'restaura.db';
+    $pujat ? move_uploaded_file($origen, $desti) : copy($origen, $desti);
+}
+
+function envia_fitxer(string $ruta, string $nom): never
+{
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="' . $nom . '"');
+    header('Content-Length: ' . filesize($ruta));
+    readfile($ruta);
+    exit;
+}
+
+/** Avís per a la pàgina d'inici si les còpies no estan al dia */
+function avis_copies(): string
+{
+    if (!pot('copia.manage')) {
+        return '';
+    }
+    $enllac = ' <a href="' . h(url('copia')) . '">' . h(t('menu.copia')) . '</a>';
+    if ($err = config('copia_error_externa')) {
+        return '<div class="avis error">⚠ ' . h($err) . $enllac . '</div>';
+    }
+    if (!carpeta_externa()) {
+        return '<div class="avis info">' . h(t('copia.avis_sense_externa')) . $enllac . '</div>';
+    }
+    $ultima = config('copia_ultima_externa');
+    if (!$ultima || strtotime($ultima) < strtotime('-7 days')) {
+        return '<div class="avis info">' . h(t('copia.avis_antiga')) . $enllac . '</div>';
+    }
+    return '';
+}
+
+function pagina_copia(): void
+{
+    requereix('copia.manage');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $accio = post('accio');
+        $nom = (string)post('nom');
+        switch ($accio) {
+            case 'fes':
+                [$fet, $err] = fes_copia('manual');
+                avis(t('copia.feta', $fet));
+                if ($err) {
+                    avis($err, 'error');
+                } elseif (carpeta_externa()) {
+                    avis(t('copia.feta_externa', carpeta_externa()));
+                }
+                break;
+            case 'baixa':
+                $tmp = DADES_DIR . DIRECTORY_SEPARATOR . 'baixada-' . bin2hex(random_bytes(4)) . '.db';
+                q('VACUUM INTO ?', [$tmp]);
+                audita('copia_baixada');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="compas-' . date('Ymd-His') . '.db"');
+                header('Content-Length: ' . filesize($tmp));
+                readfile($tmp);
+                unlink($tmp);
+                exit;
+            case 'baixa_llista':
+                if ($f = ruta_copia($nom)) {
+                    audita('copia_baixada', null, null, $nom);
+                    envia_fitxer($f, $nom);
+                }
+                break;
+            case 'restaura_llista':
+                requereix('copia.restaura');
+                if (($f = ruta_copia($nom)) && es_bd_compas($f)) {
+                    fes_copia('abans-restaurar');
+                    prepara_restauracio($f, false);
+                    audita('copia_restaurada', null, null, $nom);
+                    avis(t('copia.restaurada'));
+                } else {
+                    avis(t('copia.no_valida'), 'error');
+                }
+                break;
+            case 'elimina':
+                requereix('copia.restaura');
+                if ($f = ruta_copia($nom)) {
+                    unlink($f);
+                    audita('copia_eliminada', null, null, $nom);
+                    avis(t('eliminat'));
+                }
+                break;
+            case 'restaura_fitxer':
+                requereix('copia.restaura');
+                $up = $_FILES['fitxer'] ?? null;
+                if (!$up || $up['error'] !== UPLOAD_ERR_OK || !es_bd_compas($up['tmp_name'])) {
+                    avis(t('copia.no_valida'), 'error');
+                } elseif (post('confirma') !== '1') {
+                    avis(t('copia.cal_confirmar'), 'error');
+                } else {
+                    fes_copia('abans-restaurar');
+                    prepara_restauracio($up['tmp_name'], true);
+                    audita('copia_restaurada', null, null, $up['name']);
+                    avis(t('copia.restaurada'));
+                }
+                break;
+            case 'configura':
+                requereix('config.manage');
+                $ext = trim((string)post('copia_externa'));
+                if ($ext !== '' && (!is_dir($ext) || !is_writable($ext))) {
+                    avis(t('copia.err_externa', $ext), 'error');
+                    break;
+                }
+                desa_config('copia_externa', $ext !== '' ? $ext : null);
+                desa_config('copia_error_externa', null);
+                desa_config('copia_conservar', (string)max(3, min(365, (int)post('copia_conservar'))));
+                audita('modifica', 'config', null, 'copies');
+                avis(t('desat'));
+                break;
+        }
+        redirigeix('copia');
+    }
+
+    $restaura = pot('copia.restaura');
+    $ultima = config('copia_ultima');
+    $ext = carpeta_externa();
+    $html = '<div class="targetes">'
+        . targeta($ultima ? data_llegible($ultima) : '—', t('copia.ultima'))
+        . targeta($ext ? (config('copia_ultima_externa') ? data_llegible(config('copia_ultima_externa')) : '—') : t('copia.no_configurada'), t('copia.ultima_externa'))
+        . '</div>';
+    if ($err = config('copia_error_externa')) {
+        $html .= '<div class="avis error">' . h($err) . '</div>';
+    }
+    $html .= '<p>' . h(t('copia.text')) . '</p><div class="accions">'
+        . '<form method="post">' . csrf_camp() . '<input type="hidden" name="accio" value="fes"><button>' . h(t('copia.fes')) . '</button></form>'
+        . '<form method="post">' . csrf_camp() . '<input type="hidden" name="accio" value="baixa"><button class="secundari">' . h(t('copia.baixa')) . '</button></form></div>';
+
+    // Llista
+    $copies = llista_copies();
+    $html .= '<section class="fill"><header><h2>' . h(t('copia.llista')) . ' <span class="compte">' . count($copies) . '</span></h2></header>';
+    $html .= '<p class="nota">' . h(t('copia.llista_text', copies_a_conservar())) . ' <code>' . h(carpeta_copies()) . '</code></p>';
+    if ($copies) {
+        $html .= '<div class="taula-wrap"><table class="taula compacta"><thead><tr><th>' . h(t('camp.data')) . '</th><th>' . h(t('camp.tipus')) . '</th><th>' . h(t('copia.mida'))
+            . '</th><th></th></tr></thead><tbody>';
+        foreach ($copies as $c) {
+            $form = fn(string $accio, string $text, string $classe = 'secundari', string $confirma = '') => '<form method="post"' . ($confirma ? ' onsubmit="return confirm(\'' . h($confirma) . '\')"' : '') . '>'
+                . csrf_camp() . '<input type="hidden" name="accio" value="' . $accio . '"><input type="hidden" name="nom" value="' . h($c['nom']) . '"><button class="petit ' . $classe . '">' . h($text) . '</button></form>';
+            $html .= '<tr><td>' . h(date('d/m/Y H:i', $c['data'])) . '</td><td>' . h(t('copia.tipus.' . $c['tipus'])) . '</td><td>' . h(number_format($c['mida'] / 1024, 0, ',', '.')) . ' KB</td><td><div class="accions-fila">'
+                . $form('baixa_llista', t('copia.baixa_curt'));
+            if ($restaura) {
+                $html .= $form('restaura_llista', t('copia.restaura_curt'), 'secundari', t('copia.confirma_restaurar'))
+                    . $form('elimina', t('elimina'), 'perill', t('confirma_eliminar'));
+            }
+            $html .= '</div></td></tr>';
+        }
+        $html .= '</tbody></table></div>';
+    } else {
+        $html .= '<p class="buit petit">' . h(t('cap_element')) . '</p>';
+    }
+    $html .= '</section>';
+
+    // Configuració
+    if (pot('config.manage')) {
+        $html .= '<section class="fill"><header><h2>' . h(t('copia.configuracio')) . '</h2></header><p class="nota">' . h(t('copia.externa_text')) . '</p>'
+            . '<form method="post" class="formulari">' . csrf_camp() . '<input type="hidden" name="accio" value="configura"><div class="camps">'
+            . '<div class="camp ample"><label>' . h(t('copia.externa')) . '</label><input name="copia_externa" value="' . h($ext) . '" placeholder="E:\Copies Compàs"><small>' . h(t('copia.externa_ajuda')) . '</small></div>'
+            . '<div class="camp"><label>' . h(t('copia.conservar')) . '</label><input type="number" min="3" max="365" name="copia_conservar" value="' . copies_a_conservar() . '"></div>'
+            . '</div><div class="accions"><button>' . h(t('desa')) . '</button></div></form></section>';
+    }
+
+    if ($restaura) {
+        $html .= '<section class="fill perill-zona"><header><h2>' . h(t('copia.restaurar')) . '</h2></header><p>' . h(t('copia.restaurar_text')) . '</p>'
+            . '<form method="post" enctype="multipart/form-data" class="formulari vertical estret">' . csrf_camp() . '<input type="hidden" name="accio" value="restaura_fitxer">'
+            . '<input type="file" name="fitxer" accept=".db" required><label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
+            . '<button class="perill">' . h(t('copia.restaurar')) . '</button></form></section>';
+    }
+    pagina(t('menu.copia'), $html);
+}
