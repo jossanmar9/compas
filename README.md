@@ -1,64 +1,201 @@
 <p align="center"><img src="app/assets/logo.png" alt="Compàs: Gestió lliure per a societats musicals" width="260"></p>
 
+<p align="center">
+  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/jossanmar9/compas?label=versi%C3%B3&color=1f5aa6" alt="Última versió"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/llic%C3%A8ncia-GPL--2.0--or--later-14284b" alt="Llicència GPL-2.0-or-later"></a>
+  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-e8a33d" alt="Windows 10 i 11">
+</p>
+
 # Compàs
 
-**Gestió lliure per a societats musicals.** Un programa per a un ordinador amb Windows que porta en un sol lloc les persones, els socis, l'escola de música, les agrupacions i els instruments d'una societat musical.
+**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions i els instruments d'una societat musical.
 
-*Gestión libre para sociedades musicales. Programa para Windows en valenciano y castellano.*
+Està pensat per a qui porta la secretaria i l'escola de música d'una banda, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de la societat.
 
-- 🖥️ **Un sol programa per a Windows**: instal·lador o versió portable. Porta PHP i la base de dades dins; no cal instal·lar res més.
-- 🔌 **Sense Internet i sense servidor**: les dades es queden a l'ordinador de la societat, en un sol fitxer.
-- 👥 **Dos comptes**: administrador/a i administratiu/va.
-- 💾 **Còpies de seguretat** automàtiques (cada dia i en tancar) i a una carpeta externa (USB o núvol).
-- 🗣️ **Valencià i castellà**.
+*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
 
-## Mòduls (v1.0)
+🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf)
+
+![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.jpg)
+
+## Contingut
+
+- [Què fa](#què-fa)
+- [Captures](#captures)
+- [Instal·lació](#installació)
+- [Primers passos](#primers-passos)
+- [Usuaris i permisos](#usuaris-i-permisos)
+- [Dades i còpies de seguretat](#dades-i-còpies-de-seguretat)
+- [Documentació](#documentació)
+- [Per a desenvolupar](#per-a-desenvolupar)
+- [Publicar una versió](#publicar-una-versió)
+- [Pròximes versions](#pròximes-versions)
+- [Col·laborar](#col·laborar)
+- [Ús d'intel·ligència artificial](#ús-dintel·ligència-artificial)
+- [Llicència](#llicència)
+
+## Què fa
 
 | Mòdul | Què fa |
 |---|---|
-| **Persones** | Registre únic de persones. Una mateixa persona pot ser sòcia, música, alumna, professora i tutora alhora sense duplicar dades. |
-| **Socis** | Número, tipus, altes i baixes. |
-| **Escola de música** | Cursos acadèmics i períodes, assignatures, aules, grups amb horari, matrícules, alumnat, professorat i tutors legals. |
-| **Assistència i qualificacions** | Administració registra les faltes i les notes que passa el professorat. |
-| **Butlletins** | Butlletins de notes per a imprimir o guardar en PDF, amb el logotip de la societat. |
-| **Agrupacions** | Banda, coral, orquestra… amb membres, instrument o veu i direcció. |
-| **Instruments** | Inventari, manteniments i cessions amb control de devolucions vençudes. |
-| **Administració** | Usuaris, configuració i logotip, registre d'activitat, còpies de seguretat i restauració. |
+| **Persones** | Registre únic: cada persona s'introdueix una sola vegada i pot ser sòcia, música, alumna, professora i tutora alhora sense duplicar dades. Nom, cognoms i data de naixement són obligatoris; DNI i telèfon, només per als majors d'edat. Quan un menor fa 18 anys sense eixes dades, la seua fila es marca en groc. |
+| **Socis** | Número, tipus (ordinari, protector, d'honor, juvenil), altes i baixes. Llistats exportables a CSV per a etiquetes o circulars. |
+| **Escola de música** | Cursos acadèmics i avaluacions, assignatures, aules, professorat, grups amb horari, matrícules i tutors legals. Historial de cada alumne curs a curs. |
+| **Assistència** | Passar llista per grup i data: tots presents per defecte, només cal marcar faltes, faltes justificades i retards. |
+| **Qualificacions** | Administració introdueix les notes que passa el professorat, per grup i avaluació, amb observacions acadèmiques. |
+| **Butlletins** | Butlletins de notes en A4 amb el logotip i les dades de la societat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
+| **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
+| **Agrupacions** | Banda, banda juvenil, coral, orquestra, cambra… amb els membres, l'instrument o veu i la funció (direcció titular, assistent…). |
+| **Instruments** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
+| **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat. |
 
-Pròximament: gestió econòmica (quotes, rebuts, remeses), loteria, comunicacions, calendari i documents.
+Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
 
-## Descàrrega i instal·lació
+## Captures
 
-Baixa l'última versió des de **[Releases](../../releases)**:
+| | |
+|---|---|
+| ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.jpg) | ![Passar llista](docs/imatges/ca/26-assistencia.jpg) |
+| La fitxa d'un alumne: grups, horari, faltes, notes i tutors legals. | Passar llista: només cal marcar qui falta. |
+| ![Butlletí de notes](docs/imatges/ca/29-butlleti-impres.jpg) | ![Còpies de seguretat](docs/imatges/ca/34-copies.jpg) |
+| Un butlletí de notes preparat per a imprimir. | Les còpies de seguretat: automàtiques, manuals i externes. |
 
-- `Compas-X.Y.Z-installador.exe` — instal·lador (no necessita permisos d'administrador).
-- `Compas-X.Y.Z-portable.zip` — sense instal·lar: descomprimeix i obri `Compas.exe`.
+Hi ha més de 40 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md).
 
-Guies: [instal·lació](docs/guia-installacio.md) · [instalación](docs/guia-instalacion.md)
-Manuals: [manual d'usuari](docs/manual-usuari.md) · [manual de usuario](docs/manual-usuario.md) · En PDF: [manual d'usuari](docs/pdf/manual-usuari.pdf) · [manual de usuario](docs/pdf/manual-usuario.pdf) · [guia d'instal·lació](docs/pdf/guia-installacio.pdf) · [guía de instalación](docs/pdf/guia-instalacion.pdf)
-Web: [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/)
-Detalls tècnics: [arquitectura](docs/arquitectura.md)
+## Instal·lació
 
-## Tecnologia
+**Requisits:** Windows 10 o 11 de 64 bits i uns 100 MB de disc. No cal Internet, ni servidor, ni instal·lar PHP o bases de dades: tot va dins.
 
-- PHP 8 sense dependències externes, servit pel servidor integrat de PHP.
-- SQLite (a través de PDO; preparat per a passar a MariaDB/MySQL si cal).
-- HTML, CSS i JavaScript propis.
-- Llançador per a Windows en C# (.NET Framework 4, inclòs en Windows).
-- L'instal·lador i el zip es construeixen amb GitHub Actions en pujar una etiqueta `v*` (en minúscula).
+1. Baixa l'[última versió](../../releases/latest):
+   - **`Compas-X.Y.Z-installador.exe`**: l'instal·lador recomanat. No demana permisos d'administrador; s'instal·la a `%LOCALAPPDATA%\Programs\Compas` i crea l'accés al menú Inici i a l'escriptori.
+   - **`Compas-X.Y.Z-portable.zip`**: la mateixa versió sense instal·lar. Descomprimeix-la on vulgues (també en un llapis USB) i obri `Compas.exe`.
+2. El programa no està signat digitalment: Windows SmartScreen pot avisar. Prem **Més informació → Executa igualment**.
+3. Obri **Compàs**. S'obri una finestra menuda i el navegador amb el programa. Mentre la finestra estiga oberta, Compàs funciona; en tancar-la, fa una còpia de seguretat i s'atura.
 
-Per a provar-lo sense Windows, amb PHP 8.1 o posterior:
+**Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
+
+Més detalls i solució de problemes a la [guia d'instal·lació](docs/guia-installacio.md).
+
+## Primers passos
+
+La primera vegada, Compàs demana el nom de la societat i crea el compte d'administrador (i, si vols, el d'administratiu). També pot carregar **dades d'exemple** per a provar-lo.
+
+Ordre recomanat per a començar:
+
+1. **Configuració**: dades de la societat i logotip (ix als butlletins).
+2. **Còpies de seguretat**: tria una carpeta externa (USB o núvol).
+3. **Cursos acadèmics**: crea el curs, marca'l com a actual i afig-hi les avaluacions.
+4. **Assignatures**, **aules**, **professorat** i **grups** amb el seu horari.
+5. **Persones** i, des de la fitxa de cadascuna, les seues funcions: soci, alumne, músic…
+6. **Matrícules**: inscriu cada alumne en el curs i en els seus grups.
+
+El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb captures: alta d'alumnes, socis, músics i professorat, matrícules, baixes, assistència, notes, butlletins, préstecs d'instruments i còpies.
+
+## Usuaris i permisos
+
+| Compte | Pot fer |
+|---|---|
+| **Administrador/a** | Tot, incloent-hi usuaris, configuració, registre d'activitat i restauració de còpies. |
+| **Administratiu/va** | Tota la gestió diària (persones, socis, escola, notes, butlletins, agrupacions, instruments) i fer còpies. |
+
+Les contrasenyes es guarden xifrades, hi ha un bloqueig temporal després de cinc intents fallits i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
+
+## Dades i còpies de seguretat
+
+- Totes les dades estan en un sol fitxer: `data\compas.db`, dins de la carpeta del programa.
+- Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora.
+- **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es conserven les 30 últimes (configurable).
+- **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
+- **Restaurar** una còpia es fa amb un clic. Abans, Compàs guarda una còpia de les dades actuals, de manera que sempre es pot tornar arrere.
+- Res no s'elimina si té historial: les baixes es marquen amb estat i data de baixa.
+
+> Les dades contenen informació personal, també de menors. La societat és la responsable de tractar-les d'acord amb la normativa de protecció de dades.
+
+## Documentació
+
+| Document | Valencià | Castellano |
+|---|---|---|
+| Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](docs/pdf/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](docs/pdf/manual-usuario.pdf) |
+| Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](docs/pdf/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](docs/pdf/guia-instalacion.pdf) |
+| Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
+
+El manual també es pot consultar dins del programa, al menú **Ajuda**.
+
+## Per a desenvolupar
+
+### Tecnologia
+
+- **PHP 8** sense dependències ni frameworks, servit pel servidor integrat de PHP.
+- **SQLite** a través de PDO, amb consultes preparades (preparat per a passar a MariaDB/MySQL si calguera).
+- **HTML, CSS i JavaScript** propis, sense biblioteques externes.
+- **Llançador per a Windows** en C# (.NET Framework 4, inclòs en Windows), compilat amb el `csc.exe` del sistema.
+- **Instal·lador** amb Inno Setup; **PHP portable** baixat de windows.php.net en cada construcció.
+
+### Estructura
+
+```
+app/          punt d'entrada (index.php) i recursos web (CSS, JS, icones)
+src/          lògica: base de dades, permisos, entitats, pantalles i traduccions
+  lang/       textos en valencià (ca.php) i castellà (es.php)
+  pages/      pantalles específiques (inici, escola, butlletins, còpies…)
+launcher/     llançador de Windows (Compas.cs), php.ini i script de l'instal·lador
+docs/         manuals, guies, captures (imatges/) i PDF (pdf/)
+eines/        generació de captures, PDF i web
+.github/      construcció de l'instal·lador (publica.yml) i de la web (web.yml)
+```
+
+La majoria de pantalles es generen a partir de la definició declarativa de `src/entitats.php` (camps, relacions i validacions). Per a afegir una entitat senzilla: crea la taula a `src/schema.sql`, defineix-la a `src/entitats.php`, afig-la al menú (`src/disseny.php`) i posa'n els textos a `src/lang/`. Més detalls a [arquitectura](docs/arquitectura.md).
+
+### Executar-lo sense Windows
+
+Amb PHP 8.1 o posterior (extensions `pdo_sqlite` i `mbstring`):
 
 ```
 php -S 127.0.0.1:8740 -t app app/index.php
 ```
 
+i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta que indique la variable d'entorn `COMPAS_DADES`.
+
+### Eines
+
+| Ordre | Què fa |
+|---|---|
+| `python3 eines/captures.py` | Torna a fer totes les captures dels manuals (`docs/imatges/ca` i `es`) recorrent cada procés amb dades d'exemple. Requereix Pillow i Playwright. |
+| `php eines/document-html.php docs/manual-usuari.md eixida.html` | Prepara un manual com a pàgina A4 amb portada; després s'imprimeix en PDF amb Chrome o Edge. |
+| `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
+
+## Publicar una versió
+
+1. Actualitza `COMPAS_VERSIO` a `src/bootstrap.php`.
+2. Puja els canvis i crea una etiqueta en minúscula:
+```
+   git tag v1.2.0
+   git push origin v1.2.0
+```
+3. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable, i ho publica tot en una *release*.
+
+La web es torna a publicar sola amb cada canvi a `main` (`web.yml`).
+
+Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correccions i `v1.1.0` per a funcionalitats noves.
+
+## Pròximes versions
+
+- Gestió econòmica: quotes, rebuts, remeses bancàries, ingressos i despeses.
+- Loteria: talonaris, participacions i liquidacions.
+- Calendari d'assajos, concerts i activitats; convocatòries i repertori de les agrupacions.
+- Comunicacions i avisos.
+- Documents adjunts (autoritzacions, contractes de cessió…).
+
+## Col·laborar
+
+Has trobat una errada o tens una proposta? Obri una [incidència](../../issues) explicant què volies fer, què ha passat i, si pots, una captura. Les propostes de millora per a la gestió real de les societats musicals són especialment benvingudes.
+
 ## Ús d'intel·ligència artificial
 
-Aquest projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial (Claude, d'Anthropic), que ha generat bona part del codi i de la documentació a partir de les especificacions i les revisions del projecte. Si hi trobes errades, obri una *issue*.
+Aquest projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial (Claude, d'Anthropic), que ha generat bona part del codi i de la documentació a partir de les especificacions i les revisions del projecte.
 
 ## Llicència
 
-Compàs és programari lliure distribuït sota la llicència **GNU General Public License v2 o posterior (GPL-2.0-or-later)**. Pots utilitzar-lo, estudiar-lo, modificar-lo i redistribuir-lo d'acord amb els termes de la llicència. Consulta [LICENSE](LICENSE).
+Compàs és programari lliure distribuït sota la llicència **GNU General Public License v2 o posterior (GPL-2.0-or-later)**. El pots utilitzar, estudiar, modificar i redistribuir d'acord amb els termes de la llicència. Consulta [LICENSE](LICENSE).
 
-Les versions per a Windows inclouen PHP, distribuït sota la [PHP License](https://www.php.net/license/), i SQLite, de domini públic.
+Les versions per a Windows inclouen [PHP](https://www.php.net/license/), distribuït sota la PHP License, i [SQLite](https://www.sqlite.org/copyright.html), de domini públic.
