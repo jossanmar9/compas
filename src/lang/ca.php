@@ -376,4 +376,13 @@ return [
     // Documents en PDF
     'ajuda.pdf_manual' => 'Manual en PDF',
     'ajuda.pdf_guia' => 'Guia d\'instal·lació en PDF',
+
+    // Dades obligatòries de les persones
+    'ajuda.major_edat' => 'DNI i telèfon són obligatoris per a les persones majors d\'edat.',
+    'persona.falten' => 'Falten dades obligatòries: %s.',
+    'err.naixement_futur' => 'La data de naixement no pot ser posterior a hui.',
+    'err.major_edat' => 'Aquesta persona és major d\'edat: cal indicar %s.',
+    'avis_llista.persones' => 'Persones a qui falten dades obligatòries: %d. Per exemple, han fet 18 anys i no tenen DNI o telèfon. Estan marcades en groc.',
+    'avis_llista.veure' => 'Mostra-les',
+    'filtre.incomplets' => 'Falten dades obligatòries',
 ];

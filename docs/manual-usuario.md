@@ -161,13 +161,35 @@ El menú **Horario** muestra todas las clases de la semana. Puedes filtrar por p
 > **Una persona se introduce una sola vez.** Ser alumno, socio, músico, profesor o tutor legal son *funciones* que se añaden a su ficha. Antes de crear una, **búscala** en el listado por si ya existe.
 
 1. Menú **Personas → + Nuevo**.
-2. Rellena el **nombre** (obligatorio) y el resto de datos que tengas: apellidos, fecha de nacimiento, DNI, teléfono, correo, dirección…
+2. Rellena los datos obligatorios y el resto que tengas (correo, dirección…):
+
+| Dato | Obligatorio |
+|---|---|
+| Nombre, apellidos y fecha de nacimiento | Siempre |
+| DNI/NIE y teléfono | Solo si la persona es **mayor de edad** (18 años o más) |
+
 3. Deja marcado **Activo**.
 4. Pulsa **Guardar**.
+
+Al poner una fecha de nacimiento de mayor de edad, los campos DNI y teléfono pasan a ser obligatorios y aparece el asterisco al lado.
 
 ![Formulario de persona nueva](imatges/es/05-persona-nova.jpg)
 
 Se abre la **ficha de la persona**, con un apartado para cada función: Socios, Alumnado, Profesorado, Músicos y miembros, Tutores legales (cuando es tutor de alguien) y Cesiones.
+
+### Cuando un alumno menor cumple 18 años
+
+De los menores no hace falta tener el DNI ni el teléfono. Cuando una persona cumple 18 años y no tiene esos datos, Compàs lo avisa:
+
+- Arriba del listado de **Personas** aparece un **aviso amarillo** con el número de personas a las que les faltan datos.
+- Su fila se marca **en amarillo** con el símbolo ⚠. Si pasas el ratón por encima, dice qué datos faltan.
+- En su ficha también aparece el aviso, con un enlace para editarla.
+
+![Aviso de personas con datos que faltan](imatges/es/04-persones-llista.jpg)
+
+Pulsa **Mostrarlas** (o elige el filtro **Faltan datos obligatorios**) para ver solo esas personas. Abre cada una, pulsa **Editar**, completa el DNI y el teléfono y guarda. El aviso desaparece cuando ya no falta ninguno.
+
+![Personas con datos que faltan](imatges/es/04b-persones-avis.jpg)
 
 ## 7. Alta de un alumno (paso a paso)
 
@@ -440,6 +462,8 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 ## 17. Preguntas frecuentes
 
 **He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
+
+**¿Por qué una persona aparece en amarillo?** Le faltan datos obligatorios: normalmente, ha cumplido 18 años y no tiene DNI o teléfono. Complétalos (apartado 6).
 
 **No encuentro a un alumno en el listado.** Puede estar de baja: marca **Mostrar también las bajas**.
 

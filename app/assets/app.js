@@ -34,6 +34,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // DNI i telèfon obligatoris només per a majors d'edat
+    const naix = document.querySelector('input[name="data_naixement"]');
+    const majors = document.querySelectorAll('input[data-major]');
+    if (naix && majors.length) {
+        const actualitza = () => {
+            let major = false;
+            if (naix.value) {
+                const d = new Date(naix.value + 'T00:00:00'), limit = new Date();
+                limit.setFullYear(limit.getFullYear() - 18);
+                major = d <= limit;
+            }
+            majors.forEach(i => {
+                i.required = major;
+                const marca = i.closest('.camp')?.querySelector('.obl-major');
+                if (marca) marca.hidden = !major;
+            });
+        };
+        naix.addEventListener('input', actualitza);
+        naix.addEventListener('change', actualitza);
+        actualitza();
+    }
+
     // Menú en pantalles menudes
     const boto = document.querySelector('.obre-menu');
     if (boto) boto.addEventListener('click', () => boto.closest('.lateral').classList.toggle('obert'));

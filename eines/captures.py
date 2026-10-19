@@ -179,7 +179,9 @@ async def fes_captures(l: str):
 
             # --- Persones ---
             await c.ves('?r=llista&e=persones')
-            await c.foto('04-persones-llista', 'a.boto[href*="r=edita"]', zona=None)
+            await c.foto('04-persones-llista', 'a.boto[href*="r=edita"]', '.avis.atencio', zona=None)
+            await c.ves('?r=llista&e=persones&filtre=incomplets')
+            await c.foto('04b-persones-avis', zona=None)
             await c.ves('?r=edita&e=persones')
             await c.omple({'nom': 'Alumne7', 'cognoms': 'Exemple Prova', 'data_naixement': '2016-03-14', 'document': '',
                            'telefon': '600 000 007', 'email': 'familia7@exemple.org', 'adreca': t['adreca'],
@@ -252,7 +254,7 @@ async def fes_captures(l: str):
 
             # --- Professorat ---
             await c.ves('?r=edita&e=persones')
-            await c.omple({'nom': 'Professor3', 'cognoms': 'Exemple', 'telefon': '600 000 103'})
+            await c.omple({'nom': 'Professor3', 'cognoms': 'Exemple', 'data_naixement': '1982-02-02', 'document': '00000103X', 'telefon': '600 000 103'})
             await c.desa()
             await p.locator(await c.boto_afig('professors')).first.click()
             await p.wait_for_load_state('networkidle')

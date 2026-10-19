@@ -356,4 +356,13 @@ return [
     // Documents en PDF
     'ajuda.pdf_manual' => 'Manual en PDF',
     'ajuda.pdf_guia' => 'Guía de instalación en PDF',
+
+    // Datos obligatorios de las personas
+    'ajuda.major_edat' => 'DNI y teléfono son obligatorios para las personas mayores de edad.',
+    'persona.falten' => 'Faltan datos obligatorios: %s.',
+    'err.naixement_futur' => 'La fecha de nacimiento no puede ser posterior a hoy.',
+    'err.major_edat' => 'Esta persona es mayor de edad: hay que indicar %s.',
+    'avis_llista.persones' => 'Personas a las que les faltan datos obligatorios: %d. Por ejemplo, han cumplido 18 años y no tienen DNI o teléfono. Están marcadas en amarillo.',
+    'avis_llista.veure' => 'Mostrarlas',
+    'filtre.incomplets' => 'Faltan datos obligatorios',
 ];

@@ -107,6 +107,13 @@ function pagina_llista(string $nom): void
     $cols = array_filter($e['camps'], fn($d, $c) => !empty($d['llista']) && !in_array($c, $fixats, true), ARRAY_FILTER_USE_BOTH);
 
     ob_start();
+    if (isset($e['avis_llista']) && get('filtre') === '') {
+        $n = (int)valor("SELECT COUNT(*) FROM {$e['from']} WHERE t.actiu = 1 AND {$e['avis_llista']}");
+        if ($n) {
+            echo '<div class="avis atencio">⚠ ' . h(t('avis_llista.' . $nom, $n)) . ' <a href="' . h(url('llista', ['e' => $nom, 'filtre' => 'incomplets'])) . '">'
+                . h(t('avis_llista.veure')) . '</a></div>';
+        }
+    }
     echo '<form class="barra" method="get">';
     echo '<input type="hidden" name="r" value="llista"><input type="hidden" name="e" value="' . h($nom) . '">';
     foreach ((array)($_GET['f'] ?? []) as $k => $v) {
@@ -168,12 +175,14 @@ function taula_files(array $e, array $files, array $cols): string
     $html .= '</tr></thead><tbody>';
     foreach ($files as $f) {
         $href = h(url('fitxa', ['e' => $e['nom'], 'id' => $f['id']]));
-        $html .= '<tr data-href="' . $href . '">';
+        $avis = isset($e['avis_fila']) ? $e['avis_fila']($f) : null;
+        $html .= '<tr data-href="' . $href . '"' . ($avis ? ' class="fila-avis" title="' . h($avis) . '"' : '') . '>';
         $primer = true;
         foreach ($cols as $c => $d) {
             $val = mostra_valor($d, $f[$c]);
             if ($primer) {
-                $val = '<a href="' . $href . '">' . ($val !== '' ? $val : '#' . (int)$f['id']) . '</a>';
+                $val = ($avis ? '<span class="icona-avis" aria-label="' . h($avis) . '">⚠</span> ' : '')
+                    . '<a href="' . $href . '">' . ($val !== '' ? $val : '#' . (int)$f['id']) . '</a>';
                 $primer = false;
             }
             $html .= '<td>' . $val . '</td>';
@@ -221,6 +230,9 @@ function pagina_fitxa(string $nom, int $id): void
     }
     $titol = titol_element($e, $f);
     ob_start();
+    if (isset($e['avis_fila']) && ($avis = $e['avis_fila']($f))) {
+        echo '<div class="avis atencio">⚠ ' . h($avis) . (pot($e['cap'] . '.edit') ? ' <a href="' . h(url('edita', ['e' => $nom, 'id' => $id])) . '">' . h(t('edita')) . '</a>' : '') . '</div>';
+    }
     echo '<div class="accions">';
     if (pot($e['cap'] . '.edit')) {
         echo '<a class="boto" href="' . h(url('edita', ['e' => $nom, 'id' => $id])) . '">' . h(t('edita')) . '</a>';
@@ -295,7 +307,10 @@ function camp_formulari(string $c, array $d, $v): string
 {
     $nom = h($c);
     $req = !empty($d['req']) ? ' required' : '';
-    $etq = '<label for="c_' . $nom . '">' . h(etiqueta_camp($c)) . (!empty($d['req']) ? ' <span class="obl">*</span>' : '') . '</label>';
+    // «major»: obligatori només per a majors d'edat (ho activa app.js segons la data de naixement)
+    $major = !empty($d['major']) ? ' data-major="1"' : '';
+    $etq = '<label for="c_' . $nom . '">' . h(etiqueta_camp($c)) . (!empty($d['req']) ? ' <span class="obl">*</span>' : '')
+        . ($major ? ' <span class="obl obl-major" hidden>*</span>' : '') . '</label>';
     $ajuda = isset($d['ajuda']) ? '<small>' . h($d['ajuda']) . '</small>' : '';
     switch ($d['tipus']) {
         case 'textarea':
@@ -327,7 +342,7 @@ function camp_formulari(string $c, array $d, $v): string
         default:
             $tipus = ['date' => 'date', 'time' => 'time', 'email' => 'email', 'tel' => 'tel', 'number' => 'number', 'decimal' => 'text'][$d['tipus']] ?? 'text';
             $extra = $d['tipus'] === 'decimal' ? ' inputmode="decimal"' : '';
-            $in = '<input type="' . $tipus . '" id="c_' . $nom . '" name="' . $nom . '" value="' . h($v) . '"' . $req . $extra . '>';
+            $in = '<input type="' . $tipus . '" id="c_' . $nom . '" name="' . $nom . '" value="' . h($v) . '"' . $req . $extra . $major . '>';
     }
     return '<div class="camp' . ($d['tipus'] === 'textarea' ? ' ample' : '') . '">' . $etq . $in . $ajuda . '</div>';
 }

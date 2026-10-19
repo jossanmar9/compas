@@ -157,6 +157,17 @@ fieldset.camp { border: 1px solid var(--vora); border-radius: var(--radi); paddi
 .avis { padding: 10px 14px; border-radius: var(--radi); margin-bottom: 14px; border: 1px solid transparent; }
 .avis.ok { background: var(--ok-fons); color: var(--ok); border-color: color-mix(in srgb, var(--ok) 25%, transparent); }
 .avis.error { background: var(--error-fons); color: var(--error); border-color: color-mix(in srgb, var(--error) 25%, transparent); }
+.avis.atencio { background: #fff4c2; color: #6b5300; border-color: #e9c84a; }
+.avis.atencio a { font-weight: 600; }
+.taula tbody tr.fila-avis { background: #fff6cc; }
+.taula tbody tr.fila-avis:hover { background: #ffefa8; }
+.icona-avis { color: #b8860b; cursor: help; }
+@media (prefers-color-scheme: dark) {
+    .avis.atencio { background: #3d3410; color: #f3dc85; border-color: #7a6520; }
+    .taula tbody tr.fila-avis { background: #3a3212; }
+    .taula tbody tr.fila-avis:hover { background: #4a4018; }
+    .icona-avis { color: #f3c94b; }
+}
 .avis.info { background: var(--info-fons); border-color: color-mix(in srgb, var(--or) 40%, transparent); }
 .buit { padding: 28px; text-align: center; color: var(--suau); background: var(--superficie); border: 1px dashed var(--vora); border-radius: var(--radi); }
 .buit.petit { padding: 10px; text-align: left; border: 0; background: none; }

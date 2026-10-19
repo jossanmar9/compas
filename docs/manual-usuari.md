@@ -161,13 +161,35 @@ El menú **Horari** mostra totes les classes de la setmana. Pots filtrar per pro
 > **Una persona s'introdueix una sola vegada.** Ser alumne, soci, músic, professor o tutor legal són *funcions* que s'afigen a la seua fitxa. Abans de crear-ne una, **busca-la** al llistat per si ja existeix.
 
 1. Menú **Persones → + Nou**.
-2. Omple el **nom** (obligatori) i la resta de dades que tingues: cognoms, data de naixement, DNI, telèfon, correu, adreça…
+2. Omple les dades obligatòries i la resta que tingues (correu, adreça…):
+
+| Dada | Obligatòria |
+|---|---|
+| Nom, cognoms i data de naixement | Sempre |
+| DNI/NIE i telèfon | Només si la persona és **major d'edat** (18 anys o més) |
+
 3. Deixa marcat **Actiu**.
 4. Prem **Desa**.
+
+En posar una data de naixement de major d'edat, els camps DNI i telèfon passen a ser obligatoris i apareix l'asterisc al costat.
 
 ![Formulari de persona nova](imatges/ca/05-persona-nova.jpg)
 
 S'obri la **fitxa de la persona**, amb un apartat per a cada funció: Socis, Alumnat, Professorat, Músics i membres, Tutors legals (quan és tutor d'algú) i Cessions.
+
+### Quan un alumne menor fa 18 anys
+
+Dels menors no cal tindre el DNI ni el telèfon. Quan una persona fa 18 anys i no té eixes dades, Compàs ho avisa:
+
+- Dalt del llistat de **Persones** apareix un **avís groc** amb el nombre de persones a qui falten dades.
+- La seua fila es marca **en groc** amb el símbol ⚠. Si passes el ratolí per damunt, diu quines dades falten.
+- A la seua fitxa també apareix l'avís, amb un enllaç per a editar-la.
+
+![Avís de persones amb dades que falten](imatges/ca/04-persones-llista.jpg)
+
+Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a veure només eixes persones. Obri cadascuna, prem **Edita**, completa el DNI i el telèfon i desa. L'avís desapareix quan ja no en falta cap.
+
+![Persones amb dades que falten](imatges/ca/04b-persones-avis.jpg)
 
 ## 7. Alta d'un alumne (pas a pas)
 
@@ -440,6 +462,8 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 ## 17. Preguntes freqüents
 
 **He donat d'alta una persona dues vegades. Què faig?** Si la segona no té res vinculat, obri-la i prem **Elimina**. Si ja té coses vinculades, edita-les perquè apunten a la persona bona i després elimina la repetida.
+
+**Per què una persona apareix en groc?** Li falten dades obligatòries: normalment, ha fet 18 anys i no té DNI o telèfon. Completa-les (apartat 6).
 
 **No trobe un alumne al llistat.** Pot estar de baixa: marca **Mostra també les baixes**.
 

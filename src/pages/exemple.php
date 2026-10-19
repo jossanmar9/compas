@@ -5,8 +5,17 @@
 function carrega_dades_exemple(): void
 {
     $any = (int)date('n') >= 9 ? (int)date('Y') : (int)date('Y') - 1;
-    $persona = function (string $nom, string $cognoms, ?string $naix = null) {
-        q('INSERT INTO persones(nom, cognoms, data_naixement, poblacio) VALUES(?, ?, ?, ?)', [$nom, $cognoms, $naix, idioma() === 'es' ? 'Pueblo de Ejemplo' : 'Poble d\'Exemple']);
+    // Dades inventades: els adults tenen DNI i telèfon d'exemple, excepte un (per a veure l'avís de dades que falten)
+    $comptador = 0;
+    $persona = function (string $nom, string $cognoms, ?string $naix = null, bool $complet = true) use (&$comptador) {
+        $comptador++;
+        $adult = es_major_edat($naix);
+        q('INSERT INTO persones(nom, cognoms, data_naixement, document, telefon, poblacio) VALUES(?, ?, ?, ?, ?, ?)', [
+            $nom, $cognoms, $naix,
+            $adult && $complet ? sprintf('%08dX', $comptador) : null,
+            $adult && $complet ? sprintf('600 000 %03d', $comptador) : null,
+            idioma() === 'es' ? 'Pueblo de Ejemplo' : 'Poble d\'Exemple',
+        ]);
         return (int)db()->lastInsertId();
     };
     $id = fn() => (int)db()->lastInsertId();
@@ -34,7 +43,7 @@ function carrega_dades_exemple(): void
 
     $profs = [];
     foreach ([1, 2] as $n) {
-        $p = $persona('Professora' . $n, 'Exemple');
+        $p = $persona('Professora' . $n, 'Exemple', (1975 + $n * 4) . '-05-1' . $n);
         q('INSERT INTO professors(persona_id, data_alta) VALUES(?, ?)', [$p, "$any-09-01"]);
         $profs[] = $id();
     }
@@ -57,7 +66,7 @@ function carrega_dades_exemple(): void
 
     $tutors = [];
     foreach ([1, 2, 3] as $n) {
-        $tutors[] = $persona('Tutor' . $n, 'Exemple');
+        $tutors[] = $persona('Tutor' . $n, 'Exemple', (1978 + $n * 3) . '-0' . ($n + 2) . '-2' . $n);
     }
     $alumnesPersona = [];
     foreach (range(1, 6) as $n) {
@@ -82,7 +91,7 @@ function carrega_dades_exemple(): void
     }
     $musics = [];
     foreach (range(1, 5) as $n) {
-        $p = $persona('Músic' . $n, 'Exemple');
+        $p = $persona('Músic' . $n, 'Exemple', (1985 + $n * 2) . '-1' . ($n % 3) . '-0' . $n, $n !== 5);
         $musics[] = $p;
         q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), 'ordinari', ($any - $n) . '-01-15']);
         q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], $es ? ['Trompeta', 'Clarinete', 'Saxo alto', 'Trombón', 'Percusión'][$n - 1] : ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], ($any - $n) . '-01-15']);

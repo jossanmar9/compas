@@ -8,6 +8,37 @@
 
 const NOM_PERSONA_SQL = "COALESCE(NULLIF(p.cognoms,'') || ', ', '') || p.nom";
 
+/** Edat a partir de la qual DNI i telèfon són obligatoris */
+const MAJORIA_EDAT = 18;
+
+/** Condició SQL: persona amb dades obligatòries que falten (alias t) */
+const PERSONA_INCOMPLETA_SQL = "(COALESCE(t.cognoms, '') = '' OR t.data_naixement IS NULL
+    OR (date(t.data_naixement, '+18 years') <= date('now', 'localtime') AND (COALESCE(t.document, '') = '' OR COALESCE(t.telefon, '') = '')))";
+
+function es_major_edat(?string $naixement): bool
+{
+    return $naixement !== null && $naixement !== '' && $naixement <= date('Y-m-d', strtotime('-' . MAJORIA_EDAT . ' years'));
+}
+
+/** Retorna què li falta a una persona (buit si està completa) */
+function dades_que_falten(array $p): array
+{
+    $falten = [];
+    foreach (['cognoms', 'data_naixement'] as $c) {
+        if (($p[$c] ?? '') === '' || $p[$c] === null) {
+            $falten[] = t('camp.' . $c);
+        }
+    }
+    if (es_major_edat($p['data_naixement'] ?? null)) {
+        foreach (['document', 'telefon'] as $c) {
+            if (($p[$c] ?? '') === '' || $p[$c] === null) {
+                $falten[] = t('camp.' . $c);
+            }
+        }
+    }
+    return $falten;
+}
+
 function entitats(): array
 {
     static $e = null;
@@ -30,12 +61,15 @@ function entitats(): array
             'cerca' => ['t.nom', 't.cognoms', 't.email', 't.telefon', 't.document', 't.poblacio'],
             'ordre' => 't.cognoms, t.nom',
             'etiqueta' => "SELECT p.id, " . NOM_PERSONA_SQL . " AS e FROM persones p ORDER BY e",
+            'filtres' => ['incomplets' => PERSONA_INCOMPLETA_SQL],
+            'avis_fila' => fn(array $f) => ($falten = dades_que_falten($f)) ? t('persona.falten', implode(', ', $falten)) : null,
+            'avis_llista' => PERSONA_INCOMPLETA_SQL,
             'camps' => [
                 'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
-                'cognoms' => ['tipus' => 'text', 'llista' => 1],
-                'data_naixement' => ['tipus' => 'date'],
-                'document' => ['tipus' => 'text'],
-                'telefon' => ['tipus' => 'tel', 'llista' => 1],
+                'cognoms' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'data_naixement' => ['tipus' => 'date', 'req' => 1, 'llista' => 1],
+                'document' => ['tipus' => 'text', 'major' => 1, 'ajuda' => t('ajuda.major_edat')],
+                'telefon' => ['tipus' => 'tel', 'llista' => 1, 'major' => 1],
                 'email' => ['tipus' => 'email', 'llista' => 1],
                 'adreca' => ['tipus' => 'text'],
                 'codi_postal' => ['tipus' => 'text'],
@@ -297,6 +331,18 @@ function entitats(): array
         }
     };
     $e['horaris']['valida'] = fn(array $d) => $d['hora_fi'] <= $d['hora_inici'] ? t('err.hores') : null;
+    $e['persones']['valida'] = function (array $d): ?string {
+        if ($d['data_naixement'] > date('Y-m-d')) {
+            return t('err.naixement_futur');
+        }
+        if (es_major_edat($d['data_naixement'])) {
+            $falten = array_filter(['document', 'telefon'], fn($c) => ($d[$c] ?? '') === '' || $d[$c] === null);
+            if ($falten) {
+                return t('err.major_edat', implode(', ', array_map(fn($c) => t('camp.' . $c), $falten)));
+            }
+        }
+        return null;
+    };
 
     foreach ($e as $nom => &$def) {
         $def['nom'] = $nom;
