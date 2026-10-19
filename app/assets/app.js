@@ -27,13 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Assistència: marcar-ho tot
-    document.querySelectorAll('[data-tots]').forEach(b => {
-        b.addEventListener('click', () => {
-            b.closest('form').querySelectorAll('input[type=radio][value="' + b.dataset.tots + '"]').forEach(r => r.checked = true);
-        });
-    });
-
     // DNI i telèfon obligatoris només per a majors d'edat
     const naix = document.querySelector('input[name="data_naixement"]');
     const majors = document.querySelectorAll('input[data-major]');
@@ -61,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (boto) boto.addEventListener('click', () => boto.closest('.lateral').classList.toggle('obert'));
 
     // Avís si s'abandona un formulari modificat
-    document.querySelectorAll('form.formulari, form.assistencia').forEach(f => {
+    document.querySelectorAll('form.formulari').forEach(f => {
         let canviat = false;
         f.addEventListener('input', () => canviat = true);
         f.addEventListener('submit', () => canviat = false);

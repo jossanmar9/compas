@@ -96,9 +96,6 @@ try {
         case 'horari':
             pagina_horari();
             break;
-        case 'assistencia':
-            pagina_assistencia();
-            break;
         case 'notes':
             pagina_notes();
             break;

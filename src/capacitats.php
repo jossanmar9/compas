@@ -9,7 +9,7 @@ function totes_capacitats(): array
     return [
         'persones.view', 'persones.edit',
         'socis.view', 'socis.edit',
-        'escola.view', 'escola.edit', 'escola.assistencia', 'escola.notes',
+        'escola.view', 'escola.edit', 'escola.notes',
         'agrupacions.view', 'agrupacions.edit',
         'instruments.view', 'instruments.edit',
         'copia.manage',
@@ -30,7 +30,7 @@ function rols_per_defecte(): array
 /** Crea els dos rols i n'actualitza les capacitats (també en bases de dades d'una versió anterior) */
 function sembra_rols(PDO $pdo): void
 {
-    $versio = 'rols-2';
+    $versio = 'rols-3';
     $st = $pdo->prepare('SELECT valor FROM config WHERE clau = ?');
     $st->execute(['versio_rols']);
     if ($st->fetchColumn() === $versio) {

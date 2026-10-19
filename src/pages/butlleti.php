@@ -170,7 +170,7 @@ function imprimeix_butlletins(): void
         foreach ($periodes as $pe) {
             echo '<th class="nota">' . h($pe['nom']) . '</th>';
         }
-        echo '<th class="nota">' . h(t('butlleti.faltes')) . '</th></tr></thead><tbody>';
+        echo '</tr></thead><tbody>';
         $observacions = [];
         foreach ($grups as $g) {
             echo '<tr><td>' . h($g['assignatura']) . ' <small>' . h($g['grup']) . '</small></td><td>' . h($g['professor']) . '</td>';
@@ -181,11 +181,10 @@ function imprimeix_butlletins(): void
                     $observacions[] = [$g['assignatura'], $n['observacions']];
                 }
             }
-            $f = q("SELECT SUM(estat = 'F') AS f, SUM(estat = 'FJ') AS fj FROM assistencia WHERE grup_id = ? AND alumne_id = ?", [$g['id'], $al['id']])->fetch();
-            echo '<td class="nota">' . (int)$f['f'] . ($f['fj'] ? ' <small>(+' . (int)$f['fj'] . ' ' . h(t('butlleti.just')) . ')</small>' : '') . '</td></tr>';
+            echo '</tr>';
         }
         if (!$grups) {
-            echo '<tr><td colspan="' . (count($periodes) + 3) . '">' . h(t('butlleti.sense_grups')) . '</td></tr>';
+            echo '<tr><td colspan="' . (count($periodes) + 2) . '">' . h(t('butlleti.sense_grups')) . '</td></tr>';
         }
         echo '</tbody></table>';
 

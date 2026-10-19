@@ -32,7 +32,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/capacitats.php` | Capacitats i rols per defecte. |
 | `src/entitats.php` | Definició declarativa de cada entitat: camps, relacions i validacions. |
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
-| `src/pages/*.php` | Pantalles específiques: inici, horari, assistència, qualificacions, butlletins i logotip, usuaris, configuració, auditoria, còpies, ajuda. |
+| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, usuaris, configuració, auditoria, còpies, ajuda. |
 | `src/lang/ca.php`, `es.php` | Textos en valencià i castellà. |
 | `app/assets/` | Estil, JavaScript, logotip i icona. |
 | `src/markdown.php` | Conversor de Markdown a HTML (manual dins del programa i PDF). |
@@ -46,7 +46,7 @@ Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `
 
 - **Persona** és l'entitat central. Cada persona existeix una sola vegada.
 - Les funcions són taules separades vinculades a la persona: `socis`, `alumnes`, `professors`, `membres` (d'agrupacions), `tutories` (alumne ↔ tutor legal, molts a molts), `cessions`.
-- Escola: `cursos` → `periodes`, `grups` (assignatura + curs + professor + aula) → `horaris`; `matricules` (alumne + curs) → `matricula_grups`; `assistencia` (grup + alumne + data); `qualificacions` (grup + alumne + període).
+- Escola: `cursos` → `periodes`, `grups` (assignatura + curs + professor + aula) → `horaris`; `matricules` (alumne + curs) → `matricula_grups`; `qualificacions` (grup + alumne + període). Compàs no registra l'assistència: és un programa de gestió.
 - Inventari: `instruments` → `cessions`, `manteniments`.
 - Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
 - `auditoria` registra les operacions sensibles.

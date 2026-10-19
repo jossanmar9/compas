@@ -253,9 +253,6 @@ function pagina_fitxa(string $nom, int $id): void
 
     if ($nom === 'grups') {
         echo '<p class="accions">';
-        if (pot('escola.assistencia')) {
-            echo '<a class="boto secundari" href="' . h(url('assistencia', ['grup' => $id])) . '">' . h(t('menu.assistencia')) . '</a> ';
-        }
         if (pot('escola.notes')) {
             echo '<a class="boto secundari" href="' . h(url('notes', ['grup' => $id])) . '">' . h(t('menu.notes')) . '</a>';
         }

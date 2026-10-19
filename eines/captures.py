@@ -27,7 +27,7 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import quote
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 from playwright.async_api import async_playwright
 
 ARREL = Path(__file__).resolve().parent.parent
@@ -51,6 +51,21 @@ def port_lliure() -> int:
     with socket.socket() as s:
         s.bind(('127.0.0.1', 0))
         return s.getsockname()[1]
+
+
+def retalla_buit(im: Image.Image, marge: int = 36, menu: int = 0, alt_minim: int = 0) -> Image.Image:
+    """Lleva el fons buit de baix (i de la dreta si n'hi ha molt) perquè la captura s'ajuste al contingut.
+    menu: amplada del menú lateral, que no es té en compte en buscar on acaba el contingut."""
+    fons = im.getpixel((im.width - 2, im.height - 2))
+    zona = im.crop((menu, 0, im.width, im.height))
+    dif = ImageChops.difference(zona, Image.new('RGB', zona.size, fons)).convert('L').point(lambda v: 255 if v > 12 else 0)
+    caixa = dif.getbbox()
+    if not caixa:
+        return im
+    caixa = (caixa[0] + menu, caixa[1], caixa[2] + menu, caixa[3])
+    baix = min(im.height, max(caixa[3] + marge, alt_minim))
+    dreta = im.width if caixa[2] > im.width * 0.75 else min(im.width, caixa[2] + marge)
+    return im.crop((0, 0, dreta, baix)) if (baix < im.height - 10 or dreta < im.width - 10) else im
 
 
 def logo_exemple(desti: Path) -> None:
@@ -105,6 +120,8 @@ class Captures:
         else:
             png = await self.p.screenshot()
         im = Image.open(io.BytesIO(png)).convert('RGB')
+        # Amb el menú lateral (finestra sencera) es mira només el contingut de la dreta
+        im = retalla_buit(im) if zona else retalla_buit(im, menu=int(250 * ESCALA), alt_minim=int(420 * ESCALA))
         im.save(self.dir / f'{nom}.jpg', 'JPEG', quality=QUALITAT, optimize=True, progressive=True)
         await self.lleva_ressalt()
         print(f'  {self.l}/{nom}.jpg  {im.size[0]}x{im.size[1]}')
@@ -279,13 +296,7 @@ async def fes_captures(l: str):
             await c.ves('?r=horari')
             await c.foto('25-horari', zona=None)
 
-            # --- Assistència, notes i butlletins ---
-            await c.ves(f'?r=assistencia&grup=1&data={avui}')
-            primer = p.locator('input[type="radio"][value="F"]').first
-            await primer.check()
-            await p.locator('input[name^="obs["]').first.fill('Avisa la família' if l == 'ca' else 'Avisa la familia')
-            await c.foto('26-assistencia', 'button[data-tots]', 'form.assistencia div.accions button')
-            await c.desa()
+            # --- Notes i butlletins ---
             await c.ves('?r=notes&grup=1')
             notes = p.locator('input.nota')
             for i in range(await notes.count()):
@@ -330,7 +341,7 @@ async def fes_captures(l: str):
             await p.set_viewport_size({'width': AMPLE, 'height': 2400})
             caixa = await p.locator('section.fill:has(input[name="copia_externa"])').bounding_box()
             png = await p.screenshot(clip=caixa)
-            Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / '35-copies-carpeta.jpg', 'JPEG', quality=QUALITAT, optimize=True)
+            retalla_buit(Image.open(io.BytesIO(png)).convert('RGB')).save(c.dir / '35-copies-carpeta.jpg', 'JPEG', quality=QUALITAT, optimize=True)
             print(f'  {l}/35-copies-carpeta.jpg')
             await c.lleva_ressalt()
             caixa = await p.locator('table.taula').first.bounding_box()

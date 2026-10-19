@@ -11,7 +11,7 @@ $eixida = rtrim($argv[1] ?? $arrel . '/_site', '/');
 $repo = 'https://github.com/jossanmar9/compas';
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
-$captures = ['02-inici', '14-alumne-resum', '26-assistencia', '29-butlleti-impres', '25-horari', '19-agrupacio-fitxa', '34-copies'];
+$captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '19-agrupacio-fitxa', '34-copies'];
 
 $T = [
     'ca' => [
@@ -31,7 +31,7 @@ $T = [
             ['Persones', 'Cada persona s\'introdueix una sola vegada. Pot ser sòcia, música, alumna, professora i mare d\'un alumne alhora, sense repetir dades.'],
             ['Socis', 'Número, tipus, altes i baixes. Llistats que s\'exporten a Excel per a fer etiquetes o circulars.'],
             ['Escola de música', 'Cursos, assignatures, aules, grups amb horari, matrícules i tutors legals de l\'alumnat menor.'],
-            ['Assistència i notes', 'Es passa llista en uns segons i s\'introdueixen les qualificacions que passa el professorat.'],
+            ['Qualificacions', 'El professorat passa les notes i administració les introdueix per grup i avaluació, amb les observacions.'],
             ['Butlletins', 'Butlletins de notes amb el logotip de la societat, per a imprimir o guardar en PDF. Tots alhora o d\'un en un.'],
             ['Agrupacions', 'Banda, banda juvenil, coral, orquestra… Qui toca què i qui dirigeix cada formació.'],
             ['Instruments', 'Inventari, reparacions i préstecs, amb avís quan una devolució s\'ha passat de data.'],
@@ -41,8 +41,8 @@ $T = [
         'veure_intro' => 'Captures reals del programa amb dades d\'exemple.',
         'captures' => [
             '02-inici' => 'La pantalla d\'inici: el resum de la societat, les classes de hui i els avisos.',
-            '14-alumne-resum' => 'La fitxa d\'un alumne: grups, horari, faltes, notes i tutors legals.',
-            '26-assistencia' => 'Passar llista: tots presents per defecte, només cal marcar qui falta.',
+            '14-alumne-resum' => 'La fitxa d\'un alumne: grups, horari, notes i tutors legals.',
+            '27-qualificacions' => 'Les notes d\'un grup i una avaluació, amb les observacions del professor.',
             '29-butlleti-impres' => 'Un butlletí de notes preparat per a imprimir, amb el logotip de la societat.',
             '25-horari' => 'L\'horari de tota l\'escola, que es pot filtrar per professor o per aula.',
             '19-agrupacio-fitxa' => 'Els membres d\'una agrupació, amb l\'instrument i la funció de cadascú.',
@@ -89,7 +89,7 @@ $T = [
             ['Personas', 'Cada persona se introduce una sola vez. Puede ser socia, música, alumna, profesora y madre de un alumno a la vez, sin repetir datos.'],
             ['Socios', 'Número, tipo, altas y bajas. Listados que se exportan a Excel para hacer etiquetas o circulares.'],
             ['Escuela de música', 'Cursos, asignaturas, aulas, grupos con horario, matrículas y tutores legales del alumnado menor.'],
-            ['Asistencia y notas', 'Se pasa lista en unos segundos y se introducen las calificaciones que pasa el profesorado.'],
+            ['Calificaciones', 'El profesorado pasa las notas y administración las introduce por grupo y evaluación, con las observaciones.'],
             ['Boletines', 'Boletines de notas con el logotipo de la sociedad, para imprimir o guardar en PDF. Todos a la vez o de uno en uno.'],
             ['Agrupaciones', 'Banda, banda juvenil, coral, orquesta… Quién toca qué y quién dirige cada formación.'],
             ['Instrumentos', 'Inventario, reparaciones y préstamos, con aviso cuando una devolución se ha pasado de fecha.'],
@@ -99,8 +99,8 @@ $T = [
         'veure_intro' => 'Capturas reales del programa con datos de ejemplo.',
         'captures' => [
             '02-inici' => 'La pantalla de inicio: el resumen de la sociedad, las clases de hoy y los avisos.',
-            '14-alumne-resum' => 'La ficha de un alumno: grupos, horario, faltas, notas y tutores legales.',
-            '26-assistencia' => 'Pasar lista: todos presentes por defecto, solo hay que marcar quién falta.',
+            '14-alumne-resum' => 'La ficha de un alumno: grupos, horario, notas y tutores legales.',
+            '27-qualificacions' => 'Las notas de un grupo y una evaluación, con las observaciones del profesor.',
             '29-butlleti-impres' => 'Un boletín de notas preparado para imprimir, con el logotipo de la sociedad.',
             '25-horari' => 'El horario de toda la escuela, que se puede filtrar por profesor o por aula.',
             '19-agrupacio-fitxa' => 'Los miembros de una agrupación, con el instrumento y la función de cada uno.',

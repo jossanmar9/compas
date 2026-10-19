@@ -1,8 +1,6 @@
 <?php
-// Escola: registre d'assistència i qualificacions
+// Escola: introducció de qualificacions
 // SPDX-License-Identifier: GPL-2.0-or-later
-
-const ESTATS_ASSISTENCIA = ['P', 'F', 'FJ', 'R'];
 
 /** Grups actius del curs actual */
 function grups_permesos(): array
@@ -43,92 +41,6 @@ function sense_grups(): string
         return '<div class="buit">' . h(t('inici.sense_curs')) . '</div>';
     }
     return '<div class="buit">' . h(t('escola.sense_grups')) . '</div>';
-}
-
-function pagina_assistencia(): void
-{
-    requereix('escola.assistencia');
-    $grups = grups_permesos();
-    $grup = (int)get('grup', '0');
-    $data = (string)get('data', date('Y-m-d'));
-    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data)) {
-        $data = date('Y-m-d');
-    }
-    if ($grup && !pot_grup($grup)) {
-        requereix('__cap__');
-    }
-    if (!$grups && !$grup) {
-        pagina(t('menu.assistencia'), sense_grups());
-        return;
-    }
-    if (!isset($grups[$grup]) && $grup) {
-        $grups[$grup] = opcions_ref('grups')[$grup] ?? '#' . $grup;
-    }
-
-    if ($grup && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $estats = (array)($_POST['estat'] ?? []);
-        $obs = (array)($_POST['obs'] ?? []);
-        db()->beginTransaction();
-        foreach (alumnes_grup($grup) as $al) {
-            $e = $estats[$al['id']] ?? 'P';
-            if (!in_array($e, ESTATS_ASSISTENCIA, true)) {
-                $e = 'P';
-            }
-            $o = trim((string)($obs[$al['id']] ?? '')) ?: null;
-            q('INSERT INTO assistencia(grup_id, alumne_id, data, estat, observacions) VALUES(?,?,?,?,?)
-               ON CONFLICT(grup_id, alumne_id, data) DO UPDATE SET estat = excluded.estat, observacions = excluded.observacions', [$grup, $al['id'], $data, $e, $o]);
-        }
-        db()->commit();
-        audita('assistencia', 'grups', $grup, $data);
-        avis(t('desat'));
-        redirigeix('assistencia', ['grup' => $grup, 'data' => $data]);
-    }
-
-    $html = selector_grup('assistencia', $grups, $grup, ['<input type="date" name="data" value="' . h($data) . '" onchange="this.form.submit()">']);
-    if (!$grup) {
-        pagina(t('menu.assistencia'), $html . '<p class="buit petit">' . h(t('tria_grup')) . '</p>');
-        return;
-    }
-    $alumnes = alumnes_grup($grup);
-    $fet = q('SELECT alumne_id, estat, observacions FROM assistencia WHERE grup_id = ? AND data = ?', [$grup, $data])->fetchAll();
-    $fet = array_column($fet, null, 'alumne_id');
-    $dia = (int)date('N', strtotime($data));
-    if (!valor('SELECT 1 FROM horaris WHERE grup_id = ? AND dia = ?', [$grup, $dia])) {
-        $html .= '<div class="avis info">' . h(t('assist.no_toca', t('dia.' . $dia))) . '</div>';
-    }
-    if (!$alumnes) {
-        $html .= '<div class="buit">' . h(t('escola.grup_buit')) . '</div>';
-    } else {
-        $html .= '<form method="post" class="assistencia">' . csrf_camp();
-        $html .= '<p class="accions"><button type="button" class="secundari" data-tots="P">' . h(t('assist.tots_presents')) . '</button>'
-            . ($fet ? ' <span class="etiqueta ok">' . h(t('assist.ja_registrada')) . '</span>' : ' <span class="etiqueta">' . h(t('assist.pendent')) . '</span>') . '</p>';
-        $html .= '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . h(t('ent1.alumnes')) . '</th>';
-        foreach (ESTATS_ASSISTENCIA as $e) {
-            $html .= '<th class="centre" title="' . h(t('assist.' . $e)) . '">' . h($e) . '</th>';
-        }
-        $html .= '<th>' . h(t('camp.observacions')) . '</th></tr></thead><tbody>';
-        foreach ($alumnes as $al) {
-            $actual = $fet[$al['id']]['estat'] ?? 'P';
-            $html .= '<tr><td>' . h($al['nom']) . '</td>';
-            foreach (ESTATS_ASSISTENCIA as $e) {
-                $html .= '<td class="centre"><input type="radio" name="estat[' . (int)$al['id'] . ']" value="' . $e . '" aria-label="' . h(t('assist.' . $e)) . '"' . ($actual === $e ? ' checked' : '') . '></td>';
-            }
-            $html .= '<td><input name="obs[' . (int)$al['id'] . ']" value="' . h($fet[$al['id']]['observacions'] ?? '') . '"></td></tr>';
-        }
-        $html .= '</tbody></table></div><p class="peu-taula">' . h(t('assist.llegenda')) . '</p><div class="accions"><button>' . h(t('desa')) . '</button></div></form>';
-    }
-
-    // Resum del grup
-    $dates = q('SELECT data, SUM(estat = \'F\') AS f, SUM(estat = \'FJ\') AS fj, SUM(estat = \'R\') AS r FROM assistencia WHERE grup_id = ? GROUP BY data ORDER BY data DESC LIMIT 30', [$grup])->fetchAll();
-    if ($dates) {
-        $html .= '<section class="fill"><header><h2>' . h(t('assist.historial')) . '</h2></header><ul class="llista-simple columnes">';
-        foreach ($dates as $d) {
-            $html .= '<li><a href="' . h(url('assistencia', ['grup' => $grup, 'data' => $d['data']])) . '">' . h(data_llegible($d['data'])) . '</a> <span class="etiqueta">F '
-                . (int)$d['f'] . ' · FJ ' . (int)$d['fj'] . ' · R ' . (int)$d['r'] . '</span></li>';
-        }
-        $html .= '</ul></section>';
-    }
-    pagina(t('menu.assistencia'), $html, $grups[$grup] ?? '');
 }
 
 function pagina_notes(): void

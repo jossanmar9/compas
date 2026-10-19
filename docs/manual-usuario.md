@@ -7,7 +7,7 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 | Cuenta | Qué puede hacer |
 |---|---|
 | **Administrador/a** | Todo. También gestionar usuarios, la configuración, el registro de actividad y restaurar copias. |
-| **Administrativo/a** | La gestión diaria: personas, socios, escuela, faltas, notas, boletines, agrupaciones, instrumentos y hacer copias. |
+| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos y hacer copias. |
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
@@ -26,7 +26,7 @@ Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el i
 
 ![Pantalla de entrada](imatges/es/00-entrada.jpg)
 
-Si olvidas la contraseña, el administrador te puede poner una nueva (ver el apartado 15).
+Si olvidas la contraseña, el administrador te puede poner una nueva (ver el apartado 14).
 
 ### La primera vez: configuración inicial
 
@@ -109,7 +109,7 @@ Antes de matricular hay que tener el curso preparado. Orden recomendado: **curso
 
 1. Menú **Cursos académicos → + Nuevo**.
 2. Nombre (por ejemplo `2026/2027`), fecha de inicio y de finalización.
-3. Marca **Curso actual**. Solo puede haber uno; es el que se usa en la asistencia, las notas y los boletines.
+3. Marca **Curso actual**. Solo puede haber uno; es el que se usa en las notas y los boletines.
 4. Pulsa **Guardar**. Se abre la ficha del curso.
 5. En el apartado **Periodos de evaluación**, pulsa **+ Añadir** y crea uno para cada evaluación (`1.er trimestre`, `2.º trimestre`, `3.er trimestre`), con el orden 1, 2, 3.
 
@@ -148,7 +148,7 @@ Un **grupo** es una asignatura impartida en un curso por un profesor: por ejempl
 
 ![Ficha del grupo con el horario](imatges/es/24-grup-fitxa.jpg)
 
-Desde la ficha del grupo también puedes ir directamente a la **Asistencia** y a las **Calificaciones** del grupo.
+Desde la ficha del grupo también puedes ir directamente a las **Calificaciones** del grupo.
 
 ### 5.5 Horario general
 
@@ -249,7 +249,7 @@ Se abre la ficha de la matrícula.
 
 ### Resultado
 
-La ficha del alumno muestra el resumen del curso: grupos, profesores, horario, faltas y notas de cada evaluación, el botón para **imprimir su boletín**, los tutores legales y las matrículas de todos los cursos.
+La ficha del alumno muestra el resumen del curso: grupos, profesores, horario y notas de cada evaluación, el botón para **imprimir su boletín**, los tutores legales y las matrículas de todos los cursos.
 
 ![Ficha del alumno con el resumen del curso](imatges/es/14-alumne-resum.jpg)
 
@@ -312,18 +312,7 @@ Menú **Agrupaciones** → abre la agrupación. Muestra todos sus miembros con e
 
 Para crear una agrupación nueva: menú **Agrupaciones → + Nuevo**.
 
-## 10. Asistencia
-
-1. Menú **Asistencia**.
-2. Elige el **grupo** y la **fecha** (por defecto, hoy).
-3. Todos aparecen como presentes (**P**). Marca solo los que faltan: **F** falta, **FJ** falta justificada, **R** retraso. Puedes añadir una observación.
-4. Pulsa **Guardar**.
-
-![Pasar lista](imatges/es/26-assistencia.jpg)
-
-Si vuelves a abrir el mismo grupo y día, verás lo que se guardó y podrás corregirlo. Debajo está la lista de días registrados. El botón **Todos presentes** vuelve a marcar a todos como presentes.
-
-## 11. Calificaciones
+## 10. Calificaciones
 
 El profesorado pasa las notas a administración y administración las introduce.
 
@@ -337,7 +326,7 @@ El profesorado pasa las notas a administración y administración las introduce.
 
 Para borrar una nota, deja en blanco la nota y las observaciones y guarda.
 
-## 12. Boletines de notas
+## 11. Boletines de notas
 
 1. Menú **Boletines** (o el botón **Boletines** de la página de calificaciones, o **Imprimir el boletín** de la ficha de un alumno).
 2. Elige la **evaluación**. El boletín muestra las notas de esta evaluación y de las anteriores.
@@ -353,7 +342,7 @@ Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir el bolet
 
 > Para guardarlos en PDF (para enviarlos por correo), elige **Microsoft Print to PDF** como impresora.
 
-## 13. Instrumentos y cesiones
+## 12. Instrumentos y cesiones
 
 ### Alta de un instrumento
 
@@ -389,7 +378,7 @@ Menú **Cesiones**. Con el filtro puedes ver las **cesiones activas** o solo las
 
 ![Listado de cesiones](imatges/es/33-cessions-llista.jpg)
 
-## 14. Copias de seguridad
+## 13. Copias de seguridad
 
 Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 
@@ -429,7 +418,7 @@ Para restaurar una copia guardada fuera (por ejemplo, desde el USB), usa **Resta
 
 > Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro.
 
-## 15. Usuarios y contraseñas
+## 14. Usuarios y contraseñas
 
 ### Cambiar tu contraseña
 
@@ -453,13 +442,13 @@ Siempre debe quedar al menos un administrador activo.
 
 Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
 
-## 16. Ayuda
+## 15. Ayuda
 
 El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF.
 
 ![Ayuda](imatges/es/39-ajuda.jpg)
 
-## 17. Preguntas frecuentes
+## 16. Preguntas frecuentes
 
 **He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
 
@@ -469,7 +458,7 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **No me deja eliminar algo.** Tiene historial relacionado. Ponlo de baja o como inactivo (apartado 3).
 
-**El alumno no aparece en la asistencia ni en las notas del grupo.** Comprueba que tiene matrícula en el curso actual, en estado Activo, y que está inscrito en ese grupo (apartado 7, paso 5).
+**El alumno no aparece en las notas del grupo.** Comprueba que tiene matrícula en el curso actual, en estado Activo, y que está inscrito en ese grupo (apartado 7, paso 5).
 
 **El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
 

@@ -42,7 +42,6 @@ return [
     'menu.inici' => 'Inici',
     'menu.escola' => 'Escola de música',
     'menu.horari' => 'Horari',
-    'menu.assistencia' => 'Assistència',
     'menu.notes' => 'Qualificacions',
     'menu.agrupacions' => 'Agrupacions',
     'menu.instruments' => 'Instruments',
@@ -204,16 +203,6 @@ return [
     // Escola
     'escola.sense_grups' => 'No hi ha grups actius en el curs actual.',
     'escola.grup_buit' => 'Aquest grup no té alumnat matriculat.',
-    'assist.P' => 'Present',
-    'assist.F' => 'Falta',
-    'assist.FJ' => 'Falta justificada',
-    'assist.R' => 'Retard',
-    'assist.llegenda' => 'P: present · F: falta · FJ: falta justificada · R: retard',
-    'assist.tots_presents' => 'Tots presents',
-    'assist.ja_registrada' => 'Ja s\'havia passat llista',
-    'assist.pendent' => 'Encara no s\'ha passat llista',
-    'assist.no_toca' => 'Atenció: aquest grup no té classe els %s segons l\'horari.',
-    'assist.historial' => 'Dies registrats',
     'notes.sense_periodes' => 'El curs d\'aquest grup no té períodes d\'avaluació.',
     'notes.crea_periode' => 'Crea\'n un',
     'notes.observacions' => 'Observacions acadèmiques',
@@ -243,7 +232,6 @@ return [
     'audit.modifica' => 'Modifica',
     'audit.elimina' => 'Elimina',
     'audit.exporta' => 'Exporta',
-    'audit.assistencia' => 'Passa llista',
     'audit.qualificacions' => 'Qualificacions',
     'audit.canvi_contrasenya' => 'Canvi de contrasenya',
     'audit.copia_baixada' => 'Baixa còpia',
@@ -301,8 +289,6 @@ return [
     // Resum de l'alumne
     'resum.titol' => 'Curs %s',
     'resum.sense_matricula' => 'No hi ha matrícula per al curs %s.',
-    'resum.faltes' => 'Faltes / Just. / Retards',
-    'resum.llegenda_faltes' => 'Faltes sense justificar / faltes justificades / retards. Passa el ratolí per damunt de 💬 per a veure les observacions.',
 
     // Butlletins
     'menu.butlletins' => 'Butlletins',
@@ -322,8 +308,6 @@ return [
     'butlleti.sense_alumnes' => 'No hi ha alumnat matriculat en aquest curs.',
     'butlleti.sense_grups' => 'Sense assignatures.',
     'butlleti.sense_logo' => 'Pots afegir el logotip de la societat als butlletins des de',
-    'butlleti.faltes' => 'Faltes',
-    'butlleti.just' => 'just.',
     'butlleti.data' => 'Data: %s',
     'butlleti.signa_direccio' => 'Direcció de l\'escola',
     'butlleti.signa_familia' => 'Assabentat/da (família)',
@@ -385,4 +369,5 @@ return [
     'avis_llista.persones' => 'Persones a qui falten dades obligatòries: %d. Per exemple, han fet 18 anys i no tenen DNI o telèfon. Estan marcades en groc.',
     'avis_llista.veure' => 'Mostra-les',
     'filtre.incomplets' => 'Falten dades obligatòries',
+    'resum.llegenda_obs' => 'Passa el ratolí per damunt de 💬 per a veure les observacions del professor.',
 ];

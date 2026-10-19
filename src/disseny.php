@@ -14,7 +14,6 @@ function menu(): array
         ['matricules', 'ent.matricules', 'escola.view', '📝'],
         ['grups', 'ent.grups', 'escola.view', '👥'],
         ['horari', 'menu.horari', 'escola.view', '🕑'],
-        ['assistencia', 'menu.assistencia', 'escola.assistencia', '✓'],
         ['notes', 'menu.notes', 'escola.notes', '✎'],
         ['butlleti', 'menu.butlletins', 'escola.view', '🖨'],
         ['cursos', 'ent.cursos', 'escola.view', '📅'],

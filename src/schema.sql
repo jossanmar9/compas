@@ -157,17 +157,6 @@ CREATE TABLE IF NOT EXISTS matricula_grups (
     UNIQUE (matricula_id, grup_id)
 );
 
--- Assistència per alumne i sessió (grup + data)
-CREATE TABLE IF NOT EXISTS assistencia (
-    id           INTEGER PRIMARY KEY,
-    grup_id      INTEGER NOT NULL REFERENCES grups(id) ON DELETE CASCADE,
-    alumne_id    INTEGER NOT NULL REFERENCES alumnes(id) ON DELETE CASCADE,
-    data         TEXT NOT NULL,
-    estat        TEXT NOT NULL,
-    observacions TEXT,
-    UNIQUE (grup_id, alumne_id, data)
-);
-
 CREATE TABLE IF NOT EXISTS qualificacions (
     id           INTEGER PRIMARY KEY,
     grup_id      INTEGER NOT NULL REFERENCES grups(id) ON DELETE CASCADE,
@@ -259,6 +248,5 @@ CREATE INDEX IF NOT EXISTS idx_persones_cognoms ON persones(cognoms, nom);
 CREATE INDEX IF NOT EXISTS idx_membres_agrup ON membres(agrupacio_id);
 CREATE INDEX IF NOT EXISTS idx_grups_curs ON grups(curs_id);
 CREATE INDEX IF NOT EXISTS idx_mg_grup ON matricula_grups(grup_id);
-CREATE INDEX IF NOT EXISTS idx_assist_grup ON assistencia(grup_id, data);
 CREATE INDEX IF NOT EXISTS idx_cessions_instr ON cessions(instrument_id);
 CREATE INDEX IF NOT EXISTS idx_auditoria_data ON auditoria(data);

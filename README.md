@@ -41,7 +41,6 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 | **Persones** | Registre únic: cada persona s'introdueix una sola vegada i pot ser sòcia, música, alumna, professora i tutora alhora sense duplicar dades. Nom, cognoms i data de naixement són obligatoris; DNI i telèfon, només per als majors d'edat. Quan un menor fa 18 anys sense eixes dades, la seua fila es marca en groc. |
 | **Socis** | Número, tipus (ordinari, protector, d'honor, juvenil), altes i baixes. Llistats exportables a CSV per a etiquetes o circulars. |
 | **Escola de música** | Cursos acadèmics i avaluacions, assignatures, aules, professorat, grups amb horari, matrícules i tutors legals. Historial de cada alumne curs a curs. |
-| **Assistència** | Passar llista per grup i data: tots presents per defecte, només cal marcar faltes, faltes justificades i retards. |
 | **Qualificacions** | Administració introdueix les notes que passa el professorat, per grup i avaluació, amb observacions acadèmiques. |
 | **Butlletins** | Butlletins de notes en A4 amb el logotip i les dades de la societat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
 | **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
@@ -55,8 +54,8 @@ Tot el programa està en **valencià i castellà**, i cada usuari pot triar el s
 
 | | |
 |---|---|
-| ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.jpg) | ![Passar llista](docs/imatges/ca/26-assistencia.jpg) |
-| La fitxa d'un alumne: grups, horari, faltes, notes i tutors legals. | Passar llista: només cal marcar qui falta. |
+| ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.jpg) | ![Introduir les notes](docs/imatges/ca/27-qualificacions.jpg) |
+| La fitxa d'un alumne: grups, horari, notes i tutors legals. | Les notes d'un grup, amb les observacions del professor. |
 | ![Butlletí de notes](docs/imatges/ca/29-butlleti-impres.jpg) | ![Còpies de seguretat](docs/imatges/ca/34-copies.jpg) |
 | Un butlletí de notes preparat per a imprimir. | Les còpies de seguretat: automàtiques, manuals i externes. |
 
@@ -89,7 +88,7 @@ Ordre recomanat per a començar:
 5. **Persones** i, des de la fitxa de cadascuna, les seues funcions: soci, alumne, músic…
 6. **Matrícules**: inscriu cada alumne en el curs i en els seus grups.
 
-El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb captures: alta d'alumnes, socis, músics i professorat, matrícules, baixes, assistència, notes, butlletins, préstecs d'instruments i còpies.
+El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb captures: alta d'alumnes, socis, músics i professorat, matrícules, baixes, notes, butlletins, préstecs d'instruments i còpies.
 
 ## Usuaris i permisos
 
@@ -168,10 +167,10 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 
 1. Actualitza `COMPAS_VERSIO` a `src/bootstrap.php`.
 2. Puja els canvis i crea una etiqueta en minúscula:
-```
+   ```
    git tag v1.2.0
    git push origin v1.2.0
-```
+   ```
 3. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable, i ho publica tot en una *release*.
 
 La web es torna a publicar sola amb cada canvi a `main` (`web.yml`).

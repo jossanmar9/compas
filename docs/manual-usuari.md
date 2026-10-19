@@ -7,7 +7,7 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 | Compte | Què pot fer |
 |---|---|
 | **Administrador/a** | Tot. També gestionar usuaris, la configuració, el registre d'activitat i restaurar còpies. |
-| **Administratiu/va** | La gestió diària: persones, socis, escola, faltes, notes, butlletins, agrupacions, instruments i fer còpies. |
+| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments i fer còpies. |
 
 > En aquest manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
@@ -26,7 +26,7 @@ Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idio
 
 ![Pantalla d'entrada](imatges/ca/00-entrada.jpg)
 
-Si oblides la contrasenya, l'administrador te'n pot posar una de nova (vegeu l'apartat 15).
+Si oblides la contrasenya, l'administrador te'n pot posar una de nova (vegeu l'apartat 14).
 
 ### La primera vegada: configuració inicial
 
@@ -109,7 +109,7 @@ Abans de matricular cal tindre el curs preparat. Ordre recomanat: **curs → per
 
 1. Menú **Cursos acadèmics → + Nou**.
 2. Nom (per exemple `2026/2027`), data d'inici i de finalització.
-3. Marca **Curs actual**. Només n'hi pot haver un; és el que s'utilitza en l'assistència, les notes i els butlletins.
+3. Marca **Curs actual**. Només n'hi pot haver un; és el que s'utilitza en les notes i els butlletins.
 4. Prem **Desa**. S'obri la fitxa del curs.
 5. A l'apartat **Períodes d'avaluació**, prem **+ Afig** i crea'n un per a cada avaluació (`1r trimestre`, `2n trimestre`, `3r trimestre`), amb l'ordre 1, 2, 3.
 
@@ -148,7 +148,7 @@ Un **grup** és una assignatura impartida en un curs per un professor: per exemp
 
 ![Fitxa del grup amb l'horari](imatges/ca/24-grup-fitxa.jpg)
 
-Des de la fitxa del grup també pots anar directament a l'**Assistència** i a les **Qualificacions** del grup.
+Des de la fitxa del grup també pots anar directament a les **Qualificacions** del grup.
 
 ### 5.5 Horari general
 
@@ -249,7 +249,7 @@ S'obri la fitxa de la matrícula.
 
 ### Resultat
 
-La fitxa de l'alumne mostra el resum del curs: grups, professors, horari, faltes i notes de cada avaluació, el botó per a **imprimir-ne el butlletí**, els tutors legals i les matrícules de tots els cursos.
+La fitxa de l'alumne mostra el resum del curs: grups, professors, horari i notes de cada avaluació, el botó per a **imprimir-ne el butlletí**, els tutors legals i les matrícules de tots els cursos.
 
 ![Fitxa de l'alumne amb el resum del curs](imatges/ca/14-alumne-resum.jpg)
 
@@ -312,18 +312,7 @@ Menú **Agrupacions** → obri l'agrupació. Mostra tots els seus membres amb l'
 
 Per a crear una agrupació nova: menú **Agrupacions → + Nou**.
 
-## 10. Assistència
-
-1. Menú **Assistència**.
-2. Tria el **grup** i la **data** (per defecte, hui).
-3. Tots apareixen com a presents (**P**). Marca només els que falten: **F** falta, **FJ** falta justificada, **R** retard. Pots afegir una observació.
-4. Prem **Desa**.
-
-![Passar llista](imatges/ca/26-assistencia.jpg)
-
-Si tornes a obrir el mateix grup i dia, veuràs el que es va desar i ho podràs corregir. Davall hi ha la llista de dies registrats. El botó **Tots presents** torna a marcar tothom com a present.
-
-## 11. Qualificacions
+## 10. Qualificacions
 
 El professorat passa les notes a administració i administració les introdueix.
 
@@ -337,7 +326,7 @@ El professorat passa les notes a administració i administració les introdueix.
 
 Per a esborrar una nota, deixa en blanc la nota i les observacions i desa.
 
-## 12. Butlletins de notes
+## 11. Butlletins de notes
 
 1. Menú **Butlletins** (o el botó **Butlletins** de la pàgina de qualificacions, o **Imprimeix el butlletí** de la fitxa d'un alumne).
 2. Tria l'**avaluació**. El butlletí mostra les notes d'aquesta avaluació i de les anteriors.
@@ -353,7 +342,7 @@ S'obri una pestanya nova amb un full A4 per alumne. Prem **Imprimeix el butllet�
 
 > Per a guardar-los en PDF (per a enviar-los per correu), tria **Microsoft Print to PDF** com a impressora.
 
-## 13. Instruments i cessions
+## 12. Instruments i cessions
 
 ### Alta d'un instrument
 
@@ -389,7 +378,7 @@ Menú **Cessions**. Amb el filtre pots veure les **cessions actives** o només l
 
 ![Llistat de cessions](imatges/ca/33-cessions-llista.jpg)
 
-## 14. Còpies de seguretat
+## 13. Còpies de seguretat
 
 Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 
@@ -429,7 +418,7 @@ Per a restaurar una còpia guardada fora (per exemple, des del USB), utilitza **
 
 > Les còpies contenen dades personals, també de menors. Guarda-les en un lloc segur.
 
-## 15. Usuaris i contrasenyes
+## 14. Usuaris i contrasenyes
 
 ### Canviar la teua contrasenya
 
@@ -453,13 +442,13 @@ Sempre ha de quedar almenys un administrador actiu.
 
 Menú **Administració → Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
 
-## 16. Ajuda
+## 15. Ajuda
 
 El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
 
 ![Ajuda](imatges/ca/39-ajuda.jpg)
 
-## 17. Preguntes freqüents
+## 16. Preguntes freqüents
 
 **He donat d'alta una persona dues vegades. Què faig?** Si la segona no té res vinculat, obri-la i prem **Elimina**. Si ja té coses vinculades, edita-les perquè apunten a la persona bona i després elimina la repetida.
 
@@ -469,7 +458,7 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 
 **No em deixa eliminar una cosa.** Té historial relacionat. Posa-la de baixa o com a inactiva (apartat 3).
 
-**L'alumne no apareix en l'assistència ni en les notes del grup.** Comprova que té matrícula en el curs actual, en estat Actiu, i que està inscrit en aquell grup (apartat 7, pas 5).
+**L'alumne no apareix en les notes del grup.** Comprova que té matrícula en el curs actual, en estat Actiu, i que està inscrit en aquell grup (apartat 7, pas 5).
 
 **El butlletí no mostra una assignatura.** L'alumne no està inscrit en aquell grup dins de la seua matrícula.
 

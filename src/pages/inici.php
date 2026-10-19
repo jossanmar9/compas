@@ -64,9 +64,6 @@ function pagina_inici(): void
             foreach ($classes as $c) {
                 $html .= '<li><span class="hora">' . h($c['hora_inici'] . '–' . $c['hora_fi']) . '</span> ' . h($c['assignatura'] . ' · ' . $c['nom'])
                     . ($c['aula'] ? ' <span class="etiqueta">' . h($c['aula']) . '</span>' : '');
-                if (pot('escola.assistencia')) {
-                    $html .= ' <a class="boto petit secundari" href="' . h(url('assistencia', ['grup' => $c['id'], 'data' => date('Y-m-d')])) . '">' . h(t('menu.assistencia')) . '</a>';
-                }
                 $html .= '</li>';
             }
             $html .= '</ul>';
@@ -77,7 +74,7 @@ function pagina_inici(): void
     pagina(t('menu.inici'), $html, config('societat_nom'));
 }
 
-/** Resum acadèmic d'un alumne per a un curs: grups, horari, assistència i notes */
+/** Resum acadèmic d'un alumne per a un curs: grups, horari i notes */
 function resum_alumne(int $alumneId, array $curs): string
 {
     $m = fila('SELECT * FROM matricules WHERE alumne_id = ? AND curs_id = ?', [$alumneId, $curs['id']]);
@@ -92,7 +89,7 @@ function resum_alumne(int $alumneId, array $curs): string
     $periodes = q('SELECT * FROM periodes WHERE curs_id = ? ORDER BY ordre', [$curs['id']])->fetchAll();
 
     $html = '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . h(t('camp.assignatura_id')) . '</th><th>' . h(t('camp.professor_id')) . '</th><th>'
-        . h(t('menu.horari')) . '</th><th>' . h(t('resum.faltes')) . '</th>';
+        . h(t('menu.horari')) . '</th>';
     foreach ($periodes as $pe) {
         $html .= '<th>' . h($pe['nom']) . '</th>';
     }
@@ -103,17 +100,14 @@ function resum_alumne(int $alumneId, array $curs): string
             [$d, $hi, $hf] = explode('|', $hh);
             $hores[] = t('dia_curt.' . $d) . ' ' . $hi . '–' . $hf;
         }
-        $as = q('SELECT estat, COUNT(*) AS n FROM assistencia WHERE grup_id = ? AND alumne_id = ? GROUP BY estat', [$g['id'], $alumneId])->fetchAll();
-        $as = array_column($as, 'n', 'estat');
-        $faltes = ($as['F'] ?? 0) . ' / ' . ($as['FJ'] ?? 0) . ' / ' . ($as['R'] ?? 0);
-        $html .= '<tr><td>' . h($g['assignatura'] . ' · ' . $g['nom']) . '</td><td>' . h($g['professor']) . '</td><td>' . h(implode(', ', $hores)) . '</td><td>' . h($faltes) . '</td>';
+        $html .= '<tr><td>' . h($g['assignatura'] . ' · ' . $g['nom']) . '</td><td>' . h($g['professor']) . '</td><td>' . h(implode(', ', $hores)) . '</td>';
         foreach ($periodes as $pe) {
             $n = fila('SELECT nota, observacions FROM qualificacions WHERE grup_id = ? AND alumne_id = ? AND periode_id = ?', [$g['id'], $alumneId, $pe['id']]);
             $html .= '<td' . ($n && $n['observacions'] ? ' title="' . h($n['observacions']) . '"' : '') . '>' . h($n['nota'] ?? '') . ($n && $n['observacions'] ? ' 💬' : '') . '</td>';
         }
         $html .= '</tr>';
     }
-    return $html . '</tbody></table></div><p class="peu-taula">' . h(t('resum.llegenda_faltes')) . '</p>';
+    return $html . '</tbody></table></div><p class="peu-taula">' . h(t('resum.llegenda_obs')) . '</p>';
 }
 
 function pagina_horari(): void
