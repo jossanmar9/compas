@@ -204,6 +204,27 @@ function pagina_auditoria(): void
 /** Manuals i guies que es poden descarregar en PDF */
 const DOCUMENTS_PDF = ['manual-usuari', 'manual-usuario', 'guia-installacio', 'guia-instalacion'];
 
+/** URL d'una captura del manual (docs/imatges/…) per a mostrar-la dins del programa */
+function url_imatge_doc(string $ruta): ?string
+{
+    $rel = preg_replace('#^imatges/#', '', $ruta);
+    return preg_match('#^(ca|es)/[\w-]+\.(jpg|png)$#', $rel) && is_file(DOCS_DIR . '/imatges/' . $rel) ? url('doc_img', ['f' => $rel]) : null;
+}
+
+function serveix_imatge_doc(): never
+{
+    $rel = (string)get('f');
+    if (!preg_match('#^(ca|es)/[\w-]+\.(jpg|png)$#', $rel, $m) || !is_file($f = DOCS_DIR . '/imatges/' . $rel)) {
+        http_response_code(404);
+        exit;
+    }
+    header('Content-Type: image/' . ($m[2] === 'jpg' ? 'jpeg' : 'png'));
+    header('Cache-Control: private, max-age=86400');
+    header('Content-Length: ' . filesize($f));
+    readfile($f);
+    exit;
+}
+
 function serveix_pdf(): never
 {
     $nom = (string)get('doc');
@@ -232,6 +253,6 @@ function pagina_ajuda(): void
         }
     }
     $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '')
-        . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md)) . '</article>';
+        . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
 }

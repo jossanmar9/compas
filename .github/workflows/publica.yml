@@ -13,7 +13,7 @@ jobs:
   proves:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
@@ -32,7 +32,7 @@ jobs:
     needs: proves
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Versió
         id: versio
@@ -87,6 +87,7 @@ jobs:
           Copy-Item app, src -Destination $d -Recurse
           New-Item -ItemType Directory "$d\docs", "$d\data" -Force | Out-Null
           Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\guia-installacio.md, docs\guia-instalacion.md "$d\docs"
+          Copy-Item docs\imatges -Destination "$d\docs" -Recurse
           Copy-Item README.md, LICENSE, compas.ini $d
           Set-Content "$d\data\LLEGIX-ME.txt" "Ací es guarden les dades de Compàs (compas.db) i les còpies automàtiques. No l'esborres."
 
@@ -135,7 +136,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Error creant l'instal·lador" }
 
       - name: Guarda els fitxers
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Compas-windows
           path: |

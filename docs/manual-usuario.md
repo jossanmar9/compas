@@ -1,108 +1,375 @@
 # Manual de usuario de Compàs
 
-## Primeros pasos
+## 1. Antes de empezar
 
-Compàs funciona en un solo ordenador con Windows y tiene dos cuentas:
+Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos y copias de seguridad. Funciona en **un solo ordenador con Windows**, sin Internet, y tiene dos cuentas:
 
-- **Administrador/a**: lo puede todo, también gestionar usuarios, la configuración, el registro de actividad y restaurar copias.
-- **Administrativo/a**: lleva la gestión diaria (personas, socios, escuela, notas, agrupaciones, instrumentos) y puede hacer copias de seguridad.
+| Cuenta | Qué puede hacer |
+|---|---|
+| **Administrador/a** | Todo. También gestionar usuarios, la configuración, el registro de actividad y restaurar copias. |
+| **Administrativo/a** | La gestión diaria: personas, socios, escuela, faltas, notas, boletines, agrupaciones, instrumentos y hacer copias. |
 
-La primera vez que se abre Compàs pide el nombre de la sociedad, crea la cuenta de administrador y, si quieres, también la de administrativo. Si marcas «Cargar datos de ejemplo» tendrás personas, grupos e instrumentos de prueba para conocer el programa.
+> En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
-Orden recomendado para empezar de cero:
+### Abrir y cerrar Compàs
 
-1. **Configuración**: datos de la sociedad y **logotipo** (sale en el menú y en los boletines).
-2. **Copias de seguridad**: indica una **carpeta externa** (disco USB o carpeta de la nube).
-3. **Cursos académicos**: crea el curso (por ejemplo `2026/2027`), márcalo como **curso actual** y añade los **periodos de evaluación** (1.er trimestre, 2.º trimestre…).
-4. **Asignaturas** y **Aulas**.
-5. **Personas**: da de alta a todas las personas (socios, músicos, alumnado, profesorado, tutores…).
-6. Desde la ficha de cada persona, crea sus **funciones**: socio, alumno, profesor, miembro de una agrupación…
-7. **Grupos**: para cada asignatura del curso, crea los grupos, asigna profesor y aula, y añade las **franjas horarias**.
-8. **Matrículas**: matricula a cada alumno en el curso e inscríbelo en los grupos.
+1. Haz doble clic en el icono **Compàs** del escritorio o del menú Inicio.
+2. Se abre una ventana pequeña de Compàs y, al cabo de unos segundos, el navegador con el programa.
+3. **No cierres la ventana pequeña** mientras trabajas: es la que hace funcionar Compàs.
+4. Para terminar, cierra la ventana pequeña. Compàs hará una copia de seguridad si ha habido cambios y se detendrá.
 
-## Cómo está organizado
+Si el navegador no se abre solo, pulsa **Abrir Compàs** en la ventana pequeña.
 
-> Una persona se introduce **una sola vez**. Ser socio, alumno, profesor o músico son *funciones* de esa persona, no copias de sus datos.
+### Entrar
 
-Cada sección tiene un **listado** (con búsqueda, filtros y exportación a CSV), una **ficha** (donde se ve todo lo relacionado) y un **formulario**.
+Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el idioma.
 
-- Haz clic en cualquier fila para abrir su ficha.
-- Desde la ficha, el botón **+ Añadir** de cada apartado crea un elemento ya relacionado. Por ejemplo, desde la ficha de un alumno puedes añadirle un tutor legal o una matrícula.
-- Por defecto, los listados ocultan las bajas y las personas inactivas. Marca «Mostrar también las bajas» para verlas.
-- **Exportar CSV** genera un archivo que se abre con Excel o LibreOffice Calc.
+![Pantalla de entrada](imatges/es/00-entrada.jpg)
 
-### ¿Por qué no puedo eliminar a una persona?
+Si olvidas la contraseña, el administrador te puede poner una nueva (ver el apartado 15).
 
-Compàs no deja eliminar nada que tenga historial relacionado (matrículas, cesiones, miembros…). Así no se pierde información. En lugar de eliminar, **márcala como inactiva** o ponle la **fecha de baja** y el estado «Baja».
+### La primera vez: configuración inicial
 
-## Personas y socios
+La primera vez que se abre Compàs aparece la **Configuración inicial**:
 
-- **Personas**: datos personales y de contacto. El campo «Activo» indica si sigue relacionada con la sociedad.
-- **Socios**: número de socio, tipo (ordinario, protector, de honor, juvenil), fecha de alta y de baja. Una persona solo puede tener una ficha de socio.
+1. Escribe el **nombre de la sociedad musical**.
+2. Elige el **idioma** por defecto.
+3. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
+4. Si quieres, crea también la cuenta de **administrativo/a** (se puede hacer después).
+5. Marca **Cargar datos de ejemplo** solo si quieres probar el programa con datos inventados.
+6. Pulsa **Empezar**.
 
-## Escuela de música
+![Configuración inicial](imatges/es/01-configuracio-inicial.jpg)
 
-### Alumnado, profesorado y tutores legales
+> Para empezar a trabajar de verdad sin los datos de ejemplo, cierra Compàs, borra la carpeta `data` del programa y vuelve a abrirlo.
 
-- Una persona se convierte en alumno o profesor creándole la ficha correspondiente.
-- Los **tutores legales** son personas registradas. Desde la ficha del alumno, añade los que hagan falta.
-- La ficha del alumno muestra el resumen del curso actual: grupos, horario, faltas y notas, con un botón para **imprimir su boletín**.
+## 2. La pantalla principal
 
-### Cursos, periodos y grupos
+![Pantalla de inicio](imatges/es/02-inici.jpg)
 
-- Solo un curso puede ser el **curso actual**. Es el que se usa en el inicio, en la asistencia y en las notas.
-- Un **grupo** es una asignatura impartida en un curso (por ejemplo, *Lenguaje musical · 1.º A*). Puede tener varias franjas horarias.
+- **Menú lateral** (izquierda): todas las secciones, agrupadas en Escuela de música, Agrupaciones, Instrumentos y Administración.
+- **Arriba a la derecha**: cambio de idioma (`VAL` / `ES`), tu nombre de usuario (para cambiar la contraseña) y **Salir**.
+- **Inicio**: un resumen con el número de personas, socios, matriculados, grupos, músicos e instrumentos cedidos. Haz clic en cualquier cifra para ir a la lista.
+- **Avisos**: las cesiones de instrumentos con la devolución vencida, las clases de hoy y los avisos de copias de seguridad.
 
-### Matrículas
+## 3. Cómo se trabaja con Compàs
 
-La matrícula relaciona a un alumno con un curso. Dentro de la matrícula se añaden los **grupos** en los que está inscrito. Así se conserva el historial de cada curso.
+Todas las secciones funcionan igual. Si aprendes una, las sabes todas.
 
-### Horario
+### Listados
 
-Muestra todas las clases del curso por días. Puedes filtrar por profesor o por aula.
+![Listado de personas](imatges/es/04-persones-llista.jpg)
 
-### Asistencia
+- **Buscar**: escribe un nombre, apellido, teléfono… y pulsa **Filtrar**.
+- **Mostrar también las bajas**: por defecto se ocultan las personas inactivas y las bajas.
+- **Exportar CSV**: descarga la lista para abrirla con Excel o LibreOffice Calc.
+- **+ Nuevo**: crea un elemento nuevo.
+- Haz clic en cualquier fila para abrir su **ficha**.
 
-1. Elige el grupo y la fecha (por defecto, hoy).
-2. Todos aparecen como **presentes**. Cambia solo los que faltan: **F** falta, **FJ** falta justificada, **R** retraso.
+### Fichas
+
+La ficha muestra todos los datos de un elemento y todo lo que está relacionado con él. Por ejemplo, la ficha de una persona muestra si es socia, alumna, profesora, música…
+
+![Ficha de una persona](imatges/es/06-persona-fitxa.jpg)
+
+- **Editar**: cambia los datos.
+- **Eliminar**: solo se puede si no tiene nada relacionado (ver «Bajas» más abajo).
+- **+ Añadir** de cada apartado: crea un elemento **ya vinculado** a esta ficha. Es la forma más rápida de trabajar.
+
+### Formularios
+
+- Los campos con asterisco (*) son obligatorios.
+- En los desplegables largos (personas, grupos…) hay una **lupa** encima: escribe en ella para filtrar las opciones.
+- Pulsa **Guardar** para guardar o **Cancelar** para volver sin guardar.
+
+### Bajas: por qué no se elimina nada
+
+Compàs no deja eliminar nada que tenga historial (matrículas, notas, cesiones…), para que no se pierda información. En lugar de eliminar:
+
+- una **persona** que ya no tiene relación con la sociedad: edítala y desmarca **Activo**;
+- un **socio, alumno, profesor o músico**: edítalo, pon el **estado «Baja»** y la **fecha de baja**.
+
+Las bajas desaparecen de los listados, pero se pueden volver a ver marcando **Mostrar también las bajas**.
+
+## 4. Configuración de la sociedad y logotipo
+
+Menú **Administración → Configuración** (solo el administrador/a).
+
+1. Rellena los datos de la sociedad: nombre, CIF, dirección, teléfono, correo y web. Salen en los boletines.
+2. En **Logotipo de la sociedad**, pulsa el botón de elegir archivo y selecciona la imagen del logotipo (PNG, JPG o WEBP, hasta 3 MB).
+3. Pulsa **Guardar**. El logotipo aparece en el menú y en los boletines.
+
+![Configuración y logotipo](imatges/es/03-configuracio.jpg)
+
+## 5. Preparar el curso académico
+
+Antes de matricular hay que tener el curso preparado. Orden recomendado: **curso → periodos → asignaturas y aulas → profesorado → grupos → horarios**.
+
+### 5.1 Curso y periodos de evaluación
+
+1. Menú **Cursos académicos → + Nuevo**.
+2. Nombre (por ejemplo `2026/2027`), fecha de inicio y de finalización.
+3. Marca **Curso actual**. Solo puede haber uno; es el que se usa en la asistencia, las notas y los boletines.
+4. Pulsa **Guardar**. Se abre la ficha del curso.
+5. En el apartado **Periodos de evaluación**, pulsa **+ Añadir** y crea uno para cada evaluación (`1.er trimestre`, `2.º trimestre`, `3.er trimestre`), con el orden 1, 2, 3.
+
+![Ficha del curso con los periodos, grupos y matrículas](imatges/es/21-curs-fitxa.jpg)
+
+### 5.2 Asignaturas y aulas
+
+- Menú **Asignaturas → + Nuevo**: nombre (Lenguaje musical, Trompeta, Clarinete…) y tipo.
+- Menú **Aulas → + Nuevo**: nombre y capacidad.
+
+Solo hay que crearlas una vez: se reutilizan cada curso.
+
+### 5.3 Profesorado
+
+Un profesor es una **persona** con ficha de profesor:
+
+1. Da de alta a la persona (apartado 6) o búscala si ya existe.
+2. En su ficha, en el apartado **Profesorado**, pulsa **+ Añadir**.
+3. Comprueba la fecha de alta y pulsa **Guardar**.
+
+![Alta de un profesor](imatges/es/20-professor-nou.jpg)
+
+### 5.4 Grupos y horarios
+
+Un **grupo** es una asignatura impartida en un curso por un profesor: por ejemplo *Lenguaje musical · 1.º A* o *Trompeta · Individual*.
+
+1. Menú **Grupos → + Nuevo**.
+2. Elige el **curso**, la **asignatura**, escribe el **nombre** del grupo y elige el **profesor** y el **aula**.
+3. Pulsa **Guardar**. Se abre la ficha del grupo.
+
+![Nuevo grupo](imatges/es/22-grup-nou.jpg)
+
+4. En el apartado **Horario**, pulsa **+ Añadir**, elige el **día** y las horas de inicio y de fin, y pulsa **Guardar**. Repítelo si el grupo tiene clase más de un día.
+
+![Añadir una franja horaria](imatges/es/23-horari-nou.jpg)
+
+![Ficha del grupo con el horario](imatges/es/24-grup-fitxa.jpg)
+
+Desde la ficha del grupo también puedes ir directamente a la **Asistencia** y a las **Calificaciones** del grupo.
+
+### 5.5 Horario general
+
+El menú **Horario** muestra todas las clases de la semana. Puedes filtrar por profesor o por aula para imprimir el horario de cada uno.
+
+![Horario general](imatges/es/25-horari.jpg)
+
+## 6. Dar de alta a una persona
+
+> **Una persona se introduce una sola vez.** Ser alumno, socio, músico, profesor o tutor legal son *funciones* que se añaden a su ficha. Antes de crear una, **búscala** en el listado por si ya existe.
+
+1. Menú **Personas → + Nuevo**.
+2. Rellena el **nombre** (obligatorio) y el resto de datos que tengas: apellidos, fecha de nacimiento, DNI, teléfono, correo, dirección…
+3. Deja marcado **Activo**.
+4. Pulsa **Guardar**.
+
+![Formulario de persona nueva](imatges/es/05-persona-nova.jpg)
+
+Se abre la **ficha de la persona**, con un apartado para cada función: Socios, Alumnado, Profesorado, Músicos y miembros, Tutores legales (cuando es tutor de alguien) y Cesiones.
+
+## 7. Alta de un alumno (paso a paso)
+
+Ejemplo completo: un niño nuevo que se apunta a Lenguaje musical y Clarinete. El tutor legal (la madre o el padre) también tiene que estar dado de alta como persona.
+
+### Paso 1. La persona
+
+Da de alta al alumno como **persona** (apartado 6). Si el tutor legal todavía no está dado de alta, dalo de alta también.
+
+### Paso 2. La ficha de alumno
+
+1. En la ficha de la persona, en el apartado **Alumnado**, pulsa **+ Añadir**.
+
+![Añadir la ficha de alumno desde la persona](imatges/es/06-persona-fitxa.jpg)
+
+2. La persona ya viene elegida. Comprueba la **fecha de alta** y pulsa **Guardar**.
+
+![Ficha de alumno nueva](imatges/es/07-alumne-nou.jpg)
+
+Se abre la **ficha del alumno**, donde se completan los pasos siguientes.
+
+### Paso 3. El tutor legal
+
+1. En el apartado **Tutores legales**, pulsa **+ Añadir**.
+
+![Ficha del alumno recién creado](imatges/es/08-alumne-fitxa.jpg)
+
+2. En el desplegable **Tutor legal**, escribe en la lupa el nombre del padre, la madre o el tutor y elígelo.
+3. Elige la **relación** (madre, padre, tutor/a legal…) y marca **Principal** si es el contacto principal.
+4. Pulsa **Guardar**. Repítelo si hay más de un tutor.
+
+![Añadir el tutor legal](imatges/es/09-tutor-nou.jpg)
+
+> Hermanos: los dos alumnos pueden tener el mismo tutor. No hace falta darlo de alta dos veces.
+
+### Paso 4. La matrícula del curso
+
+1. En la ficha del alumno, en el apartado **Matrículas**, pulsa **+ Añadir**.
+2. Comprueba que el **curso** es el actual y pulsa **Guardar**.
+
+![Matrícula nueva](imatges/es/10-matricula-nova.jpg)
+
+### Paso 5. Inscribirlo en los grupos
+
+Se abre la ficha de la matrícula.
+
+1. En el apartado **Inscripciones en grupos**, pulsa **+ Añadir**.
+
+![Ficha de la matrícula](imatges/es/11-matricula-fitxa.jpg)
+
+2. Elige el **grupo** (por ejemplo *Lenguaje musical · 1.º A*) y pulsa **Guardar**.
+3. Repítelo para cada asignatura (por ejemplo *Clarinete · Individual*).
+
+![Inscripción en un grupo](imatges/es/12-inscripcio-grup.jpg)
+
+![Matrícula con los grupos inscritos](imatges/es/13-matricula-grups.jpg)
+
+### Resultado
+
+La ficha del alumno muestra el resumen del curso: grupos, profesores, horario, faltas y notas de cada evaluación, el botón para **imprimir su boletín**, los tutores legales y las matrículas de todos los cursos.
+
+![Ficha del alumno con el resumen del curso](imatges/es/14-alumne-resum.jpg)
+
+### Al empezar un curso nuevo
+
+1. Crea el curso nuevo y márcalo como **curso actual** (apartado 5.1). Crea también sus grupos.
+2. Para cada alumno que continúa, hazle una **matrícula nueva** para el curso nuevo e inscríbelo en los grupos.
+
+Las matrículas y las notas de los cursos anteriores se conservan en la ficha del alumno.
+
+### Cuando un alumno deja la escuela
+
+Edita su ficha de alumno y pon el estado **Baja** y la **fecha de baja**. Si además ya no es nada de la sociedad, desmarca **Activo** en su ficha de persona.
+
+## 8. Socios
+
+### Alta de un socio
+
+1. Busca o da de alta a la **persona** (apartado 6).
+2. En su ficha, en el apartado **Socios**, pulsa **+ Añadir**.
+3. Escribe el **número de socio**, elige el **tipo** (ordinario, protector, de honor, juvenil) y comprueba la **fecha de alta**.
+4. Pulsa **Guardar**.
+
+![Alta de un socio](imatges/es/15-soci-nou.jpg)
+
+### Listado de socios
+
+El menú **Socios** muestra todos los socios activos. Puedes buscar por el nombre o por el número y exportar la lista a CSV (por ejemplo, para hacer etiquetas o enviar una circular).
+
+![Listado de socios](imatges/es/16-socis-llista.jpg)
+
+### Baja de un socio
+
+1. Abre el socio y pulsa **Editar**.
+2. Cambia el **estado** a **Baja** y pon la **fecha de baja**.
 3. Pulsa **Guardar**.
 
-Si vuelves a abrir el mismo día se ve lo que se guardó y se puede corregir.
+![Baja de un socio](imatges/es/17-soci-baixa.jpg)
 
-### Calificaciones
+El socio desaparece del listado, pero se conserva con su historial.
 
-El profesorado pasa las notas a administración y administración las introduce:
+## 9. Músicos y agrupaciones
 
-1. Ve a **Calificaciones**, elige el **grupo** y la **evaluación**.
-2. Escribe la nota de cada alumno (texto libre: `7`, `8,5`, `Notable`, `Apto`…) y, si hace falta, las observaciones del profesor.
-3. Pulsa **Guardar**. Para borrar una nota, deja la nota y las observaciones en blanco.
+### Alta de un músico en una agrupación
 
-### Boletines
+1. Busca o da de alta a la **persona** (apartado 6).
+2. En su ficha, en el apartado **Músicos y miembros**, pulsa **+ Añadir**.
+3. Elige la **agrupación** (Banda, Banda juvenil, Coral…), escribe el **instrumento o voz** y elige la **función**: miembro, director/a titular, director/a asistente o responsable.
+4. Pulsa **Guardar**.
 
-Desde **Boletines** (o con el botón de la página de calificaciones o de la ficha de un alumno):
+![Alta de un músico](imatges/es/18-membre-nou.jpg)
 
-1. Elige el curso y la **evaluación**. El boletín muestra las notas de esa evaluación y de las anteriores; las observaciones son las de la evaluación elegida.
-2. Elige de quién: todo el alumnado matriculado, el alumnado de un grupo o un solo alumno.
-3. Si quieres, escribe un **texto al pie** (se recuerda para la próxima vez).
-4. Pulsa **Preparar los boletines**. Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir**.
+Una persona puede estar en varias agrupaciones: repítelo para cada una.
 
-> Para guardarlos en PDF (para enviarlos por correo), elige «Microsoft Print to PDF» como impresora.
+### Ficha de la agrupación
 
-El boletín lleva el logotipo y los datos de la sociedad, las notas, las faltas, las observaciones y espacio para las firmas.
+Menú **Agrupaciones** → abre la agrupación. Muestra todos sus miembros con el instrumento y la función. Desde aquí también puedes añadir miembros con **+ Añadir**.
 
-## Agrupaciones
+![Ficha de una agrupación](imatges/es/19-agrupacio-fitxa.jpg)
 
-Banda, banda juvenil, coral, orquesta, grupos de cámara… Cada agrupación tiene sus **miembros** con el instrumento o voz y la función (miembro, director titular, director asistente, responsable). Una persona puede estar en varias agrupaciones.
+Para crear una agrupación nueva: menú **Agrupaciones → + Nuevo**.
 
-## Instrumentos
+## 10. Asistencia
 
-- **Inventario**: cada instrumento con número de inventario, marca, modelo, número de serie, estado y ubicación. En la ficha está el historial de **cesiones** y de **mantenimientos**.
-- **Cesiones**: para prestar un instrumento, crea una cesión con la persona, la fecha de entrega y la de devolución prevista. Cuando lo devuelvan, edita la cesión y pon la **fecha de devolución**. Un instrumento no se puede ceder dos veces a la vez.
-- En el inicio aparecen las cesiones con la devolución **vencida**.
+1. Menú **Asistencia**.
+2. Elige el **grupo** y la **fecha** (por defecto, hoy).
+3. Todos aparecen como presentes (**P**). Marca solo los que faltan: **F** falta, **FJ** falta justificada, **R** retraso. Puedes añadir una observación.
+4. Pulsa **Guardar**.
 
-## Copias de seguridad
+![Pasar lista](imatges/es/26-assistencia.jpg)
 
-Todos los datos están en un solo archivo, `data\compas.db`. Compàs hace copias así:
+Si vuelves a abrir el mismo grupo y día, verás lo que se guardó y podrás corregirlo. Debajo está la lista de días registrados. El botón **Todos presentes** vuelve a marcar a todos como presentes.
+
+## 11. Calificaciones
+
+El profesorado pasa las notas a administración y administración las introduce.
+
+1. Menú **Calificaciones**.
+2. Elige el **grupo** y la **evaluación** (1.er trimestre, 2.º trimestre…).
+3. Escribe la nota de cada alumno. Es texto libre: `7`, `8,5`, `Notable`, `Apto`…
+4. Si el profesor ha pasado observaciones, escríbelas en **Observaciones académicas**. Salen en el boletín.
+5. Pulsa **Guardar**.
+
+![Introducir las notas](imatges/es/27-qualificacions.jpg)
+
+Para borrar una nota, deja en blanco la nota y las observaciones y guarda.
+
+## 12. Boletines de notas
+
+1. Menú **Boletines** (o el botón **Boletines** de la página de calificaciones, o **Imprimir el boletín** de la ficha de un alumno).
+2. Elige la **evaluación**. El boletín muestra las notas de esta evaluación y de las anteriores.
+3. Elige **de quién**: todo el alumnado matriculado, el alumnado de un grupo o un solo alumno.
+4. Si quieres, escribe un **texto al pie** (por ejemplo, la fecha de las audiciones). Se recuerda para la próxima vez.
+5. Pulsa **Preparar los boletines**.
+
+![Preparar los boletines](imatges/es/28-butlletins.jpg)
+
+Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir el boletín** (arriba del todo).
+
+![Boletín preparado para imprimir](imatges/es/29-butlleti-impres.jpg)
+
+> Para guardarlos en PDF (para enviarlos por correo), elige **Microsoft Print to PDF** como impresora.
+
+## 13. Instrumentos y cesiones
+
+### Alta de un instrumento
+
+1. Menú **Inventario → + Nuevo**.
+2. Rellena el **número de inventario** y el **tipo** (obligatorios) y el resto de datos: marca, modelo, número de serie, estado, ubicación y fecha de adquisición.
+3. Pulsa **Guardar**.
+
+![Alta de un instrumento](imatges/es/30-instrument-nou.jpg)
+
+En la ficha del instrumento está el historial de **cesiones** y de **mantenimientos** (reparaciones, revisiones…).
+
+### Prestar un instrumento (cesión)
+
+1. En la ficha del instrumento, en el apartado **Cesiones**, pulsa **+ Añadir**.
+2. Elige la **persona**, comprueba la **fecha de entrega** y pon la **devolución prevista**, el estado en que se entrega y la fianza si la hay.
+3. Pulsa **Guardar**.
+
+![Nueva cesión](imatges/es/31-cessio-nova.jpg)
+
+Un instrumento no se puede prestar a dos personas a la vez.
+
+### Cuando lo devuelven
+
+1. Abre la cesión y pulsa **Editar**.
+2. Pon la **fecha de devolución** y el **estado en la devolución**.
+3. Pulsa **Guardar**. El instrumento vuelve a estar disponible.
+
+![Registrar la devolución](imatges/es/32-cessio-retorn.jpg)
+
+### Listado de cesiones
+
+Menú **Cesiones**. Con el filtro puedes ver las **cesiones activas** o solo las que tienen la **devolución vencida**. Las vencidas también aparecen en el inicio.
+
+![Listado de cesiones](imatges/es/33-cessions-llista.jpg)
+
+## 14. Copias de seguridad
+
+Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 
 | Cuándo | Tipo |
 |---|---|
@@ -111,36 +378,79 @@ Todos los datos están en un solo archivo, `data\compas.db`. Compàs hace copias
 | Cuando pulsas **Hacer una copia ahora** | Manual |
 | Justo antes de restaurar | Antes de restaurar |
 
-- Las copias se guardan en `data\copies`. Se conservan las últimas automáticas (30 por defecto, configurable); las manuales no se borran solas.
-- **Carpeta externa** (muy recomendable): si el ordenador se estropea, las copias de dentro se pierden con él. En **Copias de seguridad → Configuración** indica una carpeta en un **disco USB** o en una carpeta **sincronizada con la nube** (OneDrive, Google Drive…). Cada copia se guardará también allí.
-- Si no hay carpeta externa, o hace más de 7 días que no se guarda nada en ella (por ejemplo, porque el USB no está conectado), el inicio lo avisa.
-- **Descargar una copia al ordenador** descarga una copia para guardarla donde quieras.
+Menú **Administración → Copias de seguridad**:
 
-### Restaurar (solo el administrador/a)
+![Copias de seguridad](imatges/es/34-copies.jpg)
 
-- Desde la lista: botón **Restaurar** de la copia que quieras.
-- Desde un archivo: **Restaurar desde un archivo** y elige el `.db`.
+### Configurar la carpeta externa (muy importante)
 
-Antes de restaurar, Compàs hace una copia de los datos actuales («Antes de restaurar»), así que siempre se puede volver atrás. La configuración de la carpeta externa se conserva. Después hay que volver a entrar.
+Si el ordenador se estropea o lo roban, las copias que hay dentro se pierden con él. Hay que guardarlas también fuera:
+
+1. Conecta un **disco o lápiz USB**, o elige una carpeta **sincronizada con la nube** (OneDrive, Google Drive…).
+2. Crea en ella una carpeta, por ejemplo `Copias Compàs`, y copia su ruta desde el Explorador de Windows (por ejemplo `E:\Copias Compàs`).
+3. En **Configuración de las copias**, pega la ruta en **Carpeta externa**.
+4. Pulsa **Guardar**.
+
+![Carpeta externa de copias](imatges/es/35-copies-carpeta.jpg)
+
+A partir de ahora, cada copia se guarda también en esta carpeta. Si no está disponible (por ejemplo, el USB no está conectado) o hace más de 7 días que no se guarda nada en ella, el inicio lo avisa.
+
+### Lista de copias, restaurar y eliminar
+
+![Lista de copias](imatges/es/36-copies-llista.jpg)
+
+- **Descargar**: descarga esa copia.
+- **Restaurar** (solo el administrador/a): sustituye todos los datos actuales por los de la copia. Antes, Compàs guarda una copia de los datos actuales («Antes de restaurar»), de manera que siempre se puede volver atrás. Después hay que volver a entrar.
+- **Eliminar** (solo el administrador/a): borra la copia.
+
+Para restaurar una copia guardada fuera (por ejemplo, desde el USB), usa **Restaurar desde un archivo**, al final de la página.
 
 > Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro.
 
-## Usuarios
+## 15. Usuarios y contraseñas
 
-Solo el administrador/a. Desde **Usuarios** puedes cambiar el nombre, el rol, el idioma y la contraseña de cada cuenta, o desactivarla. Si alguien olvida la contraseña, el administrador le pone una nueva. Cada uno puede cambiar la suya desde **Mi cuenta** (haciendo clic en el nombre de usuario, arriba a la derecha).
+### Cambiar tu contraseña
 
-## Registro de actividad
+Haz clic en tu **nombre de usuario** (arriba a la derecha), escribe la contraseña actual y la nueva dos veces, y pulsa **Guardar**.
 
-Solo el administrador/a. Anota quién ha creado, modificado o eliminado cada elemento, las entradas al programa (también las fallidas), las exportaciones, los boletines impresos y las copias.
+![Mi cuenta](imatges/es/38-meu-compte.jpg)
 
-## Idioma
+### Gestionar las cuentas (administrador/a)
 
-Compàs funciona en **valenciano** y **castellano**. Cambia el idioma con los botones `VAL` / `ES` de arriba. Cada usuario puede tener su idioma.
+Menú **Administración → Usuarios**. Abre una cuenta para:
 
-## Preguntas frecuentes
+- cambiarle el **rol** (administrador/a o administrativo/a);
+- ponerle una **contraseña nueva** si la ha olvidado (déjala en blanco para no cambiarla);
+- desactivarla (desmarca **Activo**) o eliminarla.
 
-**¿Tengo que estar conectado a Internet?** No. Compàs funciona sin Internet.
+![Editar un usuario](imatges/es/37-usuari.jpg)
 
-**¿Dónde están los datos?** En `data\compas.db`, dentro de la carpeta del programa. La ruta exacta se ve en **Configuración**.
+Siempre debe quedar al menos un administrador activo.
 
-**¿Cómo paso Compàs a otro ordenador?** Instala Compàs en el ordenador nuevo y restaura en él la última copia (desde un archivo). También puedes copiar la carpeta `data` entera con Compàs cerrado.
+### Registro de actividad
+
+Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
+
+## 16. Ayuda
+
+El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF.
+
+![Ayuda](imatges/es/39-ajuda.jpg)
+
+## 17. Preguntas frecuentes
+
+**He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
+
+**No encuentro a un alumno en el listado.** Puede estar de baja: marca **Mostrar también las bajas**.
+
+**No me deja eliminar algo.** Tiene historial relacionado. Ponlo de baja o como inactivo (apartado 3).
+
+**El alumno no aparece en la asistencia ni en las notas del grupo.** Comprueba que tiene matrícula en el curso actual, en estado Activo, y que está inscrito en ese grupo (apartado 7, paso 5).
+
+**El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
+
+**¿Tengo que estar conectado a Internet?** No.
+
+**¿Dónde están los datos?** En la carpeta `data` del programa (`data\compas.db`). La ruta exacta se ve en **Configuración**.
+
+**¿Cómo paso Compàs a otro ordenador?** Instala Compàs en el ordenador nuevo y, en **Copias de seguridad → Restaurar desde un archivo**, carga la última copia.

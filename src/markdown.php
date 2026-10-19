@@ -2,7 +2,11 @@
 // Conversor senzill de Markdown a HTML (manual dins del programa i PDF)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-function markdown_simple(string $md): string
+/**
+ * @param callable|null $imatge Rep la ruta relativa d'una imatge (p. ex. «imatges/ca/01.jpg») i retorna l'URL que s'ha d'usar,
+ *                              o null si no existeix.
+ */
+function markdown_simple(string $md, ?callable $imatge = null): string
 {
     $html = '';
     $llista = null;
@@ -55,6 +59,15 @@ function markdown_simple(string $md): string
             $html .= '</tbody></table></div>';
             $taula = false;
         }
+        if (preg_match('/^!\[([^\]]*)\]\(([\w\/.-]+)\)\s*$/', trim($linia), $m)) {
+            $tanca();
+            $src = $imatge ? $imatge($m[2]) : $m[2];
+            if ($src) {
+                $html .= '<figure class="captura"><img src="' . h($src) . '" alt="' . h($m[1]) . '" loading="lazy">'
+                    . ($m[1] !== '' ? '<figcaption>' . $inline($m[1]) . '</figcaption>' : '') . '</figure>';
+            }
+            continue;
+        }
         if (trim($linia) === '') {
             $tanca();
         } elseif (preg_match('/^(#{1,4})\s+(.*)$/', $linia, $m)) {
@@ -72,7 +85,8 @@ function markdown_simple(string $md): string
                 if ($llista) {
                     $html .= "</$llista>";
                 }
-                $html .= "<$tipus>";
+                $inici = (int)$m[1];
+                $html .= $tipus === 'ol' && $inici > 1 ? "<ol start=\"$inici\">" : "<$tipus>";
                 $llista = $tipus;
             }
             $html .= '<li>' . $inline($m[2]) . '</li>';

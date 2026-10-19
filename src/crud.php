@@ -318,7 +318,7 @@ function camp_formulari(string $c, array $d, $v): string
                 $ops = opcions_ref($d['ref']);
             }
             $gran = count($ops) > 12 ? ' data-cerca="1"' : '';
-            $in = '<select id="c_' . $nom . '" name="' . $nom . '"' . $req . $gran . '><option value="">—</option>';
+            $in = '<select id="c_' . $nom . '" name="' . $nom . '"' . $req . $gran . '>' . ($d['tipus'] === 'select' ? '' : '<option value="">—</option>');
             foreach ($ops as $k => $text) {
                 $in .= '<option value="' . h($k) . '"' . ((string)$k === (string)$v ? ' selected' : '') . '>' . h($text) . '</option>';
             }
@@ -378,6 +378,7 @@ function pagina_edita(string $nom, ?int $id): void
     }
     $errors = [];
     $dades = [];
+    $creat = false;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($e['camps'] as $c => $d) {
@@ -404,6 +405,7 @@ function pagina_edita(string $nom, ?int $id): void
                     $marques = implode(', ', array_fill(0, count($dades), '?'));
                     q("INSERT INTO {$e['taula']} ($cols) VALUES ($marques)", array_values($dades));
                     $id = (int)db()->lastInsertId();
+                    $creat = true;
                     audita('crea', $nom, $id);
                 }
                 if (isset($e['despres'])) {
@@ -411,7 +413,8 @@ function pagina_edita(string $nom, ?int $id): void
                 }
                 db()->commit();
                 avis(t('desat'));
-                if ($tornar) {
+                // En crear un element amb subapartats (alumne, matrícula, grup…) s'obri la seua fitxa per a continuar
+                if ($tornar && !($creat && $e['fills'])) {
                     header('Location: ' . $tornar);
                     exit;
                 }
@@ -432,7 +435,7 @@ function pagina_edita(string $nom, ?int $id): void
             } elseif (isset($prefix[$c])) {
                 $dades[$c] = $prefix[$c];
             } else {
-                $def = $d['defecte'] ?? null;
+                $def = $d['defecte'] ?? ($d['tipus'] === 'select' ? $d['opcions'][0] : null);
                 $dades[$c] = match ($def) {
                     'avui' => date('Y-m-d'),
                     'curs' => curs_actual()['id'] ?? null,

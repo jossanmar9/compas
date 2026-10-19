@@ -16,12 +16,22 @@ if ($md === false) {
     exit(1);
 }
 $titol = preg_match('/^# (.+)$/m', $md, $m) ? trim($m[1]) : 'Compàs';
-$cos = markdown_simple(preg_replace('/^# .*\R/', '', $md, 1));
+$docsDir = dirname(realpath($argv[1]));
+$cos = markdown_simple(preg_replace('/^# .*\R/', '', $md, 1), function (string $ruta) use ($docsDir) {
+    $f = $docsDir . '/' . $ruta;
+    if (!preg_match('#^imatges/(ca|es)/[\w-]+\.(jpg|png)$#', $ruta) || !is_file($f)) {
+        fwrite(STDERR, "Falta la imatge $ruta\n");
+        return null;
+    }
+    return 'data:image/' . (str_ends_with($f, '.png') ? 'png' : 'jpeg') . ';base64,' . base64_encode(file_get_contents($f));
+});
 $castella = str_contains(basename($argv[1]), 'usuario') || str_contains(basename($argv[1]), 'instalacion');
 $lema = $castella ? 'Gestión libre para sociedades musicales' : 'Gestió lliure per a societats musicals';
 $versio = ($castella ? 'Versión ' : 'Versió ') . (getenv('COMPAS_VERSIO') ?: COMPAS_VERSIO);
 $logo = 'data:image/png;base64,' . base64_encode(file_get_contents(ARREL_DIR . '/app/assets/logo.png'));
 
+// En imprimir no hi ha desplaçament: les imatges no poden tindre càrrega diferida
+$cos = str_replace(' loading="lazy"', '', $cos);
 $castellaLang = $castella ? 'es' : 'ca-valencia';
 $titolH = h($titol);
 $lemaH = h($lema);
@@ -60,6 +70,9 @@ th, td { border: 1px solid #c9d2df; padding: 1.8mm 2.5mm; text-align: left; vert
 th { background: #e8f0fa; font-size: 9.5pt; }
 a { color: #1f5aa6; text-decoration: none; }
 .taula-wrap { overflow: visible; }
+figure.captura { margin: 3mm 0 5mm; page-break-inside: avoid; text-align: center; }
+figure.captura img { max-width: 100%; max-height: 120mm; border: 1px solid #c9d2df; border-radius: 1.5mm; box-shadow: 0 1mm 3mm rgba(20,40,75,.12); }
+figure.captura figcaption { font-size: 8.5pt; color: #5d6778; margin-top: 1.5mm; font-style: italic; }
 </style>
 </head>
 <body>

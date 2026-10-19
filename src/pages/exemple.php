@@ -6,25 +6,29 @@ function carrega_dades_exemple(): void
 {
     $any = (int)date('n') >= 9 ? (int)date('Y') : (int)date('Y') - 1;
     $persona = function (string $nom, string $cognoms, ?string $naix = null) {
-        q('INSERT INTO persones(nom, cognoms, data_naixement, poblacio) VALUES(?, ?, ?, ?)', [$nom, $cognoms, $naix, 'Poble d\'Exemple']);
+        q('INSERT INTO persones(nom, cognoms, data_naixement, poblacio) VALUES(?, ?, ?, ?)', [$nom, $cognoms, $naix, idioma() === 'es' ? 'Pueblo de Ejemplo' : 'Poble d\'Exemple']);
         return (int)db()->lastInsertId();
     };
     $id = fn() => (int)db()->lastInsertId();
+    // Textos de les dades d'exemple en l'idioma triat en instal·lar
+    $es = idioma() === 'es';
+    $tr = fn(string $ca, string $esp) => $es ? $esp : $ca;
 
     q('INSERT INTO cursos(nom, data_inici, data_fi, actual) VALUES(?, ?, ?, 1)', ["$any/" . ($any + 1), "$any-09-15", ($any + 1) . '-06-20']);
     $curs = $id();
-    foreach (['1r trimestre', '2n trimestre', '3r trimestre'] as $i => $p) {
+    foreach ($es ? ['1.er trimestre', '2.º trimestre', '3.er trimestre'] : ['1r trimestre', '2n trimestre', '3r trimestre'] as $i => $p) {
         q('INSERT INTO periodes(curs_id, nom, ordre) VALUES(?, ?, ?)', [$curs, $p, $i + 1]);
     }
 
     $assig = [];
-    foreach ([['Llenguatge musical', 'llenguatge'], ['Trompeta', 'instrument'], ['Clarinet', 'instrument'], ['Percussió', 'instrument'], ['Conjunt instrumental', 'conjunt']] as [$n, $tp]) {
-        q('INSERT INTO assignatures(nom, tipus) VALUES(?, ?)', [$n, $tp]);
+    foreach ([['Llenguatge musical', 'Lenguaje musical', 'llenguatge'], ['Trompeta', 'Trompeta', 'instrument'], ['Clarinet', 'Clarinete', 'instrument'],
+                 ['Percussió', 'Percusión', 'instrument'], ['Conjunt instrumental', 'Conjunto instrumental', 'conjunt']] as [$n, $nes, $tp]) {
+        q('INSERT INTO assignatures(nom, tipus) VALUES(?, ?)', [$tr($n, $nes), $tp]);
         $assig[$n] = $id();
     }
     $aules = [];
-    foreach (['Aula 1', 'Aula 2', 'Sala d\'assajos'] as $n) {
-        q('INSERT INTO aules(nom, capacitat) VALUES(?, ?)', [$n, $n === 'Sala d\'assajos' ? 60 : 12]);
+    foreach (['Aula 1', 'Aula 2', $tr('Sala d\'assajos', 'Sala de ensayos')] as $i => $n) {
+        q('INSERT INTO aules(nom, capacitat) VALUES(?, ?)', [$n, $i === 2 ? 60 : 12]);
         $aules[] = $id();
     }
 
@@ -42,6 +46,7 @@ function carrega_dades_exemple(): void
         ['Clarinet', 'Individual', 0, 1, [[4, '18:00', '19:00']]],
         ['Conjunt instrumental', 'Únic', 1, 2, [[5, '19:00', '20:30']]],
     ] as [$a, $n, $pr, $au, $hs]) {
+        $n = $es ? strtr($n, ['1r A' => '1.º A', 'Únic' => 'Único']) : $n;
         q('INSERT INTO grups(curs_id, assignatura_id, nom, professor_id, aula_id) VALUES(?,?,?,?,?)', [$curs, $assig[$a], $n, $profs[$pr], $aules[$au]]);
         $g = $id();
         $grups[$a] = $g;
@@ -80,25 +85,26 @@ function carrega_dades_exemple(): void
         $p = $persona('Músic' . $n, 'Exemple');
         $musics[] = $p;
         q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), 'ordinari', ($any - $n) . '-01-15']);
-        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], ($any - $n) . '-01-15']);
+        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], $es ? ['Trompeta', 'Clarinete', 'Saxo alto', 'Trombón', 'Percusión'][$n - 1] : ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], ($any - $n) . '-01-15']);
     }
     q("INSERT INTO membres(persona_id, agrupacio_id, funcio, data_alta) VALUES(?, ?, 'director_titular', ?)", [$tutors[0], $agr['Banda'], "$any-01-01"]);
     q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$tutors[1], $agr['Coral'], 'Soprano']);
     foreach (array_slice($alumnesPersona, 3) as $p) {
-        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$p, $agr['Banda juvenil'], 'Clarinet']);
+        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$p, $agr['Banda juvenil'], $tr('Clarinet', 'Clarinete')]);
     }
     foreach ($tutors as $i => $p) {
         q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(200 + $i), 'protector', "$any-02-01"]);
     }
 
     $instr = [];
-    foreach ([['INV-001', 'Trompeta', 'Yamaha', 'YTR-2330'], ['INV-002', 'Clarinet', 'Buffet', 'Prodige'], ['INV-003', 'Bombo de concert', null, null], ['INV-004', 'Saxo alt', 'Jupiter', 'JAS-500']] as [$inv, $tp, $ma, $mo]) {
-        q('INSERT INTO instruments(inventari, tipus, marca, model, ubicacio) VALUES(?,?,?,?,?)', [$inv, $tp, $ma, $mo, 'Magatzem']);
+    foreach ([['INV-001', 'Trompeta', 'Yamaha', 'YTR-2330'], ['INV-002', $tr('Clarinet', 'Clarinete'), 'Buffet', 'Prodige'],
+                 ['INV-003', $tr('Bombo de concert', 'Bombo de concierto'), null, null], ['INV-004', $tr('Saxo alt', 'Saxo alto'), 'Jupiter', 'JAS-500']] as [$inv, $tp, $ma, $mo]) {
+        q('INSERT INTO instruments(inventari, tipus, marca, model, ubicacio) VALUES(?,?,?,?,?)', [$inv, $tp, $ma, $mo, $tr('Magatzem', 'Almacén')]);
         $instr[] = $id();
     }
     q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, estat_entrega, fianca) VALUES(?,?,?,?,?,?)',
-        [$instr[0], $alumnesPersona[0], "$any-09-20", ($any + 1) . '-06-30', 'Bo', 50]);
+        [$instr[0], $alumnesPersona[0], "$any-09-20", ($any + 1) . '-06-30', $tr('Bo', 'Bueno'), 50]);
     q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, estat_entrega) VALUES(?,?,?,?,?)',
-        [$instr[1], $alumnesPersona[1], "$any-09-20", date('Y-m-d', strtotime('-7 days')), 'Bo']);
-    q('INSERT INTO manteniments(instrument_id, data, descripcio, cost) VALUES(?,?,?,?)', [$instr[0], "$any-09-05", 'Neteja i greixat de pistons', 35]);
+        [$instr[1], $alumnesPersona[1], "$any-09-20", date('Y-m-d', strtotime('-7 days')), $tr('Bo', 'Bueno')]);
+    q('INSERT INTO manteniments(instrument_id, data, descripcio, cost) VALUES(?,?,?,?)', [$instr[0], "$any-09-05", $tr('Neteja i greixat de pistons', 'Limpieza y engrase de pistones'), 35]);
 }

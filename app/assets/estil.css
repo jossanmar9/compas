@@ -192,6 +192,9 @@ pre.detall { white-space: pre-wrap; font-size: .8rem; color: var(--suau); }
 .manual h3 { margin: 20px 0 8px; font-size: 1.05rem; }
 .manual h2:first-child { margin-top: 0; }
 .manual blockquote { margin: 12px 0; padding: 8px 14px; background: var(--info-fons); border-left: 3px solid var(--or); border-radius: 4px; }
+.manual figure.captura { margin: 14px 0 22px; text-align: center; }
+.manual figure.captura img { max-width: 100%; border: 1px solid var(--vora); border-radius: 8px; box-shadow: 0 3px 12px rgba(20,40,75,.12); }
+.manual figure.captura figcaption { font-size: .82rem; color: var(--suau); margin-top: 6px; font-style: italic; }
 .manual pre { background: var(--fons); padding: 10px; border-radius: 6px; overflow-x: auto; }
 
 /* Pàgines simples (entrada i instal·lació) */

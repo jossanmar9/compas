@@ -40,12 +40,6 @@ try {
         serveix_logo();
     }
 
-    // Primera execució: no hi ha cap usuari
-    if ((int)valor('SELECT COUNT(*) FROM usuaris') === 0) {
-        pagina_configuracio_inicial();
-        exit;
-    }
-
     if ($r === 'idioma') {
         $l = get('l');
         if (isset(IDIOMES[$l])) {
@@ -56,6 +50,12 @@ try {
         }
         $tornar = get('tornar');
         header('Location: ' . (str_starts_with($tornar, '/') && !str_starts_with($tornar, '//') ? $tornar : '?'));
+        exit;
+    }
+
+    // Primera execució: no hi ha cap usuari
+    if ((int)valor('SELECT COUNT(*) FROM usuaris') === 0) {
+        pagina_configuracio_inicial();
         exit;
     }
 
@@ -122,6 +122,8 @@ try {
             break;
         case 'manual_pdf':
             serveix_pdf();
+        case 'doc_img':
+            serveix_imatge_doc();
         default:
             if (isset(entitats()[$r])) {
                 redirigeix('llista', ['e' => $r]);
