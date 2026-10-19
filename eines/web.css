@@ -153,11 +153,12 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 /* Peu: doble barra final */
 .peu { max-width: var(--ample); margin: 2rem auto 0; padding: 0 1.25rem 2.5rem; }
 .doble-barra {
-  height: 3.2rem; position: relative; margin-bottom: 1.4rem;
-  background: repeating-linear-gradient(to bottom, var(--linia) 0 2px, transparent 2px 12.6px);
-  border-right: 7px solid var(--mari);
+  /* 5 línies exactes: 2px de línia cada 12px → 4×12 + 2 = 50px; les barres van de la primera a l'última línia */
+  height: 50px; position: relative; margin-bottom: 1.4rem;
+  background: repeating-linear-gradient(to bottom, var(--linia) 0 2px, transparent 2px 12px);
+  border-right: 6px solid var(--mari);
 }
-.doble-barra::after { content: ""; position: absolute; top: 0; bottom: 0; right: 12px; width: 2px; background: var(--mari); }
+.doble-barra::after { content: ""; position: absolute; top: 0; bottom: 0; right: 10px; width: 2px; background: var(--mari); }
 @media (prefers-color-scheme: dark) {
   .doble-barra { border-right-color: var(--tinta); }
   .doble-barra::after { background: var(--tinta); }
