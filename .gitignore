@@ -1,0 +1,20 @@
+# Dades (mai al repositori: contenen dades personals)
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Construcció
+dist/
+php.zip
+
+# Sistema i editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
+*.tmp
+*.swp
+*~
