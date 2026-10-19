@@ -1,0 +1,152 @@
+<?php
+// Entrada, configuració inicial i perfil
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+const MIN_CONTRASENYA = 8;
+
+function valida_contrasenya(string $c1, string $c2): ?string
+{
+    if (mb_strlen($c1) < MIN_CONTRASENYA) {
+        return t('err.contrasenya_curta', MIN_CONTRASENYA);
+    }
+    if ($c1 !== $c2) {
+        return t('err.contrasenyes');
+    }
+    return null;
+}
+
+function pagina_configuracio_inicial(): void
+{
+    $error = null;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $nom = post('societat_nom');
+        $usuari = post('usuari');
+        $l = post('idioma');
+        $error = valida_contrasenya((string)post('contrasenya'), (string)post('contrasenya2'));
+        if (!$nom || !preg_match('/^[\p{L}\p{N}._-]{3,40}$/u', $usuari)) {
+            $error = t('err.dades_inicials');
+        }
+        if (!$error) {
+            db()->beginTransaction();
+            desa_config('societat_nom', $nom);
+            desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
+            q('INSERT INTO usuaris(usuari, contrasenya, idioma) VALUES(?, ?, ?)', [$usuari, password_hash(post('contrasenya'), PASSWORD_DEFAULT), $l]);
+            $id = (int)db()->lastInsertId();
+            q("INSERT INTO usuari_rols(usuari_id, rol_id) SELECT ?, id FROM rols WHERE clau = 'admin'", [$id]);
+            if (post('exemple') === '1') {
+                carrega_dades_exemple();
+            }
+            db()->commit();
+            session_regenerate_id(true);
+            $_SESSION['usuari_id'] = $id;
+            $_SESSION['idioma'] = $l;
+            audita('instal·lacio', null, null, $nom);
+            avis(t('benvinguda'));
+            redirigeix('inici');
+        }
+    }
+    $html = '<h1>' . h(t('setup.titol')) . '</h1><p>' . h(t('setup.text')) . '</p>';
+    if ($error) {
+        $html .= '<div class="avis error">' . h($error) . '</div>';
+    }
+    $html .= '<form method="post" class="formulari vertical">' . csrf_camp()
+        . '<div class="camp"><label>' . h(t('camp.societat_nom')) . '</label><input name="societat_nom" required value="' . h(post('societat_nom')) . '" placeholder="' . h(t('setup.exemple_nom')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('camp.idioma')) . '</label><select name="idioma">';
+    foreach (IDIOMES as $k => $n) {
+        $html .= '<option value="' . $k . '"' . ($k === idioma() ? ' selected' : '') . '>' . h($n) . '</option>';
+    }
+    $html .= '</select></div>'
+        . '<div class="camp"><label>' . h(t('setup.usuari_admin')) . '</label><input name="usuari" required autocomplete="username" value="' . h(post('usuari', 'admin')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya" required minlength="' . MIN_CONTRASENYA . '" autocomplete="new-password"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya2" required autocomplete="new-password"></div>'
+        . '<div class="camp camp-check"><label><input type="checkbox" name="exemple" value="1"> ' . h(t('setup.exemple')) . '</label><small>' . h(t('setup.exemple_ajuda')) . '</small></div>'
+        . '<button>' . h(t('setup.comenca')) . '</button></form>';
+    $html .= '<p class="idiomes-peu">' . enllacos_idioma() . '</p>';
+    pagina_simple(t('setup.titol'), $html);
+}
+
+function enllacos_idioma(): string
+{
+    $parts = [];
+    foreach (IDIOMES as $k => $n) {
+        $parts[] = $k === idioma() ? '<strong>' . h($n) . '</strong>' : '<a href="' . h(url('idioma', ['l' => $k, 'tornar' => '/'])) . '">' . h($n) . '</a>';
+    }
+    return implode(' · ', $parts);
+}
+
+function pagina_entrada(): void
+{
+    $error = null;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && get('r') === 'entrada') {
+        $intents = $_SESSION['intents'] ?? 0;
+        // El servidor integrat de PHP atén una petició cada vegada: no fem sleep(), bloquegem un temps
+        if ($intents >= 5 && time() - ($_SESSION['darrer_intent'] ?? 0) < 30) {
+            pagina_simple(t('entra'), '<div class="avis error">' . h(t('err.massa_intents')) . '</div><p><a href="?">' . h(t('torna')) . '</a></p>');
+            return;
+        }
+        $_SESSION['darrer_intent'] = time();
+        $u = fila('SELECT * FROM usuaris WHERE usuari = ? AND actiu = 1', [post('usuari')]);
+        if ($u && password_verify((string)post('contrasenya'), $u['contrasenya'])) {
+            session_regenerate_id(true);
+            $_SESSION['usuari_id'] = $u['id'];
+            $_SESSION['intents'] = 0;
+            if ($u['idioma']) {
+                $_SESSION['idioma'] = $u['idioma'];
+            }
+            if (password_needs_rehash($u['contrasenya'], PASSWORD_DEFAULT)) {
+                q('UPDATE usuaris SET contrasenya = ? WHERE id = ?', [password_hash(post('contrasenya'), PASSWORD_DEFAULT), $u['id']]);
+            }
+            q("UPDATE usuaris SET ultim_acces = datetime('now','localtime') WHERE id = ?", [$u['id']]);
+            audita('entrada');
+            redirigeix('inici');
+        }
+        $_SESSION['intents'] = $intents + 1;
+        q('INSERT INTO auditoria(accio, usuari, detall) VALUES(?, ?, ?)', ['entrada_fallida', mb_substr((string)post('usuari'), 0, 60), $_SERVER['REMOTE_ADDR'] ?? '']);
+        $error = t('err.entrada');
+    }
+    $html = '';
+    if ($error) {
+        $html .= '<div class="avis error">' . h($error) . '</div>';
+    }
+    $html .= '<form method="post" action="' . h(url('entrada')) . '" class="formulari vertical">' . csrf_camp()
+        . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari" required autofocus autocomplete="username" value="' . h(post('usuari')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya" required autocomplete="current-password"></div>'
+        . '<button>' . h(t('entra')) . '</button></form>'
+        . '<p class="nota">' . h(t('entrada.oblit')) . '</p>'
+        . '<p class="idiomes-peu">' . enllacos_idioma() . '</p>';
+    pagina_simple(t('entra'), $html);
+}
+
+function pagina_perfil(): void
+{
+    $u = usuari();
+    $error = null;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!password_verify((string)post('actual'), $u['contrasenya'])) {
+            $error = t('err.contrasenya_actual');
+        } else {
+            $error = valida_contrasenya((string)post('contrasenya'), (string)post('contrasenya2'));
+        }
+        if (!$error) {
+            q('UPDATE usuaris SET contrasenya = ? WHERE id = ?', [password_hash(post('contrasenya'), PASSWORD_DEFAULT), $u['id']]);
+            audita('canvi_contrasenya', 'usuaris', $u['id']);
+            avis(t('contrasenya_canviada'));
+            redirigeix('perfil');
+        }
+    }
+    $rols = array_map('nom_rol', q('SELECT r.* FROM rols r JOIN usuari_rols ur ON ur.rol_id = r.id WHERE ur.usuari_id = ?', [$u['id']])->fetchAll());
+    $persona = $u['persona_id'] ? fila('SELECT * FROM persones WHERE id = ?', [$u['persona_id']]) : null;
+    $html = '<dl class="fitxa"><dt>' . h(t('camp.usuari')) . '</dt><dd>' . h($u['usuari']) . '</dd>'
+        . '<dt>' . h(t('camp.persona_id')) . '</dt><dd>' . h($persona ? nom_persona($persona) : '—') . '</dd>'
+        . '<dt>' . h(t('menu.rols')) . '</dt><dd>' . h(implode(', ', $rols) ?: '—') . '</dd></dl>';
+    $html .= '<section class="fill"><header><h2>' . h(t('canvia_contrasenya')) . '</h2></header>';
+    if ($error) {
+        $html .= '<div class="avis error">' . h($error) . '</div>';
+    }
+    $html .= '<form method="post" class="formulari vertical estret">' . csrf_camp()
+        . '<div class="camp"><label>' . h(t('camp.contrasenya_actual')) . '</label><input type="password" name="actual" required autocomplete="current-password"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya_nova')) . '</label><input type="password" name="contrasenya" required minlength="' . MIN_CONTRASENYA . '" autocomplete="new-password"></div>'
+        . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya2" required autocomplete="new-password"></div>'
+        . '<button>' . h(t('desa')) . '</button></form></section>';
+    pagina(t('menu.perfil'), $html);
+}

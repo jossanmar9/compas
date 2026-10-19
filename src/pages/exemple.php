@@ -1,0 +1,104 @@
+<?php
+// Dades d'exemple (opcionals) per a provar el programa. Noms genèrics.
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+function carrega_dades_exemple(): void
+{
+    $any = (int)date('n') >= 9 ? (int)date('Y') : (int)date('Y') - 1;
+    $persona = function (string $nom, string $cognoms, ?string $naix = null) {
+        q('INSERT INTO persones(nom, cognoms, data_naixement, poblacio) VALUES(?, ?, ?, ?)', [$nom, $cognoms, $naix, 'Poble d\'Exemple']);
+        return (int)db()->lastInsertId();
+    };
+    $id = fn() => (int)db()->lastInsertId();
+
+    q('INSERT INTO cursos(nom, data_inici, data_fi, actual) VALUES(?, ?, ?, 1)', ["$any/" . ($any + 1), "$any-09-15", ($any + 1) . '-06-20']);
+    $curs = $id();
+    foreach (['1r trimestre', '2n trimestre', '3r trimestre'] as $i => $p) {
+        q('INSERT INTO periodes(curs_id, nom, ordre) VALUES(?, ?, ?)', [$curs, $p, $i + 1]);
+    }
+
+    $assig = [];
+    foreach ([['Llenguatge musical', 'llenguatge'], ['Trompeta', 'instrument'], ['Clarinet', 'instrument'], ['Percussió', 'instrument'], ['Conjunt instrumental', 'conjunt']] as [$n, $tp]) {
+        q('INSERT INTO assignatures(nom, tipus) VALUES(?, ?)', [$n, $tp]);
+        $assig[$n] = $id();
+    }
+    $aules = [];
+    foreach (['Aula 1', 'Aula 2', 'Sala d\'assajos'] as $n) {
+        q('INSERT INTO aules(nom, capacitat) VALUES(?, ?)', [$n, $n === 'Sala d\'assajos' ? 60 : 12]);
+        $aules[] = $id();
+    }
+
+    $profs = [];
+    foreach ([1, 2] as $n) {
+        $p = $persona('Professora' . $n, 'Exemple');
+        q('INSERT INTO professors(persona_id, data_alta) VALUES(?, ?)', [$p, "$any-09-01"]);
+        $profs[] = $id();
+    }
+
+    $grups = [];
+    foreach ([
+        ['Llenguatge musical', '1r A', 0, 0, [[1, '17:00', '18:00'], [3, '17:00', '18:00']]],
+        ['Trompeta', 'Individual', 1, 1, [[2, '18:00', '19:00']]],
+        ['Clarinet', 'Individual', 0, 1, [[4, '18:00', '19:00']]],
+        ['Conjunt instrumental', 'Únic', 1, 2, [[5, '19:00', '20:30']]],
+    ] as [$a, $n, $pr, $au, $hs]) {
+        q('INSERT INTO grups(curs_id, assignatura_id, nom, professor_id, aula_id) VALUES(?,?,?,?,?)', [$curs, $assig[$a], $n, $profs[$pr], $aules[$au]]);
+        $g = $id();
+        $grups[$a] = $g;
+        foreach ($hs as [$dia, $hi, $hf]) {
+            q('INSERT INTO horaris(grup_id, dia, hora_inici, hora_fi) VALUES(?,?,?,?)', [$g, $dia, $hi, $hf]);
+        }
+    }
+
+    $tutors = [];
+    foreach ([1, 2, 3] as $n) {
+        $tutors[] = $persona('Tutor' . $n, 'Exemple');
+    }
+    $alumnesPersona = [];
+    foreach (range(1, 6) as $n) {
+        $p = $persona('Alumne' . $n, 'Exemple', ($any - 8 - $n) . '-0' . (($n % 9) + 1) . '-1' . $n);
+        $alumnesPersona[] = $p;
+        q('INSERT INTO alumnes(persona_id, data_alta) VALUES(?, ?)', [$p, "$any-09-10"]);
+        $al = $id();
+        q('INSERT INTO tutories(alumne_id, tutor_id, tipus_relacio, principal) VALUES(?, ?, ?, 1)', [$al, $tutors[($n - 1) % 3], ['mare', 'pare', 'tutor_legal'][($n - 1) % 3]]);
+        q('INSERT INTO matricules(alumne_id, curs_id, data) VALUES(?, ?, ?)', [$al, $curs, "$any-09-10"]);
+        $m = $id();
+        q('INSERT INTO matricula_grups(matricula_id, grup_id) VALUES(?, ?)', [$m, $grups['Llenguatge musical']]);
+        q('INSERT INTO matricula_grups(matricula_id, grup_id) VALUES(?, ?)', [$m, $grups[$n % 2 ? 'Trompeta' : 'Clarinet']]);
+        if ($n > 3) {
+            q('INSERT INTO matricula_grups(matricula_id, grup_id) VALUES(?, ?)', [$m, $grups['Conjunt instrumental']]);
+        }
+    }
+
+    $agr = [];
+    foreach ([['Banda', 'banda'], ['Banda juvenil', 'banda_juvenil'], ['Coral', 'coral']] as [$n, $tp]) {
+        q('INSERT INTO agrupacions(nom, tipus) VALUES(?, ?)', [$n, $tp]);
+        $agr[$n] = $id();
+    }
+    $musics = [];
+    foreach (range(1, 5) as $n) {
+        $p = $persona('Músic' . $n, 'Exemple');
+        $musics[] = $p;
+        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), 'ordinari', ($any - $n) . '-01-15']);
+        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], ($any - $n) . '-01-15']);
+    }
+    q("INSERT INTO membres(persona_id, agrupacio_id, funcio, data_alta) VALUES(?, ?, 'director_titular', ?)", [$tutors[0], $agr['Banda'], "$any-01-01"]);
+    q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$tutors[1], $agr['Coral'], 'Soprano']);
+    foreach (array_slice($alumnesPersona, 3) as $p) {
+        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$p, $agr['Banda juvenil'], 'Clarinet']);
+    }
+    foreach ($tutors as $i => $p) {
+        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(200 + $i), 'protector', "$any-02-01"]);
+    }
+
+    $instr = [];
+    foreach ([['INV-001', 'Trompeta', 'Yamaha', 'YTR-2330'], ['INV-002', 'Clarinet', 'Buffet', 'Prodige'], ['INV-003', 'Bombo de concert', null, null], ['INV-004', 'Saxo alt', 'Jupiter', 'JAS-500']] as [$inv, $tp, $ma, $mo]) {
+        q('INSERT INTO instruments(inventari, tipus, marca, model, ubicacio) VALUES(?,?,?,?,?)', [$inv, $tp, $ma, $mo, 'Magatzem']);
+        $instr[] = $id();
+    }
+    q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, estat_entrega, fianca) VALUES(?,?,?,?,?,?)',
+        [$instr[0], $alumnesPersona[0], "$any-09-20", ($any + 1) . '-06-30', 'Bo', 50]);
+    q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, estat_entrega) VALUES(?,?,?,?,?)',
+        [$instr[1], $alumnesPersona[1], "$any-09-20", date('Y-m-d', strtotime('-7 days')), 'Bo']);
+    q('INSERT INTO manteniments(instrument_id, data, descripcio, cost) VALUES(?,?,?,?)', [$instr[0], "$any-09-05", 'Neteja i greixat de pistons', 35]);
+}

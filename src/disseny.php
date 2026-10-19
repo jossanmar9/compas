@@ -1,0 +1,123 @@
+<?php
+// Plantilla de pàgina i menú
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+function menu(): array
+{
+    return [
+        ['inici', 'menu.inici', null, '⌂'],
+        ['portal', 'menu.portal', 'portal', '☺'],
+        ['persones', 'ent.persones', 'persones.view', '👤'],
+        ['socis', 'ent.socis', 'socis.view', '★'],
+        ['_escola', 'menu.escola', null, null],
+        ['alumnes', 'ent.alumnes', 'escola.view', '🎓'],
+        ['professors', 'ent.professors', 'escola.view', '🧑‍🏫'],
+        ['matricules', 'ent.matricules', 'escola.view', '📝'],
+        ['grups', 'ent.grups', 'escola.view', '👥'],
+        ['horari', 'menu.horari', 'escola.view', '🕑'],
+        ['assistencia', 'menu.assistencia', 'escola.assistencia', '✓'],
+        ['notes', 'menu.notes', 'escola.notes', '✎'],
+        ['cursos', 'ent.cursos', 'escola.view', '📅'],
+        ['assignatures', 'ent.assignatures', 'escola.view', '♪'],
+        ['aules', 'ent.aules', 'escola.view', '🚪'],
+        ['_agrup', 'menu.agrupacions', null, null],
+        ['agrupacions', 'ent.agrupacions', 'agrupacions.view', '🎺'],
+        ['membres', 'ent.membres', 'agrupacions.view', '🎶'],
+        ['_instr', 'menu.instruments', null, null],
+        ['instruments', 'ent.instruments', 'instruments.view', '🎷'],
+        ['cessions', 'ent.cessions', 'instruments.view', '⇄'],
+        ['_admin', 'menu.administracio', null, null],
+        ['usuaris', 'menu.usuaris', 'usuaris.manage', '🔑'],
+        ['rols', 'menu.rols', 'usuaris.manage', '🛡'],
+        ['configuracio', 'menu.configuracio', 'config.manage', '⚙'],
+        ['auditoria', 'menu.auditoria', 'auditoria.view', '📜'],
+        ['copia', 'menu.copia', 'copia.manage', '💾'],
+        ['ajuda', 'menu.ajuda', null, '?'],
+    ];
+}
+
+function enllac_menu(string $clau): string
+{
+    return isset(entitats()[$clau]) ? url('llista', ['e' => $clau]) : url($clau);
+}
+
+function html_menu(): string
+{
+    $actual = get('r', 'inici');
+    if (in_array($actual, ['llista', 'fitxa', 'edita'], true)) {
+        $actual = get('e');
+    }
+    $u = usuari();
+    $items = [];
+    $seccio = null;
+    foreach (menu() as [$clau, $etq, $cap, $icona]) {
+        if ($clau[0] === '_') {
+            $seccio = '<li class="seccio">' . h(t($etq)) . '</li>';
+            continue;
+        }
+        if ($cap === 'portal') {
+            if (!$u['persona_id']) {
+                continue;
+            }
+        } elseif ($cap && !pot($cap)) {
+            continue;
+        }
+        if ($seccio) {
+            $items[] = $seccio;
+            $seccio = null;
+        }
+        $items[] = '<li><a href="' . h(enllac_menu($clau)) . '"' . ($clau === $actual ? ' class="actiu"' : '') . '><span class="ic">'
+            . h($icona) . '</span>' . h(t($etq)) . '</a></li>';
+    }
+    return '<ul>' . implode('', $items) . '</ul>';
+}
+
+function html_avisos(): string
+{
+    $html = '';
+    foreach ($_SESSION['avisos'] ?? [] as [$tipus, $text]) {
+        $html .= '<div class="avis ' . h($tipus) . '">' . h($text) . '</div>';
+    }
+    unset($_SESSION['avisos']);
+    return $html;
+}
+
+function capcalera_html(string $titol): string
+{
+    $societat = config('societat_nom') ?: 'Compàs';
+    return '<!doctype html><html lang="' . h(idioma() === 'ca' ? 'ca-valencia' : 'es') . '"><head><meta charset="utf-8">'
+        . '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        . '<title>' . h($titol) . ' · ' . h($societat) . '</title>'
+        . '<link rel="icon" href="assets/icona.png"><link rel="stylesheet" href="assets/estil.css?v=' . COMPAS_VERSIO . '">'
+        . '<script src="assets/app.js?v=' . COMPAS_VERSIO . '" defer></script></head>';
+}
+
+function pagina(string $titol, string $cos, ?string $subtitol = null): void
+{
+    $u = usuari();
+    if (!$u) {
+        pagina_simple($titol, $cos);
+        return;
+    }
+    $societat = config('societat_nom') ?: 'Compàs';
+    $idiomes = '';
+    foreach (IDIOMES as $k => $n) {
+        $idiomes .= $k === idioma() ? '<strong>' . IDIOMES_CURT[$k] . '</strong>'
+            : '<a href="' . h(url('idioma', ['l' => $k, 'tornar' => $_SERVER['REQUEST_URI'] ?? ''])) . '" title="' . h($n) . '">' . IDIOMES_CURT[$k] . '</a>';
+    }
+    echo capcalera_html($titol);
+    echo '<body><div class="app">';
+    echo '<aside class="lateral"><a class="marca" href="?"><img src="assets/icona.png" alt=""><span><b>Compàs</b><small>'
+        . h($societat) . '</small></span></a><button class="obre-menu" type="button" aria-label="Menú">☰</button><nav>' . html_menu() . '</nav></aside>';
+    echo '<main><header class="superior"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>';
+    echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.perfil')) . '">'
+        . h($u['usuari']) . '</a><form method="post" action="' . h(url('eixir')) . '">' . csrf_camp() . '<button class="enllac">' . h(t('eixir')) . '</button></form></div></header>';
+    echo '<div class="contingut">' . html_avisos() . $cos . '</div></main></div></body></html>';
+}
+
+function pagina_simple(string $titol, string $cos): void
+{
+    echo capcalera_html($titol);
+    echo '<body class="simple"><div class="caixa"><img class="logo" src="assets/logo.png" alt="Compàs: ' . h(t('lema')) . '">'
+        . html_avisos() . $cos . '</div><p class="versio">Compàs ' . COMPAS_VERSIO . ' · GPL-2.0-or-later</p></body></html>';
+}
