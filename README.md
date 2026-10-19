@@ -36,6 +36,7 @@ Baixa l'última versió des de **[Releases](../../releases)**:
 
 Guies: [instal·lació](docs/guia-installacio.md) · [instalación](docs/guia-instalacion.md)
 Manuals: [manual d'usuari](docs/manual-usuari.md) · [manual de usuario](docs/manual-usuario.md) · En PDF: [manual d'usuari](docs/pdf/manual-usuari.pdf) · [manual de usuario](docs/pdf/manual-usuario.pdf) · [guia d'instal·lació](docs/pdf/guia-installacio.pdf) · [guía de instalación](docs/pdf/guia-instalacion.pdf)
+Web: [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/)
 Detalls tècnics: [arquitectura](docs/arquitectura.md)
 
 ## Tecnologia

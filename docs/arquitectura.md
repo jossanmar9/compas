@@ -38,6 +38,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/markdown.php` | Conversor de Markdown a HTML (manual dins del programa i PDF). |
 | `eines/document-html.php` | Prepara cada manual com a pàgina A4 amb portada; GitHub Actions la imprimeix en PDF amb Chrome o Edge (`docs/pdf/`). |
 | `eines/captures.py` | Genera les captures dels manuals (`docs/imatges/ca` i `es`) fent cada procés amb dades d'exemple. Requereix Python, Pillow i Playwright: `python3 eines/captures.py`. |
+| `eines/web.php`, `eines/web.css` | Generen la web de presentació (valencià i castellà) amb captures i PDF. El workflow `web.yml` la publica a GitHub Pages. |
 
 Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `entitats.php`, afig-la al menú (`src/disseny.php`) i posa els textos a `lang/`.
 
