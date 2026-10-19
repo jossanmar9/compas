@@ -90,6 +90,27 @@ jobs:
           Copy-Item README.md, LICENSE, compas.ini $d
           Set-Content "$d\data\LLEGIX-ME.txt" "Ací es guarden les dades de Compàs (compas.db) i les còpies automàtiques. No l'esborres."
 
+      - name: Genera els manuals en PDF
+        shell: pwsh
+        run: |
+          $env:COMPAS_VERSIO = "${{ steps.versio.outputs.versio }}"
+          $php = "dist\Compas\php"
+          $nav = @("${env:ProgramFiles}\Google\Chrome\Application\chrome.exe",
+                   "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe",
+                   "${env:ProgramFiles}\Microsoft\Edge\Application\msedge.exe") | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $nav) { throw "No hi ha cap navegador per a generar els PDF" }
+          $pdf = "$PWD\dist\Compas\docs\pdf"
+          New-Item -ItemType Directory $pdf -Force | Out-Null
+          foreach ($d in 'manual-usuari','manual-usuario','guia-installacio','guia-instalacion') {
+            $html = Join-Path $env:RUNNER_TEMP "$d.html"
+            & "$php\php.exe" -c "$php\php.ini" -d "extension_dir=$PWD\$php\ext" eines\document-html.php "docs\$d.md" $html
+            if ($LASTEXITCODE -ne 0) { throw "Error convertint $d" }
+            $url = "file:///" + ($html -replace '\\', '/')
+            Start-Process $nav -Wait -ArgumentList "--headless=new", "--disable-gpu", "--no-first-run", "--user-data-dir=`"$env:RUNNER_TEMP\perfil-nav`"", "--no-pdf-header-footer", "--print-to-pdf=`"$pdf\$d.pdf`"", $url
+            if (-not (Test-Path "$pdf\$d.pdf")) { throw "No s'ha generat $d.pdf" }
+          }
+          Get-ChildItem $pdf
+
       - name: Prova el paquet
         shell: pwsh
         run: |
@@ -129,10 +150,11 @@ jobs:
           files: |
             dist/*.zip
             dist/*.exe
+            dist/Compas/docs/pdf/*.pdf
           body: |
             **Compàs ${{ steps.versio.outputs.versio }}** — Gestió lliure per a societats musicals.
 
             - **Compas-…-installador.exe**: instal·lador per a Windows 10/11 (64 bits). No necessita permisos d'administrador.
             - **Compas-…-portable.zip**: el mateix sense instal·lar. Descomprimeix-lo i obri `Compas.exe`.
 
-            Guia d'instal·lació: `docs/guia-installacio.md` · Guía de instalación: `docs/guia-instalacion.md`
+            Manuals i guies en PDF (valencià i castellà) adjunts a aquesta versió i dins del programa (Ajuda).
