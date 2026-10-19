@@ -35,6 +35,8 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/pages/*.php` | Pantalles específiques: inici, horari, assistència, qualificacions, butlletins i logotip, usuaris, configuració, auditoria, còpies, ajuda. |
 | `src/lang/ca.php`, `es.php` | Textos en valencià i castellà. |
 | `app/assets/` | Estil, JavaScript, logotip i icona. |
+| `src/markdown.php` | Conversor de Markdown a HTML (manual dins del programa i PDF). |
+| `eines/document-html.php` | Prepara cada manual com a pàgina A4 amb portada; GitHub Actions la imprimeix en PDF amb Chrome o Edge (`docs/pdf/`). |
 
 Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `entitats.php`, afig-la al menú (`src/disseny.php`) i posa els textos a `lang/`.
 

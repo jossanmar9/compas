@@ -48,7 +48,8 @@ Name: "{app}\data"; Flags: uninsneveruninstall
 
 [Icons]
 Name: "{group}\Compàs"; Filename: "{app}\Compas.exe"
-Name: "{group}\Manual"; Filename: "{app}\docs"
+Name: "{group}\Manual de Compàs"; Filename: "{app}\docs\pdf\manual-usuari.pdf"; Languages: ca
+Name: "{group}\Manual de Compàs"; Filename: "{app}\docs\pdf\manual-usuario.pdf"; Languages: es
 Name: "{autodesktop}\Compàs"; Filename: "{app}\Compas.exe"; Tasks: escriptori
 
 [Run]

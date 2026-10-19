@@ -372,4 +372,8 @@ return [
     'copia.restaurada' => 'Còpia restaurada. Torna a entrar amb els usuaris de la còpia.',
     'audit.copia_feta' => 'Còpia de seguretat',
     'audit.copia_eliminada' => 'Elimina còpia',
+
+    // Documents en PDF
+    'ajuda.pdf_manual' => 'Manual en PDF',
+    'ajuda.pdf_guia' => 'Guia d\'instal·lació en PDF',
 ];

@@ -35,7 +35,7 @@ Baixa l'última versió des de **[Releases](../../releases)**:
 - `Compas-X.Y.Z-portable.zip` — sense instal·lar: descomprimeix i obri `Compas.exe`.
 
 Guies: [instal·lació](docs/guia-installacio.md) · [instalación](docs/guia-instalacion.md)
-Manuals: [manual d'usuari](docs/manual-usuari.md) · [manual de usuario](docs/manual-usuario.md)
+Manuals: [manual d'usuari](docs/manual-usuari.md) · [manual de usuario](docs/manual-usuario.md) · En PDF: [manual d'usuari](docs/pdf/manual-usuari.pdf) · [manual de usuario](docs/pdf/manual-usuario.pdf) · [guia d'instal·lació](docs/pdf/guia-installacio.pdf) · [guía de instalación](docs/pdf/guia-instalacion.pdf)
 Detalls tècnics: [arquitectura](docs/arquitectura.md)
 
 ## Tecnologia

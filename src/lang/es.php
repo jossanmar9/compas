@@ -352,4 +352,8 @@ return [
     'copia.restaurada' => 'Copia restaurada. Vuelve a entrar con los usuarios de la copia.',
     'audit.copia_feta' => 'Copia de seguridad',
     'audit.copia_eliminada' => 'Elimina copia',
+
+    // Documents en PDF
+    'ajuda.pdf_manual' => 'Manual en PDF',
+    'ajuda.pdf_guia' => 'Guía de instalación en PDF',
 ];

@@ -16,6 +16,7 @@ mb_internal_encoding('UTF-8');
 
 require SRC_DIR . '/i18n.php';
 require SRC_DIR . '/capacitats.php';
+require SRC_DIR . '/markdown.php';
 
 /* ---------------- Base de dades ---------------- */
 

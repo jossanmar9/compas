@@ -120,6 +120,8 @@ try {
         case 'ajuda':
             pagina_ajuda();
             break;
+        case 'manual_pdf':
+            serveix_pdf();
         default:
             if (isset(entitats()[$r])) {
                 redirigeix('llista', ['e' => $r]);
