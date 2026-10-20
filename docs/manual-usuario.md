@@ -26,7 +26,7 @@ Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el i
 
 ![Pantalla de entrada](imatges/es/00-entrada.jpg)
 
-Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 14).
+Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 16).
 
 ### La primera vez: configuración inicial
 
@@ -51,7 +51,7 @@ A continuación, Compàs muestra el **código de recuperación**. Sirve para pon
 
 ![Pantalla de inicio](imatges/es/02-inici.jpg)
 
-- **Menú lateral** (izquierda): todas las secciones, agrupadas en Escuela de música, Agrupaciones, Instrumentos y Administración.
+- **Menú lateral** (izquierda): todas las secciones, agrupadas en Escuela de música, Agrupaciones, Instrumentos, Documentos y datos (listados, informes e importación) y Administración.
 - **Arriba a la derecha**: cambio de idioma (`VAL` / `ES`), tu nombre de usuario (para cambiar la contraseña) y **Salir**.
 - **Inicio**: un resumen con el número de personas, socios, matriculados, grupos, músicos e instrumentos cedidos. Haz clic en cualquier cifra para ir a la lista.
 - **Avisos**: las cesiones de instrumentos con la devolución vencida, las clases de hoy y los avisos de copias de seguridad.
@@ -160,6 +160,20 @@ El menú **Horario** muestra todas las clases de la semana. Puedes filtrar por p
 
 ![Horario general](imatges/es/25-horari.jpg)
 
+### 5.6 Pasar al curso siguiente
+
+Cuando se acerca el curso nuevo no hace falta crearlo todo desde cero:
+
+1. Menú **Cursos académicos**, abre el curso que termina y pulsa **⏭ Pasa al curso siguiente**.
+2. Comprueba el **nombre** y las **fechas** del curso nuevo (Compàs los propone: 2027/2028, un año más).
+3. Elige qué se copia: los **periodos de evaluación**, los **grupos** con el profesor/a y el aula, y el **horario**. Si quieres, también puedes **matricular ya a los alumnos que continúan** (sin grupos).
+4. Deja marcado **Marca el curso nuevo como curso actual** y, si quieres, **Cierra** el curso anterior.
+5. Pulsa **Crea el curso nuevo**.
+
+![Asistente para pasar de curso](imatges/es/50-passa-curs.jpg)
+
+Después solo hay que ajustar lo que cambie (un grupo nuevo, otro profesor…) e inscribir a los alumnos en los grupos. Las notas no se copian nunca, y el curso anterior se conserva entero.
+
 ## 6. Dar de alta a una persona
 
 > **Una persona se introduce una sola vez.** Ser alumno, socio, músico, profesor o tutor legal son *funciones* que se añaden a su ficha. Antes de crear una, **búscala** en el listado por si ya existe.
@@ -194,6 +208,21 @@ De los menores no hace falta tener el DNI ni el teléfono. Cuando una persona cu
 Pulsa **Mostrarlas** (o elige el filtro **Faltan datos obligatorios**) para ver solo esas personas. Abre cada una, pulsa **Editar**, completa el DNI y el teléfono y guarda. El aviso desaparece cuando ya no falta ninguno.
 
 ![Personas con datos que faltan](imatges/es/04b-persones-avis.jpg)
+
+### Derechos de imagen (fotos y vídeos)
+
+Antes de publicar fotos o vídeos en la web o las redes, la sociedad tiene que tener la autorización de cada persona; para los menores, la del padre, la madre o el tutor/a.
+
+1. Abre la ficha de la persona (o del alumno) y pulsa **🖨 Hoja de consentimiento**. Sale una hoja A4 con los datos del alumno y del tutor/a, el texto de la autorización y el espacio para firmar.
+2. Cuando la devuelvan firmada, edita la persona y, en **Derechos de imagen**, elige **Autoriza fotos y vídeos** o **No autoriza**. Si no pones la **fecha de la firma**, se pone la de hoy.
+
+![Derechos de imagen en la ficha de la persona](imatges/es/41-persona-consentiment.jpg)
+
+![Hoja de consentimiento para firmar](imatges/es/42-consentiment-full.jpg)
+
+Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 13). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
+
+> El texto de la hoja es un modelo. Revísalo con la junta y, si hace falta, añade lo que quieras en **Configuración → Texto adicional de la hoja de consentimiento**.
 
 ## 7. Alta de un alumno (paso a paso)
 
@@ -259,8 +288,8 @@ La ficha del alumno muestra el resumen del curso: grupos, profesores, horario y 
 
 ### Al empezar un curso nuevo
 
-1. Crea el curso nuevo y márcalo como **curso actual** (apartado 5.1). Crea también sus grupos.
-2. Para cada alumno que continúa, hazle una **matrícula nueva** para el curso nuevo e inscríbelo en los grupos.
+1. Crea el curso nuevo con **Pasa al curso siguiente** (apartado 5.6): copia los periodos, los grupos y el horario, y puede matricular ya a los alumnos que continúan.
+2. Inscribe a cada alumno en los grupos del curso nuevo desde su matrícula (paso 5).
 
 Las matrículas y las notas de los cursos anteriores se conservan en la ficha del alumno.
 
@@ -382,7 +411,102 @@ Menú **Cesiones**. Con el filtro puedes ver las **cesiones activas** o solo las
 
 ![Listado de cesiones](imatges/es/33-cessions-llista.jpg)
 
-## 13. Copias de seguridad
+## 13. Listados, certificados y memoria
+
+Menú **Documentos y datos → Listados e informes**. Cada listado se puede ver en pantalla, **imprimir** (o guardar en PDF) y **exportar a CSV** para abrirlo con Excel.
+
+![Listados e informes](imatges/es/43-llistats.jpg)
+
+### Alumnos de un grupo
+
+Elige el curso y el grupo. Sale cada alumno con la edad, el padre, la madre o el tutor/a y sus teléfonos y correos. Es el listado que necesita el profesorado. En amarillo, los que no autorizan fotos.
+
+![Alumnos de un grupo con los teléfonos de los tutores](imatges/es/44-llistat-grup.jpg)
+
+### Socios por número y músicos por instrumento
+
+- **Socios por número**: todos los socios de alta, ordenados por número, con DNI y contacto. Puedes elegir un tipo de socio.
+- **Músicos por instrumento**: elige una agrupación y sale la plantilla agrupada por instrumento o voz, con el número de músicos de cada uno.
+
+### Derechos de imagen
+
+Quién puede salir en fotos y vídeos: el resumen (cuántos autorizan, cuántos no y cuántos faltan) y la lista, con los que no autorizan en amarillo. Antes de un concierto, imprímela para quien hace las fotos. El botón **Hojas de consentimiento de los pendientes** imprime las hojas que faltan.
+
+![Derechos de imagen](imatges/es/45-drets-imatge.jpg)
+
+### Etiquetas para las circulares
+
+1. Elige **para quién**: socios, familias del alumnado (los tutores que reciben comunicaciones), músicos o todas las personas.
+2. Elige el **formato** de la hoja de etiquetas (lo dice la caja: 24, 21 o 14 por hoja).
+3. Si la hoja ya está empezada, indica cuántas etiquetas **ya se han gastado**.
+4. Pulsa **Prepara las etiquetas** e imprime con el **tamaño real (100 %)** y **sin márgenes**.
+
+![Etiquetas](imatges/es/46-etiquetes.jpg)
+
+> Haz primero una prueba en papel normal con **Muestra los bordes** y ponla encima de la hoja de etiquetas a contraluz.
+
+### Antigüedad e insignias
+
+Elige el **año** y los **años que se premian** (por defecto 25 y 50). Sale quién los cumple ese año, como socio y como músico. Marca **Muestra también la lista completa** para ver a todos ordenados por antigüedad.
+
+![Antigüedad e insignias](imatges/es/47-antiguitat.jpg)
+
+La antigüedad se cuenta desde la fecha de alta. Para los músicos, desde la primera alta en cualquier agrupación.
+
+### Memoria anual y subvenciones
+
+Elige el curso. Sale lo que suelen pedir la Diputación, el IVC o el ayuntamiento: alumnos por edad (con menores y mayores), por asignatura y por población, profesorado y grupos, músicos de cada agrupación (con los menores), socios por tipo y las altas y bajas del año.
+
+![Datos para la memoria anual](imatges/es/48-memoria.jpg)
+
+### Certificados
+
+En la ficha de un **socio**, de una **matrícula** o de un **músico** (en **Músicos y miembros**) está el botón **🖨 Certificado**. Sale un certificado en A4 con el logotipo, los datos de la persona y la fecha de hoy, preparado para firmar. Sirve para becas, el conservatorio, el trabajo…
+
+![Certificado de socio](imatges/es/49-certificat.jpg)
+
+La primera vez, en **Configuración → Certificados y hojas de consentimiento**, pon quién firma (normalmente el secretario/a), el cargo y, si queréis el visto bueno, el presidente/a. Pon también la **población** de la sociedad, que sale al final del certificado.
+
+![Datos de los certificados en la configuración](imatges/es/40-config-documents.jpg)
+
+## 14. Importar datos desde Excel
+
+Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volver a escribirlos. Menú **Documentos y datos → Importar datos**.
+
+### Paso 1. El archivo
+
+1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta) o **Alumnado** (con el padre, la madre o el tutor/a, si la hoja los lleva).
+2. Elige el archivo: Excel (**.xlsx**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel y guárdalo como .xlsx.
+3. Deja marcado **La primera fila tiene los títulos de las columnas** si es el caso, y pulsa **Siguiente**.
+
+![Importar: elegir el archivo](imatges/es/51-importa.jpg)
+
+Si empiezas de cero, descarga una **plantilla**, rellénala y súbela.
+
+### Paso 2. Qué es cada columna
+
+Compàs reconoce las columnas habituales (Nombre, Apellidos, DNI, Teléfono, Fecha de nacimiento…) y ya las deja elegidas. Compruébalas y corrige las que falten. Si el nombre y los apellidos están juntos, elige **Nombre y apellidos juntos**. Las columnas que no elijas no se importan.
+
+![Importar: qué es cada columna](imatges/es/52-importa-columnes.jpg)
+
+### Paso 3. Revisar e importar
+
+Antes de importar nada, Compàs muestra cada fila:
+
+| Estado | Qué quiere decir | Qué se hace |
+|---|---|---|
+| **Nueva** | No está en Compàs | Se crea |
+| **Ya existe** | Mismo DNI, o mismo nombre y fecha de nacimiento | No se duplica: solo se completan los datos que le faltan |
+| **Posible duplicado** | Mismo nombre, pero no se puede asegurar | Marca **Es la misma persona** si lo es; si no, se crea nueva |
+| **Repetida en el archivo** / **Error** | Está dos veces o no tiene nombre | No se importa |
+
+En la columna **Avisos** verás, por ejemplo, fechas que no se entienden o personas a las que faltan datos obligatorios (quedarán en amarillo, como siempre).
+
+![Importar: revisión antes de importar](imatges/es/53-importa-revisa.jpg)
+
+Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 15).
+
+## 15. Copias de seguridad
 
 Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 
@@ -392,6 +516,7 @@ Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 | Al cerrar Compàs, si ha habido cambios | Automática (al cerrar) |
 | Cuando pulsas **Hacer una copia ahora** | Manual |
 | Justo antes de restaurar | Antes de restaurar |
+| Justo antes de importar datos | Antes de importar |
 
 Menú **Administración → Copias de seguridad**:
 
@@ -422,7 +547,20 @@ Para restaurar una copia guardada fuera (por ejemplo, desde el USB), usa **Resta
 
 > Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro.
 
-## 14. Usuarios y contraseñas
+### Copias externas cifradas
+
+Si la carpeta externa es un pendrive o la nube, conviene cifrarlas: si se pierde el USB, nadie podrá abrir los datos sin la contraseña.
+
+1. En **Configuración de las copias**, marca **Cifra con contraseña las copias de la carpeta externa**.
+2. Escribe una contraseña (al menos 8 caracteres) dos veces y pulsa **Guardar**.
+
+![Copias externas cifradas](imatges/es/54-copies-xifrat.jpg)
+
+A partir de ahora, las copias de la carpeta externa terminan en `.xifrat`. Las del ordenador no se cifran. Para restaurar una, en **Restaurar desde un archivo** elige el archivo `.xifrat` y escribe la contraseña.
+
+> **Apunta la contraseña en papel** junto con el código de recuperación. Si se olvida, las copias cifradas no se pueden recuperar.
+
+## 16. Usuarios y contraseñas
 
 ### Cambiar tu contraseña
 
@@ -476,13 +614,13 @@ Todas las recuperaciones, también las que fallan, quedan en el **Registro de ac
 
 Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
 
-## 15. Ayuda
+## 17. Ayuda
 
 El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF.
 
 ![Ayuda](imatges/es/39-ajuda.jpg)
 
-## 16. Preguntas frecuentes
+## 18. Preguntas frecuentes
 
 **He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
 
@@ -496,7 +634,11 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
 
-**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 14).
+**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 16).
+
+**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 14): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
+
+**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 13).
 
 **¿Tengo que estar conectado a Internet?** No.
 

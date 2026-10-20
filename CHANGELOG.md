@@ -8,6 +8,24 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.4.0] - 2026-10-20
+
+### Afegit
+- **Importar des d'Excel o CSV** persones, socis i alumnes (amb el pare, la mare o el tutor/a). Compàs reconeix les columnes, mostra una revisió de cada fila abans d'importar i detecta les persones que ja existeixen (pel DNI o pel nom i la data de naixement), perquè no es dupliquen. Abans d'importar fa una còpia de seguretat.
+- **Drets d'imatge**: a cada persona es marca si autoritza fotos i vídeos i la data de la signatura. Full de consentiment per a imprimir amb les dades de l'alumne i del tutor/a, d'una persona, d'un grup o de tots els pendents. Filtres al llistat de persones.
+- **Llistats i informes** per a imprimir, guardar en PDF o exportar a CSV: alumnes d'un grup amb els telèfons dels tutors, socis per número, músics d'una agrupació per instrument i drets d'imatge.
+- **Etiquetes** adhesives amb l'adreça per a les circulars (socis, famílies, músics o tothom), en tres formats de full i aprofitant fulls començats.
+- **Certificats** en A4 amb el logotip: de soci, de matrícula i de pertinença a una agrupació. A Configuració s'indica qui els signa i, si es vol, el vist i plau del president/a.
+- **Antiguitat i insígnies**: socis i músics que complixen 25 o 50 anys (o els que es vulguen) en un any.
+- **Memòria anual**: alumnes per edat, assignatura i població, professorat, músics per agrupació i socis per tipus, per a les subvencions.
+- **Passar de curs**: assistent que crea el curs nou copiant-ne els períodes, els grups, el professorat, les aules i l'horari, i pot matricular ja els alumnes que continuen.
+- **Còpies externes xifrades** amb contrasenya, perquè un USB perdut no expose dades de menors. Per a restaurar-les cal la contrasenya.
+- Nou apartat del menú: **Documents i dades**.
+
+### Canviat
+- Les dades d'exemple porten adreces, consentiments i socis amb 25 i 50 anys d'antiguitat, per a provar les funcions noves.
+- Les bases de dades d'una versió anterior s'actualitzen soles en obrir Compàs.
+
 ## [1.3.0] - 2026-10-20
 
 ### Afegit
@@ -63,6 +81,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.4.0]: https://github.com/jossanmar9/compas/releases/tag/v1.4.0
 [1.3.0]: https://github.com/jossanmar9/compas/releases/tag/v1.3.0
 [1.2.1]: https://github.com/jossanmar9/compas/releases/tag/v1.2.1
 [1.2.0]: https://github.com/jossanmar9/compas/releases/tag/v1.2.0

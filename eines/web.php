@@ -11,7 +11,7 @@ $eixida = rtrim($argv[1] ?? $arrel . '/_site', '/');
 $repo = 'https://github.com/jossanmar9/compas';
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
-$captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '19-agrupacio-fitxa', '34-copies'];
+$captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '19-agrupacio-fitxa', '44-llistat-grup', '53-importa-revisa', '34-copies'];
 
 $T = [
     'ca' => [
@@ -29,13 +29,16 @@ $T = [
         'que_intro' => 'Pensat per a qui porta la secretaria i l\'escola de música, encara que no siga informàtic.',
         'moduls' => [
             ['Persones', 'Cada persona s\'introdueix una sola vegada. Pot ser sòcia, música, alumna, professora i mare d\'un alumne alhora, sense repetir dades.'],
-            ['Socis', 'Número, tipus, altes i baixes. Llistats que s\'exporten a Excel per a fer etiquetes o circulars.'],
+            ['Socis', 'Número, tipus, altes i baixes. Etiquetes per a les circulars i la llista de qui fa 25 o 50 anys de soci.'],
             ['Escola de música', 'Cursos, assignatures, aules, grups amb horari, matrícules i tutors legals de l\'alumnat menor.'],
             ['Qualificacions', 'El professorat passa les notes i administració les introdueix per grup i avaluació, amb les observacions.'],
             ['Butlletins', 'Butlletins de notes amb el logotip de la societat, per a imprimir o guardar en PDF. Tots alhora o d\'un en un.'],
             ['Agrupacions', 'Banda, banda juvenil, coral, orquestra… Qui toca què i qui dirigeix cada formació.'],
             ['Instruments', 'Inventari, reparacions i préstecs, amb avís quan una devolució s\'ha passat de data.'],
-            ['Còpies de seguretat', 'Còpia automàtica cada dia i en tancar, també en un USB o en el núvol. Es restaura amb un clic.'],
+            ['Drets d\'imatge', 'Qui autoritza fotos i vídeos, amb els fulls de consentiment preparats per a signar.'],
+            ['Llistats i certificats', 'Alumnes d\'un grup amb els telèfons de les famílies, dades per a la memòria anual i certificats amb el logotip.'],
+            ['Importació des d\'Excel', 'Porta els socis i l\'alumnat que ja tens en Excel, sense duplicar ningú.'],
+            ['Còpies de seguretat', 'Còpia automàtica cada dia i en tancar, també en un USB o en el núvol, xifrada amb contrasenya si vols.'],
         ],
         'veure_titol' => 'Així es veu',
         'veure_intro' => 'Captures reals del programa amb dades d\'exemple.',
@@ -46,6 +49,8 @@ $T = [
             '29-butlleti-impres' => 'Un butlletí de notes preparat per a imprimir, amb el logotip de la societat.',
             '25-horari' => 'L\'horari de tota l\'escola, que es pot filtrar per professor o per aula.',
             '19-agrupacio-fitxa' => 'Els membres d\'una agrupació, amb l\'instrument i la funció de cadascú.',
+            '44-llistat-grup' => 'Els alumnes d\'un grup amb els telèfons de les famílies, per al professorat.',
+            '53-importa-revisa' => 'La revisió abans d\'importar un Excel: qui és nou i qui ja hi era.',
             '34-copies' => 'Les còpies de seguretat: automàtiques, manuals i en una carpeta externa.',
         ],
         'com_titol' => 'Com començar',
@@ -88,13 +93,16 @@ $T = [
         'que_intro' => 'Pensado para quien lleva la secretaría y la escuela de música, aunque no sea informático.',
         'moduls' => [
             ['Personas', 'Cada persona se introduce una sola vez. Puede ser socia, música, alumna, profesora y madre de un alumno a la vez, sin repetir datos.'],
-            ['Socios', 'Número, tipo, altas y bajas. Listados que se exportan a Excel para hacer etiquetas o circulares.'],
+            ['Socios', 'Número, tipo, altas y bajas. Etiquetas para las circulares y la lista de quién cumple 25 o 50 años de socio.'],
             ['Escuela de música', 'Cursos, asignaturas, aulas, grupos con horario, matrículas y tutores legales del alumnado menor.'],
             ['Calificaciones', 'El profesorado pasa las notas y administración las introduce por grupo y evaluación, con las observaciones.'],
             ['Boletines', 'Boletines de notas con el logotipo de la sociedad, para imprimir o guardar en PDF. Todos a la vez o de uno en uno.'],
             ['Agrupaciones', 'Banda, banda juvenil, coral, orquesta… Quién toca qué y quién dirige cada formación.'],
             ['Instrumentos', 'Inventario, reparaciones y préstamos, con aviso cuando una devolución se ha pasado de fecha.'],
-            ['Copias de seguridad', 'Copia automática cada día y al cerrar, también en un USB o en la nube. Se restaura con un clic.'],
+            ['Derechos de imagen', 'Quién autoriza fotos y vídeos, con las hojas de consentimiento preparadas para firmar.'],
+            ['Listados y certificados', 'Alumnos de un grupo con los teléfonos de las familias, datos para la memoria anual y certificados con el logotipo.'],
+            ['Importación desde Excel', 'Trae los socios y el alumnado que ya tienes en Excel, sin duplicar a nadie.'],
+            ['Copias de seguridad', 'Copia automática cada día y al cerrar, también en un USB o en la nube, cifrada con contraseña si quieres.'],
         ],
         'veure_titol' => 'Así se ve',
         'veure_intro' => 'Capturas reales del programa con datos de ejemplo.',
@@ -105,6 +113,8 @@ $T = [
             '29-butlleti-impres' => 'Un boletín de notas preparado para imprimir, con el logotipo de la sociedad.',
             '25-horari' => 'El horario de toda la escuela, que se puede filtrar por profesor o por aula.',
             '19-agrupacio-fitxa' => 'Los miembros de una agrupación, con el instrumento y la función de cada uno.',
+            '44-llistat-grup' => 'Los alumnos de un grupo con los teléfonos de las familias, para el profesorado.',
+            '53-importa-revisa' => 'La revisión antes de importar un Excel: quién es nuevo y quién ya estaba.',
             '34-copies' => 'Las copias de seguridad: automáticas, manuales y en una carpeta externa.',
         ],
         'com_titol' => 'Cómo empezar',

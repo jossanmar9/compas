@@ -18,7 +18,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 ```
 
 - **Llançador** (`launcher/Compas.cs`): finestra menuda que arranca PHP només a `127.0.0.1`, espera que responga i obri el navegador. En tancar, demana a PHP una còpia de seguretat (amb un testimoni secret que només coneixen el llançador i PHP) i l'atura. Llig `compas.ini`.
-- **PHP portable**: es baixa de windows.php.net en construir la versió. Extensions: `pdo_sqlite`, `sqlite3`, `mbstring`, `fileinfo`, `opcache`.
+- **PHP portable**: es baixa de windows.php.net en construir la versió. Extensions: `pdo_sqlite`, `sqlite3`, `mbstring`, `fileinfo`, `opcache` i `sodium` (xifrat de les còpies; `libsodium.dll` va al costat de `php.exe`). Les integrades `zlib` i `SimpleXML` s'utilitzen per a llegir els .xlsx.
 - **Aplicació**: PHP sense dependències ni frameworks, HTML i CSS propis i un poc de JavaScript. Funciona sense Internet.
 - **Base de dades**: SQLite a través de PDO. Tot l'SQL usa consultes preparades. Es pot migrar a MariaDB/MySQL més endavant canviant la connexió i adaptant `schema.sql`.
 
@@ -32,7 +32,10 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/capacitats.php` | Capacitats i rols per defecte. |
 | `src/entitats.php` | Definició declarativa de cada entitat: camps, relacions i validacions. |
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
-| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, usuaris, configuració, auditoria, còpies, ajuda. |
+| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
+| `src/fulls.php` | Lectura de CSV i Excel (.xlsx) per a la importació, sense l'extensió zip: llig el directori central del zip i descomprimeix amb `gzinflate`. |
+| `src/xifrat.php` | Xifrat de les còpies externes amb libsodium. |
+| `app/assets/document.css` | Documents A4: consentiments, certificats, llistats i etiquetes (sobre `butlleti.css`). |
 | `src/lang/ca.php`, `es.php` | Textos en valencià i castellà. |
 | `app/assets/` | Estil, JavaScript, logotip i icona. |
 | `src/markdown.php` | Conversor de Markdown a HTML (manual dins del programa i PDF). |
@@ -40,7 +43,9 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `eines/captures.py` | Genera les captures dels manuals (`docs/imatges/ca` i `es`) fent cada procés amb dades d'exemple. Requereix Python, Pillow i Playwright: `python3 eines/captures.py`. |
 | `eines/web.php`, `eines/web.css` | Generen la web de presentació (valencià i castellà) amb captures i PDF. El workflow `web.yml` la publica a GitHub Pages. |
 
-Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `entitats.php`, afig-la al menú (`src/disseny.php`) i posa els textos a `lang/`.
+Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `entitats.php`, afig-la al menú (`src/disseny.php`) i posa els textos a `lang/`. Una entitat pot afegir botons a la seua fitxa amb `accions_fitxa` (així es fan els botons de certificat, full de consentiment i passar de curs).
+
+Si una versió nova afig columnes a una taula que ja existeix, cal posar-les a `schema.sql` (instal·lacions noves) i a `migra_esquema()` de `src/bootstrap.php` (bases de dades d'abans), que les afig amb `ALTER TABLE` si falten.
 
 ## Model de dades
 
@@ -48,6 +53,7 @@ Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `
 - Les funcions són taules separades vinculades a la persona: `socis`, `alumnes`, `professors`, `membres` (d'agrupacions), `tutories` (alumne ↔ tutor legal, molts a molts), `cessions`.
 - Escola: `cursos` → `periodes`, `grups` (assignatura + curs + professor + aula) → `horaris`; `matricules` (alumne + curs) → `matricula_grups`; `qualificacions` (grup + alumne + període). Compàs no registra l'assistència: és un programa de gestió.
 - Inventari: `instruments` → `cessions`, `manteniments`.
+- Drets d'imatge: `persones.consentiment_imatge` (`pendent`, `autoritza`, `no_autoritza`) i `consentiment_data`.
 - Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
 - `auditoria` registra les operacions sensibles.
 - Les claus foranes no deixen esborrar res amb historial: les baixes es marquen amb estat o data de baixa.
@@ -61,7 +67,9 @@ Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `
 - Tota l'eixida s'escapa amb `htmlspecialchars`.
 - La carpeta de dades queda fora de la carpeta pública (`app/`); el servidor només serveix `app/assets/`.
 - L'administratiu/va no pot gestionar usuaris, configuració, registre d'activitat ni restaurar còpies.
-- Còpies amb `VACUUM INTO` (consistents encara que el programa estiga obert): diària, en tancar si hi ha canvis, manual i abans de restaurar; duplicades a una carpeta externa opcional.
+- Còpies amb `VACUUM INTO` (consistents encara que el programa estiga obert): diària, en tancar si hi ha canvis, manual, abans de restaurar i abans d'importar; duplicades a una carpeta externa opcional.
+- Còpies externes xifrades (opcional): clau derivada de la contrasenya amb Argon2id (`crypto_pwhash`) i xifrat en blocs d'1 MB amb XChaCha20-Poly1305 (`crypto_secretstream`), que detecta qualsevol modificació o tall del fitxer. A l'ordinador només es guarda la clau derivada, per a poder fer les còpies automàtiques; la contrasenya fa falta per a restaurar.
+- Importació: els .xlsx es llegeixen sense DTD (`LIBXML_NONET`, sense entitats externes); les dades entre passos es guarden en un fitxer temporal de la carpeta de dades amb un nom aleatori lligat a la sessió, i s'esborren en acabar o al cap d'un dia.
 
 ## Pendent (pròximes versions)
 

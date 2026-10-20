@@ -40,10 +40,12 @@ RESSALT = '3px solid #ff6a00'
 TEXTOS = {
     'ca': dict(societat="Societat Musical d'Exemple", carpeta='E:\\Copies Compàs', poble="Poble d'Exemple",
                grups=['Llenguatge musical · 1r A', 'Clarinet · Individual'], percussio='Percussió', clarinet='Clarinet',
-               provincia='Castelló', adreca='Carrer Major, 7', bo='Bo'),
+               provincia='Castelló', adreca='Carrer Major, 7', bo='Bo', signant='Secretària Exemple', carrec='secretària',
+               president='President Exemple'),
     'es': dict(societat='Sociedad Musical de Ejemplo', carpeta='E:\\Copias Compàs', poble='Pueblo de Ejemplo',
                grups=['Lenguaje musical · 1.º A', 'Clarinete · Individual'], percussio='Percusión', clarinet='Clarinete',
-               provincia='Castellón', adreca='Calle Mayor, 7', bo='Bueno'),
+               provincia='Castellón', adreca='Calle Mayor, 7', bo='Bueno', signant='Secretaria Ejemplo', carrec='secretaria',
+               president='Presidente Ejemplo'),
 }
 
 
@@ -362,6 +364,60 @@ async def fes_captures(l: str):
             await c.foto('38-meu-compte', '.usuari > a', 'input[name="actual"]')
             await c.ves('?r=ajuda')
             await c.foto('39-ajuda', '.accions a.boto', zona=None)
+
+            # --- Documents i dades (v1.4) ---
+            await c.ves('?r=configuracio')
+            await c.omple({'societat_poblacio': t['poble'], 'certificat_signant': t['signant'], 'certificat_carrec': t['carrec'], 'certificat_president': t['president']})
+            await c.foto('40-config-documents', 'input[name="certificat_signant"]', zona='fieldset:has(input[name="certificat_signant"])')
+            await c.desa()
+            await c.ves('?r=edita&e=persones&id=11')
+            await c.foto('41-persona-consentiment', 'select[name="consentiment_imatge"]', 'input[name="consentiment_data"]', alt_max=1100)
+            await c.ves('?r=consentiment&persona=11')
+            await c.foto('42-consentiment-full', zona='.full', alt_max=1200)
+            await c.ves('?r=llistats')
+            await c.foto('43-llistats', zona=None)
+            await c.ves('?r=llistats&informe=alumnes_grup&curs=1&grup=1')
+            await c.foto('44-llistat-grup', 'select[name="grup"]', '.accions a.boto[target]')
+            await c.ves('?r=llistats&informe=consentiments')
+            await c.foto('45-drets-imatge', '.accions a.boto.secundari[target]')
+            await c.ves('?r=llistats&informe=etiquetes')
+            await c.foto('46-etiquetes', 'select[name="format"]', 'input[name="salta"]')
+            await c.ves('?r=llistats&informe=antiguitat&fites=25,%2050')
+            await c.foto('47-antiguitat', 'input[name="fites"]')
+            await c.ves('?r=llistats&informe=memoria&curs=1')
+            await c.foto('48-memoria', '.accions a.boto[target]', alt_max=1100)
+            await c.ves('?r=certificat&tipus=soci&id=1')
+            await c.foto('49-certificat', zona='.full', alt_max=1200)
+            await c.ves('?r=passa_curs&curs=1')
+            await c.foto('50-passa-curs', 'input[name="nom"]', 'input[name="matricules"]')
+
+            # Importació d'un Excel inventat
+            import openpyxl
+            from datetime import date as d
+            wb = openpyxl.Workbook()
+            ws = wb.active
+            ws.append(['Núm. soci', 'Nom i cognoms', 'DNI', 'Data naixement', 'Telèfon', 'Adreça', 'Població'] if l == 'ca'
+                      else ['Nº socio', 'Nombre y apellidos', 'DNI', 'Fecha nacimiento', 'Teléfono', 'Dirección', 'Población'])
+            ws.append(['301', 'Exemple, Soci7', '00000301X', d(1975, 4, 2), '600 000 301', t['adreca'], t['poble']])
+            ws.append(['302', 'Exemple, Soci8', '00000302X', d(1982, 11, 20), '600 000 302', t['adreca'], t['poble']])
+            ws.append(['102', 'Músic2 Exemple', '00000013X', d(1989, 12, 2), None, None, None])
+            ws.append(['303', 'Tutor2 Exemple', None, None, '600 000 004', None, None])
+            ws.append(['304', 'Exemple, Soci9', None, '31/02/1990', None, None, t['poble']])
+            fitxer = Path(tempfile.gettempdir()) / f'socis-{l}.xlsx'
+            wb.save(fitxer)
+            await c.ves('?r=importa')
+            await p.locator('input[name="tipus"][value="socis"]').check()
+            await p.set_input_files('input[name="fitxer"]', str(fitxer))
+            await c.foto('51-importa', 'input[name="tipus"][value="socis"]', 'input[name="fitxer"]')
+            await c.desa()
+            await c.foto('52-importa-columnes', 'select[name="col[1]"]', alt_max=1100)
+            await c.desa()
+            await c.foto('53-importa-revisa', 'label.mateixa', alt_max=1100)
+
+            # Còpies xifrades
+            await c.ves('?r=copia')
+            await p.locator('input[name="xifra"]').check()
+            await c.foto('54-copies-xifrat', 'input[name="xifra"]', zona='fieldset:has(input[name="xifra"])')
 
             # --- Entrada ---
             ctx2 = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA)

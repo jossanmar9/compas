@@ -26,7 +26,7 @@ Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idio
 
 ![Pantalla d'entrada](imatges/ca/00-entrada.jpg)
 
-Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 14).
+Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 16).
 
 ### La primera vegada: configuració inicial
 
@@ -51,7 +51,7 @@ Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una 
 
 ![Pantalla d'inici](imatges/ca/02-inici.jpg)
 
-- **Menú lateral** (esquerra): totes les seccions, agrupades per Escola de música, Agrupacions, Instruments i Administració.
+- **Menú lateral** (esquerra): totes les seccions, agrupades per Escola de música, Agrupacions, Instruments, Documents i dades (llistats, informes i importació) i Administració.
 - **Dalt a la dreta**: canvi d'idioma (`VAL` / `ES`), el teu nom d'usuari (per a canviar la contrasenya) i **Ix** per a eixir.
 - **Inici**: un resum amb el nombre de persones, socis, matriculats, grups, músics i instruments cedits. Fes clic en qualsevol xifra per a anar a la llista.
 - **Avisos**: les cessions d'instruments amb la devolució vençuda, les classes de hui i els avisos de còpies de seguretat.
@@ -160,6 +160,20 @@ El menú **Horari** mostra totes les classes de la setmana. Pots filtrar per pro
 
 ![Horari general](imatges/ca/25-horari.jpg)
 
+### 5.6 Passar al curs següent
+
+Quan s'acosta el curs nou no cal crear-ho tot des de zero:
+
+1. Menú **Cursos acadèmics**, obri el curs que acaba i prem **⏭ Passa al curs següent**.
+2. Comprova el **nom** i les **dates** del curs nou (Compàs els proposa: 2027/2028, un any més).
+3. Tria què es copia: els **períodes d'avaluació**, els **grups** amb el professor/a i l'aula, i l'**horari**. Si vols, també pots **matricular ja els alumnes que continuen** (sense grups).
+4. Deixa marcat **Marca el curs nou com a curs actual** i, si vols, **Tanca** el curs anterior.
+5. Prem **Crea el curs nou**.
+
+![Assistent per a passar de curs](imatges/ca/50-passa-curs.jpg)
+
+Després només cal ajustar el que canvie (un grup nou, un altre professor…) i inscriure els alumnes als grups. Les notes no es copien mai, i el curs anterior es conserva sencer.
+
 ## 6. Donar d'alta una persona
 
 > **Una persona s'introdueix una sola vegada.** Ser alumne, soci, músic, professor o tutor legal són *funcions* que s'afigen a la seua fitxa. Abans de crear-ne una, **busca-la** al llistat per si ja existeix.
@@ -194,6 +208,21 @@ Dels menors no cal tindre el DNI ni el telèfon. Quan una persona fa 18 anys i n
 Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a veure només eixes persones. Obri cadascuna, prem **Edita**, completa el DNI i el telèfon i desa. L'avís desapareix quan ja no en falta cap.
 
 ![Persones amb dades que falten](imatges/ca/04b-persones-avis.jpg)
+
+### Drets d'imatge (fotos i vídeos)
+
+Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tindre l'autorització de cada persona; per als menors, la del pare, la mare o el tutor/a.
+
+1. Obri la fitxa de la persona (o de l'alumne) i prem **🖨 Full de consentiment**. Ix un full A4 amb les dades de l'alumne i del tutor/a, el text de l'autorització i l'espai per a signar.
+2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la d'avui.
+
+![Drets d'imatge a la fitxa de la persona](imatges/ca/41-persona-consentiment.jpg)
+
+![Full de consentiment per a signar](imatges/ca/42-consentiment-full.jpg)
+
+Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 13). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
+
+> El text del full és un model. Revisa'l amb la junta i, si cal, afig-hi el que vulgues a **Configuració → Text addicional del full de consentiment**.
 
 ## 7. Alta d'un alumne (pas a pas)
 
@@ -259,8 +288,8 @@ La fitxa de l'alumne mostra el resum del curs: grups, professors, horari i notes
 
 ### En començar un curs nou
 
-1. Crea el curs nou i marca'l com a **curs actual** (apartat 5.1). Crea'n també els grups.
-2. Per a cada alumne que continua, fes-li una **matrícula nova** per al curs nou i inscriu-lo als grups.
+1. Crea el curs nou amb **Passa al curs següent** (apartat 5.6): copia els períodes, els grups i l'horari, i pot matricular ja els alumnes que continuen.
+2. Inscriu cada alumne als grups del curs nou des de la seua matrícula (pas 5).
 
 Les matrícules i les notes dels cursos anteriors es conserven a la fitxa de l'alumne.
 
@@ -382,7 +411,102 @@ Menú **Cessions**. Amb el filtre pots veure les **cessions actives** o només l
 
 ![Llistat de cessions](imatges/ca/33-cessions-llista.jpg)
 
-## 13. Còpies de seguretat
+## 13. Llistats, certificats i memòria
+
+Menú **Documents i dades → Llistats i informes**. Cada llistat es pot veure a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
+
+![Llistats i informes](imatges/ca/43-llistats.jpg)
+
+### Alumnes d'un grup
+
+Tria el curs i el grup. Ix cada alumne amb l'edat, el pare, la mare o el tutor/a i els seus telèfons i correus. És el llistat que necessita el professorat. En groc, els que no autoritzen fotos.
+
+![Alumnes d'un grup amb els telèfons dels tutors](imatges/ca/44-llistat-grup.jpg)
+
+### Socis per número i músics per instrument
+
+- **Socis per número**: tots els socis d'alta, ordenats pel número, amb DNI i contacte. Pots triar un tipus de soci.
+- **Músics per instrument**: tria una agrupació i ix la plantilla agrupada per instrument o veu, amb el nombre de músics de cadascun.
+
+### Drets d'imatge
+
+Qui pot eixir en fotos i vídeos: el resum (quants autoritzen, quants no i quants falten) i la llista, amb els que no autoritzen en groc. Abans d'un concert, imprimeix-la per a qui fa les fotos. El botó **Fulls de consentiment dels pendents** imprimeix els fulls que falten.
+
+![Drets d'imatge](imatges/ca/45-drets-imatge.jpg)
+
+### Etiquetes per a les circulars
+
+1. Tria **per a qui**: socis, famílies de l'alumnat (els tutors que reben comunicacions), músics o totes les persones.
+2. Tria el **format** del full d'etiquetes (ho diu la capsa: 24, 21 o 14 per full).
+3. Si el full ja està començat, indica quantes etiquetes **ja s'han gastat**.
+4. Prem **Prepara les etiquetes** i imprimeix amb la **mida real (100 %)** i **sense marges**.
+
+![Etiquetes](imatges/ca/46-etiquetes.jpg)
+
+> Fes primer una prova en paper normal amb **Mostra les vores** i posa-la damunt del full d'etiquetes a contrallum.
+
+### Antiguitat i insígnies
+
+Tria l'**any** i els **anys que es premien** (per defecte 25 i 50). Ix qui els complix eixe any, com a soci i com a músic. Marca **Mostra també la llista completa** per a veure tothom ordenat per antiguitat.
+
+![Antiguitat i insígnies](imatges/ca/47-antiguitat.jpg)
+
+L'antiguitat es compta des de la data d'alta. Per als músics, des de la primera alta en qualsevol agrupació.
+
+### Memòria anual i subvencions
+
+Tria el curs. Ix el que solen demanar la Diputació, l'IVC o l'ajuntament: alumnes per edat (amb menors i majors), per assignatura i per població, professorat i grups, músics de cada agrupació (amb els menors), socis per tipus i les altes i baixes de l'any.
+
+![Dades per a la memòria anual](imatges/ca/48-memoria.jpg)
+
+### Certificats
+
+A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i membres**) hi ha el botó **🖨 Certificat**. Ix un certificat en A4 amb el logotip, les dades de la persona i la data d'avui, preparat per a signar. Serveix per a beques, el conservatori, la feina…
+
+![Certificat de soci](imatges/ca/49-certificat.jpg)
+
+La primera vegada, a **Configuració → Certificats i fulls de consentiment**, posa qui signa (normalment el secretari/ària), el càrrec i, si voleu el vist i plau, el president/a. Posa també la **població** de la societat, que ix al final del certificat.
+
+![Dades dels certificats a la configuració](imatges/ca/40-config-documents.jpg)
+
+## 14. Importar dades des d'Excel
+
+Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a escriure. Menú **Documents i dades → Importa dades**.
+
+### Pas 1. El fitxer
+
+1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta) o **Alumnat** (amb el pare, la mare o el tutor/a, si el full els porta).
+2. Tria el fitxer: Excel (**.xlsx**) o **CSV**. Si és un .xls antic, obri'l amb Excel i guarda'l com a .xlsx.
+3. Deixa marcat **La primera fila té els títols de les columnes** si és el cas, i prem **Següent**.
+
+![Importar: triar el fitxer](imatges/ca/51-importa.jpg)
+
+Si comences de zero, baixa una **plantilla**, omple-la i puja-la.
+
+### Pas 2. Què és cada columna
+
+Compàs reconeix les columnes habituals (Nom, Cognoms, DNI, Telèfon, Data de naixement…) i ja les deixa triades. Comprova-les i corregeix les que falten. Si el nom i els cognoms estan junts, tria **Nom i cognoms junts**. Les columnes que no tries no s'importen.
+
+![Importar: què és cada columna](imatges/ca/52-importa-columnes.jpg)
+
+### Pas 3. Revisar i importar
+
+Abans d'importar res, Compàs mostra cada fila:
+
+| Estat | Què vol dir | Què es fa |
+|---|---|---|
+| **Nova** | No està a Compàs | Es crea |
+| **Ja existeix** | Mateix DNI, o mateix nom i data de naixement | No es duplica: només es completen les dades que li falten |
+| **Possible duplicat** | Mateix nom, però no es pot assegurar | Marca **És la mateixa persona** si ho és; si no, es crea nova |
+| **Repetida al fitxer** / **Error** | Està dues vegades o no té nom | No s'importa |
+
+A la columna **Avisos** veuràs, per exemple, dates que no s'entenen o persones a qui falten dades obligatòries (quedaran en groc, com sempre).
+
+![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.jpg)
+
+Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 15).
+
+## 15. Còpies de seguretat
 
 Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 
@@ -392,6 +516,7 @@ Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 | En tancar Compàs, si hi ha hagut canvis | Automàtica (en tancar) |
 | Quan prems **Fes una còpia ara** | Manual |
 | Just abans de restaurar | Abans de restaurar |
+| Just abans d'importar dades | Abans d'importar |
 
 Menú **Administració → Còpies de seguretat**:
 
@@ -422,7 +547,20 @@ Per a restaurar una còpia guardada fora (per exemple, des del USB), utilitza **
 
 > Les còpies contenen dades personals, també de menors. Guarda-les en un lloc segur.
 
-## 14. Usuaris i contrasenyes
+### Còpies externes xifrades
+
+Si la carpeta externa és un llapis USB o el núvol, convé xifrar-les: si es perd el USB, ningú podrà obrir les dades sense la contrasenya.
+
+1. A **Configuració de les còpies**, marca **Xifra amb contrasenya les còpies de la carpeta externa**.
+2. Escriu una contrasenya (almenys 8 caràcters) dues vegades i prem **Desa**.
+
+![Còpies externes xifrades](imatges/ca/54-copies-xifrat.jpg)
+
+A partir d'ara, les còpies de la carpeta externa acaben en `.xifrat`. Les de l'ordinador no es xifren. Per a restaurar-ne una, a **Restaura des d'un fitxer** tria el fitxer `.xifrat` i escriu la contrasenya.
+
+> **Apunta la contrasenya en paper** junt amb el codi de recuperació. Si s'oblida, les còpies xifrades no es poden recuperar.
+
+## 16. Usuaris i contrasenyes
 
 ### Canviar la teua contrasenya
 
@@ -476,13 +614,13 @@ Totes les recuperacions, també les que fallen, queden al **Registre d'activitat
 
 Menú **Administració → Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
 
-## 15. Ajuda
+## 17. Ajuda
 
 El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
 
 ![Ajuda](imatges/ca/39-ajuda.jpg)
 
-## 16. Preguntes freqüents
+## 18. Preguntes freqüents
 
 **He donat d'alta una persona dues vegades. Què faig?** Si la segona no té res vinculat, obri-la i prem **Elimina**. Si ja té coses vinculades, edita-les perquè apunten a la persona bona i després elimina la repetida.
 
@@ -496,7 +634,11 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 
 **El butlletí no mostra una assignatura.** L'alumne no està inscrit en aquell grup dins de la seua matrícula.
 
-**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 14).
+**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 16).
+
+**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 14): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
+
+**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 13).
 
 **He d'estar connectat a Internet?** No.
 

@@ -57,7 +57,7 @@ jobs:
           $php = "dist\Compas\php"
           Remove-Item "$php\dev", "$php\extras", "$php\lib" -Recurse -Force -ErrorAction SilentlyContinue
           Remove-Item "$php\php-cgi.exe", "$php\phpdbg.exe", "$php\php.ini-*" -Force -ErrorAction SilentlyContinue
-          $mantindre = 'php_pdo_sqlite.dll','php_sqlite3.dll','php_mbstring.dll','php_fileinfo.dll','php_opcache.dll'
+          $mantindre = 'php_pdo_sqlite.dll','php_sqlite3.dll','php_mbstring.dll','php_fileinfo.dll','php_opcache.dll','php_sodium.dll'
           Get-ChildItem "$php\ext" | Where-Object { $mantindre -notcontains $_.Name } | Remove-Item -Force
           Copy-Item launcher\php.ini "$php\php.ini"
           # Biblioteques de Visual C++ al costat de php.exe (instal·lació local permesa per Microsoft)
@@ -70,7 +70,7 @@ jobs:
         run: |
           $php = "dist\Compas\php"
           & "$php\php.exe" -c "$php\php.ini" -d "extension_dir=$PWD\$php\ext" -m | Tee-Object mods.txt
-          foreach ($m in 'pdo_sqlite','mbstring','sqlite3') { if (-not (Select-String -Path mods.txt -Pattern "^$m$" -Quiet)) { throw "Falta $m" } }
+          foreach ($m in 'pdo_sqlite','mbstring','sqlite3','sodium','SimpleXML','xmlreader','zlib') { if (-not (Select-String -Path mods.txt -Pattern "^$m$" -Quiet)) { throw "Falta $m" } }
 
       - name: Compila el llançador
         shell: pwsh

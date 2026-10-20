@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS persones (
     poblacio        TEXT,
     provincia       TEXT,
     observacions    TEXT,
+    consentiment_imatge TEXT NOT NULL DEFAULT 'pendent',
+    consentiment_data   TEXT,
     actiu           INTEGER NOT NULL DEFAULT 1,
     creat           TEXT DEFAULT (datetime('now','localtime')),
     modificat       TEXT

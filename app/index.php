@@ -113,6 +113,21 @@ try {
         case 'butlleti':
             pagina_butlleti();
             break;
+        case 'llistats':
+            pagina_llistats();
+            break;
+        case 'consentiment':
+            pagina_consentiment();
+            break;
+        case 'certificat':
+            pagina_certificat();
+            break;
+        case 'passa_curs':
+            pagina_passa_curs();
+            break;
+        case 'importa':
+            pagina_importa();
+            break;
         case 'usuaris':
             pagina_usuaris();
             break;

@@ -239,7 +239,12 @@ function pagina_fitxa(string $nom, int $id): void
         echo '<form method="post" action="' . h(url('elimina', ['e' => $nom, 'id' => $id])) . '" onsubmit="return confirm(\'' . h(t('confirma_eliminar')) . '\')">'
             . csrf_camp() . '<button class="perill">' . h(t('elimina')) . '</button></form>';
     }
-    echo '<a class="boto secundari" href="' . h(url('llista', ['e' => $nom])) . '">' . h(t('torna_llista')) . '</a></div>';
+    echo '<a class="boto secundari" href="' . h(url('llista', ['e' => $nom])) . '">' . h(t('torna_llista')) . '</a>';
+    // Botons propis de l'entitat (certificats, fulls per a imprimir, assistents…)
+    if (isset($e['accions_fitxa'])) {
+        echo '<span class="espai"></span>' . $e['accions_fitxa']($f);
+    }
+    echo '</div>';
 
     echo '<dl class="fitxa">';
     foreach ($e['camps'] as $c => $d) {

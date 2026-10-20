@@ -6,7 +6,7 @@
 // - Manual: botó «Fes una còpia ara» o baixada directa.
 // - Cada còpia es guarda a data\copies i, si està configurada, també a una carpeta externa (USB, disc extern, núvol…).
 
-const PATRO_COPIA = '/^compas-\d{8}-\d{6}-(auto|manual|tancament|abans-restaurar)\.db$/';
+const PATRO_COPIA = '/^compas-\d{8}-\d{6}-(auto|manual|tancament|abans-restaurar|abans-importar)\.db$/';
 const ACCIONS_SENSE_CANVIS = ['entrada', 'eixida', 'entrada_fallida', 'exporta', 'copia_baixada', 'copia_feta'];
 
 function carpeta_copies(): string
@@ -56,9 +56,11 @@ function fes_copia(string $tipus): array
 
     $errorExterna = null;
     if ($ext = carpeta_externa()) {
+        // Si està configurat, a la carpeta externa (USB, núvol…) la còpia va xifrada amb contrasenya
+        $copiat = fn() => xifrat_actiu() ? xifra_fitxer($desti, $ext . DIRECTORY_SEPARATOR . $nom . XIFRAT_EXTENSIO) : @copy($desti, $ext . DIRECTORY_SEPARATOR . $nom);
         if (!is_dir($ext) || !is_writable($ext)) {
             $errorExterna = t('copia.err_externa', $ext);
-        } elseif (!@copy($desti, $ext . DIRECTORY_SEPARATOR . $nom)) {
+        } elseif (!$copiat()) {
             $errorExterna = t('copia.err_copiar', $ext);
         } else {
             desa_config('copia_ultima_externa', date('Y-m-d H:i:s'));
@@ -74,7 +76,7 @@ function fes_copia(string $tipus): array
 /** Esborra les còpies automàtiques més antigues; les manuals es conserven */
 function neteja_copies(string $carpeta): void
 {
-    $auto = array_filter(glob($carpeta . DIRECTORY_SEPARATOR . 'compas-*.db') ?: [], fn($f) => preg_match('/-(auto|tancament)\.db$/', $f));
+    $auto = array_filter(glob($carpeta . DIRECTORY_SEPARATOR . 'compas-*.db*') ?: [], fn($f) => preg_match('/-(auto|tancament)\.db(\.xifrat)?$/', $f));
     sort($auto);
     foreach (array_slice($auto, 0, max(0, count($auto) - copies_a_conservar())) as $vella) {
         @unlink($vella);
@@ -153,7 +155,8 @@ function prepara_restauracio(string $origen, bool $pujat): void
 {
     $conserva = [];
     // El codi de recuperació tampoc no torna arrere: un codi antic ja invalidat no ha de tornar a valdre
-    foreach (['copia_externa', 'copia_conservar', 'copia_ultima_externa', 'copia_auto_dia', 'codi_recuperacio', 'codi_recuperacio_data'] as $c) {
+    foreach (['copia_externa', 'copia_conservar', 'copia_ultima_externa', 'copia_auto_dia', 'codi_recuperacio', 'codi_recuperacio_data',
+        'copia_xifra_clau', 'copia_xifra_sal', 'copia_xifra_data'] as $c) {
         $conserva[$c] = config($c);
     }
     $conserva['copia_error_externa'] = null;
@@ -245,15 +248,34 @@ function pagina_copia(): void
             case 'restaura_fitxer':
                 requereix('copia.restaura');
                 $up = $_FILES['fitxer'] ?? null;
-                if (!$up || $up['error'] !== UPLOAD_ERR_OK || !es_bd_compas($up['tmp_name'])) {
+                $fitxer = $up && $up['error'] === UPLOAD_ERR_OK ? $up['tmp_name'] : null;
+                $desxifrat = null;
+                if ($fitxer && es_xifrat($fitxer)) {
+                    // Còpia xifrada: es desxifra amb la contrasenya abans de comprovar-la
+                    $desxifrat = DADES_DIR . DIRECTORY_SEPARATOR . 'desxifrat-' . bin2hex(random_bytes(4)) . '.db';
+                    if (!xifrat_disponible()) {
+                        avis(t('copia.xifrat_no_disponible'), 'error');
+                        break;
+                    }
+                    if (!desxifra_fitxer($fitxer, $desxifrat, (string)($_POST['contrasenya'] ?? ''))) {
+                        audita('copia_desxifrat_fallit', null, null, $up['name']);
+                        avis(t('copia.err_contrasenya'), 'error');
+                        break;
+                    }
+                    $fitxer = $desxifrat;
+                }
+                if (!$fitxer || !es_bd_compas($fitxer)) {
                     avis(t('copia.no_valida'), 'error');
                 } elseif (post('confirma') !== '1') {
                     avis(t('copia.cal_confirmar'), 'error');
                 } else {
                     fes_copia('abans-restaurar');
-                    prepara_restauracio($up['tmp_name'], true);
+                    prepara_restauracio($fitxer, !$desxifrat);
                     audita('copia_restaurada', null, null, $up['name']);
                     avis(t('copia.restaurada'));
+                }
+                if ($desxifrat && is_file($desxifrat)) {
+                    unlink($desxifrat);
                 }
                 break;
             case 'configura':
@@ -266,6 +288,29 @@ function pagina_copia(): void
                 desa_config('copia_externa', $ext !== '' ? $ext : null);
                 desa_config('copia_error_externa', null);
                 desa_config('copia_conservar', (string)max(3, min(365, (int)post('copia_conservar'))));
+                // Xifrat de les còpies externes
+                $c1 = (string)($_POST['xifra_contrasenya'] ?? '');
+                if (post('xifra') === '1') {
+                    if ($c1 !== '' || !xifrat_actiu()) {
+                        if (!xifrat_disponible()) {
+                            avis(t('copia.xifrat_no_disponible'), 'error');
+                            break;
+                        }
+                        if ($err = valida_contrasenya($c1, (string)($_POST['xifra_contrasenya2'] ?? ''))) {
+                            avis(t('copia.xifrat') . ': ' . $err, 'error');
+                            break;
+                        }
+                        configura_xifrat($c1);
+                        audita('copia_xifrat', null, null, 'activat');
+                        avis(t('copia.xifrat_activat'));
+                    }
+                } elseif (xifrat_actiu()) {
+                    desa_config('copia_xifra_clau', null);
+                    desa_config('copia_xifra_sal', null);
+                    desa_config('copia_xifra_data', null);
+                    audita('copia_xifrat', null, null, 'desactivat');
+                    avis(t('copia.xifrat_desactivat'), 'info');
+                }
                 audita('modifica', 'config', null, 'copies');
                 avis(t('desat'));
                 break;
@@ -317,13 +362,24 @@ function pagina_copia(): void
             . '<form method="post" class="formulari">' . csrf_camp() . '<input type="hidden" name="accio" value="configura"><div class="camps">'
             . '<div class="camp ample"><label>' . h(t('copia.externa')) . '</label><input name="copia_externa" value="' . h($ext) . '" placeholder="E:\Copies Compàs"><small>' . h(t('copia.externa_ajuda')) . '</small></div>'
             . '<div class="camp"><label>' . h(t('copia.conservar')) . '</label><input type="number" min="3" max="365" name="copia_conservar" value="' . copies_a_conservar() . '"></div>'
+            . '<fieldset class="camp ample"><legend>🔒 ' . h(t('copia.xifrat')) . '</legend>'
+            . (xifrat_disponible()
+                ? '<label class="check"><input type="checkbox" name="xifra" value="1"' . (xifrat_actiu() ? ' checked' : '') . '> ' . h(t('copia.xifra')) . '</label>'
+                    . '<small>' . h(xifrat_actiu() ? t('copia.xifrat_estat', data_llegible(config('copia_xifra_data'))) : t('copia.xifrat_ajuda')) . '</small>'
+                    . '<div class="camps"><div class="camp"><label>' . h(xifrat_actiu() ? t('copia.xifrat_nova') : t('camp.contrasenya')) . '</label><input type="password" name="xifra_contrasenya" minlength="' . MIN_CONTRASENYA . '" autocomplete="new-password"></div>'
+                    . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="xifra_contrasenya2" autocomplete="new-password"></div></div>'
+                    . '<div class="avis atencio">' . h(t('copia.xifrat_avis')) . '</div>'
+                : '<p class="nota">' . h(t('copia.xifrat_no_disponible')) . '</p>')
+            . '</fieldset>'
             . '</div><div class="accions"><button>' . h(t('desa')) . '</button></div></form></section>';
     }
 
     if ($restaura) {
         $html .= '<section class="fill perill-zona"><header><h2>' . h(t('copia.restaurar')) . '</h2></header><p>' . h(t('copia.restaurar_text')) . '</p>'
             . '<form method="post" enctype="multipart/form-data" class="formulari vertical estret">' . csrf_camp() . '<input type="hidden" name="accio" value="restaura_fitxer">'
-            . '<input type="file" name="fitxer" accept=".db" required><label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
+            . '<input type="file" name="fitxer" accept=".db,.xifrat" required>'
+            . '<div class="camp"><label>' . h(t('copia.contrasenya_xifrat')) . '</label><input type="password" name="contrasenya" autocomplete="off"><small>' . h(t('copia.contrasenya_xifrat_ajuda')) . '</small></div>'
+            . '<label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
             . '<button class="perill">' . h(t('copia.restaurar')) . '</button></form></section>';
     }
     pagina(t('menu.copia'), $html);

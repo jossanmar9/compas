@@ -39,6 +39,12 @@ function dades_que_falten(array $p): array
     return $falten;
 }
 
+/** Botó que obri un document per a imprimir en una pestanya nova */
+function boto_document(string $url, string $text): string
+{
+    return '<a class="boto secundari" target="_blank" href="' . h($url) . '">🖨 ' . h($text) . '</a>';
+}
+
 function entitats(): array
 {
     static $e = null;
@@ -61,7 +67,11 @@ function entitats(): array
             'cerca' => ['t.nom', 't.cognoms', 't.email', 't.telefon', 't.document', 't.poblacio'],
             'ordre' => 't.cognoms, t.nom',
             'etiqueta' => "SELECT p.id, " . NOM_PERSONA_SQL . " AS e FROM persones p ORDER BY e",
-            'filtres' => ['incomplets' => PERSONA_INCOMPLETA_SQL],
+            'filtres' => [
+                'incomplets' => PERSONA_INCOMPLETA_SQL,
+                'imatge_pendent' => "t.consentiment_imatge = 'pendent' AND t.id IN (SELECT persona_id FROM alumnes WHERE estat = 'actiu')",
+                'imatge_no' => "t.consentiment_imatge = 'no_autoritza'",
+            ],
             'avis_fila' => fn(array $f) => ($falten = dades_que_falten($f)) ? t('persona.falten', implode(', ', $falten)) : null,
             'avis_llista' => PERSONA_INCOMPLETA_SQL,
             'camps' => [
@@ -76,13 +86,17 @@ function entitats(): array
                 'poblacio' => ['tipus' => 'text', 'llista' => 1],
                 'provincia' => ['tipus' => 'text'],
                 'observacions' => $obs,
+                'consentiment_imatge' => ['tipus' => 'select', 'opcions' => ['pendent', 'autoritza', 'no_autoritza'], 'ajuda' => t('ajuda.consentiment')],
+                'consentiment_data' => ['tipus' => 'date'],
                 'actiu' => ['tipus' => 'bool', 'llista' => 1, 'defecte' => 1],
             ],
+            'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')),
             'fills' => [['socis', 'persona_id'], ['alumnes', 'persona_id'], ['professors', 'persona_id'],
                 ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id']],
         ],
         'socis' => $perfil('socis') + [
             'cap' => 'socis',
+            'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'soci', 'id' => $f['id']]), t('cert.boto')),
             'cerca' => ['p.nom', 'p.cognoms', 't.numero'],
             'camps' => [
                 'persona_id' => $persona,
@@ -96,6 +110,7 @@ function entitats(): array
         ],
         'alumnes' => $perfil('alumnes') + [
             'cap' => 'escola',
+            'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['persona_id']]), t('consent.full')),
             'camps' => [
                 'persona_id' => $persona,
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
@@ -149,6 +164,7 @@ function entitats(): array
             'from' => 'membres t JOIN persones p ON p.id = t.persona_id',
             'cerca' => ['p.nom', 'p.cognoms', 't.instrument_veu'],
             'ordre' => 'p.cognoms, p.nom',
+            'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'membre', 'id' => $f['id']]), t('cert.boto')),
             'camps' => [
                 'persona_id' => $persona,
                 'agrupacio_id' => ['tipus' => 'ref', 'ref' => 'agrupacions', 'req' => 1, 'llista' => 1],
@@ -165,6 +181,7 @@ function entitats(): array
             'cerca' => ['t.nom'],
             'ordre' => 't.data_inici DESC, t.nom DESC',
             'etiqueta' => 'SELECT id, nom AS e FROM cursos ORDER BY data_inici DESC, nom DESC',
+            'accions_fitxa' => fn(array $f) => pot('escola.edit') ? '<a class="boto secundari" href="' . h(url('passa_curs', ['curs' => $f['id']])) . '">⏭ ' . h(t('passa.boto')) . '</a>' : '',
             'camps' => [
                 'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => '2026/2027'],
                 'data_inici' => ['tipus' => 'date', 'llista' => 1],
@@ -239,6 +256,7 @@ function entitats(): array
             'from' => 'matricules t JOIN alumnes al ON al.id = t.alumne_id JOIN persones p ON p.id = al.persona_id JOIN cursos c ON c.id = t.curs_id',
             'cerca' => ['p.nom', 'p.cognoms', 'c.nom'],
             'ordre' => 'c.data_inici DESC, p.cognoms, p.nom',
+            'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'matricula', 'id' => $f['id']]), t('cert.boto')),
             'etiqueta' => "SELECT m.id, " . NOM_PERSONA_SQL . " || ' (' || c.nom || ')' AS e FROM matricules m JOIN alumnes al ON al.id = m.alumne_id JOIN persones p ON p.id = al.persona_id JOIN cursos c ON c.id = m.curs_id ORDER BY c.data_inici DESC, e",
             'camps' => [
                 'alumne_id' => ['tipus' => 'ref', 'ref' => 'alumnes', 'req' => 1, 'llista' => 1],
@@ -329,6 +347,10 @@ function entitats(): array
         if (!empty($d['actual'])) {
             q('UPDATE cursos SET actual = 0 WHERE id <> ?', [$id]);
         }
+    };
+    // Si es marca el consentiment d'imatge sense data, es posa la d'avui
+    $e['persones']['despres'] = function (int $id, array $d): void {
+        q("UPDATE persones SET consentiment_data = date('now','localtime') WHERE id = ? AND consentiment_imatge <> 'pendent' AND consentiment_data IS NULL", [$id]);
     };
     $e['horaris']['valida'] = fn(array $d) => $d['hora_fi'] <= $d['hora_inici'] ? t('err.hores') : null;
     $e['persones']['valida'] = function (array $d): ?string {

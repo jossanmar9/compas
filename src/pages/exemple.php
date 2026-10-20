@@ -10,10 +10,12 @@ function carrega_dades_exemple(): void
     $persona = function (string $nom, string $cognoms, ?string $naix = null, bool $complet = true) use (&$comptador) {
         $comptador++;
         $adult = es_major_edat($naix);
-        q('INSERT INTO persones(nom, cognoms, data_naixement, document, telefon, poblacio) VALUES(?, ?, ?, ?, ?, ?)', [
+        q('INSERT INTO persones(nom, cognoms, data_naixement, document, telefon, adreca, codi_postal, poblacio) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', [
             $nom, $cognoms, $naix,
             $adult && $complet ? sprintf('%08dX', $comptador) : null,
             $adult && $complet ? sprintf('600 000 %03d', $comptador) : null,
+            (idioma() === 'es' ? 'Calle Mayor, ' : 'Carrer Major, ') . $comptador,
+            '12000',
             idioma() === 'es' ? 'Pueblo de Ejemplo' : 'Poble d\'Exemple',
         ]);
         return (int)db()->lastInsertId();
@@ -82,6 +84,9 @@ function carrega_dades_exemple(): void
         if ($n > 3) {
             q('INSERT INTO matricula_grups(matricula_id, grup_id) VALUES(?, ?)', [$m, $grups['Conjunt instrumental']]);
         }
+        // Drets d'imatge: la majoria autoritzen, un no i un encara no ha tornat el full signat
+        $consent = [1 => 'autoritza', 2 => 'autoritza', 3 => 'no_autoritza', 4 => 'autoritza', 5 => 'autoritza', 6 => 'pendent'][$n];
+        q('UPDATE persones SET consentiment_imatge = ?, consentiment_data = ? WHERE id = ?', [$consent, $consent === 'pendent' ? null : "$any-09-12", $p]);
     }
 
     $agr = [];
@@ -90,11 +95,15 @@ function carrega_dades_exemple(): void
         $agr[$n] = $id();
     }
     $musics = [];
+    // Anys d'antiguitat de cada músic (n'hi ha un que en fa 25 i un altre 50 este any, per a la llista d'insígnies)
+    $anys = [25, 12, 8, 50, 3];
     foreach (range(1, 5) as $n) {
-        $p = $persona('Músic' . $n, 'Exemple', (1985 + $n * 2) . '-1' . ($n % 3) . '-0' . $n, $n !== 5);
+        $p = $persona('Músic' . $n, 'Exemple', [1980, 1989, 1991, 1960, 1995][$n - 1] . '-1' . ($n % 3) . '-0' . $n, $n !== 5);
         $musics[] = $p;
-        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), 'ordinari', ($any - $n) . '-01-15']);
-        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], $es ? ['Trompeta', 'Clarinete', 'Saxo alto', 'Trombón', 'Percusión'][$n - 1] : ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], ($any - $n) . '-01-15']);
+        $alta = ((int)date('Y') - $anys[$n - 1]) . '-0' . $n . '-15';
+        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), 'ordinari', $alta]);
+        q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], $es ? ['Trompeta', 'Clarinete', 'Saxo alto', 'Trombón', 'Percusión'][$n - 1] : ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], $alta]);
+        q("UPDATE persones SET consentiment_imatge = 'autoritza', consentiment_data = ? WHERE id = ?", [$alta, $p]);
     }
     q("INSERT INTO membres(persona_id, agrupacio_id, funcio, data_alta) VALUES(?, ?, 'director_titular', ?)", [$tutors[0], $agr['Banda'], "$any-01-01"]);
     q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$tutors[1], $agr['Coral'], 'Soprano']);

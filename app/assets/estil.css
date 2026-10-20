@@ -230,6 +230,40 @@ body.simple { min-height: 100vh; display: flex; flex-direction: column; align-it
     .fitxa { grid-template-columns: 1fr; gap: 2px; }
     .fitxa dd { margin-bottom: 8px; }
 }
+/* Llistats i informes */
+.graella-informes { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin: 16px 0; }
+.informe { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; background: var(--superficie); border: 1px solid var(--vora); border-left: 4px solid var(--or); border-radius: var(--radi); color: var(--text); }
+.informe:hover { border-color: var(--blau); text-decoration: none; }
+.informe .ic { font-size: 1.5rem; }
+.informe b { color: var(--blau); }
+.informe small { color: var(--suau); font-size: .82rem; line-height: 1.4; }
+.taula.taula-informe tr.destacat td { background: #fff4c2; color: #4a3a00; }
+.taula.taula-informe td.num, .taula.taula-informe th.num { text-align: right; }
+.taula.taula-informe tfoot td { font-weight: 600; background: var(--blau-clar); }
+h3 { margin: 22px 0 8px; font-size: 1.02rem; }
+.opcions.vertical { grid-template-columns: 1fr; }
+.opcions .compte { margin-left: 2px; }
+
+/* Importació */
+.estat-imp { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+.estat-imp.nova { background: #dcf3e4; color: #166534; }
+.estat-imp.existeix { background: var(--blau-clar); color: var(--blau); }
+.estat-imp.possible { background: #fff4c2; color: #6b5300; }
+.estat-imp.repetida, .estat-imp.error { background: #fde2e1; color: #9f1d1d; }
+.revisio-imp .mateixa { display: flex; gap: 6px; align-items: center; margin-top: 4px; font-size: .8rem; white-space: nowrap; }
+.revisio-imp small { display: block; font-size: .75rem; }
+.revisio-imp tr.imp-error td, .revisio-imp tr.imp-repetida td { color: var(--suau); }
+.avisos-imp { font-size: .78rem; color: #8a5a00; max-width: 320px; }
+.columnes-imp .mostres { color: var(--suau); font-size: .8rem; }
+.columnes-imp select { min-width: 220px; }
+@media (prefers-color-scheme: dark) {
+    .taula.taula-informe tr.destacat td { background: #3d3410; color: #f3dc85; }
+    .estat-imp.nova { background: #14361f; color: #8ee0a8; }
+    .estat-imp.possible { background: #3d3410; color: #f3dc85; }
+    .estat-imp.repetida, .estat-imp.error { background: #3b1414; color: #f3a3a3; }
+    .avisos-imp { color: #f3c36b; }
+}
+
 /* Codi de recuperació */
 .codi-recuperacio {
     font: 700 1.6rem/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace; letter-spacing: .08em;

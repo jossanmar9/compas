@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.3.0';
+const COMPAS_VERSIO = '1.4.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -17,6 +17,7 @@ mb_internal_encoding('UTF-8');
 require SRC_DIR . '/i18n.php';
 require SRC_DIR . '/capacitats.php';
 require SRC_DIR . '/markdown.php';
+require SRC_DIR . '/xifrat.php';
 
 /* ---------------- Base de dades ---------------- */
 
@@ -49,6 +50,7 @@ function db(): PDO
     $pdo->exec('PRAGMA journal_mode = WAL');
     $pdo->exec('PRAGMA busy_timeout = 5000');
     $pdo->exec(file_get_contents(SRC_DIR . '/schema.sql'));
+    migra_esquema($pdo);
     sembra_rols($pdo);
     // Després de restaurar es manté la configuració de còpies que hi havia
     $conservada = DADES_DIR . DIRECTORY_SEPARATOR . 'restaura-config.json';
@@ -59,6 +61,28 @@ function db(): PDO
         unlink($conservada);
     }
     return $pdo;
+}
+
+/**
+ * Afig a les bases de dades d'una versió anterior les columnes noves.
+ * (CREATE TABLE IF NOT EXISTS no modifica les taules que ja existeixen.)
+ */
+function migra_esquema(PDO $pdo): void
+{
+    $columnes = [
+        'persones' => [
+            'consentiment_imatge' => "TEXT NOT NULL DEFAULT 'pendent'",
+            'consentiment_data' => 'TEXT',
+        ],
+    ];
+    foreach ($columnes as $taula => $cols) {
+        $existents = array_column($pdo->query("PRAGMA table_info($taula)")->fetchAll(PDO::FETCH_ASSOC), 'name');
+        foreach ($cols as $col => $tipus) {
+            if (!in_array($col, $existents, true)) {
+                $pdo->exec("ALTER TABLE $taula ADD COLUMN $col $tipus");
+            }
+        }
+    }
 }
 
 function q(string $sql, array $params = []): PDOStatement

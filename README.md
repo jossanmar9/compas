@@ -39,14 +39,17 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 | Mòdul | Què fa |
 |---|---|
 | **Persones** | Registre únic: cada persona s'introdueix una sola vegada i pot ser sòcia, música, alumna, professora i tutora alhora sense duplicar dades. Nom, cognoms i data de naixement són obligatoris; DNI i telèfon, només per als majors d'edat. Quan un menor fa 18 anys sense eixes dades, la seua fila es marca en groc. |
-| **Socis** | Número, tipus (ordinari, protector, d'honor, juvenil), altes i baixes. Llistats exportables a CSV per a etiquetes o circulars. |
-| **Escola de música** | Cursos acadèmics i avaluacions, assignatures, aules, professorat, grups amb horari, matrícules i tutors legals. Historial de cada alumne curs a curs. |
+| **Drets d'imatge** | Si cada persona autoritza fotos i vídeos, amb la data de la signatura. Fulls de consentiment per a imprimir amb les dades de l'alumne i del tutor/a, i llistat de qui pot eixir en les fotos. |
+| **Socis** | Número, tipus (ordinari, protector, d'honor, juvenil), altes i baixes. Llistat per número, etiquetes per a les circulars i antiguitat per a les insígnies de 25 i 50 anys. |
+| **Escola de música** | Cursos acadèmics i avaluacions, assignatures, aules, professorat, grups amb horari, matrícules i tutors legals. Historial de cada alumne curs a curs. Assistent per a passar al curs següent sense començar de zero. |
 | **Qualificacions** | Administració introdueix les notes que passa el professorat, per grup i avaluació, amb observacions acadèmiques. |
 | **Butlletins** | Butlletins de notes en A4 amb el logotip i les dades de la societat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
 | **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
 | **Agrupacions** | Banda, banda juvenil, coral, orquestra, cambra… amb els membres, l'instrument o veu i la funció (direcció titular, assistent…). |
 | **Instruments** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
-| **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat. |
+| **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, músics per instrument, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula i d'agrupació amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
+| **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
+| **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
 
@@ -107,6 +110,7 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 - Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora.
 - **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es conserven les 30 últimes (configurable).
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
+- **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.
 - **Restaurar** una còpia es fa amb un clic. Abans, Compàs guarda una còpia de les dades actuals, de manera que sempre es pot tornar arrere.
 - Res no s'elimina si té historial: les baixes es marquen amb estat i data de baixa.
 
@@ -187,7 +191,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 - Loteria: talonaris, participacions i liquidacions.
 - Calendari d'assajos, concerts i activitats; convocatòries i repertori de les agrupacions.
 - Comunicacions i avisos.
-- Documents adjunts (autoritzacions, contractes de cessió…).
+- Documents adjunts (autoritzacions signades, contractes de cessió…).
 
 ## Col·laborar
 

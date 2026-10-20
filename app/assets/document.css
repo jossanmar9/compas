@@ -1,0 +1,60 @@
+/* Documents A4: consentiments, certificats, llistats i etiquetes — SPDX-License-Identifier: GPL-2.0-or-later */
+/* S'afig a butlleti.css, que porta la pàgina A4, la capçalera i la barra d'impressió */
+
+.centrat { text-align: center; }
+.document h2.centrat { margin: 26px 0 18px; }
+.document h3 { margin: 16px 0 6px; }
+.justificat { text-align: justify; }
+.document p { margin: 8px 0; }
+
+/* Dades en format de formulari en paper */
+.formulari-paper { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+.formulari-paper th, .formulari-paper td { border: 1px solid #bfc8d6; padding: 6px 8px; text-align: left; vertical-align: bottom; height: 9mm; }
+.formulari-paper th { width: 1%; white-space: nowrap; background: #f1f5fb; font-size: 9pt; font-weight: 600; color: #3b4558; }
+.linia { display: inline-block; min-width: 40mm; border-bottom: 1px dotted #8a94a6; height: 1em; }
+.linia.llarga { min-width: 70mm; }
+
+.opcions-paper { display: flex; gap: 22mm; margin: 12px 0 10px 6mm; font-size: 11pt; }
+.casella { display: inline-block; width: 4.5mm; height: 4.5mm; border: 1.5px solid #1d2433; vertical-align: -0.6mm; margin-right: 2mm; }
+.text-legal { font-size: 8pt; color: #5d6778; text-align: justify; margin-top: 14px !important; }
+.document .lloc-data { margin: 0 0 24mm; }
+.document .signatures { justify-content: flex-end; }
+.document .signatures div { flex: 0 0 75mm; }
+
+/* Certificats */
+.certificat { font-size: 11.5pt; line-height: 1.75; }
+.certificat .certifica { font-weight: 700; letter-spacing: .08em; margin: 18px 0 !important; }
+.llista-cert { margin: 4px 0 10px 8mm; }
+.certificat footer { padding-top: 30mm; }
+.certificat .signatures { gap: 20mm; }
+.certificat .signatures div { border-top: 1px solid #1d2433; padding-top: 6px; font-size: 10pt; color: #1d2433; line-height: 1.4; }
+.rol-signa { display: block; font-size: 8.5pt; color: #5d6778; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+
+/* Llistats */
+.full.llistat { min-height: 0; }
+.llistat h2 { margin-top: 14px; }
+.llistat .subtitol { margin: 0 0 10px; color: #5d6778; }
+.llistat h3 { margin: 16px 0 6px; }
+.taula-llistat { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin-bottom: 8px; }
+.taula-llistat th, .taula-llistat td { border: 1px solid #bfc8d6; padding: 4px 6px; text-align: left; vertical-align: top; }
+.taula-llistat th { background: #e8f0fa; font-size: 8.5pt; }
+.taula-llistat td.num, .taula-llistat th.num { text-align: right; white-space: nowrap; }
+.taula-llistat tr.destacat td { background: #fff4c2; }
+.taula-llistat tfoot td { font-weight: 700; background: #f1f5fb; }
+.llistat .peu-llistat { color: #5d6778; font-size: 8.5pt; margin-top: 10px; }
+
+/* Etiquetes adhesives: la mida exacta la posa l'estil en línia de cada format */
+.full-etiquetes { width: 210mm; height: 297mm; margin: 20px auto; background: #fff; box-shadow: 0 4px 20px rgba(20,40,75,.15); display: grid; overflow: hidden; }
+.etiqueta { overflow: hidden; padding: 4mm 5mm; font-size: 10pt; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; }
+.etiqueta b { font-weight: 600; }
+.mostra-vores .etiqueta { outline: 1px dashed #c9d2df; outline-offset: -1px; }
+
+@media print {
+    .document .formulari-paper th, .taula-llistat th, .taula-llistat tr.destacat td, .taula-llistat tfoot td { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .full.llistat { page-break-after: auto; break-after: auto; }
+    .taula-llistat tr { break-inside: avoid; }
+    .taula-llistat thead { display: table-header-group; }
+    .full-etiquetes { margin: 0; box-shadow: none; page-break-after: always; break-after: page; }
+    .full-etiquetes:last-of-type { page-break-after: auto; break-after: auto; }
+    .mostra-vores .etiqueta { outline: none; }
+}
