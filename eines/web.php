@@ -276,7 +276,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">GPL-2.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></p>
+  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">GPL-2.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="{$repo}/blob/main/CODE_SIGNING.md">Code signing policy</a></p>
 </footer>
 
 <script>

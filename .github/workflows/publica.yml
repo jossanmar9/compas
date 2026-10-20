@@ -174,6 +174,8 @@ jobs:
             ''
             'Manuals i guies en PDF (valencià i castellà) adjunts a aquesta versió i dins del programa (Ajuda).'
             ''
+            "[Code signing policy](https://github.com/${{ github.repository }}/blob/main/CODE_SIGNING.md) · [Privacitat](https://github.com/${{ github.repository }}/blob/main/PRIVACITAT.md)"
+            ''
             '## Què canvia'
           ) + $canvis + @('', "Tots els canvis: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/$env:GITHUB_REF_NAME/CHANGELOG.md)") |
             Set-Content dist\notes.md -Encoding utf8

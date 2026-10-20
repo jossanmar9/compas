@@ -14,7 +14,7 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 
 *Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
 
-🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf)
+🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf) · 🔏 [Code signing policy](CODE_SIGNING.md) · 🔒 [Privacitat](PRIVACITAT.md)
 
 ![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.jpg)
 
@@ -123,6 +123,7 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 | Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](docs/pdf/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](docs/pdf/manual-usuario.pdf) |
 | Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](docs/pdf/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](docs/pdf/guia-instalacion.pdf) |
 | Declaració de privacitat | [PRIVACITAT](PRIVACITAT.md) | [PRIVACITAT](PRIVACITAT.md#privacidad-de-compàs) |
+| Code signing policy | [CODE_SIGNING](CODE_SIGNING.md) | [CODE_SIGNING](CODE_SIGNING.md#política-de-firma-de-código-castellano) |
 | Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
 | Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
 
