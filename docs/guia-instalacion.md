@@ -2,37 +2,81 @@
 
 ## Requisitos
 
-- Windows 10 u 11 de 64 bits.
+- **Windows** 10 u 11 de 64 bits, o **Linux** con PHP 8.1 o posterior.
 - Unos 100 MB de disco.
-- No hace falta Internet, ni servidor, ni instalar PHP o bases de datos: todo va dentro.
+- No hace falta Internet ni servidor. En Windows tampoco hace falta instalar PHP ni bases de datos: todo va dentro.
 
-## Opción A: instalador (recomendada)
+Todas las versiones se descargan de la página de [descargas](https://github.com/jossanmar9/compas/releases/latest).
 
-1. Descarga `Compas-X.Y.Z-installador.exe` de la página de *Releases* del repositorio.
+## Windows
+
+### Opción A: instalador (recomendada)
+
+1. Descarga `Compas-X.Y.Z-installador.exe`.
 2. Ejecútalo. No pide permisos de administrador: se instala para el usuario actual en `%LOCALAPPDATA%\Programs\Compas`.
-3. Windows SmartScreen puede avisar de que el programa no es conocido (no está firmado digitalmente). Pulsa **Más información → Ejecutar de todas formas**.
-4. Al terminar, abre **Compàs** desde el menú Inicio o el escritorio.
+3. Al terminar, abre **Compàs** desde el menú Inicio o el escritorio.
 
-Para **actualizar**, ejecuta el instalador de la versión nueva con Compàs cerrado. Los datos y el archivo `compas.ini` se conservan.
+Para **actualizar**, ejecuta el instalador de la versión nueva con Compàs cerrado. Los datos y el archivo `compas.ini` se conservan. Si lo **desinstalas**, la carpeta `data` no se borra.
 
-Si lo **desinstalas**, la carpeta `data` no se borra.
+### Opción B: portable (sin instalar)
 
-## Opción B: portable (sin instalar)
-
-1. Descarga `Compas-X.Y.Z-portable.zip` y descomprímelo donde quieras (por ejemplo, `Documentos\Compas` o un lápiz USB).
+1. Descarga `Compas-X.Y.Z-portable.zip` y descomprímelo donde quieras (por ejemplo, `Documentos\Compas` o un pendrive).
 2. Abre `Compas.exe`.
 
 Para actualizar, descomprime la versión nueva y copia en ella la carpeta `data` de la antigua (con Compàs cerrado).
 
+### Si Windows no te deja abrirlo
+
+Compàs es software libre y todavía **no está firmado digitalmente** (un certificado de firma cuesta dinero cada año). Por eso Windows puede mostrar uno de estos avisos:
+
+**«Windows protegió su PC» (SmartScreen).** Es solo un aviso. Pulsa **Más información** y después **Ejecutar de todas formas**. Solo hay que hacerlo la primera vez.
+
+**«Una directiva de Control de aplicaciones bloqueó este archivo» (código 4551).** Es el **Control inteligente de aplicaciones** (Smart App Control), que llevan activado algunos ordenadores nuevos con Windows 11. Bloquea cualquier programa sin firmar, también la versión portable, y Windows no permite hacer una excepción para un solo programa. Las opciones son:
+
+- **Desactivarlo:** *Seguridad de Windows → Control de aplicaciones y navegador → Configuración del Control inteligente de aplicaciones → Desactivado*. Con Windows actualizado (desde abril de 2026) se puede volver a activar después desde el mismo sitio. Decídelo tú o la persona que lleva los ordenadores de la sociedad.
+- **Usar otro ordenador** que no lo tenga activado, o la **versión para Linux**.
+
+> Comprueba que has descargado Compàs de la página oficial de descargas ([github.com/jossanmar9/compas/releases](https://github.com/jossanmar9/compas/releases)). No lo abras si te lo han enviado por correo o desde otra web.
+
+## Linux
+
+Hace falta PHP 8.1 o posterior con las extensiones `pdo_sqlite` y `mbstring` (y `xml` para importar archivos de Excel). En Debian, Ubuntu, Linux Mint y similares:
+
+```
+sudo apt install php-cli php-sqlite3 php-mbstring php-xml
+```
+
+En Fedora: `sudo dnf install php-cli php-pdo php-mbstring php-xml php-sodium`. En Arch: `sudo pacman -S php php-sqlite` (y activa `pdo_sqlite` en `/etc/php/php.ini`).
+
+### Instalar
+
+1. Descarga `Compas-X.Y.Z-linux.tar.gz` y descomprímelo.
+2. Dentro de la carpeta `Compas`, ejecuta:
+   ```
+   ./installa.sh
+   ```
+   Se instala para el usuario actual, sin `sudo`, y crea el acceso en el menú de aplicaciones y la orden `compas`.
+3. Abre **Compàs** desde el menú de aplicaciones o escribiendo `compas` en un terminal.
+
+También se puede usar sin instalar: ejecuta `./compas.sh` desde la carpeta descomprimida.
+
+Para **actualizar**, descomprime la versión nueva y vuelve a ejecutar `./installa.sh`. Para **desinstalar**, `~/.local/share/compas/programa/desinstalla.sh`. En ninguno de los dos casos se tocan los datos.
+
+### Cómo funciona en Linux
+
+Se abre una ventana de terminal y el navegador en `http://localhost:8740`. **Mientras la ventana del terminal esté abierta, Compàs funciona.** Para cerrarlo, pulsa **Ctrl+C** o cierra la ventana: antes de pararse, hace una copia de seguridad si ha habido cambios.
+
+Los datos se guardan en `~/.local/share/compas/dades` (o en la carpeta que indique la variable `COMPAS_DADES`).
+
 ## Cómo funciona
 
-Al abrir `Compas.exe` aparece una ventana pequeña y se abre el navegador en `http://localhost:8740`. **Mientras la ventana esté abierta, Compàs funciona.** Al cerrarla, hace una copia de seguridad (si ha habido cambios) y se detiene.
+Al abrir Compàs aparece una ventana pequeña (en Linux, un terminal) y se abre el navegador en `http://localhost:8740`. **Mientras la ventana esté abierta, Compàs funciona.** Al cerrarla, hace una copia de seguridad (si ha habido cambios) y se para.
 
-Compàs solo se puede usar desde este ordenador: no es accesible desde la red ni desde Internet.
+Compàs solo se puede usar desde este ordenador: no es accesible desde la red ni desde Internet, y no envía ningún dato fuera (véase la [declaración de privacidad](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md#privacidad-de-compàs)).
 
-La primera vez pide el nombre de la sociedad y crea la cuenta de administrador y, opcionalmente, la de administrativo/a. Apunta la contraseña: si se pierde y no hay ningún otro administrador, no se puede recuperar.
+La primera vez pide el nombre de la sociedad y crea la cuenta de administrador y, opcionalmente, la de administrativo/a. Después muestra un **código de recuperación**: imprímelo o apúntalo, porque es lo que permite poner una contraseña nueva si el administrador/a la olvida.
 
-## Carpeta del programa
+## Carpeta del programa (Windows)
 
 ```
 Compas\
@@ -46,24 +90,26 @@ Compas\
 
 ## Configuración (`compas.ini`)
 
-Ábrelo con el Bloc de notas. Después de cambiarlo, cierra y vuelve a abrir Compàs.
+Ábrelo con el Bloc de notas (o cualquier editor de texto). Después de cambiarlo, cierra y vuelve a abrir Compàs.
 
-- `port = 8740` — cámbialo si otro programa ya lo usa.
-- `navegador = 1` — abre el navegador al arrancar.
+- `port = 8740`: cámbialo si otro programa ya lo usa.
+- `navegador = 1`: abre el navegador al arrancar.
 
 ## Copias de seguridad
 
-Compàs hace copias automáticas cada día y al cerrar el programa (si ha habido cambios), en `data\copies`. **Configura una carpeta externa** (disco USB o carpeta de la nube) en **Copias de seguridad** para que cada copia se guarde también fuera del ordenador. Ver el manual de usuario.
+Compàs hace copias automáticas cada día y al cerrar el programa (si ha habido cambios), en la carpeta `copies` de los datos. **Configura una carpeta externa** (disco USB o carpeta en la nube) en **Copias de seguridad** para que cada copia se guarde también fuera del ordenador y, si quieres, cifrada con contraseña. Véase el manual de usuario.
 
 ## Solución de problemas
 
 | Problema | Qué hacer |
 |---|---|
+| Windows dice que ha protegido el PC o que una directiva ha bloqueado el archivo | Véase el apartado «Si Windows no te deja abrirlo». |
 | «El puerto 8740 ya está en uso» | Cambia el `port` en `compas.ini`. |
-| El navegador no se abre | Haz clic en el enlace de la ventana de Compàs o escribe `http://localhost:8740` en el navegador. |
-| «El servidor se ha detenido» | Mira `data\servidor.log` y `data\php-errors.log`. |
-| No arranca y dice que faltan archivos | Vuelve a instalar o a descomprimir. El antivirus puede haber puesto en cuarentena `php.exe`. |
-| Falta `VCRUNTIME140.dll` | Instala el *Microsoft Visual C++ Redistributable* (x64) desde la web de Microsoft. |
+| El navegador no se abre | Escribe `http://localhost:8740` en el navegador. |
+| «El servidor se ha parado» | Mira `servidor.log` y `php-errors.log` en la carpeta de datos. |
+| No arranca y dice que faltan archivos (Windows) | Vuelve a instalar o a descomprimir. El antivirus puede haber puesto en cuarentena `php.exe`. |
+| Falta `VCRUNTIME140.dll` (Windows) | Instala el *Microsoft Visual C++ Redistributable* (x64) desde la web de Microsoft. |
+| «No se ha encontrado PHP» o «faltan extensiones» (Linux) | Instala los paquetes que indica el mensaje. |
 
 ## Para desarrollar
 
@@ -75,4 +121,4 @@ php -S 127.0.0.1:8740 -t app app/index.php
 
 Los datos se guardan en `data/` (o en la carpeta que indique la variable de entorno `COMPAS_DADES`).
 
-Para publicar una versión para Windows, sube una etiqueta en minúscula (`v1.0.0`) y GitHub Actions construye el instalador y el zip portable.
+Para publicar una versión, sube una etiqueta en minúscula (`v1.0.0`) y GitHub Actions construye el instalador y el zip para Windows y el paquete para Linux.

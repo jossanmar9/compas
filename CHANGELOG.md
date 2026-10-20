@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.5.0] - 2026-10-20
+
+### Afegit
+- **Versió per a Linux** (`Compas-X.Y.Z-linux.tar.gz`): s'instal·la per a l'usuari sense `sudo` amb `./installa.sh`, crea l'accés al menú d'aplicacions i l'ordre `compas`, i utilitza el PHP del sistema. Com a Windows, en tancar fa una còpia de seguretat si hi ha hagut canvis. Les dades es guarden a `~/.local/share/compas/dades`.
+- La guia d'instal·lació, el README i la web expliquen què fer si Windows no deixa obrir Compàs: l'avís de SmartScreen i el bloqueig del Control intel·ligent d'aplicacions de Windows 11, perquè el programa encara no està signat digitalment.
+
+### Llevat
+- La pàgina «Code signing policy»: de moment Compàs no està signat.
+
 ## [1.4.1] - 2026-10-20
 
 ### Afegit
@@ -90,6 +99,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.5.0]: https://github.com/jossanmar9/compas/releases/tag/v1.5.0
 [1.4.1]: https://github.com/jossanmar9/compas/releases/tag/v1.4.1
 [1.4.0]: https://github.com/jossanmar9/compas/releases/tag/v1.4.0
 [1.3.0]: https://github.com/jossanmar9/compas/releases/tag/v1.3.0

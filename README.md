@@ -14,7 +14,7 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 
 *Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
 
-🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf) · 🔏 [Code signing policy](CODE_SIGNING.md) · 🔒 [Privacitat](PRIVACITAT.md)
+🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf) · 🔒 [Privacitat](PRIVACITAT.md)
 
 ![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.jpg)
 
@@ -66,12 +66,13 @@ Hi ha més de 40 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
 
 ## Instal·lació
 
-**Requisits:** Windows 10 o 11 de 64 bits i uns 100 MB de disc. No cal Internet, ni servidor, ni instal·lar PHP o bases de dades: tot va dins.
+**Requisits:** Windows 10 o 11 de 64 bits, o Linux amb PHP 8.1 o posterior, i uns 100 MB de disc. No cal Internet ni servidor. A Windows tampoc no cal instal·lar PHP ni bases de dades: tot va dins.
 
 1. Baixa l'[última versió](../../releases/latest):
-   - **`Compas-X.Y.Z-installador.exe`**: l'instal·lador recomanat. No demana permisos d'administrador; s'instal·la a `%LOCALAPPDATA%\Programs\Compas` i crea l'accés al menú Inici i a l'escriptori.
+   - **`Compas-X.Y.Z-installador.exe`**: l'instal·lador recomanat per a Windows. No demana permisos d'administrador; s'instal·la a `%LOCALAPPDATA%\Programs\Compas` i crea l'accés al menú Inici i a l'escriptori.
    - **`Compas-X.Y.Z-portable.zip`**: la mateixa versió sense instal·lar. Descomprimeix-la on vulgues (també en un llapis USB) i obri `Compas.exe`.
-2. El programa no està signat digitalment: Windows SmartScreen pot avisar. Prem **Més informació → Executa igualment**.
+   - **`Compas-X.Y.Z-linux.tar.gz`**: per a Linux. Descomprimeix-lo i executa `./installa.sh` (cal `sudo apt install php-cli php-sqlite3 php-mbstring php-xml`).
+2. El programa **encara no està signat digitalment**. Windows SmartScreen pot avisar: prem **Més informació → Executa igualment**. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows el bloqueja (també la versió portable) i cal desactivar-lo: vegeu la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
 3. Obri **Compàs**. S'obri una finestra menuda i el navegador amb el programa. Mentre la finestra estiga oberta, Compàs funciona; en tancar-la, fa una còpia de seguretat i s'atura.
 
 **Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
@@ -123,7 +124,6 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 | Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](docs/pdf/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](docs/pdf/manual-usuario.pdf) |
 | Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](docs/pdf/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](docs/pdf/guia-instalacion.pdf) |
 | Declaració de privacitat | [PRIVACITAT](PRIVACITAT.md) | [PRIVACITAT](PRIVACITAT.md#privacidad-de-compàs) |
-| Code signing policy | [CODE_SIGNING](CODE_SIGNING.md) | [CODE_SIGNING](CODE_SIGNING.md#política-de-firma-de-código-castellano) |
 | Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
 | Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
 
@@ -146,7 +146,7 @@ app/          punt d'entrada (index.php) i recursos web (CSS, JS, icones)
 src/          lògica: base de dades, permisos, entitats, pantalles i traduccions
   lang/       textos en valencià (ca.php) i castellà (es.php)
   pages/      pantalles específiques (inici, escola, butlletins, còpies…)
-launcher/     llançador de Windows (Compas.cs), php.ini i script de l'instal·lador
+launcher/     llançador de Windows (Compas.cs), php.ini, script de l'instal·lador i, a linux/, el llançador i l'instal·lador per a Linux
 docs/         manuals, guies, captures (imatges/) i PDF (pdf/)
 eines/        generació de captures, PDF i web
 .github/      construcció de l'instal·lador (publica.yml) i de la web (web.yml)
@@ -181,7 +181,7 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
    git tag v1.2.2
    git push origin v1.2.2
    ```
-4. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable, i ho publica tot en una *release*. Les notes de la *release* es prenen de l'apartat d'eixa versió al CHANGELOG.
+4. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable per a Windows i el paquet per a Linux, el prova, i ho publica tot en una *release*. Les notes de la *release* es prenen de l'apartat d'eixa versió al CHANGELOG.
 
 La web es torna a publicar sola amb cada canvi a `main` (`web.yml`).
 

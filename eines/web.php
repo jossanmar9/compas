@@ -21,7 +21,7 @@ $T = [
         'lema' => 'Gestió lliure per a societats musicals',
         'hero' => 'Tota la societat musical, en un sol programa.',
         'hero_text' => "Socis, alumnat, professorat, notes, butlletins, músics i instruments, en un ordinador de la societat. Sense Internet, sense quotes i en valencià i castellà.",
-        'descarrega' => 'Descarrega per a Windows',
+        'descarrega' => 'Descarrega (Windows i Linux)',
         'versio' => 'Versió %s. Gratuït i lliure.',
         'manual' => 'Llig el manual',
         'nav_que' => 'Què fa', 'nav_veure' => 'Captures', 'nav_com' => 'Com començar', 'nav_codi' => 'Codi',
@@ -56,8 +56,8 @@ $T = [
         ],
         'com_titol' => 'Com començar',
         'passos' => [
-            ['Descarrega l\'instal·lador', 'Des de la pàgina de descàrregues, baixa <code>Compas-…-installador.exe</code>. També hi ha una versió portable que no cal instal·lar.'],
-            ['Instal·la\'l', 'No demana permisos d\'administrador. Windows pot avisar que és un programa poc conegut: tria «Més informació» i «Executa igualment».'],
+            ['Descarrega l\'instal·lador', 'Des de la pàgina de descàrregues, baixa <code>Compas-…-installador.exe</code>. També hi ha una versió portable que no cal instal·lar i un paquet per a Linux (<code>.tar.gz</code>).'],
+            ['Instal·la\'l', 'No demana permisos d\'administrador. Com que encara no està signat, Windows pot avisar: llig el quadre de baix.'],
             ['Comença', 'Escriu el nom de la societat i crea els comptes d\'administrador i d\'administratiu. Si vols, carrega dades d\'exemple per a provar-lo.'],
         ],
         'dades_titol' => 'Les dades es queden a la societat',
@@ -67,8 +67,14 @@ $T = [
             'Té dos comptes: administrador i administratiu, i un registre de qui ha fet cada canvi.',
             'Esta web tampoc no té galetes ni analítica, i les tipografies (lliures) se serveixen des d\'ací mateix.',
         ],
+        'avis_titol' => 'Si Windows no et deixa obrir-lo',
+        'avis' => [
+            ['«Windows ha protegit l\'ordinador»', 'És només un avís perquè el programa encara no està signat digitalment. Prem «Més informació» i «Executa igualment».'],
+            ['«Una directiva de Control d\'aplicacions ha bloquejat aquest fitxer»', 'És el Control intel·ligent d\'aplicacions d\'alguns ordinadors nous amb Windows 11, que bloqueja tots els programes no signats, també la versió portable. Cal desactivar-lo a Seguretat de Windows o utilitzar un altre ordinador o la versió per a Linux.'],
+        ],
+        'avis_mes' => 'Explicació pas a pas a la guia d\'instal·lació',
         'req_titol' => 'Què cal',
-        'req' => ['Un ordinador amb Windows 10 o 11 de 64 bits', 'Uns 100 MB de disc', 'Un llapis USB o una carpeta al núvol per a les còpies (recomanat)'],
+        'req' => ['Un ordinador amb Windows 10 o 11 de 64 bits, o amb Linux i PHP 8.1 o posterior', 'Uns 100 MB de disc', 'Un llapis USB o una carpeta al núvol per a les còpies (recomanat)'],
         'docs_titol' => 'Manuals',
         'docs' => [['manual-usuari.pdf', 'Manual d\'usuari, pas a pas amb captures'], ['guia-installacio.pdf', 'Guia d\'instal·lació']],
         'lliure_titol' => 'Programari lliure',
@@ -88,7 +94,7 @@ $T = [
         'lema' => 'Gestión libre para sociedades musicales',
         'hero' => 'Toda la sociedad musical, en un solo programa.',
         'hero_text' => 'Socios, alumnado, profesorado, notas, boletines, músicos e instrumentos, en un ordenador de la sociedad. Sin Internet, sin cuotas y en valenciano y castellano.',
-        'descarrega' => 'Descargar para Windows',
+        'descarrega' => 'Descargar (Windows y Linux)',
         'versio' => 'Versión %s. Gratuito y libre.',
         'manual' => 'Leer el manual',
         'nav_que' => 'Qué hace', 'nav_veure' => 'Capturas', 'nav_com' => 'Cómo empezar', 'nav_codi' => 'Código',
@@ -123,8 +129,8 @@ $T = [
         ],
         'com_titol' => 'Cómo empezar',
         'passos' => [
-            ['Descarga el instalador', 'Desde la página de descargas, baja <code>Compas-…-installador.exe</code>. También hay una versión portable que no hace falta instalar.'],
-            ['Instálalo', 'No pide permisos de administrador. Windows puede avisar de que es un programa poco conocido: elige «Más información» y «Ejecutar de todas formas».'],
+            ['Descarga el instalador', 'Desde la página de descargas, baja <code>Compas-…-installador.exe</code>. También hay una versión portable que no hace falta instalar y un paquete para Linux (<code>.tar.gz</code>).'],
+            ['Instálalo', 'No pide permisos de administrador. Como todavía no está firmado, Windows puede avisar: lee el cuadro de abajo.'],
             ['Empieza', 'Escribe el nombre de la sociedad y crea las cuentas de administrador y de administrativo. Si quieres, carga datos de ejemplo para probarlo.'],
         ],
         'dades_titol' => 'Los datos se quedan en la sociedad',
@@ -134,8 +140,14 @@ $T = [
             'Tiene dos cuentas: administrador y administrativo, y un registro de quién ha hecho cada cambio.',
             'Esta web tampoco tiene cookies ni analítica, y las tipografías (libres) se sirven desde aquí mismo.',
         ],
+        'avis_titol' => 'Si Windows no te deja abrirlo',
+        'avis' => [
+            ['«Windows protegió su PC»', 'Es solo un aviso porque el programa todavía no está firmado digitalmente. Pulsa «Más información» y «Ejecutar de todas formas».'],
+            ['«Una directiva de Control de aplicaciones bloqueó este archivo»', 'Es el Control inteligente de aplicaciones de algunos ordenadores nuevos con Windows 11, que bloquea todos los programas sin firmar, también la versión portable. Hay que desactivarlo en Seguridad de Windows o usar otro ordenador o la versión para Linux.'],
+        ],
+        'avis_mes' => 'Explicación paso a paso en la guía de instalación',
         'req_titol' => 'Qué hace falta',
-        'req' => ['Un ordenador con Windows 10 u 11 de 64 bits', 'Unos 100 MB de disco', 'Un lápiz USB o una carpeta en la nube para las copias (recomendado)'],
+        'req' => ['Un ordenador con Windows 10 u 11 de 64 bits, o con Linux y PHP 8.1 o posterior', 'Unos 100 MB de disco', 'Un lápiz USB o una carpeta en la nube para las copias (recomendado)'],
         'docs_titol' => 'Manuales',
         'docs' => [['manual-usuario.pdf', 'Manual de usuario, paso a paso con capturas'], ['guia-instalacion.pdf', 'Guía de instalación']],
         'lliure_titol' => 'Software libre',
@@ -168,6 +180,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     }
     $dades = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['dades']));
     $req = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['req']));
+    $avisos = implode('', array_map(fn($a) => '<dt>' . e($a[0]) . '</dt><dd>' . e($a[1]) . '</dd>', $t['avis']));
+    $guia = $repo . '/blob/main/docs/' . ($l === 'es' ? 'guia-instalacion.md#si-windows-no-te-deja-abrirlo' : 'guia-installacio.md#si-windows-no-et-deixa-obrir-lo');
     $docs = implode('', array_map(fn($d) => '<li><a href="' . $base . 'pdf/' . e($d[0]) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span></li>', $t['docs']));
 
     $miniatures = '';
@@ -249,6 +263,11 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <section id="comencar" class="seccio">
   <div class="cap"><h2>{$t['com_titol']}</h2></div>
   <ol class="passos">{$passos}</ol>
+  <aside class="avis-windows">
+    <h3>{$t['avis_titol']}</h3>
+    <dl>{$avisos}</dl>
+    <p><a href="{$guia}">{$t['avis_mes']}</a></p>
+  </aside>
   <p class="accions"><a class="boto" href="{$descarrega}">{$t['descarrega']}</a></p>
 </section>
 
@@ -276,7 +295,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">GPL-2.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="{$repo}/blob/main/CODE_SIGNING.md">Code signing policy</a></p>
+  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">GPL-2.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></p>
 </footer>
 
 <script>

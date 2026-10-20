@@ -154,39 +154,110 @@ jobs:
           path: |
             dist/*.zip
             dist/*.exe
+            dist/Compas/docs/pdf/*.pdf
+
+  linux:
+    needs: windows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, mbstring, xml, sodium
+
+      - name: Baixa els manuals en PDF (fets a Windows)
+        uses: actions/download-artifact@v5
+        with:
+          name: Compas-windows
+          path: win
+
+      - name: Crea el paquet per a Linux
+        run: |
+          v="${{ github.ref_type == 'tag' && github.ref_name || 'v0.0.0-prova' }}"; v="${v#v}"
+          d=dist/Compas
+          mkdir -p "$d/docs"
+          cp -a app src "$d/"
+          cp docs/manual-usuari.md docs/manual-usuario.md docs/guia-installacio.md docs/guia-instalacion.md "$d/docs/"
+          cp -a docs/imatges "$d/docs/"
+          cp -a win/Compas/docs/pdf "$d/docs/"
+          cp README.md CHANGELOG.md PRIVACITAT.md LICENSE compas.ini "$d/"
+          cp launcher/linux/compas.sh launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
+          chmod +x "$d"/*.sh
+          tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas
+          ls -la dist
+
+      - name: Prova el paquet
+        run: |
+          export COMPAS_DADES=$RUNNER_TEMP/dades COMPAS_NAVEGADOR=0 COMPAS_PORT=8742
+          dist/Compas/compas.sh > llançador.log 2>&1 &
+          LLANCADOR=$!
+          for i in $(seq 1 30); do curl -fsS -o pagina.html http://127.0.0.1:8742/ && break; sleep 1; done
+          cat llançador.log
+          grep -q "Configuració inicial" pagina.html
+          kill -TERM $LLANCADOR; wait $LLANCADOR || true
+
+      - name: Guarda el paquet
+        uses: actions/upload-artifact@v6
+        with:
+          name: Compas-linux
+          path: dist/*.tar.gz
+
+  publica:
+    needs: [windows, linux]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Baixa els paquets
+        uses: actions/download-artifact@v5
+        with:
+          path: paquets
+          merge-multiple: true
 
       - name: Notes de la versió (del CHANGELOG)
-        if: github.ref_type == 'tag'
-        shell: pwsh
+        id: notes
         run: |
-          $v = "${{ steps.versio.outputs.versio }}"
-          $canvis = @(); $dins = $false
-          foreach ($l in Get-Content CHANGELOG.md -Encoding utf8) {
-            if ($l -match '^## ') { if ($dins) { break }; $dins = $l -match "^## \[$([regex]::Escape($v))\]"; continue }
-            if ($dins) { $canvis += $l }
-          }
-          if (-not ($canvis -join '').Trim()) { Write-Warning "El CHANGELOG no té l'apartat [$v]"; $canvis = @('Consulta el registre de canvis.') }
-          @(
-            "**Compàs $v**: Gestió lliure per a societats musicals."
-            ''
-            '- **Compas-…-installador.exe**: instal·lador per a Windows 10/11 (64 bits). No necessita permisos d''administrador.'
-            '- **Compas-…-portable.zip**: el mateix sense instal·lar. Descomprimeix-lo i obri `Compas.exe`.'
-            ''
-            'Manuals i guies en PDF (valencià i castellà) adjunts a aquesta versió i dins del programa (Ajuda).'
-            ''
-            "[Code signing policy](https://github.com/${{ github.repository }}/blob/main/CODE_SIGNING.md) · [Privacitat](https://github.com/${{ github.repository }}/blob/main/PRIVACITAT.md)"
-            ''
-            '## Què canvia'
-          ) + $canvis + @('', "Tots els canvis: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/$env:GITHUB_REF_NAME/CHANGELOG.md)") |
-            Set-Content dist\notes.md -Encoding utf8
+          python3 - <<'PY'
+          import os, re
+          v = os.environ['GITHUB_REF_NAME'].lstrip('v')
+          repo = 'https://github.com/' + os.environ['GITHUB_REPOSITORY']
+          canvis, dins = [], False
+          for l in open('CHANGELOG.md', encoding='utf-8'):
+              if l.startswith('## '):
+                  if dins:
+                      break
+                  dins = l.startswith(f'## [{v}]')
+                  continue
+              if dins:
+                  canvis.append(l.rstrip('\n'))
+          if not ''.join(canvis).strip():
+              canvis = ['Consulta el registre de canvis.']
+          notes = [
+              f'**Compàs {v}**: Gestió lliure per a societats musicals.', '',
+              '| Fitxer | Per a |', '|---|---|',
+              '| **Compas-…-installador.exe** | Windows 10/11 (64 bits). No necessita permisos d\'administrador. |',
+              '| **Compas-…-portable.zip** | Windows, sense instal·lar: descomprimeix-lo i obri `Compas.exe`. |',
+              '| **Compas-…-linux.tar.gz** | Linux: descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior). |', '',
+              '> El programa encara no està signat digitalment: Windows pot avisar o bloquejar-lo. '
+              f'Com obrir-lo igualment: [guia d\'instal·lació]({repo}/blob/main/docs/guia-installacio.md).', '',
+              'Manuals i guies en PDF (valencià i castellà) adjunts a esta versió i dins del programa (Ajuda). '
+              f'[Privacitat]({repo}/blob/main/PRIVACITAT.md)', '',
+              '## Què canvia',
+          ] + canvis + ['', f'Tots els canvis: [CHANGELOG.md]({repo}/blob/{os.environ["GITHUB_REF_NAME"]}/CHANGELOG.md)']
+          open('notes.md', 'w', encoding='utf-8').write('\n'.join(notes) + '\n')
+          open(os.environ['GITHUB_OUTPUT'], 'a').write(f'versio={v}\n')
+          PY
+          cat notes.md
 
       - name: Publica la versió
-        if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
-          name: Compàs ${{ steps.versio.outputs.versio }}
+          name: Compàs ${{ steps.notes.outputs.versio }}
           files: |
-            dist/*.zip
-            dist/*.exe
-            dist/Compas/docs/pdf/*.pdf
-          body_path: dist/notes.md
+            paquets/*.zip
+            paquets/*.exe
+            paquets/*.tar.gz
+            paquets/Compas/docs/pdf/*.pdf
+          body_path: notes.md

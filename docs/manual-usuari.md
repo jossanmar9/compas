@@ -20,6 +20,8 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 
 Si el navegador no s'obri sol, prem **Obri Compàs** a la finestra menuda.
 
+> **A Linux**, en lloc de la finestra menuda s'obri una finestra de terminal. Funciona igual: no la tanques mentre treballes, i per a acabar prem **Ctrl+C** o tanca-la.
+
 ### Entrar
 
 Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idioma.

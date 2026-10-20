@@ -18,6 +18,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 ```
 
 - **Llançador** (`launcher/Compas.cs`): finestra menuda que arranca PHP només a `127.0.0.1`, espera que responga i obri el navegador. En tancar, demana a PHP una còpia de seguretat (amb un testimoni secret que només coneixen el llançador i PHP) i l'atura. Llig `compas.ini`.
+- **Linux** (`launcher/linux/`): `compas.sh` fa el mateix que el llançador de Windows amb el PHP del sistema (comprova la versió i les extensions, arranca a `127.0.0.1`, obri `xdg-open` i, amb `trap` en eixir, demana la còpia de tancament); `installa.sh` el copia a `~/.local/share/compas/programa` i crea l'entrada del menú (`Terminal=true`) i l'ordre `compas`. Les dades van a `~/.local/share/compas/dades`.
 - **PHP portable**: es baixa de windows.php.net en construir la versió. Extensions: `pdo_sqlite`, `sqlite3`, `mbstring`, `fileinfo`, `opcache` i `sodium` (xifrat de les còpies; `libsodium.dll` va al costat de `php.exe`). Les integrades `zlib` i `SimpleXML` s'utilitzen per a llegir els .xlsx.
 - **Aplicació**: PHP sense dependències ni frameworks, HTML i CSS propis i un poc de JavaScript. Funciona sense Internet.
 - **Base de dades**: SQLite a través de PDO. Tot l'SQL usa consultes preparades. Es pot migrar a MariaDB/MySQL més endavant canviant la connexió i adaptant `schema.sql`.

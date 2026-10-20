@@ -4,9 +4,9 @@
 
 ## El programa
 
-- Compàs funciona en un sol ordinador amb Windows. Només escolta en el mateix ordinador (`127.0.0.1`): no s'hi pot entrar des de la xarxa local ni des d'Internet.
+- Compàs funciona en un sol ordinador amb Windows o Linux. Només escolta en el mateix ordinador (`127.0.0.1`): no s'hi pot entrar des de la xarxa local ni des d'Internet.
 - No es connecta a Internet per a res: no envia estadístiques d'ús ni informes d'errors, no comprova actualitzacions, no mostra publicitat i no carrega tipografies, imatges ni programes de fora.
-- Les dades (persones, socis, alumnat, notes, agrupacions, instruments…) es guarden en un fitxer de l'ordinador: `data\compas.db`, dins de la carpeta del programa.
+- Les dades (persones, socis, alumnat, notes, agrupacions, instruments…) es guarden en un fitxer de l'ordinador: `data\compas.db`, dins de la carpeta del programa (a Linux, `~/.local/share/compas/dades`).
 - Les còpies de seguretat es guarden a l'ordinador i, si la societat ho configura, en la carpeta externa que trie: un llapis USB, un disc extern, una unitat de xarxa o una carpeta sincronitzada amb el núvol. En este últim cas, les còpies passen pel servei que la societat haja triat (OneDrive, Google Drive…), amb les seues condicions. Per això Compàs permet xifrar-les amb contrasenya.
 - Els documents que s'imprimeixen o es guarden en PDF o CSV (butlletins, llistats, certificats…) queden on els guarde la persona que els fa.
 
@@ -36,9 +36,9 @@ Si teniu dubtes sobre esta declaració, obriu una [incidència](https://github.c
 
 ## El programa
 
-- Compàs funciona en un solo ordenador con Windows. Solo escucha en el mismo ordenador (`127.0.0.1`): no se puede entrar desde la red local ni desde Internet.
+- Compàs funciona en un solo ordenador con Windows o Linux. Solo escucha en el mismo ordenador (`127.0.0.1`): no se puede entrar desde la red local ni desde Internet.
 - No se conecta a Internet para nada: no envía estadísticas de uso ni informes de errores, no comprueba actualizaciones, no muestra publicidad y no carga tipografías, imágenes ni programas de fuera.
-- Los datos (personas, socios, alumnado, notas, agrupaciones, instrumentos…) se guardan en un archivo del ordenador: `data\compas.db`, dentro de la carpeta del programa.
+- Los datos (personas, socios, alumnado, notas, agrupaciones, instrumentos…) se guardan en un archivo del ordenador: `data\compas.db`, dentro de la carpeta del programa (en Linux, `~/.local/share/compas/dades`).
 - Las copias de seguridad se guardan en el ordenador y, si la sociedad lo configura, en la carpeta externa que elija: un pendrive, un disco externo, una unidad de red o una carpeta sincronizada con la nube. En este último caso, las copias pasan por el servicio que la sociedad haya elegido (OneDrive, Google Drive…), con sus condiciones. Por eso Compàs permite cifrarlas con contraseña.
 - Los documentos que se imprimen o se guardan en PDF o CSV (boletines, listados, certificados…) quedan donde los guarde la persona que los hace.
 
@@ -64,4 +64,4 @@ Si tenéis dudas sobre esta declaración, abrid una [incidencia](https://github.
 
 # Privacy statement (English)
 
-**This program will not transfer any information to other networked systems.** Compàs runs on a single Windows computer and only listens on `127.0.0.1`. It has no telemetry, crash reporting, update checks, advertising or remote resources. All data is stored locally in `data\compas.db`. Backups are written only to the local computer and, if the user configures it, to an external folder of their choice (optionally encrypted with a password). The music society using Compàs is the data controller; the developer has no access to any data. The website and downloads are hosted on GitHub ([GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)); the website uses no cookies, analytics or third-party resources.
+**This program will not transfer any information to other networked systems.** Compàs runs on a single Windows or Linux computer and only listens on `127.0.0.1`. It has no telemetry, crash reporting, update checks, advertising or remote resources. All data is stored locally in `data\compas.db`. Backups are written only to the local computer and, if the user configures it, to an external folder of their choice (optionally encrypted with a password). The music society using Compàs is the data controller; the developer has no access to any data. The website and downloads are hosted on GitHub ([GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)); the website uses no cookies, analytics or third-party resources.
