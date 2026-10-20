@@ -99,6 +99,8 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 
 Les contrasenyes es guarden xifrades, hi ha un bloqueig temporal després de cinc intents fallits i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
 
+Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'entrada amb el **codi de recuperació** que es mostra en la configuració inicial (i que es pot tornar a generar a **Usuaris**). Si s'ha perdut el codi, hi ha una alternativa amb un fitxer a la carpeta de dades, que només pot fer qui té accés a l'ordinador.
+
 ## Dades i còpies de seguretat
 
 - Totes les dades estan en un sol fitxer: `data\compas.db`, dins de la carpeta del programa.

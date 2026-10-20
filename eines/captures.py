@@ -186,6 +186,11 @@ async def fes_captures(l: str):
             await c.foto('01-configuracio-inicial', 'button', zona='.caixa', alt_max=1400)
             await c.desa()
 
+            # Codi de recuperació (es mostra una sola vegada, just després de la configuració inicial)
+            await c.foto('01b-codi-recuperacio', '.codi-recuperacio', zona='.caixa')
+            await p.locator('.caixa a.boto').click()
+            await p.wait_for_load_state('networkidle')
+
             # Inici i configuració
             await c.foto('02-inici', zona=None)
             await c.ves('?r=configuracio')
@@ -354,7 +359,7 @@ async def fes_captures(l: str):
             await c.ves('?r=usuaris&id=2')
             await c.foto('37-usuari', 'select[name="rol"]', 'input[name="contrasenya"]')
             await c.ves('?r=perfil')
-            await c.foto('38-meu-compte', '.usuari > a', zona=None)
+            await c.foto('38-meu-compte', '.usuari > a', 'input[name="actual"]')
             await c.ves('?r=ajuda')
             await c.foto('39-ajuda', '.accions a.boto', zona=None)
 
@@ -365,6 +370,12 @@ async def fes_captures(l: str):
             await p2.locator('input[name="usuari"]').fill('secretaria')
             c2 = Captures(p2, url, l)
             await c2.foto('00-entrada', zona='.caixa')
+
+            # He oblidat la contrasenya (amb una ruta de Windows d'exemple en lloc de la temporal)
+            await p2.goto(url + '?r=recupera')
+            await p2.locator('details.sense-codi summary').click()
+            await p2.evaluate(r"""document.querySelector('code.ruta').textContent = 'C:\\Users\\Secretaria\\AppData\\Local\\Programs\\Compas\\data'""")
+            await c2.foto('00b-recuperacio', 'input[name="codi"]', 'details.sense-codi', zona='.caixa', alt_max=1600)
             await nav.close()
     finally:
         srv.terminate()

@@ -29,6 +29,11 @@ function pagina_usuaris(): void
         formulari_usuari($id === 'nou' ? null : (int)$id);
         return;
     }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && post('accio') === 'genera_codi') {
+        $_SESSION['codi_nou'] = genera_codi_recuperacio();
+        audita('codi_recuperacio');
+        redirigeix('codi');
+    }
     $files = q('SELECT * FROM usuaris ORDER BY usuari')->fetchAll();
     $html = '<div class="barra"><span class="espai"></span><a class="boto" href="' . h(url('usuaris', ['id' => 'nou'])) . '">+ ' . h(t('nou')) . '</a></div>';
     $html .= '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . h(t('camp.usuari')) . '</th><th>' . h(t('camp.rol'))
@@ -37,7 +42,7 @@ function pagina_usuaris(): void
         $html .= '<tr data-href="' . h(url('usuaris', ['id' => $f['id']])) . '"><td><a href="' . h(url('usuaris', ['id' => $f['id']])) . '">' . h($f['usuari']) . '</a></td><td>'
             . h(t('rol.' . (rol_usuari((int)$f['id']) ?? 'administratiu'))) . '</td><td>' . ($f['actiu'] ? '✔' : '—') . '</td><td>' . h(data_llegible($f['ultim_acces'])) . '</td></tr>';
     }
-    $html .= '</tbody></table></div><p class="nota">' . h(t('usuaris.nota')) . '</p>';
+    $html .= '</tbody></table></div><p class="nota">' . h(t('usuaris.nota')) . '</p>' . seccio_codi_recuperacio();
     pagina(t('menu.usuaris'), $html);
 }
 

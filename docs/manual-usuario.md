@@ -26,7 +26,7 @@ Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el i
 
 ![Pantalla de entrada](imatges/es/00-entrada.jpg)
 
-Si olvidas la contraseña, el administrador te puede poner una nueva (ver el apartado 14).
+Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 14).
 
 ### La primera vez: configuración inicial
 
@@ -40,6 +40,10 @@ La primera vez que se abre Compàs aparece la **Configuración inicial**:
 6. Pulsa **Empezar**.
 
 ![Configuración inicial](imatges/es/01-configuracio-inicial.jpg)
+
+A continuación, Compàs muestra el **código de recuperación**. Sirve para poner una contraseña nueva si el administrador/a la olvida, y **solo se muestra esta vez**. Pulsa **Imprime** (o apúntalo) y guárdalo con los papeles de la sociedad, no en el ordenador. Después pulsa **Ya lo he guardado, continúa**.
+
+![Código de recuperación](imatges/es/01b-codi-recuperacio.jpg)
 
 > Para empezar a trabajar de verdad sin los datos de ejemplo, cierra Compàs, borra la carpeta `data` del programa y vuelve a abrirlo.
 
@@ -422,7 +426,14 @@ Para restaurar una copia guardada fuera (por ejemplo, desde el USB), usa **Resta
 
 ### Cambiar tu contraseña
 
-Haz clic en tu **nombre de usuario** (arriba a la derecha), escribe la contraseña actual y la nueva dos veces, y pulsa **Guardar**.
+Cada usuario puede cambiar la suya cuando quiera:
+
+1. En el menú, abajo del todo, pulsa **Cuenta y contraseña** (o haz clic en tu nombre de usuario, arriba a la derecha).
+2. Escribe la **contraseña actual**.
+3. Escribe la **contraseña nueva** dos veces (al menos 8 caracteres).
+4. Pulsa **Guardar**.
+
+Si no recuerdas la actual, no la puedes cambiar aquí: el administrativo/a debe pedir una nueva al administrador/a, y el administrador/a puede recuperar el acceso desde la entrada (ver más abajo).
 
 ![Mi cuenta](imatges/es/38-meu-compte.jpg)
 
@@ -437,6 +448,29 @@ Menú **Administración → Usuarios**. Abre una cuenta para:
 ![Editar un usuario](imatges/es/37-usuari.jpg)
 
 Siempre debe quedar al menos un administrador activo.
+
+### Si el administrador/a olvida la contraseña
+
+1. En la pantalla de entrada, pulsa **¿Eres el administrador/a? Recupera el acceso**.
+2. Escribe tu **usuario**, el **código de recuperación** que guardaste y la **contraseña nueva** dos veces.
+3. Pulsa **Cambia la contraseña**. Entrarás directamente en el programa.
+4. Compàs muestra un **código de recuperación nuevo**, porque el anterior ya no vale. Imprímelo y guárdalo en lugar del antiguo.
+
+![He olvidado la contraseña](imatges/es/00b-recuperacio.jpg)
+
+**Si no encuentras el código**, pulsa **No tengo el código de recuperación** en la misma página y sigue los pasos:
+
+1. Abre el Explorador de archivos y ve a la carpeta de datos de Compàs. La página muestra la ruta exacta: cópiala en la barra de direcciones del Explorador.
+2. Crea un archivo nuevo (botón derecho → **Nuevo → Documento de texto**) y ponle de nombre `recupera-acces`.
+3. Vuelve a la página de Compàs y recárgala (tecla **F5**). Ya no pedirá el código: escribe el usuario y la contraseña nueva.
+
+El archivo solo vale durante una hora y se borra solo al usarlo. Este sistema es seguro porque solo puede crear el archivo quien ya tiene acceso al ordenador y a los datos.
+
+### Código de recuperación
+
+Si has perdido el código o crees que alguien lo ha visto, ve a **Administración → Usuarios** y, abajo, pulsa **Genera un código nuevo**. El anterior deja de valer. Si Compàs se instaló antes de la versión 1.3, la pantalla de inicio avisa de que no hay código hasta que lo generes.
+
+Todas las recuperaciones, también las que fallan, quedan en el **Registro de actividad**.
 
 ### Registro de actividad
 
@@ -461,6 +495,8 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 **El alumno no aparece en las notas del grupo.** Comprueba que tiene matrícula en el curso actual, en estado Activo, y que está inscrito en ese grupo (apartado 7, paso 5).
 
 **El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
+
+**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 14).
 
 **¿Tengo que estar conectado a Internet?** No.
 

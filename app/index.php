@@ -59,6 +59,14 @@ try {
         exit;
     }
 
+    if ($r === 'recupera') {
+        if (usuari()) {
+            redirigeix('inici');
+        }
+        pagina_recuperacio();
+        exit;
+    }
+
     if (!usuari()) {
         pagina_entrada();
         exit;
@@ -90,6 +98,9 @@ try {
                 accio_elimina((string)get('e'), (int)get('id'));
             }
             redirigeix('inici');
+        case 'codi':
+            pagina_codi();
+            break;
         case 'perfil':
             pagina_perfil();
             break;

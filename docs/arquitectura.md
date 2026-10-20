@@ -56,6 +56,7 @@ Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `
 
 - Només escolta a `127.0.0.1`: no és accessible des de la xarxa.
 - Contrasenyes amb `password_hash`. Bloqueig temporal després de 5 intents fallits.
+- Recuperació de l'accés (`src/pages/recuperacio.php`): codi de 16 caràcters (80 bits, alfabet sense 0/O/1/I) guardat només com a `password_hash` a `config`; d'un sol ús (en usar-lo se'n genera un altre) i no torna arrere en restaurar una còpia. Alternativa sense codi: un fitxer `recupera-acces` a la carpeta de dades, vàlid 60 minuts i esborrat en usar-lo (qui pot escriure-hi ja té accés a `compas.db`). Només per a comptes d'administrador; límit d'intents guardat a la base de dades, no a la sessió.
 - Token CSRF en tots els formularis. Cookies `HttpOnly` i `SameSite=Strict`.
 - Tota l'eixida s'escapa amb `htmlspecialchars`.
 - La carpeta de dades queda fora de la carpeta pública (`app/`); el servidor només serveix `app/assets/`.

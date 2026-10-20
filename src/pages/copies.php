@@ -152,7 +152,8 @@ function es_bd_compas(string $fitxer): bool
 function prepara_restauracio(string $origen, bool $pujat): void
 {
     $conserva = [];
-    foreach (['copia_externa', 'copia_conservar', 'copia_ultima_externa', 'copia_auto_dia'] as $c) {
+    // El codi de recuperació tampoc no torna arrere: un codi antic ja invalidat no ha de tornar a valdre
+    foreach (['copia_externa', 'copia_conservar', 'copia_ultima_externa', 'copia_auto_dia', 'codi_recuperacio', 'codi_recuperacio_data'] as $c) {
         $conserva[$c] = config($c);
     }
     $conserva['copia_error_externa'] = null;

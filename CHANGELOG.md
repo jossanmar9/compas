@@ -8,6 +8,16 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.3.0] - 2026-10-20
+
+### Afegit
+- **Recuperar l'accés si l'administrador/a oblida la contrasenya.** En la configuració inicial es mostra un codi de recuperació per a imprimir i guardar. Amb ell, des de la pantalla d'entrada (**Recupera l'accés**), es posa una contrasenya nova i se'n genera un codi nou. Si el codi s'ha perdut, hi ha una alternativa: crear un fitxer `recupera-acces` a la carpeta de dades, que val una hora i s'esborra en usar-lo.
+- A **Usuaris** es pot generar un codi de recuperació nou. Si Compàs ja estava instal·lat, l'inici avisa l'administrador/a fins que el genere.
+- Les recuperacions, també les fallides, queden al registre d'activitat. Després de cinc intents fallits cal esperar un minut.
+
+### Canviat
+- El canvi de contrasenya es troba més fàcilment: hi ha l'opció **Compte i contrasenya** al menú, i el nom d'usuari de dalt a la dreta porta la icona 👤.
+
 ## [1.2.1] - 2026-10-20
 
 ### Afegit
@@ -53,6 +63,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.3.0]: https://github.com/jossanmar9/compas/releases/tag/v1.3.0
 [1.2.1]: https://github.com/jossanmar9/compas/releases/tag/v1.2.1
 [1.2.0]: https://github.com/jossanmar9/compas/releases/tag/v1.2.0
 [1.1.0]: https://github.com/jossanmar9/compas/releases/tag/v1.1.0

@@ -11,7 +11,7 @@ function targeta(string $xifra, string $text, ?string $enllac = null): string
 function pagina_inici(): void
 {
     $curs = curs_actual();
-    $html = avis_copies() . '<div class="targetes">';
+    $html = avis_codi_recuperacio() . avis_copies() . '<div class="targetes">';
     if (pot('persones.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM persones WHERE actiu = 1'), t('ent.persones'), url('llista', ['e' => 'persones']));
     }

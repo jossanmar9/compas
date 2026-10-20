@@ -30,6 +30,7 @@ function menu(): array
         ['configuracio', 'menu.configuracio', 'config.manage', '⚙'],
         ['auditoria', 'menu.auditoria', 'auditoria.view', '📜'],
         ['copia', 'menu.copia', 'copia.manage', '💾'],
+        ['perfil', 'menu.compte', null, '🔒'],
         ['ajuda', 'menu.ajuda', null, '?'],
     ];
 }
@@ -104,7 +105,7 @@ function pagina(string $titol, string $cos, ?string $subtitol = null): void
     echo '<aside class="lateral"><a class="marca" href="?"><img src="' . h($logo ?? 'assets/icona.png') . '" alt="" class="' . ($logo ? 'logo-societat' : '') . '"><span><b>' . h($societat)
         . '</b><small>Compàs</small></span></a><button class="obre-menu" type="button" aria-label="Menú">☰</button><nav>' . html_menu() . '</nav></aside>';
     echo '<main><header class="superior"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>';
-    echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.perfil')) . '">'
+    echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.compte')) . '">👤 '
         . h($u['usuari']) . '</a><form method="post" action="' . h(url('eixir')) . '">' . csrf_camp() . '<button class="enllac">' . h(t('eixir')) . '</button></form></div></header>';
     echo '<div class="contingut">' . html_avisos() . $cos . '</div></main></div></body></html>';
 }

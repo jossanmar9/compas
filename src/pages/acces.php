@@ -48,13 +48,16 @@ function pagina_configuracio_inicial(): void
             if (post('exemple') === '1') {
                 carrega_dades_exemple();
             }
+            $codi = genera_codi_recuperacio();
             db()->commit();
             session_regenerate_id(true);
             $_SESSION['usuari_id'] = $id;
             $_SESSION['idioma'] = $l;
             audita('instal·lacio', null, null, $nom);
             avis(t('benvinguda'));
-            redirigeix('inici');
+            // Abans de començar, el codi per a recuperar l'accés si s'oblida la contrasenya
+            $_SESSION['codi_nou'] = $codi;
+            redirigeix('codi');
         }
     }
     $html = '<h1>' . h(t('setup.titol')) . '</h1><p>' . h(t('setup.text')) . '</p>';
@@ -128,7 +131,7 @@ function pagina_entrada(): void
         . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari" required autofocus autocomplete="username" value="' . h(post('usuari')) . '"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya" required autocomplete="current-password"></div>'
         . '<button>' . h(t('entra')) . '</button></form>'
-        . '<p class="nota">' . h(t('entrada.oblit')) . '</p>'
+        . '<p class="nota">' . h(t('entrada.oblit')) . ' <a href="' . h(url('recupera')) . '">' . h(t('entrada.oblit_admin')) . '</a></p>'
         . '<p class="idiomes-peu">' . enllacos_idioma() . '</p>';
     pagina_simple(t('entra'), $html);
 }

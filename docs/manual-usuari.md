@@ -26,7 +26,7 @@ Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idio
 
 ![Pantalla d'entrada](imatges/ca/00-entrada.jpg)
 
-Si oblides la contrasenya, l'administrador te'n pot posar una de nova (vegeu l'apartat 14).
+Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 14).
 
 ### La primera vegada: configuració inicial
 
@@ -40,6 +40,10 @@ La primera vegada que s'obri Compàs apareix la **Configuració inicial**:
 6. Prem **Comença**.
 
 ![Configuració inicial](imatges/ca/01-configuracio-inicial.jpg)
+
+Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una contrasenya nova si l'administrador/a l'oblida, i **només es mostra esta vegada**. Prem **Imprimeix** (o apunta'l) i guarda'l amb els papers de la societat, no a l'ordinador. Després prem **Ja l'he guardat, continua**.
+
+![Codi de recuperació](imatges/ca/01b-codi-recuperacio.jpg)
 
 > Per a començar a treballar de veres sense les dades d'exemple, tanca Compàs, esborra la carpeta `data` del programa i torna a obrir-lo.
 
@@ -422,7 +426,14 @@ Per a restaurar una còpia guardada fora (per exemple, des del USB), utilitza **
 
 ### Canviar la teua contrasenya
 
-Fes clic en el teu **nom d'usuari** (dalt a la dreta), escriu la contrasenya actual i la nova dues vegades, i prem **Desa**.
+Cada usuari pot canviar la seua quan vulga:
+
+1. Al menú, a baix de tot, prem **Compte i contrasenya** (o fes clic en el teu nom d'usuari, dalt a la dreta).
+2. Escriu la **contrasenya actual**.
+3. Escriu la **contrasenya nova** dues vegades (almenys 8 caràcters).
+4. Prem **Desa**.
+
+Si no recordes l'actual, no la pots canviar ací: l'administratiu/va ha de demanar-ne una de nova a l'administrador/a, i l'administrador/a pot recuperar l'accés des de l'entrada (vegeu més avall).
 
 ![El meu compte](imatges/ca/38-meu-compte.jpg)
 
@@ -437,6 +448,29 @@ Menú **Administració → Usuaris**. Obri un compte per a:
 ![Editar un usuari](imatges/ca/37-usuari.jpg)
 
 Sempre ha de quedar almenys un administrador actiu.
+
+### Si l'administrador/a oblida la contrasenya
+
+1. A la pantalla d'entrada, prem **Eres l'administrador/a? Recupera l'accés**.
+2. Escriu el teu **usuari**, el **codi de recuperació** que vas guardar i la **contrasenya nova** dues vegades.
+3. Prem **Canvia la contrasenya**. Entraràs directament al programa.
+4. Compàs mostra un **codi de recuperació nou**, perquè l'anterior ja no val. Imprimeix-lo i guarda'l en lloc de l'antic.
+
+![He oblidat la contrasenya](imatges/ca/00b-recuperacio.jpg)
+
+**Si no trobes el codi**, prem **No tinc el codi de recuperació** a la mateixa pàgina i segueix els passos:
+
+1. Obri l'Explorador de fitxers i ves a la carpeta de dades de Compàs. La pàgina mostra la ruta exacta: copia-la a la barra d'adreces de l'Explorador.
+2. Crea-hi un fitxer nou (botó dret → **Nou → Document de text**) i posa-li de nom `recupera-acces`.
+3. Torna a la pàgina de Compàs i recarrega-la (tecla **F5**). Ja no demanarà el codi: escriu l'usuari i la contrasenya nova.
+
+El fitxer només val durant una hora i s'esborra sol en usar-lo. Este sistema és segur perquè només pot crear el fitxer qui ja té accés a l'ordinador i a les dades.
+
+### Codi de recuperació
+
+Si has perdut el codi o creus que algú l'ha vist, ves a **Administració → Usuaris** i, a baix, prem **Genera un codi nou**. L'anterior deixa de valdre. Si Compàs es va instal·lar abans de la versió 1.3, la pantalla d'inici avisa que no hi ha codi fins que el generes.
+
+Totes les recuperacions, també les que fallen, queden al **Registre d'activitat**.
 
 ### Registre d'activitat
 
@@ -461,6 +495,8 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 **L'alumne no apareix en les notes del grup.** Comprova que té matrícula en el curs actual, en estat Actiu, i que està inscrit en aquell grup (apartat 7, pas 5).
 
 **El butlletí no mostra una assignatura.** L'alumne no està inscrit en aquell grup dins de la seua matrícula.
+
+**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 14).
 
 **He d'estar connectat a Internet?** No.
 

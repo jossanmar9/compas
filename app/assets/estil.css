@@ -230,7 +230,25 @@ body.simple { min-height: 100vh; display: flex; flex-direction: column; align-it
     .fitxa { grid-template-columns: 1fr; gap: 2px; }
     .fitxa dd { margin-bottom: 8px; }
 }
+/* Codi de recuperació */
+.codi-recuperacio {
+    font: 700 1.6rem/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace; letter-spacing: .08em;
+    text-align: center; padding: 1rem .5rem; margin: 1rem 0; border: 2px dashed var(--or); border-radius: 10px;
+    user-select: all; word-break: break-all;
+}
+.entrada-codi { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; text-transform: uppercase; letter-spacing: .05em; }
+.sense-codi { margin: 1.2rem 0; }
+.sense-codi summary { cursor: pointer; color: var(--blau, inherit); font-weight: 600; }
+.sense-codi ol { padding-left: 1.3rem; }
+.sense-codi li { margin: .5rem 0; }
+.sense-codi code { white-space: nowrap; }
+.sense-codi code.ruta { white-space: normal; word-break: break-all; }
+.nomes-impres { display: none; }
+
 @media print {
-    .lateral, .usuari, .barra, .accions, button { display: none !important; }
+    .lateral, .usuari, .barra, .accions, button, .no-imprimir, .idiomes-peu, body.simple .avis { display: none !important; }
     .contingut { padding: 0; }
+    .nomes-impres { display: block; }
+    body.simple { background: #fff; }
+    body.simple .caixa { box-shadow: none; }
 }
