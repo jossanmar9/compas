@@ -76,16 +76,12 @@ jobs:
         shell: pwsh
         run: |
           $csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
-          # Nom i versió del producte a les propietats de Compas.exe
+          # Versió a les propietats de Compas.exe (el nom, la descripció i la llicència ja són a Compas.cs)
           $n = "${{ steps.versio.outputs.numerica }}.0"
           $info = Join-Path $env:RUNNER_TEMP "Versio.cs"
           @(
             'using System.Reflection;'
-            '[assembly: AssemblyTitle("Compàs")]'
-            '[assembly: AssemblyProduct("Compàs")]'
-            '[assembly: AssemblyDescription("Gestió lliure per a societats musicals")]'
             '[assembly: AssemblyCompany("Compàs")]'
-            '[assembly: AssemblyCopyright("GPL-2.0-or-later")]'
             "[assembly: AssemblyVersion(""$n"")]"
             "[assembly: AssemblyFileVersion(""$n"")]"
             "[assembly: AssemblyInformationalVersion(""${{ steps.versio.outputs.versio }}"")]"
