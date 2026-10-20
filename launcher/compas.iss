@@ -42,8 +42,8 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 
 [Languages]
-Name: "ca"; MessagesFile: "compiler:Languages\Catalan.isl"
-Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "ca"; MessagesFile: "compiler:Languages\Catalan.isl"; InfoBeforeFile: "privacitat-ca.txt"
+Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"; InfoBeforeFile: "privacitat-es.txt"
 
 [Tasks]
 Name: "escriptori"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"

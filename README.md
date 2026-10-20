@@ -107,7 +107,7 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 ## Dades i còpies de seguretat
 
 - Totes les dades estan en un sol fitxer: `data\compas.db`, dins de la carpeta del programa.
-- Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora.
+- Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora: ni estadístiques, ni informes d'errors, ni comprovacions d'actualitzacions. Vegeu la [declaració de privacitat](PRIVACITAT.md).
 - **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es conserven les 30 últimes (configurable).
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
 - **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.
@@ -122,6 +122,7 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 |---|---|---|
 | Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](docs/pdf/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](docs/pdf/manual-usuario.pdf) |
 | Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](docs/pdf/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](docs/pdf/guia-instalacion.pdf) |
+| Declaració de privacitat | [PRIVACITAT](PRIVACITAT.md) | [PRIVACITAT](PRIVACITAT.md#privacidad-de-compàs) |
 | Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
 | Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
 

@@ -640,6 +640,8 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 
 **Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 13).
 
+**Compàs envia les nostres dades a algun lloc?** No. Tot es queda a l'ordinador i, si la configureu, a la carpeta externa de còpies. Ho explica la declaració de privacitat: menú **Ajuda → Privacitat**.
+
 **He d'estar connectat a Internet?** No.
 
 **On estan les dades?** A la carpeta `data` del programa (`data\compas.db`). La ruta exacta es veu a **Configuració**.

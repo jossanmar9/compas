@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.4.1] - 2026-10-20
+
+### Afegit
+- **Declaració de privacitat** (`PRIVACITAT.md`), en valencià, castellà i anglés: Compàs no recull, no envia i no comparteix cap dada. Es pot llegir a **Ajuda → Privacitat**, l'instal·lador en mostra un resum abans d'instal·lar, i n'hi ha un enllaç a la web i al README.
+
+### Canviat
+- La web ja no carrega les tipografies de Google Fonts: les mateixes tipografies lliures (SIL Open Font License) se serveixen des de la web, de manera que visitar-la no envia cap dada a tercers.
+- La web inclou el mòdul «Curs nou» i la graella de mòduls queda completa.
+
 ## [1.4.0] - 2026-10-20
 
 ### Afegit
@@ -81,6 +90,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.4.1]: https://github.com/jossanmar9/compas/releases/tag/v1.4.1
 [1.4.0]: https://github.com/jossanmar9/compas/releases/tag/v1.4.0
 [1.3.0]: https://github.com/jossanmar9/compas/releases/tag/v1.3.0
 [1.2.1]: https://github.com/jossanmar9/compas/releases/tag/v1.2.1

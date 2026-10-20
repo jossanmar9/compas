@@ -1,0 +1,10 @@
+﻿PRIVACIDAD DE COMPÀS
+
+En resumen: Compàs no recoge, no envía y no comparte ningún dato. Todo se queda en este ordenador.
+
+- Compàs solo funciona en este ordenador: no se puede entrar desde la red ni desde Internet.
+- No se conecta a Internet para nada: no envía estadísticas, ni informes de errores, ni comprueba actualizaciones.
+- Los datos se guardan en la carpeta del programa (data\compas.db). Las copias de seguridad, en el ordenador y, si lo configuráis, en la carpeta externa que elijáis (USB o nube), cifradas con contraseña si queréis.
+- La sociedad musical es la responsable de los datos que introduce y debe cumplir el RGPD y la LOPDGDD. El desarrollador de Compàs no tiene acceso a ningún dato.
+
+La declaración completa está en el archivo PRIVACITAT.md de la carpeta del programa y, dentro de Compàs, en el menú Ayuda > Privacidad.

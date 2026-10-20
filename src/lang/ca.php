@@ -359,6 +359,7 @@ return [
     'audit.copia_eliminada' => 'Elimina còpia',
 
     // Documents en PDF
+    'ajuda.privacitat' => 'Privacitat',
     'ajuda.canvis' => 'Què canvia en cada versió',
     'ajuda.versio_actual' => 'Tens instal·lada la versió %s.',
     'ajuda.pdf_manual' => 'Manual en PDF',

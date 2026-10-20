@@ -261,6 +261,10 @@ function pagina_ajuda(): void
         pagina_canvis();
         return;
     }
+    if (get('doc') === 'privacitat') {
+        pagina_privacitat();
+        return;
+    }
     $fitxer = DOCS_DIR . '/' . (idioma() === 'es' ? 'manual-usuario.md' : 'manual-usuari.md');
     $md = is_file($fitxer) ? file_get_contents($fitxer) : t('ajuda.no_manual');
     $docs = idioma() === 'es' ? ['manual-usuario' => t('ajuda.pdf_manual'), 'guia-instalacion' => t('ajuda.pdf_guia')]
@@ -274,9 +278,23 @@ function pagina_ajuda(): void
     if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'CHANGELOG.md')) {
         $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'canvis'])) . '">🆕 ' . h(t('ajuda.canvis')) . '</a>';
     }
+    if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'PRIVACITAT.md')) {
+        $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'privacitat'])) . '">🔒 ' . h(t('ajuda.privacitat')) . '</a>';
+    }
     $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '')
         . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
+}
+
+/** Declaració de privacitat (PRIVACITAT.md): la part de l'idioma de l'usuari */
+function pagina_privacitat(): void
+{
+    $fitxer = ARREL_DIR . DIRECTORY_SEPARATOR . 'PRIVACITAT.md';
+    $parts = preg_split('/^---\s*$/m', is_file($fitxer) ? (string)file_get_contents($fitxer) : '');
+    $md = preg_replace('/^# .*\R/', '', $parts[idioma() === 'es' ? 1 : 0] ?? $parts[0]);
+    $html = '<div class="accions"><a class="boto secundari" href="' . h(url('ajuda')) . '">← ' . h(t('menu.ajuda')) . '</a></div>'
+        . '<article class="manual">' . markdown_simple($md) . '</article>';
+    pagina(t('ajuda.privacitat'), $html);
 }
 
 /** Registre de canvis (CHANGELOG.md), per a saber què porta cada versió */

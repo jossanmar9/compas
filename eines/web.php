@@ -65,6 +65,7 @@ $T = [
             'Compàs funciona en un ordinador de la societat i no envia res a Internet.',
             'Les dades d\'alumnes menors i socis no passen per cap servidor de fora.',
             'Té dos comptes: administrador i administratiu, i un registre de qui ha fet cada canvi.',
+            'Esta web tampoc no té galetes ni analítica, i les tipografies (lliures) se serveixen des d\'ací mateix.',
         ],
         'req_titol' => 'Què cal',
         'req' => ['Un ordinador amb Windows 10 o 11 de 64 bits', 'Uns 100 MB de disc', 'Un llapis USB o una carpeta al núvol per a les còpies (recomanat)'],
@@ -75,6 +76,7 @@ $T = [
         'ia' => 'S\'ha desenvolupat amb l\'ajuda d\'una intel·ligència artificial (Claude, d\'Anthropic).',
         'codi' => 'Codi a GitHub',
         'novetats' => 'Què canvia en cada versió',
+        'privacitat' => 'Privacitat',
         'errades' => 'Has trobat una errada o tens una proposta? Obri una incidència a GitHub.',
         'fi' => 'Fet per a les societats musicals.',
         'anterior' => 'Anterior', 'seguent' => 'Següent',
@@ -130,6 +132,7 @@ $T = [
             'Compàs funciona en un ordenador de la sociedad y no envía nada a Internet.',
             'Los datos de alumnos menores y socios no pasan por ningún servidor de fuera.',
             'Tiene dos cuentas: administrador y administrativo, y un registro de quién ha hecho cada cambio.',
+            'Esta web tampoco tiene cookies ni analítica, y las tipografías (libres) se sirven desde aquí mismo.',
         ],
         'req_titol' => 'Qué hace falta',
         'req' => ['Un ordenador con Windows 10 u 11 de 64 bits', 'Unos 100 MB de disco', 'Un lápiz USB o una carpeta en la nube para las copias (recomendado)'],
@@ -140,6 +143,7 @@ $T = [
         'ia' => 'Se ha desarrollado con la ayuda de una inteligencia artificial (Claude, de Anthropic).',
         'codi' => 'Código en GitHub',
         'novetats' => 'Qué cambia en cada versión',
+        'privacitat' => 'Privacidad',
         'errades' => '¿Has encontrado un error o tienes una propuesta? Abre una incidencia en GitHub.',
         'fi' => 'Hecho para las sociedades musicales.',
         'anterior' => 'Anterior', 'seguent' => 'Siguiente',
@@ -189,9 +193,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <meta property="og:image" content="{$base}img/logo.png">
 <link rel="icon" href="{$base}img/icona.png">
 <link rel="alternate" hreflang="{$t['altre']}" href="{$t['altre_url']}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link rel="preload" href="{$base}fonts/atkinson-hyperlegible-regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="{$base}estil.css">
 </head>
 <body>
@@ -274,7 +276,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">GPL-2.0-or-later</a></p>
+  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">GPL-2.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></p>
 </footer>
 
 <script>
@@ -302,6 +304,13 @@ foreach (['', '/es', '/img/ca', '/img/es', '/pdf'] as $d) {
 copy($arrel . '/app/assets/logo.png', $eixida . '/img/logo.png');
 copy($arrel . '/app/assets/icona.png', $eixida . '/img/icona.png');
 copy(__DIR__ . '/web.css', $eixida . '/estil.css');
+// Tipografies lliures (SIL OFL) servides des de la mateixa web: cap petició a servidors de tercers
+if (!is_dir($eixida . '/fonts')) {
+    mkdir($eixida . '/fonts', 0775, true);
+}
+foreach (glob(__DIR__ . '/fonts/*') as $f) {
+    copy($f, $eixida . '/fonts/' . basename($f));
+}
 foreach (['ca', 'es'] as $l) {
     foreach ($captures as $c) {
         copy("$arrel/docs/imatges/$l/$c.jpg", "$eixida/img/$l/$c.jpg");
