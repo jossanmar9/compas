@@ -2,17 +2,18 @@
 
 Ací s'apunten els canvis de cada versió, començant per la més nova, perquè qui actualitza sàpiga què trobarà.
 
-Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.2.**1**) només arregla errades, la **menor** (1.**3**.0) afig funcions i la **major** (**2**.0.0) porta canvis que demanen atenció en actualitzar.
+Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.2.**1**) arregla errades i porta millores menudes, la **menor** (1.**3**.0) afig funcions i la **major** (**2**.0.0) porta canvis que demanen atenció en actualitzar.
 
 **Per a actualitzar:** tanca Compàs i executa l'instal·lador de la versió nova. Les dades i les còpies de seguretat es conserven.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
-## [Pendent de publicar]
+## [1.2.1] - 2026-10-20
 
 ### Afegit
 - Este registre de canvis. També apareix en cada versió publicada.
 - El programa i l'instal·lador porten el nom i la versió de Compàs a les seues propietats de Windows (botó dret → Propietats → Detalls).
+- Formularis a GitHub per a avisar d'una errada o fer una proposta, en valencià i castellà, pensats per a qui no és informàtic.
 
 ### Arreglat
 - Web: el pentagrama del peu de pàgina ara té cinc línies i la doble barra final queda ajustada.
@@ -52,7 +53,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
-[Pendent de publicar]: https://github.com/jossanmar9/compas/compare/v1.2.0...main
+[1.2.1]: https://github.com/jossanmar9/compas/releases/tag/v1.2.1
 [1.2.0]: https://github.com/jossanmar9/compas/releases/tag/v1.2.0
 [1.1.0]: https://github.com/jossanmar9/compas/releases/tag/v1.1.0
 [1.0.0]: https://github.com/jossanmar9/compas/releases/tag/v1.0.0

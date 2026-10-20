@@ -167,11 +167,11 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 ## Publicar una versió
 
 1. Actualitza `COMPAS_VERSIO` a `src/bootstrap.php`.
-2. Al [CHANGELOG](CHANGELOG.md), canvia el títol `[Pendent de publicar]` pel número i la data de la versió, per exemple `## [1.2.1] - 2026-10-25`, i afig un apartat `[Pendent de publicar]` buit a dalt.
+2. Al [CHANGELOG](CHANGELOG.md), apunta els canvis en un apartat nou a dalt amb el número i la data de la versió, per exemple `## [1.2.2] - 2026-11-05`. Mentre treballes, el pots titular `## [Pendent de publicar]` i canviar-li el nom just abans de publicar.
 3. Puja els canvis i crea una etiqueta en minúscula:
    ```
-   git tag v1.2.1
-   git push origin v1.2.1
+   git tag v1.2.2
+   git push origin v1.2.2
    ```
 4. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable, i ho publica tot en una *release*. Les notes de la *release* es prenen de l'apartat d'eixa versió al CHANGELOG.
 
@@ -189,7 +189,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 ## Col·laborar
 
-Has trobat una errada o tens una proposta? Obri una [incidència](../../issues) explicant què volies fer, què ha passat i, si pots, una captura. Les propostes de millora per a la gestió real de les societats musicals són especialment benvingudes.
+Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada** o **Tinc una proposta**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de les societats musicals són especialment benvingudes.
 
 ## Ús d'intel·ligència artificial
 

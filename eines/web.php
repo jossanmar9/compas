@@ -256,7 +256,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <p>{$t['lliure']}</p>
   <p class="nota">{$t['ia']}</p>
   <p><a class="boto secundari" href="{$repo}">{$t['codi']}</a></p>
-  <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues">{$t['errades']}</a></p>
+  <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues/new/choose">{$t['errades']}</a></p>
 </section>
 </main>
 
