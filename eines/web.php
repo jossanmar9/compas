@@ -1,8 +1,8 @@
 <?php
 // Genera la web de presentació de Compàs (GitHub Pages) en valencià i castellà.
 // Ús: php eines/web.php carpeta-eixida
-// Copia el logotip, unes quantes captures (docs/imatges) i els PDF (docs/pdf).
-// SPDX-License-Identifier: GPL-2.0-or-later
+// Copia el logotip, unes quantes captures (docs/imatges) i els PDF (docs/pdf)
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 declare(strict_types=1);
 
@@ -78,7 +78,7 @@ $T = [
         'docs_titol' => 'Manuals',
         'docs' => [['manual-usuari.pdf', 'Manual d\'usuari, pas a pas amb captures'], ['guia-installacio.pdf', 'Guia d\'instal·lació']],
         'lliure_titol' => 'Programari lliure',
-        'lliure' => 'Compàs es distribueix sota la llicència GPL v2 o posterior: el pots utilitzar, estudiar, modificar i compartir. El codi és públic a GitHub.',
+        'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s’oferisquen a través d’una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
         'ia' => 'S\'ha desenvolupat amb l\'ajuda d\'una intel·ligència artificial (Claude, d\'Anthropic).',
         'codi' => 'Codi a GitHub',
         'novetats' => 'Què canvia en cada versió',
@@ -151,7 +151,7 @@ $T = [
         'docs_titol' => 'Manuales',
         'docs' => [['manual-usuario.pdf', 'Manual de usuario, paso a paso con capturas'], ['guia-instalacion.pdf', 'Guía de instalación']],
         'lliure_titol' => 'Software libre',
-        'lliure' => 'Compàs se distribuye bajo la licencia GPL v2 o posterior: lo puedes usar, estudiar, modificar y compartir. El código es público en GitHub.',
+        'lliure' => 'Compàs se distribuye bajo la licencia GNU AGPL v3 o posterior: puedes utilizarlo, estudiarlo, modificarlo y compartirlo. Las versiones modificadas que se ofrezcan a través de una red también deben poner su código fuente a disposición de los usuarios. El código es público en GitHub.',
         'ia' => 'Se ha desarrollado con la ayuda de una inteligencia artificial (Claude, de Anthropic).',
         'codi' => 'Código en GitHub',
         'novetats' => 'Qué cambia en cada versión',
