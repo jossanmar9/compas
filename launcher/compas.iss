@@ -4,6 +4,9 @@
 #ifndef Versio
   #define Versio "0.0.0"
 #endif
+#ifndef VersioNum
+  #define VersioNum "0.0.0"
+#endif
 #ifndef Origen
   #define Origen "..\dist\Compas"
 #endif
@@ -15,6 +18,14 @@ AppVersion={#Versio}
 AppVerName=Compàs {#Versio}
 AppPublisher=Compàs
 AppComments=Gestió lliure per a societats musicals
+; Nom i versió a les propietats de l'instal·lador (Windows: botó dret → Propietats → Detalls)
+VersionInfoVersion={#VersioNum}
+VersionInfoProductName=Compàs
+VersionInfoProductVersion={#VersioNum}
+VersionInfoProductTextVersion={#Versio}
+VersionInfoDescription=Instal·lador de Compàs: gestió lliure per a societats musicals
+VersionInfoCompany=Compàs
+VersionInfoCopyright=GPL-2.0-or-later
 DefaultDirName={localappdata}\Programs\Compas
 DefaultGroupName=Compàs
 DisableProgramGroupPage=yes

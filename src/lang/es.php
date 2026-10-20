@@ -338,6 +338,8 @@ return [
     'audit.copia_eliminada' => 'Elimina copia',
 
     // Documents en PDF
+    'ajuda.canvis' => 'Qué cambia en cada versión',
+    'ajuda.versio_actual' => 'Tienes instalada la versión %s.',
     'ajuda.pdf_manual' => 'Manual en PDF',
     'ajuda.pdf_guia' => 'Guía de instalación en PDF',
 

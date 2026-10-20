@@ -117,6 +117,7 @@ Les contrasenyes es guarden xifrades, hi ha un bloqueig temporal després de cin
 | Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](docs/pdf/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](docs/pdf/manual-usuario.pdf) |
 | Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](docs/pdf/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](docs/pdf/guia-instalacion.pdf) |
 | Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
+| Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
 
 El manual també es pot consultar dins del programa, al menú **Ajuda**.
 
@@ -166,12 +167,13 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 ## Publicar una versió
 
 1. Actualitza `COMPAS_VERSIO` a `src/bootstrap.php`.
-2. Puja els canvis i crea una etiqueta en minúscula:
+2. Al [CHANGELOG](CHANGELOG.md), canvia el títol `[Pendent de publicar]` pel número i la data de la versió, per exemple `## [1.2.1] - 2026-10-25`, i afig un apartat `[Pendent de publicar]` buit a dalt.
+3. Puja els canvis i crea una etiqueta en minúscula:
    ```
-   git tag v1.2.0
-   git push origin v1.2.0
+   git tag v1.2.1
+   git push origin v1.2.1
    ```
-3. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable, i ho publica tot en una *release*.
+4. GitHub Actions (`publica.yml`) comprova el codi, baixa PHP portable, compila el llançador, genera els manuals en PDF, construeix l'instal·lador i el zip portable, i ho publica tot en una *release*. Les notes de la *release* es prenen de l'apartat d'eixa versió al CHANGELOG.
 
 La web es torna a publicar sola amb cada canvi a `main` (`web.yml`).
 

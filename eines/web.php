@@ -68,6 +68,7 @@ $T = [
         'lliure' => 'Compàs es distribueix sota la llicència GPL v2 o posterior: el pots utilitzar, estudiar, modificar i compartir. El codi és públic a GitHub.',
         'ia' => 'S\'ha desenvolupat amb l\'ajuda d\'una intel·ligència artificial (Claude, d\'Anthropic).',
         'codi' => 'Codi a GitHub',
+        'novetats' => 'Què canvia en cada versió',
         'errades' => 'Has trobat una errada o tens una proposta? Obri una incidència a GitHub.',
         'fi' => 'Fet per a les societats musicals.',
         'anterior' => 'Anterior', 'seguent' => 'Següent',
@@ -126,6 +127,7 @@ $T = [
         'lliure' => 'Compàs se distribuye bajo la licencia GPL v2 o posterior: lo puedes usar, estudiar, modificar y compartir. El código es público en GitHub.',
         'ia' => 'Se ha desarrollado con la ayuda de una inteligencia artificial (Claude, de Anthropic).',
         'codi' => 'Código en GitHub',
+        'novetats' => 'Qué cambia en cada versión',
         'errades' => '¿Has encontrado un error o tienes una propuesta? Abre una incidencia en GitHub.',
         'fi' => 'Hecho para las sociedades musicales.',
         'anterior' => 'Anterior', 'seguent' => 'Siguiente',
@@ -254,7 +256,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <p>{$t['lliure']}</p>
   <p class="nota">{$t['ia']}</p>
   <p><a class="boto secundari" href="{$repo}">{$t['codi']}</a></p>
-  <p class="nota"><a href="{$repo}/issues">{$t['errades']}</a></p>
+  <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues">{$t['errades']}</a></p>
 </section>
 </main>
 

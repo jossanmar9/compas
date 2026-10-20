@@ -242,6 +242,10 @@ function serveix_pdf(): never
 
 function pagina_ajuda(): void
 {
+    if (get('doc') === 'canvis') {
+        pagina_canvis();
+        return;
+    }
     $fitxer = DOCS_DIR . '/' . (idioma() === 'es' ? 'manual-usuario.md' : 'manual-usuari.md');
     $md = is_file($fitxer) ? file_get_contents($fitxer) : t('ajuda.no_manual');
     $docs = idioma() === 'es' ? ['manual-usuario' => t('ajuda.pdf_manual'), 'guia-instalacion' => t('ajuda.pdf_guia')]
@@ -252,7 +256,24 @@ function pagina_ajuda(): void
             $enllacos .= '<a class="boto secundari" target="_blank" href="' . h(url('manual_pdf', ['doc' => $doc])) . '">📄 ' . h($text) . '</a>';
         }
     }
+    if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'CHANGELOG.md')) {
+        $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'canvis'])) . '">🆕 ' . h(t('ajuda.canvis')) . '</a>';
+    }
     $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '')
         . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
+}
+
+/** Registre de canvis (CHANGELOG.md), per a saber què porta cada versió */
+function pagina_canvis(): void
+{
+    $fitxer = ARREL_DIR . DIRECTORY_SEPARATOR . 'CHANGELOG.md';
+    $md = is_file($fitxer) ? (string)file_get_contents($fitxer) : '';
+    $md = preg_replace('/^# .*\R/', '', $md);
+    $md = preg_replace('/^\[[^\]]+\]: \S+\R?/m', '', $md);       // definicions d'enllaços del final
+    $md = preg_replace('/^(##+ )\[([^\]]+)\]/m', '$1$2', $md);     // «## [1.2.0]» → «## 1.2.0»
+    $html = '<div class="accions"><a class="boto secundari" href="' . h(url('ajuda')) . '">← ' . h(t('menu.ajuda')) . '</a></div>'
+        . '<p>' . h(t('ajuda.versio_actual', COMPAS_VERSIO)) . '</p>'
+        . '<article class="manual">' . markdown_simple($md) . '</article>';
+    pagina(t('ajuda.canvis'), $html);
 }
