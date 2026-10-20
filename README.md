@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/jossanmar9/compas?label=versi%C3%B3&color=1f5aa6" alt="Última versió"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/llic%C3%A8ncia-GPL--2.0--or--later-14284b" alt="Llicència GPL-2.0-or-later"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/llic%C3%A8ncia-AGPL--3.0--or--later-14284b" alt="Llicència AGPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-e8a33d" alt="Windows 10 i 11">
 </p>
 
@@ -205,6 +205,10 @@ Aquest projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial 
 
 ## Llicència
 
-Compàs és programari lliure distribuït sota la llicència **GNU General Public License v2 o posterior (GPL-2.0-or-later)**. El pots utilitzar, estudiar, modificar i redistribuir d'acord amb els termes de la llicència. Consulta [LICENSE](LICENSE).
+Compàs és programari lliure distribuït sota la llicència **GNU Affero General Public License v3 o posterior (AGPL-3.0-or-later)**. El pots utilitzar, estudiar, modificar i redistribuir d'acord amb els termes de la llicència.
+
+Si es modifica Compàs i s'ofereix als usuaris a través d'una xarxa, la llicència AGPL exigeix que estos usuaris tinguen accés al codi font de la versió modificada.
+
+Consulta [LICENSE](LICENSE).
 
 Les versions per a Windows inclouen [PHP](https://www.php.net/license/), distribuït sota la PHP License, i [SQLite](https://www.sqlite.org/copyright.html), de domini públic.
