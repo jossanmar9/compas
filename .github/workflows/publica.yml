@@ -46,10 +46,20 @@ jobs:
       - name: Baixa PHP portable (8.3, x64, NTS)
         shell: pwsh
         run: |
-          $rel = Invoke-RestMethod https://windows.php.net/downloads/releases/releases.json
+          # Si el servidor de php.net falla un moment, es torna a provar (fins a 6 vegades)
+          function Reintenta([scriptblock]$accio) {
+            for ($i = 1; $i -le 6; $i++) {
+              try { return & $accio } catch {
+                if ($i -eq 6) { throw }
+                Write-Host "Intent $i fallit ($($_.Exception.Message)); es torna a provar en $(20 * $i) s"
+                Start-Sleep (20 * $i)
+              }
+            }
+          }
+          $rel = Reintenta { Invoke-RestMethod https://windows.php.net/downloads/releases/releases.json }
           $zip = $rel.'8.3'.'nts-vs16-x64'.zip
           Write-Host "PHP $($rel.'8.3'.version): $($zip.path)"
-          Invoke-WebRequest "https://windows.php.net/downloads/releases/$($zip.path)" -OutFile php.zip
+          Reintenta { Invoke-WebRequest "https://windows.php.net/downloads/releases/$($zip.path)" -OutFile php.zip }
           $hash = (Get-FileHash php.zip -Algorithm SHA256).Hash.ToLower()
           if ($zip.sha256 -and $hash -ne $zip.sha256.ToLower()) { throw "SHA256 incorrecte" }
           Expand-Archive php.zip -DestinationPath dist\Compas\php
@@ -78,7 +88,10 @@ jobs:
           $v = '1.0.4129.50'
           $zip = Join-Path $env:RUNNER_TEMP 'webview2.zip'
           $dir = Join-Path $env:RUNNER_TEMP 'webview2'
-          Invoke-WebRequest "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/$v" -OutFile $zip
+          for ($i = 1; $i -le 4; $i++) {
+            try { Invoke-WebRequest "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/$v" -OutFile $zip; break }
+            catch { if ($i -eq 4) { throw }; Start-Sleep (15 * $i) }
+          }
           Expand-Archive $zip $dir -Force
           $lib = Get-ChildItem "$dir\lib" -Directory | Where-Object Name -like 'net4*' | Sort-Object Name | Select-Object -First 1
           if (-not $lib) { throw "No s'ha trobat la biblioteca de WebView2 per a .NET Framework" }
