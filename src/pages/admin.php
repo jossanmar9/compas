@@ -1,5 +1,6 @@
 <?php
 // Administració: usuaris, configuració, registre d'activitat i ajuda
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /** Comprova que almenys un usuari actiu continua podent gestionar usuaris */

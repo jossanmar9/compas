@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Instal·la Compàs per a l'usuari actual (sense sudo): programa, accés al menú i ordre «compas».
 # Les dades no es toquen mai: es queden a ~/.local/share/compas/dades.
+# Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -eu
 
@@ -36,7 +37,7 @@ Comment=Gestió lliure per a societats musicals
 Comment[es]=Gestión libre para sociedades musicales
 Exec="$DESTI/compas.sh"
 Icon=compas
-Terminal=true
+Terminal=false
 Categories=Office;Education;
 DESKTOP
 command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$BASE/applications" >/dev/null 2>&1 || true

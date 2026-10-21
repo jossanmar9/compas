@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 # Compàs: Gestió lliure per a societats musicals — llançador per a Linux
+# Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
-# Arranca el servidor de PHP només a 127.0.0.1, obri el navegador i, en tancar
-# (Ctrl+C o tancant la finestra del terminal), fa una còpia de seguretat si hi ha hagut canvis.
+# Arranca el servidor de PHP només a 127.0.0.1 i obri Compàs en una finestra pròpia (Chromium,
+# Google Chrome, Microsoft Edge o Brave en mode aplicació). Quan es tanca la finestra, fa una còpia de
+# seguretat si hi ha hagut canvis i s'atura. Si no hi ha cap d'estos navegadors, obri el navegador
+# habitual i Compàs funciona mentre el terminal estiga obert (Ctrl+C per a tancar-lo).
 #
 # Variables opcionals: COMPAS_DADES (carpeta de dades), COMPAS_PHP (ruta de php), COMPAS_PORT,
-# COMPAS_NAVEGADOR=0 (no obrir el navegador).
+# COMPAS_NAVEGADOR=0 (no obrir res), COMPAS_FINESTRA=0 (navegador habitual en lloc de finestra pròpia).
 
 set -u
 
@@ -15,6 +18,7 @@ DADES="${COMPAS_DADES:-${XDG_DATA_HOME:-$HOME/.local/share}/compas/dades}"
 PHP="${COMPAS_PHP:-php}"
 PORT=8740
 NAVEGADOR=1
+FINESTRA=1
 
 # Missatges en valencià o castellà segons l'idioma del sistema
 case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
@@ -23,11 +27,32 @@ case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
 esac
 t() { if [ "$ES" = 1 ]; then printf '%s\n' "$2"; else printf '%s\n' "$1"; fi; }
 
+EN_TERMINAL=0
+[ -t 1 ] && EN_TERMINAL=1
+
+# Missatge en una finestra, si s'ha obert des del menú (sense terminal)
+avis_grafic() {
+    local tipus="$1" text="$2"
+    if command -v zenity >/dev/null 2>&1; then
+        zenity "--$tipus" --title="Compàs" --width=420 --text="$text" >/dev/null 2>&1
+    elif command -v kdialog >/dev/null 2>&1; then
+        if [ "$tipus" = error ]; then kdialog --title "Compàs" --error "$text"; else kdialog --title "Compàs" --msgbox "$text"; fi >/dev/null 2>&1
+    elif command -v xmessage >/dev/null 2>&1; then
+        xmessage -center "$text" >/dev/null 2>&1
+    else
+        return 1
+    fi
+}
+
 error() {
     printf '\n%s\n\n' "$1" >&2
-    # Si s'ha obert des del menú, que l'error no desaparega en un instant
-    if [ -t 0 ]; then
-        read -r -p "$(t 'Prem Retorn per a tancar.' 'Pulsa Intro para cerrar.')" _ || true
+    if [ "$EN_TERMINAL" = 1 ]; then
+        # Si el terminal s'ha obert des del menú, que l'error no desaparega en un instant
+        if [ -t 0 ]; then
+            read -r -p "$(t 'Prem Retorn per a tancar.' 'Pulsa Intro para cerrar.')" _ || true
+        fi
+    else
+        avis_grafic error "$1"
     fi
     exit 1
 }
@@ -43,12 +68,46 @@ for INI in "$ARREL/compas.ini" "$CONFIG_USUARI"; do
         case "$clau" in
             port) [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 1023 ] && [ "$valor" -lt 65536 ] && PORT="$valor" ;;
             navegador) case "$valor" in 0|no|false) NAVEGADOR=0 ;; esac ;;
+            finestra) case "$valor" in 0|no|false) FINESTRA=0 ;; esac ;;
         esac
     done < <(grep -v '^[[:space:]]*[;#]' "$INI")
 done
 PORT="${COMPAS_PORT:-$PORT}"
 NAVEGADOR="${COMPAS_NAVEGADOR:-$NAVEGADOR}"
+FINESTRA="${COMPAS_FINESTRA:-$FINESTRA}"
 URL="http://localhost:$PORT/"
+
+# Navegador per a la finestra pròpia (mode aplicació, sense pestanyes ni barra d'adreces)
+APP=""
+if [ "$NAVEGADOR" = 1 ] && [ "$FINESTRA" = 1 ]; then
+    for b in chromium chromium-browser google-chrome google-chrome-stable microsoft-edge microsoft-edge-stable brave-browser; do
+        if command -v "$b" >/dev/null 2>&1; then APP="$(command -v "$b")"; break; fi
+    done
+fi
+# Perfil separat del navegador de l'usuari. El Chromium en snap no pot escriure a carpetes ocultes del $HOME.
+PERFIL="${XDG_DATA_HOME:-$HOME/.local/share}/compas/finestra"
+case "$(readlink -f "$APP" 2>/dev/null)" in
+    /snap/*) PERFIL="$HOME/snap/$(basename "$(readlink -f "$APP")")/common/compas-finestra" ;;
+esac
+
+obri_finestra() {
+    mkdir -p "$PERFIL" 2>/dev/null
+    "$APP" --app="$URL" --user-data-dir="$PERFIL" --no-first-run --no-default-browser-check \
+        --disable-background-mode --disable-sync --window-size=1280,860 >/dev/null 2>&1
+}
+
+# Obert des del menú, sense finestra pròpia possible: cal un terminal perquè l'usuari puga tancar Compàs
+if [ "$EN_TERMINAL" = 0 ] && [ "$NAVEGADOR" = 1 ] && [ -z "$APP" ] && [ -z "${COMPAS_EN_TERMINAL:-}" ] \
+   && [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]; then
+    export COMPAS_EN_TERMINAL=1
+    JO="$(readlink -f "$0")"
+    if command -v x-terminal-emulator >/dev/null 2>&1; then exec x-terminal-emulator -e "$JO"
+    elif command -v gnome-terminal >/dev/null 2>&1; then exec gnome-terminal -- "$JO"
+    elif command -v konsole >/dev/null 2>&1; then exec konsole -e "$JO"
+    elif command -v xfce4-terminal >/dev/null 2>&1; then exec xfce4-terminal -x "$JO"
+    elif command -v xterm >/dev/null 2>&1; then exec xterm -e "$JO"
+    fi
+fi
 
 # PHP i extensions
 command -v "$PHP" >/dev/null 2>&1 || error "$(t \
@@ -76,7 +135,9 @@ peticio() { "$PHP" -r '$c = stream_context_create(["http" => ["timeout" => (floa
 
 obri_navegador() {
     [ "$NAVEGADOR" = 1 ] || return 0
-    if command -v xdg-open >/dev/null 2>&1; then
+    if [ -n "$APP" ]; then
+        obri_finestra &
+    elif command -v xdg-open >/dev/null 2>&1; then
         xdg-open "$URL" >/dev/null 2>&1 &
     fi
 }
@@ -101,6 +162,7 @@ COMPAS_DADES="$DADES" COMPAS_TOKEN="$TOKEN" "$PHP" \
 SERVIDOR=$!
 
 tanca() {
+    local codi="${1:-0}"
     trap - EXIT INT TERM HUP
     if kill -0 "$SERVIDOR" 2>/dev/null; then
         t "Fent la còpia de seguretat i tancant Compàs…" "Haciendo la copia de seguridad y cerrando Compàs…"
@@ -108,9 +170,10 @@ tanca() {
         kill "$SERVIDOR" 2>/dev/null
         wait "$SERVIDOR" 2>/dev/null
     fi
-    exit 0
+    exit "$codi"
 }
-trap tanca EXIT INT TERM HUP
+trap 'tanca $?' EXIT
+trap 'tanca 0' INT TERM HUP
 
 # Espera que el servidor responga
 for _ in $(seq 1 50); do
@@ -123,6 +186,25 @@ done
 
 printf '\n  Compàs · %s\n\n' "$URL"
 t "  Les dades es guarden a: $DADES" "  Los datos se guardan en: $DADES"
+
+if [ -n "$APP" ]; then
+    t "  Compàs s'ha obert en una finestra pròpia. En tancar-la, es fa la còpia de seguretat i s'atura." \
+      "  Compàs se ha abierto en una ventana propia. Al cerrarla, se hace la copia de seguridad y se detiene."
+    echo
+    INICI=$SECONDS
+    obri_finestra
+    # Si el navegador torna de seguida, la finestra l'ha agafada un altre procés amb el mateix perfil:
+    # no sabem quan es tancarà, així que es continua com amb el navegador habitual.
+    if [ $((SECONDS - INICI)) -ge 5 ] || ! kill -0 "$SERVIDOR" 2>/dev/null; then
+        exit 0   # el trap fa la còpia i atura el servidor
+    fi
+    NAVEGADOR=0   # la finestra ja està oberta
+    if [ "$EN_TERMINAL" = 0 ]; then
+        avis_grafic info "$(t "Compàs està en marxa. Prem D'acord quan vulgues tancar-lo (es farà una còpia de seguretat)." \
+                             "Compàs está en marcha. Pulsa Aceptar cuando quieras cerrarlo (se hará una copia de seguridad).")" && exit 0
+    fi
+fi
+
 t "  Deixa esta finestra oberta mentre utilitzes Compàs. Per a tancar-lo, prem Ctrl+C o tanca la finestra." \
   "  Deja esta ventana abierta mientras usas Compàs. Para cerrarlo, pulsa Ctrl+C o cierra la ventana."
 echo

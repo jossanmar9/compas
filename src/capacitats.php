@@ -1,5 +1,6 @@
 <?php
 // Rols i capacitats. Compàs té dos rols fixos: administrador i administratiu.
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 const ROLS = ['admin', 'administratiu'];

@@ -1,5 +1,6 @@
 -- Compàs: Gestió lliure per a societats musicals
 -- Esquema de la base de dades (SQLite)
+-- Copyright (C) 2026 José Vicente Sanjuan
 -- SPDX-License-Identifier: AGPL-3.0-or-later
 
 PRAGMA foreign_keys = ON;

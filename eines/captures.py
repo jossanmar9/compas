@@ -11,7 +11,7 @@ Requisits: PHP 8.1+ (pdo_sqlite, mbstring), Python 3, Pillow i Playwright:
 Ús (des de l'arrel del repositori):
     python3 eines/captures.py
 
-SPDX-License-Identifier: AGPL-3.0-or-later
+© 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later
 """
 import asyncio
 import io

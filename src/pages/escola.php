@@ -1,5 +1,6 @@
 <?php
 // Escola: introducció de qualificacions
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /** Grups actius del curs actual */

@@ -1,5 +1,6 @@
 <?php
 // Inici, resum acadèmic de l'alumne i horari general
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 function targeta(string $xifra, string $text, ?string $enllac = null): string

@@ -14,13 +14,14 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 ### Abrir y cerrar Compàs
 
 1. Haz doble clic en el icono **Compàs** del escritorio o del menú Inicio.
-2. Se abre una ventana pequeña de Compàs y, al cabo de unos segundos, el navegador con el programa.
-3. **No cierres la ventana pequeña** mientras trabajas: es la que hace funcionar Compàs.
-4. Para terminar, cierra la ventana pequeña. Compàs hará una copia de seguridad si ha habido cambios y se detendrá.
+2. Al cabo de unos segundos, Compàs se abre en **una ventana propia**, sin pestañas ni barra de direcciones.
+3. Para terminar, **cierra la ventana** (la ✕ de arriba a la derecha). Compàs hará una copia de seguridad si ha habido cambios y se detendrá.
 
-Si el navegador no se abre solo, pulsa **Abrir Compàs** en la ventana pequeña.
+Mientras está abierto, el icono de Compàs aparece en la bandeja del sistema, junto al reloj. Con el botón derecho tienes **Abrir Compàs** (otra ventana), **Carpeta de datos** y **Detener y cerrar**.
 
-> **En Linux**, en lugar de la ventana pequeña se abre una ventana de terminal. Funciona igual: no la cierres mientras trabajas, y para terminar pulsa **Ctrl+C** o ciérrala.
+La ventana propia la pone Microsoft Edge, que viene con todo Windows 10 y 11, o Google Chrome. Si el ordenador no tiene ninguno, Compàs se abre en el navegador habitual y aparece una ventana pequeña: **no la cierres** mientras trabajas, porque es la que hace funcionar Compàs, y ciérrala para terminar. Si prefieres el navegador habitual, pon `finestra = 0` en `compas.ini`.
+
+> **En Linux**, la ventana propia la ponen Chromium, Google Chrome, Microsoft Edge o Brave. Si no hay ninguno, se abre el navegador habitual y una ventana de terminal: no la cierres mientras trabajas, y para terminar pulsa **Ctrl+C** o ciérrala.
 
 ### Entrar
 

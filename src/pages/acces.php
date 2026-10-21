@@ -1,5 +1,6 @@
 <?php
 // Entrada, configuració inicial i perfil
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 const MIN_CONTRASENYA = 8;

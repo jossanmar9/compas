@@ -1,5 +1,6 @@
 <?php
 // Assistent per a passar de curs: crea el curs nou a partir de l'anterior
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /** «2026/2027» → «2027/2028»; «2026-27» → «2027-28»; si no, el mateix nom amb « (nou)» */

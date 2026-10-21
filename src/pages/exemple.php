@@ -1,5 +1,6 @@
 <?php
 // Dades d'exemple (opcionals) per a provar el programa. Noms genèrics.
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 function carrega_dades_exemple(): void

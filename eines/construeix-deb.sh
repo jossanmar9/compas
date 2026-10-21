@@ -2,6 +2,7 @@
 # Construeix el paquet .deb de Compàs a partir de la carpeta del programa ja preparada
 # (la mateixa del .tar.gz: app, src, docs amb els PDF, compas.sh, compas.ini…).
 # Ús: eines/construeix-deb.sh <carpeta Compas> <versió> <carpeta d'eixida>
+# Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -euo pipefail
 
@@ -32,7 +33,7 @@ Comment=Gestió lliure per a societats musicals
 Comment[es]=Gestión libre para sociedades musicales
 Exec=compas
 Icon=compas
-Terminal=true
+Terminal=false
 Categories=Office;Education;
 DESKTOP
 

@@ -1,5 +1,6 @@
 <?php
 // Llistats per a imprimir, etiquetes, antiguitat i dades per a la memòria anual
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Cada informe retorna seccions (títol, columnes, files) i el mateix codi les mostra

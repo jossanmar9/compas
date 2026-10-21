@@ -1,5 +1,6 @@
 <?php
 // Recuperar l'accés quan l'administrador/a ha oblidat la contrasenya
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Dues maneres:

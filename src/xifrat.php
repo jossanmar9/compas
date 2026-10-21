@@ -1,5 +1,6 @@
 <?php
 // Xifrat de les còpies de seguretat externes amb contrasenya (libsodium)
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Format del fitxer .xifrat:

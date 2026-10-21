@@ -81,7 +81,7 @@ jobs:
           $info = Join-Path $env:RUNNER_TEMP "Versio.cs"
           @(
             'using System.Reflection;'
-            '[assembly: AssemblyCompany("Compàs")]'
+            '[assembly: AssemblyCompany("José Vicente Sanjuan")]'
             "[assembly: AssemblyVersion(""$n"")]"
             "[assembly: AssemblyFileVersion(""$n"")]"
             "[assembly: AssemblyInformationalVersion(""${{ steps.versio.outputs.versio }}"")]"

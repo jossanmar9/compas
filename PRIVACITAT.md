@@ -13,7 +13,7 @@
 ## Qui és responsable de les dades
 
 - La **societat musical** que utilitza Compàs és la **responsable del tractament** de les dades personals que hi introdueix. Ha de complir el Reglament general de protecció de dades (RGPD) i la Llei orgànica 3/2018 (LOPDGDD): informar les persones, demanar els consentiments que calguen, atendre els drets d'accés, rectificació, supressió, etc.
-- El **desenvolupador de Compàs no té accés** a les dades de cap societat: no les rep, no les guarda i no les tracta. Per tant, no és encarregat del tractament.
+- El **desenvolupador de Compàs** (José Vicente Sanjuan) **no té accés** a les dades de cap societat: no les rep, no les guarda i no les tracta. Per tant, no és encarregat del tractament.
 - Compàs ajuda a complir la normativa: dos comptes amb permisos diferents, contrasenyes guardades xifrades, registre d'activitat, còpies externes xifrades i control del consentiment d'imatge.
 
 ## La web i les descàrregues
@@ -24,7 +24,7 @@
 
 ## Contacte
 
-Si teniu dubtes sobre esta declaració, obriu una [incidència](https://github.com/jossanmar9/compas/issues/new/choose).
+Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta declaració, obriu una [incidència](https://github.com/jossanmar9/compas/issues/new/choose).
 
 *Darrera actualització: octubre de 2026.*
 
@@ -45,7 +45,7 @@ Si teniu dubtes sobre esta declaració, obriu una [incidència](https://github.c
 ## Quién es responsable de los datos
 
 - La **sociedad musical** que usa Compàs es la **responsable del tratamiento** de los datos personales que introduce. Debe cumplir el Reglamento general de protección de datos (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD): informar a las personas, pedir los consentimientos necesarios, atender los derechos de acceso, rectificación, supresión, etc.
-- El **desarrollador de Compàs no tiene acceso** a los datos de ninguna sociedad: no los recibe, no los guarda y no los trata. Por tanto, no es encargado del tratamiento.
+- El **desarrollador de Compàs** (José Vicente Sanjuan) **no tiene acceso** a los datos de ninguna sociedad: no los recibe, no los guarda y no los trata. Por tanto, no es encargado del tratamiento.
 - Compàs ayuda a cumplir la normativa: dos cuentas con permisos diferentes, contraseñas guardadas cifradas, registro de actividad, copias externas cifradas y control del consentimiento de imagen.
 
 ## La web y las descargas
@@ -56,7 +56,7 @@ Si teniu dubtes sobre esta declaració, obriu una [incidència](https://github.c
 
 ## Contacto
 
-Si tenéis dudas sobre esta declaración, abrid una [incidencia](https://github.com/jossanmar9/compas/issues/new/choose).
+Compàs es un proyecto de José Vicente Sanjuan. Si tenéis dudas sobre esta declaración, abrid una [incidencia](https://github.com/jossanmar9/compas/issues/new/choose).
 
 *Última actualización: octubre de 2026.*
 
@@ -64,4 +64,4 @@ Si tenéis dudas sobre esta declaración, abrid una [incidencia](https://github.
 
 # Privacy statement (English)
 
-**This program will not transfer any information to other networked systems.** Compàs runs on a single Windows or Linux computer and only listens on `127.0.0.1`. It has no telemetry, crash reporting, update checks, advertising or remote resources. All data is stored locally in `data\compas.db`. Backups are written only to the local computer and, if the user configures it, to an external folder of their choice (optionally encrypted with a password). The music society using Compàs is the data controller; the developer has no access to any data. The website and downloads are hosted on GitHub ([GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)); the website uses no cookies, analytics or third-party resources.
+**This program will not transfer any information to other networked systems.** Compàs runs on a single Windows or Linux computer and only listens on `127.0.0.1`. It has no telemetry, crash reporting, update checks, advertising or remote resources. All data is stored locally in `data\compas.db`. Backups are written only to the local computer and, if the user configures it, to an external folder of their choice (optionally encrypted with a password). The music society using Compàs is the data controller; the developer (José Vicente Sanjuan) has no access to any data. The website and downloads are hosted on GitHub ([GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)); the website uses no cookies, analytics or third-party resources.

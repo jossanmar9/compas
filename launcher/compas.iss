@@ -16,7 +16,7 @@ AppId={{6F3B2C1A-7E54-4C2B-9A1E-C0A5C0A5C0A5}
 AppName=Compàs
 AppVersion={#Versio}
 AppVerName=Compàs {#Versio}
-AppPublisher=Compàs
+AppPublisher=José Vicente Sanjuan
 AppComments=Gestió lliure per a societats musicals
 ; Nom i versió a les propietats de l'instal·lador (Windows: botó dret → Propietats → Detalls)
 VersionInfoVersion={#VersioNum}
@@ -25,7 +25,7 @@ VersionInfoProductVersion={#VersioNum}
 VersionInfoProductTextVersion={#Versio}
 VersionInfoDescription=Instal·lador de Compàs: gestió lliure per a societats musicals
 VersionInfoCompany=Compàs
-VersionInfoCopyright=AGPL-3.0-or-later
+VersionInfoCopyright=© 2026 José Vicente Sanjuan · AGPL-3.0-or-later
 DefaultDirName={localappdata}\Programs\Compas
 DefaultGroupName=Compàs
 DisableProgramGroupPage=yes
@@ -62,6 +62,11 @@ Name: "{group}\Compàs"; Filename: "{app}\Compas.exe"
 Name: "{group}\Manual de Compàs"; Filename: "{app}\docs\pdf\manual-usuari.pdf"; Languages: ca
 Name: "{group}\Manual de Compàs"; Filename: "{app}\docs\pdf\manual-usuario.pdf"; Languages: es
 Name: "{autodesktop}\Compàs"; Filename: "{app}\Compas.exe"; Tasks: escriptori
+
+[UninstallDelete]
+; Perfil de la finestra pròpia (Edge o Chrome en mode aplicació). Les dades de Compàs no es toquen.
+Type: filesandordirs; Name: "{localappdata}\Compas\finestra"
+Type: dirifempty; Name: "{localappdata}\Compas"
 
 [Run]
 Filename: "{app}\Compas.exe"; Description: "{cm:LaunchProgram,Compàs}"; Flags: nowait postinstall skipifsilent

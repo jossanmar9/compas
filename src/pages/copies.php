@@ -1,5 +1,6 @@
 <?php
 // Còpies de seguretat de la base de dades
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // - Automàtica: la primera vegada que s'utilitza Compàs cada dia, i en tancar el programa si hi ha hagut canvis.

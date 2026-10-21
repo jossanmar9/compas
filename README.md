@@ -9,11 +9,13 @@
 
 # Compàs
 
-**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions i els instruments d'una societat musical.
+**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions i els instruments d'una societat musical.
 
 Està pensat per a qui porta la secretaria i l'escola de música d'una banda, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de la societat.
 
-*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
+*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
+
+Un projecte de **José Vicente Sanjuan**.
 
 🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf) · 🔒 [Privacitat](PRIVACITAT.md)
 
@@ -32,7 +34,7 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 - [Publicar una versió](#publicar-una-versió)
 - [Pròximes versions](#pròximes-versions)
 - [Col·laborar](#col·laborar)
-- [Ús d'intel·ligència artificial](#ús-dintel·ligència-artificial)
+- [Autoria i ús d'intel·ligència artificial](#autoria-i-ús-dintel·ligència-artificial)
 - [Llicència](#llicència)
 
 ## Què fa
@@ -75,7 +77,7 @@ Hi ha més de 40 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
    - **`compas_X.Y.Z_all.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_all.deb`, que porta també PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: per a altres Linux. Descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior amb `pdo_sqlite` i `mbstring`).
 2. El programa **encara no està signat digitalment**. Windows SmartScreen pot avisar: prem **Més informació → Executa igualment**. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows el bloqueja (també la versió portable) i cal desactivar-lo: vegeu la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
-3. Obri **Compàs**. S'obri una finestra menuda i el navegador amb el programa. Mentre la finestra estiga oberta, Compàs funciona; en tancar-la, fa una còpia de seguretat i s'atura.
+3. Obri **Compàs**. S'obri en una finestra pròpia, sense pestanyes ni barra d'adreces (la posa Microsoft Edge o Google Chrome). En tancar-la, fa una còpia de seguretat i s'atura.
 
 **Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
 
@@ -201,11 +203,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada** o **Tinc una proposta**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de les societats musicals són especialment benvingudes.
 
-## Ús d'intel·ligència artificial
+## Autoria i ús d'intel·ligència artificial
+
+Compàs és un projecte de **José Vicente Sanjuan**, que n'ha definit les funcions, n'ha revisat el funcionament i el manté.
 
 Aquest projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial (Claude, d'Anthropic), que ha generat bona part del codi i de la documentació a partir de les especificacions i les revisions del projecte.
 
 ## Llicència
+
+Copyright © 2026 José Vicente Sanjuan.
 
 Compàs és programari lliure distribuït sota la llicència **GNU Affero General Public License v3 o posterior (AGPL-3.0-or-later)**. El pots utilitzar, estudiar, modificar i redistribuir d'acord amb els termes de la llicència.
 

@@ -1,5 +1,6 @@
 <?php
 // Lectura de fulls de càlcul per a la importació: CSV i Excel (.xlsx)
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // L'.xlsx és un zip amb XML. Com que el PHP portable de Compàs no porta l'extensió zip,

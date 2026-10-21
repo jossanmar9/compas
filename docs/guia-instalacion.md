@@ -78,13 +78,17 @@ Para **actualizar**, descomprime la versión nueva y vuelve a ejecutar `./instal
 
 ### Cómo funciona en Linux
 
-Se abre una ventana de terminal y el navegador en `http://localhost:8740`. **Mientras la ventana del terminal esté abierta, Compàs funciona.** Para cerrarlo, pulsa **Ctrl+C** o cierra la ventana: antes de pararse, hace una copia de seguridad si ha habido cambios.
+Compàs se abre en una ventana propia si hay Chromium, Google Chrome, Microsoft Edge o Brave (en Ubuntu: `sudo snap install chromium`; en Debian: `sudo apt install chromium`). Al cerrarla, hace una copia de seguridad si ha habido cambios y se para.
+
+Si no hay ninguno, se abre el navegador habitual y una ventana de terminal. **Mientras la ventana del terminal esté abierta, Compàs funciona.** Para cerrarlo, pulsa **Ctrl+C** o cierra la ventana.
 
 Los datos se guardan en `~/.local/share/compas/dades` (o en la carpeta que indique la variable `COMPAS_DADES`).
 
 ## Cómo funciona
 
-Al abrir Compàs aparece una ventana pequeña (en Linux, un terminal) y se abre el navegador en `http://localhost:8740`. **Mientras la ventana esté abierta, Compàs funciona.** Al cerrarla, hace una copia de seguridad (si ha habido cambios) y se para.
+Al abrir Compàs, se abre en **una ventana propia**, sin pestañas ni barra de direcciones. La pone Microsoft Edge, que viene con todo Windows 10 y 11, o Google Chrome, con un perfil separado: no se mezcla con el navegador, los favoritos ni las contraseñas del usuario. Al cerrar la ventana, Compàs hace una copia de seguridad (si ha habido cambios) y se para. Mientras está abierto, el icono de Compàs está en la bandeja del sistema, junto al reloj.
+
+Si el ordenador no tiene Edge ni Chrome (o si se pone `finestra = 0` en `compas.ini`), se abre el navegador habitual en `http://localhost:8740` y una ventana pequeña de Compàs. **Mientras la ventana pequeña esté abierta, Compàs funciona.**
 
 Compàs solo se puede usar desde este ordenador: no es accesible desde la red ni desde Internet, y no envía ningún dato fuera (véase la [declaración de privacidad](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md#privacidad-de-compàs)).
 
@@ -107,7 +111,8 @@ Compas\
 Ábrelo con el Bloc de notas (o cualquier editor de texto). Después de cambiarlo, cierra y vuelve a abrir Compàs.
 
 - `port = 8740`: cámbialo si otro programa ya lo usa.
-- `navegador = 1`: abre el navegador al arrancar.
+- `navegador = 1`: abre Compàs al arrancar.
+- `finestra = 1`: abre Compàs en una ventana propia. Con `finestra = 0`, se abre en el navegador habitual y se muestra la ventana pequeña.
 
 ## Copias de seguridad
 
@@ -119,7 +124,7 @@ Compàs hace copias automáticas cada día y al cerrar el programa (si ha habido
 |---|---|
 | Windows dice que ha protegido el PC o que una directiva ha bloqueado el archivo | Véase el apartado «Si Windows no te deja abrirlo». |
 | «El puerto 8740 ya está en uso» | Cambia el `port` en `compas.ini`. |
-| El navegador no se abre | Escribe `http://localhost:8740` en el navegador. |
+| La ventana de Compàs no se abre | Haz clic en el icono de Compàs de la bandeja del sistema, o escribe `http://localhost:8740` en el navegador. |
 | «El servidor se ha parado» | Mira `servidor.log` y `php-errors.log` en la carpeta de datos. |
 | No arranca y dice que faltan archivos (Windows) | Vuelve a instalar o a descomprimir. El antivirus puede haber puesto en cuarentena `php.exe`. |
 | Falta `VCRUNTIME140.dll` (Windows) | Instala el *Microsoft Visual C++ Redistributable* (x64) desde la web de Microsoft. |

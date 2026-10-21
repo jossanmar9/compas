@@ -2,6 +2,7 @@
 // Genera la web de presentació de Compàs (GitHub Pages) en valencià i castellà.
 // Ús: php eines/web.php carpeta-eixida
 // Copia el logotip, unes quantes captures (docs/imatges) i els PDF (docs/pdf)
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 declare(strict_types=1);
@@ -79,6 +80,7 @@ $T = [
         'docs' => [['manual-usuari.pdf', 'Manual d\'usuari, pas a pas amb captures'], ['guia-installacio.pdf', 'Guia d\'instal·lació']],
         'lliure_titol' => 'Programari lliure',
         'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s’oferisquen a través d’una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
+        'autor' => 'Un projecte de José Vicente Sanjuan.',
         'ia' => 'S\'ha desenvolupat amb l\'ajuda d\'una intel·ligència artificial (Claude, d\'Anthropic).',
         'codi' => 'Codi a GitHub',
         'novetats' => 'Què canvia en cada versió',
@@ -152,6 +154,7 @@ $T = [
         'docs' => [['manual-usuario.pdf', 'Manual de usuario, paso a paso con capturas'], ['guia-instalacion.pdf', 'Guía de instalación']],
         'lliure_titol' => 'Software libre',
         'lliure' => 'Compàs se distribuye bajo la licencia GNU AGPL v3 o posterior: puedes utilizarlo, estudiarlo, modificarlo y compartirlo. Las versiones modificadas que se ofrezcan a través de una red también deben poner su código fuente a disposición de los usuarios. El código es público en GitHub.',
+        'autor' => 'Un proyecto de José Vicente Sanjuan.',
         'ia' => 'Se ha desarrollado con la ayuda de una inteligencia artificial (Claude, de Anthropic).',
         'codi' => 'Código en GitHub',
         'novetats' => 'Qué cambia en cada versión',
@@ -287,7 +290,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <section class="seccio lliure">
   <h2>{$t['lliure_titol']}</h2>
   <p>{$t['lliure']}</p>
-  <p class="nota">{$t['ia']}</p>
+  <p class="nota">{$t['autor']} {$t['ia']}</p>
   <p><a class="boto secundari" href="{$repo}">{$t['codi']}</a></p>
   <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues/new/choose">{$t['errades']}</a></p>
 </section>
@@ -295,7 +298,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs, {$any}. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></p>
+  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></p>
 </footer>
 
 <script>

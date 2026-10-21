@@ -14,13 +14,14 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 ### Obrir i tancar Compàs
 
 1. Fes doble clic a la icona **Compàs** de l'escriptori o del menú Inici.
-2. S'obri una finestra menuda de Compàs i, al cap d'uns segons, el navegador amb el programa.
-3. **No tanques la finestra menuda** mentre treballes: és la que fa funcionar Compàs.
-4. Per a acabar, tanca la finestra menuda. Compàs farà una còpia de seguretat si hi ha hagut canvis i s'aturarà.
+2. Al cap d'uns segons, Compàs s'obri en **una finestra pròpia**, sense pestanyes ni barra d'adreces.
+3. Per a acabar, **tanca la finestra** (la ✕ de dalt a la dreta). Compàs farà una còpia de seguretat si hi ha hagut canvis i s'aturarà.
 
-Si el navegador no s'obri sol, prem **Obri Compàs** a la finestra menuda.
+Mentre està obert, la icona de Compàs apareix a la safata del sistema, al costat del rellotge. Amb el botó dret hi tens **Obri Compàs** (una altra finestra), **Carpeta de dades** i **Atura i tanca**.
 
-> **A Linux**, en lloc de la finestra menuda s'obri una finestra de terminal. Funciona igual: no la tanques mentre treballes, i per a acabar prem **Ctrl+C** o tanca-la.
+La finestra pròpia la posa Microsoft Edge, que porta tot Windows 10 i 11, o Google Chrome. Si l'ordinador no en té cap, Compàs s'obri al navegador habitual i apareix una finestra menuda: **no la tanques** mentre treballes, perquè és la que fa funcionar Compàs, i tanca-la per a acabar. Si preferixes el navegador habitual, posa `finestra = 0` a `compas.ini`.
+
+> **A Linux**, la finestra pròpia la posen Chromium, Google Chrome, Microsoft Edge o Brave. Si no n'hi ha cap, s'obri el navegador habitual i una finestra de terminal: no la tanques mentre treballes, i per a acabar prem **Ctrl+C** o tanca-la.
 
 ### Entrar
 

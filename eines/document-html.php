@@ -2,6 +2,7 @@
 // Converteix un manual o guia (Markdown) en una pàgina HTML preparada per a imprimir en PDF.
 // Ús: php eines/document-html.php docs/manual-usuari.md eixida.html
 // Després: navegador sense interfície (Chrome/Edge) --print-to-pdf
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 if ($argc < 3) {
@@ -56,6 +57,7 @@ body { margin: 0; color: #1d2433; font-family: "Segoe UI", system-ui, Arial, san
 .portada h1 { font-size: 24pt; color: #14284b; margin: 14mm 0 3mm; }
 .portada p { color: #5d6778; margin: 0; }
 .portada .versio { margin-top: 2mm; font-size: 9.5pt; }
+.portada .autor { margin-top: 24mm; font-size: 10.5pt; color: #3b4558; }
 h2 { color: #1f5aa6; font-size: 15pt; margin: 9mm 0 3mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid #e8a33d; page-break-after: avoid; }
 h3 { color: #14284b; font-size: 12pt; margin: 6mm 0 2mm; page-break-after: avoid; }
 h4 { font-size: 11pt; margin: 5mm 0 2mm; }
@@ -81,6 +83,7 @@ figure.captura figcaption { font-size: 8.5pt; color: #5d6778; margin-top: 1.5mm;
   <h1>{$titolH}</h1>
   <p>{$lemaH}</p>
   <p class="versio">{$versioH}</p>
+  <p class="autor">José Vicente Sanjuan</p>
 </section>
 <main>{$cos}</main>
 </body>

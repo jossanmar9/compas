@@ -1,4 +1,4 @@
-/* Butlletins de qualificacions (impressió A4) — SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Butlletins de qualificacions (impressió A4) — © 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later */
 @page { size: A4; margin: 16mm 15mm; }
 * { box-sizing: border-box; }
 body { margin: 0; background: #e9edf3; color: #1d2433; font-family: "Segoe UI", system-ui, Arial, sans-serif; font-size: 10.5pt; line-height: 1.4; }

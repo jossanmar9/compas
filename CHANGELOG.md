@@ -8,6 +8,13 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.7.0] - 2026-10-21
+
+### Canviat
+- **Compàs s'obri en una finestra pròpia**, sense pestanyes ni barra d'adreces, i ja no cal la finestra menuda: en tancar la finestra de Compàs es fa la còpia de seguretat i el programa s'atura. A Windows la posa Microsoft Edge (o Google Chrome), amb un perfil separat del navegador de l'usuari, i mentre està obert hi ha una icona a la safata del sistema amb **Obri Compàs**, **Carpeta de dades** i **Atura i tanca**. A Linux la posen Chromium, Google Chrome, Microsoft Edge o Brave, i l'accés del menú ja no obri cap terminal.
+- Si no hi ha cap d'estos navegadors, o amb `finestra = 0` a `compas.ini`, funciona com abans: navegador habitual i finestra menuda (a Linux, terminal).
+- El nom de l'autor, José Vicente Sanjuan, apareix a la web, al README, als manuals, a la declaració de privacitat, al peu del programa i a les propietats del programa i dels paquets.
+
 ## [1.6.0] - 2026-10-21
 
 ### Afegit
@@ -108,6 +115,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.7.0]: https://github.com/jossanmar9/compas/releases/tag/v1.7.0
 [1.6.0]: https://github.com/jossanmar9/compas/releases/tag/v1.6.0
 [1.5.0]: https://github.com/jossanmar9/compas/releases/tag/v1.5.0
 [1.4.1]: https://github.com/jossanmar9/compas/releases/tag/v1.4.1

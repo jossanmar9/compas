@@ -1,5 +1,6 @@
 <?php
 // Plantilla de pàgina i menú
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 function menu(): array
@@ -117,5 +118,5 @@ function pagina_simple(string $titol, string $cos): void
 {
     echo capcalera_html($titol);
     echo '<body class="simple"><div class="caixa"><img class="logo" src="assets/logo.png" alt="Compàs: ' . h(t('lema')) . '">'
-        . html_avisos() . $cos . '</div><p class="versio">Compàs ' . COMPAS_VERSIO . ' · AGPL-3.0-or-later</p></body></html>';
+        . html_avisos() . $cos . '</div><p class="versio">Compàs ' . COMPAS_VERSIO . ' · © José Vicente Sanjuan · AGPL-3.0-or-later</p></body></html>';
 }

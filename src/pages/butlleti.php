@@ -1,5 +1,6 @@
 <?php
 // Butlletins de qualificacions per a imprimir i logotip de la societat
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /* ---------- Logotip de la societat ---------- */

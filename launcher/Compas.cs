@@ -1,5 +1,7 @@
 // Compàs: Gestió lliure per a societats musicals
-// Llançador per a Windows: arranca el servidor integrat de PHP i obri el navegador.
+// Llançador per a Windows: arranca el servidor integrat de PHP i obri Compàs en una finestra pròpia
+// (Microsoft Edge o Google Chrome en mode aplicació) o, si no n'hi ha, al navegador habitual.
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Es compila amb el csc.exe de .NET Framework 4 (C# 5), sense dependències externes.
@@ -15,11 +17,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 [assembly: System.Reflection.AssemblyTitle("Compàs")]
 [assembly: System.Reflection.AssemblyDescription("Gestió lliure per a societats musicals")]
 [assembly: System.Reflection.AssemblyProduct("Compàs")]
-[assembly: System.Reflection.AssemblyCopyright("AGPL-3.0-or-later")]
+[assembly: System.Reflection.AssemblyCopyright("© 2026 José Vicente Sanjuan · AGPL-3.0-or-later")]
 
 namespace Compas
 {
@@ -42,8 +45,9 @@ namespace Compas
                 var config = Config.Llig();
                 if (!nou)
                 {
-                    // Ja està en marxa: només obrim el navegador
-                    Finestra.ObriNavegador("http://localhost:" + config.Port + "/");
+                    // Ja està en marxa: només cal obrir una altra finestra
+                    string url = "http://localhost:" + config.Port + "/";
+                    if (!config.Finestra || AppNavegador.Obri(url) == null) Finestra.ObriNavegador(url);
                     return;
                 }
                 Application.EnableVisualStyles();
@@ -57,7 +61,14 @@ namespace Compas
     {
         public int Port = 8740;
         public bool Navegador = true;
+        public bool Finestra = true;
         public string Arrel;
+
+        static bool Si(string v)
+        {
+            v = v.ToLowerInvariant();
+            return !(v == "0" || v == "no" || v == "false");
+        }
 
         public static Config Llig()
         {
@@ -73,9 +84,80 @@ namespace Compas
                 string valor = l.Substring(l.IndexOf('=') + 1).Trim();
                 int n;
                 if (clau == "port" && int.TryParse(valor, out n) && n > 1023 && n < 65536) c.Port = n;
-                if (clau == "navegador") c.Navegador = !(valor == "0" || valor.ToLowerInvariant() == "no" || valor.ToLowerInvariant() == "false");
+                if (clau == "navegador") c.Navegador = Si(valor);
+                if (clau == "finestra") c.Finestra = Si(valor);
             }
             return c;
+        }
+    }
+
+    /// <summary>
+    /// Finestra pròpia de Compàs: Microsoft Edge (o Google Chrome) en mode aplicació, sense pestanyes
+    /// ni barra d'adreces, amb un perfil separat del navegador de l'usuari.
+    /// </summary>
+    static class AppNavegador
+    {
+        static string Perfil
+        {
+            get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Compas", "finestra"); }
+        }
+
+        static string Troba()
+        {
+            string pf86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            string pf = Environment.GetEnvironmentVariable("ProgramW6432");
+            if (string.IsNullOrEmpty(pf)) pf = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string[] candidats =
+            {
+                RutaRegistrada("msedge.exe"),
+                Path.Combine(pf86, @"Microsoft\Edge\Application\msedge.exe"),
+                Path.Combine(pf, @"Microsoft\Edge\Application\msedge.exe"),
+                Path.Combine(local, @"Microsoft\Edge\Application\msedge.exe"),
+                RutaRegistrada("chrome.exe"),
+                Path.Combine(pf, @"Google\Chrome\Application\chrome.exe"),
+                Path.Combine(pf86, @"Google\Chrome\Application\chrome.exe"),
+                Path.Combine(local, @"Google\Chrome\Application\chrome.exe")
+            };
+            foreach (string c in candidats)
+            {
+                try { if (!string.IsNullOrEmpty(c) && File.Exists(c)) return c; } catch { }
+            }
+            return null;
+        }
+
+        static string RutaRegistrada(string exe)
+        {
+            foreach (RegistryKey arrel in new[] { Registry.LocalMachine, Registry.CurrentUser })
+            {
+                try
+                {
+                    using (RegistryKey k = arrel.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\" + exe))
+                    {
+                        if (k == null) continue;
+                        string v = k.GetValue(null) as string;
+                        if (!string.IsNullOrEmpty(v)) return v.Trim('"');
+                    }
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        /// <summary>Obri una finestra de Compàs i en retorna el procés, o null si no hi ha Edge ni Chrome</summary>
+        public static Process Obri(string url)
+        {
+            string exe = Troba();
+            if (exe == null) return null;
+            try
+            {
+                Directory.CreateDirectory(Perfil);
+                string args = "--app=\"" + url + "\" --user-data-dir=\"" + Perfil + "\""
+                    + " --no-first-run --no-default-browser-check --disable-background-mode --disable-sync"
+                    + " --disable-features=msEdgeStartupBoost,msImplicitSignin,Translate --window-size=1280,860";
+                return Process.Start(new ProcessStartInfo(exe, args) { UseShellExecute = false });
+            }
+            catch { return null; }
         }
     }
 
@@ -89,6 +171,12 @@ namespace Compas
         readonly Button obri = new Button();
         StreamWriter registre;
         bool tancant;
+        bool visible;              // la finestra menuda només es mostra si cal (error, o sense Edge ni Chrome)
+        bool arrancat;
+        bool tancaSensePreguntar;  // l'usuari ha tancat la finestra de Compàs: no cal confirmar
+        Process app;
+        DateTime appObertA;
+        NotifyIcon safata;
 
         string Url { get { return "http://localhost:" + config.Port + "/"; } }
         string Dades { get { return Path.Combine(config.Arrel, "data"); } }
@@ -133,15 +221,11 @@ namespace Compas
             obri.Location = new Point(20, 212);
             obri.Size = new Size(130, 34);
             obri.Enabled = false;
-            obri.Click += delegate { ObriNavegador(Url); };
+            obri.Click += delegate { ObriFinestra(); };
             Controls.Add(obri);
 
             var carpeta = new Button { Text = Textos.T("Carpeta de dades", "Carpeta de datos"), Location = new Point(156, 212), Size = new Size(130, 34) };
-            carpeta.Click += delegate
-            {
-                Directory.CreateDirectory(Dades);
-                Process.Start("explorer.exe", "\"" + Dades + "\"");
-            };
+            carpeta.Click += delegate { ObriCarpeta(); };
             Controls.Add(carpeta);
 
             var atura = new Button { Text = Textos.T("Atura i tanca", "Detener y cerrar"), Location = new Point(292, 212), Size = new Size(128, 34) };
@@ -154,8 +238,93 @@ namespace Compas
                 Location = new Point(20, 262), AutoSize = true, ForeColor = Color.FromArgb(93, 103, 120), Font = new Font("Segoe UI", 8.5f)
             });
 
-            Shown += delegate { Arranca(); };
+            visible = !config.Finestra;
+            if (config.Finestra) CreaSafata();
             FormClosing += Tancant;
+        }
+
+        // Mentre no cal, la finestra menuda queda amagada (però el programa continua en marxa)
+        protected override void SetVisibleCore(bool value)
+        {
+            if (!IsHandleCreated) CreateHandle();
+            if (!arrancat)
+            {
+                arrancat = true;
+                BeginInvoke((MethodInvoker)Arranca);
+            }
+            base.SetVisibleCore(visible && value);
+        }
+
+        void Mostra()
+        {
+            if (visible) return;
+            visible = true;
+            Show();
+            Activate();
+        }
+
+        void CreaSafata()
+        {
+            var menu = new ContextMenuStrip();
+            menu.Items.Add(Textos.T("Obri Compàs", "Abrir Compàs"), null, delegate { ObriFinestra(); });
+            menu.Items.Add(Textos.T("Carpeta de dades", "Carpeta de datos"), null, delegate { ObriCarpeta(); });
+            menu.Items.Add(new ToolStripSeparator());
+            menu.Items.Add(Textos.T("Atura i tanca", "Detener y cerrar"), null, delegate { Close(); });
+            safata = new NotifyIcon
+            {
+                Text = "Compàs",
+                Icon = this.Icon ?? SystemIcons.Application,
+                ContextMenuStrip = menu,
+                Visible = true
+            };
+            safata.DoubleClick += delegate { ObriFinestra(); };
+        }
+
+        void ObriCarpeta()
+        {
+            try
+            {
+                Directory.CreateDirectory(Dades);
+                Process.Start("explorer.exe", "\"" + Dades + "\"");
+            }
+            catch { }
+        }
+
+        void ObriFinestra()
+        {
+            if (!config.Finestra || AppNavegador.Obri(Url) == null) ObriNavegador(Url);
+        }
+
+        /// <summary>Obri la finestra pròpia; quan l'usuari la tanca, Compàs fa la còpia i s'atura</summary>
+        void ObriFinestraPropia()
+        {
+            app = AppNavegador.Obri(Url);
+            if (app == null)
+            {
+                // Sense Edge ni Chrome: navegador habitual i finestra menuda, com abans
+                Mostra();
+                if (config.Navegador) ObriNavegador(Url);
+                return;
+            }
+            appObertA = DateTime.Now;
+            app.EnableRaisingEvents = true;
+            app.Exited += delegate
+            {
+                if (tancant) return;
+                try
+                {
+                    BeginInvoke((MethodInvoker)delegate
+                    {
+                        if (tancant) return;
+                        // Si s'acaba de seguida, la finestra l'ha agafada un altre procés del mateix perfil i no
+                        // sabrem quan es tanca: es mostra la finestra menuda perquè l'usuari puga aturar Compàs.
+                        if ((DateTime.Now - appObertA).TotalSeconds < 5) { Mostra(); return; }
+                        tancaSensePreguntar = true;
+                        Close();
+                    });
+                }
+                catch { }
+            };
         }
 
         void Arranca()
@@ -237,7 +406,8 @@ namespace Compas
                     estat.Text = "✔ " + Textos.T("Compàs està en marxa en aquest ordinador:", "Compàs está en marcha en este ordenador:");
                     estat.ForeColor = Color.FromArgb(30, 125, 79);
                     obri.Enabled = true;
-                    if (config.Navegador) ObriNavegador(Url);
+                    if (config.Finestra) ObriFinestraPropia();
+                    else if (config.Navegador) ObriNavegador(Url);
                 }
                 else if (intents > 60)
                 {
@@ -291,12 +461,13 @@ namespace Compas
             estat.Text = "✖ " + Textos.T("No s'ha pogut arrancar", "No se ha podido arrancar");
             estat.ForeColor = Color.FromArgb(179, 38, 30);
             obri.Enabled = false;
+            Mostra();
             MessageBox.Show(this, text, "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         void Tancant(object sender, FormClosingEventArgs e)
         {
-            if (php != null && !php.HasExited && e.CloseReason == CloseReason.UserClosing)
+            if (php != null && !php.HasExited && e.CloseReason == CloseReason.UserClosing && !tancaSensePreguntar)
             {
                 var r = MessageBox.Show(this,
                     Textos.T("Vols tancar Compàs? Si hi ha hagut canvis, abans es farà una còpia de seguretat.",
@@ -305,6 +476,9 @@ namespace Compas
                 if (r != DialogResult.Yes) { e.Cancel = true; return; }
             }
             tancant = true;
+            // Si es tanca des de la finestra menuda o la safata, també es tanca la finestra de Compàs
+            try { if (app != null && !app.HasExited) app.CloseMainWindow(); } catch { }
+            if (safata != null) safata.Text = Textos.T("Compàs: guardant la còpia…", "Compàs: guardando la copia…");
             if (php != null && !php.HasExited)
             {
                 // Còpia de seguretat en tancar (només si hi ha hagut canvis)
@@ -335,6 +509,7 @@ namespace Compas
             }
             try { if (php != null && !php.HasExited) { php.Kill(); php.WaitForExit(3000); } } catch { }
             if (registre != null) { try { registre.Dispose(); } catch { } }
+            if (safata != null) { safata.Visible = false; safata.Dispose(); }
         }
 
         public static void ObriNavegador(string url)

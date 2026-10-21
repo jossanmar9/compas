@@ -1,5 +1,6 @@
 <?php
 // Documents per a imprimir: fulls de consentiment d'imatge i certificats
+// Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /* ---------- Peces comunes dels documents A4 ---------- */

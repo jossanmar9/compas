@@ -78,13 +78,17 @@ Per a **actualitzar**, descomprimeix la versió nova i torna a executar `./insta
 
 ### Com funciona a Linux
 
-S'obri una finestra de terminal i el navegador a `http://localhost:8740`. **Mentre la finestra del terminal estiga oberta, Compàs funciona.** Per a tancar-lo, prem **Ctrl+C** o tanca la finestra: abans d'aturar-se, fa una còpia de seguretat si hi ha hagut canvis.
+Compàs s'obri en una finestra pròpia si hi ha Chromium, Google Chrome, Microsoft Edge o Brave (a Ubuntu: `sudo snap install chromium`; a Debian: `sudo apt install chromium`). En tancar-la, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
+
+Si no n'hi ha cap, s'obri el navegador habitual i una finestra de terminal. **Mentre la finestra del terminal estiga oberta, Compàs funciona.** Per a tancar-lo, prem **Ctrl+C** o tanca la finestra.
 
 Les dades es guarden a `~/.local/share/compas/dades` (o a la carpeta que indique la variable `COMPAS_DADES`).
 
 ## Com funciona
 
-En obrir Compàs apareix una finestra menuda (a Linux, un terminal) i s'obri el navegador a `http://localhost:8740`. **Mentre la finestra estiga oberta, Compàs funciona.** En tancar-la, fa una còpia de seguretat (si hi ha hagut canvis) i s'atura.
+En obrir Compàs, s'obri en **una finestra pròpia**, sense pestanyes ni barra d'adreces. La posa Microsoft Edge, que porta tot Windows 10 i 11, o Google Chrome, amb un perfil separat: no es barreja amb el navegador, les adreces d'interés ni les contrasenyes de l'usuari. En tancar la finestra, Compàs fa una còpia de seguretat (si hi ha hagut canvis) i s'atura. Mentre està obert, la icona de Compàs és a la safata del sistema, al costat del rellotge.
+
+Si l'ordinador no té Edge ni Chrome (o si es posa `finestra = 0` a `compas.ini`), s'obri el navegador habitual a `http://localhost:8740` i una finestra menuda de Compàs. **Mentre la finestra menuda estiga oberta, Compàs funciona.**
 
 Compàs només es pot utilitzar des d'aquest ordinador: no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora (vegeu la [declaració de privacitat](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md)).
 
@@ -107,7 +111,8 @@ Compas\
 Obri'l amb el Bloc de notes (o qualsevol editor de text). Després de canviar-lo, tanca i torna a obrir Compàs.
 
 - `port = 8740`: canvia'l si un altre programa ja l'utilitza.
-- `navegador = 1`: obri el navegador en arrancar.
+- `navegador = 1`: obri Compàs en arrancar.
+- `finestra = 1`: obri Compàs en una finestra pròpia. Amb `finestra = 0`, s'obri al navegador habitual i es mostra la finestra menuda.
 
 ## Còpies de seguretat
 
@@ -119,7 +124,7 @@ Compàs fa còpies automàtiques cada dia i en tancar el programa (si hi ha hagu
 |---|---|
 | Windows diu que ha protegit l'ordinador o que una directiva ha bloquejat el fitxer | Vegeu l'apartat «Si Windows no et deixa obrir-lo». |
 | «El port 8740 ja està en ús» | Canvia el `port` a `compas.ini`. |
-| El navegador no s'obri | Escriu `http://localhost:8740` al navegador. |
+| La finestra de Compàs no s'obri | Fes clic a la icona de Compàs de la safata del sistema, o escriu `http://localhost:8740` al navegador. |
 | «El servidor s'ha aturat» | Mira `servidor.log` i `php-errors.log` a la carpeta de dades. |
 | No arranca i diu que falten fitxers (Windows) | Torna a instal·lar o a descomprimir. L'antivirus pot haver posat en quarantena `php.exe`. |
 | Falta `VCRUNTIME140.dll` (Windows) | Instal·la el *Microsoft Visual C++ Redistributable* (x64) des de la web de Microsoft. |
