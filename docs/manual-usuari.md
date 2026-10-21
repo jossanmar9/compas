@@ -9,7 +9,7 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 | **Administrador/a** | Tot. També gestionar usuaris, la configuració (també les dades bancàries), el registre d'activitat i restaurar còpies. |
 | **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, uniformes, rebuts, remeses, loteria, caixa, junta, actes, documents, comunicats i fer còpies. |
 
-> En aquest manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
+> En este manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
 ### Obrir i tancar Compàs
 
@@ -57,7 +57,7 @@ Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una 
 - **Menú lateral** (esquerra): totes les seccions, agrupades per Escola de música, Agrupacions, Instruments, Documents i dades (llistats, informes i importació) i Administració.
 - **Dalt a la dreta**: canvi d'idioma (`VAL` / `ES`), el teu nom d'usuari (per a canviar la contrasenya) i **Ix** per a eixir.
 - **Inici**: un resum amb el nombre de persones, socis, matriculats, grups, músics i instruments cedits. Fes clic en qualsevol xifra per a anar a la llista.
-- **Avisos**: les cessions d'instruments amb la devolució vençuda, les classes de hui i els avisos de còpies de seguretat.
+- **Avisos**: les cessions d'instruments amb la devolució vençuda, les classes d'hui i els avisos de còpies de seguretat.
 
 ## 3. Com es treballa amb Compàs
 
@@ -81,7 +81,7 @@ La fitxa mostra totes les dades d'un element i tot el que hi està relacionat. P
 
 - **Edita**: canvia les dades.
 - **Elimina**: només es pot si no té res relacionat (vegeu «Baixes» més avall).
-- **+ Afig** de cada apartat: crea un element **ja vinculat** a aquesta fitxa. És la manera més ràpida de treballar.
+- **+ Afig** de cada apartat: crea un element **ja vinculat** a esta fitxa. És la manera més ràpida de treballar.
 
 ### Formularis
 
@@ -96,7 +96,7 @@ Compàs no deixa eliminar res que tinga historial (matrícules, notes, cessions�
 - una **persona** que ja no té relació amb la societat: edita-la i desmarca **Actiu**;
 - un **soci, alumne, professor o músic**: edita'l, posa l'**estat «Baixa»** i la **data de baixa**.
 
-Les baixes desapareixen dels llistats, però es poden tornar a veure marcant **Mostra també les baixes**.
+Les baixes desapareixen dels llistats, però es poden tornar a vore marcant **Mostra també les baixes**.
 
 ## 4. Configuració de la societat i logotip
 
@@ -114,7 +114,7 @@ No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen
 
 Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
 
-A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol veure: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar i el curs actual.
+A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar i el curs actual.
 
 ![Mòduls i avisos](imatges/ca/80-moduls.jpg)
 
@@ -222,7 +222,7 @@ Dels menors no cal tindre el DNI ni el telèfon. Quan una persona fa 18 anys i n
 
 ![Avís de persones amb dades que falten](imatges/ca/04-persones-llista.jpg)
 
-Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a veure només eixes persones. Obri cadascuna, prem **Edita**, completa el DNI i el telèfon i desa. L'avís desapareix quan ja no en falta cap.
+Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a vore només eixes persones. Obri cadascuna, prem **Edita**, completa el DNI i el telèfon i desa. L'avís desapareix quan ja no en falta cap.
 
 ![Persones amb dades que falten](imatges/ca/04b-persones-avis.jpg)
 
@@ -231,7 +231,7 @@ Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a veur
 Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tindre l'autorització de cada persona; per als menors, la del pare, la mare o el tutor/a.
 
 1. Obri la fitxa de la persona (o de l'alumne) i prem **🖨 Full de consentiment**. Ix un full A4 amb les dades de l'alumne i del tutor/a, el text de l'autorització i l'espai per a signar.
-2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la d'avui.
+2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la d'hui.
 
 ![Drets d'imatge a la fitxa de la persona](imatges/ca/41-persona-consentiment.jpg)
 
@@ -396,7 +396,7 @@ Per a esborrar una nota, deixa en blanc la nota i les observacions i desa.
 ## 11. Butlletins de notes
 
 1. Menú **Butlletins** (o el botó **Butlletins** de la pàgina de qualificacions, o **Imprimeix el butlletí** de la fitxa d'un alumne).
-2. Tria l'**avaluació**. El butlletí mostra les notes d'aquesta avaluació i de les anteriors.
+2. Tria l'**avaluació**. El butlletí mostra les notes d'esta avaluació i de les anteriors.
 3. Tria **de qui**: tot l'alumnat matriculat, l'alumnat d'un grup o un sol alumne.
 4. Si vols, escriu un **text al peu** (per exemple, la data de les audicions). Es recorda per a la pròxima vegada.
 5. Prem **Prepara els butlletins**.
@@ -441,7 +441,7 @@ Un instrument no es pot deixar a dues persones alhora.
 
 ### Llistat de cessions
 
-Menú **Cessions**. Amb el filtre pots veure les **cessions actives** o només les que tenen la **devolució vençuda**. Les vençudes també apareixen a l'inici.
+Menú **Cessions**. Amb el filtre pots vore les **cessions actives** o només les que tenen la **devolució vençuda**. Les vençudes també apareixen a l'inici.
 
 ![Llistat de cessions](imatges/ca/33-cessions-llista.jpg)
 
@@ -455,7 +455,7 @@ Menú **Uniformes**: polos, samarretes, dessuadores, jaquetes, motxilles, gorres
 
 Quan es torna un préstec, s'edita el lliurament i es posa la **data de devolució**: la peça torna a estar disponible.
 
-La pantalla mostra, per a cada article i talla, les comprades, les lliurades, les tornades, les que estan en préstec i les que **queden**. Si d'una talla s'han lliurat més de les que consten com a comprades, el número ix en roig: falta apuntar alguna compra. Els lliuraments de cada persona apareixen també a la seua fitxa.
+La pantalla mostra, per a cada article i talla, el **total** de peces que té la societat (les comprades, menys les venudes i les gratuïtes), les que estan **en préstec** i les **disponibles**. Si d'una talla s'han lliurat més de les que consten com a comprades, el número ix en roig: falta apuntar alguna compra. Els lliuraments de cada persona apareixen també a la seua fitxa.
 
 ![Uniformes per talla](imatges/ca/78-uniformes.jpg)
 
@@ -506,7 +506,7 @@ Els rebuts de qui té una **domiciliació** activa es cobraran pel banc; els alt
 
 ### 13.4 Domiciliacions bancàries
 
-Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data d'avui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
+Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data d'hui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
 
 ![Domiciliacions](imatges/ca/59-domiciliacions.jpg)
 
@@ -548,7 +548,7 @@ Menú **Economia → Llibre de caixa**. Mostra tots els ingressos i despeses de 
 - les remeses cobrades, en una sola línia, com apareixen al banc;
 - els diners de la loteria que lliura cada talonari.
 
-La resta (factures, subvencions, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot veure només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
+La resta (factures, subvencions, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot vore només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
 
 ![Llibre de caixa](imatges/ca/76-caixa.jpg)
 
@@ -635,7 +635,7 @@ Les persones del grup que no tenen correu apareixen en una llista a part, per a 
 
 ## 18. Llistats, certificats i memòria
 
-Menú **Documents i dades → Llistats i informes**. Cada llistat es pot veure a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
+Menú **Documents i dades → Llistats i informes**. Cada llistat es pot vore a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
 
 ![Llistats i informes](imatges/ca/43-llistats.jpg)
 
@@ -669,7 +669,7 @@ Qui pot eixir en fotos i vídeos: el resum (quants autoritzen, quants no i quant
 
 ### Antiguitat i insígnies
 
-Tria l'**any** i els **anys que es premien** (per defecte 25 i 50). Ix qui els complix eixe any, com a soci i com a músic. Marca **Mostra també la llista completa** per a veure tothom ordenat per antiguitat.
+Tria l'**any** i els **anys que es premien** (per defecte 25 i 50). Ix qui els complix eixe any, com a soci i com a músic. Marca **Mostra també la llista completa** per a vore tothom ordenat per antiguitat.
 
 ![Antiguitat i insígnies](imatges/ca/47-antiguitat.jpg)
 
@@ -683,7 +683,7 @@ Tria el curs. Ix el que solen demanar la Diputació, l'IVC o l'ajuntament: alumn
 
 ### Certificats
 
-A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i membres**) hi ha el botó **🖨 Certificat**. Ix un certificat en A4 amb el logotip, les dades de la persona i la data d'avui, preparat per a signar. Serveix per a beques, el conservatori, la feina…
+A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i membres**) hi ha el botó **🖨 Certificat**. Ix un certificat en A4 amb el logotip, les dades de la persona i la data d'hui, preparat per a signar. Serveix per a beques, el conservatori, la feina…
 
 ![Certificat de soci](imatges/ca/49-certificat.jpg)
 
@@ -757,7 +757,7 @@ Si l'ordinador s'espatlla o el roben, les còpies que hi ha dins es perden amb e
 
 ![Carpeta externa de còpies](imatges/ca/35-copies-carpeta.jpg)
 
-A partir d'ara, cada còpia es guarda també en aquesta carpeta. Si no està disponible (per exemple, el USB no està connectat) o fa més de 7 dies que no s'hi guarda res, l'inici ho avisa.
+A partir d'ara, cada còpia es guarda també en esta carpeta. Si no està disponible (per exemple, el USB no està connectat) o fa més de 7 dies que no s'hi guarda res, l'inici ho avisa.
 
 ### Llista de còpies, restaurar i eliminar
 
@@ -840,7 +840,7 @@ Menú **Administració → Registre d'activitat** (només l'administrador/a): qu
 
 ## 22. Ajuda
 
-El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
+El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
 
 ![Ajuda](imatges/ca/39-ajuda.jpg)
 

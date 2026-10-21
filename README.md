@@ -65,7 +65,7 @@ Un projecte de **José Vicente Sanjuan**.
 | **Full d'alta de soci** | Model estàndard per a imprimir, amb els tipus de soci, les quotes i l'ordre de domiciliació, i textos personalitzables. |
 | **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, músics per instrument, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula i d'agrupació amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
-| **A la mida** | Cada societat desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol veure. Les dades no s'esborren. |
+| **A la mida** | Cada societat desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol vore. Les dades no s'esborren. |
 | **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
@@ -77,7 +77,7 @@ Compàs fa **rebuts**, no factures: les factures han de complir el reglament del
 | | Compàs | Plataformes en línia |
 |---|---|---|
 | On són les dades | A l'ordinador de la societat | Al servidor de l'empresa |
-| Qui les pot veure | Només qui fa servir l'ordinador | L'empresa i els seus proveïdors |
+| Qui les pot vore | Només qui fa servir l'ordinador | L'empresa i els seus proveïdors |
 | Recollida de dades i analítica | Cap | Habitual (ús, dispositius, cookies) |
 | Funciona sense Internet | Sí | No |
 | Cost | Gratuït i lliure (AGPL) | Subscripció anual |
@@ -237,7 +237,7 @@ Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/n
 
 Compàs és un projecte de **José Vicente Sanjuan**, que n'ha definit les funcions, n'ha revisat el funcionament i el manté.
 
-Aquest projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial (Claude, d'Anthropic), que ha generat bona part del codi i de la documentació a partir de les especificacions i les revisions del projecte.
+Este projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial (Claude, d'Anthropic), que ha generat bona part del codi i de la documentació a partir de les especificacions i les revisions del projecte.
 
 ## Llicència
 

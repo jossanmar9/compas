@@ -455,7 +455,7 @@ Menú **Uniformes**: polos, camisetas, sudaderas, chaquetas, mochilas, gorras…
 
 Cuando se devuelve un préstamo, se edita la entrega y se pone la **fecha de devolución**: la prenda vuelve a estar disponible.
 
-La pantalla muestra, para cada artículo y talla, las compradas, las entregadas, las devueltas, las que están en préstamo y las que **quedan**. Si de una talla se han entregado más de las que constan como compradas, el número sale en rojo: falta apuntar alguna compra. Las entregas de cada persona aparecen también en su ficha.
+La pantalla muestra, para cada artículo y talla, el **total** de prendas que tiene la sociedad (las compradas, menos las vendidas y las gratuitas), las que están **en préstamo** y las **disponibles**. Si de una talla se han entregado más de las que constan como compradas, el número sale en rojo: falta apuntar alguna compra. Las entregas de cada persona aparecen también en su ficha.
 
 ![Uniformes por talla](imatges/es/78-uniformes.jpg)
 

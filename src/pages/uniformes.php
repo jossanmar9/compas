@@ -33,31 +33,29 @@ function valida_talla(array $d): ?string
 }
 
 /**
- * Existències d'un article per talla: talla => [comprades, lliurades, retornades, prestades, queden].
- * Queden = comprades − lliurades + retornades (els préstecs tornats tornen al magatzem).
+ * Existències d'un article per talla: talla => [total, en préstec, disponibles].
+ * Total: les que té la societat (comprades menys les venudes i les gratuïtes). Disponibles: les que no estan en préstec.
  */
 function existencies(int $uniformeId): array
 {
     $u = fila('SELECT talles FROM uniformes WHERE id = ?', [$uniformeId]);
     $files = [];
     foreach (talles_text($u['talles'] ?? null) as $t) {
-        $files[$t] = [0, 0, 0, 0, 0];
+        $files[$t] = [0, 0, 0];
     }
     foreach (q("SELECT COALESCE(talla, '') AS talla, SUM(quantitat) AS n FROM uniforme_compres WHERE uniforme_id = ? GROUP BY 1", [$uniformeId])->fetchAll() as $r) {
-        $files[$r['talla']] ??= [0, 0, 0, 0, 0];
+        $files[$r['talla']] ??= [0, 0, 0];
         $files[$r['talla']][0] += (int)$r['n'];
     }
-    foreach (q("SELECT COALESCE(talla, '') AS talla, SUM(quantitat) AS n,
-            SUM(CASE WHEN tipus = 'prestec' AND data_retorn IS NOT NULL THEN quantitat ELSE 0 END) AS tornades,
+    foreach (q("SELECT COALESCE(talla, '') AS talla, SUM(CASE WHEN tipus <> 'prestec' THEN quantitat ELSE 0 END) AS fora,
             SUM(CASE WHEN tipus = 'prestec' AND data_retorn IS NULL THEN quantitat ELSE 0 END) AS prestades
             FROM uniforme_lliuraments WHERE uniforme_id = ? GROUP BY 1", [$uniformeId])->fetchAll() as $r) {
-        $files[$r['talla']] ??= [0, 0, 0, 0, 0];
-        $files[$r['talla']][1] += (int)$r['n'];
-        $files[$r['talla']][2] += (int)$r['tornades'];
-        $files[$r['talla']][3] += (int)$r['prestades'];
+        $files[$r['talla']] ??= [0, 0, 0];
+        $files[$r['talla']][0] -= (int)$r['fora'];
+        $files[$r['talla']][1] += (int)$r['prestades'];
     }
     foreach ($files as &$f) {
-        $f[4] = $f[0] - $f[1] + $f[2];
+        $f[2] = $f[0] - $f[1];
     }
     return $files;
 }
@@ -69,15 +67,14 @@ function taula_existencies(int $uniformeId): string
     if (!$files) {
         return '<p class="buit petit">' . h(t('unif.sense_moviments')) . '</p>';
     }
-    $html = '<div class="taula-wrap"><table class="taula taula-informe existencies"><thead><tr><th>' . h(t('camp.talla')) . '</th><th class="num">' . h(t('unif.comprades'))
-        . '</th><th class="num">' . h(t('unif.lliurades')) . '</th><th class="num">' . h(t('unif.retornades')) . '</th><th class="num">' . h(t('unif.en_prestec'))
-        . '</th><th class="num">' . h(t('unif.queden')) . '</th></tr></thead><tbody>';
-    $tot = [0, 0, 0, 0, 0];
+    $html = '<div class="taula-wrap"><table class="taula taula-informe existencies"><thead><tr><th>' . h(t('camp.talla')) . '</th><th class="num">' . h(t('unif.total'))
+        . '</th><th class="num">' . h(t('unif.en_prestec')) . '</th><th class="num">' . h(t('unif.disponibles')) . '</th></tr></thead><tbody>';
+    $tot = [0, 0, 0];
     foreach ($files as $talla => $f) {
         $html .= '<tr><td>' . h($talla !== '' ? (string)$talla : t('unif.sense_talla')) . '</td>';
         foreach ($f as $i => $n) {
             $tot[$i] += $n;
-            $html .= '<td class="num' . ($i === 4 ? ($n < 0 ? ' dif-neg' : ($n === 0 ? ' esgotat' : ' queden')) : '') . '">' . $n . '</td>';
+            $html .= '<td class="num' . ($n < 0 ? ' dif-neg' : ($i === 2 ? ($n === 0 ? ' esgotat' : ' queden') : '')) . '">' . $n . '</td>';
         }
         $html .= '</tr>';
     }
@@ -101,7 +98,7 @@ function seccio_existencies(array $f): string
 function avis_lliurament(array $f): ?string
 {
     $e = existencies((int)$f['uniforme_id'])[$f['talla'] ?? ''] ?? null;
-    return $e && $e[4] < 0 ? t('unif.avis_negatiu') : null;
+    return $e && $e[2] < 0 ? t('unif.avis_negatiu') : null;
 }
 
 /** Pantalla d'uniformes: existències de cada article */
@@ -111,7 +108,7 @@ function pagina_uniformes(): void
     $articles = q("SELECT * FROM uniformes WHERE estat = 'actiu' ORDER BY tipus, nom")->fetchAll();
     $unitats = 0;
     foreach ($articles as $a) {
-        $unitats += array_sum(array_map(fn($x) => max(0, $x[4]), existencies((int)$a['id'])));
+        $unitats += array_sum(array_map(fn($x) => max(0, $x[2]), existencies((int)$a['id'])));
     }
     $prestecs = (int)valor("SELECT COALESCE(SUM(quantitat), 0) FROM uniforme_lliuraments WHERE tipus = 'prestec' AND data_retorn IS NULL");
     $venut = (float)valor("SELECT COALESCE(SUM(import), 0) FROM uniforme_lliuraments WHERE strftime('%Y', data) = strftime('%Y', 'now', 'localtime')");
