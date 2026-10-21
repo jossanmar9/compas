@@ -167,7 +167,7 @@ jobs:
           extensions: pdo_sqlite, mbstring, xml, sodium
 
       - name: Baixa els manuals en PDF (fets a Windows)
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: Compas-windows
           path: win
@@ -185,7 +185,7 @@ jobs:
           cp launcher/linux/compas.sh launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
           chmod +x "$d"/*.sh
           tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas
-          eines/construeix-deb.sh dist/Compas "$v" dist
+          bash eines/construeix-deb.sh dist/Compas "$v" dist
           ls -la dist
 
       - name: Prova el paquet
@@ -226,7 +226,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Baixa els paquets
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: paquets
           merge-multiple: true
