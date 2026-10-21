@@ -100,18 +100,18 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 @media (prefers-color-scheme: dark) { .cap h2, .seccio h2 { color: #fff; } }
 .cap p { color: var(--suau); font-size: 1.15rem; margin: .8rem 0 0; }
 
-/* Mòduls com a compassos: cada un comença amb una barra de compàs */
+/* Mòduls: targetes soltes, cada una amb la seua barra de compàs a l'esquerra.
+   Com que no comparteixen vores, el disseny no es trenca encara que l'última fila quede incompleta. */
 .moduls {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0;
-  border-top: 2px solid var(--mari); border-bottom: 2px solid var(--mari);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 0;
 }
-@media (prefers-color-scheme: dark) { .moduls { border-color: var(--linia); } }
-.modul { padding: 1.6rem 1.4rem 1.8rem; border-left: 2px solid var(--mari); }
-@media (prefers-color-scheme: dark) { .modul { border-color: var(--linia); } }
-.modul:nth-child(4n) { border-right: 2px solid var(--mari); }
-.modul:nth-child(n+5) { border-top: 1px solid var(--linia); }
-.modul dt { font: 700 1.25rem/1.2 var(--display); color: var(--blau); margin-bottom: .5rem; }
-.modul dd { margin: 0; color: var(--tinta); font-size: 1rem; }
+.modul {
+  background: var(--blanc); border: 1px solid var(--linia); border-left: 4px solid var(--mari); border-radius: 10px;
+  padding: 1.3rem 1.3rem 1.4rem;
+}
+@media (prefers-color-scheme: dark) { .modul { border-left-color: var(--or); } }
+.modul dt { font: 700 1.2rem/1.2 var(--display); color: var(--blau); margin-bottom: .5rem; }
+.modul dd { margin: 0; color: var(--tinta); font-size: .98rem; line-height: 1.5; }
 
 /* Galeria */
 .galeria { background: var(--blanc); max-width: none; border-block: 1px solid var(--linia); }
@@ -184,10 +184,6 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 @media (max-width: 960px) {
   .hero { grid-template-columns: 1fr; padding-top: 2rem; gap: 2.5rem; }
   .pentagrama { top: 6.6rem; }
-  .moduls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .modul:nth-child(4n) { border-right: 0; }
-  .modul:nth-child(2n) { border-right: 2px solid var(--mari); }
-  .modul:nth-child(n+3) { border-top: 1px solid var(--linia); }
   .passos, .dues { grid-template-columns: 1fr; gap: 2rem; }
 }
 @media (max-width: 560px) {
@@ -221,8 +217,8 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 
 /* Mòbils: mòduls en dues columnes i més compactes */
 @media (max-width: 560px) {
-  .moduls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .moduls .modul { padding: .9rem .8rem; }
+  .moduls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+  .moduls .modul { padding: .9rem .8rem; border-left-width: 3px; }
   .moduls dt { font-size: 1rem; }
   .moduls dd { font-size: .85rem; line-height: 1.45; }
   .fletxa { width: 2.25rem; height: 2.25rem; font-size: 1.5rem; }

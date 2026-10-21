@@ -57,7 +57,7 @@ Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una 
 - **Menú lateral** (esquerra): totes les seccions, agrupades per Escola de música, Agrupacions, Instruments, Documents i dades (llistats, informes i importació) i Administració.
 - **Dalt a la dreta**: canvi d'idioma (`VAL` / `ES`), el teu nom d'usuari (per a canviar la contrasenya) i **Ix** per a eixir.
 - **Inici**: un resum amb el nombre de persones, socis, matriculats, grups, músics i instruments cedits. Fes clic en qualsevol xifra per a anar a la llista.
-- **Avisos**: les cessions d'instruments amb la devolució vençuda, les classes d'hui i els avisos de còpies de seguretat.
+- **Avisos**: les cessions d'instruments amb la devolució vençuda, les classes de hui i els avisos de còpies de seguretat.
 
 ## 3. Com es treballa amb Compàs
 
@@ -231,7 +231,7 @@ Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a vore
 Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tindre l'autorització de cada persona; per als menors, la del pare, la mare o el tutor/a.
 
 1. Obri la fitxa de la persona (o de l'alumne) i prem **🖨 Full de consentiment**. Ix un full A4 amb les dades de l'alumne i del tutor/a, el text de l'autorització i l'espai per a signar.
-2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la d'hui.
+2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la de hui.
 
 ![Drets d'imatge a la fitxa de la persona](imatges/ca/41-persona-consentiment.jpg)
 
@@ -506,7 +506,7 @@ Els rebuts de qui té una **domiciliació** activa es cobraran pel banc; els alt
 
 ### 13.4 Domiciliacions bancàries
 
-Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data d'hui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
+Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data de hui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
 
 ![Domiciliacions](imatges/ca/59-domiciliacions.jpg)
 
@@ -683,7 +683,7 @@ Tria el curs. Ix el que solen demanar la Diputació, l'IVC o l'ajuntament: alumn
 
 ### Certificats
 
-A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i membres**) hi ha el botó **🖨 Certificat**. Ix un certificat en A4 amb el logotip, les dades de la persona i la data d'hui, preparat per a signar. Serveix per a beques, el conservatori, la feina…
+A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i membres**) hi ha el botó **🖨 Certificat**. Ix un certificat en A4 amb el logotip, les dades de la persona i la data de hui, preparat per a signar. Serveix per a beques, el conservatori, la feina…
 
 ![Certificat de soci](imatges/ca/49-certificat.jpg)
 

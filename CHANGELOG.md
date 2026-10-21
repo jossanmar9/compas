@@ -8,6 +8,14 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.11.2] - 2026-10-21
+
+### Corregit
+- «de hui» en lloc de «d'hui» (davant de «hui» no s'apostrofa).
+
+### Canviat
+- Web: els mòduls es mostren en targetes soltes, que no es trenquen encara que l'última fila quede incompleta.
+
 ## [1.11.1] - 2026-10-21
 
 ### Canviat
@@ -182,6 +190,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.11.2]: https://github.com/jossanmar9/compas/releases/tag/v1.11.2
 [1.11.1]: https://github.com/jossanmar9/compas/releases/tag/v1.11.1
 [1.11.0]: https://github.com/jossanmar9/compas/releases/tag/v1.11.0
 [1.10.0]: https://github.com/jossanmar9/compas/releases/tag/v1.10.0

@@ -196,7 +196,7 @@ return [
     'inici.crea_curs' => 'Crea\'n un',
     'inici.vencudes' => 'Cessions amb la devolució vençuda',
     'inici.prevista' => 'Devolució: %s',
-    'inici.classes_hui' => 'Classes d\'hui (%s)',
+    'inici.classes_hui' => 'Classes de hui (%s)',
     'inici.sense_classes' => 'Hui no hi ha classes.',
 
     // Horari
@@ -996,7 +996,7 @@ return [
     'audit.imprimeix_participacions' => 'Participacions impreses',
 
     // IBAN a la fitxa i a la importació
-    'ajuda.iban_persona' => 'Per a cobrar-li els rebuts pel banc. En desar-lo es crea la domiciliació (amb data d\'hui): imprimeix l\'ordre perquè la signe. Si es canvia, l\'anterior es dona de baixa; si s\'esborra, també.',
+    'ajuda.iban_persona' => 'Per a cobrar-li els rebuts pel banc. En desar-lo es crea la domiciliació (amb data de hui): imprimeix l\'ordre perquè la signe. Si es canvia, l\'anterior es dona de baixa; si s\'esborra, també.',
     'err.iban_menor' => 'Només es pot domiciliar a nom d\'un major d\'edat (i cal la data de naixement). Posa l\'IBAN al pare, la mare o el tutor/a.',
     'mandat.nota_substituida' => 'Substituïda per una domiciliació nova el %s.',
     'mandat.nota_baixa' => 'Donada de baixa des de la fitxa el %s.',
@@ -1010,7 +1010,7 @@ return [
     'imp.info_iban' => 'Domiciliació: %s',
     'imp.info_iban_tutor' => 'Domiciliació del tutor/a: %s',
     'imp.res_domiciliacions' => 'Domiciliacions noves',
-    'imp.nota_domiciliacions' => 'Les domiciliacions noves tenen la data de signatura del full (o la d\'hui). Comprova que la societat té l\'ordre de domiciliació signada de cadascuna; si no, imprimeix-la des de la fitxa de la domiciliació.',
+    'imp.nota_domiciliacions' => 'Les domiciliacions noves tenen la data de signatura del full (o la de hui). Comprova que la societat té l\'ordre de domiciliació signada de cadascuna; si no, imprimeix-la des de la fitxa de la domiciliació.',
     'imp.av_iban_diferents' => '%d persones ja tenien una domiciliació amb un altre IBAN i no s\'ha canviat. Si cal, canvia-la a la seua fitxa.',
 
     // ---------- Societat: junta, reunions, documents, comunicats, RGPD i llibre de caixa ----------
@@ -1107,7 +1107,7 @@ return [
     'junta.tanca' => 'Tanca els càrrecs actuals',
     'junta.confirma_tanca' => 'Tots els càrrecs actuals passaran a l\'historial amb esta data. Vols continuar?',
     'junta.tancada' => 'S\'han tancat %d càrrecs amb data %s. Ara afig els de la junta nova.',
-    'junta.cert_text' => 'Que la Junta Directiva de l\'entitat, a data d\'hui, està formada per les persones següents:',
+    'junta.cert_text' => 'Que la Junta Directiva de l\'entitat, a data de hui, està formada per les persones següents:',
 
     'reunio.convocatoria' => 'Convocatòria',
     'reunio.acta' => 'Acta',
