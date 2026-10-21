@@ -169,7 +169,7 @@ def executa(bateria: str, idioma: str) -> tuple[int, list[str]]:
                 for linia in (r.stdout + r.stderr).splitlines():
                     if linia.startswith('ok:'):
                         c.correctes += 1
-                    elif linia.startswith('FALLA') or any(x in linia for x in ERR_PHP):
+                    elif linia.startswith('FALLA') or (any(x in linia for x in ERR_PHP) and 'in Unknown on line 0' not in linia):
                         c.fallades.append(f'{f}: {linia}')
                         print(f'    {linia}')
                 continue
@@ -180,8 +180,9 @@ def executa(bateria: str, idioma: str) -> tuple[int, list[str]]:
                 print(f'    EXCEPCIÓ en {f}: {type(e).__name__}: {e}')
         # Errors de PHP que hagen eixit al registre del servidor
         c.registre.flush()
+        # (els avisos d'arrancada de PHP, «in Unknown on line 0», són de la instal·lació de PHP, no de Compàs)
         for linia in Path(c.dades, 'servidor.log').read_text(errors='replace').splitlines():
-            if any(x in linia for x in ERR_PHP):
+            if any(x in linia for x in ERR_PHP) and 'in Unknown on line 0' not in linia:
                 c.fallades.append(f'servidor: {linia.strip()}')
                 print(f'    PHP: {linia.strip()}')
         return c.correctes, c.fallades

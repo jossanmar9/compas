@@ -19,6 +19,7 @@ jobs:
         with:
           php-version: '8.3'
           extensions: pdo_sqlite, sqlite3, mbstring, dom, sodium
+          coverage: none
 
       - name: Revisa la sintaxi PHP
         run: find app src eines tests -name '*.php' -print0 | xargs -0 -n1 php -l
