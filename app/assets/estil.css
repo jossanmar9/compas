@@ -319,3 +319,23 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .existencies td.esgotat { color: var(--suau); }
 .existencies td.dif-neg { color: var(--error); }
 .fill header h2 .etiqueta { font-weight: 500; margin-left: 4px; }
+
+/* Repertori */
+.filtres-repertori { flex-wrap: wrap; }
+.filtres-repertori input[type="search"] { flex: 1 1 260px; }
+.filtres-repertori label.ordre { display: flex; align-items: center; gap: 6px; font-weight: 400; color: var(--suau); white-space: nowrap; }
+.taula.repertori td.num-arxiu { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--suau); }
+.taula.repertori small.arranjador { display: block; color: var(--suau); }
+.estat-obra { display: inline-block; font-size: .78rem; padding: 1px 8px; border-radius: 10px; background: var(--ok-fons); color: var(--ok); white-space: nowrap; }
+.estat-obra.incomplet, .estat-obra.en_revisio { background: var(--info-fons); color: #8a5a00; }
+.estat-obra.retirat { background: var(--vora); color: var(--suau); }
+@media (prefers-color-scheme: dark) { .estat-obra.incomplet, .estat-obra.en_revisio { color: #f3c16b; } }
+.nomes-imprimir { display: none; }
+@media print {
+    .nomes-imprimir { display: block; }
+    .capcalera-repertori h2 { margin: 0 0 2px; font-size: 14pt; }
+    .capcalera-repertori p { margin: 0 0 8px; font-size: 9pt; color: #444; }
+    .taula.repertori { font-size: 8.5pt; }
+    .taula.repertori a { color: inherit; text-decoration: none; }
+    .nota-obra { display: none; }
+}

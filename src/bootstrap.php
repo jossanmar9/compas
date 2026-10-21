@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.12.0';
+const COMPAS_VERSIO = '1.13.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -96,7 +96,26 @@ function migra_esquema(PDO $pdo): void
     // En una instal·lació nova es creen en la configuració inicial, quan ja se sap l'idioma.
     if ((int)$pdo->query('SELECT COUNT(*) FROM usuaris')->fetchColumn() > 0) {
         sembra_tipus_socis($pdo);
+        sembra_tipus_obres($pdo);
     }
+}
+
+/** Tipus d'obra inicials del repertori (una sola vegada); després cada societat els canvia */
+function sembra_tipus_obres(PDO $pdo, ?string $idioma = null): void
+{
+    if ($pdo->query("SELECT valor FROM config WHERE clau = 'tipus_obres_inicials'")->fetchColumn()) {
+        return;
+    }
+    $idioma ??= (string)($pdo->query("SELECT valor FROM config WHERE clau = 'idioma'")->fetchColumn() ?: 'ca');
+    $noms = $idioma === 'es'
+        ? ['Pasodoble', 'Marcha mora', 'Marcha cristiana', 'Marcha de procesión', 'Himno', 'Obertura', 'Poema sinfónico', 'Suite', 'Fantasía', 'Selección de zarzuela', 'Banda sonora', 'Música ligera', 'Otras']
+        : ['Pasdoble', 'Marxa mora', 'Marxa cristiana', 'Marxa de processó', 'Himne', 'Obertura', 'Poema simfònic', 'Suite', 'Fantasia', 'Selecció de sarsuela', 'Banda sonora', 'Música lleugera', 'Altres'];
+    if ((int)$pdo->query('SELECT COUNT(*) FROM tipus_obres')->fetchColumn() === 0) {
+        foreach ($noms as $i => $nom) {
+            $pdo->prepare('INSERT INTO tipus_obres(nom, ordre) VALUES(?, ?)')->execute([$nom, ($i + 1) * 10]);
+        }
+    }
+    $pdo->exec("INSERT INTO config(clau, valor) VALUES('tipus_obres_inicials', '1') ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor");
 }
 
 /** Crea els tipus de soci inicials (una sola vegada) i passa els codis antics (ordinari…) a l'id del tipus */

@@ -2,7 +2,7 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
+Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
 
 | Cuenta | Qué puede hacer |
 |---|---|
@@ -110,7 +110,7 @@ Menú **Administración → Configuración** (solo el administrador/a).
 
 ### Módulos y avisos
 
-No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos y comunicados.
+No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos y comunicados.
 
 Un módulo desactivado desaparece del menú, del inicio, de los listados y de las fichas de las personas, pero **no se borra ningún dato**: si se vuelve a activar, todo está como estaba. Personas, socios, listados, importación y administración siempre están activos.
 
@@ -358,7 +358,7 @@ El menú **Socios** muestra todos los socios activos. Puedes buscar por el nombr
 
 El socio desaparece del listado, pero se conserva con su historial.
 
-## 9. Músicos y agrupaciones
+## 9. Músicos, agrupaciones y repertorio
 
 ### Alta de un músico en una agrupación
 
@@ -378,6 +378,28 @@ Menú **Agrupaciones** → abre la agrupación. Muestra todos sus miembros con e
 ![Ficha de una agrupación](imatges/es/19-agrupacio-fitxa.jpg)
 
 Para crear una agrupación nueva: menú **Agrupaciones → + Nuevo**.
+
+### Repertorio: el catálogo del archivo musical
+
+Menú **Repertorio**. Es el catálogo de las obras que tiene la sociedad: de qué tipo son, para qué agrupaciones sirven, en qué estado están y dónde está el material. Compàs no guarda partituras ni archivos, solo el catálogo.
+
+Para añadir una obra, pulsa **+ Obra**:
+
+- **Título**, **tipo de obra** (pasodoble, marcha mora, marcha cristiana, marcha de procesión, obertura, poema sinfónico…), **compositor/a** y, si lo hay, **arreglista**.
+- **Agrupaciones** que la pueden interpretar: se marcan las que ya hay en Compàs.
+- **Número de archivo**: Compàs propone el siguiente a la última obra (si la última era ARX-0027, propone ARX-0028). No se puede repetir.
+- **Ubicación** del material físico (Armario A · Estantería 3 · Carpeta 27) y **material** que hay (Partitura + particellas).
+- **Estado** (completa, incompleta, en revisión o retirada), si está **digitalizada** y **observaciones**, por ejemplo qué particella falta.
+
+![Ficha de una obra](imatges/es/82-obra.jpg)
+
+La pantalla del repertorio tiene un **buscador** (título, compositor, número de archivo, ubicación…), **filtros** por tipo, agrupación, estado y si está digitalizada, y se puede **ordenar** por título, compositor, número de archivo, tipo o ubicación. Lo que se ve se puede **imprimir** (o guardar en PDF) y **exportar a CSV**. Las obras incompletas o en revisión tienen un aviso en su ficha, y en la ficha de cada agrupación hay un enlace a sus obras.
+
+![Repertorio](imatges/es/81-repertori.jpg)
+
+Los **tipos de obra** los elige cada sociedad: en el repertorio, pulsa **Tipos de obra** para cambiarlos, añadir o ordenarlos. Un tipo que ya tienen algunas obras no se puede eliminar, pero se puede dar de baja.
+
+Si la sociedad ya tiene el catálogo en una hoja de cálculo, no hace falta volver a escribirlo: se puede importar (apartado 19).
 
 ## 10. Calificaciones
 
@@ -697,7 +719,7 @@ Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volv
 
 ### Paso 1. El archivo
 
-1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta; el tipo se busca por el nombre) o **Alumnado** (con el padre, la madre o el tutor/a, si la hoja los lleva).
+1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta; el tipo se busca por el nombre) **Alumnado** (con el padre, la madre o el tutor/a, si la hoja los lleva) o el **Repertorio** (ver más abajo).
 2. Elige el archivo: Excel (**.xlsx**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel y guárdalo como .xlsx.
 3. Deja marcado **La primera fila tiene los títulos de las columnas** si es el caso, y pulsa **Siguiente**.
 
@@ -729,6 +751,17 @@ En la columna **Avisos** verás, por ejemplo, fechas que no se entienden o perso
 ![Importar: revisión antes de importar](imatges/es/53-importa-revisa.jpg)
 
 Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 20).
+
+### Importar el repertorio
+
+Elige **Repertorio** en el primer paso. Compàs reconoce las columnas más habituales (número de archivo, título, tipo, compositor, arreglista, agrupaciones, ubicación, material, estado, digitalizada y observaciones); la del título es la única obligatoria.
+
+- Los **tipos de obra** que no existen se crean.
+- Las **agrupaciones** se buscan por el nombre; si son varias, van separadas por comas («Banda, Coral»). Las que no hay en Compàs se avisan y no se asignan.
+- El **estado** se entiende aunque esté escrito de otra manera («Completa», «Falta la flauta»…), y **Digitalizada** acepta «Sí», «X» o «1».
+- Las obras que **ya están en el catálogo** (por el número de archivo o, si no tienen, por el título y el compositor) no se tocan, si no marcas **Actualizarla con la hoja**. Las repetidas dentro de la misma hoja se importan una sola vez.
+
+El CSV que se descarga del repertorio se puede volver a importar: es una manera sencilla de corregir muchas obras a la vez con Excel.
 
 ## 20. Copias de seguridad
 

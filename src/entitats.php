@@ -19,6 +19,7 @@ const FITXERS_PERMESOS = ['pdf' => 'application/pdf', 'jpg' => 'image/jpeg', 'jp
     'doc' => 'application/msword', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'xls' => 'application/vnd.ms-excel', 'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 const MIDA_DOCUMENT_MB = 20;
+const ESTATS_OBRA = ['complet', 'incomplet', 'en_revisio', 'retirat'];
 const TIPUS_UNIFORMES = ['samarreta', 'polo', 'camisa', 'dessuadora', 'jaqueta', 'pantalo', 'motxilla', 'gorra', 'altre_uniforme'];
 
 /**
@@ -29,6 +30,7 @@ const MODULS = [
     'escola' => ['alumnes', 'professors', 'matricules', 'grups', 'horari', 'notes', 'butlleti', 'cursos', 'assignatures', 'aules', 'periodes', 'horaris',
         'matricula_grups', 'tutories', 'passa_curs'],
     'agrupacions' => ['agrupacions', 'membres'],
+    'repertori' => ['repertori', 'obres', 'tipus_obres'],
     'instruments' => ['instruments', 'cessions', 'manteniments'],
     'uniformes' => ['uniformes', 'uniforme_compres', 'uniforme_lliuraments'],
     'economia' => ['economia', 'rebuts', 'rebut_linies', 'genera_rebuts', 'remeses', 'remesa', 'remesa_xml', 'rebut_accio', 'rebut_doc', 'mandat_doc', 'mandats',
@@ -249,6 +251,7 @@ function entitats(): array
                 'estat' => $estat,
                 'data_creacio' => ['tipus' => 'date'],
             ],
+            'seccio_fitxa' => 'seccio_repertori_agrupacio',
             'fills' => [['membres', 'agrupacio_id']],
         ],
         'membres' => [
@@ -720,6 +723,48 @@ function entitats(): array
                 'adreces' => ['tipus' => 'textarea'],
                 'usuari' => ['tipus' => 'text'],
             ],
+        ],
+        // ---------- Repertori ----------
+        'obres' => [
+            'cap' => 'agrupacions',
+            'from' => 'obres t LEFT JOIN tipus_obres tp ON tp.id = t.tipus_id',
+            'cerca' => ['t.titol', 't.compositor', 't.arranjador', 't.numero_arxiu', 't.ubicacio', 't.material', 't.observacions', 'tp.nom'],
+            'ordre' => 't.titol COLLATE NOCASE',
+            'etiqueta' => 'SELECT id, titol AS e FROM obres ORDER BY titol COLLATE NOCASE',
+            'camps' => [
+                'titol' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'tipus_id' => ['tipus' => 'ref', 'ref' => 'tipus_obres', 'llista' => 1, 'etiqueta' => 'rep.tipus_obra', 'ajuda' => t('ajuda.tipus_obra')],
+                'compositor' => ['tipus' => 'text', 'llista' => 1],
+                'arranjador' => ['tipus' => 'text', 'ajuda' => t('ajuda.opcional')],
+                'agrupacions' => [
+                    'tipus' => 'refs', 'ref' => 'agrupacions', 'virtual' => 1, 'ajuda' => t('ajuda.obra_agrupacions'),
+                    'carrega' => fn(array $f) => isset($f['id']) ? array_map('intval', array_column(q('SELECT agrupacio_id FROM obra_agrupacions WHERE obra_id = ?', [$f['id']])->fetchAll(), 'agrupacio_id')) : [],
+                    'desa' => 'desa_agrupacions_obra',
+                ],
+                'numero_arxiu' => ['tipus' => 'text', 'llista' => 1, 'defecte' => fn() => seguent_numero_arxiu(), 'ajuda' => t('ajuda.numero_arxiu')],
+                'ubicacio' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.ubicacio')],
+                'material' => ['tipus' => 'text', 'ajuda' => t('ajuda.material')],
+                'estat' => ['tipus' => 'select', 'opcions' => ESTATS_OBRA, 'llista' => 1],
+                'digitalitzada' => ['tipus' => 'bool', 'llista' => 1, 'ajuda' => t('ajuda.digitalitzada')],
+                'observacions' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.obra_observacions')],
+            ],
+            'valida' => fn(array $d, ?int $id) => $d['numero_arxiu'] !== null
+                && valor('SELECT id FROM obres WHERE numero_arxiu = ? AND id IS NOT ?', [$d['numero_arxiu'], $id]) ? t('err.numero_arxiu', $d['numero_arxiu']) : null,
+            'avis_fila' => fn(array $f) => in_array($f['estat'], ['incomplet', 'en_revisio'], true) ? t('rep.avis_' . $f['estat']) : null,
+        ],
+        'tipus_obres' => [
+            'cap' => 'agrupacions',
+            'cerca' => ['t.nom'],
+            'ordre' => "(t.estat <> 'actiu'), COALESCE(t.ordre, 999999), t.nom",
+            'etiqueta' => 'SELECT id, nom AS e FROM tipus_obres ORDER BY COALESCE(ordre, 999999), nom',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'ordre' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.ordre')],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'fills' => [['obres', 'tipus_id']],
+            'elimina_permes' => fn(int $id) => valor('SELECT COUNT(*) FROM obres WHERE tipus_id = ?', [$id]) ? t('err.tipus_obra_en_us') : null,
         ],
         // ---------- Tipus de soci ----------
         'tipus_socis' => [

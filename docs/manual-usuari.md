@@ -2,7 +2,7 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
+Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
 
 | Compte | Què pot fer |
 |---|---|
@@ -110,7 +110,7 @@ Menú **Administració → Configuració** (només l'administrador/a).
 
 ### Mòduls i avisos
 
-No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents i comunicats.
+No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents i comunicats.
 
 Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
 
@@ -358,7 +358,7 @@ El menú **Socis** mostra tots els socis actius. Pots buscar pel nom o pel núme
 
 El soci desapareix del llistat, però es conserva amb el seu historial.
 
-## 9. Músics i agrupacions
+## 9. Músics, agrupacions i repertori
 
 ### Alta d'un músic en una agrupació
 
@@ -378,6 +378,28 @@ Menú **Agrupacions** → obri l'agrupació. Mostra tots els seus membres amb l'
 ![Fitxa d'una agrupació](imatges/ca/19-agrupacio-fitxa.jpg)
 
 Per a crear una agrupació nova: menú **Agrupacions → + Nou**.
+
+### Repertori: el catàleg de l'arxiu musical
+
+Menú **Repertori**. És el catàleg de les obres que té la societat: de quin tipus són, per a quines agrupacions servixen, en quin estat estan i on és el material. Compàs no guarda partitures ni fitxers, només el catàleg.
+
+Per a afegir una obra, prem **+ Obra**:
+
+- **Títol**, **tipus d'obra** (pasdoble, marxa mora, marxa cristiana, marxa de processó, obertura, poema simfònic…), **compositor/a** i, si n'hi ha, **arranjador/a**.
+- **Agrupacions** que la poden interpretar: es marquen les que ja hi ha a Compàs.
+- **Número d'arxiu**: Compàs proposa el següent a l'última obra (si l'última era ARX-0027, proposa ARX-0028). No es pot repetir.
+- **Ubicació** del material físic (Armari A · Prestatgeria 3 · Carpeta 27) i **material** que hi ha (Partitura + particel·les).
+- **Estat** (complet, incomplet, en revisió o retirat), si està **digitalitzada** i **observacions**, per exemple quina particel·la falta.
+
+![Fitxa d'una obra](imatges/ca/82-obra.jpg)
+
+La pantalla del repertori té un **cercador** (títol, compositor, número d'arxiu, ubicació…), **filtres** per tipus, agrupació, estat i si està digitalitzada, i es pot **ordenar** per títol, compositor, número d'arxiu, tipus o ubicació. El que es veu es pot **imprimir** (o guardar en PDF) i **exportar a CSV**. Les obres incompletes o en revisió tenen un avís a la seua fitxa, i a la fitxa de cada agrupació hi ha un enllaç a les seues obres.
+
+![Repertori](imatges/ca/81-repertori.jpg)
+
+Els **tipus d'obra** els tria cada societat: al repertori, prem **Tipus d'obra** per a canviar-los, afegir-ne o ordenar-los. Un tipus que ja tenen algunes obres no es pot eliminar, però es pot donar de baixa.
+
+Si la societat ja té el catàleg en un full de càlcul, no cal tornar-lo a escriure: es pot importar (apartat 19).
 
 ## 10. Qualificacions
 
@@ -697,7 +719,7 @@ Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a esc
 
 ### Pas 1. El fitxer
 
-1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta; el tipus es busca pel nom) o **Alumnat** (amb el pare, la mare o el tutor/a, si el full els porta).
+1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta; el tipus es busca pel nom) **Alumnat** (amb el pare, la mare o el tutor/a, si el full els porta) o el **Repertori** (vegeu més avall).
 2. Tria el fitxer: Excel (**.xlsx**) o **CSV**. Si és un .xls antic, obri'l amb Excel i guarda'l com a .xlsx.
 3. Deixa marcat **La primera fila té els títols de les columnes** si és el cas, i prem **Següent**.
 
@@ -729,6 +751,17 @@ A la columna **Avisos** veuràs, per exemple, dates que no s'entenen o persones 
 ![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.jpg)
 
 Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 20).
+
+### Importar el repertori
+
+Tria **Repertori** en el primer pas. Compàs reconeix les columnes més habituals (número d'arxiu, títol, tipus, compositor, arranjador, agrupacions, ubicació, material, estat, digitalitzada i observacions); la del títol és l'única obligatòria.
+
+- Els **tipus d'obra** que no existeixen es creen.
+- Les **agrupacions** es busquen pel nom; si en són diverses, van separades per comes («Banda, Coral»). Les que no hi ha a Compàs s'avisen i no s'assignen.
+- L'**estat** s'entén encara que estiga escrit d'una altra manera («Completa», «Falta la flauta»…), i **Digitalitzada** accepta «Sí», «X» o «1».
+- Les obres que **ja són al catàleg** (pel número d'arxiu o, si no en tenen, pel títol i el compositor) no es toquen, si no marques **Actualitza-la amb el full**. Les repetides dins del mateix full s'importen una sola vegada.
+
+El CSV que es baixa del repertori es pot tornar a importar: és una manera senzilla de corregir moltes obres alhora amb Excel.
 
 ## 20. Còpies de seguretat
 

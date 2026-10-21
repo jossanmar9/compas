@@ -226,6 +226,36 @@ function carrega_dades_exemple(): void
     q('INSERT INTO comunicats(data, destinataris, n_destinataris, adreces, assumpte, cos) VALUES(?,?,?,?,?,?)', [date('Y-m-d', strtotime('-3 days')), $tr('Socis i sòcies', 'Socios y socias'), 8, null,
         $tr('Convocatòria del concert de Santa Cecília', 'Convocatoria del concierto de Santa Cecilia'), null]);
 
+    // Repertori: obres conegudes, amb números d'arxiu i ubicacions inventades
+    $tipusObra = fn(string $nom) => valor('SELECT id FROM tipus_obres WHERE nom = ?', [$nom]);
+    $armari = fn(string $a, int $p, int $c) => $tr("Armari $a · Prestatgeria $p · Carpeta $c", "Armario $a · Estantería $p · Carpeta $c");
+    $pp = $tr('Partitura + particel·les', 'Partitura + particellas');
+    foreach ([
+        ['Paquito el chocolatero', $tr('Pasdoble', 'Pasodoble'), 'Gustavo Pascual Falcó', null, ['Banda', 'Banda juvenil'], 'ARX-0001', $armari('A', 1, 1), $pp, 'complet', 1, null],
+        ['Amparito Roca', $tr('Pasdoble', 'Pasodoble'), 'Jaime Texidor', null, ['Banda'], 'ARX-0002', $armari('A', 1, 2), $pp, 'complet', 1, null],
+        ['El fallero', $tr('Pasdoble', 'Pasodoble'), 'José Serrano', null, ['Banda'], 'ARX-0003', $armari('A', 1, 3), $pp, 'incomplet', 0,
+            $tr('Falta la particel·la del 2n clarinet.', 'Falta la particella del 2º clarinete.')],
+        ['Pepita Greus', $tr('Pasdoble', 'Pasodoble'), 'Pascual Pérez Choví', null, ['Banda'], 'ARX-0004', $armari('A', 1, 4), $pp, 'complet', 0, null],
+        ['Chimo', $tr('Marxa mora', 'Marcha mora'), 'José María Ferrero', null, ['Banda'], 'ARX-0005', $armari('A', 2, 5), $pp, 'complet', 1, null],
+        ['Ragón Falez', $tr('Marxa mora', 'Marcha mora'), 'Gaspar Ángel Tortosa', null, ['Banda'], 'ARX-0006', $armari('A', 2, 6), $pp, 'en_revisio', 0, null],
+        ['Amarguras', $tr('Marxa de processó', 'Marcha de procesión'), 'Manuel Font de Anta', null, ['Banda'], 'ARX-0007', $armari('A', 3, 7), $pp, 'complet', 1, null],
+        [$tr('Himne de l\'Exposició', 'Himno de la Exposición'), $tr('Himne', 'Himno'), 'José Serrano', null, ['Banda', 'Coral'], 'ARX-0008', $armari('A', 3, 8),
+            $tr('Partitura, particel·les i veus del cor', 'Partitura, particellas y voces del coro'), 'complet', 1, null],
+        ["Nit d'albaes", $tr('Poema simfònic', 'Poema sinfónico'), 'Salvador Giner', null, ['Banda'], 'ARX-0009', $armari('B', 1, 9), $pp, 'complet', 0, null],
+        [$tr('Poeta i aldeà', 'Poeta y aldeano'), 'Obertura', 'Franz von Suppé', 'Henry Fillmore', ['Banda'], 'ARX-0010', $armari('B', 1, 10), $pp, 'complet', 0, null],
+        ['La boda de Luis Alonso', $tr('Selecció de sarsuela', 'Selección de zarzuela'), 'Gerónimo Giménez', null, ['Banda'], 'ARX-0011', $armari('B', 2, 11), $pp, 'complet', 1, null],
+        [$tr('Pirates del Carib', 'Piratas del Caribe'), 'Banda sonora', 'Klaus Badelt', 'Ted Ricketts', ['Banda', 'Banda juvenil'], 'ARX-0012', $armari('B', 2, 12), $pp, 'complet', 1, null],
+        [$tr('Marxa del centenari', 'Marcha del centenario'), $tr('Pasdoble', 'Pasodoble'), $tr('Anònim', 'Anónimo'), null, [], 'ARX-0013', $armari('B', 3, 13),
+            $tr('Només la partitura', 'Solo la partitura'), 'retirat', 0, $tr('Material molt deteriorat.', 'Material muy deteriorado.')],
+    ] as [$titol, $tp, $comp, $arr, $agrs, $num, $ubi, $mat, $estat, $dig, $obs]) {
+        q('INSERT INTO obres(titol, tipus_id, compositor, arranjador, numero_arxiu, ubicacio, material, estat, digitalitzada, observacions) VALUES(?,?,?,?,?,?,?,?,?,?)',
+            [$titol, $tipusObra($tp), $comp, $arr, $num, $ubi, $mat, $estat, $dig, $obs]);
+        $obra = $id();
+        foreach ($agrs as $ag) {
+            q('INSERT INTO obra_agrupacions(obra_id, agrupacio_id) VALUES(?, ?)', [$obra, $agr[$ag]]);
+        }
+    }
+
     // Uniformes: polos i dessuadores per talla i motxilles sense talla; compres, vendes i un préstec
     $unif = [];
     foreach ([[$tr('Polo de la banda', 'Polo de la banda'), 'polo', 'S, M, L, XL, XXL', 18], [$tr('Dessuadora', 'Sudadera'), 'dessuadora', '8, 10, 12, 14, S, M, L, XL', 25],

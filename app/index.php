@@ -188,6 +188,9 @@ try {
         case 'rgpd':
             pagina_rgpd();
             break;
+        case 'repertori':
+            pagina_repertori();
+            break;
         case 'uniformes':
             pagina_uniformes();
             break;

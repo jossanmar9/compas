@@ -34,7 +34,7 @@ function etiqueta_camp(string $camp, array $def = []): string
 
 function mostra_valor(array $def, $v, bool $enllac = false): string
 {
-    if ($v === null || $v === '') {
+    if ($v === null || $v === '' || $v === []) {
         return '';
     }
     switch ($def['tipus']) {
@@ -60,6 +60,9 @@ function mostra_valor(array $def, $v, bool $enllac = false): string
             return h($text);
         case 'textarea':
             return nl2br(h($v));
+        case 'refs':
+            $noms = array_filter(array_map(fn($x) => opcions_ref($def['ref'])[(int)$x] ?? null, (array)$v));
+            return h(implode(', ', $noms));
         case 'email':
             return $enllac ? '<a href="mailto:' . h($v) . '">' . h($v) . '</a>' : h($v);
         default:
@@ -345,6 +348,15 @@ function camp_formulari(string $c, array $d, $v): string
         case 'textarea':
             $in = '<textarea id="c_' . $nom . '" name="' . $nom . '" rows="3"' . $req . '>' . h($v) . '</textarea>';
             break;
+        case 'refs':
+            // Caselles: el camp ocult fa que s'envie encara que no se'n marque cap
+            $marcats = array_map('intval', (array)$v);
+            $in = '<input type="hidden" name="' . $nom . '[]" value=""><div class="opcions">';
+            foreach (opcions_ref($d['ref']) as $k => $text) {
+                $in .= '<label><input type="checkbox" name="' . $nom . '[]" value="' . h($k) . '"' . (in_array((int)$k, $marcats, true) ? ' checked' : '') . '> ' . h($text) . '</label>';
+            }
+            $in .= '</div>';
+            return '<fieldset class="camp ample"><legend>' . h(etiqueta_camp($c, $d)) . '</legend>' . $in . $ajuda . '</fieldset>';
         case 'bool':
             return '<div class="camp camp-check"><label><input type="hidden" name="' . $nom . '" value="0"><input type="checkbox" id="c_' . $nom . '" name="' . $nom . '" value="1"'
                 . ($v ? ' checked' : '') . '> ' . h(etiqueta_camp($c, $d)) . '</label>' . $ajuda . '</div>';
@@ -395,6 +407,10 @@ function camp_formulari(string $c, array $d, $v): string
 
 function normalitza(array $d, $v)
 {
+    // Diverses opcions marcades (per exemple, les agrupacions d'una obra)
+    if ($d['tipus'] === 'refs') {
+        return array_values(array_unique(array_filter(array_map('intval', (array)$v), fn($x) => $x > 0)));
+    }
     if (is_array($v)) {
         return null;
     }
@@ -514,7 +530,7 @@ function pagina_edita(string $nom, ?int $id): void
                 $dades[$c] = $prefix[$c];
             } else {
                 $def = $d['defecte'] ?? ($d['tipus'] === 'select' && empty($d['buit']) ? $d['opcions'][0] : null);
-                $dades[$c] = match ($def) {
+                $dades[$c] = $def instanceof Closure ? $def() : match ($def) {
                     'avui' => date('Y-m-d'),
                     'curs' => curs_actual()['id'] ?? null,
                     default => $def,

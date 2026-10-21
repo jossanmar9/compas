@@ -8,13 +8,23 @@
 
 require_once SRC_DIR . '/fulls.php';
 
-const TIPUS_IMPORTACIO = ['persones' => 'persones.edit', 'socis' => 'socis.edit', 'alumnes' => 'escola.edit'];
+const TIPUS_IMPORTACIO = ['persones' => 'persones.edit', 'socis' => 'socis.edit', 'alumnes' => 'escola.edit', 'obres' => 'agrupacions.edit'];
+/** Mòdul del qual depén cada tipus d'importació */
+const MODUL_IMPORTACIO = ['alumnes' => 'escola', 'obres' => 'repertori'];
+const CAMPS_OBRA = ['numero_arxiu', 'titol', 'tipus_obra', 'compositor', 'arranjador', 'agrupacions', 'ubicacio', 'material', 'estat_obra', 'digitalitzada', 'observacions'];
+
+/** Tipus d'importació que l'usuari pot fer (amb el permís i el mòdul actiu) */
+function tipus_importacio_disponibles(): array
+{
+    return array_filter(TIPUS_IMPORTACIO, fn($cap, $tp) => pot($cap) && (!isset(MODUL_IMPORTACIO[$tp]) || modul_actiu(MODUL_IMPORTACIO[$tp])), ARRAY_FILTER_USE_BOTH);
+}
 
 /** Camps que es poden importar segons el tipus */
 function camps_importacio(string $tipus): array
 {
     $persona = ['nom', 'cognoms', 'cognom2', 'nom_complet', 'data_naixement', 'document', 'telefon', 'email', 'adreca', 'codi_postal', 'poblacio', 'provincia', 'observacions', 'iban', 'data_mandat'];
     return match ($tipus) {
+        'obres' => CAMPS_OBRA,
         'socis' => array_merge($persona, ['numero', 'tipus_soci', 'data_alta']),
         'alumnes' => array_merge($persona, ['data_alta', 'tutor_nom', 'tutor_cognoms', 'tutor_nom_complet', 'tutor_document', 'tutor_telefon', 'tutor_email', 'tutor_relacio']),
         default => $persona,
@@ -27,6 +37,9 @@ function endevina_camp(string $capcalera, string $tipus): ?string
     $c = normalitza_text($capcalera);
     if ($c === '') {
         return null;
+    }
+    if ($tipus === 'obres') {
+        return endevina_camp_obra($c);
     }
     $tutor = (bool)preg_match('/\b(tutor|tutora|pare|mare|padre|madre|progenitor|familia|responsable)\b/', $c);
     $sinonims = [
@@ -76,6 +89,40 @@ function endevina_camp(string $capcalera, string $tipus): ?string
         foreach ($llista as $s) {
             if (strlen($s) > 3 && str_contains(" $c ", " $s ")) {
                 return in_array($camp, camps_importacio($tipus), true) ? $camp : null;
+            }
+        }
+    }
+    return null;
+}
+
+/** Camp del repertori d'una capçalera ja normalitzada */
+function endevina_camp_obra(string $c): ?string
+{
+    $sinonims = [
+        'numero_arxiu' => ['numero arxiu', 'num arxiu', 'n arxiu', 'numero d arxiu', 'numero de arxiu', 'arxiu', 'numero archivo', 'num archivo', 'n archivo', 'numero de archivo',
+            'archivo', 'referencia', 'ref', 'codi', 'codigo', 'signatura', 'numero', 'num', 'n', 'n o', 'no'],
+        'tipus_obra' => ['tipus', 'tipo', 'tipus d obra', 'tipus de obra', 'tipo de obra', 'genere', 'genero', 'estil', 'estilo', 'categoria', 'forma', 'classe', 'clase'],
+        'arranjador' => ['arranjador', 'arranjadora', 'arranjador a', 'arranjament', 'arreglista', 'arreglo', 'arreglador', 'arreglador a', 'arranger', 'adaptacio', 'adaptacion',
+            'instrumentacio', 'instrumentacion', 'orquestracio', 'orquestacion', 'transcripcio', 'transcripcion'],
+        'compositor' => ['compositor', 'compositora', 'compositor a', 'autor', 'autora', 'autor a', 'musica', 'composer'],
+        'agrupacions' => ['agrupacio', 'agrupacions', 'agrupacion', 'agrupaciones', 'formacio', 'formacion', 'formacions', 'formaciones', 'plantilla', 'grup', 'grupo'],
+        'ubicacio' => ['ubicacio', 'ubicacion', 'ubicacio fisica', 'ubicacion fisica', 'lloc', 'lugar', 'armari', 'armario', 'prestatgeria', 'estanteria', 'carpeta',
+            'localitzacio', 'localizacion', 'situacio', 'situacion'],
+        'material' => ['material', 'format', 'formato', 'format material', 'contingut', 'contenido', 'particelles', 'particellas'],
+        'estat_obra' => ['estat', 'estado', 'condicio', 'condicion', 'conservacio', 'conservacion'],
+        'digitalitzada' => ['digitalitzada', 'digitalitzat', 'digitalizada', 'digitalizado', 'digital', 'escanejada', 'escaneada', 'pdf'],
+        'observacions' => ['observacions', 'observaciones', 'notes', 'notas', 'comentaris', 'comentarios'],
+        'titol' => ['titol', 'titulo', 'obra', 'nom de l obra', 'nombre de la obra', 'title', 'nom', 'nombre'],
+    ];
+    foreach ($sinonims as $camp => $llista) {
+        if (in_array($c, $llista, true)) {
+            return $camp;
+        }
+    }
+    foreach ($sinonims as $camp => $llista) {
+        foreach ($llista as $s) {
+            if (strlen($s) > 3 && str_contains(" $c ", " $s ")) {
+                return $camp;
             }
         }
     }
@@ -495,7 +542,7 @@ function pagina_importa(): void
 {
     requereix('persones.edit');
     $pas = get('pas');
-    if (get('plantilla') !== '' && isset(TIPUS_IMPORTACIO[get('plantilla')])) {
+    if (get('plantilla') !== '' && isset(tipus_importacio_disponibles()[get('plantilla')])) {
         plantilla_importacio(get('plantilla'));
     }
     $imp = llig_importacio();
@@ -506,7 +553,7 @@ function pagina_importa(): void
         if ($accio === 'puja') {
             $tipus = post('tipus');
             $up = $_FILES['fitxer'] ?? null;
-            if (!isset(TIPUS_IMPORTACIO[$tipus]) || !pot(TIPUS_IMPORTACIO[$tipus])) {
+            if (!isset(tipus_importacio_disponibles()[$tipus])) {
                 avis(t('err.permis'), 'error');
                 redirigeix('importa');
             }
@@ -557,8 +604,8 @@ function pagina_importa(): void
                 $vist[$camp] = true;
                 $assignacio[$c] = $camp;
             }
-            if (!isset($vist['nom']) && !isset($vist['nom_complet'])) {
-                $error = t('imp.err_cal_nom');
+            if ($imp['tipus'] === 'obres' ? !isset($vist['titol']) : !isset($vist['nom']) && !isset($vist['nom_complet'])) {
+                $error = t($imp['tipus'] === 'obres' ? 'imp.err_cal_titol' : 'imp.err_cal_nom');
             }
             $imp['assignacio'] = $assignacio;
             $imp['capcalera'] = post('capcalera') === '1';
@@ -571,7 +618,8 @@ function pagina_importa(): void
         }
         if ($accio === 'importa') {
             requereix(TIPUS_IMPORTACIO[$imp['tipus']]);
-            $fet = executa_importacio($imp, analitza_importacio($imp), (array)($_POST['mateixa'] ?? []));
+            $fet = $imp['tipus'] === 'obres' ? executa_importacio_obres($imp, analitza_obres($imp), (array)($_POST['mateixa'] ?? []))
+                : executa_importacio($imp, analitza_importacio($imp), (array)($_POST['mateixa'] ?? []));
             $_SESSION['imp_resultat'] = $fet + ['tipus' => $imp['tipus']];
             esborra_importacio();
             redirigeix('importa', ['pas' => 'fet']);
@@ -579,6 +627,17 @@ function pagina_importa(): void
         redirigeix('importa');
     }
 
+    if ($pas === 'fet' && isset($_SESSION['imp_resultat']) && $_SESSION['imp_resultat']['tipus'] === 'obres') {
+        $f = $_SESSION['imp_resultat'];
+        $html = '<div class="avis ok">' . h(t('imp.fet')) . '</div><div class="targetes">'
+            . targeta((string)$f['noves'], t('imp.res_obres_noves')) . targeta((string)$f['actualitzades'], t('imp.res_actualitzades'))
+            . ($f['tipus_nous'] ? targeta((string)$f['tipus_nous'], t('imp.res_tipus_nous'), url('llista', ['e' => 'tipus_obres'])) : '')
+            . targeta((string)$f['saltades'], t('imp.res_saltades')) . '</div>'
+            . '<div class="accions"><a class="boto" href="' . h(url('repertori')) . '">🎼 ' . h(t('menu.repertori')) . '</a>'
+            . '<a class="boto secundari" href="' . h(url('importa', ['pas' => 'nova'])) . '">' . h(t('imp.altra')) . '</a></div>';
+        pagina(t('menu.importa'), $html);
+        return;
+    }
     if ($pas === 'fet' && isset($_SESSION['imp_resultat'])) {
         $f = $_SESSION['imp_resultat'];
         $html = '<div class="avis ok">' . h(t('imp.fet')) . '</div><div class="targetes">'
@@ -624,6 +683,10 @@ function pagina_importa(): void
     }
 
     // Pas 3: revisar
+    if ($pas === 'revisa' && $imp && $imp['tipus'] === 'obres') {
+        pagina(t('imp.pas3'), revisio_obres($imp, $torna), t('menu.importa'));
+        return;
+    }
     if ($pas === 'revisa' && $imp) {
         $analisi = analitza_importacio($imp);
         $compte = array_count_values(array_column($analisi, 'estat')) + ['nova' => 0, 'existeix' => 0, 'possible' => 0, 'repetida' => 0, 'error' => 0];
@@ -659,7 +722,7 @@ function pagina_importa(): void
     }
 
     // Pas 1: pujar el fitxer
-    $tipusOk = array_filter(TIPUS_IMPORTACIO, fn($cap) => pot($cap));
+    $tipusOk = tipus_importacio_disponibles();
     $html = '<p>' . h(t('imp.intro')) . '</p>'
         . '<form method="post" enctype="multipart/form-data" class="formulari">' . csrf_camp() . '<input type="hidden" name="accio" value="puja"><div class="camps">'
         . '<fieldset class="camp ample"><legend>' . h(t('imp.que')) . '</legend><div class="opcions vertical">';
@@ -676,4 +739,227 @@ function pagina_importa(): void
     }
     $html .= '</div></section><div class="avis info">' . h(t('imp.consell_copia')) . '</div>';
     pagina(t('menu.importa'), $html);
+}
+
+/* ---------- Repertori ---------- */
+
+/** «Completa», «falta el 2n clarinet»… → estat de l'obra; [estat, reconegut] */
+function estat_obra_importat(string $v): array
+{
+    $n = normalitza_text($v);
+    return match (true) {
+        $n === '' => ['complet', true],
+        str_contains($n, 'incomplet') || str_contains($n, 'falta') => ['incomplet', true],
+        str_contains($n, 'revis') => ['en_revisio', true],
+        str_contains($n, 'retir') || str_contains($n, 'baixa') || str_contains($n, 'baja') || str_contains($n, 'perdu') => ['retirat', true],
+        str_contains($n, 'complet') || in_array($n, ['ok', 'be', 'bien', 'si'], true) => ['complet', true],
+        default => ['complet', false],
+    };
+}
+
+function si_importat(string $v): bool
+{
+    return in_array(normalitza_text($v), ['si', 's', 'yes', 'y', 'x', '1', 'true', 'vertader', 'verdadero', 'digitalitzada', 'digitalizada'], true);
+}
+
+/** Clau per a reconéixer una obra que ja és al catàleg (sense número d'arxiu): títol i compositor */
+function clau_obra(string $titol, ?string $compositor): string
+{
+    return normalitza_text($titol) . '|' . normalitza_text((string)$compositor);
+}
+
+/**
+ * Analitza les files d'un full d'obres. Cada resultat: n, estat (nova, existeix, repetida, error), obra (camps),
+ * agrupacions (ids), tipus_nom, tipus_id (null si és un tipus nou), obra_id, avisos, error
+ */
+function analitza_obres(array $imp): array
+{
+    $files = $imp['files'];
+    $primera = $imp['capcalera'] ? 2 : 1;
+    if ($imp['capcalera']) {
+        array_shift($files);
+    }
+    $perNumero = $perClau = [];
+    foreach (q('SELECT id, titol, compositor, numero_arxiu FROM obres')->fetchAll() as $o) {
+        if ($o['numero_arxiu'] !== null) {
+            $perNumero[mb_strtolower($o['numero_arxiu'])] = (int)$o['id'];
+        } else {
+            $perClau[clau_obra($o['titol'], $o['compositor'])] = (int)$o['id'];
+        }
+    }
+    $tipus = [];
+    foreach (q('SELECT id, nom FROM tipus_obres')->fetchAll() as $t) {
+        $tipus[normalitza_text($t['nom'])] = (int)$t['id'];
+    }
+    $agrupacions = [];
+    foreach (q('SELECT id, nom FROM agrupacions')->fetchAll() as $a) {
+        $agrupacions[normalitza_text($a['nom'])] = [(int)$a['id'], $a['nom']];
+    }
+    $vistes = [];
+    $resultat = [];
+    foreach ($files as $i => $fila) {
+        $v = fn(string $c) => valor_columna($fila, $imp['assignacio'], $c);
+        $r = ['n' => $i + $primera, 'estat' => 'nova', 'obra_id' => null, 'avisos' => [], 'error' => null, 'agrupacions' => [], 'tipus_nom' => '', 'tipus_id' => null];
+        if (implode('', array_map(fn($x) => trim((string)$x), $fila)) === '') {
+            continue; // fila buida
+        }
+        $numero = trim(preg_replace('/\s+/', ' ', $v('numero_arxiu')));
+        [$estat, $reconegut] = estat_obra_importat($v('estat_obra'));
+        if (!$reconegut) {
+            $r['avisos'][] = t('imp.av_estat_obra', $v('estat_obra'));
+        }
+        $r['obra'] = ['titol' => $v('titol'), 'compositor' => $v('compositor'), 'arranjador' => $v('arranjador'), 'numero_arxiu' => $numero,
+            'ubicacio' => $v('ubicacio'), 'material' => $v('material'), 'estat' => $estat, 'digitalitzada' => si_importat($v('digitalitzada')) ? 1 : 0,
+            'observacions' => $v('observacions')];
+        // Tipus: el de Compàs amb el mateix nom; si no n'hi ha cap, es crearà
+        $tn = trim($v('tipus_obra'));
+        if ($tn !== '') {
+            $r['tipus_nom'] = $tn;
+            $r['tipus_id'] = $tipus[normalitza_text($tn)] ?? null;
+            if ($r['tipus_id'] === null) {
+                $r['avisos'][] = t('imp.av_tipus_obra_nou', $tn);
+            }
+        }
+        // Agrupacions separades per comes, punts i coma o barres
+        foreach (preg_split('/\s*[,;\/]\s*/u', $v('agrupacions')) as $nomA) {
+            $nomA = trim($nomA);
+            if ($nomA === '') {
+                continue;
+            }
+            $a = $agrupacions[normalitza_text($nomA)] ?? null;
+            if (!$a) {
+                foreach ($agrupacions as $k => $x) {
+                    if (str_contains(" $k ", ' ' . normalitza_text($nomA) . ' ')) {
+                        $a = $x;
+                        break;
+                    }
+                }
+            }
+            if ($a) {
+                $r['agrupacions'][$a[0]] = $a[1];
+            } else {
+                $r['avisos'][] = t('imp.av_agrupacio', $nomA);
+            }
+        }
+        if ($r['obra']['titol'] === '') {
+            $r['estat'] = 'error';
+            $r['error'] = t('imp.err_sense_titol');
+        } else {
+            $clau = $numero !== '' ? 'n:' . mb_strtolower($numero) : 'c:' . clau_obra($r['obra']['titol'], $r['obra']['compositor']);
+            if (isset($vistes[$clau])) {
+                $r['estat'] = 'repetida';
+                $r['avisos'][] = t('imp.av_repetida', $vistes[$clau]);
+            } else {
+                $vistes[$clau] = $r['n'];
+                $r['obra_id'] = $numero !== '' ? ($perNumero[mb_strtolower($numero)] ?? $perClau[clau_obra($r['obra']['titol'], $r['obra']['compositor'])] ?? null)
+                    : ($perClau[clau_obra($r['obra']['titol'], $r['obra']['compositor'])] ?? null);
+                if ($r['obra_id']) {
+                    $r['estat'] = 'existeix';
+                }
+            }
+        }
+        $resultat[$i] = $r;
+    }
+    return $resultat;
+}
+
+/** Importa les obres: les noves es creen; les que ja hi són només s'actualitzen si s'ha marcat */
+function executa_importacio_obres(array $imp, array $analisi, array $actualitza): array
+{
+    $fet = ['noves' => 0, 'actualitzades' => 0, 'saltades' => 0, 'tipus_nous' => 0];
+    fes_copia('abans-importar');
+    db()->beginTransaction();
+    $nousTipus = [];
+    foreach ($analisi as $i => $r) {
+        if (in_array($r['estat'], ['error', 'repetida'], true) || ($r['estat'] === 'existeix' && empty($actualitza[$i]))) {
+            $fet['saltades']++;
+            continue;
+        }
+        $tipusId = $r['tipus_id'];
+        if ($tipusId === null && $r['tipus_nom'] !== '') {
+            $k = normalitza_text($r['tipus_nom']);
+            if (!isset($nousTipus[$k])) {
+                q('INSERT INTO tipus_obres(nom, ordre) VALUES(?, ?)', [$r['tipus_nom'], (int)valor('SELECT COALESCE(MAX(ordre), 0) FROM tipus_obres') + 10]);
+                $nousTipus[$k] = (int)db()->lastInsertId();
+                $fet['tipus_nous']++;
+            }
+            $tipusId = $nousTipus[$k];
+        }
+        $o = $r['obra'];
+        $nul = fn($x) => $x === '' ? null : $x;
+        if ($r['estat'] === 'existeix') {
+            // Només es canvia el que porta el full; les agrupacions s'afigen a les que ja tenia
+            $sets = [];
+            $params = [];
+            foreach (['titol', 'compositor', 'arranjador', 'numero_arxiu', 'ubicacio', 'material', 'observacions'] as $c) {
+                if ($o[$c] !== '' && in_array($c === 'numero_arxiu' ? 'numero_arxiu' : $c, $imp['assignacio'], true)) {
+                    $sets[] = "$c = ?";
+                    $params[] = $o[$c];
+                }
+            }
+            if (in_array('estat_obra', $imp['assignacio'], true)) {
+                $sets[] = 'estat = ?';
+                $params[] = $o['estat'];
+            }
+            if (in_array('digitalitzada', $imp['assignacio'], true)) {
+                $sets[] = 'digitalitzada = ?';
+                $params[] = $o['digitalitzada'];
+            }
+            if ($tipusId) {
+                $sets[] = 'tipus_id = ?';
+                $params[] = $tipusId;
+            }
+            if ($sets) {
+                $params[] = $r['obra_id'];
+                q('UPDATE obres SET ' . implode(', ', $sets) . ' WHERE id = ?', $params);
+            }
+            $id = (int)$r['obra_id'];
+            $fet['actualitzades']++;
+        } else {
+            q('INSERT INTO obres(titol, tipus_id, compositor, arranjador, numero_arxiu, ubicacio, material, estat, digitalitzada, observacions) VALUES(?,?,?,?,?,?,?,?,?,?)',
+                [$o['titol'], $tipusId, $nul($o['compositor']), $nul($o['arranjador']), $nul($o['numero_arxiu']), $nul($o['ubicacio']), $nul($o['material']), $o['estat'],
+                    $o['digitalitzada'], $nul($o['observacions'])]);
+            $id = (int)db()->lastInsertId();
+            $fet['noves']++;
+        }
+        foreach (array_keys($r['agrupacions']) as $a) {
+            q('INSERT OR IGNORE INTO obra_agrupacions(obra_id, agrupacio_id) VALUES(?, ?)', [$id, $a]);
+        }
+    }
+    audita('importacio', 'obres', null, $imp['nom_fitxer'] . ' · ' . json_encode($fet));
+    db()->commit();
+    return $fet;
+}
+
+/** Pas 3 de la importació del repertori: revisar */
+function revisio_obres(array $imp, string $torna): string
+{
+    $analisi = analitza_obres($imp);
+    $compte = array_count_values(array_column($analisi, 'estat')) + ['nova' => 0, 'existeix' => 0, 'repetida' => 0, 'error' => 0];
+    $html = $torna . '<p>' . h(t('imp.pas3_obres')) . '</p><div class="targetes">';
+    foreach (['nova', 'existeix', 'repetida', 'error'] as $e) {
+        if ($compte[$e] || in_array($e, ['nova', 'existeix'], true)) {
+            $html .= targeta((string)$compte[$e], t('imp.estat_obra.' . $e));
+        }
+    }
+    $html .= '</div><form method="post">' . csrf_camp() . '<input type="hidden" name="accio" value="importa">'
+        . '<div class="taula-wrap"><table class="taula compacta revisio-imp"><thead><tr><th>' . h(t('imp.fila')) . '</th><th>' . h(t('imp.estat')) . '</th><th>'
+        . h(t('rep.num')) . '</th><th>' . h(t('camp.titol')) . '</th><th>' . h(t('rep.tipus_obra')) . '</th><th>' . h(t('camp.compositor')) . '</th><th>'
+        . h(t('camp.agrupacions')) . '</th><th>' . h(t('imp.avisos')) . '</th></tr></thead><tbody>';
+    foreach ($analisi as $i => $r) {
+        $o = $r['obra'];
+        $estat = '<span class="estat-imp ' . h($r['estat']) . '">' . h(t('imp.estat_obra.' . $r['estat'])) . '</span>';
+        if ($r['estat'] === 'existeix') {
+            $estat .= '<label class="mateixa"><input type="checkbox" name="mateixa[' . $i . ']" value="1"> ' . h(t('imp.actualitza_obra')) . '</label><small><a target="_blank" href="'
+                . h(url('fitxa', ['e' => 'obres', 'id' => $r['obra_id']])) . '">' . h((string)valor('SELECT titol FROM obres WHERE id = ?', [$r['obra_id']])) . '</a></small>';
+        }
+        $avisos = $r['error'] ? [$r['error']] : $r['avisos'];
+        $html .= '<tr class="imp-' . h($r['estat']) . '"><td class="num">' . $r['n'] . '</td><td>' . $estat . '</td><td>' . h($o['numero_arxiu']) . '</td><td>' . h($o['titol'])
+            . '</td><td>' . h($r['tipus_nom']) . ($r['tipus_nom'] !== '' && !$r['tipus_id'] ? ' <span class="etiqueta">' . h(t('imp.nou')) . '</span>' : '') . '</td><td>'
+            . h($o['compositor']) . '</td><td>' . h(implode(', ', $r['agrupacions'])) . '</td><td class="avisos-imp">' . implode('<br>', array_map('h', $avisos)) . '</td></tr>';
+    }
+    $html .= '</tbody></table></div><p class="nota">' . h(t('imp.pas3_obres_nota')) . '</p>'
+        . '<div class="accions"><button onclick="return confirm(\'' . h(t('imp.confirma_obres', $compte['nova'])) . '\')">⬆ ' . h(t('imp.importa')) . '</button>'
+        . '<a class="boto secundari" href="' . h(url('importa', ['pas' => 'columnes'])) . '">← ' . h(t('imp.pas2')) . '</a></div></form>';
+    return $html;
 }

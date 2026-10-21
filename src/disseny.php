@@ -23,6 +23,7 @@ function menu(): array
         ['_agrup', 'menu.agrupacions', null, null],
         ['agrupacions', 'ent.agrupacions', 'agrupacions.view', '🎺'],
         ['membres', 'ent.membres', 'agrupacions.view', '🎶'],
+        ['repertori', 'menu.repertori', 'agrupacions.view', '🎼'],
         ['_instr', 'menu.material', null, null],
         ['instruments', 'ent.instruments', 'instruments.view', '🎷'],
         ['cessions', 'ent.cessions', 'instruments.view', '⇄'],
@@ -69,7 +70,7 @@ function html_menu(): string
     }
     $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'talonaris' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia',
         'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents',
-        'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis'][$actual] ?? $actual;
+        'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis', 'obres' => 'repertori', 'tipus_obres' => 'repertori'][$actual] ?? $actual;
     $items = [];
     $seccio = null;
     foreach (menu() as [$clau, $etq, $cap, $icona]) {

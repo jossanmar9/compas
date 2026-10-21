@@ -33,7 +33,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/capacitats.php` | Capacitats i rols per defecte. |
 | `src/entitats.php` | Definició declarativa de cada entitat: camps, relacions i validacions. |
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
-| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, caixa (llibre de caixa), societat (junta, actes, documents, full d'alta, comunicats), rgpd, uniformes, usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
+| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, caixa (llibre de caixa), societat (junta, actes, documents, full d'alta, comunicats), rgpd, uniformes, repertori, usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
 | `src/fulls.php` | Lectura de CSV i Excel (.xlsx) per a la importació, sense l'extensió zip: llig el directori central del zip i descomprimeix amb `gzinflate`. |
 | `src/xifrat.php` | Xifrat de les còpies externes amb libsodium. |
 | `src/sepa.php` | IBAN (mòdul 97), identificador de creditor SEPA, text amb el joc de caràcters SEPA i XML de la remesa (pain.008.001.02 o .08, CORE; un bloc FRST per als mandats que no s'han usat mai i un RCUR per a la resta). |
@@ -59,6 +59,7 @@ Si una versió nova afig columnes a una taula que ja existeix, cal posar-les a `
 - Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
 - Economia: `tarifes`, `mandats`, `remeses`, `rebuts` → `rebut_linies`, `loteries` → `talonaris`, `moviments` (llibre de caixa: només els apunts manuals; rebuts, remeses i loteria s'hi sumen en llegir-lo).
 - Societat: `carrecs` (persona + càrrec + dates; vigent si no té `data_fi`), `reunions` (convocatòria, acta i acords en text, un per línia), `comunicats`.
+- Repertori: `tipus_obres` (definits per cada societat; `sembra_tipus_obres()` en crea uns quants la primera vegada) → `obres` (número d'arxiu únic quan n'hi ha) ↔ `obra_agrupacions` (molts a molts amb `agrupacions`). Al formulari genèric, les agrupacions són un camp virtual de tipus `refs` (caselles). La pantalla `?r=repertori` (`src/pages/repertori.php`) fa la cerca, els filtres, l'ordre natural, la impressió i el CSV; la importació (`analitza_obres`, `executa_importacio_obres`) va pel mateix assistent que la de persones.
 - Tipus de soci: `tipus_socis`, definits per cada societat. `socis.tipus` i `tarifes.tipus_soci` guarden l'id (en text). Fins a la 1.10 eren quatre codis fixos (`ordinari`, `protector`, `juvenil`, `honorari`): `sembra_tipus_socis()` crea els quatre tipus la primera vegada (en la configuració inicial, o en obrir una base de dades antiga) i hi passa els codis; `tipus_socis.codi` en guarda l'origen.
 - Uniformes: `uniformes` (talles en text, separades per comes) → `uniforme_compres` i `uniforme_lliuraments` (venda, préstec o gratuït). Les existències es calculen: comprades − lliurades + préstecs tornats.
 - Mòduls: `MODULS` (a `entitats.php`) diu quines pantalles i entitats té cada mòdul; `config.moduls_desactivats` i `config.avisos_desactivats` guarden el que ha desactivat la societat. `disponible()` amaga el menú, les fitxes filles i els informes, i `app/index.php` no obri les pantalles d'un mòdul desactivat.
@@ -82,7 +83,7 @@ Si una versió nova afig columnes a una taula que ja existeix, cal posar-les a `
 ## Pendent (pròximes versions)
 
 - Calendari d'assajos, concerts i activitats (amb els espais municipals); repertori de les agrupacions.
-- Arxiu musical i SGAE, subvencions.
+- Repertori de cada concert (SGAE), subvencions.
 
 ## Notes
 

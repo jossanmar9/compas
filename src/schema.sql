@@ -459,6 +459,35 @@ CREATE TABLE IF NOT EXISTS uniforme_lliuraments (
     observacions TEXT
 );
 
+-- Repertori: catàleg de l'arxiu musical (només el catàleg i on és el material físic)
+CREATE TABLE IF NOT EXISTS tipus_obres (
+    id           INTEGER PRIMARY KEY,
+    nom          TEXT NOT NULL,
+    ordre        INTEGER,
+    estat        TEXT NOT NULL DEFAULT 'actiu',
+    observacions TEXT
+);
+
+CREATE TABLE IF NOT EXISTS obres (
+    id            INTEGER PRIMARY KEY,
+    titol         TEXT NOT NULL,
+    tipus_id      INTEGER REFERENCES tipus_obres(id) ON DELETE RESTRICT,
+    compositor    TEXT,
+    arranjador    TEXT,
+    numero_arxiu  TEXT,
+    ubicacio      TEXT,
+    material      TEXT,
+    estat         TEXT NOT NULL DEFAULT 'complet',
+    digitalitzada INTEGER NOT NULL DEFAULT 0,
+    observacions  TEXT
+);
+
+CREATE TABLE IF NOT EXISTS obra_agrupacions (
+    obra_id      INTEGER NOT NULL REFERENCES obres(id) ON DELETE CASCADE,
+    agrupacio_id INTEGER NOT NULL REFERENCES agrupacions(id) ON DELETE CASCADE,
+    PRIMARY KEY (obra_id, agrupacio_id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_persones_cognoms ON persones(cognoms, nom);
 CREATE INDEX IF NOT EXISTS idx_membres_agrup ON membres(agrupacio_id);
 CREATE INDEX IF NOT EXISTS idx_grups_curs ON grups(curs_id);
@@ -468,7 +497,7 @@ CREATE INDEX IF NOT EXISTS idx_auditoria_data ON auditoria(data);
 CREATE INDEX IF NOT EXISTS idx_rebuts_persona ON rebuts(persona_id);
 CREATE INDEX IF NOT EXISTS idx_rebuts_estat ON rebuts(estat, forma_pagament);
 CREATE INDEX IF NOT EXISTS idx_linies_rebut ON rebut_linies(rebut_id);
-CREATE INDEX IF NOT EXISTS idx_mandats_persona ON mandats(persona_id);
+DROP INDEX IF EXISTS idx_mandats_persona; -- el cobreix idx_mandats_persona_estat_data
 CREATE INDEX IF NOT EXISTS idx_talonaris_loteria ON talonaris(loteria_id);
 CREATE INDEX IF NOT EXISTS idx_carrecs_persona ON carrecs(persona_id);
 CREATE INDEX IF NOT EXISTS idx_moviments_data ON moviments(data);
@@ -476,7 +505,6 @@ CREATE INDEX IF NOT EXISTS idx_ucompres_uniforme ON uniforme_compres(uniforme_id
 CREATE INDEX IF NOT EXISTS idx_ulliuraments_uniforme ON uniforme_lliuraments(uniforme_id);
 CREATE INDEX IF NOT EXISTS idx_ulliuraments_persona ON uniforme_lliuraments(persona_id);
 
--- Indexs addicionals de rendiment
 -- Índexs addicionals de rendiment per a Compàs.
 -- Revisats per a evitar duplicar els UNIQUE i els índexs ja presents a schema.sql.
 
@@ -510,3 +538,9 @@ CREATE INDEX IF NOT EXISTS idx_linies_alumne ON rebut_linies(alumne_id);
 CREATE INDEX IF NOT EXISTS idx_talonaris_persona ON talonaris(persona_id);
 CREATE INDEX IF NOT EXISTS idx_documents_persona ON documents(persona_id);
 CREATE INDEX IF NOT EXISTS idx_auditoria_usuari ON auditoria(usuari_id);
+
+-- Repertori
+CREATE UNIQUE INDEX IF NOT EXISTS idx_obres_numero ON obres(numero_arxiu);
+CREATE INDEX IF NOT EXISTS idx_obres_titol ON obres(titol);
+CREATE INDEX IF NOT EXISTS idx_obres_tipus ON obres(tipus_id);
+CREATE INDEX IF NOT EXISTS idx_obra_agrupacions_agrupacio ON obra_agrupacions(agrupacio_id);

@@ -481,6 +481,10 @@ async def fes_captures(l: str):
             await c.ves('?r=edita&e=uniforme_lliuraments')
             await c.omple({'uniforme_id': 'Polo de la banda', 'talla': 'M', 'tipus': 'venda'})
             await c.foto('79-uniforme-lliurament', 'input[name="talla"]', 'select[name="tipus"]', alt_max=1000)
+            await c.ves('?r=repertori')
+            await c.foto('81-repertori', 'input[name="q"]', 'a.boto[href*="r=importa"]', alt_max=1500)
+            await c.ves('?r=edita&e=obres&id=3')
+            await c.foto('82-obra', 'input[name="numero_arxiu"]', 'input[name="ubicacio"]', alt_max=1100)
             await c.ves('?r=moduls')
             await c.foto('80-moduls', 'input[value="loteria"]', alt_max=1400)
 

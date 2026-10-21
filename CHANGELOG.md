@@ -8,11 +8,26 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.13.0] - 2026-10-21 · Edició Repertori 🎼
+
+### Afegit
+- **Repertori**: el catàleg de l'arxiu musical de la societat. Cada obra té títol, tipus d'obra, compositor/a, arranjador/a, les agrupacions que la poden interpretar, número d'arxiu (es proposa el següent i no es pot repetir), ubicació física, material, estat (complet, incomplet, en revisió o retirat), si està digitalitzada i observacions.
+- Pantalla del repertori amb cerca (títol, compositor, número d'arxiu, ubicació…), filtres per tipus, agrupació, estat i digitalització, ordenació (títol, compositor, número d'arxiu, tipus o ubicació), impressió i exportació a CSV.
+- **Tipus d'obra** propis de cada societat (pasdoble, marxa mora, marxa cristiana, marxa de processó, obertura, poema simfònic…).
+- **Importació del repertori** des d'Excel o CSV: reconeix les columnes habituals, crea els tipus que falten, assigna les agrupacions pel nom i no duplica les obres que ja hi són (es poden actualitzar si es vol). El CSV que s'exporta es pot tornar a importar.
+- A la fitxa de cada agrupació, l'enllaç a les seues obres. El repertori es pot desactivar a **Mòduls i avisos**.
+- Compàs només guarda el catàleg: no guarda partitures ni fitxers.
+
+### Canviat
+- La documentació de les proves automàtiques (abans `ACTUALITZACIO.md` i `README-PROVA-RENDIMENT.md`) passa a `tests/README.md`.
+- S'esborra l'índex `idx_mandats_persona`, que ja cobreix `idx_mandats_persona_estat_data`.
+- Les dades d'exemple porten un repertori.
+
 ## [1.12.0] - 2026-10-21
 
 ### Afegit
 - Proves automatitzades per a IBAN, BIC, SEPA i còpies de seguretat xifrades.
-- Integració amb GitHub Actions per comprovar la sintaxi, executar proves i validar l'aplicació amb cada canvi.
+- Integració amb GitHub Actions per a comprovar la sintaxi, executar proves i validar l'aplicació amb cada canvi.
 - Prova específica de rendiment de SQLite amb una base de dades gran.
 
 ### Canviat
@@ -207,6 +222,8 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.13.0]: https://github.com/jossanmar9/compas/releases/tag/v1.13.0
+[1.12.0]: https://github.com/jossanmar9/compas/releases/tag/v1.12.0
 [1.11.2]: https://github.com/jossanmar9/compas/releases/tag/v1.11.2
 [1.11.1]: https://github.com/jossanmar9/compas/releases/tag/v1.11.1
 [1.11.0]: https://github.com/jossanmar9/compas/releases/tag/v1.11.0

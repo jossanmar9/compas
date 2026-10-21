@@ -52,6 +52,7 @@ Un projecte de **José Vicente Sanjuan**.
 | **Butlletins** | Butlletins de notes en A4 amb el logotip i les dades de la societat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
 | **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
 | **Agrupacions** | Banda, banda juvenil, coral, orquestra, cambra… amb els membres, l'instrument o veu i la funció (direcció titular, assistent…). |
+| **Repertori** | Catàleg de l'arxiu musical: títol, tipus d'obra (els de cada societat), compositor, arranjador, agrupacions que la poden interpretar, número d'arxiu, ubicació física, material, estat i si està digitalitzada. Cerca, filtres, ordenació, impressió, CSV i importació des d'Excel. No guarda partitures: només el catàleg. |
 | **Instruments** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
 | **Uniformes** | Polos, samarretes, dessuadores, motxilles… per talla: compres, vendes, préstecs i el que queda de cada talla. |
 | **Quotes i rebuts** | Tarifes de les quotes de soci (per tipus i periodicitat), de la matrícula i de les classes. Rebuts generats per període: un per soci i un per família a l'escola, amb descomptes de soci, de germans i propis. Cobrament en efectiu, transferència o domiciliació, rebuts retornats i qui deu diners. Rebuts amb el logotip per a imprimir. |
@@ -206,6 +207,8 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 | `python3 eines/captures.py` | Torna a fer totes les captures dels manuals (`docs/imatges/ca` i `es`) recorrent cada procés amb dades d'exemple. Requereix Pillow i Playwright. |
 | `php eines/document-html.php docs/manual-usuari.md eixida.html` | Prepara un manual com a pàgina A4 amb portada; després s'imprimeix en PDF amb Chrome o Edge. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
+| `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades). Vegeu [tests/README.md](tests/README.md). |
+| `php tests/performance.php` | Prova de rendiment de SQLite amb 100.000 rebuts. |
 
 ## Publicar una versió
 
@@ -225,7 +228,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 ## Pròximes versions
 
 - Calendari d'assajos, concerts i activitats, amb els espais que cal demanar a l'ajuntament; convocatòries i repertori de les agrupacions.
-- Arxiu musical (partitures) i repertori per a la declaració a la SGAE.
+- Repertori interpretat en cada concert, per a la declaració a la SGAE.
 - Subvencions: sol·licituds, terminis i justificacions.
 - Cobrament per Bizum o TPV en el registre dels rebuts.
 
