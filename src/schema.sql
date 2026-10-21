@@ -43,12 +43,14 @@ CREATE TABLE IF NOT EXISTS socis (
 );
 
 CREATE TABLE IF NOT EXISTS alumnes (
-    id           INTEGER PRIMARY KEY,
-    persona_id   INTEGER NOT NULL UNIQUE REFERENCES persones(id) ON DELETE RESTRICT,
-    data_alta    TEXT,
-    data_baixa   TEXT,
-    estat        TEXT NOT NULL DEFAULT 'actiu',
-    observacions TEXT
+    id            INTEGER PRIMARY KEY,
+    persona_id    INTEGER NOT NULL UNIQUE REFERENCES persones(id) ON DELETE RESTRICT,
+    data_alta     TEXT,
+    data_baixa    TEXT,
+    estat         TEXT NOT NULL DEFAULT 'actiu',
+    pagador_id    INTEGER REFERENCES persones(id) ON DELETE SET NULL,
+    descompte_pct REAL,
+    observacions  TEXT
 );
 
 CREATE TABLE IF NOT EXISTS professors (
@@ -207,6 +209,97 @@ CREATE TABLE IF NOT EXISTS cessions (
     observacions   TEXT
 );
 
+-- Economia: tarifes (quotes de soci, matrícula, classes), mandats SEPA, rebuts i remeses
+CREATE TABLE IF NOT EXISTS tarifes (
+    id             INTEGER PRIMARY KEY,
+    nom            TEXT NOT NULL,
+    tipus          TEXT NOT NULL,
+    tipus_soci     TEXT,
+    assignatura_id INTEGER REFERENCES assignatures(id) ON DELETE RESTRICT,
+    periodicitat   TEXT NOT NULL,
+    import         REAL NOT NULL,
+    estat          TEXT NOT NULL DEFAULT 'actiu',
+    observacions   TEXT
+);
+
+-- Ordre de domiciliació (mandat SEPA) signada pel titular del compte
+CREATE TABLE IF NOT EXISTS mandats (
+    id             INTEGER PRIMARY KEY,
+    persona_id     INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    titular        TEXT,
+    iban           TEXT NOT NULL,
+    bic            TEXT,
+    referencia     TEXT UNIQUE,
+    data_signatura TEXT NOT NULL,
+    ultim_us       TEXT,
+    estat          TEXT NOT NULL DEFAULT 'actiu',
+    observacions   TEXT
+);
+
+CREATE TABLE IF NOT EXISTS remeses (
+    id              INTEGER PRIMARY KEY,
+    referencia      TEXT NOT NULL UNIQUE,
+    data_creacio    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+    data_cobrament  TEXT NOT NULL,
+    estat           TEXT NOT NULL DEFAULT 'preparada',
+    observacions    TEXT
+);
+
+CREATE TABLE IF NOT EXISTS rebuts (
+    id             INTEGER PRIMARY KEY,
+    numero         TEXT UNIQUE,
+    persona_id     INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    concepte       TEXT NOT NULL,
+    tipus          TEXT NOT NULL DEFAULT 'altre',
+    periode        TEXT,
+    data_emissio   TEXT NOT NULL,
+    import         REAL NOT NULL DEFAULT 0,
+    forma_pagament TEXT NOT NULL DEFAULT 'efectiu',
+    estat          TEXT NOT NULL DEFAULT 'pendent',
+    data_pagament  TEXT,
+    mandat_id      INTEGER REFERENCES mandats(id) ON DELETE SET NULL,
+    remesa_id      INTEGER REFERENCES remeses(id) ON DELETE SET NULL,
+    clau           TEXT UNIQUE,
+    observacions   TEXT
+);
+
+CREATE TABLE IF NOT EXISTS rebut_linies (
+    id        INTEGER PRIMARY KEY,
+    rebut_id  INTEGER NOT NULL REFERENCES rebuts(id) ON DELETE CASCADE,
+    concepte  TEXT NOT NULL,
+    import    REAL NOT NULL,
+    alumne_id INTEGER REFERENCES alumnes(id) ON DELETE SET NULL,
+    ordre     INTEGER NOT NULL DEFAULT 0
+);
+
+-- Loteria: sorteigs i talonaris de participacions repartits
+CREATE TABLE IF NOT EXISTS loteries (
+    id                      INTEGER PRIMARY KEY,
+    nom                     TEXT NOT NULL,
+    data_sorteig            TEXT,
+    numeros                 TEXT NOT NULL,
+    preu                    REAL NOT NULL,
+    juga                    REAL NOT NULL,
+    participacions_talonari INTEGER NOT NULL DEFAULT 50,
+    estat                   TEXT NOT NULL DEFAULT 'actiu',
+    peu                     TEXT,
+    observacions            TEXT
+);
+
+CREATE TABLE IF NOT EXISTS talonaris (
+    id              INTEGER PRIMARY KEY,
+    loteria_id      INTEGER NOT NULL REFERENCES loteries(id) ON DELETE CASCADE,
+    numero          INTEGER NOT NULL,
+    persona_id      INTEGER REFERENCES persones(id) ON DELETE RESTRICT,
+    data_entrega    TEXT,
+    venudes         INTEGER,
+    tornades        INTEGER,
+    import_liquidat REAL,
+    data_liquidacio TEXT,
+    observacions    TEXT,
+    UNIQUE (loteria_id, numero)
+);
+
 -- Accés: usuaris i dos rols fixos (administrador i administratiu)
 CREATE TABLE IF NOT EXISTS usuaris (
     id          INTEGER PRIMARY KEY,
@@ -253,3 +346,8 @@ CREATE INDEX IF NOT EXISTS idx_grups_curs ON grups(curs_id);
 CREATE INDEX IF NOT EXISTS idx_mg_grup ON matricula_grups(grup_id);
 CREATE INDEX IF NOT EXISTS idx_cessions_instr ON cessions(instrument_id);
 CREATE INDEX IF NOT EXISTS idx_auditoria_data ON auditoria(data);
+CREATE INDEX IF NOT EXISTS idx_rebuts_persona ON rebuts(persona_id);
+CREATE INDEX IF NOT EXISTS idx_rebuts_estat ON rebuts(estat, forma_pagament);
+CREATE INDEX IF NOT EXISTS idx_linies_rebut ON rebut_linies(rebut_id);
+CREATE INDEX IF NOT EXISTS idx_mandats_persona ON mandats(persona_id);
+CREATE INDEX IF NOT EXISTS idx_talonaris_loteria ON talonaris(loteria_id);

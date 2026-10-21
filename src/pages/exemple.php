@@ -126,4 +126,51 @@ function carrega_dades_exemple(): void
     q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, estat_entrega) VALUES(?,?,?,?,?)',
         [$instr[1], $alumnesPersona[1], "$any-09-20", date('Y-m-d', strtotime('-7 days')), $tr('Bo', 'Bueno')]);
     q('INSERT INTO manteniments(instrument_id, data, descripcio, cost) VALUES(?,?,?,?)', [$instr[0], "$any-09-05", $tr('Neteja i greixat de pistons', 'Limpieza y engrase de pistones'), 35]);
+
+    // Economia: tarifes, domiciliacions (IBAN d'exemple), rebuts d'este trimestre i d'este mes, i la loteria de Nadal
+    foreach ([
+        [$tr('Quota de soci ordinari', 'Cuota de socio ordinario'), 'quota_soci', 'ordinari', null, 'trimestral', 15],
+        [$tr('Quota de soci protector', 'Cuota de socio protector'), 'quota_soci', 'protector', null, 'trimestral', 10],
+        [$tr('Matrícula', 'Matrícula'), 'matricula', null, null, 'unica', 30],
+        [$tr('Llenguatge musical', 'Lenguaje musical'), 'classe', null, $assig['Llenguatge musical'], 'mensual', 20],
+        [$tr('Classe de trompeta', 'Clase de trompeta'), 'classe', null, $assig['Trompeta'], 'mensual', 28],
+        [$tr('Classe de clarinet', 'Clase de clarinete'), 'classe', null, $assig['Clarinet'], 'mensual', 28],
+        [$tr('Conjunt instrumental', 'Conjunto instrumental'), 'classe', null, $assig['Conjunt instrumental'], 'mensual', 10],
+    ] as [$n, $tp, $ts, $as, $per, $imp]) {
+        q('INSERT INTO tarifes(nom, tipus, tipus_soci, assignatura_id, periodicitat, import) VALUES(?,?,?,?,?,?)', [$n, $tp, $ts, $as, $per, $imp]);
+    }
+    desa_config('descompte_soci', '10');
+    desa_config('descompte_germans', '5');
+    // IBAN d'exemple vàlids (no són comptes reals)
+    $iban = function (int $n): string {
+        $ccc = '2100' . '0418' . '45' . sprintf('%010d', 2000000 + $n);
+        $control = 98 - mod97($ccc . '142800');
+        return 'ES' . sprintf('%02d', $control) . $ccc;
+    };
+    foreach ([$tutors[0], $tutors[1], $musics[0], $musics[1], $musics[2]] as $i => $p) {
+        q('INSERT INTO mandats(persona_id, iban, data_signatura) VALUES(?, ?, ?)', [$p, $iban($i + 1), "$any-09-01"]);
+        q('UPDATE mandats SET referencia = ? WHERE id = ?', [referencia_mandat($id()), $id()]);
+    }
+    $resum = [];
+    $trimestre = 'T' . (int)ceil((int)date('n') / 3);
+    crea_rebuts(calcula_quotes((int)date('Y'), $trimestre, $resum), date('Y-m-d'));
+    $cursFila = fila('SELECT * FROM cursos WHERE id = ?', [$curs]);
+    crea_rebuts(calcula_escola($cursFila, 'MAT', $resum), "$any-09-15");
+    $mes = 'M' . date('Y-m');
+    if (isset(periodes_escola($cursFila)[$mes])) {
+        crea_rebuts(calcula_escola($cursFila, $mes, $resum), date('Y-m-d'));
+    }
+    // Les matrícules ja estan pagades; un soci ha pagat en efectiu i un rebut l'ha retornat el banc
+    q("UPDATE rebuts SET estat = 'pagat', data_pagament = data_emissio WHERE tipus = 'matricula'");
+    q("UPDATE rebuts SET estat = 'pagat', data_pagament = date('now','localtime') WHERE id = (SELECT MIN(id) FROM rebuts WHERE tipus = 'quota_soci' AND forma_pagament = 'efectiu')");
+    q("UPDATE rebuts SET estat = 'retornat' WHERE id = (SELECT MAX(id) FROM rebuts WHERE tipus = 'quota_soci' AND forma_pagament = 'domiciliacio')");
+
+    $nadal = (int)date('n') >= 2 ? (int)date('Y') : (int)date('Y') - 1;
+    q('INSERT INTO loteries(nom, data_sorteig, numeros, preu, juga, participacions_talonari) VALUES(?, ?, ?, ?, ?, ?)',
+        [$tr('Loteria de Nadal', 'Lotería de Navidad') . " $nadal", "$nadal-12-22", '12345, 67890', 5, 4, 50]);
+    $lo = $id();
+    foreach ([[$musics[0], 50, 0, 250], [$musics[1], 38, 12, 180], [$tutors[0], null, null, null], [$tutors[1], null, null, null]] as $i => [$p, $v, $tor, $liq]) {
+        q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes, tornades, import_liquidat, data_liquidacio) VALUES(?,?,?,?,?,?,?,?)',
+            [$lo, $i + 1, $p, "$nadal-10-15", $v, $tor, $liq, $liq !== null ? "$nadal-11-30" : null]);
+    }
 }

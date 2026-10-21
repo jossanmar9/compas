@@ -31,6 +31,9 @@ function pagina_inici(): void
     if (pot('instruments.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM cessions WHERE data_retorn IS NULL'), t('inici.cedits'), url('llista', ['e' => 'cessions', 'filtre' => 'actives']));
     }
+    if (pot('economia.view') && ($n = (int)valor("SELECT COUNT(*) FROM rebuts WHERE estat IN ('per_cobrar', 'retornat')"))) {
+        $html .= targeta(euros((float)valor("SELECT SUM(import) FROM rebuts WHERE estat IN ('per_cobrar', 'retornat')")), t('economia.per_cobrar', $n), url('economia'));
+    }
     $html .= '</div>';
 
     if (pot('escola.view') && !$curs) {

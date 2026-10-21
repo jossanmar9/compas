@@ -286,3 +286,17 @@ h3 { margin: 22px 0 8px; font-size: 1.02rem; }
     body.simple { background: #fff; }
     body.simple .caixa { box-shadow: none; }
 }
+
+/* Economia */
+.graella-genera { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); }
+.graella-genera .informe p { margin: 0 0 4px; color: var(--suau); font-size: .88rem; }
+.graella-genera .informe label { display: inline-flex; flex-direction: column; gap: 3px; font-size: .82rem; margin-right: 8px; }
+.graella-genera .informe form, .graella-genera .informe { gap: 10px; }
+.taula td.num, .taula th.num { text-align: right; white-space: nowrap; }
+.taula tr.apagat td { color: var(--suau); }
+form.en-linia { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+form.en-linia select, form.en-linia input { width: auto; }
+.valor-calculat { margin: 6px 0 2px; font-family: ui-monospace, Consolas, monospace; font-weight: 600; }
+.loteria-resum td.dif-neg { color: #9f1d1d; font-weight: 600; }
+@media (prefers-color-scheme: dark) { .loteria-resum td.dif-neg { color: #f19c97; } }
+.camp[hidden] { display: none; }

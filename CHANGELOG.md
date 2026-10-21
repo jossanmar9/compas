@@ -8,6 +8,26 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.9.0] - 2026-10-21
+
+### Afegit
+- **Economia**, un apartat nou del menú:
+  - **Tarifes**: quotes de soci per tipus i periodicitat (anual, semestral, trimestral o mensual), matrícula i classes (per assignatura o una quota d'escola fixa; mensuals, per avaluació o per curs).
+  - **Generar rebuts** d'un període amb previsualització: un per soci, i a l'escola un per família, amb una línia per assignatura i alumne i els descomptes de soci, de germans i propis (família nombrosa, beca…). Generar dues vegades el mateix període no duplica res.
+  - **Rebuts**: numeració correlativa per any, cobrament en efectiu, transferència o domiciliació, rebuts retornats i anul·lats, i rebuts amb el logotip per a imprimir (dos per full; amb el segell «PAGAT» si estan pagats).
+  - **Domiciliacions** (mandats SEPA) amb l'IBAN validat, i l'ordre de domiciliació per a signar.
+  - **Remeses bancàries**: fitxer XML d'adeutaments directes SEPA (pain.008.001.02 o .08, esquema CORE) per a pujar a la banca electrònica, i control dels rebuts que retorna el banc.
+  - **Resum econòmic**: per cobrar, cobrat enguany, per períodes i qui deu diners.
+- **Loteria**: sorteigs, talonaris repartits a cada persona, participacions per a imprimir (8 per full) i liquidació de cada talonari, amb el que cal comprar a l'administració i el que queda per a la societat.
+- **IBAN a la fitxa de persona i de soci** (per als majors d'edat): en desar-lo es crea la domiciliació; si es canvia o s'esborra, l'anterior es dona de baixa. També s'accepta el número de compte antic de 20 xifres.
+- **Importar el compte bancari des d'Excel**: si el full porta l'IBAN (i, si es vol, la data de signatura), es creen les domiciliacions; en l'alumnat, la del pare, la mare o el tutor/a.
+- A la fitxa de l'alumne, **qui paga** les classes (si no és el tutor principal) i un **descompte propi**.
+- A la fitxa de cada persona, les seues domiciliacions i els seus rebuts.
+
+### Canviat
+- Les dades d'exemple porten tarifes, domiciliacions, rebuts i una loteria de Nadal.
+- La declaració de privacitat explica que els comptes bancaris de les domiciliacions es guarden a l'ordinador i que Compàs no es connecta al banc.
+
 ## [1.8.0] - 2026-10-21
 
 ### Canviat
@@ -125,6 +145,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.9.0]: https://github.com/jossanmar9/compas/releases/tag/v1.9.0
 [1.8.0]: https://github.com/jossanmar9/compas/releases/tag/v1.8.0
 [1.7.0]: https://github.com/jossanmar9/compas/releases/tag/v1.7.0
 [1.6.0]: https://github.com/jossanmar9/compas/releases/tag/v1.6.0

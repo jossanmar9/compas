@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.8.0';
+const COMPAS_VERSIO = '1.9.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -19,6 +19,7 @@ require SRC_DIR . '/i18n.php';
 require SRC_DIR . '/capacitats.php';
 require SRC_DIR . '/markdown.php';
 require SRC_DIR . '/xifrat.php';
+require SRC_DIR . '/sepa.php';
 
 /* ---------------- Base de dades ---------------- */
 
@@ -74,6 +75,10 @@ function migra_esquema(PDO $pdo): void
         'persones' => [
             'consentiment_imatge' => "TEXT NOT NULL DEFAULT 'pendent'",
             'consentiment_data' => 'TEXT',
+        ],
+        'alumnes' => [
+            'pagador_id' => 'INTEGER REFERENCES persones(id) ON DELETE SET NULL',
+            'descompte_pct' => 'REAL',
         ],
     ];
     foreach ($columnes as $taula => $cols) {

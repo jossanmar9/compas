@@ -15,9 +15,21 @@ function opcions_ref(string $entitat): array
     return $cache[$entitat];
 }
 
-function etiqueta_camp(string $camp): string
+/** Camps que són columnes de la taula (no els «virtuals», com l'IBAN de la fitxa de persona, que es desa en una altra taula) */
+function camps_reals(array $e): array
 {
-    return t('camp.' . $camp);
+    return array_filter($e['camps'], fn($d) => empty($d['virtual']));
+}
+
+/** Valor d'un camp d'una fila, també dels virtuals */
+function valor_camp(array $d, array $f, string $c)
+{
+    return !empty($d['virtual']) ? ($d['carrega'])($f) : ($f[$c] ?? null);
+}
+
+function etiqueta_camp(string $camp, array $def = []): string
+{
+    return t($def['etiqueta'] ?? 'camp.' . $camp);
 }
 
 function mostra_valor(array $def, $v, bool $enllac = false): string
@@ -35,7 +47,10 @@ function mostra_valor(array $def, $v, bool $enllac = false): string
         case 'dia':
             return h(t('dia.' . $v));
         case 'decimal':
-            return h(number_format((float)$v, 2, ',', '.'));
+            return h(number_format((float)$v, 2, ',', '.') . (!empty($def['euros']) ? ' €' : (!empty($def['pct']) ? ' %' : '')));
+        case 'iban':
+            // Als llistats només se'n veuen les primeres i les últimes xifres
+            return h($enllac ? iban_format($v) : iban_amagat($v));
         case 'ref':
             $text = opcions_ref($def['ref'])[$v] ?? ('#' . $v);
             $e = entitat($def['ref']);
@@ -68,7 +83,7 @@ function filtre_llista(array $e, array &$params): string
     $f = $_GET['f'] ?? [];
     if (is_array($f)) {
         foreach ($f as $camp => $v) {
-            if (isset($e['camps'][$camp]) && is_string($v) && $v !== '') {
+            if ((isset($e['camps'][$camp]) || in_array($camp, $e['filtre_extra'] ?? [], true)) && is_string($v) && $v !== '') {
                 $where[] = "t.$camp = ?";
                 $params[] = $v;
             }
@@ -139,7 +154,7 @@ function pagina_llista(string $nom): void
     $qs = $_GET;
     $qs['csv'] = '1';
     echo '<a class="boto secundari" href="?' . h(http_build_query($qs)) . '">' . h(t('exporta_csv')) . '</a>';
-    if (pot($e['cap'] . '.edit')) {
+    if (pot($e['cap'] . '.edit') && empty($e['nomes_lectura'])) {
         $nou = ['e' => $nom];
         foreach ((array)($_GET['f'] ?? []) as $k => $v) {
             $nou["f[$k]"] = $v;
@@ -163,7 +178,11 @@ function pagina_llista(string $nom): void
             echo '</nav>';
         }
     }
-    echo '<p class="peu-taula">' . h(t('n_resultats', $total)) . '</p>';
+    $suma = '';
+    if (isset($e['suma']) && $total) {
+        $suma = ' · ' . t('total') . ': ' . number_format((float)valor("SELECT SUM(t.{$e['suma']}) FROM {$e['from']} WHERE $where", $params), 2, ',', '.') . ' €';
+    }
+    echo '<p class="peu-taula">' . h(t('n_resultats', $total) . $suma) . '</p>';
     pagina(t('ent.' . $nom), ob_get_clean());
 }
 
@@ -171,7 +190,7 @@ function taula_files(array $e, array $files, array $cols): string
 {
     $html = '<div class="taula-wrap"><table class="taula"><thead><tr>';
     foreach ($cols as $c => $d) {
-        $html .= '<th>' . h(etiqueta_camp($c)) . '</th>';
+        $html .= '<th>' . h(etiqueta_camp($c, $d)) . '</th>';
     }
     $html .= '</tr></thead><tbody>';
     foreach ($files as $f) {
@@ -200,10 +219,10 @@ function exporta_csv(array $e, string $where, array $params): never
     header('Content-Disposition: attachment; filename="' . $e['nom'] . '-' . date('Ymd') . '.csv"');
     $out = fopen('php://output', 'w');
     fwrite($out, "\xEF\xBB\xBF");
-    fputcsv($out, array_merge(['id'], array_map('etiqueta_camp', array_keys($e['camps']))), ';', '"', '');
+    fputcsv($out, array_merge(['id'], array_map(fn($c) => etiqueta_camp($c, $e['camps'][$c]), array_keys(camps_reals($e)))), ';', '"', '');
     foreach ($files as $f) {
         $fila = [$f['id']];
-        foreach ($e['camps'] as $c => $d) {
+        foreach (camps_reals($e) as $c => $d) {
             $v = $f[$c];
             if ($d['tipus'] === 'ref' && $v !== null) {
                 $v = opcions_ref($d['ref'])[$v] ?? $v;
@@ -235,7 +254,7 @@ function pagina_fitxa(string $nom, int $id): void
         echo '<div class="avis atencio">⚠ ' . h($avis) . (pot($e['cap'] . '.edit') ? ' <a href="' . h(url('edita', ['e' => $nom, 'id' => $id])) . '">' . h(t('edita')) . '</a>' : '') . '</div>';
     }
     echo '<div class="accions">';
-    if (pot($e['cap'] . '.edit')) {
+    if (pot($e['cap'] . '.edit') && empty($e['nomes_lectura'])) {
         echo '<a class="boto" href="' . h(url('edita', ['e' => $nom, 'id' => $id])) . '">' . h(t('edita')) . '</a>';
         echo '<form method="post" action="' . h(url('elimina', ['e' => $nom, 'id' => $id])) . '" onsubmit="return confirm(\'' . h(t('confirma_eliminar')) . '\')">'
             . csrf_camp() . '<button class="perill">' . h(t('elimina')) . '</button></form>';
@@ -249,11 +268,11 @@ function pagina_fitxa(string $nom, int $id): void
 
     echo '<dl class="fitxa">';
     foreach ($e['camps'] as $c => $d) {
-        $v = mostra_valor($d, $f[$c], true);
+        $v = mostra_valor($d, valor_camp($d, $f, $c), true);
         if ($v === '' && $d['tipus'] !== 'bool') {
             continue;
         }
-        echo '<dt>' . h(etiqueta_camp($c)) . '</dt><dd>' . $v . '</dd>';
+        echo '<dt>' . h(etiqueta_camp($c, $d)) . '</dt><dd>' . $v . '</dd>';
     }
     echo '</dl>';
 
@@ -280,7 +299,7 @@ function pagina_fitxa(string $nom, int $id): void
         $files = q("SELECT t.* FROM {$ef['from']} WHERE t.$fk = ? ORDER BY {$ef['ordre']}", [$id])->fetchAll();
         $cols = array_filter($ef['camps'], fn($d, $c) => !empty($d['llista']) && $c !== $fk, ARRAY_FILTER_USE_BOTH);
         echo '<section class="fill"><header><h2>' . h(t('ent.' . $fill)) . ' <span class="compte">' . count($files) . '</span></h2>';
-        if (pot($ef['cap'] . '.edit')) {
+        if (pot($ef['cap'] . '.edit') && empty($ef['nomes_lectura']) && empty($e['nomes_lectura'])) {
             echo '<a class="boto petit" href="' . h(url('edita', ['e' => $fill, "f[$fk]" => $id, 'tornar' => $tornar])) . '">+ ' . h(t('afegeix')) . '</a>';
         }
         echo '</header>';
@@ -300,7 +319,7 @@ function titol_element(array $e, array $f): string
     }
     foreach ($e['camps'] as $c => $d) {
         if (!empty($d['llista'])) {
-            return strip_tags(html_entity_decode(mostra_valor($d, $f[$c]))) ?: t('ent1.' . $e['nom']);
+            return strip_tags(html_entity_decode(mostra_valor($d, valor_camp($d, $f, $c)))) ?: t('ent1.' . $e['nom']);
         }
     }
     return t('ent1.' . $e['nom']);
@@ -312,7 +331,7 @@ function camp_formulari(string $c, array $d, $v): string
     $req = !empty($d['req']) ? ' required' : '';
     // «major»: obligatori només per a majors d'edat (ho activa app.js segons la data de naixement)
     $major = !empty($d['major']) ? ' data-major="1"' : '';
-    $etq = '<label for="c_' . $nom . '">' . h(etiqueta_camp($c)) . (!empty($d['req']) ? ' <span class="obl">*</span>' : '')
+    $etq = '<label for="c_' . $nom . '">' . h(etiqueta_camp($c, $d)) . (!empty($d['req']) ? ' <span class="obl">*</span>' : '')
         . ($major ? ' <span class="obl obl-major" hidden>*</span>' : '') . '</label>';
     $ajuda = isset($d['ajuda']) ? '<small>' . h($d['ajuda']) . '</small>' : '';
     switch ($d['tipus']) {
@@ -321,7 +340,7 @@ function camp_formulari(string $c, array $d, $v): string
             break;
         case 'bool':
             return '<div class="camp camp-check"><label><input type="hidden" name="' . $nom . '" value="0"><input type="checkbox" id="c_' . $nom . '" name="' . $nom . '" value="1"'
-                . ($v ? ' checked' : '') . '> ' . h(etiqueta_camp($c)) . '</label>' . $ajuda . '</div>';
+                . ($v ? ' checked' : '') . '> ' . h(etiqueta_camp($c, $d)) . '</label>' . $ajuda . '</div>';
         case 'select':
         case 'dia':
         case 'ref':
@@ -336,7 +355,8 @@ function camp_formulari(string $c, array $d, $v): string
                 $ops = opcions_ref($d['ref']);
             }
             $gran = count($ops) > 12 ? ' data-cerca="1"' : '';
-            $in = '<select id="c_' . $nom . '" name="' . $nom . '"' . $req . $gran . '>' . ($d['tipus'] === 'select' ? '' : '<option value="">—</option>');
+            $buit = $d['tipus'] !== 'select' || !empty($d['buit']);
+            $in = '<select id="c_' . $nom . '" name="' . $nom . '"' . $req . $gran . '>' . ($buit ? '<option value="">' . h($d['buit_text'] ?? '—') . '</option>' : '');
             foreach ($ops as $k => $text) {
                 $in .= '<option value="' . h($k) . '"' . ((string)$k === (string)$v ? ' selected' : '') . '>' . h($text) . '</option>';
             }
@@ -347,7 +367,8 @@ function camp_formulari(string $c, array $d, $v): string
             $extra = $d['tipus'] === 'decimal' ? ' inputmode="decimal"' : '';
             $in = '<input type="' . $tipus . '" id="c_' . $nom . '" name="' . $nom . '" value="' . h($v) . '"' . $req . $extra . $major . '>';
     }
-    return '<div class="camp' . ($d['tipus'] === 'textarea' ? ' ample' : '') . '">' . $etq . $in . $ajuda . '</div>';
+    // «nomes_major»: el camp només apareix si la persona és major d'edat (ho fa app.js)
+    return '<div class="camp' . ($d['tipus'] === 'textarea' ? ' ample' : '') . '"' . (!empty($d['nomes_major']) ? ' data-nomes-major="1"' : '') . '>' . $etq . $in . $ajuda . '</div>';
 }
 
 function normalitza(array $d, $v)
@@ -377,6 +398,8 @@ function normalitza(array $d, $v)
             return preg_match('/^\d{2}:\d{2}$/', $v) ? $v : null;
         case 'select':
             return in_array($v, $d['opcions'], true) ? $v : null;
+        case 'iban':
+            return $v === '' ? null : iban_entrada($v);
         default:
             return $v === '' ? null : $v;
     }
@@ -386,6 +409,9 @@ function pagina_edita(string $nom, ?int $id): void
 {
     $e = entitat($nom);
     requereix($e['cap'] . '.edit');
+    if (!empty($e['nomes_lectura'])) {
+        redirigeix($id ? 'fitxa' : 'llista', array_filter(['e' => $nom, 'id' => $id]));
+    }
     $f = $id ? fila("SELECT * FROM {$e['taula']} WHERE id = ?", [$id]) : null;
     if ($id && !$f) {
         redirigeix('llista', ['e' => $nom]);
@@ -402,13 +428,17 @@ function pagina_edita(string $nom, ?int $id): void
         foreach ($e['camps'] as $c => $d) {
             $dades[$c] = normalitza($d, $_POST[$c] ?? '');
             if (!empty($d['req']) && ($dades[$c] === null || $dades[$c] === '')) {
-                $errors[] = t('err.obligatori', etiqueta_camp($c));
+                $errors[] = t('err.obligatori', etiqueta_camp($c, $d));
             }
         }
         if (!$errors && isset($e['valida']) && ($msg = $e['valida']($dades, $id))) {
             $errors[] = $msg;
         }
         if (!$errors) {
+            // Un camp virtual que no s'ha enviat (amagat, per exemple l'IBAN d'un menor) no es toca
+            $virtuals = array_filter(array_diff_key($dades, camps_reals($e)), fn($c) => array_key_exists($c, $_POST), ARRAY_FILTER_USE_KEY);
+            $completes = $dades;
+            $dades = array_intersect_key($dades, camps_reals($e));
             try {
                 db()->beginTransaction();
                 if ($id) {
@@ -429,6 +459,9 @@ function pagina_edita(string $nom, ?int $id): void
                 if (isset($e['despres'])) {
                     $e['despres']($id, $dades);
                 }
+                foreach ($virtuals as $c => $v) {
+                    ($e['camps'][$c]['desa'])($id, $v, $completes);
+                }
                 db()->commit();
                 avis(t('desat'));
                 // En crear un element amb subapartats (alumne, matrícula, grup…) s'obri la seua fitxa per a continuar
@@ -439,6 +472,7 @@ function pagina_edita(string $nom, ?int $id): void
                 redirigeix('fitxa', ['e' => $nom, 'id' => $id]);
             } catch (PDOException $ex) {
                 db()->rollBack();
+                $dades = $completes;
                 $errors[] = error_bd($ex);
                 if (!$f) {
                     $id = null;
@@ -449,11 +483,11 @@ function pagina_edita(string $nom, ?int $id): void
         $prefix = (array)($_GET['f'] ?? []);
         foreach ($e['camps'] as $c => $d) {
             if ($f) {
-                $dades[$c] = $f[$c];
+                $dades[$c] = valor_camp($d, $f, $c);
             } elseif (isset($prefix[$c])) {
                 $dades[$c] = $prefix[$c];
             } else {
-                $def = $d['defecte'] ?? ($d['tipus'] === 'select' ? $d['opcions'][0] : null);
+                $def = $d['defecte'] ?? ($d['tipus'] === 'select' && empty($d['buit']) ? $d['opcions'][0] : null);
                 $dades[$c] = match ($def) {
                     'avui' => date('Y-m-d'),
                     'curs' => curs_actual()['id'] ?? null,
@@ -495,10 +529,24 @@ function accio_elimina(string $nom, int $id): void
 {
     $e = entitat($nom);
     requereix($e['cap'] . '.edit');
+    if (!empty($e['nomes_lectura'])) {
+        redirigeix('fitxa', ['e' => $nom, 'id' => $id]);
+    }
+    if (isset($e['elimina_permes']) && ($msg = $e['elimina_permes']($id))) {
+        avis($msg, 'error');
+        redirigeix('fitxa', ['e' => $nom, 'id' => $id]);
+    }
     try {
+        $abans = fila("SELECT * FROM {$e['taula']} WHERE id = ?", [$id]);
         q("DELETE FROM {$e['taula']} WHERE id = ?", [$id]);
+        if ($abans && isset($e['despres_elimina'])) {
+            $e['despres_elimina']($abans);
+        }
         audita('elimina', $nom, $id);
         avis(t('eliminat'));
+        if ($abans && isset($e['pare'])) {
+            redirigeix('fitxa', ['e' => $e['pare'][0], 'id' => $abans[$e['pare'][1]]]);
+        }
         redirigeix('llista', ['e' => $nom]);
     } catch (PDOException $ex) {
         avis(str_contains($ex->getMessage(), 'FOREIGN KEY') ? t('err.no_eliminable') : error_bd($ex), 'error');

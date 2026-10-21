@@ -26,6 +26,14 @@ function menu(): array
         ['_instr', 'menu.instruments', null, null],
         ['instruments', 'ent.instruments', 'instruments.view', '🎷'],
         ['cessions', 'ent.cessions', 'instruments.view', '⇄'],
+        ['_economia', 'menu.economia', null, null],
+        ['economia', 'menu.resum_economic', 'economia.view', '€'],
+        ['rebuts', 'ent.rebuts', 'economia.view', '🧾'],
+        ['genera_rebuts', 'genera.titol', 'economia.edit', '＋'],
+        ['remeses', 'menu.remeses', 'economia.view', '🏦'],
+        ['mandats', 'ent.mandats', 'economia.view', '✍'],
+        ['tarifes', 'ent.tarifes', 'economia.view', '🏷'],
+        ['loteries', 'ent.loteries', 'economia.view', '🎟'],
         ['_docs', 'menu.documents', null, null],
         ['llistats', 'menu.llistats', null, '📋'],
         ['importa', 'menu.importa', 'persones.edit', '⬆'],
@@ -41,7 +49,8 @@ function menu(): array
 
 function enllac_menu(string $clau): string
 {
-    return isset(entitats()[$clau]) ? url('llista', ['e' => $clau]) : url($clau);
+    // «remeses» té pantalla pròpia (preparar i descarregar), encara que també siga una entitat
+    return isset(entitats()[$clau]) && $clau !== 'remeses' ? url('llista', ['e' => $clau]) : url($clau);
 }
 
 function html_menu(): string
@@ -50,6 +59,7 @@ function html_menu(): string
     if (in_array($actual, ['llista', 'fitxa', 'edita'], true)) {
         $actual = get('e');
     }
+    $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'talonaris' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia'][$actual] ?? $actual;
     $items = [];
     $seccio = null;
     foreach (menu() as [$clau, $etq, $cap, $icona]) {

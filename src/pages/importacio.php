@@ -13,7 +13,7 @@ const TIPUS_IMPORTACIO = ['persones' => 'persones.edit', 'socis' => 'socis.edit'
 /** Camps que es poden importar segons el tipus */
 function camps_importacio(string $tipus): array
 {
-    $persona = ['nom', 'cognoms', 'cognom2', 'nom_complet', 'data_naixement', 'document', 'telefon', 'email', 'adreca', 'codi_postal', 'poblacio', 'provincia', 'observacions'];
+    $persona = ['nom', 'cognoms', 'cognom2', 'nom_complet', 'data_naixement', 'document', 'telefon', 'email', 'adreca', 'codi_postal', 'poblacio', 'provincia', 'observacions', 'iban', 'data_mandat'];
     return match ($tipus) {
         'socis' => array_merge($persona, ['numero', 'tipus_soci', 'data_alta']),
         'alumnes' => array_merge($persona, ['data_alta', 'tutor_nom', 'tutor_cognoms', 'tutor_nom_complet', 'tutor_document', 'tutor_telefon', 'tutor_email', 'tutor_relacio']),
@@ -42,6 +42,9 @@ function endevina_camp(string $capcalera, string $tipus): ?string
         'poblacio' => ['poblacio', 'poblacion', 'localitat', 'localidad', 'municipi', 'municipio', 'ciutat', 'ciudad', 'poble', 'pueblo'],
         'provincia' => ['provincia'],
         'observacions' => ['observacions', 'observaciones', 'notes', 'notas', 'comentaris', 'comentarios'],
+        'iban' => ['iban', 'compte', 'cuenta', 'compte bancari', 'cuenta bancaria', 'ccc', 'numero de compte', 'numero de cuenta', 'num compte', 'num cuenta',
+            'n compte', 'n cuenta', 'domiciliacio', 'domiciliacion', 'compte corrent', 'cuenta corriente', 'iban del compte', 'iban de la cuenta'],
+        'data_mandat' => ['data mandat', 'fecha mandato', 'data signatura', 'fecha firma', 'data domiciliacio', 'fecha domiciliacion', 'data de signatura', 'fecha de firma', 'data del mandat', 'fecha del mandato'],
         'numero' => ['numero', 'num', 'n', 'n soci', 'num soci', 'numero soci', 'numero de soci', 'n socio', 'num socio', 'numero socio', 'numero de socio', 'nº'],
         'tipus_soci' => ['tipus', 'tipo', 'tipus soci', 'tipus de soci', 'tipo socio', 'tipo de socio', 'categoria', 'modalitat', 'modalidad'],
         'data_alta' => ['alta', 'data alta', 'fecha alta', 'data d alta', 'fecha de alta', 'antiguitat', 'antiguedad', 'data inscripcio', 'fecha inscripcion'],
@@ -273,6 +276,21 @@ function analitza_importacio(array $imp): array
             $r['persona_id'] = $perNom[$kNom][0];
         }
 
+        // IBAN: es crearà una domiciliació per a qui paga (a l'escola, el tutor/a; si no, la mateixa persona si és major d'edat)
+        $r['iban'] = null;
+        if ($v('iban') !== '') {
+            $iban = iban_entrada($v('iban'));
+            if (!iban_valid($iban)) {
+                $r['avisos'][] = t('imp.av_iban', $v('iban'));
+            } else {
+                $dataMandat = data_importada($v('data_mandat'));
+                if ($v('data_mandat') !== '' && !$dataMandat) {
+                    $r['avisos'][] = t('imp.av_data', $v('data_mandat'));
+                }
+                $r['iban'] = ['iban' => $iban, 'data' => $dataMandat];
+            }
+        }
+
         if ($tipus === 'socis') {
             $num = $v('numero');
             $r['extra'] = ['numero' => $num, 'tipus' => tipus_soci_importat($v('tipus_soci')) ?? 'ordinari', 'data_alta' => data_importada($v('data_alta'))];
@@ -305,6 +323,18 @@ function analitza_importacio(array $imp): array
                     'telefon' => $v('tutor_telefon'), 'email' => $v('tutor_email'), 'relacio' => relacio_importada($v('tutor_relacio'))];
             } elseif ($naix && !es_major_edat($naix)) {
                 $r['avisos'][] = t('imp.av_sense_tutor');
+            }
+        }
+        if ($r['iban']) {
+            $titularTutor = $tipus === 'alumnes' && $r['tutor'];
+            // Si la persona ja hi és, val la data de naixement que té Compàs
+            $naixTitular = $naix ?: ($r['persona_id'] ? valor('SELECT data_naixement FROM persones WHERE id = ?', [$r['persona_id']]) : null);
+            if (!$titularTutor && !es_major_edat($naixTitular)) {
+                $r['avisos'][] = t($naixTitular ? 'imp.av_iban_menor' : 'imp.av_iban_sense_data');
+                $r['iban'] = null;
+            } else {
+                $r['iban']['tutor'] = $titularTutor;
+                $r['avisos'][] = t($titularTutor ? 'imp.info_iban_tutor' : 'imp.info_iban', iban_amagat($r['iban']['iban']));
             }
         }
         $resultat[] = $r;
@@ -353,7 +383,7 @@ function busca_tutor(array $tu): ?int
 
 function executa_importacio(array $imp, array $analisi, array $mateixa): array
 {
-    $fet = ['noves' => 0, 'actualitzades' => 0, 'rols' => 0, 'tutors' => 0, 'saltades' => 0];
+    $fet = ['noves' => 0, 'actualitzades' => 0, 'rols' => 0, 'tutors' => 0, 'saltades' => 0, 'domiciliacions' => 0, 'domiciliacions_diferents' => 0];
     fes_copia('abans-importar'); // per a poder tornar arrere si la importació no era el que s'esperava
     db()->beginTransaction();
     foreach ($analisi as $i => $r) {
@@ -363,6 +393,7 @@ function executa_importacio(array $imp, array $analisi, array $mateixa): array
         }
         $existent = $r['persona_id'] && !empty($mateixa[$i]) ? (int)$r['persona_id'] : null;
         $id = importa_persona($r['persona'], $existent);
+        $titular = $id;
         $fet[$existent ? 'actualitzades' : 'noves']++;
         $avui = date('Y-m-d');
         if ($imp['tipus'] === 'socis' && !valor('SELECT id FROM socis WHERE persona_id = ?', [$id])) {
@@ -385,10 +416,21 @@ function executa_importacio(array $imp, array $analisi, array $mateixa): array
                 } else {
                     importa_persona(['document' => $r['tutor']['document'], 'telefon' => $r['tutor']['telefon'], 'email' => $r['tutor']['email']], $tid);
                 }
+                $titular = $tid;
                 if ($tid !== $id && !valor('SELECT id FROM tutories WHERE alumne_id = ? AND tutor_id = ?', [$alumne, $tid])) {
                     $principal = valor('SELECT COUNT(*) FROM tutories WHERE alumne_id = ?', [$alumne]) ? 0 : 1;
                     q('INSERT INTO tutories(alumne_id, tutor_id, tipus_relacio, principal, rep_comunicacions) VALUES(?, ?, ?, ?, 1)', [$alumne, $tid, $r['tutor']['relacio'], $principal]);
                 }
+            }
+        }
+        // Domiciliació: no es canvia la que ja tinga la persona amb un altre IBAN
+        $titularMajor = $r['iban'] && ($r['iban']['tutor'] || es_major_edat(valor('SELECT data_naixement FROM persones WHERE id = ?', [$titular])));
+        if ($r['iban'] && $titularMajor && pot('economia.edit') && (!$r['iban']['tutor'] || $titular !== $id)) {
+            $res = desa_iban_persona($titular, $r['iban']['iban'], $r['iban']['data'], false);
+            if (in_array($res, ['nova', 'canviada'], true)) {
+                $fet['domiciliacions']++;
+            } elseif ($res === 'diferent') {
+                $fet['domiciliacions_diferents']++;
             }
         }
     }
@@ -516,7 +558,10 @@ function pagina_importa(): void
             . targeta((string)$f['noves'], t('imp.res_noves')) . targeta((string)$f['actualitzades'], t('imp.res_actualitzades'))
             . ($f['tipus'] !== 'persones' ? targeta((string)$f['rols'], t('imp.res_rols.' . $f['tipus'])) : '')
             . ($f['tipus'] === 'alumnes' ? targeta((string)$f['tutors'], t('imp.res_tutors')) : '')
+            . (!empty($f['domiciliacions']) ? targeta((string)$f['domiciliacions'], t('imp.res_domiciliacions'), url('llista', ['e' => 'mandats'])) : '')
             . targeta((string)$f['saltades'], t('imp.res_saltades')) . '</div>'
+            . (!empty($f['domiciliacions']) ? '<div class="avis info">' . h(t('imp.nota_domiciliacions')) . '</div>' : '')
+            . (!empty($f['domiciliacions_diferents']) ? '<div class="avis atencio">' . h(t('imp.av_iban_diferents', $f['domiciliacions_diferents'])) . '</div>' : '')
             . '<div class="accions"><a class="boto" href="' . h(url('llista', ['e' => $f['tipus']])) . '">' . h(t('ent.' . $f['tipus'])) . '</a>'
             . '<a class="boto secundari" href="' . h(url('llista', ['e' => 'persones', 'filtre' => 'incomplets'])) . '">' . h(t('imp.veure_incompletes')) . '</a>'
             . '<a class="boto secundari" href="' . h(url('importa', ['pas' => 'nova'])) . '">' . h(t('imp.altra')) . '</a></div>';

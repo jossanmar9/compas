@@ -2,12 +2,12 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments i còpies de seguretat. Funciona en **un sol ordinador amb Windows**, sense Internet, i té dos comptes:
+Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments, quotes i rebuts, loteria i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
 
 | Compte | Què pot fer |
 |---|---|
-| **Administrador/a** | Tot. També gestionar usuaris, la configuració, el registre d'activitat i restaurar còpies. |
-| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments i fer còpies. |
+| **Administrador/a** | Tot. També gestionar usuaris, la configuració (també les dades bancàries), el registre d'activitat i restaurar còpies. |
+| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, rebuts, remeses, loteria i fer còpies. |
 
 > En aquest manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
@@ -29,7 +29,7 @@ Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idio
 
 ![Pantalla d'entrada](imatges/ca/00-entrada.jpg)
 
-Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 16).
+Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 18).
 
 ### La primera vegada: configuració inicial
 
@@ -194,6 +194,8 @@ Després només cal ajustar el que canvie (un grup nou, un altre professor…) i
 
 En posar una data de naixement de major d'edat, els camps DNI i telèfon passen a ser obligatoris i apareix l'asterisc al costat.
 
+Si la persona és major d'edat i pagarà rebuts pel banc (un soci, o el pare o la mare d'un alumne), escriu el seu **IBAN**. Compàs crea la domiciliació (apartat 13.4). També s'hi pot escriure el número de compte antic de 20 xifres: Compàs el converteix en IBAN.
+
 ![Formulari de persona nova](imatges/ca/05-persona-nova.jpg)
 
 S'obri la **fitxa de la persona**, amb un apartat per a cada funció: Socis, Alumnat, Professorat, Músics i membres, Tutors legals (quan és tutor d'algú) i Cessions.
@@ -223,7 +225,7 @@ Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tind
 
 ![Full de consentiment per a signar](imatges/ca/42-consentiment-full.jpg)
 
-Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 13). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
+Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 15). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
 
 > El text del full és un model. Revisa'l amb la junta i, si cal, afig-hi el que vulgues a **Configuració → Text addicional del full de consentiment**.
 
@@ -307,7 +309,8 @@ Edita la seua fitxa d'alumne i posa l'estat **Baixa** i la **data de baixa**. Si
 1. Busca o dona d'alta la **persona** (apartat 6).
 2. A la seua fitxa, en l'apartat **Socis**, prem **+ Afig**.
 3. Escriu el **número de soci**, tria el **tipus** (ordinari, protector, d'honor, juvenil) i comprova la **data d'alta**.
-4. Prem **Desa**.
+4. Si les quotes es cobraran pel banc, escriu l'**IBAN** (si encara no el té a la seua fitxa de persona).
+5. Prem **Desa**.
 
 ![Alta d'un soci](imatges/ca/15-soci-nou.jpg)
 
@@ -414,7 +417,106 @@ Menú **Cessions**. Amb el filtre pots veure les **cessions actives** o només l
 
 ![Llistat de cessions](imatges/ca/33-cessions-llista.jpg)
 
-## 13. Llistats, certificats i memòria
+## 13. Economia: quotes, escola i rebuts
+
+L'apartat **Economia** del menú porta els diners de la societat: les quotes dels socis, la matrícula i les classes de l'escola, els rebuts, les remeses al banc i la loteria. **Resum econòmic** mostra el que hi ha per cobrar, el que s'ha cobrat enguany, els rebuts retornats pel banc i qui deu diners.
+
+![Resum econòmic](imatges/ca/55-economia.jpg)
+
+> Compàs fa **rebuts**, no factures. Si la societat ha de fer una factura (per exemple, d'un concert per a l'ajuntament), l'ha de fer amb un programa de facturació que complisca la normativa, o la gestoria.
+
+### 13.1 Tarifes: el preu de cada cosa
+
+Menú **Economia → Tarifes**. Cada tarifa té un nom (el que apareixerà al rebut), un tipus, una periodicitat i un import:
+
+- **Quota de soci**: anual, semestral, trimestral o mensual. Es pot fer una per a cada **tipus de soci** (ordinari, protector, juvenil…). Si se'n deixa una sense tipus, val per als tipus que no en tinguen una de pròpia. Els socis d'un tipus sense tarifa (per exemple, els honoraris) no paguen.
+- **Matrícula**: una sola vegada per curs i alumne.
+- **Classes**: mensual, trimestral (per avaluacions) o anual. Si es posa una **assignatura**, es cobra a cada alumne inscrit en algun grup d'eixa assignatura. Si no, es cobra una vegada per alumne (una quota d'escola fixa).
+
+![Tarifes](imatges/ca/56-tarifes.jpg)
+
+### 13.2 Dades del banc i descomptes
+
+L'administrador/a ho configura una sola vegada a **Resum econòmic → Configuració d'Economia**:
+
+- **Dades bancàries de la societat**: el NIF i l'IBAN on es cobren els rebuts. Les dona el banc quan es contracta el servei d'adeutaments directes SEPA («remeses» o «quadern 19»). Compàs calcula l'**identificador de creditor**: comprova que és el mateix que t'ha donat el banc.
+- **Descomptes de l'escola**: un percentatge per a qui és soci (l'alumne o qui paga) i un altre per a cada germà a partir del segon. S'apliquen a les classes, no a la matrícula. A la fitxa de l'alumne es pot posar, a més, un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
+- **Text al peu dels rebuts**, si la societat en vol posar un.
+
+![Configuració d'Economia](imatges/ca/57-economia-config.jpg)
+
+### 13.3 Generar els rebuts
+
+Menú **Economia → Genera rebuts**. Hi ha dues opcions:
+
+- **Quotes de soci**: tria l'any i el període (per exemple, el 1r trimestre). Es fa un rebut per a cada soci d'alta en eixe període.
+- **Escola de música**: tria el curs i el període: la **matrícula**, un **mes**, una **avaluació** o el **curs complet**. Es fa **un rebut per família**: si el mateix pare o mare paga dos germans, va tot en un rebut, amb una línia per assignatura i els descomptes.
+
+Prem **Previsualitza**: Compàs mostra qui pagarà, el detall i l'import, i avisa dels alumnes que no tenen qui pague. Si està bé, prem **Crea**. Si tornes a generar el mateix període, no es duplica res: els que ja existeixen apareixen com a «Ja generat».
+
+![Generar els rebuts de l'escola](imatges/ca/58-genera-rebuts.jpg)
+
+Els rebuts de qui té una **domiciliació** activa es cobraran pel banc; els altres, en **efectiu**. També es pot fer un rebut a mà amb **Rebuts → + Nou** (per exemple, un donatiu o la venda d'un uniforme).
+
+### 13.4 Domiciliacions bancàries
+
+Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data d'avui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
+
+![Domiciliacions](imatges/ca/59-domiciliacions.jpg)
+
+A la fitxa de la domiciliació, **Imprimeix l'ordre de domiciliació** fa el full per a signar. La societat ha de guardar-lo signat mentre es cobre i 14 mesos més.
+
+![Ordre de domiciliació](imatges/ca/60-ordre-domiciliacio.jpg)
+
+### 13.5 Remeses: cobrar pel banc
+
+Menú **Economia → Remeses bancàries**. Apareixen els rebuts domiciliats pendents de cobrar (també els que el banc ha retornat). Tria'ls, posa la **data de cobrament** (molts bancs demanen almenys dos dies hàbils) i prem **Prepara la remesa**.
+
+![Preparar una remesa](imatges/ca/61-remeses.jpg)
+
+Després:
+
+1. Prem **Descarrega el fitxer per al banc (XML)**.
+2. Entra a la banca electrònica de la societat i puja'l a l'apartat d'adeutaments directes SEPA (esquema CORE). Si el banc rebutja el fitxer, canvia el **format** a la configuració d'Economia i torna a descarregar-lo.
+3. Quan el banc l'haja cobrada, prem **Marca-la com a cobrada**: tots els rebuts queden pagats.
+
+![Una remesa](imatges/ca/62-remesa.jpg)
+
+Si el banc **retorna** un rebut, obri'l i prem **Retornat pel banc**. Tornarà a estar per cobrar: el pots cobrar en mà o posar-lo en la remesa següent. Mentre una remesa no s'ha pujat al banc, se'n pot traure un rebut o desfer-la.
+
+### 13.6 Cobrar en mà i imprimir rebuts
+
+Obri el rebut, tria com s'ha pagat (**efectiu** o **transferència**) i la data, i prem **Pagat**. Amb **Imprimeix el rebut** es fa el rebut amb el logotip; si està pagat, porta el segell «PAGAT». Des del **Resum econòmic**, **Imprimeix els rebuts per cobrar en mà** els fa tots de colp, dos per full.
+
+![Fitxa d'un rebut](imatges/ca/63-rebut.jpg)
+
+![Rebut imprés](imatges/ca/64-rebut-imprés.jpg)
+
+Al llistat de **Rebuts**, els filtres mostren els que estan per cobrar, els retornats, els que cal cobrar en mà o els domiciliats que encara no són en cap remesa. A baix es veu el total. A la fitxa de cada persona hi ha els seus rebuts i la seua domiciliació.
+
+## 14. Loteria
+
+Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple, «Loteria de Nadal 2026»), la data, els **números**, el **preu** de cada participació, l'import que **juga** (la resta és el donatiu per a la societat) i quantes participacions porta cada talonari. A la fitxa, **Talonaris i liquidació** obri el resum.
+
+### Repartir els talonaris
+
+Tria la persona i quants talonaris s'endú, i prem **Reparteix talonaris**. Compàs els numera seguits: el talonari 1 porta les participacions 0001–0050, el 2 les 0051–0100, etc.
+
+![Talonaris i liquidació](imatges/ca/65-loteria.jpg)
+
+### Imprimir les participacions
+
+A la fitxa de cada talonari, **Imprimeix les participacions** fa les seues 50 participacions (8 per full), amb el logotip, els números, el preu i el número de participació. Des del resum es poden imprimir totes de colp. El text legal del peu es canvia a la fitxa del sorteig.
+
+![Participacions](imatges/ca/67-participacions.jpg)
+
+### Liquidar
+
+Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut**, quantes **torna** sense vendre i quants **diners lliura**. El resum mostra el que falta per lliurar (en roig), quant cal comprar a l'administració de loteria i el que queda per a la societat.
+
+![Liquidar un talonari](imatges/ca/66-talonari.jpg)
+
+## 15. Llistats, certificats i memòria
 
 Menú **Documents i dades → Llistats i informes**. Cada llistat es pot veure a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
 
@@ -472,7 +574,7 @@ La primera vegada, a **Configuració → Certificats i fulls de consentiment**, 
 
 ![Dades dels certificats a la configuració](imatges/ca/40-config-documents.jpg)
 
-## 14. Importar dades des d'Excel
+## 16. Importar dades des d'Excel
 
 Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a escriure. Menú **Documents i dades → Importa dades**.
 
@@ -489,6 +591,8 @@ Si comences de zero, baixa una **plantilla**, omple-la i puja-la.
 ### Pas 2. Què és cada columna
 
 Compàs reconeix les columnes habituals (Nom, Cognoms, DNI, Telèfon, Data de naixement…) i ja les deixa triades. Comprova-les i corregeix les que falten. Si el nom i els cognoms estan junts, tria **Nom i cognoms junts**. Les columnes que no tries no s'importen.
+
+Si el full porta el **compte bancari** (IBAN o el número antic de 20 xifres), Compàs crea la domiciliació de cada persona major d'edat; en importar alumnat, la del pare, la mare o el tutor/a. Si hi ha una columna amb la **data de signatura** de la domiciliació, també l'agafa. A les persones que ja tenen una domiciliació amb un altre IBAN no se'ls canvia.
 
 ![Importar: què és cada columna](imatges/ca/52-importa-columnes.jpg)
 
@@ -507,9 +611,9 @@ A la columna **Avisos** veuràs, per exemple, dates que no s'entenen o persones 
 
 ![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.jpg)
 
-Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 15).
+Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 17).
 
-## 15. Còpies de seguretat
+## 17. Còpies de seguretat
 
 Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 
@@ -563,7 +667,7 @@ A partir d'ara, les còpies de la carpeta externa acaben en `.xifrat`. Les de l'
 
 > **Apunta la contrasenya en paper** junt amb el codi de recuperació. Si s'oblida, les còpies xifrades no es poden recuperar.
 
-## 16. Usuaris i contrasenyes
+## 18. Usuaris i contrasenyes
 
 ### Canviar la teua contrasenya
 
@@ -617,13 +721,13 @@ Totes les recuperacions, també les que fallen, queden al **Registre d'activitat
 
 Menú **Administració → Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
 
-## 17. Ajuda
+## 19. Ajuda
 
 El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
 
 ![Ajuda](imatges/ca/39-ajuda.jpg)
 
-## 18. Preguntes freqüents
+## 20. Preguntes freqüents
 
 **He donat d'alta una persona dues vegades. Què faig?** Si la segona no té res vinculat, obri-la i prem **Elimina**. Si ja té coses vinculades, edita-les perquè apunten a la persona bona i després elimina la repetida.
 
@@ -637,11 +741,15 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 
 **El butlletí no mostra una assignatura.** L'alumne no està inscrit en aquell grup dins de la seua matrícula.
 
-**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 16).
+**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 18).
 
-**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 14): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
+**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 16): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
 
-**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 13).
+**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 15).
+
+**Com cobrem les quotes pel banc?** Posa les dades bancàries de la societat, crea la domiciliació de cada pagador, genera els rebuts i prepara una remesa: Compàs fa el fitxer que es puja a la banca electrònica (apartat 13).
+
+**Compàs fa factures?** No, fa rebuts. Les factures s'han de fer amb un programa de facturació que complisca la normativa (Verifactu).
 
 **Compàs envia les nostres dades a algun lloc?** No. Tot es queda a l'ordinador i, si la configureu, a la carpeta externa de còpies. Ho explica la declaració de privacitat: menú **Ajuda → Privacitat**.
 

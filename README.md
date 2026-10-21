@@ -9,11 +9,11 @@
 
 # Compàs
 
-**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions i els instruments d'una societat musical.
+**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions, els instruments, les quotes, els rebuts i la loteria d'una societat musical.
 
 Està pensat per a qui porta la secretaria i l'escola de música d'una banda, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de la societat.
 
-*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
+*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos y lotería. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
 
 Un projecte de **José Vicente Sanjuan**.
 
@@ -50,11 +50,16 @@ Un projecte de **José Vicente Sanjuan**.
 | **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
 | **Agrupacions** | Banda, banda juvenil, coral, orquestra, cambra… amb els membres, l'instrument o veu i la funció (direcció titular, assistent…). |
 | **Instruments** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
+| **Quotes i rebuts** | Tarifes de les quotes de soci (per tipus i periodicitat), de la matrícula i de les classes. Rebuts generats per període: un per soci i un per família a l'escola, amb descomptes de soci, de germans i propis. Cobrament en efectiu, transferència o domiciliació, rebuts retornats i qui deu diners. Rebuts amb el logotip per a imprimir. |
+| **Remeses bancàries** | Domiciliacions (mandats SEPA) amb l'IBAN validat i l'ordre de domiciliació per a signar. Fitxer XML d'adeutaments directes SEPA (pain.008) per a pujar a la banca electrònica. |
+| **Loteria** | Sorteigs, talonaris repartits a cada persona, participacions per a imprimir i liquidació: venudes, tornades, diners lliurats i el que queda per a la societat. |
 | **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, músics per instrument, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula i d'agrupació amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
 | **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
+
+Compàs fa **rebuts**, no factures: les factures han de complir el reglament dels sistemes de facturació (Verifactu) i s'han de fer amb un programa preparat per a això.
 
 ## Captures
 
@@ -65,7 +70,7 @@ Tot el programa està en **valencià i castellà**, i cada usuari pot triar el s
 | ![Butlletí de notes](docs/imatges/ca/29-butlleti-impres.jpg) | ![Còpies de seguretat](docs/imatges/ca/34-copies.jpg) |
 | Un butlletí de notes preparat per a imprimir. | Les còpies de seguretat: automàtiques, manuals i externes. |
 
-Hi ha més de 40 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md).
+Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md).
 
 ## Instal·lació
 
@@ -194,8 +199,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 ## Pròximes versions
 
-- Gestió econòmica: quotes, rebuts, remeses bancàries, ingressos i despeses.
-- Loteria: talonaris, participacions i liquidacions.
+- Llibre de caixa: ingressos i despeses, amb saldo i resum per a la memòria.
 - Calendari d'assajos, concerts i activitats; convocatòries i repertori de les agrupacions.
 - Comunicacions i avisos.
 - Documents adjunts (autoritzacions signades, contractes de cessió…).

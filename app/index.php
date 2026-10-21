@@ -129,6 +129,38 @@ try {
         case 'importa':
             pagina_importa();
             break;
+        case 'economia':
+            pagina_economia();
+            break;
+        case 'genera_rebuts':
+            pagina_genera_rebuts();
+            break;
+        case 'remeses':
+            pagina_remeses();
+            break;
+        case 'remesa':
+            pagina_remesa();
+            break;
+        case 'remesa_xml':
+            descarrega_remesa_xml();
+        case 'rebut_accio':
+            accio_rebut();
+            break;
+        case 'rebut_doc':
+            pagina_rebut_doc();
+            break;
+        case 'mandat_doc':
+            pagina_mandat_doc();
+            break;
+        case 'economia_config':
+            pagina_economia_config();
+            break;
+        case 'loteria':
+            pagina_loteria();
+            break;
+        case 'participacions':
+            pagina_participacions();
+            break;
         case 'usuaris':
             pagina_usuaris();
             break;

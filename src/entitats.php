@@ -53,6 +53,8 @@ function entitats(): array
         return $e;
     }
     $estat = ['tipus' => 'select', 'opcions' => ['actiu', 'baixa'], 'llista' => 1];
+    // L'IBAN a la fitxa de persona i de soci, per a qui pot fer domiciliacions
+    $ambIban = function_exists('pot') && pot('economia.edit');
     $persona = ['tipus' => 'ref', 'ref' => 'persones', 'req' => 1, 'llista' => 1];
     $obs = ['tipus' => 'textarea'];
     $perfil = fn(string $taula) => [
@@ -90,10 +92,11 @@ function entitats(): array
                 'consentiment_imatge' => ['tipus' => 'select', 'opcions' => ['pendent', 'autoritza', 'no_autoritza'], 'ajuda' => t('ajuda.consentiment')],
                 'consentiment_data' => ['tipus' => 'date'],
                 'actiu' => ['tipus' => 'bool', 'llista' => 1, 'defecte' => 1],
-            ],
+            ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['id'] ?? null) + ['nomes_major' => 1]] : []),
             'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')),
             'fills' => [['socis', 'persona_id'], ['alumnes', 'persona_id'], ['professors', 'persona_id'],
-                ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id']],
+                ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id'],
+                ['mandats', 'persona_id'], ['rebuts', 'persona_id']],
         ],
         'socis' => $perfil('socis') + [
             'cap' => 'socis',
@@ -107,7 +110,8 @@ function entitats(): array
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
                 'observacions' => $obs,
-            ],
+            ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['persona_id'] ?? null)] : []),
+            'valida' => fn(array $d) => valida_iban_persona($d['iban'] ?? null, (int)$d['persona_id']),
         ],
         'alumnes' => $perfil('alumnes') + [
             'cap' => 'escola',
@@ -117,6 +121,8 @@ function entitats(): array
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
+                'pagador_id' => ['tipus' => 'ref', 'ref' => 'persones', 'ajuda' => t('ajuda.pagador')],
+                'descompte_pct' => ['tipus' => 'decimal', 'pct' => 1, 'ajuda' => t('ajuda.descompte_pct')],
                 'observacions' => $obs,
             ],
             'fills' => [['tutories', 'alumne_id'], ['matricules', 'alumne_id']],
@@ -341,6 +347,210 @@ function entitats(): array
                 return null;
             },
         ],
+        // ---------- Economia ----------
+        'tarifes' => [
+            'cap' => 'economia',
+            'cerca' => ['t.nom'],
+            'ordre' => 't.tipus, t.nom',
+            'etiqueta' => 'SELECT id, nom AS e FROM tarifes ORDER BY nom',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.tarifa_nom')],
+                'tipus' => ['tipus' => 'select', 'opcions' => ['quota_soci', 'matricula', 'classe', 'altres'], 'llista' => 1],
+                'tipus_soci' => ['tipus' => 'select', 'opcions' => ['ordinari', 'protector', 'honorari', 'juvenil'], 'buit' => 1, 'llista' => 1, 'ajuda' => t('ajuda.tarifa_tipus_soci')],
+                'assignatura_id' => ['tipus' => 'ref', 'ref' => 'assignatures', 'llista' => 1, 'ajuda' => t('ajuda.tarifa_assignatura')],
+                'periodicitat' => ['tipus' => 'select', 'opcions' => ['anual', 'semestral', 'trimestral', 'mensual', 'unica'], 'llista' => 1, 'ajuda' => t('ajuda.tarifa_periodicitat')],
+                'import' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d): ?string {
+                if ($d['import'] === null || $d['import'] < 0) {
+                    return t('err.import');
+                }
+                $permeses = ['quota_soci' => ['anual', 'semestral', 'trimestral', 'mensual'], 'matricula' => ['unica'], 'classe' => ['anual', 'trimestral', 'mensual']];
+                if (isset($permeses[$d['tipus']]) && !in_array($d['periodicitat'], $permeses[$d['tipus']], true)) {
+                    return t('err.tarifa_periodicitat', t('opt.' . $d['tipus']), implode(', ', array_map(fn($p) => t('opt.' . $p), $permeses[$d['tipus']])));
+                }
+                return null;
+            },
+        ],
+        'mandats' => [
+            'cap' => 'economia',
+            'from' => 'mandats t JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['p.nom', 'p.cognoms', 't.titular', 't.referencia', 't.iban'],
+            'ordre' => 'p.cognoms, p.nom',
+            'etiqueta' => "SELECT m.id, " . NOM_PERSONA_SQL . " || ' · ' || m.referencia AS e FROM mandats m JOIN persones p ON p.id = m.persona_id ORDER BY e",
+            'accions_fitxa' => fn(array $f) => boto_document(url('mandat_doc', ['id' => $f['id']]), t('mandat.full')),
+            'camps' => [
+                'persona_id' => $persona + ['etiqueta' => 'camp.titular_persona', 'ajuda' => t('ajuda.mandat_persona')],
+                'titular' => ['tipus' => 'text', 'ajuda' => t('ajuda.mandat_titular')],
+                'iban' => ['tipus' => 'iban', 'req' => 1, 'llista' => 1],
+                'bic' => ['tipus' => 'text', 'ajuda' => t('ajuda.bic')],
+                'referencia' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.mandat_referencia')],
+                'data_signatura' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d, ?int $id): ?string {
+                if (!iban_valid($d['iban'])) {
+                    return t('err.iban');
+                }
+                if ($d['bic'] !== null && !bic_valid($d['bic'])) {
+                    return t('err.bic');
+                }
+                if ($d['estat'] === 'actiu' && valor("SELECT COUNT(*) FROM mandats WHERE persona_id = ? AND estat = 'actiu' AND id IS NOT ?", [$d['persona_id'], $id])) {
+                    return t('err.mandat_actiu');
+                }
+                return null;
+            },
+            'despres' => function (int $id, array $d): void {
+                if ($d['bic'] !== null) {
+                    q('UPDATE mandats SET bic = upper(bic) WHERE id = ?', [$id]);
+                }
+                if ($d['referencia'] === null) {
+                    q('UPDATE mandats SET referencia = ? WHERE id = ?', [referencia_mandat($id), $id]);
+                }
+            },
+            'fills' => [['rebuts', 'mandat_id']],
+        ],
+        'rebuts' => [
+            'cap' => 'economia',
+            'from' => 'rebuts t JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['p.nom', 'p.cognoms', 't.numero', 't.concepte', 't.periode'],
+            'ordre' => 't.data_emissio DESC, t.numero DESC',
+            'etiqueta' => "SELECT r.id, r.numero || ' · ' || " . NOM_PERSONA_SQL . " AS e FROM rebuts r JOIN persones p ON p.id = r.persona_id ORDER BY r.id DESC",
+            'suma' => 'import',
+            'filtres' => [
+                'per_cobrar' => "t.estat IN ('per_cobrar', 'retornat')",
+                'retornats' => "t.estat = 'retornat'",
+                'efectiu' => "t.estat IN ('per_cobrar', 'retornat') AND t.forma_pagament <> 'domiciliacio'",
+                'domiciliar' => "t.estat IN ('per_cobrar', 'retornat') AND t.forma_pagament = 'domiciliacio' AND t.remesa_id IS NULL",
+                'any' => "substr(t.data_emissio, 1, 4) = strftime('%Y', 'now', 'localtime')",
+            ],
+            'avis_fila' => fn(array $f) => $f['estat'] === 'retornat' ? t('rebut.avis_retornat') : null,
+            'accions_fitxa' => 'accions_rebut',
+            'camps' => [
+                'numero' => ['tipus' => 'text', 'llista' => 1, 'etiqueta' => 'camp.numero_rebut', 'ajuda' => t('ajuda.rebut_numero')],
+                'persona_id' => $persona + ['etiqueta' => 'camp.pagador', 'ajuda' => t('ajuda.rebut_persona')],
+                'concepte' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'tipus' => ['tipus' => 'select', 'opcions' => ['quota_soci', 'matricula', 'classe', 'loteria', 'altres']],
+                'periode' => ['tipus' => 'text', 'ajuda' => t('ajuda.rebut_periode')],
+                'data_emissio' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'import' => ['tipus' => 'decimal', 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.rebut_import')],
+                'forma_pagament' => ['tipus' => 'select', 'opcions' => ['domiciliacio', 'efectiu', 'transferencia'], 'llista' => 1],
+                'estat' => ['tipus' => 'select', 'opcions' => ['per_cobrar', 'pagat', 'retornat', 'anullat'], 'llista' => 1],
+                'data_pagament' => ['tipus' => 'date'],
+                'mandat_id' => ['tipus' => 'ref', 'ref' => 'mandats', 'ajuda' => t('ajuda.rebut_mandat')],
+                'remesa_id' => ['tipus' => 'ref', 'ref' => 'remeses', 'ajuda' => t('ajuda.rebut_remesa')],
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d, ?int $id): ?string {
+                if ($d['import'] !== null && $d['import'] < 0) {
+                    return t('err.import');
+                }
+                if ($d['estat'] === 'pagat' && $d['data_pagament'] === null) {
+                    return t('err.data_pagament');
+                }
+                return null;
+            },
+            'despres' => function (int $id, array $d): void {
+                if ($d['numero'] === null) {
+                    q('UPDATE rebuts SET numero = ? WHERE id = ?', [numero_rebut_nou($d['data_emissio']), $id]);
+                }
+                recalcula_rebut($id);
+            },
+            'elimina_permes' => fn(int $id) => valor("SELECT COUNT(*) FROM rebuts r JOIN remeses re ON re.id = r.remesa_id WHERE r.id = ?", [$id]) ? t('err.rebut_en_remesa') : null,
+            'fills' => [['rebut_linies', 'rebut_id']],
+        ],
+        'rebut_linies' => [
+            'cap' => 'economia',
+            'ordre' => 't.ordre, t.id',
+            'pare' => ['rebuts', 'rebut_id'],
+            'camps' => [
+                'rebut_id' => ['tipus' => 'ref', 'ref' => 'rebuts', 'req' => 1],
+                'concepte' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'import' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.linia_import')],
+                'alumne_id' => ['tipus' => 'ref', 'ref' => 'alumnes', 'llista' => 1],
+                'ordre' => ['tipus' => 'number', 'defecte' => 0],
+            ],
+            'despres' => fn(int $id, array $d) => recalcula_rebut((int)$d['rebut_id']),
+            'despres_elimina' => fn(array $f) => recalcula_rebut((int)$f['rebut_id']),
+        ],
+        'remeses' => [
+            'cap' => 'economia',
+            'nomes_lectura' => 1,
+            'cerca' => ['t.referencia'],
+            'ordre' => 't.data_cobrament DESC, t.id DESC',
+            'etiqueta' => "SELECT id, referencia || ' (' || strftime('%d/%m/%Y', data_cobrament) || ')' AS e FROM remeses ORDER BY id DESC",
+            'accions_fitxa' => fn(array $f) => '<a class="boto" href="' . h(url('remesa', ['id' => $f['id']])) . '">🏦 ' . h(t('remesa.obri')) . '</a>',
+            'camps' => [
+                'referencia' => ['tipus' => 'text', 'llista' => 1],
+                'data_creacio' => ['tipus' => 'date', 'llista' => 1],
+                'data_cobrament' => ['tipus' => 'date', 'llista' => 1],
+                'estat' => ['tipus' => 'select', 'opcions' => ['preparada', 'cobrada'], 'llista' => 1],
+                'observacions' => $obs,
+            ],
+            'fills' => [['rebuts', 'remesa_id']],
+        ],
+        'loteries' => [
+            'cap' => 'economia',
+            'cerca' => ['t.nom', 't.numeros'],
+            'ordre' => 't.data_sorteig DESC, t.id DESC',
+            'etiqueta' => 'SELECT id, nom AS e FROM loteries ORDER BY data_sorteig DESC, id DESC',
+            'accions_fitxa' => fn(array $f) => '<a class="boto" href="' . h(url('loteria', ['id' => $f['id']])) . '">🎟 ' . h(t('loteria.resum')) . '</a>',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.loteria_nom')],
+                'data_sorteig' => ['tipus' => 'date', 'llista' => 1],
+                'numeros' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.loteria_numeros')],
+                'preu' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.loteria_preu')],
+                'juga' => ['tipus' => 'decimal', 'req' => 1, 'euros' => 1, 'ajuda' => t('ajuda.loteria_juga')],
+                'participacions_talonari' => ['tipus' => 'number', 'req' => 1, 'defecte' => 50],
+                'estat' => ['tipus' => 'select', 'opcions' => ['actiu', 'tancat'], 'llista' => 1],
+                'peu' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.loteria_peu')],
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d): ?string {
+                if ($d['preu'] <= 0 || $d['juga'] <= 0 || $d['juga'] > $d['preu']) {
+                    return t('err.loteria_preu');
+                }
+                if ($d['participacions_talonari'] < 1 || $d['participacions_talonari'] > 500) {
+                    return t('err.loteria_talonari');
+                }
+                return null;
+            },
+            'fills' => [['talonaris', 'loteria_id']],
+        ],
+        'talonaris' => [
+            'cap' => 'economia',
+            'from' => 'talonaris t LEFT JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['p.nom', 'p.cognoms'],
+            'ordre' => 't.loteria_id DESC, t.numero',
+            'pare' => ['loteries', 'loteria_id'],
+            'etiqueta' => "SELECT ta.id, lo.nom || ' · ' || ta.numero AS e FROM talonaris ta JOIN loteries lo ON lo.id = ta.loteria_id ORDER BY lo.id DESC, ta.numero",
+            'avis_fila' => 'avis_talonari',
+            'accions_fitxa' => fn(array $f) => boto_document(url('participacions', ['talonari' => $f['id']]), t('loteria.imprimeix')),
+            'camps' => [
+                'loteria_id' => ['tipus' => 'ref', 'ref' => 'loteries', 'req' => 1, 'llista' => 1],
+                'numero' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'etiqueta' => 'camp.numero_talonari', 'ajuda' => t('ajuda.talonari_numero')],
+                'persona_id' => ['tipus' => 'ref', 'ref' => 'persones', 'llista' => 1, 'etiqueta' => 'loteria.col_persona'],
+                'data_entrega' => ['tipus' => 'date', 'defecte' => 'avui'],
+                'venudes' => ['tipus' => 'number', 'llista' => 1],
+                'tornades' => ['tipus' => 'number', 'llista' => 1],
+                'import_liquidat' => ['tipus' => 'decimal', 'llista' => 1, 'euros' => 1],
+                'data_liquidacio' => ['tipus' => 'date'],
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d): ?string {
+                $mida = (int)valor('SELECT participacions_talonari FROM loteries WHERE id = ?', [$d['loteria_id']]);
+                if (($d['venudes'] ?? 0) < 0 || ($d['tornades'] ?? 0) < 0 || ($d['venudes'] ?? 0) + ($d['tornades'] ?? 0) > $mida) {
+                    return t('err.talonari_quantitats', $mida);
+                }
+                if ($d['numero'] < 1) {
+                    return t('err.talonari_numero');
+                }
+                return null;
+            },
+        ],
     ];
 
     // Un sol curs pot ser l'actual
@@ -357,6 +567,9 @@ function entitats(): array
     $e['persones']['valida'] = function (array $d): ?string {
         if ($d['data_naixement'] > date('Y-m-d')) {
             return t('err.naixement_futur');
+        }
+        if ($msg = valida_iban_persona($d['iban'] ?? null, null, $d['data_naixement'])) {
+            return $msg;
         }
         if (es_major_edat($d['data_naixement'])) {
             $falten = array_filter(['document', 'telefon'], fn($c) => ($d[$c] ?? '') === '' || $d[$c] === null);

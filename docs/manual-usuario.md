@@ -2,12 +2,12 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos y copias de seguridad. Funciona en **un solo ordenador con Windows**, sin Internet, y tiene dos cuentas:
+Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos, cuotas y recibos, lotería y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
 
 | Cuenta | Qué puede hacer |
 |---|---|
-| **Administrador/a** | Todo. También gestionar usuarios, la configuración, el registro de actividad y restaurar copias. |
-| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos y hacer copias. |
+| **Administrador/a** | Todo. También gestionar usuarios, la configuración (también los datos bancarios), el registro de actividad y restaurar copias. |
+| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos, recibos, remesas, lotería y hacer copias. |
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
@@ -29,7 +29,7 @@ Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el i
 
 ![Pantalla de entrada](imatges/es/00-entrada.jpg)
 
-Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 16).
+Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 18).
 
 ### La primera vez: configuración inicial
 
@@ -194,6 +194,8 @@ Después solo hay que ajustar lo que cambie (un grupo nuevo, otro profesor…) e
 
 Al poner una fecha de nacimiento de mayor de edad, los campos DNI y teléfono pasan a ser obligatorios y aparece el asterisco al lado.
 
+Si la persona es mayor de edad y pagará recibos por el banco (un socio, o el padre o la madre de un alumno), escribe su **IBAN**. Compàs crea la domiciliación (apartado 13.4). También se puede escribir el número de cuenta antiguo de 20 cifras: Compàs lo convierte en IBAN.
+
 ![Formulario de persona nueva](imatges/es/05-persona-nova.jpg)
 
 Se abre la **ficha de la persona**, con un apartado para cada función: Socios, Alumnado, Profesorado, Músicos y miembros, Tutores legales (cuando es tutor de alguien) y Cesiones.
@@ -223,7 +225,7 @@ Antes de publicar fotos o vídeos en la web o las redes, la sociedad tiene que t
 
 ![Hoja de consentimiento para firmar](imatges/es/42-consentiment-full.jpg)
 
-Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 13). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
+Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 15). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
 
 > El texto de la hoja es un modelo. Revísalo con la junta y, si hace falta, añade lo que quieras en **Configuración → Texto adicional de la hoja de consentimiento**.
 
@@ -307,7 +309,8 @@ Edita su ficha de alumno y pon el estado **Baja** y la **fecha de baja**. Si ade
 1. Busca o da de alta a la **persona** (apartado 6).
 2. En su ficha, en el apartado **Socios**, pulsa **+ Añadir**.
 3. Escribe el **número de socio**, elige el **tipo** (ordinario, protector, de honor, juvenil) y comprueba la **fecha de alta**.
-4. Pulsa **Guardar**.
+4. Si las cuotas se cobrarán por el banco, escribe el **IBAN** (si todavía no lo tiene en su ficha de persona).
+5. Pulsa **Guardar**.
 
 ![Alta de un socio](imatges/es/15-soci-nou.jpg)
 
@@ -414,7 +417,106 @@ Menú **Cesiones**. Con el filtro puedes ver las **cesiones activas** o solo las
 
 ![Listado de cesiones](imatges/es/33-cessions-llista.jpg)
 
-## 13. Listados, certificados y memoria
+## 13. Economía: cuotas, escuela y recibos
+
+El apartado **Economía** del menú lleva el dinero de la sociedad: las cuotas de los socios, la matrícula y las clases de la escuela, los recibos, las remesas al banco y la lotería. **Resumen económico** muestra lo que hay por cobrar, lo cobrado este año, los recibos devueltos por el banco y quién debe dinero.
+
+![Resumen económico](imatges/es/55-economia.jpg)
+
+> Compàs hace **recibos**, no facturas. Si la sociedad tiene que hacer una factura (por ejemplo, de un concierto para el ayuntamiento), debe hacerla con un programa de facturación que cumpla la normativa, o la gestoría.
+
+### 13.1 Tarifas: el precio de cada cosa
+
+Menú **Economía → Tarifas**. Cada tarifa tiene un nombre (el que aparecerá en el recibo), un tipo, una periodicidad y un importe:
+
+- **Cuota de socio**: anual, semestral, trimestral o mensual. Se puede hacer una para cada **tipo de socio** (ordinario, protector, juvenil…). Si se deja una sin tipo, vale para los tipos que no tengan una propia. Los socios de un tipo sin tarifa (por ejemplo, los honorarios) no pagan.
+- **Matrícula**: una sola vez por curso y alumno.
+- **Clases**: mensual, trimestral (por evaluaciones) o anual. Si se pone una **asignatura**, se cobra a cada alumno inscrito en algún grupo de esa asignatura. Si no, se cobra una vez por alumno (una cuota de escuela fija).
+
+![Tarifas](imatges/es/56-tarifes.jpg)
+
+### 13.2 Datos del banco y descuentos
+
+El administrador/a lo configura una sola vez en **Resumen económico → Configuración de Economía**:
+
+- **Datos bancarios de la sociedad**: el NIF y el IBAN donde se cobran los recibos. Los da el banco cuando se contrata el servicio de adeudos directos SEPA («remesas» o «cuaderno 19»). Compàs calcula el **identificador de acreedor**: comprueba que es el mismo que te ha dado el banco.
+- **Descuentos de la escuela**: un porcentaje para quien es socio (el alumno o quien paga) y otro para cada hermano a partir del segundo. Se aplican a las clases, no a la matrícula. En la ficha del alumno se puede poner, además, un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
+- **Texto al pie de los recibos**, si la sociedad quiere poner uno.
+
+![Configuración de Economía](imatges/es/57-economia-config.jpg)
+
+### 13.3 Generar los recibos
+
+Menú **Economía → Genera recibos**. Hay dos opciones:
+
+- **Cuotas de socio**: elige el año y el periodo (por ejemplo, el 1.er trimestre). Se hace un recibo para cada socio de alta en ese periodo.
+- **Escuela de música**: elige el curso y el periodo: la **matrícula**, un **mes**, una **evaluación** o el **curso completo**. Se hace **un recibo por familia**: si el mismo padre o madre paga dos hermanos, va todo en un recibo, con una línea por asignatura y los descuentos.
+
+Pulsa **Previsualiza**: Compàs muestra quién pagará, el detalle y el importe, y avisa de los alumnos que no tienen quien pague. Si está bien, pulsa **Crea**. Si vuelves a generar el mismo periodo, no se duplica nada: los que ya existen aparecen como «Ya generado».
+
+![Generar los recibos de la escuela](imatges/es/58-genera-rebuts.jpg)
+
+Los recibos de quien tiene una **domiciliación** activa se cobrarán por el banco; los demás, en **efectivo**. También se puede hacer un recibo a mano con **Recibos → + Nuevo** (por ejemplo, un donativo o la venta de un uniforme).
+
+### 13.4 Domiciliaciones bancarias
+
+Para cobrar un recibo por el banco, quien paga debe haber firmado la **orden de domiciliación** (el mandato SEPA). La manera más sencilla es escribir el **IBAN en la ficha de la persona o del socio**: al guardar, Compàs crea la domiciliación con la fecha de hoy. Si después se cambia el IBAN, la anterior se da de baja y se crea una nueva (hay que volver a firmarla); si se borra, se da de baja. También se puede hacer desde **Economía → Domiciliaciones → + Nuevo**, donde se puede poner la fecha de firma y un titular de la cuenta diferente. Compàs comprueba que el IBAN es correcto y le pone una referencia. Solo se puede domiciliar a nombre de un mayor de edad. En los listados, el IBAN solo se ve en parte.
+
+![Domiciliaciones](imatges/es/59-domiciliacions.jpg)
+
+En la ficha de la domiciliación, **Imprime la orden de domiciliación** hace la hoja para firmar. La sociedad debe guardarla firmada mientras se cobre y 14 meses más.
+
+![Orden de domiciliación](imatges/es/60-ordre-domiciliacio.jpg)
+
+### 13.5 Remesas: cobrar por el banco
+
+Menú **Economía → Remesas bancarias**. Aparecen los recibos domiciliados pendientes de cobrar (también los que el banco ha devuelto). Elígelos, pon la **fecha de cobro** (muchos bancos piden al menos dos días hábiles) y pulsa **Prepara la remesa**.
+
+![Preparar una remesa](imatges/es/61-remeses.jpg)
+
+Después:
+
+1. Pulsa **Descarga el archivo para el banco (XML)**.
+2. Entra en la banca electrónica de la sociedad y súbelo al apartado de adeudos directos SEPA (esquema CORE). Si el banco rechaza el archivo, cambia el **formato** en la configuración de Economía y vuelve a descargarlo.
+3. Cuando el banco la haya cobrado, pulsa **Márcala como cobrada**: todos los recibos quedan pagados.
+
+![Una remesa](imatges/es/62-remesa.jpg)
+
+Si el banco **devuelve** un recibo, ábrelo y pulsa **Devuelto por el banco**. Volverá a estar por cobrar: lo puedes cobrar en mano o ponerlo en la remesa siguiente. Mientras una remesa no se ha subido al banco, se puede quitar un recibo o deshacerla.
+
+### 13.6 Cobrar en mano e imprimir recibos
+
+Abre el recibo, elige cómo se ha pagado (**efectivo** o **transferencia**) y la fecha, y pulsa **Pagado**. Con **Imprime el recibo** se hace el recibo con el logotipo; si está pagado, lleva el sello «PAGADO». Desde el **Resumen económico**, **Imprime los recibos por cobrar en mano** los hace todos de golpe, dos por hoja.
+
+![Ficha de un recibo](imatges/es/63-rebut.jpg)
+
+![Recibo impreso](imatges/es/64-rebut-imprés.jpg)
+
+En el listado de **Recibos**, los filtros muestran los que están por cobrar, los devueltos, los que hay que cobrar en mano o los domiciliados que todavía no están en ninguna remesa. Abajo se ve el total. En la ficha de cada persona están sus recibos y su domiciliación.
+
+## 14. Lotería
+
+Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por ejemplo, «Lotería de Navidad 2026»), la fecha, los **números**, el **precio** de cada participación, el importe que **juega** (el resto es el donativo para la sociedad) y cuántas participaciones lleva cada talonario. En la ficha, **Talonarios y liquidación** abre el resumen.
+
+### Repartir los talonarios
+
+Elige la persona y cuántos talonarios se lleva, y pulsa **Reparte talonarios**. Compàs los numera seguidos: el talonario 1 lleva las participaciones 0001–0050, el 2 las 0051–0100, etc.
+
+![Talonarios y liquidación](imatges/es/65-loteria.jpg)
+
+### Imprimir las participaciones
+
+En la ficha de cada talonario, **Imprime las participaciones** hace sus 50 participaciones (8 por hoja), con el logotipo, los números, el precio y el número de participación. Desde el resumen se pueden imprimir todas de golpe. El texto legal del pie se cambia en la ficha del sorteo.
+
+![Participaciones](imatges/es/67-participacions.jpg)
+
+### Liquidar
+
+Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones ha **vendido**, cuántas **devuelve** sin vender y cuánto **dinero entrega**. El resumen muestra lo que falta por entregar (en rojo), cuánto hay que comprar en la administración de lotería y lo que queda para la sociedad.
+
+![Liquidar un talonario](imatges/es/66-talonari.jpg)
+
+## 15. Listados, certificados y memoria
 
 Menú **Documentos y datos → Listados e informes**. Cada listado se puede ver en pantalla, **imprimir** (o guardar en PDF) y **exportar a CSV** para abrirlo con Excel.
 
@@ -472,7 +574,7 @@ La primera vez, en **Configuración → Certificados y hojas de consentimiento**
 
 ![Datos de los certificados en la configuración](imatges/es/40-config-documents.jpg)
 
-## 14. Importar datos desde Excel
+## 16. Importar datos desde Excel
 
 Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volver a escribirlos. Menú **Documentos y datos → Importar datos**.
 
@@ -489,6 +591,8 @@ Si empiezas de cero, descarga una **plantilla**, rellénala y súbela.
 ### Paso 2. Qué es cada columna
 
 Compàs reconoce las columnas habituales (Nombre, Apellidos, DNI, Teléfono, Fecha de nacimiento…) y ya las deja elegidas. Compruébalas y corrige las que falten. Si el nombre y los apellidos están juntos, elige **Nombre y apellidos juntos**. Las columnas que no elijas no se importan.
+
+Si la hoja lleva la **cuenta bancaria** (IBAN o el número antiguo de 20 cifras), Compàs crea la domiciliación de cada persona mayor de edad; al importar alumnado, la del padre, la madre o el tutor/a. Si hay una columna con la **fecha de firma** de la domiciliación, también la coge. A las personas que ya tienen una domiciliación con otro IBAN no se les cambia.
 
 ![Importar: qué es cada columna](imatges/es/52-importa-columnes.jpg)
 
@@ -507,9 +611,9 @@ En la columna **Avisos** verás, por ejemplo, fechas que no se entienden o perso
 
 ![Importar: revisión antes de importar](imatges/es/53-importa-revisa.jpg)
 
-Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 15).
+Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 17).
 
-## 15. Copias de seguridad
+## 17. Copias de seguridad
 
 Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 
@@ -563,7 +667,7 @@ A partir de ahora, las copias de la carpeta externa terminan en `.xifrat`. Las d
 
 > **Apunta la contraseña en papel** junto con el código de recuperación. Si se olvida, las copias cifradas no se pueden recuperar.
 
-## 16. Usuarios y contraseñas
+## 18. Usuarios y contraseñas
 
 ### Cambiar tu contraseña
 
@@ -617,13 +721,13 @@ Todas las recuperaciones, también las que fallan, quedan en el **Registro de ac
 
 Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
 
-## 17. Ayuda
+## 19. Ayuda
 
 El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF.
 
 ![Ayuda](imatges/es/39-ajuda.jpg)
 
-## 18. Preguntas frecuentes
+## 20. Preguntas frecuentes
 
 **He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
 
@@ -637,11 +741,15 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
 
-**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 16).
+**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 18).
 
-**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 14): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
+**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 16): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
 
-**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 13).
+**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 15).
+
+**¿Cómo cobramos las cuotas por el banco?** Pon los datos bancarios de la sociedad, crea la domiciliación de cada pagador, genera los recibos y prepara una remesa: Compàs hace el archivo que se sube a la banca electrónica (apartado 13).
+
+**¿Compàs hace facturas?** No, hace recibos. Las facturas se tienen que hacer con un programa de facturación que cumpla la normativa (Verifactu).
 
 **¿Compàs envía nuestros datos a algún sitio?** No. Todo se queda en el ordenador y, si la configuráis, en la carpeta externa de copias. Lo explica la declaración de privacidad: menú **Ayuda → Privacidad**.
 

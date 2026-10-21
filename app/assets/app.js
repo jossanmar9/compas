@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // DNI i telèfon obligatoris només per a majors d'edat
     const naix = document.querySelector('input[name="data_naixement"]');
     const majors = document.querySelectorAll('input[data-major]');
-    if (naix && majors.length) {
+    const nomesMajors = document.querySelectorAll('[data-nomes-major]');
+    if (naix && (majors.length || nomesMajors.length)) {
         const actualitza = () => {
             let major = false;
             if (naix.value) {
@@ -42,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 i.required = major;
                 const marca = i.closest('.camp')?.querySelector('.obl-major');
                 if (marca) marca.hidden = !major;
+            });
+            // L'IBAN només per als majors d'edat: amagat i sense enviar per als menors
+            nomesMajors.forEach(c => {
+                c.hidden = !major;
+                c.querySelectorAll('input').forEach(i => { i.disabled = !major; });
             });
         };
         naix.addEventListener('input', actualitza);

@@ -12,16 +12,16 @@ $eixida = rtrim($argv[1] ?? $arrel . '/_site', '/');
 $repo = 'https://github.com/jossanmar9/compas';
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
-$captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '19-agrupacio-fitxa', '44-llistat-grup', '53-importa-revisa', '34-copies'];
+$captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '58-genera-rebuts', '65-loteria', '19-agrupacio-fitxa', '44-llistat-grup', '53-importa-revisa', '34-copies'];
 
 $T = [
     'ca' => [
         'lang' => 'ca-valencia', 'altre' => 'es', 'altre_nom' => 'Castellano', 'altre_url' => 'es/',
         'titol' => 'Compàs: gestió lliure per a societats musicals',
-        'descripcio' => "Programa lliure i gratuït per a gestionar una societat musical des d'un ordinador amb Windows: persones, socis, escola de música, notes, butlletins, agrupacions i instruments.",
+        'descripcio' => "Programa lliure i gratuït per a gestionar una societat musical des d'un ordinador amb Windows o Linux: persones, socis, escola de música, notes, butlletins, agrupacions, instruments, quotes, rebuts i loteria.",
         'lema' => 'Gestió lliure per a societats musicals',
         'hero' => 'Tota la societat musical, en un sol programa.',
-        'hero_text' => "Socis, alumnat, professorat, notes, butlletins, músics i instruments, en un ordinador de la societat. Sense Internet, sense quotes i en valencià i castellà.",
+        'hero_text' => "Socis, alumnat, notes, butlletins, músics, instruments, quotes i loteria, en un ordinador de la societat. Sense Internet, gratuït i en valencià i castellà.",
         'descarrega' => 'Descarrega (Windows i Linux)',
         'versio' => 'Versió %s. Gratuït i lliure.',
         'manual' => 'Llig el manual',
@@ -37,6 +37,10 @@ $T = [
             ['Curs nou', 'Un assistent prepara el curs següent a partir de l\'anterior: trimestres, grups, professorat i horaris.'],
             ['Agrupacions', 'Banda, banda juvenil, coral, orquestra… Qui toca què i qui dirigeix cada formació.'],
             ['Instruments', 'Inventari, reparacions i préstecs, amb avís quan una devolució s\'ha passat de data.'],
+            ['Quotes de soci', 'Tarifes per tipus de soci i periodicitat. Els rebuts de tot un trimestre, fets amb un clic i sense duplicar-ne cap.'],
+            ['Matrícula i classes', 'Un rebut per família amb la matrícula o les classes de cada fill i els descomptes de soci i de germans.'],
+            ['Remeses bancàries', 'Domiciliacions amb l\'ordre per a signar i el fitxer SEPA per a pujar al banc. Control dels rebuts retornats.'],
+            ['Loteria', 'Talonaris repartits, participacions per a imprimir i qui ha liquidat i qui no.'],
             ['Drets d\'imatge', 'Qui autoritza fotos i vídeos, amb els fulls de consentiment preparats per a signar.'],
             ['Llistats i certificats', 'Alumnes d\'un grup amb els telèfons de les famílies, dades per a la memòria anual i certificats amb el logotip.'],
             ['Importació des d\'Excel', 'Porta els socis i l\'alumnat que ja tens en Excel, sense duplicar ningú.'],
@@ -50,6 +54,8 @@ $T = [
             '27-qualificacions' => 'Les notes d\'un grup i una avaluació, amb les observacions del professor.',
             '29-butlleti-impres' => 'Un butlletí de notes preparat per a imprimir, amb el logotip de la societat.',
             '25-horari' => 'L\'horari de tota l\'escola, que es pot filtrar per professor o per aula.',
+            '58-genera-rebuts' => 'Els rebuts de l\'escola: un per família, amb el detall de cada alumne, abans de crear-los.',
+            '65-loteria' => 'La loteria de Nadal: talonaris repartits, venudes, tornades i diners lliurats.',
             '19-agrupacio-fitxa' => 'Els membres d\'una agrupació, amb l\'instrument i la funció de cadascú.',
             '44-llistat-grup' => 'Els alumnes d\'un grup amb els telèfons de les famílies, per al professorat.',
             '53-importa-revisa' => 'La revisió abans d\'importar un Excel: qui és nou i qui ja hi era.',
@@ -92,10 +98,10 @@ $T = [
     'es' => [
         'lang' => 'es', 'altre' => 'ca', 'altre_nom' => 'Valencià', 'altre_url' => '../',
         'titol' => 'Compàs: gestión libre para sociedades musicales',
-        'descripcio' => 'Programa libre y gratuito para gestionar una sociedad musical desde un ordenador con Windows: personas, socios, escuela de música, notas, boletines, agrupaciones e instrumentos.',
+        'descripcio' => 'Programa libre y gratuito para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos y lotería.',
         'lema' => 'Gestión libre para sociedades musicales',
         'hero' => 'Toda la sociedad musical, en un solo programa.',
-        'hero_text' => 'Socios, alumnado, profesorado, notas, boletines, músicos e instrumentos, en un ordenador de la sociedad. Sin Internet, sin cuotas y en valenciano y castellano.',
+        'hero_text' => 'Socios, alumnado, notas, boletines, músicos, instrumentos, cuotas y lotería, en un ordenador de la sociedad. Sin Internet, gratuito y en valenciano y castellano.',
         'descarrega' => 'Descargar (Windows y Linux)',
         'versio' => 'Versión %s. Gratuito y libre.',
         'manual' => 'Leer el manual',
@@ -111,6 +117,10 @@ $T = [
             ['Curso nuevo', 'Un asistente prepara el curso siguiente a partir del anterior: trimestres, grupos, profesorado y horarios.'],
             ['Agrupaciones', 'Banda, banda juvenil, coral, orquesta… Quién toca qué y quién dirige cada formación.'],
             ['Instrumentos', 'Inventario, reparaciones y préstamos, con aviso cuando una devolución se ha pasado de fecha.'],
+            ['Cuotas de socio', 'Tarifas por tipo de socio y periodicidad. Los recibos de todo un trimestre, hechos con un clic y sin duplicar ninguno.'],
+            ['Matrícula y clases', 'Un recibo por familia con la matrícula o las clases de cada hijo y los descuentos de socio y de hermanos.'],
+            ['Remesas bancarias', 'Domiciliaciones con la orden para firmar y el archivo SEPA para subir al banco. Control de los recibos devueltos.'],
+            ['Lotería', 'Talonarios repartidos, participaciones para imprimir y quién ha liquidado y quién no.'],
             ['Derechos de imagen', 'Quién autoriza fotos y vídeos, con las hojas de consentimiento preparadas para firmar.'],
             ['Listados y certificados', 'Alumnos de un grupo con los teléfonos de las familias, datos para la memoria anual y certificados con el logotipo.'],
             ['Importación desde Excel', 'Trae los socios y el alumnado que ya tienes en Excel, sin duplicar a nadie.'],
@@ -124,6 +134,8 @@ $T = [
             '27-qualificacions' => 'Las notas de un grupo y una evaluación, con las observaciones del profesor.',
             '29-butlleti-impres' => 'Un boletín de notas preparado para imprimir, con el logotipo de la sociedad.',
             '25-horari' => 'El horario de toda la escuela, que se puede filtrar por profesor o por aula.',
+            '58-genera-rebuts' => 'Los recibos de la escuela: uno por familia, con el detalle de cada alumno, antes de crearlos.',
+            '65-loteria' => 'La lotería de Navidad: talonarios repartidos, vendidas, devueltas y dinero entregado.',
             '19-agrupacio-fitxa' => 'Los miembros de una agrupación, con el instrumento y la función de cada uno.',
             '44-llistat-grup' => 'Los alumnos de un grupo con los teléfonos de las familias, para el profesorado.',
             '53-importa-revisa' => 'La revisión antes de importar un Excel: quién es nuevo y quién ya estaba.',
