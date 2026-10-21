@@ -1299,6 +1299,7 @@ return [
     'audit.comunicat' => 'Comunicat registrat',
     'audit.rgpd' => 'Registre d\'activitats de tractament',
     'audit.avis_responsabilitat' => 'Avís de responsabilitat acceptat',
+    'ajuda.llicencia' => 'Llicència',
     // ---------- 1.11: tipus de soci, uniformes, mòduls i avisos ----------
     'ent.tipus_socis' => 'Tipus de soci', 'ent1.tipus_socis' => 'Tipus de soci',
     'ent.uniformes' => 'Articles d\'uniforme', 'ent1.uniformes' => 'Article d\'uniforme',

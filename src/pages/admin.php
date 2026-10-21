@@ -310,6 +310,10 @@ function pagina_ajuda(): void
         pagina_privacitat();
         return;
     }
+    if (get('doc') === 'llicencia') {
+        pagina_llicencia();
+        return;
+    }
     $fitxer = DOCS_DIR . '/' . (idioma() === 'es' ? 'manual-usuario.md' : 'manual-usuari.md');
     $md = is_file($fitxer) ? file_get_contents($fitxer) : t('ajuda.no_manual');
     $docs = idioma() === 'es' ? ['manual-usuario' => t('ajuda.pdf_manual'), 'guia-instalacion' => t('ajuda.pdf_guia')]
@@ -326,6 +330,9 @@ function pagina_ajuda(): void
     if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'PRIVACITAT.md')) {
         $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'privacitat'])) . '">🔒 ' . h(t('ajuda.privacitat')) . '</a>';
     }
+    if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'LLICENCIA.md')) {
+        $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'llicencia'])) . '">⚖ ' . h(t('ajuda.llicencia')) . '</a>';
+    }
     $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '') . avis_responsabilitat_text()
         . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
@@ -340,6 +347,18 @@ function pagina_privacitat(): void
     $html = '<div class="accions"><a class="boto secundari" href="' . h(url('ajuda')) . '">← ' . h(t('menu.ajuda')) . '</a></div>'
         . '<article class="manual">' . markdown_simple($md) . '</article>';
     pagina(t('ajuda.privacitat'), $html);
+}
+
+/** Resum de la llicència (LLICENCIA.md) en l'idioma de l'usuari; l'enllaç a LICENSE porta al text original */
+function pagina_llicencia(): void
+{
+    $fitxer = ARREL_DIR . DIRECTORY_SEPARATOR . 'LLICENCIA.md';
+    $parts = preg_split('/^---\s*$/m', is_file($fitxer) ? (string)file_get_contents($fitxer) : '');
+    $md = preg_replace('/^# .*\R/', '', $parts[idioma() === 'es' ? 1 : 0] ?? $parts[0]);
+    $md = str_replace('(LICENSE)', '(https://www.gnu.org/licenses/agpl-3.0.html)', $md);
+    $html = '<div class="accions"><a class="boto secundari" href="' . h(url('ajuda')) . '">← ' . h(t('menu.ajuda')) . '</a></div>'
+        . '<article class="manual">' . markdown_simple($md) . '</article>';
+    pagina(t('ajuda.llicencia'), $html);
 }
 
 /** Registre de canvis (CHANGELOG.md), per a saber què porta cada versió */

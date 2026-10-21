@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.13.2] - 2026-10-21
+
+### Afegit
+- **Resum de la llicència en valencià i castellà** (`LLICENCIA.md`), també dins de Compàs (Ajuda → Llicència). L'únic text vàlid continua sent l'original en anglés (`LICENSE`).
+- L'instal·lador de Windows mostra, damunt del text en anglés de la llicència, una nota en l'idioma triat que explica què s'accepta.
+
+### Canviat
+- Web: l'avís de responsabilitat té el mateix aspecte que el quadre de Windows, i s'ha llevat el segon botó de descàrrega d'eixa secció.
+
 ## [1.13.1] - 2026-10-21
 
 ### Afegit
@@ -231,6 +240,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.13.2]: https://github.com/jossanmar9/compas/releases/tag/v1.13.2
 [1.13.1]: https://github.com/jossanmar9/compas/releases/tag/v1.13.1
 [1.13.0]: https://github.com/jossanmar9/compas/releases/tag/v1.13.0
 [1.12.0]: https://github.com/jossanmar9/compas/releases/tag/v1.12.0

@@ -134,6 +134,7 @@ $T = [
         'codi' => 'Codi a GitHub',
         'novetats' => 'Què canvia en cada versió',
         'privacitat' => 'Privacitat',
+        'llicencia' => 'Resum de la llicència',
         'errades' => 'Has trobat una errada o tens una proposta? Obri una incidència a GitHub.',
         'fi' => 'Fet per a les societats musicals.',
         'resp_titol' => 'Avís de responsabilitat',
@@ -256,6 +257,7 @@ $T = [
         'codi' => 'Código en GitHub',
         'novetats' => 'Qué cambia en cada versión',
         'privacitat' => 'Privacidad',
+        'llicencia' => 'Resumen de la licencia',
         'errades' => '¿Has encontrado un error o tienes una propuesta? Abre una incidencia en GitHub.',
         'fi' => 'Hecho para las sociedades musicales.',
         'resp_titol' => 'Aviso de responsabilidad',
@@ -403,8 +405,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <dl>{$avisos}</dl>
     <p><a href="{$guia}">{$t['avis_mes']}</a></p>
   </aside>
-  <aside class="avis-resp" id="avis"><h3>⚠ {$t['resp_titol']}</h3><p>{$t['resp']}</p></aside>
-  <p class="accions"><a class="boto" href="{$descarrega}">{$t['descarrega']}</a></p>
+  <aside class="avis-windows avis-resp" id="avis"><h3>{$t['resp_titol']}</h3><p>{$t['resp']}</p></aside>
 </section>
 
 <section class="seccio dues">
@@ -431,7 +432,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
+  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/LLICENCIA.md">{$t['llicencia']}</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
   <p class="peu-resp">{$t['resp']}</p>
 </footer>
 

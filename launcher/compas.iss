@@ -34,7 +34,6 @@ OutputDir=..\dist
 OutputBaseFilename=Compas-{#Versio}-installador
 SetupIconFile=compas.ico
 UninstallDisplayIcon={app}\Compas.exe
-LicenseFile=..\LICENSE
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern
@@ -42,8 +41,8 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 
 [Languages]
-Name: "ca"; MessagesFile: "compiler:Languages\Catalan.isl"; InfoBeforeFile: "privacitat-ca.txt"
-Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"; InfoBeforeFile: "privacitat-es.txt"
+Name: "ca"; MessagesFile: "compiler:Languages\Catalan.isl"; LicenseFile: "llicencia-ca.txt"; InfoBeforeFile: "privacitat-ca.txt"
+Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"; LicenseFile: "llicencia-es.txt"; InfoBeforeFile: "privacitat-es.txt"
 
 [Tasks]
 Name: "escriptori"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"

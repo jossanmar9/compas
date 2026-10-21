@@ -135,7 +135,7 @@ jobs:
           New-Item -ItemType Directory "$d\docs", "$d\data" -Force | Out-Null
           Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\guia-installacio.md, docs\guia-instalacion.md "$d\docs"
           Copy-Item docs\imatges -Destination "$d\docs" -Recurse
-          Copy-Item README.md, CHANGELOG.md, PRIVACITAT.md, LICENSE, compas.ini $d
+          Copy-Item README.md, CHANGELOG.md, PRIVACITAT.md, LLICENCIA.md, LICENSE, compas.ini $d
           Set-Content "$d\data\LLEGIX-ME.txt" "Ací es guarden les dades de Compàs (compas.db) i les còpies automàtiques. No l'esborres."
 
       - name: Genera els manuals en PDF
@@ -232,7 +232,7 @@ jobs:
           cp docs/manual-usuari.md docs/manual-usuario.md docs/guia-installacio.md docs/guia-instalacion.md "$d/docs/"
           cp -a docs/imatges "$d/docs/"
           cp -a win/Compas/docs/pdf "$d/docs/"
-          cp README.md CHANGELOG.md PRIVACITAT.md LICENSE compas.ini "$d/"
+          cp README.md CHANGELOG.md PRIVACITAT.md LLICENCIA.md LICENSE compas.ini "$d/"
           cp launcher/linux/compas.sh launcher/linux/compas-visor.py launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
           chmod +x "$d"/*.sh
           tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas

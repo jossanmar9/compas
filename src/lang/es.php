@@ -1279,6 +1279,7 @@ return [
     'audit.comunicat' => 'Comunicado registrado',
     'audit.rgpd' => 'Registro de actividades de tratamiento',
     'audit.avis_responsabilitat' => 'Aviso de responsabilidad aceptado',
+    'ajuda.llicencia' => 'Licencia',
     // ---------- 1.11: tipos de socio, uniformes, módulos y avisos ----------
     'ent.tipus_socis' => 'Tipos de socio', 'ent1.tipus_socis' => 'Tipo de socio',
     'ent.uniformes' => 'Artículos de uniforme', 'ent1.uniformes' => 'Artículo de uniforme',

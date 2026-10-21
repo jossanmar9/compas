@@ -259,6 +259,8 @@ Copyright © 2026 José Vicente Sanjuan.
 
 Compàs és programari lliure distribuït sota la llicència **GNU Affero General Public License v3 o posterior (AGPL-3.0-or-later)**. El pots utilitzar, estudiar, modificar i redistribuir d'acord amb els termes de la llicència.
 
+El text vàlid de la llicència és l'original en anglés ([LICENSE](LICENSE)). En [LLICENCIA.md](LLICENCIA.md) n'hi ha un resum orientatiu en valencià i castellà.
+
 Si es modifica Compàs i s'ofereix als usuaris a través d'una xarxa, la llicència AGPL exigeix que estos usuaris tinguen accés al codi font de la versió modificada.
 
 Consulta [LICENSE](LICENSE).
