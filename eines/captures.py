@@ -452,6 +452,17 @@ async def fes_captures(l: str):
             await c.ves('?r=participacions&talonari=1')
             await c.foto('67-participacions', zona='.full', alt_max=700)
 
+            # --- Captures per a la web: totes de finestra sencera i del mateix format (16:10) ---
+            for nom, ruta in [('web-inici', '?r=inici'), ('web-alumne', '?r=fitxa&e=alumnes&id=1'), ('web-notes', '?r=notes&grup=1'),
+                              ('web-butlleti', '?r=butlleti&imprimir=1&curs=1&periode=1&ambit=alumne&alumne=1'), ('web-horari', '?r=horari'),
+                              ('web-rebuts', '?r=genera_rebuts&tipus=escola&curs=1&periode=MAT'), ('web-economia', '?r=economia'),
+                              ('web-loteria', '?r=loteria&id=1'), ('web-agrupacio', '?r=fitxa&e=agrupacions&id=1'),
+                              ('web-llistat', '?r=llistats&informe=alumnes_grup&curs=1&grup=1'), ('web-copies', '?r=copia')]:
+                await c.ves(ruta)
+                png = await p.screenshot()
+                Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / f'{nom}.jpg', 'JPEG', quality=QUALITAT, optimize=True, progressive=True)
+                print(f'  {l}/{nom}.jpg')
+
             # --- Entrada ---
             ctx2 = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA)
             p2 = await ctx2.new_page()

@@ -227,3 +227,6 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
   .moduls dd { font-size: .85rem; line-height: 1.45; }
   .fletxa { width: 2.25rem; height: 2.25rem; font-size: 1.5rem; }
 }
+
+/* Galeria: totes les captures amb el mateix format apaisat (16:10); les altes es mostren des de dalt */
+.principal img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }

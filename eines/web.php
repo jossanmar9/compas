@@ -12,10 +12,10 @@ $eixida = rtrim($argv[1] ?? $arrel . '/_site', '/');
 // Si es canvia el compte de GitHub, només cal canviar estes línies
 $repo = 'https://github.com/jossanmar9/compas';
 $correu = 'compas.lliure@gmail.com';
-$formulari = 'https://forms.gle/RtDnRAfbPFC7mQoV8'; // enllaç al formulari de contacte (Google Forms), si n'hi ha
+$formulari = 'https://forms.gle/WsHXDh9ktfBm8kyZ7'; // enllaç al formulari de contacte (Google Forms), si n'hi ha
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
-$captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '58-genera-rebuts', '65-loteria', '19-agrupacio-fitxa', '44-llistat-grup', '53-importa-revisa', '34-copies'];
+$captures = ['web-inici', 'web-alumne', 'web-notes', 'web-butlleti', 'web-horari', 'web-rebuts', 'web-economia', 'web-loteria', 'web-agrupacio', 'web-llistat', 'web-copies'];
 
 $T = [
     'ca' => [
@@ -66,17 +66,17 @@ $T = [
         'veure_titol' => 'Així es veu',
         'veure_intro' => 'Captures reals del programa amb dades d\'exemple.',
         'captures' => [
-            '02-inici' => 'La pantalla d\'inici: el resum de la societat, les classes de hui i els avisos.',
-            '14-alumne-resum' => 'La fitxa d\'un alumne: grups, horari, notes i tutors legals.',
-            '27-qualificacions' => 'Les notes d\'un grup i una avaluació, amb les observacions del professor.',
-            '29-butlleti-impres' => 'Un butlletí de notes preparat per a imprimir, amb el logotip de la societat.',
-            '25-horari' => 'L\'horari de tota l\'escola, que es pot filtrar per professor o per aula.',
-            '58-genera-rebuts' => 'Els rebuts de l\'escola: un per família, amb el detall de cada alumne, abans de crear-los.',
-            '65-loteria' => 'La loteria de Nadal: talonaris repartits, venudes, tornades i diners lliurats.',
-            '19-agrupacio-fitxa' => 'Els membres d\'una agrupació, amb l\'instrument i la funció de cadascú.',
-            '44-llistat-grup' => 'Els alumnes d\'un grup amb els telèfons de les famílies, per al professorat.',
-            '53-importa-revisa' => 'La revisió abans d\'importar un Excel: qui és nou i qui ja hi era.',
-            '34-copies' => 'Les còpies de seguretat: automàtiques, manuals i en una carpeta externa.',
+            'web-inici' => 'La pantalla d\'inici: el resum de la societat, les classes de hui i els avisos.',
+            'web-alumne' => 'La fitxa d\'un alumne: grups, horari, notes i tutors legals.',
+            'web-notes' => 'Les notes d\'un grup i una avaluació, amb les observacions del professor.',
+            'web-butlleti' => 'Un butlletí de notes preparat per a imprimir, amb el logotip de la societat.',
+            'web-horari' => 'L\'horari de tota l\'escola, que es pot filtrar per professor o per aula.',
+            'web-rebuts' => 'Els rebuts de l\'escola: un per família, amb el detall de cada alumne, abans de crear-los.',
+            'web-economia' => 'El resum econòmic: el que hi ha per cobrar, el cobrat i qui deu diners.',
+            'web-loteria' => 'La loteria de Nadal: talonaris repartits, venudes, tornades i diners lliurats.',
+            'web-agrupacio' => 'Els membres d\'una agrupació, amb l\'instrument i la funció de cadascú.',
+            'web-llistat' => 'Els alumnes d\'un grup amb els telèfons de les famílies, per al professorat.',
+            'web-copies' => 'Les còpies de seguretat: automàtiques, manuals i en una carpeta externa.',
         ],
         'com_titol' => 'Com començar',
         'passos' => [
@@ -160,17 +160,17 @@ $T = [
         'veure_titol' => 'Así se ve',
         'veure_intro' => 'Capturas reales del programa con datos de ejemplo.',
         'captures' => [
-            '02-inici' => 'La pantalla de inicio: el resumen de la sociedad, las clases de hoy y los avisos.',
-            '14-alumne-resum' => 'La ficha de un alumno: grupos, horario, notas y tutores legales.',
-            '27-qualificacions' => 'Las notas de un grupo y una evaluación, con las observaciones del profesor.',
-            '29-butlleti-impres' => 'Un boletín de notas preparado para imprimir, con el logotipo de la sociedad.',
-            '25-horari' => 'El horario de toda la escuela, que se puede filtrar por profesor o por aula.',
-            '58-genera-rebuts' => 'Los recibos de la escuela: uno por familia, con el detalle de cada alumno, antes de crearlos.',
-            '65-loteria' => 'La lotería de Navidad: talonarios repartidos, vendidas, devueltas y dinero entregado.',
-            '19-agrupacio-fitxa' => 'Los miembros de una agrupación, con el instrumento y la función de cada uno.',
-            '44-llistat-grup' => 'Los alumnos de un grupo con los teléfonos de las familias, para el profesorado.',
-            '53-importa-revisa' => 'La revisión antes de importar un Excel: quién es nuevo y quién ya estaba.',
-            '34-copies' => 'Las copias de seguridad: automáticas, manuales y en una carpeta externa.',
+            'web-inici' => 'La pantalla de inicio: el resumen de la sociedad, las clases de hoy y los avisos.',
+            'web-alumne' => 'La ficha de un alumno: grupos, horario, notas y tutores legales.',
+            'web-notes' => 'Las notas de un grupo y una evaluación, con las observaciones del profesor.',
+            'web-butlleti' => 'Un boletín de notas preparado para imprimir, con el logotipo de la sociedad.',
+            'web-horari' => 'El horario de toda la escuela, que se puede filtrar por profesor o por aula.',
+            'web-rebuts' => 'Los recibos de la escuela: uno por familia, con el detalle de cada alumno, antes de crearlos.',
+            'web-economia' => 'El resumen económico: lo que hay por cobrar, lo cobrado y quién debe dinero.',
+            'web-loteria' => 'La lotería de Navidad: talonarios repartidos, vendidas, devueltas y dinero entregado.',
+            'web-agrupacio' => 'Los miembros de una agrupación, con el instrumento y la función de cada uno.',
+            'web-llistat' => 'Los alumnos de un grupo con los teléfonos de las familias, para el profesorado.',
+            'web-copies' => 'Las copias de seguridad: automáticas, manuales y en una carpeta externa.',
         ],
         'com_titol' => 'Cómo empezar',
         'passos' => [
@@ -288,7 +288,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p class="qui-lema">{$t['qui_lema']} <a href="#qui">{$t['qui_llig']} →</a></p>
   </div>
   <figure class="hero-captura">
-    <img src="{$base}img/{$l}/02-inici.jpg" alt="{$t['captures']['02-inici']}" width="1920" height="1200">
+    <img src="{$base}img/{$l}/web-inici.jpg" alt="{$t['captures']['web-inici']}" width="1920" height="1200">
   </figure>
 </section>
 
@@ -405,6 +405,19 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 HTML;
 }
 
+/** Els enllaços que porten fora de la pàgina (GitHub, PDF, formulari…) s'obrin en una pestanya nova */
+function pestanya_nova(string $html): string
+{
+    return preg_replace_callback('/<a\s([^>]*?)href="([^"]+)"([^>]*)>/', function ($m) {
+        $href = $m[2];
+        $fora = preg_match('#^https?://#', $href) || str_ends_with($href, '.pdf');
+        if (!$fora || str_contains($m[0], 'target=')) {
+            return $m[0];
+        }
+        return '<a ' . $m[1] . 'href="' . $href . '"' . $m[3] . ' target="_blank" rel="noopener">';
+    }, $html);
+}
+
 // Carpetes i recursos
 foreach (['', '/es', '/img/ca', '/img/es', '/pdf'] as $d) {
     if (!is_dir($eixida . $d)) {
@@ -429,7 +442,7 @@ foreach (['ca', 'es'] as $l) {
 foreach (glob($arrel . '/docs/pdf/*.pdf') as $pdf) {
     copy($pdf, $eixida . '/pdf/' . basename($pdf));
 }
-file_put_contents($eixida . '/index.html', pagina($T['ca'], 'ca', '', $repo, $versio, $captures, $correu, $formulari));
-file_put_contents($eixida . '/es/index.html', pagina($T['es'], 'es', '../', $repo, $versio, $captures, $correu, $formulari));
+file_put_contents($eixida . '/index.html', pestanya_nova(pagina($T['ca'], 'ca', '', $repo, $versio, $captures, $correu, $formulari)));
+file_put_contents($eixida . '/es/index.html', pestanya_nova(pagina($T['es'], 'es', '../', $repo, $versio, $captures, $correu, $formulari)));
 file_put_contents($eixida . '/.nojekyll', '');
 echo "Web generada a $eixida\n";
