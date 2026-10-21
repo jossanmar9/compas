@@ -334,13 +334,40 @@ function fmt_pct(float $x): string
 /** Afig a cada rebut el total, la forma de pagament i si ja s'havia generat */
 function completa_rebuts(array $rebuts): array
 {
+    if (!$rebuts) {
+        return $rebuts;
+    }
+
+    // Carrega en bloc els mandats actius de les persones implicades.
+    // Es processen per lots per no dependre del límit de paràmetres de SQLite.
+    $persones = array_values(array_unique(array_map(fn($r) => (int)$r['persona_id'], $rebuts)));
+    $mandats = [];
+    foreach (array_chunk($persones, 500) as $lot) {
+        $marcadors = implode(',', array_fill(0, count($lot), '?'));
+        foreach (q("SELECT id, persona_id FROM mandats
+            WHERE estat = 'actiu' AND persona_id IN ($marcadors)
+            ORDER BY persona_id, data_signatura DESC", $lot)->fetchAll() as $m) {
+            $mandats[(int)$m['persona_id']] ??= (int)$m['id'];
+        }
+    }
+
+    // Carrega en bloc els rebuts que ja existeixen. «clau» és UNIQUE a l'esquema.
+    $claus = array_values(array_unique(array_column($rebuts, 'clau')));
+    $existents = [];
+    foreach (array_chunk($claus, 500) as $lot) {
+        $marcadors = implode(',', array_fill(0, count($lot), '?'));
+        foreach (q("SELECT clau, numero FROM rebuts WHERE clau IN ($marcadors)", $lot)->fetchAll() as $e) {
+            $existents[$e['clau']] = $e['numero'];
+        }
+    }
+
     foreach ($rebuts as &$r) {
         $r['total'] = round(array_sum(array_column($r['linies'], 1)), 2);
-        $m = mandat_actiu($r['persona_id']);
-        $r['mandat_id'] = $m['id'] ?? null;
-        $r['forma'] = $m ? 'domiciliacio' : 'efectiu';
-        $r['existeix'] = valor('SELECT numero FROM rebuts WHERE clau = ?', [$r['clau']]);
+        $r['mandat_id'] = $mandats[(int)$r['persona_id']] ?? null;
+        $r['forma'] = $r['mandat_id'] !== null ? 'domiciliacio' : 'efectiu';
+        $r['existeix'] = $existents[$r['clau']] ?? null;
     }
+    unset($r);
     return $rebuts;
 }
 
