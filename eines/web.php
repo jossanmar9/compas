@@ -9,7 +9,10 @@ declare(strict_types=1);
 
 $arrel = dirname(__DIR__);
 $eixida = rtrim($argv[1] ?? $arrel . '/_site', '/');
+// Si es canvia el compte de GitHub, només cal canviar estes línies
 $repo = 'https://github.com/jossanmar9/compas';
+$correu = 'compas.lliure@gmail.com';
+$formulari = 'https://forms.gle/RtDnRAfbPFC7mQoV8'; // enllaç al formulari de contacte (Google Forms), si n'hi ha
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
 $captures = ['02-inici', '14-alumne-resum', '27-qualificacions', '29-butlleti-impres', '25-horari', '58-genera-rebuts', '65-loteria', '19-agrupacio-fitxa', '44-llistat-grup', '53-importa-revisa', '34-copies'];
@@ -25,7 +28,21 @@ $T = [
         'descarrega' => 'Descarrega (Windows i Linux)',
         'versio' => 'Versió %s. Gratuït i lliure.',
         'manual' => 'Llig el manual',
-        'nav_que' => 'Què fa', 'nav_veure' => 'Captures', 'nav_com' => 'Com començar', 'nav_codi' => 'Codi',
+        'nav_que' => 'Què fa', 'nav_veure' => 'Captures', 'nav_com' => 'Com començar', 'nav_qui' => 'Per què', 'nav_codi' => 'Codi',
+        'qui_titol' => 'Per què Compàs',
+        'qui' => [
+            'Soc José Vicente Sanjuan. Durant sis anys vaig ser president de la Societat Musical de Massalfassar, i en tot eixe temps vaig trobar a faltar un programa per a gestionar la societat que fora fàcil, útil i gratuït.',
+            'La majoria de les bandes viuen amb els comptes molt justos, i els programes de gestió costen diners, i no pocs. Jo no sé programar, però estic al dia del que passa amb la intel·ligència artificial, i quan vaig tindre l\'oportunitat de provar-ne una vaig pensar: «I si faig el programa que necessitava la meua societat? Segur que també li servirà a més d\'una.»',
+            'I ací està Compàs. No és perfecte ni brillant, però crec que és suficient. Proveu-lo, mireu-lo i, si vos agrada, gasteu-lo i parleu-ne amb altres societats musicals, escoles de música o acadèmies: també el poden fer servir.',
+        ],
+        'qui_signa' => 'José Vicente Sanjuan',
+        'qui_contacte' => 'Si teniu dubtes o propostes, o voleu contar-me com vos va, escriviu-me a %s.',
+        'qui_formulari' => 'També podeu omplir este formulari.',
+        'qui_errades' => 'Si sabeu fer-ho, les errades també es poden avisar a GitHub.',
+        'qui_lema' => 'Fet per l\'expresident d\'una societat musical, per a les societats musicals.',
+        'qui_llig' => 'Per què el vaig fer',
+        'anterior' => 'Captura anterior', 'seguent' => 'Captura següent',
+        'contacte' => 'Contacte',
         'que_titol' => 'Què pots fer amb Compàs',
         'que_intro' => 'Pensat per a qui porta la secretaria i l\'escola de música, encara que no siga informàtic.',
         'moduls' => [
@@ -105,7 +122,21 @@ $T = [
         'descarrega' => 'Descargar (Windows y Linux)',
         'versio' => 'Versión %s. Gratuito y libre.',
         'manual' => 'Leer el manual',
-        'nav_que' => 'Qué hace', 'nav_veure' => 'Capturas', 'nav_com' => 'Cómo empezar', 'nav_codi' => 'Código',
+        'nav_que' => 'Qué hace', 'nav_veure' => 'Capturas', 'nav_com' => 'Cómo empezar', 'nav_qui' => 'Por qué', 'nav_codi' => 'Código',
+        'qui_titol' => 'Por qué Compàs',
+        'qui' => [
+            'Soy José Vicente Sanjuan. Durante seis años fui presidente de la Societat Musical de Massalfassar, y en todo ese tiempo eché en falta un programa para gestionar la sociedad que fuera fácil, útil y gratuito.',
+            'La mayoría de las bandas viven con las cuentas muy justas, y los programas de gestión cuestan dinero, y no poco. Yo no sé programar, pero estoy al día de lo que pasa con la inteligencia artificial, y cuando tuve la oportunidad de probar una pensé: «¿Y si hago el programa que necesitaba mi sociedad? Seguro que también le sirve a más de una».',
+            'Y aquí está Compàs. No es perfecto ni brillante, pero creo que es suficiente. Probadlo, miradlo y, si os gusta, usadlo y habladlo con otras sociedades musicales, escuelas de música o academias: también lo pueden usar.',
+        ],
+        'qui_signa' => 'José Vicente Sanjuan',
+        'qui_contacte' => 'Si tenéis dudas o propuestas, o queréis contarme cómo os va, escribidme a %s.',
+        'qui_formulari' => 'También podéis rellenar este formulario.',
+        'qui_errades' => 'Si sabéis hacerlo, los errores también se pueden avisar en GitHub.',
+        'qui_lema' => 'Hecho por el expresidente de una sociedad musical, para las sociedades musicales.',
+        'qui_llig' => 'Por qué lo hice',
+        'anterior' => 'Captura anterior', 'seguent' => 'Captura siguiente',
+        'contacte' => 'Contacto',
         'que_titol' => 'Qué puedes hacer con Compàs',
         'que_intro' => 'Pensado para quien lleva la secretaría y la escuela de música, aunque no sea informático.',
         'moduls' => [
@@ -182,9 +213,13 @@ function e(string $s): string
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
 
-function pagina(array $t, string $l, string $base, string $repo, string $versio, array $captures): string
+function pagina(array $t, string $l, string $base, string $repo, string $versio, array $captures, string $correu, string $formulari): string
 {
     $descarrega = $repo . '/releases/latest';
+    $qui = implode('', array_map(fn($p) => '<p>' . e($p) . '</p>', $t['qui']));
+    $enllacCorreu = '<a href="mailto:' . e($correu) . '">' . e($correu) . '</a>';
+    $contacte = sprintf(e($t['qui_contacte']), $enllacCorreu)
+        . ($formulari !== '' ? ' <a href="' . e($formulari) . '">' . e($t['qui_formulari']) . '</a>' : '');
     $moduls = '';
     foreach ($t['moduls'] as [$nom, $text]) {
         $moduls .= '<div class="modul"><dt>' . e($nom) . '</dt><dd>' . e($text) . '</dd></div>';
@@ -231,6 +266,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <nav aria-label="Seccions">
     <a href="#que">{$t['nav_que']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
+    <a href="#qui">{$t['nav_qui']}</a>
     <a href="#comencar">{$t['nav_com']}</a>
     <a href="{$repo}">{$t['nav_codi']}</a>
     <a class="idioma" href="{$t['altre_url']}" hreflang="{$t['altre']}" lang="{$t['altre']}">{$t['altre_nom']}</a>
@@ -249,6 +285,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
       <a class="boto secundari" href="{$base}pdf/{$t['docs'][0][0]}">{$t['manual']}</a>
     </div>
     <p class="versio">{$versioText}</p>
+    <p class="qui-lema">{$t['qui_lema']} <a href="#qui">{$t['qui_llig']} →</a></p>
   </div>
   <figure class="hero-captura">
     <img src="{$base}img/{$l}/02-inici.jpg" alt="{$t['captures']['02-inici']}" width="1920" height="1200">
@@ -269,10 +306,23 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p>{$t['veure_intro']}</p>
   </div>
   <figure class="principal">
-    <img id="captura" src="{$base}img/{$l}/{$primera}.jpg" alt="{$t['captures'][$primera]}">
-    <figcaption id="peu">{$t['captures'][$primera]}</figcaption>
+    <div class="visor">
+      <img id="captura" src="{$base}img/{$l}/{$primera}.jpg" alt="{$t['captures'][$primera]}">
+      <button type="button" class="fletxa ant" aria-label="{$t['anterior']}">‹</button>
+      <button type="button" class="fletxa seg" aria-label="{$t['seguent']}">›</button>
+    </div>
+    <figcaption id="peu" aria-live="polite">{$t['captures'][$primera]}</figcaption>
   </figure>
   <ul class="miniatures" aria-label="{$t['veure_titol']}">{$miniatures}</ul>
+</section>
+
+<section id="qui" class="seccio qui">
+  <h2>{$t['qui_titol']}</h2>
+  <blockquote>{$qui}
+    <footer>— {$t['qui_signa']}</footer>
+  </blockquote>
+  <p class="contacte">{$contacte}</p>
+  <p class="nota"><a href="{$repo}/issues/new/choose">{$t['qui_errades']}</a></p>
 </section>
 
 <section id="comencar" class="seccio">
@@ -302,7 +352,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <section class="seccio lliure">
   <h2>{$t['lliure_titol']}</h2>
   <p>{$t['lliure']}</p>
-  <p class="nota">{$t['autor']} {$t['ia']}</p>
+  <p class="nota">{$t['ia']}</p>
   <p><a class="boto secundari" href="{$repo}">{$t['codi']}</a></p>
   <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues/new/choose">{$t['errades']}</a></p>
 </section>
@@ -310,19 +360,45 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></p>
+  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
 </footer>
 
 <script>
-document.querySelectorAll('.miniatures button').forEach(b => {
-  b.addEventListener('click', () => {
-    const img = document.getElementById('captura');
+(() => {
+  const botons = [...document.querySelectorAll('.miniatures button')];
+  const img = document.getElementById('captura');
+  let actual = 0;
+  const mostra = i => {
+    actual = (i + botons.length) % botons.length;
+    const b = botons[actual];
     img.src = b.dataset.src; img.alt = b.dataset.peu;
     document.getElementById('peu').textContent = b.dataset.peu;
-    document.querySelectorAll('.miniatures button').forEach(x => x.removeAttribute('aria-current'));
+    botons.forEach(x => x.removeAttribute('aria-current'));
     b.setAttribute('aria-current', 'true');
+    b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+  };
+  botons.forEach((b, i) => b.addEventListener('click', () => mostra(i)));
+  document.querySelector('.fletxa.ant').addEventListener('click', () => mostra(actual - 1));
+  document.querySelector('.fletxa.seg').addEventListener('click', () => mostra(actual + 1));
+  // Tecles ← → quan la galeria està a la vista
+  const galeria = document.getElementById('captures');
+  document.addEventListener('keydown', e => {
+    if (e.target.closest('input, textarea')) return;
+    const r = galeria.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    if (e.key === 'ArrowLeft') mostra(actual - 1);
+    if (e.key === 'ArrowRight') mostra(actual + 1);
   });
-});
+  // Lliscar amb el dit (mòbils i tauletes)
+  let x0 = null;
+  img.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  img.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) mostra(actual + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+})();
 </script>
 </body>
 </html>
@@ -353,7 +429,7 @@ foreach (['ca', 'es'] as $l) {
 foreach (glob($arrel . '/docs/pdf/*.pdf') as $pdf) {
     copy($pdf, $eixida . '/pdf/' . basename($pdf));
 }
-file_put_contents($eixida . '/index.html', pagina($T['ca'], 'ca', '', $repo, $versio, $captures));
-file_put_contents($eixida . '/es/index.html', pagina($T['es'], 'es', '../', $repo, $versio, $captures));
+file_put_contents($eixida . '/index.html', pagina($T['ca'], 'ca', '', $repo, $versio, $captures, $correu, $formulari));
+file_put_contents($eixida . '/es/index.html', pagina($T['es'], 'es', '../', $repo, $versio, $captures, $correu, $formulari));
 file_put_contents($eixida . '/.nojekyll', '');
 echo "Web generada a $eixida\n";
