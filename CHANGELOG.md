@@ -8,6 +8,23 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.12.0] - 2026-10-21
+
+### Afegit
+- Proves automatitzades per a IBAN, BIC, SEPA i còpies de seguretat xifrades.
+- Integració amb GitHub Actions per comprovar la sintaxi, executar proves i validar l'aplicació amb cada canvi.
+- Prova específica de rendiment de SQLite amb una base de dades gran.
+
+### Canviat
+- Nous índexs SQLite per accelerar les consultes més habituals.
+- Optimitzat el càlcul dels rebuts de l'escola, eliminant consultes repetitives per alumne.
+- Optimitzada la comprovació de mandats SEPA i de rebuts ja existents, processant les consultes per lots.
+- Millorada l'escalabilitat del mòdul d'economia sense canviar el funcionament ni el format de les dades.
+
+### Intern
+- Reducció de patrons N+1 en el mòdul d'economia.
+- Millores de qualitat i mantenibilitat del projecte.
+
 ## [1.11.2] - 2026-10-21
 
 ### Corregit
