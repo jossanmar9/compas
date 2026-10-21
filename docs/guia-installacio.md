@@ -1,5 +1,7 @@
 # Guia d'instal·lació de Compàs
 
+> ⚠ **Avís de responsabilitat.** Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l'ús del programa, d'una errada, d'una actualització o d'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).
+
 ## Requisits
 
 - **Windows** 10 o 11 de 64 bits, o **Linux** amb PHP 8.1 o posterior.

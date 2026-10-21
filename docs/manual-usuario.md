@@ -11,6 +11,8 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
+> ⚠ **Aviso de responsabilidad.** Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).
+
 ### Abrir y cerrar Compàs
 
 1. Haz doble clic en el icono **Compàs** del escritorio o del menú Inicio.
@@ -40,7 +42,8 @@ La primera vez que se abre Compàs aparece la **Configuración inicial**:
 3. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
 4. Si quieres, crea también la cuenta de **administrativo/a** (se puede hacer después).
 5. Marca **Cargar datos de ejemplo** solo si quieres probar el programa con datos inventados.
-6. Pulsa **Empezar**.
+6. Lee el **aviso de responsabilidad** y marca que lo aceptas.
+7. Pulsa **Empezar**.
 
 ![Configuración inicial](imatges/es/01-configuracio-inicial.jpg)
 

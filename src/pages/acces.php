@@ -35,12 +35,16 @@ function pagina_configuracio_inicial(): void
                 $error = valida_contrasenya((string)post('contrasenya_b'), (string)post('contrasenya_b2'));
             }
         }
+        if (!$error && post('accepta_avis') !== '1') {
+            $error = t('avis_resp.cal_acceptar');
+        }
         if (!$error) {
             db()->beginTransaction();
             desa_config('societat_nom', $nom);
             desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_tipus_socis(db(), isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_tipus_obres(db(), isset(IDIOMES[$l]) ? $l : 'ca');
+            desa_config('avis_responsabilitat', date('Y-m-d H:i') . '|' . $usuari);
             q('INSERT INTO usuaris(usuari, contrasenya, idioma) VALUES(?, ?, ?)', [$usuari, password_hash(post('contrasenya'), PASSWORD_DEFAULT), $l]);
             $id = (int)db()->lastInsertId();
             assigna_rol($id, 'admin');
@@ -82,6 +86,8 @@ function pagina_configuracio_inicial(): void
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya_b" autocomplete="new-password"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya_b2" autocomplete="new-password"></div></fieldset>'
         . '<div class="camp camp-check"><label><input type="checkbox" name="exemple" value="1"> ' . h(t('setup.exemple')) . '</label><small>' . h(t('setup.exemple_ajuda')) . '</small></div>'
+        . '<div class="avis-responsabilitat"><h2>⚠ ' . h(t('avis_resp.titol')) . '</h2><p>' . h(t('avis_resp.text')) . '</p>'
+        . '<label class="check"><input type="checkbox" name="accepta_avis" value="1" required> <b>' . h(t('avis_resp.accepte')) . '</b></label></div>'
         . '<button>' . h(t('setup.comenca')) . '</button></form>';
     $html .= '<p class="idiomes-peu">' . enllacos_idioma() . '</p>';
     pagina_simple(t('setup.titol'), $html);

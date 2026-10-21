@@ -339,3 +339,12 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
     .taula.repertori a { color: inherit; text-decoration: none; }
     .nota-obra { display: none; }
 }
+
+/* Avís de responsabilitat */
+.avis-responsabilitat { border: 1px solid var(--or); border-left-width: 5px; background: var(--info-fons); border-radius: var(--radi); padding: 14px 18px; margin: 0 0 18px; }
+.avis-responsabilitat h2 { font-size: 1.05rem; margin: 0 0 6px; }
+.avis-responsabilitat p { margin: 0 0 10px; line-height: 1.5; }
+.avis-responsabilitat p:last-child { margin-bottom: 0; }
+.avis-responsabilitat label.check { display: flex; gap: 8px; align-items: flex-start; }
+.peu-app { padding: 14px 28px 22px; font-size: .78rem; color: var(--suau); border-top: 1px solid var(--vora); margin-top: 10px; }
+.peu-app a { color: var(--suau); }

@@ -184,8 +184,8 @@ async def fes_captures(l: str):
             await c.ves(f'?r=idioma&l={l}&tornar=/')
             await c.omple({'societat_nom': t['societat'], 'usuari': 'admin', 'contrasenya': 'contrasenya1',
                            'contrasenya2': 'contrasenya1', 'usuari2': 'secretaria', 'contrasenya_b': 'contrasenya2',
-                           'contrasenya_b2': 'contrasenya2', 'exemple': True})
-            await c.foto('01-configuracio-inicial', 'button', zona='.caixa', alt_max=1400)
+                           'contrasenya_b2': 'contrasenya2', 'exemple': True, 'accepta_avis': True})
+            await c.foto('01-configuracio-inicial', 'input[name="accepta_avis"]', 'button', zona='.caixa', alt_max=1900)
             await c.desa()
 
             # Codi de recuperació (es mostra una sola vegada, just després de la configuració inicial)

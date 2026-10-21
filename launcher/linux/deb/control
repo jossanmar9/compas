@@ -14,6 +14,8 @@ Description: Gestió lliure per a societats musicals
  les notes i els butlletins, les agrupacions i els instruments d'una
  societat musical. Funciona sense Internet en un sol ordinador: només
  escolta a 127.0.0.1 i no envia cap dada fora. En valencià i castellà.
+ Es distribueix sense cap garantia: l'autor no es fa responsable de la
+ pèrdua de dades. Feu còpies de seguretat externes.
  .
  Free management software for music societies (bands, music schools and
  ensembles). Runs offline on one computer and never sends any data.

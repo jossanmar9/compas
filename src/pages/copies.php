@@ -383,5 +383,6 @@ function pagina_copia(): void
             . '<label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
             . '<button class="perill">' . h(t('copia.restaurar')) . '</button></form></section>';
     }
+    $html = '<div class="avis atencio">⚠ ' . h(t('avis_resp.curt')) . '</div>' . $html;
     pagina(t('menu.copia'), $html);
 }

@@ -15,6 +15,10 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 
 > 🔒 **La privacitat és el centre del projecte.** A diferència de les plataformes en línia per a societats musicals, Compàs **no té servidor, no demana registrar-se ni pagar una subscripció i no recull cap dada**: ni de la societat, ni dels socis, ni de l'alumnat menor d'edat. Tot es queda en un fitxer de l'ordinador de la societat, que en controla les còpies. No hi ha telemetria, ni publicitat, ni comptes en el núvol de ningú.
 
+> ⚠ **Avís de responsabilitat.** Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l'ús del programa, d'una errada, d'una actualització o d'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).
+>
+> *Aviso de responsabilidad: Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).*
+
 *Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos, lotería, caja, junta directiva y documentación. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
 
 Un projecte de **José Vicente Sanjuan**.
@@ -38,6 +42,7 @@ Un projecte de **José Vicente Sanjuan**.
 - [Pròximes versions](#pròximes-versions)
 - [Col·laborar](#col·laborar)
 - [Autoria i ús d'intel·ligència artificial](#autoria-i-ús-dintel·ligència-artificial)
+- [Avís de responsabilitat](#avís-de-responsabilitat)
 - [Llicència](#llicència)
 
 ## Què fa
@@ -241,6 +246,12 @@ Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/n
 Compàs és un projecte de **José Vicente Sanjuan**, que n'ha definit les funcions, n'ha revisat el funcionament i el manté.
 
 Este projecte s'ha desenvolupat amb l'ajuda d'una intel·ligència artificial (Claude, d'Anthropic), que ha generat bona part del codi i de la documentació a partir de les especificacions i les revisions del projecte.
+
+## Avís de responsabilitat
+
+Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l'ús del programa, d'una errada, d'una actualització o d'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).
+
+En la configuració inicial, Compàs demana acceptar este avís; les instal·lacions d'abans de la versió 1.13.1 el mostren una vegada a l'inici.
 
 ## Llicència
 

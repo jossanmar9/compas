@@ -1,4 +1,10 @@
-﻿PRIVACITAT DE COMPÀS
+﻿AVÍS DE RESPONSABILITAT
+
+Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l'ús del programa, d'una errada, d'una actualització o d'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).
+
+En continuar la instal·lació, accepteu este avís.
+
+PRIVACITAT DE COMPÀS
 
 En resum: Compàs no recull, no envia i no comparteix cap dada. Tot es queda en este ordinador.
 

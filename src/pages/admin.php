@@ -190,7 +190,8 @@ function pagina_configuracio(): void
         . '<dt>' . h(t('config.versio')) . '</dt><dd>Compàs ' . COMPAS_VERSIO . '</dd>'
         . '<dt>PHP</dt><dd>' . h(PHP_VERSION) . ' · SQLite ' . h(valor('SELECT sqlite_version()')) . '</dd>'
         . '<dt>' . h(t('config.carpeta_dades')) . '</dt><dd><code>' . h(DADES_DIR) . '</code></dd>'
-        . '<dt>' . h(t('config.mida_bd')) . '</dt><dd>' . h(number_format(filesize(DADES_DIR . '/compas.db') / 1024, 0, ',', '.')) . ' KB</dd></dl></section>';
+        . '<dt>' . h(t('config.mida_bd')) . '</dt><dd>' . h(number_format(filesize(DADES_DIR . '/compas.db') / 1024, 0, ',', '.')) . ' KB</dd></dl></section>'
+        . avis_responsabilitat_text();
     pagina(t('menu.configuracio'), $html);
 }
 
@@ -325,7 +326,7 @@ function pagina_ajuda(): void
     if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'PRIVACITAT.md')) {
         $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'privacitat'])) . '">🔒 ' . h(t('ajuda.privacitat')) . '</a>';
     }
-    $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '')
+    $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '') . avis_responsabilitat_text()
         . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
 }

@@ -132,12 +132,13 @@ function pagina(string $titol, string $cos, ?string $subtitol = null): void
     echo '<main><header class="superior"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>';
     echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.compte')) . '">👤 '
         . h($u['usuari']) . '</a><form method="post" action="' . h(url('eixir')) . '">' . csrf_camp() . '<button class="enllac">' . h(t('eixir')) . '</button></form></div></header>';
-    echo '<div class="contingut">' . html_avisos() . $cos . '</div></main></div></body></html>';
+    echo '<div class="contingut">' . html_avisos() . $cos . '</div><footer class="peu-app no-imprimir">Compàs ' . COMPAS_VERSIO . ' · ' . h(t('avis_resp.curt'))
+        . ' <a href="' . h(url('ajuda')) . '">' . h(t('avis_resp.titol')) . '</a></footer></main></div></body></html>';
 }
 
 function pagina_simple(string $titol, string $cos): void
 {
     echo capcalera_html($titol);
     echo '<body class="simple"><div class="caixa"><img class="logo" src="assets/logo.png" alt="Compàs: ' . h(t('lema')) . '">'
-        . html_avisos() . $cos . '</div><p class="versio">Compàs ' . COMPAS_VERSIO . ' · © José Vicente Sanjuan · AGPL-3.0-or-later</p></body></html>';
+        . html_avisos() . $cos . '</div><p class="versio">Compàs ' . COMPAS_VERSIO . ' · © José Vicente Sanjuan · AGPL-3.0-or-later<br>' . h(t('avis_resp.curt')) . '</p></body></html>';
 }

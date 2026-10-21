@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.13.1] - 2026-10-21
+
+### Afegit
+- **Avís de responsabilitat**: Compàs es distribueix tal com és, sense cap garantia, i l'autor no es fa responsable de la pèrdua de dades ni de cap altre dany derivat del seu ús. Apareix:
+  - en la configuració inicial, on cal acceptar-lo per a continuar;
+  - una vegada a l'inici de les instal·lacions que ja existien, fins que algú prem «Entesos» (queda apuntat qui i quan);
+  - a l'ajuda, a la configuració, a la pantalla de còpies de seguretat i al peu de totes les pantalles;
+  - als instal·ladors de Windows i Linux, al paquet .deb, a la web, al README, als manuals, a les guies d'instal·lació i a la declaració de privacitat.
+
 ## [1.13.0] - 2026-10-21 · Edició Repertori 🎼
 
 ### Afegit
@@ -222,6 +231,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.13.1]: https://github.com/jossanmar9/compas/releases/tag/v1.13.1
 [1.13.0]: https://github.com/jossanmar9/compas/releases/tag/v1.13.0
 [1.12.0]: https://github.com/jossanmar9/compas/releases/tag/v1.12.0
 [1.11.2]: https://github.com/jossanmar9/compas/releases/tag/v1.11.2

@@ -12,7 +12,7 @@ function targeta(string $xifra, string $text, ?string $enllac = null): string
 function pagina_inici(): void
 {
     $curs = curs_actual();
-    $html = avis_codi_recuperacio() . avis_copies() . '<div class="targetes">';
+    $html = avis_responsabilitat_pendent() . avis_codi_recuperacio() . avis_copies() . '<div class="targetes">';
     $es = fn(string $cap, string $modul) => pot($cap) && modul_actiu($modul);
     if (pot('persones.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM persones WHERE actiu = 1'), t('ent.persones'), url('llista', ['e' => 'persones']));

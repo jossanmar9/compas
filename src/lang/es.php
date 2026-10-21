@@ -1278,6 +1278,7 @@ return [
     'audit.obri_document' => 'Documento abierto',
     'audit.comunicat' => 'Comunicado registrado',
     'audit.rgpd' => 'Registro de actividades de tratamiento',
+    'audit.avis_responsabilitat' => 'Aviso de responsabilidad aceptado',
     // ---------- 1.11: tipos de socio, uniformes, módulos y avisos ----------
     'ent.tipus_socis' => 'Tipos de socio', 'ent1.tipus_socis' => 'Tipo de socio',
     'ent.uniformes' => 'Artículos de uniforme', 'ent1.uniformes' => 'Artículo de uniforme',
@@ -1389,4 +1390,12 @@ return [
     'imp.pas3_obres_nota' => 'Al actualizar una obra solo se cambian los datos que lleva la hoja, y las agrupaciones se añaden a las que ya tenía. Antes de importar se hace una copia de seguridad.',
     'imp.confirma_obres' => 'Se importarán %d obras nuevas. ¿Continuar?',
     'imp.res_obres_noves' => 'Obras nuevas', 'imp.res_tipus_nous' => 'Tipos de obra nuevos',
+    // ---------- 1.13.1: aviso de responsabilidad ----------
+    'avis_resp.titol' => 'Aviso de responsabilidad',
+    'avis_resp.text' => 'Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).',
+    'avis_resp.curt' => 'Compàs se distribuye sin ninguna garantía: el autor no se hace responsable de la pérdida de datos. Haz copias de seguridad externas.',
+    'avis_resp.accepte' => 'He leído el aviso de responsabilidad y lo acepto.',
+    'avis_resp.cal_acceptar' => 'Para continuar, hay que aceptar el aviso de responsabilidad.',
+    'avis_resp.entesos' => 'Entendido',
+    'avis_resp.acceptat' => 'Aceptado el %s por %s.',
 ];

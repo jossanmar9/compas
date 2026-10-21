@@ -136,6 +136,8 @@ $T = [
         'privacitat' => 'Privacitat',
         'errades' => 'Has trobat una errada o tens una proposta? Obri una incidència a GitHub.',
         'fi' => 'Fet per a les societats musicals.',
+        'resp_titol' => 'Avís de responsabilitat',
+        'resp' => 'Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L\'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l\'ús del programa, d\'una errada, d\'una actualització o d\'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).',
         'anterior' => 'Anterior', 'seguent' => 'Següent',
     ],
     'es' => [
@@ -256,6 +258,8 @@ $T = [
         'privacitat' => 'Privacidad',
         'errades' => '¿Has encontrado un error o tienes una propuesta? Abre una incidencia en GitHub.',
         'fi' => 'Hecho para las sociedades musicales.',
+        'resp_titol' => 'Aviso de responsabilidad',
+        'resp' => 'Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).',
         'anterior' => 'Anterior', 'seguent' => 'Siguiente',
     ],
 ];
@@ -399,6 +403,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <dl>{$avisos}</dl>
     <p><a href="{$guia}">{$t['avis_mes']}</a></p>
   </aside>
+  <aside class="avis-resp" id="avis"><h3>⚠ {$t['resp_titol']}</h3><p>{$t['resp']}</p></aside>
   <p class="accions"><a class="boto" href="{$descarrega}">{$t['descarrega']}</a></p>
 </section>
 
@@ -427,6 +432,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
   <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
+  <p class="peu-resp">{$t['resp']}</p>
 </footer>
 
 <script>

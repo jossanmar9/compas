@@ -1298,6 +1298,7 @@ return [
     'audit.obri_document' => 'Document obert',
     'audit.comunicat' => 'Comunicat registrat',
     'audit.rgpd' => 'Registre d\'activitats de tractament',
+    'audit.avis_responsabilitat' => 'Avís de responsabilitat acceptat',
     // ---------- 1.11: tipus de soci, uniformes, mòduls i avisos ----------
     'ent.tipus_socis' => 'Tipus de soci', 'ent1.tipus_socis' => 'Tipus de soci',
     'ent.uniformes' => 'Articles d\'uniforme', 'ent1.uniformes' => 'Article d\'uniforme',
@@ -1409,4 +1410,12 @@ return [
     'imp.pas3_obres_nota' => 'En actualitzar una obra només es canvien les dades que porta el full, i les agrupacions s\'afigen a les que ja tenia. Abans d\'importar es fa una còpia de seguretat.',
     'imp.confirma_obres' => 'S\'importaran %d obres noves. Continuar?',
     'imp.res_obres_noves' => 'Obres noves', 'imp.res_tipus_nous' => 'Tipus d\'obra nous',
+    // ---------- 1.13.1: avís de responsabilitat ----------
+    'avis_resp.titol' => 'Avís de responsabilitat',
+    'avis_resp.text' => 'Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L\'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l\'ús del programa, d\'una errada, d\'una actualització o d\'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).',
+    'avis_resp.curt' => 'Compàs es distribueix sense cap garantia: l\'autor no es fa responsable de la pèrdua de dades. Fes còpies de seguretat externes.',
+    'avis_resp.accepte' => 'He llegit l\'avís de responsabilitat i l\'accepte.',
+    'avis_resp.cal_acceptar' => 'Per a continuar, cal acceptar l\'avís de responsabilitat.',
+    'avis_resp.entesos' => 'Entesos',
+    'avis_resp.acceptat' => 'Acceptat el %s per %s.',
 ];

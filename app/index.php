@@ -188,6 +188,9 @@ try {
         case 'rgpd':
             pagina_rgpd();
             break;
+        case 'avis_accepta':
+            accio_accepta_avis();
+            break;
         case 'repertori':
             pagina_repertori();
             break;

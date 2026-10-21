@@ -43,6 +43,9 @@ DESKTOP
 command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$BASE/applications" >/dev/null 2>&1 || true
 
 echo
+t "AVÍS: Compàs es distribueix tal com és, sense cap garantia (AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany. Feu còpies de seguretat externes." \
+  "AVISO: Compàs se distribuye tal cual, sin ninguna garantía (AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño. Haced copias de seguridad externas."
+echo
 t "Compàs s'ha instal·lat a $DESTI" "Compàs se ha instalado en $DESTI"
 t "Obri'l des del menú d'aplicacions (Compàs) o escrivint: compas" "Ábrelo desde el menú de aplicaciones (Compàs) o escribiendo: compas"
 command -v php >/dev/null 2>&1 || {
