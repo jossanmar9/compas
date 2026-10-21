@@ -8,6 +8,25 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.10.0] - 2026-10-21
+
+### Afegit
+- **Junta directiva**: càrrecs (presidència, vicepresidència, secretaria, tresoreria, vocalies) amb data d'inici i de fi, i l'historial de totes les juntes. Anys de mandat configurables i avís a l'inici quan falten quatre mesos per a la renovació, amb el recordatori de comunicar els canvis al Registre d'Associacions. Botó per a tancar tots els càrrecs actuals quan entra una junta nova i certificat de la composició de la junta.
+- **Certificats signats per la junta**: qui signa (secretaria) i el vistiplau (presidència) s'agafen sols dels càrrecs vigents. La configuració encara permet posar-los a mà.
+- **Llibre d'actes**: reunions de junta i assemblees ordinàries i extraordinàries, amb ordre del dia, assistents, desenvolupament i acords. S'imprimeixen la convocatòria, l'acta i el certificat de cada acord.
+- **Documents de la societat**: estatuts, reglament de règim intern, actes signades, inscripció al registre, CIF, pòlisses, contractes, convenis… El fitxer (PDF, imatge, document o full de càlcul, fins a 20 MB) es guarda dins de la base de dades i entra en les còpies de seguretat. Data de caducitat amb avís dos mesos abans.
+- **Registre d'activitats de tractament (RGPD)**: model per a imprimir generat amb el que hi ha a Compàs.
+- **Certificat de delictes de naturalesa sexual** a la fitxa del professorat, amb avís a l'inici si algun professor/a actiu no el té.
+- **Full d'alta de soci** per a imprimir: dades personals, tipus de soci amb la quota, ordre de domiciliació i consentiments. La introducció i el peu es poden personalitzar a la configuració.
+- **Comunicats**: llistes de correu per grups (socis, junta, professorat, famílies de l'escola, un grup o una agrupació, tothom) per a copiar en CCO o obrir el correu, i registre dels comunicats enviats. Compàs no envia cap correu.
+- **Llibre de caixa**: ingressos i despeses de l'any amb saldo per banc i caixa. Els rebuts cobrats, les remeses i la loteria liquidada hi entren sense apuntar-los; la resta es pot apuntar a mà. Resum per categories, impressió i CSV.
+- Permisos nous `societat.view` i `societat.edit` (els tenen els dos comptes).
+
+### Canviat
+- La web posa la privacitat al centre: una secció nova compara Compàs amb les plataformes en línia.
+- Les dades d'exemple porten junta, actes, documents, comunicats i moviments de caixa.
+- La declaració de privacitat explica on es guarden els documents i que els comunicats només preparen les adreces.
+
 ## [1.9.0] - 2026-10-21
 
 ### Afegit
@@ -145,6 +164,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.10.0]: https://github.com/jossanmar9/compas/releases/tag/v1.10.0
 [1.9.0]: https://github.com/jossanmar9/compas/releases/tag/v1.9.0
 [1.8.0]: https://github.com/jossanmar9/compas/releases/tag/v1.8.0
 [1.7.0]: https://github.com/jossanmar9/compas/releases/tag/v1.7.0

@@ -186,9 +186,7 @@ function pagina_certificat(): void
     audita('certificat', $tipus === 'membre' ? 'membres' : ($tipus === 'soci' ? 'socis' : 'matricules'), $id);
 
     $societat = config('societat_nom') ?: 'Compàs';
-    $signant = config('certificat_signant');
-    $carrec = config('certificat_carrec') ?: t('cert.carrec_defecte');
-    $president = config('certificat_president');
+    [$signant, $carrec, $president] = signants_certificat();
     $poblacio = config('societat_poblacio');
     $nomPersona = trim($p['nom'] . ' ' . $p['cognoms']);
 

@@ -36,6 +36,18 @@ function pagina_inici(): void
     }
     $html .= '</div>';
 
+    // Avisos de la societat: renovació de la junta, documents que caduquen i professorat sense certificat
+    if (pot('societat.view') && ($r = renovacio_junta()) && $r['dies'] <= 120) {
+        $html .= '<div class="avis ' . ($r['dies'] < 0 ? 'error' : 'atencio') . '">⚠ ' . h(t($r['dies'] < 0 ? 'junta.renovacio_passada' : 'junta.renovacio', data_llegible($r['eleccio']), $r['anys'], data_llegible($r['limit'])))
+            . ' <a href="' . h(url('junta')) . '">' . h(t('menu.junta')) . '</a></div>';
+    }
+    if (pot('societat.view') && ($n = (int)valor("SELECT COUNT(*) FROM documents WHERE data_caducitat IS NOT NULL AND data_caducitat <= date('now','localtime','+60 days')"))) {
+        $html .= '<div class="avis atencio">⚠ ' . h(t('inici.documents_caduquen', $n)) . ' <a href="' . h(url('llista', ['e' => 'documents', 'filtre' => 'caduquen'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
+    }
+    if (pot('escola.view') && ($n = (int)valor("SELECT COUNT(*) FROM professors WHERE estat = 'actiu' AND certificat_delictes IS NULL"))) {
+        $html .= '<div class="avis atencio">⚠ ' . h(t('inici.sense_certificat', $n)) . ' <a href="' . h(url('llista', ['e' => 'professors', 'filtre' => 'sense_certificat'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
+    }
+
     if (pot('escola.view') && !$curs) {
         $html .= '<div class="avis info">' . h(t('inici.sense_curs')) . ' <a href="' . h(url('edita', ['e' => 'cursos'])) . '">' . h(t('inici.crea_curs')) . '</a></div>';
     }

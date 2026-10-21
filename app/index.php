@@ -161,6 +161,29 @@ try {
         case 'participacions':
             pagina_participacions();
             break;
+        case 'junta':
+            pagina_junta();
+            break;
+        case 'junta_doc':
+            pagina_junta_doc();
+            break;
+        case 'reunio_doc':
+            pagina_reunio_doc();
+            break;
+        case 'document_fitxer':
+            serveix_document();
+        case 'full_alta':
+            pagina_full_alta();
+            break;
+        case 'comunicats':
+            pagina_comunicats();
+            break;
+        case 'rgpd':
+            pagina_rgpd();
+            break;
+        case 'caixa':
+            pagina_caixa();
+            break;
         case 'usuaris':
             pagina_usuaris();
             break;

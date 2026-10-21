@@ -230,3 +230,27 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 
 /* Galeria: totes les captures amb el mateix format apaisat (16:10); les altes es mostren des de dalt */
 .principal img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; }
+
+/* La privacitat, al centre */
+.privacitat { padding-top: 3.5rem; }
+.punts-priv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; margin: 2rem 0 0; }
+.punt-priv { background: var(--mari); color: #fff; border-radius: 12px; padding: 1.4rem 1.3rem 1.5rem; position: relative; }
+.punt-priv::before { content: "✓"; position: absolute; top: 1.1rem; right: 1.2rem; color: var(--or); font-weight: 800; font-size: 1.3rem; }
+.punt-priv h3 { margin: 0 0 .5rem; font: 700 1.2rem/1.2 var(--display); color: var(--or); padding-right: 1.5rem; }
+.punt-priv p { margin: 0; font-size: .97rem; line-height: 1.5; color: #e6ebf3; }
+.comp-titol { margin: 2.75rem 0 .9rem; font: 700 1.35rem/1.2 var(--display); color: var(--mari); }
+@media (prefers-color-scheme: dark) { .comp-titol { color: #fff; } }
+.taula-comp-wrap { overflow-x: auto; }
+.taula-comp { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.taula-comp th, .taula-comp td { text-align: left; padding: .75rem .9rem; border-bottom: 1px solid var(--linia); vertical-align: top; }
+.taula-comp thead th { font: 700 1rem var(--display); color: var(--mari); border-bottom: 2px solid var(--mari); }
+.taula-comp tbody th { font-weight: 600; color: var(--suau); width: 28%; }
+.taula-comp td.si { font-weight: 600; color: var(--blau); }
+.taula-comp td.si::before { content: "● "; color: var(--or); }
+@media (prefers-color-scheme: dark) { .taula-comp thead th { color: #fff; border-color: var(--linia); } }
+@media (max-width: 960px) { .punts-priv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+  .punts-priv { grid-template-columns: 1fr; }
+  .taula-comp { font-size: .9rem; }
+  .taula-comp th, .taula-comp td { padding: .6rem .5rem; }
+}

@@ -33,7 +33,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/capacitats.php` | Capacitats i rols per defecte. |
 | `src/entitats.php` | Definició declarativa de cada entitat: camps, relacions i validacions. |
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
-| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
+| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, caixa (llibre de caixa), societat (junta, actes, documents, full d'alta, comunicats), rgpd, usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
 | `src/fulls.php` | Lectura de CSV i Excel (.xlsx) per a la importació, sense l'extensió zip: llig el directori central del zip i descomprimeix amb `gzinflate`. |
 | `src/xifrat.php` | Xifrat de les còpies externes amb libsodium. |
 | `src/sepa.php` | IBAN (mòdul 97), identificador de creditor SEPA, text amb el joc de caràcters SEPA i XML de la remesa (pain.008.001.02 o .08, CORE; un bloc FRST per als mandats que no s'han usat mai i un RCUR per a la resta). |
@@ -57,6 +57,9 @@ Si una versió nova afig columnes a una taula que ja existeix, cal posar-les a `
 - Inventari: `instruments` → `cessions`, `manteniments`.
 - Drets d'imatge: `persones.consentiment_imatge` (`pendent`, `autoritza`, `no_autoritza`) i `consentiment_data`.
 - Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
+- Economia: `tarifes`, `mandats`, `remeses`, `rebuts` → `rebut_linies`, `loteries` → `talonaris`, `moviments` (llibre de caixa: només els apunts manuals; rebuts, remeses i loteria s'hi sumen en llegir-lo).
+- Societat: `carrecs` (persona + càrrec + dates; vigent si no té `data_fi`), `reunions` (convocatòria, acta i acords en text, un per línia), `comunicats`.
+- Documents: `documents` (metadades i caducitat) i `document_fitxers` (contingut en BLOB, `ON DELETE CASCADE`). Guardar-los a la base de dades fa que `VACUUM INTO` els incloga en cada còpia, xifrada o no, sense una carpeta a banda. Es serveixen amb `?r=document_fitxer` (en línia per a PDF, imatges i text; descarregats la resta).
 - `auditoria` registra les operacions sensibles.
 - Les claus foranes no deixen esborrar res amb historial: les baixes es marquen amb estat o data de baixa.
 
@@ -75,9 +78,9 @@ Si una versió nova afig columnes a una taula que ja existeix, cal posar-les a `
 
 ## Pendent (pròximes versions)
 
-- Gestió econòmica: quotes, rebuts, remeses, ingressos i despeses.
-- Loteria: talonaris, participacions i liquidacions.
-- Comunicacions i avisos.
-- Calendari d'assajos, concerts i activitats; convocatòries i repertori de les agrupacions.
-- Documents adjunts.
+- Calendari d'assajos, concerts i activitats (amb els espais municipals); repertori de les agrupacions.
+- Arxiu musical i SGAE, subvencions, uniformes.
+
+## Notes
+
 - Economia (`src/pages/economia.php`): els rebuts generats porten una `clau` única (soci i període, o pagador, curs i període) perquè generar dues vegades el mateix període no duplique res. L'import d'un rebut amb línies és la suma de les línies (`recalcula_rebut`). Numeració correlativa per any (`2026/0001`). Una remesa preparada fixa el mandat de cada rebut; marcar-la com a cobrada posa els rebuts pagats i l'`ultim_us` dels mandats (el següent cobrament ja és RCUR). Compàs fa rebuts, no factures, per a no entrar en el reglament dels sistemes de facturació (Verifactu).

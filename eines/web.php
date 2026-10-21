@@ -12,7 +12,7 @@ $eixida = rtrim($argv[1] ?? $arrel . '/_site', '/');
 // Si es canvia el compte de GitHub, només cal canviar estes línies
 $repo = 'https://github.com/jossanmar9/compas';
 $correu = 'compas.lliure@gmail.com';
-$formulari = 'https://forms.gle/WsHXDh9ktfBm8kyZ7'; // enllaç al formulari de contacte (Google Forms), si n'hi ha
+$formulari = 'https://forms.gle/qFcmkXbef3sCvywT8'; // enllaç al formulari de contacte (Google Forms), si n'hi ha
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
 $captures = ['web-inici', 'web-alumne', 'web-notes', 'web-butlleti', 'web-horari', 'web-rebuts', 'web-economia', 'web-loteria', 'web-agrupacio', 'web-llistat', 'web-copies'];
@@ -24,7 +24,26 @@ $T = [
         'descripcio' => "Programa lliure i gratuït per a gestionar una societat musical des d'un ordinador amb Windows o Linux: persones, socis, escola de música, notes, butlletins, agrupacions, instruments, quotes, rebuts i loteria.",
         'lema' => 'Gestió lliure per a societats musicals',
         'hero' => 'Tota la societat musical, en un sol programa.',
-        'hero_text' => "Socis, alumnat, notes, butlletins, músics, instruments, quotes i loteria, en un ordinador de la societat. Sense Internet, gratuït i en valencià i castellà.",
+        'hero_text' => "Socis, escola, músics, quotes, junta i documents, en un ordinador de la societat. Sense núvol, sense Internet i sense recollir cap dada. Gratuït i en valencià i castellà.",
+        'nav_priv' => 'Privacitat',
+        'priv_titol' => 'La privacitat, al centre',
+        'priv_intro' => 'Compàs està fet al revés que les plataformes en línia: les dades de les persones de la societat (també les de l\'alumnat menor d\'edat) no ixen mai de l\'ordinador de la societat.',
+        'priv_punts' => [
+            ['Sense núvol', 'No hi ha cap servidor. El programa i les dades estan en un ordinador de la societat, i ningú no hi pot entrar des d\'Internet.'],
+            ['No recull cap dada', 'Sense comptes en cap plataforma, sense analítica, sense telemetria i sense publicitat. Ni el programa ni esta web envien res enlloc.'],
+            ['Funciona sense Internet', 'No cal connexió per a res. Les remeses del banc i els correus es preparen ací i els envieu vosaltres.'],
+            ['Les dades són vostres', 'Programari lliure i gratuït, sense quotes ni límit de membres. Si un dia el deixeu de fer servir, les dades continuen a la vostra carpeta.'],
+        ],
+        'comp_titol' => 'Compàs i les plataformes en línia',
+        'comp_cols' => ['', 'Compàs', 'Plataformes en línia'],
+        'comp' => [
+            ['On estan les dades', 'A l\'ordinador de la societat', 'Als servidors de l\'empresa'],
+            ['Recollida de dades', 'Cap', 'Comptes d\'usuari i dades d\'ús'],
+            ['Internet', 'No cal', 'Imprescindible'],
+            ['Preu', 'Gratuït, sense límit de membres', 'Normalment, segons el nombre de membres'],
+            ['Si el servei tanca o canvia de preu', 'El programa i les dades continuen sent vostres', 'Depeneu de l\'empresa'],
+            ['Aplicació per als músics', 'No: ho porta la secretaria, que comparteix PDF i llistes', 'Sí, cada músic amb el seu compte'],
+        ],
         'descarrega' => 'Descarrega (Windows i Linux)',
         'versio' => 'Versió %s. Gratuït i lliure.',
         'manual' => 'Llig el manual',
@@ -58,6 +77,10 @@ $T = [
             ['Matrícula i classes', 'Un rebut per família amb la matrícula o les classes de cada fill i els descomptes de soci i de germans.'],
             ['Remeses bancàries', 'Domiciliacions amb l\'ordre per a signar i el fitxer SEPA per a pujar al banc. Control dels rebuts retornats.'],
             ['Loteria', 'Talonaris repartits, participacions per a imprimir i qui ha liquidat i qui no.'],
+            ['Junta i actes', 'Càrrecs amb historial i avís de renovació. Convocatòries, actes i certificats d\'acords a punt per a signar.'],
+            ['Documents', 'Estatuts, reglament, assegurances i contractes guardats a Compàs, amb avís abans que caduquen.'],
+            ['Comunicats', 'Llistes de correu de socis, músics o famílies per a enviar en còpia oculta, i registre del que s\'ha enviat.'],
+            ['Llibre de caixa', 'Ingressos i despeses amb saldo. Els rebuts, les remeses i la loteria hi entren sols.'],
             ['Drets d\'imatge', 'Qui autoritza fotos i vídeos, amb els fulls de consentiment preparats per a signar.'],
             ['Llistats i certificats', 'Alumnes d\'un grup amb els telèfons de les famílies, dades per a la memòria anual i certificats amb el logotip.'],
             ['Importació des d\'Excel', 'Porta els socis i l\'alumnat que ja tens en Excel, sense duplicar ningú.'],
@@ -118,7 +141,26 @@ $T = [
         'descripcio' => 'Programa libre y gratuito para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos y lotería.',
         'lema' => 'Gestión libre para sociedades musicales',
         'hero' => 'Toda la sociedad musical, en un solo programa.',
-        'hero_text' => 'Socios, alumnado, notas, boletines, músicos, instrumentos, cuotas y lotería, en un ordenador de la sociedad. Sin Internet, gratuito y en valenciano y castellano.',
+        'hero_text' => 'Socios, escuela, músicos, cuotas, junta y documentos, en un ordenador de la sociedad. Sin nube, sin Internet y sin recopilar ningún dato. Gratuito y en valenciano y castellano.',
+        'nav_priv' => 'Privacidad',
+        'priv_titol' => 'La privacidad, en el centro',
+        'priv_intro' => 'Compàs está hecho al revés que las plataformas en línea: los datos de las personas de la sociedad (también los del alumnado menor de edad) no salen nunca del ordenador de la sociedad.',
+        'priv_punts' => [
+            ['Sin nube', 'No hay ningún servidor. El programa y los datos están en un ordenador de la sociedad, y nadie puede entrar desde Internet.'],
+            ['No recopila ningún dato', 'Sin cuentas en ninguna plataforma, sin analítica, sin telemetría y sin publicidad. Ni el programa ni esta web envían nada a ningún sitio.'],
+            ['Funciona sin Internet', 'No hace falta conexión para nada. Las remesas del banco y los correos se preparan aquí y los enviáis vosotros.'],
+            ['Los datos son vuestros', 'Software libre y gratuito, sin cuotas ni límite de miembros. Si un día lo dejáis de usar, los datos siguen en vuestra carpeta.'],
+        ],
+        'comp_titol' => 'Compàs y las plataformas en línea',
+        'comp_cols' => ['', 'Compàs', 'Plataformas en línea'],
+        'comp' => [
+            ['Dónde están los datos', 'En el ordenador de la sociedad', 'En los servidores de la empresa'],
+            ['Recopilación de datos', 'Ninguna', 'Cuentas de usuario y datos de uso'],
+            ['Internet', 'No hace falta', 'Imprescindible'],
+            ['Precio', 'Gratuito, sin límite de miembros', 'Normalmente, según el número de miembros'],
+            ['Si el servicio cierra o cambia de precio', 'El programa y los datos siguen siendo vuestros', 'Dependéis de la empresa'],
+            ['Aplicación para los músicos', 'No: lo lleva la secretaría, que comparte PDF y listas', 'Sí, cada músico con su cuenta'],
+        ],
         'descarrega' => 'Descargar (Windows y Linux)',
         'versio' => 'Versión %s. Gratuito y libre.',
         'manual' => 'Leer el manual',
@@ -152,6 +194,10 @@ $T = [
             ['Matrícula y clases', 'Un recibo por familia con la matrícula o las clases de cada hijo y los descuentos de socio y de hermanos.'],
             ['Remesas bancarias', 'Domiciliaciones con la orden para firmar y el archivo SEPA para subir al banco. Control de los recibos devueltos.'],
             ['Lotería', 'Talonarios repartidos, participaciones para imprimir y quién ha liquidado y quién no.'],
+            ['Junta y actas', 'Cargos con historial y aviso de renovación. Convocatorias, actas y certificados de acuerdos listos para firmar.'],
+            ['Documentos', 'Estatutos, reglamento, seguros y contratos guardados en Compàs, con aviso antes de que caduquen.'],
+            ['Comunicados', 'Listas de correo de socios, músicos o familias para enviar en copia oculta, y registro de lo que se ha enviado.'],
+            ['Libro de caja', 'Ingresos y gastos con saldo. Los recibos, las remesas y la lotería entran solos.'],
             ['Derechos de imagen', 'Quién autoriza fotos y vídeos, con las hojas de consentimiento preparadas para firmar.'],
             ['Listados y certificados', 'Alumnos de un grupo con los teléfonos de las familias, datos para la memoria anual y certificados con el logotipo.'],
             ['Importación desde Excel', 'Trae los socios y el alumnado que ya tienes en Excel, sin duplicar a nadie.'],
@@ -220,6 +266,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $enllacCorreu = '<a href="mailto:' . e($correu) . '">' . e($correu) . '</a>';
     $contacte = sprintf(e($t['qui_contacte']), $enllacCorreu)
         . ($formulari !== '' ? ' <a href="' . e($formulari) . '">' . e($t['qui_formulari']) . '</a>' : '');
+    $privPunts = implode('', array_map(fn($p) => '<div class="punt-priv"><h3>' . e($p[0]) . '</h3><p>' . e($p[1]) . '</p></div>', $t['priv_punts']));
+    $compCap = implode('', array_map(fn($c) => '<th>' . e($c) . '</th>', $t['comp_cols']));
+    $compFiles = implode('', array_map(fn($f) => '<tr><th>' . e($f[0]) . '</th><td class="si">' . e($f[1]) . '</td><td>' . e($f[2]) . '</td></tr>', $t['comp']));
     $moduls = '';
     foreach ($t['moduls'] as [$nom, $text]) {
         $moduls .= '<div class="modul"><dt>' . e($nom) . '</dt><dd>' . e($text) . '</dd></div>';
@@ -264,6 +313,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <header class="barra">
   <a class="marca" href="./"><img src="{$base}img/icona.png" alt="" width="36" height="36"><span>Compàs</span></a>
   <nav aria-label="Seccions">
+    <a href="#privacitat">{$t['nav_priv']}</a>
     <a href="#que">{$t['nav_que']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
     <a href="#qui">{$t['nav_qui']}</a>
@@ -290,6 +340,16 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <figure class="hero-captura">
     <img src="{$base}img/{$l}/web-inici.jpg" alt="{$t['captures']['web-inici']}" width="1920" height="1200">
   </figure>
+</section>
+
+<section id="privacitat" class="seccio privacitat">
+  <div class="cap">
+    <h2>{$t['priv_titol']}</h2>
+    <p>{$t['priv_intro']}</p>
+  </div>
+  <div class="punts-priv">{$privPunts}</div>
+  <h3 class="comp-titol">{$t['comp_titol']}</h3>
+  <div class="taula-comp-wrap"><table class="taula-comp"><thead><tr>{$compCap}</tr></thead><tbody>{$compFiles}</tbody></table></div>
 </section>
 
 <section id="que" class="seccio">

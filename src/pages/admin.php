@@ -146,7 +146,9 @@ function pagina_configuracio(): void
         foreach (array_merge($camps, $campsDocs) as $c) {
             desa_config($c, mb_substr((string)post($c), 0, 200) ?: null);
         }
-        desa_config('consentiment_extra', mb_substr(trim((string)post('consentiment_extra')), 0, 2000) ?: null);
+        foreach (['consentiment_extra', 'full_alta_intro', 'full_alta_peu'] as $c) {
+            desa_config($c, mb_substr(trim((string)post($c)), 0, 3000) ?: null);
+        }
         $l = post('idioma');
         desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
         if (post('esborra_logo') === '1') {
@@ -173,10 +175,16 @@ function pagina_configuracio(): void
     $html .= '<fieldset class="camp ample"><legend>' . h(t('config.documents')) . '</legend><small>' . h(t('config.documents_ajuda')) . '</small><div class="camps">';
     foreach ($campsDocs as $c) {
         $html .= '<div class="camp"><label>' . h(t('camp.' . $c)) . '</label><input name="' . $c . '" value="' . h(config($c)) . '"'
-            . ($c === 'certificat_carrec' ? ' placeholder="' . h(t('cert.carrec_defecte')) . '"' : '') . '></div>';
+            . ($c === 'certificat_carrec' ? ' placeholder="' . h(t('cert.carrec_defecte')) . '"' : '') . '><small>' . h(t('config.de_la_junta')) . '</small></div>';
     }
     $html .= '<div class="camp ample"><label>' . h(t('camp.consentiment_extra')) . '</label><textarea name="consentiment_extra" rows="3">' . h(config('consentiment_extra')) . '</textarea>'
-        . '<small>' . h(t('config.consentiment_extra_ajuda')) . '</small></div></div></fieldset>';
+        . '<small>' . h(t('config.consentiment_extra_ajuda')) . '</small></div>';
+    $societat = (string)(config('societat_nom') ?: 'Compàs');
+    foreach (['full_alta_intro' => t('alta.intro_defecte', $societat), 'full_alta_peu' => t('alta.peu_defecte', $societat, (string)(config('societat_email') ?: '…'))] as $c => $defecte) {
+        $html .= '<div class="camp ample"><label>' . h(t('camp.' . $c)) . '</label><textarea name="' . $c . '" rows="3" placeholder="' . h($defecte) . '">' . h(config($c)) . '</textarea>'
+            . '<small>' . h(t('config.full_alta_ajuda')) . ' <a target="_blank" href="' . h(url('full_alta')) . '">' . h(t('alta.boto')) . '</a></small></div>';
+    }
+    $html .= '</div></fieldset>';
     $html .= '</div><div class="accions"><button>' . h(t('desa')) . '</button></div></form>';
     $html .= '<section class="fill"><header><h2>' . h(t('config.sistema')) . '</h2></header><dl class="fitxa">'
         . '<dt>' . h(t('config.versio')) . '</dt><dd>Compàs ' . COMPAS_VERSIO . '</dd>'

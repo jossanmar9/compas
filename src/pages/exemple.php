@@ -173,4 +173,55 @@ function carrega_dades_exemple(): void
         q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes, tornades, import_liquidat, data_liquidacio) VALUES(?,?,?,?,?,?,?,?)',
             [$lo, $i + 1, $p, "$nadal-10-15", $v, $tor, $liq, $liq !== null ? "$nadal-11-30" : null]);
     }
+
+    // Societat: junta actual i l'anterior, reunions, documents, certificat del professorat, caixa i un comunicat
+    $elegida = ((int)date('Y') - 2) . '-06-15';
+    $anterior = ((int)date('Y') - 6) . '-06-10';
+    foreach ([[$musics[0], 'presidencia'], [$tutors[1], 'vicepresidencia'], [$tutors[0], 'secretaria'], [$musics[1], 'tresoreria'], [$musics[2], 'vocal']] as [$p, $c]) {
+        q('INSERT INTO carrecs(persona_id, carrec, descripcio, data_inici) VALUES(?, ?, ?, ?)', [$p, $c, $c === 'vocal' ? $tr('Vocal d\'escola', 'Vocal de escuela') : null, $elegida]);
+    }
+    foreach ([[$musics[3], 'presidencia'], [$musics[0], 'secretaria'], [$musics[1], 'tresoreria']] as [$p, $c]) {
+        q('INSERT INTO carrecs(persona_id, carrec, data_inici, data_fi) VALUES(?, ?, ?, ?)', [$p, $c, $anterior, $elegida]);
+    }
+    desa_config('junta_anys_mandat', '4');
+    // Correus d'exemple per a les llistes de comunicats (un adult sense correu, per a veure-ho)
+    q("UPDATE persones SET email = replace(lower(nom), 'ú', 'u') || '@exemple.org' WHERE data_naixement <= date('now','localtime','-18 years') AND nom <> 'Músic5'");
+    $lloc = $tr('Local social', 'Local social');
+    q('INSERT INTO reunions(tipus, data, hora, hora_segona, lloc, data_convocatoria, ordre_del_dia, assistents, desenvolupament, acords, hora_fi, estat) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', [
+        'assemblea_ordinaria', ((int)date('Y')) . '-03-20', '19:30', '20:00', $lloc, ((int)date('Y')) . '-03-05',
+        $tr("Lectura i aprovació, si escau, de l'acta anterior\nEstat de comptes de l'exercici anterior\nPressupost de l'exercici\nPrecs i preguntes", "Lectura y aprobación, si procede, del acta anterior\nEstado de cuentas del ejercicio anterior\nPresupuesto del ejercicio\nRuegos y preguntas"),
+        $tr('42 socis i sòcies presents i 8 representats.', '42 socios y socias presentes y 8 representados.'),
+        $tr("La tresoreria presenta els comptes, que s'aproven per unanimitat. Es presenta el pressupost i s'obri un torn de preguntes.", 'La tesorería presenta las cuentas, que se aprueban por unanimidad. Se presenta el presupuesto y se abre un turno de preguntas.'),
+        $tr("Aprovar l'acta de l'assemblea anterior.\nAprovar els comptes de l'exercici anterior.\nAprovar el pressupost de l'exercici, amb una quota de soci de 60 € l'any.", "Aprobar el acta de la asamblea anterior.\nAprobar las cuentas del ejercicio anterior.\nAprobar el presupuesto del ejercicio, con una cuota de socio de 60 € al año."),
+        '21:15', 'celebrada',
+    ]);
+    q('INSERT INTO reunions(tipus, data, hora, lloc, data_convocatoria, ordre_del_dia, estat) VALUES(?,?,?,?,?,?,?)', [
+        'junta', date('Y-m-d', strtotime('+10 days')), '20:30', $lloc, date('Y-m-d'),
+        $tr("Preparació del concert de Santa Cecília\nLoteria de Nadal\nPrecs i preguntes", "Preparación del concierto de Santa Cecilia\nLotería de Navidad\nRuegos y preguntas"), 'convocada',
+    ]);
+    $doc = function (string $titol, string $tipus, ?string $data, ?string $caduca, ?int $persona = null, ?string $text = null) {
+        q('INSERT INTO documents(titol, tipus, persona_id, data_document, data_caducitat) VALUES(?, ?, ?, ?, ?)', [$titol, $tipus, $persona, $data, $caduca]);
+        $id = (int)db()->lastInsertId();
+        if ($text !== null) {
+            q('INSERT INTO document_fitxers(document_id, contingut) VALUES(?, ?)', [$id, $text]);
+            q("UPDATE documents SET fitxer_nom = ?, fitxer_tipus = 'text/plain', fitxer_mida = ? WHERE id = ?", [mb_strtolower(preg_replace('/\W+/u', '-', $titol)) . '.txt', strlen($text), $id]);
+        }
+    };
+    $doc($tr('Estatuts de la societat', 'Estatutos de la sociedad'), 'estatuts', '2010-05-20', null, null, $tr("Estatuts d'exemple.\n\nArticle 1. Denominació…", "Estatutos de ejemplo.\n\nArtículo 1. Denominación…"));
+    $doc($tr('Reglament de règim intern', 'Reglamento de régimen interno'), 'reglament', '2018-03-15', null);
+    $doc($tr('Assegurança de responsabilitat civil', 'Seguro de responsabilidad civil'), 'asseguranca', date('Y-m-d', strtotime('-11 months')), date('Y-m-d', strtotime('+30 days')));
+    $doc($tr('Contracte de la professora de llenguatge', 'Contrato de la profesora de lenguaje'), 'contracte', "$any-09-01", ($any + 1) . '-06-30', (int)valor('SELECT persona_id FROM professors WHERE id = ?', [$profs[0]]));
+    q('UPDATE professors SET certificat_delictes = ? WHERE id = ?', ["$any-08-20", $profs[0]]);
+    foreach ([
+        [date('Y-m-d', strtotime('-40 days')), 'despesa', 'banc', 'federacio', $tr('Quota anual de la Federació', 'Cuota anual de la Federación'), 180],
+        [date('Y-m-d', strtotime('-30 days')), 'despesa', 'banc', 'assegurances', $tr('Assegurança de responsabilitat civil', 'Seguro de responsabilidad civil'), 320],
+        [date('Y-m-d', strtotime('-12 days')), 'despesa', 'caixa', 'material', $tr('Partitures per al concert de Santa Cecília', 'Partituras para el concierto de Santa Cecilia'), 85.5],
+        [date('Y-m-d', strtotime('-5 days')), 'ingres', 'banc', 'subvencions', $tr("Subvenció de l'ajuntament", 'Subvención del ayuntamiento'), 1500],
+    ] as [$d, $tp, $cmp, $cat, $c, $imp]) {
+        q('INSERT INTO moviments(data, tipus, compte, categoria, concepte, import) VALUES(?,?,?,?,?,?)', [$d, $tp, $cmp, $cat, $c, $imp]);
+    }
+    desa_config('caixa_saldo_' . date('Y') . '_banc', '2350');
+    desa_config('caixa_saldo_' . date('Y') . '_caixa', '180');
+    q('INSERT INTO comunicats(data, destinataris, n_destinataris, adreces, assumpte, cos) VALUES(?,?,?,?,?,?)', [date('Y-m-d', strtotime('-3 days')), $tr('Socis i sòcies', 'Socios y socias'), 8, null,
+        $tr('Convocatòria del concert de Santa Cecília', 'Convocatoria del concierto de Santa Cecilia'), null]);
 }

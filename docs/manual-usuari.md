@@ -2,12 +2,12 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments, quotes i rebuts, loteria i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
+Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
 
 | Compte | Què pot fer |
 |---|---|
 | **Administrador/a** | Tot. També gestionar usuaris, la configuració (també les dades bancàries), el registre d'activitat i restaurar còpies. |
-| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, rebuts, remeses, loteria i fer còpies. |
+| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, rebuts, remeses, loteria, caixa, junta, actes, documents, comunicats i fer còpies. |
 
 > En aquest manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
@@ -29,7 +29,7 @@ Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idio
 
 ![Pantalla d'entrada](imatges/ca/00-entrada.jpg)
 
-Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 18).
+Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 21).
 
 ### La primera vegada: configuració inicial
 
@@ -139,6 +139,8 @@ Un professor és una **persona** amb fitxa de professor:
 
 ![Alta d'un professor](imatges/ca/20-professor-nou.jpg)
 
+**Certificat de delictes de naturalesa sexual.** És obligatori per a tothom que treballa amb menors. A la fitxa de professor, posa'n la **data**. Si falta el d'algun professor en actiu, Compàs ho avisa a l'inici i el llistat de professorat té el filtre **Sense certificat de delictes sexuals**.
+
 ### 5.4 Grups i horaris
 
 Un **grup** és una assignatura impartida en un curs per un professor: per exemple *Llenguatge musical · 1r A* o *Trompeta · Individual*.
@@ -225,7 +227,7 @@ Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tind
 
 ![Full de consentiment per a signar](imatges/ca/42-consentiment-full.jpg)
 
-Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 15). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
+Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 18). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
 
 > El text del full és un model. Revisa'l amb la junta i, si cal, afig-hi el que vulgues a **Configuració → Text addicional del full de consentiment**.
 
@@ -319,6 +321,10 @@ Edita la seua fitxa d'alumne i posa l'estat **Baixa** i la **data de baixa**. Si
 El menú **Socis** mostra tots els socis actius. Pots buscar pel nom o pel número i exportar la llista a CSV (per exemple, per a fer etiquetes o enviar una circular).
 
 ![Llistat de socis](imatges/ca/16-socis-llista.jpg)
+
+**Full d'alta de soci.** Al llistat de socis, **Full d'alta de soci** fa un full en blanc per a qui vol fer-se soci: dades personals, tipus de soci (amb la quota, si hi ha tarifes), forma de pagament, ordre de domiciliació SEPA, autorització d'imatge, signatura i la informació de protecció de dades. Els textos de dalt i del peu es poden canviar a **Configuració**.
+
+![Full d'alta de soci](imatges/ca/73-full-alta.jpg)
 
 ### Baixa d'un soci
 
@@ -494,6 +500,18 @@ Obri el rebut, tria com s'ha pagat (**efectiu** o **transferència**) i la data,
 
 Al llistat de **Rebuts**, els filtres mostren els que estan per cobrar, els retornats, els que cal cobrar en mà o els domiciliats que encara no són en cap remesa. A baix es veu el total. A la fitxa de cada persona hi ha els seus rebuts i la seua domiciliació.
 
+### 13.7 Llibre de caixa
+
+Menú **Economia → Llibre de caixa**. Mostra tots els ingressos i despeses de l'any, amb el saldo després de cada moviment. Moltes coses hi entren soles:
+
+- els rebuts cobrats en efectiu (a la caixa) o per transferència (al banc);
+- les remeses cobrades, en una sola línia, com apareixen al banc;
+- els diners de la loteria que lliura cada talonari.
+
+La resta (factures, subvencions, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot veure només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
+
+![Llibre de caixa](imatges/ca/76-caixa.jpg)
+
 ## 14. Loteria
 
 Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple, «Loteria de Nadal 2026»), la data, els **números**, el **preu** de cada participació, l'import que **juga** (la resta és el donatiu per a la societat) i quantes participacions porta cada talonari. A la fitxa, **Talonaris i liquidació** obri el resum.
@@ -516,7 +534,66 @@ Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut*
 
 ![Liquidar un talonari](imatges/ca/66-talonari.jpg)
 
-## 15. Llistats, certificats i memòria
+## 15. Junta directiva i actes
+
+### 15.1 La junta
+
+Menú **Societat → Junta directiva**. Mostra la junta actual i les anteriors. Per a posar un càrrec, prem **+ Afig un càrrec**: tria la persona, el càrrec (president/a, vicepresident/a, secretari/ària, tresorer/a, vocal…) i la data d'inici. La data de fi es deixa buida mentre el càrrec està vigent.
+
+![Junta directiva](imatges/ca/68-junta.jpg)
+
+- **Anys de mandat:** posa els que diguen els estatuts. Compàs avisarà a l'inici quatre mesos abans que s'haja de renovar la junta.
+- **Junta nova:** quan s'elegeix una junta nova, prem **Tanca els càrrecs actuals** amb la data de l'elecció i després afig els càrrecs nous. Els anteriors queden a l'historial. Recordeu que els canvis de junta s'han de comunicar al Registre d'Associacions.
+- **Certificat de la composició de la junta:** per al banc, el registre o una subvenció.
+
+Els **certificats** (de soci, de matrícula, d'agrupació i de la junta) i les **actes** els signa la secretaria amb el vistiplau de la presidència de la junta actual. Si cal que els signe una altra persona, es posa a **Configuració**.
+
+### 15.2 Reunions i actes
+
+Menú **Societat → Reunions i actes → + Nou**. Tria si és una reunió de la **junta** o una **assemblea** (ordinària o extraordinària), i posa la data, l'hora (en les assemblees, també la de segona convocatòria), el lloc i l'**ordre del dia**, un punt per línia.
+
+A la fitxa de la reunió hi ha tres documents per a imprimir:
+
+1. **Convocatòria**, amb l'ordre del dia numerat.
+2. **Acta**. Després de la reunió, edita-la i completa els **assistents**, el **desenvolupament** i els **acords** (un per línia), i marca-la com a celebrada. En les reunions de junta, si no poses els assistents, l'acta posa la junta actual.
+3. **Certificat d'un acord**: tria l'acord i Compàs fa el certificat que demanen sovint el banc o les administracions.
+
+![Fitxa d'una reunió](imatges/ca/69-reunio.jpg)
+
+![Acta d'una assemblea](imatges/ca/70-acta.jpg)
+
+## 16. Documents de la societat
+
+Menú **Societat → Documents**. Ací es guarden els estatuts, el reglament de règim intern, les actes signades, la inscripció al registre, el CIF, les pòlisses d'assegurança, els contractes del professorat i de la direcció, els convenis…
+
+![Documents](imatges/ca/71-documents.jpg)
+
+Per a afegir-ne un, prem **+ Nou**, escriu el títol, tria el tipus i el **fitxer** (PDF, imatge, Word, Excel, LibreOffice o text, fins a 20 MB). Si és d'una persona (un contracte, per exemple), tria-la: apareixerà també a la seua fitxa. Si el document caduca (una assegurança, una llicència, un conveni), posa la **data de caducitat**: Compàs avisarà a l'inici 60 dies abans.
+
+![Afegir un document](imatges/ca/72-document-nou.jpg)
+
+El fitxer es guarda **dins de Compàs**, no en una carpeta a part. Així entra a les còpies de seguretat (i, si les xifreu, també va xifrat). A canvi, les còpies ocupen més si hi guardeu molts documents grans.
+
+### Registre d'activitats de tractament (RGPD)
+
+Des del llistat de documents, **Registre d'activitats de tractament (RGPD)** fa el document que el Reglament de protecció de dades demana a les entitats. Compàs el prepara amb les dades que tracta la societat i les mesures de seguretat que té configurades. És un model orientatiu: reviseu-lo, adapteu-lo i guardeu-lo signat amb la documentació de la societat.
+
+![Registre d'activitats de tractament](imatges/ca/75-rgpd.jpg)
+
+## 17. Comunicats
+
+Menú **Societat → Comunicats**. Compàs no envia correus ni es connecta a Internet: prepara les adreces perquè envieu el comunicat des del correu de la societat.
+
+1. Tria **a qui**: els socis, la junta, el professorat, les famílies de l'escola o d'un grup, els membres d'una agrupació o tothom.
+2. Prem **Copia les adreces** i apega-les al camp **CCO** (còpia oculta) del correu, perquè ningú no veja les adreces dels altres. Si són poques, **Obri el correu amb les adreces en CCO** ho fa directament.
+3. Escriu i envia el correu des del vostre programa de correu.
+4. Torna a Compàs i **registra el comunicat** amb l'assumpte: queda constància de què s'ha enviat, quan i a qui.
+
+Les persones del grup que no tenen correu apareixen en una llista a part, per a avisar-les d'una altra manera.
+
+![Comunicats](imatges/ca/74-comunicats.jpg)
+
+## 18. Llistats, certificats i memòria
 
 Menú **Documents i dades → Llistats i informes**. Cada llistat es pot veure a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
 
@@ -574,7 +651,7 @@ La primera vegada, a **Configuració → Certificats i fulls de consentiment**, 
 
 ![Dades dels certificats a la configuració](imatges/ca/40-config-documents.jpg)
 
-## 16. Importar dades des d'Excel
+## 19. Importar dades des d'Excel
 
 Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a escriure. Menú **Documents i dades → Importa dades**.
 
@@ -611,9 +688,9 @@ A la columna **Avisos** veuràs, per exemple, dates que no s'entenen o persones 
 
 ![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.jpg)
 
-Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 17).
+Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 20).
 
-## 17. Còpies de seguretat
+## 20. Còpies de seguretat
 
 Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 
@@ -667,7 +744,7 @@ A partir d'ara, les còpies de la carpeta externa acaben en `.xifrat`. Les de l'
 
 > **Apunta la contrasenya en paper** junt amb el codi de recuperació. Si s'oblida, les còpies xifrades no es poden recuperar.
 
-## 18. Usuaris i contrasenyes
+## 21. Usuaris i contrasenyes
 
 ### Canviar la teua contrasenya
 
@@ -721,13 +798,13 @@ Totes les recuperacions, també les que fallen, queden al **Registre d'activitat
 
 Menú **Administració → Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
 
-## 19. Ajuda
+## 22. Ajuda
 
 El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
 
 ![Ajuda](imatges/ca/39-ajuda.jpg)
 
-## 20. Preguntes freqüents
+## 23. Preguntes freqüents
 
 **He donat d'alta una persona dues vegades. Què faig?** Si la segona no té res vinculat, obri-la i prem **Elimina**. Si ja té coses vinculades, edita-les perquè apunten a la persona bona i després elimina la repetida.
 
@@ -741,11 +818,11 @@ El menú **Ajuda** mostra aquest manual dins del programa. Els botons de dalt ob
 
 **El butlletí no mostra una assignatura.** L'alumne no està inscrit en aquell grup dins de la seua matrícula.
 
-**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 18).
+**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 21).
 
-**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 16): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
+**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 19): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
 
-**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 15).
+**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 18).
 
 **Com cobrem les quotes pel banc?** Posa les dades bancàries de la societat, crea la domiciliació de cada pagador, genera els rebuts i prepara una remesa: Compàs fa el fitxer que es puja a la banca electrònica (apartat 13).
 

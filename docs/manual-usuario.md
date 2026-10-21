@@ -2,12 +2,12 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos, cuotas y recibos, lotería y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
+Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
 
 | Cuenta | Qué puede hacer |
 |---|---|
 | **Administrador/a** | Todo. También gestionar usuarios, la configuración (también los datos bancarios), el registro de actividad y restaurar copias. |
-| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos, recibos, remesas, lotería y hacer copias. |
+| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos, recibos, remesas, lotería, caja, junta, actas, documentos, comunicados y hacer copias. |
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
@@ -29,7 +29,7 @@ Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el i
 
 ![Pantalla de entrada](imatges/es/00-entrada.jpg)
 
-Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 18).
+Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 21).
 
 ### La primera vez: configuración inicial
 
@@ -139,6 +139,8 @@ Un profesor es una **persona** con ficha de profesor:
 
 ![Alta de un profesor](imatges/es/20-professor-nou.jpg)
 
+**Certificado de delitos de naturaleza sexual.** Es obligatorio para todo el que trabaja con menores. En la ficha de profesor, pon su **fecha**. Si falta el de algún profesor en activo, Compàs lo avisa en el inicio y el listado de profesorado tiene el filtro **Sin certificado de delitos sexuales**.
+
 ### 5.4 Grupos y horarios
 
 Un **grupo** es una asignatura impartida en un curso por un profesor: por ejemplo *Lenguaje musical · 1.º A* o *Trompeta · Individual*.
@@ -225,7 +227,7 @@ Antes de publicar fotos o vídeos en la web o las redes, la sociedad tiene que t
 
 ![Hoja de consentimiento para firmar](imatges/es/42-consentiment-full.jpg)
 
-Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 15). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
+Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 18). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
 
 > El texto de la hoja es un modelo. Revísalo con la junta y, si hace falta, añade lo que quieras en **Configuración → Texto adicional de la hoja de consentimiento**.
 
@@ -319,6 +321,10 @@ Edita su ficha de alumno y pon el estado **Baja** y la **fecha de baja**. Si ade
 El menú **Socios** muestra todos los socios activos. Puedes buscar por el nombre o por el número y exportar la lista a CSV (por ejemplo, para hacer etiquetas o enviar una circular).
 
 ![Listado de socios](imatges/es/16-socis-llista.jpg)
+
+**Hoja de alta de socio.** En el listado de socios, **Hoja de alta de socio** hace una hoja en blanco para quien quiere hacerse socio: datos personales, tipo de socio (con la cuota, si hay tarifas), forma de pago, orden de domiciliación SEPA, autorización de imagen, firma y la información de protección de datos. Los textos de arriba y del pie se pueden cambiar en **Configuración**.
+
+![Hoja de alta de socio](imatges/es/73-full-alta.jpg)
 
 ### Baja de un socio
 
@@ -494,6 +500,18 @@ Abre el recibo, elige cómo se ha pagado (**efectivo** o **transferencia**) y la
 
 En el listado de **Recibos**, los filtros muestran los que están por cobrar, los devueltos, los que hay que cobrar en mano o los domiciliados que todavía no están en ninguna remesa. Abajo se ve el total. En la ficha de cada persona están sus recibos y su domiciliación.
 
+### 13.7 Libro de caja
+
+Menú **Economía → Libro de caja**. Muestra todos los ingresos y gastos del año, con el saldo después de cada movimiento. Muchas cosas entran solas:
+
+- los recibos cobrados en efectivo (en la caja) o por transferencia (en el banco);
+- las remesas cobradas, en una sola línea, como aparecen en el banco;
+- el dinero de la lotería que entrega cada talonario.
+
+El resto (facturas, subvenciones, la cuota de la Federación…) se anota con **+ Nuevo movimiento**: fecha, ingreso o gasto, banco o caja, categoría, concepto e importe. Al final de la página se pone el **saldo inicial** del 1 de enero del banco y de la caja, para que los saldos sean los reales. Se puede ver solo el banco o solo la caja, imprimirlo y exportarlo a CSV. El resumen **por categorías** sirve para presentar las cuentas a la asamblea y para la memoria.
+
+![Libro de caja](imatges/es/76-caixa.jpg)
+
 ## 14. Lotería
 
 Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por ejemplo, «Lotería de Navidad 2026»), la fecha, los **números**, el **precio** de cada participación, el importe que **juega** (el resto es el donativo para la sociedad) y cuántas participaciones lleva cada talonario. En la ficha, **Talonarios y liquidación** abre el resumen.
@@ -516,7 +534,66 @@ Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones h
 
 ![Liquidar un talonario](imatges/es/66-talonari.jpg)
 
-## 15. Listados, certificados y memoria
+## 15. Junta directiva y actas
+
+### 15.1 La junta
+
+Menú **Sociedad → Junta directiva**. Muestra la junta actual y las anteriores. Para poner un cargo, pulsa **+ Añade un cargo**: elige la persona, el cargo (presidente/a, vicepresidente/a, secretario/a, tesorero/a, vocal…) y la fecha de inicio. La fecha de fin se deja vacía mientras el cargo está vigente.
+
+![Junta directiva](imatges/es/68-junta.jpg)
+
+- **Años de mandato:** pon los que digan los estatutos. Compàs avisará en el inicio cuatro meses antes de que se tenga que renovar la junta.
+- **Junta nueva:** cuando se elige una junta nueva, pulsa **Cierra los cargos actuales** con la fecha de la elección y después añade los cargos nuevos. Los anteriores quedan en el historial. Recordad que los cambios de junta se deben comunicar al Registro de Asociaciones.
+- **Certificado de la composición de la junta:** para el banco, el registro o una subvención.
+
+Los **certificados** (de socio, de matrícula, de agrupación y de la junta) y las **actas** los firma la secretaría con el visto bueno de la presidencia de la junta actual. Si hace falta que los firme otra persona, se pone en **Configuración**.
+
+### 15.2 Reuniones y actas
+
+Menú **Sociedad → Reuniones y actas → + Nuevo**. Elige si es una reunión de la **junta** o una **asamblea** (ordinaria o extraordinaria), y pon la fecha, la hora (en las asambleas, también la de segunda convocatoria), el lugar y el **orden del día**, un punto por línea.
+
+En la ficha de la reunión hay tres documentos para imprimir:
+
+1. **Convocatoria**, con el orden del día numerado.
+2. **Acta**. Después de la reunión, edítala y completa los **asistentes**, el **desarrollo** y los **acuerdos** (uno por línea), y márcala como celebrada. En las reuniones de junta, si no pones los asistentes, el acta pone la junta actual.
+3. **Certificado de un acuerdo**: elige el acuerdo y Compàs hace el certificado que piden a menudo el banco o las administraciones.
+
+![Ficha de una reunión](imatges/es/69-reunio.jpg)
+
+![Acta de una asamblea](imatges/es/70-acta.jpg)
+
+## 16. Documentos de la sociedad
+
+Menú **Sociedad → Documentos**. Aquí se guardan los estatutos, el reglamento de régimen interno, las actas firmadas, la inscripción en el registro, el CIF, las pólizas de seguro, los contratos del profesorado y de la dirección, los convenios…
+
+![Documentos](imatges/es/71-documents.jpg)
+
+Para añadir uno, pulsa **+ Nuevo**, escribe el título, elige el tipo y el **archivo** (PDF, imagen, Word, Excel, LibreOffice o texto, hasta 20 MB). Si es de una persona (un contrato, por ejemplo), elígela: aparecerá también en su ficha. Si el documento caduca (un seguro, una licencia, un convenio), pon la **fecha de caducidad**: Compàs avisará en el inicio 60 días antes.
+
+![Añadir un documento](imatges/es/72-document-nou.jpg)
+
+El archivo se guarda **dentro de Compàs**, no en una carpeta aparte. Así entra en las copias de seguridad (y, si las cifráis, también va cifrado). A cambio, las copias ocupan más si guardáis muchos documentos grandes.
+
+### Registro de actividades de tratamiento (RGPD)
+
+Desde el listado de documentos, **Registro de actividades de tratamiento (RGPD)** hace el documento que el Reglamento de protección de datos pide a las entidades. Compàs lo prepara con los datos que trata la sociedad y las medidas de seguridad que tiene configuradas. Es un modelo orientativo: revisadlo, adaptadlo y guardadlo firmado con la documentación de la sociedad.
+
+![Registro de actividades de tratamiento](imatges/es/75-rgpd.jpg)
+
+## 17. Comunicados
+
+Menú **Sociedad → Comunicados**. Compàs no envía correos ni se conecta a Internet: prepara las direcciones para que enviéis el comunicado desde el correo de la sociedad.
+
+1. Elige **a quién**: los socios, la junta, el profesorado, las familias de la escuela o de un grupo, los miembros de una agrupación o todo el mundo.
+2. Pulsa **Copia las direcciones** y pégalas en el campo **CCO** (copia oculta) del correo, para que nadie vea las direcciones de los demás. Si son pocas, **Abre el correo con las direcciones en CCO** lo hace directamente.
+3. Escribe y envía el correo desde vuestro programa de correo.
+4. Vuelve a Compàs y **registra el comunicado** con el asunto: queda constancia de qué se ha enviado, cuándo y a quién.
+
+Las personas del grupo que no tienen correo aparecen en una lista aparte, para avisarlas de otra manera.
+
+![Comunicados](imatges/es/74-comunicats.jpg)
+
+## 18. Listados, certificados y memoria
 
 Menú **Documentos y datos → Listados e informes**. Cada listado se puede ver en pantalla, **imprimir** (o guardar en PDF) y **exportar a CSV** para abrirlo con Excel.
 
@@ -574,7 +651,7 @@ La primera vez, en **Configuración → Certificados y hojas de consentimiento**
 
 ![Datos de los certificados en la configuración](imatges/es/40-config-documents.jpg)
 
-## 16. Importar datos desde Excel
+## 19. Importar datos desde Excel
 
 Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volver a escribirlos. Menú **Documentos y datos → Importar datos**.
 
@@ -611,9 +688,9 @@ En la columna **Avisos** verás, por ejemplo, fechas que no se entienden o perso
 
 ![Importar: revisión antes de importar](imatges/es/53-importa-revisa.jpg)
 
-Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 17).
+Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 20).
 
-## 17. Copias de seguridad
+## 20. Copias de seguridad
 
 Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 
@@ -667,7 +744,7 @@ A partir de ahora, las copias de la carpeta externa terminan en `.xifrat`. Las d
 
 > **Apunta la contraseña en papel** junto con el código de recuperación. Si se olvida, las copias cifradas no se pueden recuperar.
 
-## 18. Usuarios y contraseñas
+## 21. Usuarios y contraseñas
 
 ### Cambiar tu contraseña
 
@@ -721,13 +798,13 @@ Todas las recuperaciones, también las que fallan, quedan en el **Registro de ac
 
 Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
 
-## 19. Ayuda
+## 22. Ayuda
 
 El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF.
 
 ![Ayuda](imatges/es/39-ajuda.jpg)
 
-## 20. Preguntas frecuentes
+## 23. Preguntas frecuentes
 
 **He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
 
@@ -741,11 +818,11 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
 
-**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 18).
+**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 21).
 
-**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 16): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
+**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 19): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
 
-**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 15).
+**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 18).
 
 **¿Cómo cobramos las cuotas por el banco?** Pon los datos bancarios de la sociedad, crea la domiciliación de cada pagador, genera los recibos y prepara una remesa: Compàs hace el archivo que se sube a la banca electrónica (apartado 13).
 

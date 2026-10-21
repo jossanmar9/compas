@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.9.0';
+const COMPAS_VERSIO = '1.10.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -75,6 +75,9 @@ function migra_esquema(PDO $pdo): void
         'persones' => [
             'consentiment_imatge' => "TEXT NOT NULL DEFAULT 'pendent'",
             'consentiment_data' => 'TEXT',
+        ],
+        'professors' => [
+            'certificat_delictes' => 'TEXT',
         ],
         'alumnes' => [
             'pagador_id' => 'INTEGER REFERENCES persones(id) ON DELETE SET NULL',

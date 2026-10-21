@@ -54,12 +54,13 @@ CREATE TABLE IF NOT EXISTS alumnes (
 );
 
 CREATE TABLE IF NOT EXISTS professors (
-    id           INTEGER PRIMARY KEY,
-    persona_id   INTEGER NOT NULL UNIQUE REFERENCES persones(id) ON DELETE RESTRICT,
-    data_alta    TEXT,
-    data_baixa   TEXT,
-    estat        TEXT NOT NULL DEFAULT 'actiu',
-    observacions TEXT
+    id                  INTEGER PRIMARY KEY,
+    persona_id          INTEGER NOT NULL UNIQUE REFERENCES persones(id) ON DELETE RESTRICT,
+    data_alta           TEXT,
+    data_baixa          TEXT,
+    estat               TEXT NOT NULL DEFAULT 'actiu',
+    certificat_delictes TEXT,
+    observacions        TEXT
 );
 
 -- Relació alumne - tutor legal (molts a molts)
@@ -300,6 +301,77 @@ CREATE TABLE IF NOT EXISTS talonaris (
     UNIQUE (loteria_id, numero)
 );
 
+-- Societat: junta directiva, reunions i actes, documents i comunicats
+CREATE TABLE IF NOT EXISTS carrecs (
+    id           INTEGER PRIMARY KEY,
+    persona_id   INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    carrec       TEXT NOT NULL,
+    descripcio   TEXT,
+    data_inici   TEXT NOT NULL,
+    data_fi      TEXT,
+    observacions TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reunions (
+    id                INTEGER PRIMARY KEY,
+    tipus             TEXT NOT NULL,
+    data              TEXT NOT NULL,
+    hora              TEXT,
+    hora_segona       TEXT,
+    lloc              TEXT,
+    data_convocatoria TEXT,
+    ordre_del_dia     TEXT,
+    assistents        TEXT,
+    desenvolupament   TEXT,
+    acords            TEXT,
+    hora_fi           TEXT,
+    estat             TEXT NOT NULL DEFAULT 'convocada',
+    observacions      TEXT
+);
+
+CREATE TABLE IF NOT EXISTS documents (
+    id             INTEGER PRIMARY KEY,
+    titol          TEXT NOT NULL,
+    tipus          TEXT NOT NULL,
+    persona_id     INTEGER REFERENCES persones(id) ON DELETE SET NULL,
+    data_document  TEXT,
+    data_caducitat TEXT,
+    fitxer_nom     TEXT,
+    fitxer_tipus   TEXT,
+    fitxer_mida    INTEGER,
+    observacions   TEXT
+);
+
+-- El contingut dels fitxers va dins de la base de dades: així entra a les còpies (i al xifrat)
+CREATE TABLE IF NOT EXISTS document_fitxers (
+    document_id INTEGER PRIMARY KEY REFERENCES documents(id) ON DELETE CASCADE,
+    contingut   BLOB NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS comunicats (
+    id             INTEGER PRIMARY KEY,
+    data           TEXT NOT NULL,
+    destinataris   TEXT NOT NULL,
+    n_destinataris INTEGER NOT NULL DEFAULT 0,
+    adreces        TEXT,
+    assumpte       TEXT NOT NULL,
+    cos            TEXT,
+    usuari         TEXT
+);
+
+-- Llibre de caixa: moviments apuntats a mà (els rebuts, les remeses i la loteria s'hi sumen sols)
+CREATE TABLE IF NOT EXISTS moviments (
+    id           INTEGER PRIMARY KEY,
+    data         TEXT NOT NULL,
+    tipus        TEXT NOT NULL,
+    compte       TEXT NOT NULL DEFAULT 'banc',
+    categoria    TEXT NOT NULL,
+    concepte     TEXT NOT NULL,
+    import       REAL NOT NULL,
+    justificant  TEXT,
+    observacions TEXT
+);
+
 -- Accés: usuaris i dos rols fixos (administrador i administratiu)
 CREATE TABLE IF NOT EXISTS usuaris (
     id          INTEGER PRIMARY KEY,
@@ -351,3 +423,5 @@ CREATE INDEX IF NOT EXISTS idx_rebuts_estat ON rebuts(estat, forma_pagament);
 CREATE INDEX IF NOT EXISTS idx_linies_rebut ON rebut_linies(rebut_id);
 CREATE INDEX IF NOT EXISTS idx_mandats_persona ON mandats(persona_id);
 CREATE INDEX IF NOT EXISTS idx_talonaris_loteria ON talonaris(loteria_id);
+CREATE INDEX IF NOT EXISTS idx_carrecs_persona ON carrecs(persona_id);
+CREATE INDEX IF NOT EXISTS idx_moviments_data ON moviments(data);

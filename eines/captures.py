@@ -452,6 +452,27 @@ async def fes_captures(l: str):
             await c.ves('?r=participacions&talonari=1')
             await c.foto('67-participacions', zona='.full', alt_max=700)
 
+            # --- Societat i llibre de caixa ---
+            await c.ves('?r=junta')
+            await c.foto('68-junta', 'a.boto[href*="e=carrecs"]', alt_max=1300)
+            await c.ves('?r=fitxa&e=reunions&id=1')
+            await c.foto('69-reunio', 'a.boto[href*="doc=acta"]', 'form.en-linia button', alt_max=1300)
+            await c.ves('?r=reunio_doc&id=1&doc=acta')
+            await c.foto('70-acta', zona='.full', alt_max=1400)
+            await c.ves('?r=llista&e=documents')
+            await c.foto('71-documents', 'a.boto[href*="r=edita"]')
+            await c.ves('?r=edita&e=documents')
+            await c.omple({'titol': 'Conveni amb l\'ajuntament' if l == 'ca' else 'Convenio con el ayuntamiento', 'tipus': 'conveni'})
+            await c.foto('72-document-nou', 'input[name="fitxer"]', 'input[name="data_caducitat"]', alt_max=1100)
+            await c.ves('?r=full_alta')
+            await c.foto('73-full-alta', zona='.full', alt_max=1700)
+            await c.ves('?r=comunicats&a=socis')
+            await c.foto('74-comunicats', 'select[name="a"]', '.accions button', alt_max=1100)
+            await c.ves('?r=rgpd')
+            await c.foto('75-rgpd', zona='.full', alt_max=1300)
+            await c.ves('?r=caixa')
+            await c.foto('76-caixa', 'a.boto[href*="e=moviments"]', alt_max=1300)
+
             # --- Captures per a la web: totes de finestra sencera i del mateix format (16:10) ---
             for nom, ruta in [('web-inici', '?r=inici'), ('web-alumne', '?r=fitxa&e=alumnes&id=1'), ('web-notes', '?r=notes&grup=1'),
                               ('web-butlleti', '?r=butlleti&imprimir=1&curs=1&periode=1&ambit=alumne&alumne=1'), ('web-horari', '?r=horari'),

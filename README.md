@@ -9,11 +9,13 @@
 
 # Compàs
 
-**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions, els instruments, les quotes, els rebuts i la loteria d'una societat musical.
+**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions, els instruments, les quotes, els rebuts, la loteria, la caixa, la junta directiva i la documentació d'una societat musical.
 
 Està pensat per a qui porta la secretaria i l'escola de música d'una banda, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de la societat.
 
-*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos y lotería. Funciona en valenciano y castellano, sin Internet. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
+> 🔒 **La privacitat és el centre del projecte.** A diferència de les plataformes en línia per a societats musicals, Compàs **no té servidor, no demana registrar-se ni pagar una subscripció i no recull cap dada**: ni de la societat, ni dels socis, ni de l'alumnat menor d'edat. Tot es queda en un fitxer de l'ordinador de la societat, que en controla les còpies. No hi ha telemetria, ni publicitat, ni comptes en el núvol de ningú.
+
+*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos, lotería, caja, junta directiva y documentación. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
 
 Un projecte de **José Vicente Sanjuan**.
 
@@ -24,6 +26,7 @@ Un projecte de **José Vicente Sanjuan**.
 ## Contingut
 
 - [Què fa](#què-fa)
+- [Per què sense núvol](#per-què-sense-núvol)
 - [Captures](#captures)
 - [Instal·lació](#installació)
 - [Primers passos](#primers-passos)
@@ -53,6 +56,12 @@ Un projecte de **José Vicente Sanjuan**.
 | **Quotes i rebuts** | Tarifes de les quotes de soci (per tipus i periodicitat), de la matrícula i de les classes. Rebuts generats per període: un per soci i un per família a l'escola, amb descomptes de soci, de germans i propis. Cobrament en efectiu, transferència o domiciliació, rebuts retornats i qui deu diners. Rebuts amb el logotip per a imprimir. |
 | **Remeses bancàries** | Domiciliacions (mandats SEPA) amb l'IBAN validat i l'ordre de domiciliació per a signar. Fitxer XML d'adeutaments directes SEPA (pain.008) per a pujar a la banca electrònica. |
 | **Loteria** | Sorteigs, talonaris repartits a cada persona, participacions per a imprimir i liquidació: venudes, tornades, diners lliurats i el que queda per a la societat. |
+| **Llibre de caixa** | Ingressos i despeses amb saldo, separats per banc i caixa. Els rebuts cobrats, les remeses i la loteria hi entren sols; la resta s'apunta a mà. Resum per categories per a l'assemblea i exportació a CSV. |
+| **Junta directiva i actes** | Càrrecs amb data d'inici i de fi i l'historial de totes les juntes. Avís quan s'acosta la renovació segons els anys de mandat dels estatuts (i recordatori del Registre d'Associacions). Llibre d'actes de juntes i assemblees: convocatòria, acta i certificat d'un acord per a imprimir. Els certificats agafen sols qui signa i el vistiplau. |
+| **Documents de la societat** | Estatuts, reglament de règim intern, actes signades, inscripció al registre, CIF, pòlisses, contractes… guardats dins de Compàs i, per tant, en les còpies de seguretat. Data de caducitat amb avís abans que vencen. Model de registre d'activitats de tractament (RGPD) generat amb les dades reals. |
+| **Professorat** | Certificat de delictes de naturalesa sexual de cada professor/a, amb avís si en falta algun. |
+| **Comunicats** | Llistes de correu (socis, junta, professorat, famílies, un grup o una agrupació) per a copiar en CCO al correu de la societat, i registre de què s'ha enviat, quan i a qui. Compàs no envia res. |
+| **Full d'alta de soci** | Model estàndard per a imprimir, amb els tipus de soci, les quotes i l'ordre de domiciliació, i textos personalitzables. |
 | **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, músics per instrument, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula i d'agrupació amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
 | **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
@@ -60,6 +69,19 @@ Un projecte de **José Vicente Sanjuan**.
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
 
 Compàs fa **rebuts**, no factures: les factures han de complir el reglament dels sistemes de facturació (Verifactu) i s'han de fer amb un programa preparat per a això.
+
+## Per què sense núvol
+
+| | Compàs | Plataformes en línia |
+|---|---|---|
+| On són les dades | A l'ordinador de la societat | Al servidor de l'empresa |
+| Qui les pot veure | Només qui fa servir l'ordinador | L'empresa i els seus proveïdors |
+| Recollida de dades i analítica | Cap | Habitual (ús, dispositius, cookies) |
+| Funciona sense Internet | Sí | No |
+| Cost | Gratuït i lliure (AGPL) | Subscripció anual |
+| Si el projecte desapareix | El programa i les dades continuen | Depens que el servei continue |
+
+Les plataformes en línia tenen avantatges reals (una app per al mòbil dels músics, accés des de qualsevol lloc), però les dades de socis, famílies i menors passen a mans d'un tercer. Compàs tria l'altre camí: menys comoditat i cap dada fora.
 
 ## Captures
 
@@ -108,7 +130,7 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 | Compte | Pot fer |
 |---|---|
 | **Administrador/a** | Tot, incloent-hi usuaris, configuració, registre d'activitat i restauració de còpies. |
-| **Administratiu/va** | Tota la gestió diària (persones, socis, escola, notes, butlletins, agrupacions, instruments) i fer còpies. |
+| **Administratiu/va** | Tota la gestió diària (persones, socis, escola, notes, butlletins, agrupacions, instruments, economia, junta, documents i comunicats) i fer còpies. |
 
 Les contrasenyes es guarden xifrades, hi ha un bloqueig temporal després de cinc intents fallits i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
 
@@ -122,6 +144,7 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
 - **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.
 - **Restaurar** una còpia es fa amb un clic. Abans, Compàs guarda una còpia de les dades actuals, de manera que sempre es pot tornar arrere.
+- Els **documents** de la societat (PDF, imatges, fulls de càlcul…) es guarden dins de `compas.db`, de manera que entren en totes les còpies (i, si es vol, xifrats). Les còpies creixen tant com els documents que s'hi posen.
 - Res no s'elimina si té historial: les baixes es marquen amb estat i data de baixa.
 
 > Les dades contenen informació personal, també de menors. La societat és la responsable de tractar-les d'acord amb la normativa de protecció de dades.
@@ -199,10 +222,11 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 ## Pròximes versions
 
-- Llibre de caixa: ingressos i despeses, amb saldo i resum per a la memòria.
-- Calendari d'assajos, concerts i activitats; convocatòries i repertori de les agrupacions.
-- Comunicacions i avisos.
-- Documents adjunts (autoritzacions signades, contractes de cessió…).
+- Calendari d'assajos, concerts i activitats, amb els espais que cal demanar a l'ajuntament; convocatòries i repertori de les agrupacions.
+- Arxiu musical (partitures) i repertori per a la declaració a la SGAE.
+- Subvencions: sol·licituds, terminis i justificacions.
+- Uniformes: inventari i préstecs.
+- Cobrament per Bizum o TPV en el registre dels rebuts.
 
 ## Col·laborar
 

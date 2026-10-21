@@ -151,6 +151,9 @@ function pagina_llista(string $nom): void
     }
     echo '<button>' . h(t('filtrar')) . '</button>';
     echo '<span class="espai"></span>';
+    if (isset($e['accions_llista'])) {
+        echo $e['accions_llista']();
+    }
     $qs = $_GET;
     $qs['csv'] = '1';
     echo '<a class="boto secundari" href="?' . h(http_build_query($qs)) . '">' . h(t('exporta_csv')) . '</a>';
@@ -362,6 +365,10 @@ function camp_formulari(string $c, array $d, $v): string
             }
             $in .= '</select>';
             break;
+        case 'fitxer':
+            $in = '<input type="file" id="c_' . $nom . '" name="' . $nom . '"' . (isset($d['accepta']) ? ' accept="' . h($d['accepta']) . '"' : '') . '>'
+                . ($v ? '<small>' . h(t('fitxer.actual', (string)$v)) . '</small>' : '');
+            break;
         default:
             $tipus = ['date' => 'date', 'time' => 'time', 'email' => 'email', 'tel' => 'tel', 'number' => 'number', 'decimal' => 'text'][$d['tipus']] ?? 'text';
             $extra = $d['tipus'] === 'decimal' ? ' inputmode="decimal"' : '';
@@ -400,6 +407,8 @@ function normalitza(array $d, $v)
             return in_array($v, $d['opcions'], true) ? $v : null;
         case 'iban':
             return $v === '' ? null : iban_entrada($v);
+        case 'fitxer':
+            return null; // el fitxer el desa el camp virtual a partir de $_FILES
         default:
             return $v === '' ? null : $v;
     }
@@ -436,7 +445,7 @@ function pagina_edita(string $nom, ?int $id): void
         }
         if (!$errors) {
             // Un camp virtual que no s'ha enviat (amagat, per exemple l'IBAN d'un menor) no es toca
-            $virtuals = array_filter(array_diff_key($dades, camps_reals($e)), fn($c) => array_key_exists($c, $_POST), ARRAY_FILTER_USE_KEY);
+            $virtuals = array_filter(array_diff_key($dades, camps_reals($e)), fn($c) => array_key_exists($c, $_POST) || array_key_exists($c, $_FILES), ARRAY_FILTER_USE_KEY);
             $completes = $dades;
             $dades = array_intersect_key($dades, camps_reals($e));
             try {
@@ -502,7 +511,8 @@ function pagina_edita(string $nom, ?int $id): void
         echo '<div class="avis error">' . h($err) . '</div>';
     }
     $accio = url('edita', array_filter(['e' => $nom, 'id' => $id, 'tornar' => $tornar]));
-    echo '<form method="post" class="formulari" action="' . h($accio) . '">' . csrf_camp() . '<div class="camps">';
+    $multipart = array_filter($e['camps'], fn($d) => $d['tipus'] === 'fitxer') ? ' enctype="multipart/form-data"' : '';
+    echo '<form method="post" class="formulari" action="' . h($accio) . '"' . $multipart . '>' . csrf_camp() . '<div class="camps">';
     foreach ($e['camps'] as $c => $d) {
         echo camp_formulari($c, $d, $dades[$c] ?? null);
     }

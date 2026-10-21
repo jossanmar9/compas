@@ -300,3 +300,10 @@ form.en-linia select, form.en-linia input { width: auto; }
 .loteria-resum td.dif-neg { color: #9f1d1d; font-weight: 600; }
 @media (prefers-color-scheme: dark) { .loteria-resum td.dif-neg { color: #f19c97; } }
 .camp[hidden] { display: none; }
+textarea.adreces { width: 100%; font-family: ui-monospace, Consolas, monospace; font-size: .85rem; }
+.taula tr.saldo-inicial td { font-style: italic; color: var(--suau); }
+.taula td.dif-neg { color: #9f1d1d; font-weight: 600; }
+details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
+@media print {
+    .no-imprimir, .barra, .lateral, .superior { display: none !important; }
+}

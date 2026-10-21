@@ -9,6 +9,17 @@
 
 const NOM_PERSONA_SQL = "COALESCE(NULLIF(p.cognoms,'') || ', ', '') || p.nom";
 
+const CARRECS = ['presidencia', 'vicepresidencia', 'secretaria', 'tresoreria', 'vocal', 'altre_carrec'];
+const ORDRE_CARRECS_SQL = "CASE t.carrec WHEN 'presidencia' THEN 1 WHEN 'vicepresidencia' THEN 2 WHEN 'secretaria' THEN 3 WHEN 'tresoreria' THEN 4 WHEN 'vocal' THEN 5 ELSE 6 END";
+const TIPUS_DOCUMENTS = ['estatuts', 'reglament', 'acta', 'registre', 'fiscal', 'asseguranca', 'contracte', 'conveni', 'llicencia', 'subvencio', 'altre_document'];
+const CATEGORIES_CAIXA = ['quotes', 'escola', 'loteria', 'subvencions', 'actuacions', 'donatius', 'instruments', 'material', 'personal', 'lloguers',
+    'subministraments', 'assegurances', 'federacio', 'desplacaments', 'comissions', 'altres_moviments'];
+const FITXERS_PERMESOS = ['pdf' => 'application/pdf', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'txt' => 'text/plain',
+    'odt' => 'application/vnd.oasis.opendocument.text', 'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+    'doc' => 'application/msword', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'xls' => 'application/vnd.ms-excel', 'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+const MIDA_DOCUMENT_MB = 20;
+
 /** Edat a partir de la qual DNI i telèfon són obligatoris */
 const MAJORIA_EDAT = 18;
 
@@ -96,10 +107,11 @@ function entitats(): array
             'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')),
             'fills' => [['socis', 'persona_id'], ['alumnes', 'persona_id'], ['professors', 'persona_id'],
                 ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id'],
-                ['mandats', 'persona_id'], ['rebuts', 'persona_id']],
+                ['mandats', 'persona_id'], ['rebuts', 'persona_id'], ['carrecs', 'persona_id'], ['documents', 'persona_id']],
         ],
         'socis' => $perfil('socis') + [
             'cap' => 'socis',
+            'accions_llista' => fn() => boto_document(url('full_alta'), t('alta.boto')),
             'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'soci', 'id' => $f['id']]), t('cert.boto')),
             'cerca' => ['p.nom', 'p.cognoms', 't.numero'],
             'camps' => [
@@ -129,11 +141,14 @@ function entitats(): array
         ],
         'professors' => $perfil('professors') + [
             'cap' => 'escola',
+            'filtres' => ['sense_certificat' => 't.certificat_delictes IS NULL'],
+            'avis_fila' => fn(array $f) => $f['estat'] === 'actiu' && !$f['certificat_delictes'] ? t('prof.avis_certificat') : null,
             'camps' => [
                 'persona_id' => $persona,
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
+                'certificat_delictes' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.certificat_delictes')],
                 'observacions' => $obs,
             ],
             'fills' => [['grups', 'professor_id']],
@@ -550,6 +565,108 @@ function entitats(): array
                 }
                 return null;
             },
+        ],
+        // ---------- Societat: junta, reunions, documents i comunicats ----------
+        'carrecs' => [
+            'cap' => 'societat',
+            'from' => 'carrecs t JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['p.nom', 'p.cognoms', 't.descripcio'],
+            'ordre' => "(t.data_fi IS NOT NULL AND t.data_fi < date('now','localtime')), t.data_inici DESC, " . ORDRE_CARRECS_SQL,
+            'pare' => ['persones', 'persona_id'],
+            'filtres' => ['vigents' => "(t.data_fi IS NULL OR t.data_fi >= date('now','localtime'))"],
+            'camps' => [
+                'persona_id' => $persona,
+                'carrec' => ['tipus' => 'select', 'opcions' => CARRECS, 'llista' => 1],
+                'descripcio' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.carrec_descripcio')],
+                'data_inici' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'data_fi' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.carrec_fi')],
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d) => $d['data_fi'] !== null && $d['data_fi'] < $d['data_inici'] ? t('err.dates') : null,
+        ],
+        'reunions' => [
+            'cap' => 'societat',
+            'cerca' => ['t.lloc', 't.ordre_del_dia', 't.acords'],
+            'ordre' => 't.data DESC, t.hora DESC',
+            'etiqueta' => "SELECT id, data AS e FROM reunions ORDER BY data DESC",
+            'accions_fitxa' => 'accions_reunio',
+            'camps' => [
+                'tipus' => ['tipus' => 'select', 'opcions' => ['junta', 'assemblea_ordinaria', 'assemblea_extraordinaria'], 'llista' => 1],
+                'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1],
+                'hora' => ['tipus' => 'time', 'llista' => 1],
+                'hora_segona' => ['tipus' => 'time', 'ajuda' => t('ajuda.hora_segona')],
+                'lloc' => ['tipus' => 'text', 'llista' => 1],
+                'data_convocatoria' => ['tipus' => 'date', 'defecte' => 'avui'],
+                'ordre_del_dia' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.una_per_linia')],
+                'estat' => ['tipus' => 'select', 'opcions' => ['convocada', 'celebrada', 'anullada'], 'llista' => 1],
+                'assistents' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.assistents')],
+                'desenvolupament' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.desenvolupament')],
+                'acords' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.acords')],
+                'hora_fi' => ['tipus' => 'time'],
+                'observacions' => $obs,
+            ],
+        ],
+        'documents' => [
+            'cap' => 'societat',
+            'from' => 'documents t LEFT JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['t.titol', 't.observacions', 'p.nom', 'p.cognoms', 't.fitxer_nom'],
+            'ordre' => 't.tipus, t.titol',
+            'etiqueta' => 'SELECT id, titol AS e FROM documents ORDER BY titol',
+            'filtres' => [
+                'caduquen' => "t.data_caducitat IS NOT NULL AND t.data_caducitat <= date('now','localtime','+60 days')",
+                'sense_fitxer' => 't.fitxer_nom IS NULL',
+            ],
+            'avis_fila' => 'avis_document',
+            'accions_fitxa' => fn(array $f) => $f['fitxer_nom'] ? '<a class="boto" target="_blank" href="' . h(url('document_fitxer', ['id' => $f['id']])) . '">📄 ' . h(t('doc.obri')) . '</a>'
+                . '<a class="boto secundari" href="' . h(url('document_fitxer', ['id' => $f['id'], 'baixa' => 1])) . '">⬇ ' . h(t('doc.baixa')) . '</a>' : '',
+            'accions_llista' => fn() => boto_document(url('rgpd'), t('rgpd.boto')),
+            'camps' => [
+                'titol' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'tipus' => ['tipus' => 'select', 'opcions' => TIPUS_DOCUMENTS, 'llista' => 1],
+                'persona_id' => ['tipus' => 'ref', 'ref' => 'persones', 'llista' => 1, 'ajuda' => t('ajuda.document_persona')],
+                'data_document' => ['tipus' => 'date', 'llista' => 1],
+                'data_caducitat' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.caducitat')],
+                'fitxer' => [
+                    'tipus' => 'fitxer', 'virtual' => 1, 'accepta' => '.' . implode(',.', array_keys(FITXERS_PERMESOS)), 'ajuda' => t('ajuda.fitxer', MIDA_DOCUMENT_MB),
+                    'carrega' => fn(array $f) => $f['fitxer_nom'] ?? null,
+                    'desa' => fn(int $id, $v, array $d) => desa_fitxer_document($id),
+                ],
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d) => valida_fitxer_document(),
+            'despres_elimina' => fn(array $f) => null, // el contingut s'esborra sol (ON DELETE CASCADE)
+        ],
+        'comunicats' => [
+            'cap' => 'societat',
+            'nomes_lectura' => 1,
+            'cerca' => ['t.assumpte', 't.destinataris', 't.cos'],
+            'ordre' => 't.data DESC, t.id DESC',
+            'camps' => [
+                'data' => ['tipus' => 'date', 'llista' => 1],
+                'assumpte' => ['tipus' => 'text', 'llista' => 1],
+                'destinataris' => ['tipus' => 'text', 'llista' => 1],
+                'n_destinataris' => ['tipus' => 'number', 'llista' => 1],
+                'cos' => ['tipus' => 'textarea'],
+                'adreces' => ['tipus' => 'textarea'],
+                'usuari' => ['tipus' => 'text'],
+            ],
+        ],
+        'moviments' => [
+            'cap' => 'economia',
+            'cerca' => ['t.concepte', 't.justificant', 't.observacions'],
+            'ordre' => 't.data DESC, t.id DESC',
+            'suma' => 'import',
+            'camps' => [
+                'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'tipus' => ['tipus' => 'select', 'opcions' => ['despesa', 'ingres'], 'llista' => 1],
+                'compte' => ['tipus' => 'select', 'opcions' => ['banc', 'caixa'], 'llista' => 1],
+                'categoria' => ['tipus' => 'select', 'opcions' => CATEGORIES_CAIXA, 'llista' => 1],
+                'concepte' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'import' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.moviment_import')],
+                'justificant' => ['tipus' => 'text', 'ajuda' => t('ajuda.justificant')],
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d) => $d['import'] === null || $d['import'] <= 0 ? t('err.import_positiu') : null,
         ],
     ];
 
