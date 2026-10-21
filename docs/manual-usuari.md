@@ -2,12 +2,12 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
+Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
 
 | Compte | Què pot fer |
 |---|---|
 | **Administrador/a** | Tot. També gestionar usuaris, la configuració (també les dades bancàries), el registre d'activitat i restaurar còpies. |
-| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, rebuts, remeses, loteria, caixa, junta, actes, documents, comunicats i fer còpies. |
+| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, uniformes, rebuts, remeses, loteria, caixa, junta, actes, documents, comunicats i fer còpies. |
 
 > En aquest manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
@@ -107,6 +107,16 @@ Menú **Administració → Configuració** (només l'administrador/a).
 3. Prem **Desa**. El logotip apareix al menú i als butlletins.
 
 ![Configuració i logotip](imatges/ca/03-configuracio.jpg)
+
+### Mòduls i avisos
+
+No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents i comunicats.
+
+Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
+
+A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol veure: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar i el curs actual.
+
+![Mòduls i avisos](imatges/ca/80-moduls.jpg)
 
 ## 5. Preparar el curs acadèmic
 
@@ -306,11 +316,23 @@ Edita la seua fitxa d'alumne i posa l'estat **Baixa** i la **data de baixa**. Si
 
 ## 8. Socis
 
+### Tipus de soci
+
+Cada societat té els tipus de soci que diuen els seus estatuts. Compàs en porta quatre per a començar (ordinari, protector, juvenil i d'honor), però es poden canviar, afegir-ne i donar-ne de baixa: al llistat de socis, prem **Tipus de soci**.
+
+- **Nom** i, si es vol, una **descripció** (per exemple, «Majors de 65 anys»).
+- **Ordre**: en quin lloc ix als llistats i al full d'alta.
+- **Al full d'alta**: si qui es fa soci el pot triar. Els que nomena la societat (d'honor…) normalment no hi van.
+
+Un tipus que ja tenen alguns socis o que té tarifa no es pot eliminar: es posa de **baixa** i deixa d'aparéixer en els socis nous.
+
+![Tipus de soci](imatges/ca/77-tipus-socis.jpg)
+
 ### Alta d'un soci
 
 1. Busca o dona d'alta la **persona** (apartat 6).
 2. A la seua fitxa, en l'apartat **Socis**, prem **+ Afig**.
-3. Escriu el **número de soci**, tria el **tipus** (ordinari, protector, d'honor, juvenil) i comprova la **data d'alta**.
+3. Escriu el **número de soci**, tria el **tipus** (els que tinga la societat) i comprova la **data d'alta**.
 4. Si les quotes es cobraran pel banc, escriu l'**IBAN** (si encara no el té a la seua fitxa de persona).
 5. Prem **Desa**.
 
@@ -387,7 +409,7 @@ S'obri una pestanya nova amb un full A4 per alumne. Prem **Imprimeix el butllet�
 
 > Per a guardar-los en PDF (per a enviar-los per correu), tria **Microsoft Print to PDF** com a impressora.
 
-## 12. Instruments i cessions
+## 12. Instruments i uniformes
 
 ### Alta d'un instrument
 
@@ -423,6 +445,24 @@ Menú **Cessions**. Amb el filtre pots veure les **cessions actives** o només l
 
 ![Llistat de cessions](imatges/ca/33-cessions-llista.jpg)
 
+### Uniformes
+
+Menú **Uniformes**: polos, samarretes, dessuadores, jaquetes, motxilles, gorres… amb el que s'ha comprat i el que queda de cada talla.
+
+1. **+ Article**: el nom («Polo de la banda»), el tipus, les **talles** separades per comes en l'ordre en què s'han de mostrar (8, 10, 12, S, M, L, XL; buit si no en té, com una motxilla) i el preu de venda, si es ven.
+2. **+ Compra**: quan arriben de la botiga, l'article, la talla, la quantitat, el preu i el proveïdor.
+3. **+ Lliurament**: quan es dona a algú, la persona, la talla i si és una **venda** (se la queda i la paga; l'import es proposa amb el preu de l'article), un **préstec** (l'ha de tornar, com un uniforme de concert) o **gratuït**.
+
+Quan es torna un préstec, s'edita el lliurament i es posa la **data de devolució**: la peça torna a estar disponible.
+
+La pantalla mostra, per a cada article i talla, les comprades, les lliurades, les tornades, les que estan en préstec i les que **queden**. Si d'una talla s'han lliurat més de les que consten com a comprades, el número ix en roig: falta apuntar alguna compra. Els lliuraments de cada persona apareixen també a la seua fitxa.
+
+![Uniformes per talla](imatges/ca/78-uniformes.jpg)
+
+![Lliurament d'un uniforme](imatges/ca/79-uniforme-lliurament.jpg)
+
+> Compàs no fa rebuts de les vendes d'uniformes. Si cal, apunta els diners al llibre de caixa (apartat 13.7).
+
 ## 13. Economia: quotes, escola i rebuts
 
 L'apartat **Economia** del menú porta els diners de la societat: les quotes dels socis, la matrícula i les classes de l'escola, els rebuts, les remeses al banc i la loteria. **Resum econòmic** mostra el que hi ha per cobrar, el que s'ha cobrat enguany, els rebuts retornats pel banc i qui deu diners.
@@ -435,7 +475,7 @@ L'apartat **Economia** del menú porta els diners de la societat: les quotes del
 
 Menú **Economia → Tarifes**. Cada tarifa té un nom (el que apareixerà al rebut), un tipus, una periodicitat i un import:
 
-- **Quota de soci**: anual, semestral, trimestral o mensual. Es pot fer una per a cada **tipus de soci** (ordinari, protector, juvenil…). Si se'n deixa una sense tipus, val per als tipus que no en tinguen una de pròpia. Els socis d'un tipus sense tarifa (per exemple, els honoraris) no paguen.
+- **Quota de soci**: anual, semestral, trimestral o mensual. Es pot fer una per a cada **tipus de soci** (els de l'apartat 8). Si se'n deixa una sense tipus, val per als tipus que no en tinguen una de pròpia. Els socis d'un tipus sense tarifa (per exemple, els honoraris) no paguen.
 - **Matrícula**: una sola vegada per curs i alumne.
 - **Classes**: mensual, trimestral (per avaluacions) o anual. Si es posa una **assignatura**, es cobra a cada alumne inscrit en algun grup d'eixa assignatura. Si no, es cobra una vegada per alumne (una quota d'escola fixa).
 
@@ -657,7 +697,7 @@ Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a esc
 
 ### Pas 1. El fitxer
 
-1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta) o **Alumnat** (amb el pare, la mare o el tutor/a, si el full els porta).
+1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta; el tipus es busca pel nom) o **Alumnat** (amb el pare, la mare o el tutor/a, si el full els porta).
 2. Tria el fitxer: Excel (**.xlsx**) o **CSV**. Si és un .xls antic, obri'l amb Excel i guarda'l com a .xlsx.
 3. Deixa marcat **La primera fila té els títols de les columnes** si és el cas, i prem **Següent**.
 

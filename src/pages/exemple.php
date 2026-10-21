@@ -95,6 +95,7 @@ function carrega_dades_exemple(): void
         q('INSERT INTO agrupacions(nom, tipus) VALUES(?, ?)', [$n, $tp]);
         $agr[$n] = $id();
     }
+    $tipusSoci = fn(string $codi) => valor('SELECT id FROM tipus_socis WHERE codi = ?', [$codi]);
     $musics = [];
     // Anys d'antiguitat de cada músic (n'hi ha un que en fa 25 i un altre 50 este any, per a la llista d'insígnies)
     $anys = [25, 12, 8, 50, 3];
@@ -102,7 +103,7 @@ function carrega_dades_exemple(): void
         $p = $persona('Músic' . $n, 'Exemple', [1980, 1989, 1991, 1960, 1995][$n - 1] . '-1' . ($n % 3) . '-0' . $n, $n !== 5);
         $musics[] = $p;
         $alta = ((int)date('Y') - $anys[$n - 1]) . '-0' . $n . '-15';
-        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), 'ordinari', $alta]);
+        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), $tipusSoci('ordinari'), $alta]);
         q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta) VALUES(?, ?, ?, ?)', [$p, $agr['Banda'], $es ? ['Trompeta', 'Clarinete', 'Saxo alto', 'Trombón', 'Percusión'][$n - 1] : ['Trompeta', 'Clarinet', 'Saxo alt', 'Trombó', 'Percussió'][$n - 1], $alta]);
         q("UPDATE persones SET consentiment_imatge = 'autoritza', consentiment_data = ? WHERE id = ?", [$alta, $p]);
     }
@@ -112,7 +113,7 @@ function carrega_dades_exemple(): void
         q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu) VALUES(?, ?, ?)', [$p, $agr['Banda juvenil'], $tr('Clarinet', 'Clarinete')]);
     }
     foreach ($tutors as $i => $p) {
-        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(200 + $i), 'protector', "$any-02-01"]);
+        q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(200 + $i), $tipusSoci('protector'), "$any-02-01"]);
     }
 
     $instr = [];
@@ -129,8 +130,8 @@ function carrega_dades_exemple(): void
 
     // Economia: tarifes, domiciliacions (IBAN d'exemple), rebuts d'este trimestre i d'este mes, i la loteria de Nadal
     foreach ([
-        [$tr('Quota de soci ordinari', 'Cuota de socio ordinario'), 'quota_soci', 'ordinari', null, 'trimestral', 15],
-        [$tr('Quota de soci protector', 'Cuota de socio protector'), 'quota_soci', 'protector', null, 'trimestral', 10],
+        [$tr('Quota de soci ordinari', 'Cuota de socio ordinario'), 'quota_soci', $tipusSoci('ordinari'), null, 'trimestral', 15],
+        [$tr('Quota de soci protector', 'Cuota de socio protector'), 'quota_soci', $tipusSoci('protector'), null, 'trimestral', 10],
         [$tr('Matrícula', 'Matrícula'), 'matricula', null, null, 'unica', 30],
         [$tr('Llenguatge musical', 'Lenguaje musical'), 'classe', null, $assig['Llenguatge musical'], 'mensual', 20],
         [$tr('Classe de trompeta', 'Clase de trompeta'), 'classe', null, $assig['Trompeta'], 'mensual', 28],
@@ -224,4 +225,27 @@ function carrega_dades_exemple(): void
     desa_config('caixa_saldo_' . date('Y') . '_caixa', '180');
     q('INSERT INTO comunicats(data, destinataris, n_destinataris, adreces, assumpte, cos) VALUES(?,?,?,?,?,?)', [date('Y-m-d', strtotime('-3 days')), $tr('Socis i sòcies', 'Socios y socias'), 8, null,
         $tr('Convocatòria del concert de Santa Cecília', 'Convocatoria del concierto de Santa Cecilia'), null]);
+
+    // Uniformes: polos i dessuadores per talla i motxilles sense talla; compres, vendes i un préstec
+    $unif = [];
+    foreach ([[$tr('Polo de la banda', 'Polo de la banda'), 'polo', 'S, M, L, XL, XXL', 18], [$tr('Dessuadora', 'Sudadera'), 'dessuadora', '8, 10, 12, 14, S, M, L, XL', 25],
+                 [$tr('Motxilla de l\'escola', 'Mochila de la escuela'), 'motxilla', null, 12]] as [$n, $tp, $talles, $preu]) {
+        q('INSERT INTO uniformes(nom, tipus, talles, preu) VALUES(?, ?, ?, ?)', [$n, $tp, $talles, $preu]);
+        $unif[] = $id();
+    }
+    foreach ([[0, 'S', 5, 9.5], [0, 'M', 10, 9.5], [0, 'L', 10, 9.5], [0, 'XL', 6, 9.5], [0, 'XXL', 2, 9.5],
+                 [1, '10', 4, 14], [1, '12', 4, 14], [1, 'M', 6, 14], [1, 'L', 6, 14], [2, null, 15, 6]] as [$u, $talla, $n, $preu]) {
+        q('INSERT INTO uniforme_compres(uniforme_id, data, talla, quantitat, preu_unitat, proveidor) VALUES(?, ?, ?, ?, ?, ?)',
+            [$unif[$u], "$any-09-10", $talla, $n, $preu, $tr('Brodats La Plana', 'Bordados La Plana')]);
+    }
+    foreach ($musics as $i => $p) {
+        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, quantitat, data, tipus, import) VALUES(?, ?, ?, 1, ?, 'venda', 18)",
+            [$unif[0], $p, ['M', 'L', 'L', 'XL', 'XXL'][$i], date('Y-m-d', strtotime('-' . (20 + $i) . ' days'))]);
+    }
+    foreach (array_slice($alumnesPersona, 0, 3) as $i => $p) {
+        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, quantitat, data, tipus, import) VALUES(?, ?, ?, 1, ?, 'venda', 12)",
+            [$unif[2], $p, null, date('Y-m-d', strtotime('-15 days'))]);
+    }
+    q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, quantitat, data, tipus) VALUES(?, ?, '12', 1, ?, 'prestec')",
+        [$unif[1], $alumnesPersona[0], date('Y-m-d', strtotime('-10 days'))]);
 }

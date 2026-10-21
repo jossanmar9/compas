@@ -186,7 +186,7 @@ function avis_copies(): string
         return '<div class="avis error">⚠ ' . h($err) . $enllac . '</div>';
     }
     if (!carpeta_externa()) {
-        return '<div class="avis info">' . h(t('copia.avis_sense_externa')) . $enllac . '</div>';
+        return !avis_actiu('copia_externa') ? '' : '<div class="avis info">' . h(t('copia.avis_sense_externa')) . $enllac . '</div>';
     }
     $ultima = config('copia_ultima_externa');
     if (!$ultima || strtotime($ultima) < strtotime('-7 days')) {

@@ -307,3 +307,15 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 @media print {
     .no-imprimir, .barra, .lateral, .superior { display: none !important; }
 }
+
+/* Mòduls i avisos */
+.caselles-moduls label { align-items: flex-start; padding: 6px 0; }
+.caselles-moduls label input { margin-top: 3px; }
+.caselles-moduls label span { display: flex; flex-direction: column; gap: 2px; }
+.caselles-moduls small { color: var(--suau); font-weight: 400; }
+
+/* Existències d'uniformes */
+.existencies td.queden { font-weight: 600; color: var(--ok); }
+.existencies td.esgotat { color: var(--suau); }
+.existencies td.dif-neg { color: var(--error); }
+.fill header h2 .etiqueta { font-weight: 500; margin-left: 4px; }

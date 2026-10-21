@@ -8,6 +8,18 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.11.0] - 2026-10-21
+
+### Afegit
+- **Uniformes**: articles (polos, samarretes, dessuadores, motxilles…) amb les seues talles, compres, i lliuraments com a venda, préstec o gratuïts. Existències per talla: comprades, lliurades, tornades, en préstec i les que queden, amb avís si d'una talla s'han lliurat més de les comprades. En una venda, l'import es proposa amb el preu de l'article. Els lliuraments de cada persona apareixen a la seua fitxa.
+- **Tipus de soci propis**: cada societat defineix els seus (nom, descripció, ordre i si ixen al full d'alta) al botó **Tipus de soci** del llistat de socis. Les tarifes, el full d'alta, els llistats, la memòria, els certificats i la importació fan servir els de la societat.
+- **Mòduls i avisos** (Administració): es pot desactivar l'escola, les agrupacions, els instruments, els uniformes, les quotes i rebuts, la loteria, el llibre de caixa, la junta i actes, els documents i els comunicats, i amagar els avisos de l'inici que no es volen veure. Les dades dels mòduls desactivats no s'esborren.
+
+### Canviat
+- En actualitzar, els quatre tipus de soci d'abans (ordinari, protector, juvenil i d'honor) es converteixen en tipus de la societat, amb els mateixos socis i tarifes. El d'honor no ix al full d'alta.
+- La secció del menú «Instruments» passa a dir-se «Instruments i uniformes».
+- Les dades d'exemple porten uniformes.
+
 ## [1.10.0] - 2026-10-21
 
 ### Afegit
@@ -164,6 +176,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.11.0]: https://github.com/jossanmar9/compas/releases/tag/v1.11.0
 [1.10.0]: https://github.com/jossanmar9/compas/releases/tag/v1.10.0
 [1.9.0]: https://github.com/jossanmar9/compas/releases/tag/v1.9.0
 [1.8.0]: https://github.com/jossanmar9/compas/releases/tag/v1.8.0

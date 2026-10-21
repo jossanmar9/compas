@@ -412,6 +412,53 @@ CREATE TABLE IF NOT EXISTS auditoria (
     detall      TEXT
 );
 
+-- Tipus de soci: els defineix cada societat (socis.tipus i tarifes.tipus_soci guarden l'id)
+CREATE TABLE IF NOT EXISTS tipus_socis (
+    id          INTEGER PRIMARY KEY,
+    nom         TEXT NOT NULL,
+    descripcio  TEXT,
+    ordre       INTEGER,
+    full_alta   INTEGER NOT NULL DEFAULT 1,
+    estat       TEXT NOT NULL DEFAULT 'actiu',
+    codi        TEXT,
+    observacions TEXT
+);
+
+-- Uniformes i marxandatge: articles, compres i lliuraments (venda, préstec o gratuït), per talla
+CREATE TABLE IF NOT EXISTS uniformes (
+    id           INTEGER PRIMARY KEY,
+    nom          TEXT NOT NULL,
+    tipus        TEXT NOT NULL DEFAULT 'samarreta',
+    talles       TEXT,
+    preu         REAL,
+    estat        TEXT NOT NULL DEFAULT 'actiu',
+    observacions TEXT
+);
+
+CREATE TABLE IF NOT EXISTS uniforme_compres (
+    id           INTEGER PRIMARY KEY,
+    uniforme_id  INTEGER NOT NULL REFERENCES uniformes(id) ON DELETE RESTRICT,
+    data         TEXT NOT NULL,
+    talla        TEXT,
+    quantitat    INTEGER NOT NULL,
+    preu_unitat  REAL,
+    proveidor    TEXT,
+    observacions TEXT
+);
+
+CREATE TABLE IF NOT EXISTS uniforme_lliuraments (
+    id           INTEGER PRIMARY KEY,
+    uniforme_id  INTEGER NOT NULL REFERENCES uniformes(id) ON DELETE RESTRICT,
+    persona_id   INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    talla        TEXT,
+    quantitat    INTEGER NOT NULL DEFAULT 1,
+    data         TEXT NOT NULL,
+    tipus        TEXT NOT NULL DEFAULT 'venda',
+    import       REAL,
+    data_retorn  TEXT,
+    observacions TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_persones_cognoms ON persones(cognoms, nom);
 CREATE INDEX IF NOT EXISTS idx_membres_agrup ON membres(agrupacio_id);
 CREATE INDEX IF NOT EXISTS idx_grups_curs ON grups(curs_id);
@@ -425,3 +472,6 @@ CREATE INDEX IF NOT EXISTS idx_mandats_persona ON mandats(persona_id);
 CREATE INDEX IF NOT EXISTS idx_talonaris_loteria ON talonaris(loteria_id);
 CREATE INDEX IF NOT EXISTS idx_carrecs_persona ON carrecs(persona_id);
 CREATE INDEX IF NOT EXISTS idx_moviments_data ON moviments(data);
+CREATE INDEX IF NOT EXISTS idx_ucompres_uniforme ON uniforme_compres(uniforme_id);
+CREATE INDEX IF NOT EXISTS idx_ulliuraments_uniforme ON uniforme_lliuraments(uniforme_id);
+CREATE INDEX IF NOT EXISTS idx_ulliuraments_persona ON uniforme_lliuraments(persona_id);

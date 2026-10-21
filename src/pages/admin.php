@@ -194,6 +194,41 @@ function pagina_configuracio(): void
     pagina(t('menu.configuracio'), $html);
 }
 
+/** Mòduls que la societat fa servir i avisos de l'inici que vol veure */
+function pagina_moduls(): void
+{
+    requereix('config.manage');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $actius = (array)($_POST['moduls'] ?? []);
+        $avisos = (array)($_POST['avisos'] ?? []);
+        desa_config('moduls_desactivats', implode(',', array_diff(array_keys(MODULS), $actius)) ?: null);
+        desa_config('avisos_desactivats', implode(',', array_diff(AVISOS, $avisos)) ?: null);
+        audita('modifica', 'config', null, 'moduls');
+        avis(t('desat'));
+        redirigeix('moduls');
+    }
+    $html = '<form method="post" class="formulari">' . csrf_camp() . '<p>' . h(t('moduls.intro')) . '</p>'
+        . '<fieldset class="camp ample"><legend>' . h(t('moduls.titol')) . '</legend><div class="opcions vertical caselles-moduls">';
+    foreach (array_keys(MODULS) as $m) {
+        $html .= '<label class="check"><input type="checkbox" name="moduls[]" value="' . h($m) . '"' . (modul_actiu($m) ? ' checked' : '') . '> <span><b>'
+            . h(t('modul.' . $m)) . '</b><small>' . h(t('modul_ajuda.' . $m)) . '</small></span></label>';
+    }
+    $html .= '</div></fieldset><fieldset class="camp ample"><legend>' . h(t('avisos.titol')) . '</legend><small>' . h(t('avisos.ajuda')) . '</small><div class="opcions vertical caselles-moduls">';
+    foreach (AVISOS as $a) {
+        $html .= '<label class="check"><input type="checkbox" name="avisos[]" value="' . h($a) . '"' . (avis_actiu($a) ? ' checked' : '') . '> <span>' . h(t('avis_cfg.' . $a)) . '</span></label>';
+    }
+    $html .= '</div></fieldset><div class="accions"><button>' . h(t('desa')) . '</button></div></form>'
+        . '<p class="nota">' . h(t('moduls.nota')) . '</p>';
+    pagina(t('menu.moduls'), $html);
+}
+
+function pagina_modul_desactivat(?string $modul): void
+{
+    http_response_code(404);
+    $html = '<div class="avis info">' . h(t('moduls.desactivat', t('modul.' . $modul))) . (pot('config.manage') ? ' <a href="' . h(url('moduls')) . '">' . h(t('menu.moduls')) . '</a>' : '') . '</div>';
+    pagina(t('modul.' . $modul), $html);
+}
+
 function pagina_auditoria(): void
 {
     requereix('auditoria.view');

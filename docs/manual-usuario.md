@@ -2,12 +2,12 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
+Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
 
 | Cuenta | Qué puede hacer |
 |---|---|
 | **Administrador/a** | Todo. También gestionar usuarios, la configuración (también los datos bancarios), el registro de actividad y restaurar copias. |
-| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos, recibos, remesas, lotería, caja, junta, actas, documentos, comunicados y hacer copias. |
+| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos, uniformes, recibos, remesas, lotería, caja, junta, actas, documentos, comunicados y hacer copias. |
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
@@ -107,6 +107,16 @@ Menú **Administración → Configuración** (solo el administrador/a).
 3. Pulsa **Guardar**. El logotipo aparece en el menú y en los boletines.
 
 ![Configuración y logotipo](imatges/es/03-configuracio.jpg)
+
+### Módulos y avisos
+
+No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos y comunicados.
+
+Un módulo desactivado desaparece del menú, del inicio, de los listados y de las fichas de las personas, pero **no se borra ningún dato**: si se vuelve a activar, todo está como estaba. Personas, socios, listados, importación y administración siempre están activos.
+
+En la misma pantalla se pueden ocultar los **avisos del inicio** que la sociedad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver y el curso actual.
+
+![Módulos y avisos](imatges/es/80-moduls.jpg)
 
 ## 5. Preparar el curso académico
 
@@ -306,11 +316,23 @@ Edita su ficha de alumno y pon el estado **Baja** y la **fecha de baja**. Si ade
 
 ## 8. Socios
 
+### Tipos de socio
+
+Cada sociedad tiene los tipos de socio que dicen sus estatutos. Compàs trae cuatro para empezar (ordinario, protector, juvenil y de honor), pero se pueden cambiar, añadir y dar de baja: en el listado de socios, pulsa **Tipos de socio**.
+
+- **Nombre** y, si se quiere, una **descripción** (por ejemplo, «Mayores de 65 años»).
+- **Orden**: en qué lugar sale en los listados y en la hoja de alta.
+- **En la hoja de alta**: si quien se hace socio lo puede elegir. Los que nombra la sociedad (de honor…) normalmente no van.
+
+Un tipo que ya tienen algunos socios o que tiene tarifa no se puede eliminar: se pone de **baja** y deja de aparecer en los socios nuevos.
+
+![Tipos de socio](imatges/es/77-tipus-socis.jpg)
+
 ### Alta de un socio
 
 1. Busca o da de alta a la **persona** (apartado 6).
 2. En su ficha, en el apartado **Socios**, pulsa **+ Añadir**.
-3. Escribe el **número de socio**, elige el **tipo** (ordinario, protector, de honor, juvenil) y comprueba la **fecha de alta**.
+3. Escribe el **número de socio**, elige el **tipo** (los que tenga la sociedad) y comprueba la **fecha de alta**.
 4. Si las cuotas se cobrarán por el banco, escribe el **IBAN** (si todavía no lo tiene en su ficha de persona).
 5. Pulsa **Guardar**.
 
@@ -387,7 +409,7 @@ Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir el bolet
 
 > Para guardarlos en PDF (para enviarlos por correo), elige **Microsoft Print to PDF** como impresora.
 
-## 12. Instrumentos y cesiones
+## 12. Instrumentos y uniformes
 
 ### Alta de un instrumento
 
@@ -423,6 +445,24 @@ Menú **Cesiones**. Con el filtro puedes ver las **cesiones activas** o solo las
 
 ![Listado de cesiones](imatges/es/33-cessions-llista.jpg)
 
+### Uniformes
+
+Menú **Uniformes**: polos, camisetas, sudaderas, chaquetas, mochilas, gorras… con lo que se ha comprado y lo que queda de cada talla.
+
+1. **+ Artículo**: el nombre («Polo de la banda»), el tipo, las **tallas** separadas por comas en el orden en que se deben mostrar (8, 10, 12, S, M, L, XL; vacío si no tiene, como una mochila) y el precio de venta, si se vende.
+2. **+ Compra**: cuando llegan de la tienda, el artículo, la talla, la cantidad, el precio y el proveedor.
+3. **+ Entrega**: cuando se da a alguien, la persona, la talla y si es una **venta** (se la queda y la paga; el importe se propone con el precio del artículo), un **préstamo** (la tiene que devolver, como un uniforme de concierto) o **gratuito**.
+
+Cuando se devuelve un préstamo, se edita la entrega y se pone la **fecha de devolución**: la prenda vuelve a estar disponible.
+
+La pantalla muestra, para cada artículo y talla, las compradas, las entregadas, las devueltas, las que están en préstamo y las que **quedan**. Si de una talla se han entregado más de las que constan como compradas, el número sale en rojo: falta apuntar alguna compra. Las entregas de cada persona aparecen también en su ficha.
+
+![Uniformes por talla](imatges/es/78-uniformes.jpg)
+
+![Entrega de un uniforme](imatges/es/79-uniforme-lliurament.jpg)
+
+> Compàs no hace recibos de las ventas de uniformes. Si hace falta, apunta el dinero en el libro de caja (apartado 13.7).
+
 ## 13. Economía: cuotas, escuela y recibos
 
 El apartado **Economía** del menú lleva el dinero de la sociedad: las cuotas de los socios, la matrícula y las clases de la escuela, los recibos, las remesas al banco y la lotería. **Resumen económico** muestra lo que hay por cobrar, lo cobrado este año, los recibos devueltos por el banco y quién debe dinero.
@@ -435,7 +475,7 @@ El apartado **Economía** del menú lleva el dinero de la sociedad: las cuotas d
 
 Menú **Economía → Tarifas**. Cada tarifa tiene un nombre (el que aparecerá en el recibo), un tipo, una periodicidad y un importe:
 
-- **Cuota de socio**: anual, semestral, trimestral o mensual. Se puede hacer una para cada **tipo de socio** (ordinario, protector, juvenil…). Si se deja una sin tipo, vale para los tipos que no tengan una propia. Los socios de un tipo sin tarifa (por ejemplo, los honorarios) no pagan.
+- **Cuota de socio**: anual, semestral, trimestral o mensual. Se puede hacer una para cada **tipo de socio** (los del apartado 8). Si se deja una sin tipo, vale para los tipos que no tengan una propia. Los socios de un tipo sin tarifa (por ejemplo, los honorarios) no pagan.
 - **Matrícula**: una sola vez por curso y alumno.
 - **Clases**: mensual, trimestral (por evaluaciones) o anual. Si se pone una **asignatura**, se cobra a cada alumno inscrito en algún grupo de esa asignatura. Si no, se cobra una vez por alumno (una cuota de escuela fija).
 
@@ -657,7 +697,7 @@ Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volv
 
 ### Paso 1. El archivo
 
-1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta) o **Alumnado** (con el padre, la madre o el tutor/a, si la hoja los lleva).
+1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta; el tipo se busca por el nombre) o **Alumnado** (con el padre, la madre o el tutor/a, si la hoja los lleva).
 2. Elige el archivo: Excel (**.xlsx**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel y guárdalo como .xlsx.
 3. Deja marcado **La primera fila tiene los títulos de las columnas** si es el caso, y pulsa **Siguiente**.
 

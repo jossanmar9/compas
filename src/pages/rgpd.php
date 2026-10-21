@@ -18,8 +18,13 @@ function activitats_tractament(): array
         'comunicacions' => $n("SELECT COUNT(*) FROM persones WHERE actiu = 1 AND COALESCE(email, '') <> ''"),
         'loteria' => $n("SELECT COUNT(DISTINCT persona_id) FROM talonaris"),
         'instruments' => $n("SELECT COUNT(DISTINCT persona_id) FROM cessions"),
+        'uniformes' => $n("SELECT COUNT(DISTINCT persona_id) FROM uniforme_lliuraments"),
     ];
 }
+
+/** Mòdul de cada activitat de tractament: si està desactivat, no s'hi posa */
+const MODUL_ACTIVITATS = ['escola' => 'escola', 'professorat' => 'escola', 'agrupacions' => 'agrupacions', 'cobraments' => 'economia', 'junta' => 'junta',
+    'loteria' => 'loteria', 'instruments' => 'instruments', 'uniformes' => 'uniformes'];
 
 function pagina_rgpd(): void
 {
@@ -42,7 +47,7 @@ function pagina_rgpd(): void
 
     $n = 0;
     foreach (activitats_tractament() as $k => $quants) {
-        if (!$quants && !in_array($k, ['socis', 'comunicacions'], true)) {
+        if ((!$quants && !in_array($k, ['socis', 'comunicacions'], true)) || (isset(MODUL_ACTIVITATS[$k]) && !modul_actiu(MODUL_ACTIVITATS[$k]))) {
             continue;
         }
         $n++;

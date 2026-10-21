@@ -278,6 +278,10 @@ function pagina_fitxa(string $nom, int $id): void
         echo '<dt>' . h(etiqueta_camp($c, $d)) . '</dt><dd>' . $v . '</dd>';
     }
     echo '</dl>';
+    // Seccions pròpies de l'entitat (per exemple, les existències de cada talla d'un uniforme)
+    if (isset($e['seccio_fitxa'])) {
+        echo $e['seccio_fitxa']($f);
+    }
 
     if ($nom === 'grups') {
         echo '<p class="accions">';
@@ -296,7 +300,7 @@ function pagina_fitxa(string $nom, int $id): void
     $tornar = url('fitxa', ['e' => $nom, 'id' => $id]);
     foreach ($e['fills'] as [$fill, $fk]) {
         $ef = entitat($fill);
-        if (!pot($ef['cap'] . '.view')) {
+        if (!pot($ef['cap'] . '.view') || !disponible($fill)) {
             continue;
         }
         $files = q("SELECT t.* FROM {$ef['from']} WHERE t.$fk = ? ORDER BY {$ef['ordre']}", [$id])->fetchAll();
@@ -372,7 +376,18 @@ function camp_formulari(string $c, array $d, $v): string
         default:
             $tipus = ['date' => 'date', 'time' => 'time', 'email' => 'email', 'tel' => 'tel', 'number' => 'number', 'decimal' => 'text'][$d['tipus']] ?? 'text';
             $extra = $d['tipus'] === 'decimal' ? ' inputmode="decimal"' : '';
-            $in = '<input type="' . $tipus . '" id="c_' . $nom . '" name="' . $nom . '" value="' . h($v) . '"' . $req . $extra . $major . '>';
+            if ($d['tipus'] === 'talla') {
+                // Les talles de cada article: app.js mostra només les de l'article triat
+                $talles = $preus = [];
+                foreach (q('SELECT id, talles, preu FROM uniformes')->fetchAll() as $u) {
+                    $talles[$u['id']] = talles_text($u['talles']);
+                    $preus[$u['id']] = $u['preu'] !== null ? (float)$u['preu'] : null;
+                }
+                $extra = ' list="l_' . $nom . '" autocomplete="off" data-talles="' . h(json_encode($talles, JSON_UNESCAPED_UNICODE)) . '" data-preus="' . h(json_encode($preus)) . '"';
+                $tots = array_values(array_unique(array_merge([], ...array_values($talles))));
+                $llista = '<datalist id="l_' . $nom . '">' . implode('', array_map(fn($x) => '<option value="' . h($x) . '">', $tots)) . '</datalist>';
+            }
+            $in = '<input type="' . $tipus . '" id="c_' . $nom . '" name="' . $nom . '" value="' . h($v) . '"' . $req . $extra . $major . '>' . ($llista ?? '');
     }
     // «nomes_major»: el camp només apareix si la persona és major d'edat (ho fa app.js)
     return '<div class="camp' . ($d['tipus'] === 'textarea' ? ' ample' : '') . '"' . (!empty($d['nomes_major']) ? ' data-nomes-major="1"' : '') . '>' . $etq . $in . $ajuda . '</div>';
@@ -391,6 +406,8 @@ function normalitza(array $d, $v)
         case 'ref':
         case 'dia':
             return $v === '' ? null : (int)$v;
+        case 'talla':
+            return $v === '' ? null : mb_strtoupper(preg_replace('/\s+/', ' ', $v));
         case 'decimal':
             if ($v === '') {
                 return null;

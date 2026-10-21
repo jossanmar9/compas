@@ -13,46 +13,47 @@ function pagina_inici(): void
 {
     $curs = curs_actual();
     $html = avis_codi_recuperacio() . avis_copies() . '<div class="targetes">';
+    $es = fn(string $cap, string $modul) => pot($cap) && modul_actiu($modul);
     if (pot('persones.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM persones WHERE actiu = 1'), t('ent.persones'), url('llista', ['e' => 'persones']));
     }
     if (pot('socis.view')) {
         $html .= targeta((string)valor("SELECT COUNT(*) FROM socis WHERE estat = 'actiu'"), t('inici.socis_actius'), url('llista', ['e' => 'socis']));
     }
-    if (pot('escola.view') && $curs) {
+    if ($es('escola.view', 'escola') && $curs) {
         $html .= targeta((string)valor("SELECT COUNT(*) FROM matricules WHERE curs_id = ? AND estat = 'actiu'", [$curs['id']]), t('inici.matriculats', $curs['nom']),
             url('llista', ['e' => 'matricules', 'f[curs_id]' => $curs['id']]));
         $html .= targeta((string)valor("SELECT COUNT(*) FROM grups WHERE curs_id = ? AND estat = 'actiu'", [$curs['id']]), t('ent.grups'),
             url('llista', ['e' => 'grups', 'f[curs_id]' => $curs['id']]));
     }
-    if (pot('agrupacions.view')) {
+    if ($es('agrupacions.view', 'agrupacions')) {
         $html .= targeta((string)valor("SELECT COUNT(*) FROM membres WHERE estat = 'actiu'"), t('inici.musics'), url('llista', ['e' => 'membres']));
     }
-    if (pot('instruments.view')) {
+    if ($es('instruments.view', 'instruments')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM cessions WHERE data_retorn IS NULL'), t('inici.cedits'), url('llista', ['e' => 'cessions', 'filtre' => 'actives']));
     }
-    if (pot('economia.view') && ($n = (int)valor("SELECT COUNT(*) FROM rebuts WHERE estat IN ('per_cobrar', 'retornat')"))) {
+    if ($es('economia.view', 'economia') && ($n = (int)valor("SELECT COUNT(*) FROM rebuts WHERE estat IN ('per_cobrar', 'retornat')"))) {
         $html .= targeta(euros((float)valor("SELECT SUM(import) FROM rebuts WHERE estat IN ('per_cobrar', 'retornat')")), t('economia.per_cobrar', $n), url('economia'));
     }
     $html .= '</div>';
 
     // Avisos de la societat: renovació de la junta, documents que caduquen i professorat sense certificat
-    if (pot('societat.view') && ($r = renovacio_junta()) && $r['dies'] <= 120) {
+    if ($es('societat.view', 'junta') && avis_actiu('junta_renovacio') && ($r = renovacio_junta()) && $r['dies'] <= 120) {
         $html .= '<div class="avis ' . ($r['dies'] < 0 ? 'error' : 'atencio') . '">⚠ ' . h(t($r['dies'] < 0 ? 'junta.renovacio_passada' : 'junta.renovacio', data_llegible($r['eleccio']), $r['anys'], data_llegible($r['limit'])))
             . ' <a href="' . h(url('junta')) . '">' . h(t('menu.junta')) . '</a></div>';
     }
-    if (pot('societat.view') && ($n = (int)valor("SELECT COUNT(*) FROM documents WHERE data_caducitat IS NOT NULL AND data_caducitat <= date('now','localtime','+60 days')"))) {
+    if ($es('societat.view', 'documents') && avis_actiu('documents_caducitat') && ($n = (int)valor("SELECT COUNT(*) FROM documents WHERE data_caducitat IS NOT NULL AND data_caducitat <= date('now','localtime','+60 days')"))) {
         $html .= '<div class="avis atencio">⚠ ' . h(t('inici.documents_caduquen', $n)) . ' <a href="' . h(url('llista', ['e' => 'documents', 'filtre' => 'caduquen'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
     }
-    if (pot('escola.view') && ($n = (int)valor("SELECT COUNT(*) FROM professors WHERE estat = 'actiu' AND certificat_delictes IS NULL"))) {
+    if ($es('escola.view', 'escola') && avis_actiu('certificat_delictes') && ($n = (int)valor("SELECT COUNT(*) FROM professors WHERE estat = 'actiu' AND certificat_delictes IS NULL"))) {
         $html .= '<div class="avis atencio">⚠ ' . h(t('inici.sense_certificat', $n)) . ' <a href="' . h(url('llista', ['e' => 'professors', 'filtre' => 'sense_certificat'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
     }
 
-    if (pot('escola.view') && !$curs) {
+    if ($es('escola.view', 'escola') && avis_actiu('curs_actual') && !$curs) {
         $html .= '<div class="avis info">' . h(t('inici.sense_curs')) . ' <a href="' . h(url('edita', ['e' => 'cursos'])) . '">' . h(t('inici.crea_curs')) . '</a></div>';
     }
 
-    if (pot('instruments.view')) {
+    if ($es('instruments.view', 'instruments') && avis_actiu('cessions_vencudes')) {
         $vencudes = q("SELECT c.id, c.data_prevista, i.inventari, i.tipus, " . NOM_PERSONA_SQL . " AS persona FROM cessions c JOIN instruments i ON i.id = c.instrument_id
             JOIN persones p ON p.id = c.persona_id WHERE c.data_retorn IS NULL AND c.data_prevista < date('now','localtime') ORDER BY c.data_prevista")->fetchAll();
         if ($vencudes) {
@@ -66,7 +67,7 @@ function pagina_inici(): void
     }
 
     // Classes de hui
-    if ($curs && pot('escola.view')) {
+    if ($curs && $es('escola.view', 'escola')) {
         $params = [$curs['id'], (int)date('N')];
         $filtre = '';
         $classes = q("SELECT g.id, a.nom AS assignatura, g.nom, h.hora_inici, h.hora_fi, au.nom AS aula FROM horaris h JOIN grups g ON g.id = h.grup_id

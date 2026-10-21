@@ -110,3 +110,4 @@
 .rgpd .taula-llistat th { width: 32%; background: #f1f5fb; text-align: left; font-weight: 600; }
 .rgpd h3 { margin-top: 14px; }
 @media print { .acord, .rgpd .taula-llistat th { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+.full-alta .desc-tipus { color: #555; }

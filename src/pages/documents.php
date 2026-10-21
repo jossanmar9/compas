@@ -145,7 +145,7 @@ function pagina_certificat(): void
             }
             $p = $s;
             $num = $s['numero'] ? t('cert.amb_numero', $s['numero']) : '';
-            $tip = $s['tipus'] ? t('cert.tipus_soci', mb_strtolower(t('opt.' . $s['tipus']))) : '';
+            $tip = nom_tipus_soci($s['tipus']) !== '' ? t('cert.tipus_soci', mb_strtolower(nom_tipus_soci($s['tipus']))) : '';
             if ($s['estat'] === 'actiu') {
                 $cos = $s['data_alta'] ? t('cert.soci_actiu', data_llegible($s['data_alta']), $num . $tip) : t('cert.soci_actiu_sense', $num . $tip);
             } else {

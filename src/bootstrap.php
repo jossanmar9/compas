@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.10.0';
+const COMPAS_VERSIO = '1.11.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -91,6 +91,42 @@ function migra_esquema(PDO $pdo): void
                 $pdo->exec("ALTER TABLE $taula ADD COLUMN $col $tipus");
             }
         }
+    }
+    // Les bases de dades d'abans de la 1.11 tenien quatre tipus de soci fixos: ara són files de tipus_socis.
+    // En una instal·lació nova es creen en la configuració inicial, quan ja se sap l'idioma.
+    if ((int)$pdo->query('SELECT COUNT(*) FROM usuaris')->fetchColumn() > 0) {
+        sembra_tipus_socis($pdo);
+    }
+}
+
+/** Crea els tipus de soci inicials (una sola vegada) i passa els codis antics (ordinari…) a l'id del tipus */
+function sembra_tipus_socis(PDO $pdo, ?string $idioma = null): void
+{
+    $fet = $pdo->query("SELECT valor FROM config WHERE clau = 'tipus_socis_inicials'")->fetchColumn();
+    if ($fet) {
+        return;
+    }
+    $idioma ??= (string)($pdo->query("SELECT valor FROM config WHERE clau = 'idioma'")->fetchColumn() ?: 'ca');
+    $noms = $idioma === 'es'
+        ? ['ordinari' => 'Ordinario', 'protector' => 'Protector', 'juvenil' => 'Juvenil', 'honorari' => 'De honor']
+        : ['ordinari' => 'Ordinari', 'protector' => 'Protector', 'juvenil' => 'Juvenil', 'honorari' => 'D\'honor'];
+    $propia = !$pdo->inTransaction();
+    if ($propia) {
+        $pdo->beginTransaction();
+    }
+    if ((int)$pdo->query('SELECT COUNT(*) FROM tipus_socis')->fetchColumn() === 0) {
+        $ordre = 0;
+        foreach ($noms as $codi => $nom) {
+            $ordre += 10;
+            $pdo->prepare('INSERT INTO tipus_socis(nom, ordre, full_alta, codi) VALUES(?, ?, ?, ?)')->execute([$nom, $ordre, $codi === 'honorari' ? 0 : 1, $codi]);
+            $id = (string)$pdo->lastInsertId();
+            $pdo->prepare('UPDATE socis SET tipus = ? WHERE tipus = ?')->execute([$id, $codi]);
+            $pdo->prepare('UPDATE tarifes SET tipus_soci = ? WHERE tipus_soci = ?')->execute([$id, $codi]);
+        }
+    }
+    $pdo->exec("INSERT INTO config(clau, valor) VALUES('tipus_socis_inicials', '1') ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor");
+    if ($propia) {
+        $pdo->commit();
     }
 }
 

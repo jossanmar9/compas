@@ -128,16 +128,42 @@ function esborra_importacio(): void
 
 /* ---------- Anàlisi ---------- */
 
-function tipus_soci_importat(string $v): ?string
+/**
+ * Tipus de soci d'una cel·la del full: [id, trobat]. Es busca pel nom dels tipus de la societat
+ * (igual, o que el continga) i, per als quatre tipus inicials, per paraules semblants. Si no es troba, el primer tipus actiu.
+ */
+function tipus_soci_importat(string $v): array
 {
+    $tipus = q("SELECT id, nom, codi FROM tipus_socis WHERE estat = 'actiu' ORDER BY COALESCE(ordre, 999999), nom")->fetchAll();
+    $defecte = isset($tipus[0]) ? (int)$tipus[0]['id'] : null;
     $n = normalitza_text($v);
-    return match (true) {
-        $n === '' => null,
+    if ($n === '') {
+        return [$defecte, true];
+    }
+    foreach ($tipus as $t) {
+        if (normalitza_text($t['nom']) === $n) {
+            return [(int)$t['id'], true];
+        }
+    }
+    foreach ($tipus as $t) {
+        $nt = normalitza_text($t['nom']);
+        if ($nt !== '' && (str_contains($n, $nt) || str_contains($nt, $n))) {
+            return [(int)$t['id'], true];
+        }
+    }
+    $codi = match (true) {
         str_contains($n, 'protect') => 'protector',
         str_contains($n, 'honor') => 'honorari',
         str_contains($n, 'juven') || str_contains($n, 'jove') || str_contains($n, 'infantil') => 'juvenil',
-        default => 'ordinari',
+        str_contains($n, 'ordin') || str_contains($n, 'numer') => 'ordinari',
+        default => null,
     };
+    foreach ($tipus as $t) {
+        if ($codi !== null && $t['codi'] === $codi) {
+            return [(int)$t['id'], true];
+        }
+    }
+    return [$defecte, false];
 }
 
 function relacio_importada(string $v): ?string
@@ -293,9 +319,10 @@ function analitza_importacio(array $imp): array
 
         if ($tipus === 'socis') {
             $num = $v('numero');
-            $r['extra'] = ['numero' => $num, 'tipus' => tipus_soci_importat($v('tipus_soci')) ?? 'ordinari', 'data_alta' => data_importada($v('data_alta'))];
-            if ($v('tipus_soci') !== '' && tipus_soci_importat($v('tipus_soci')) === 'ordinari' && !str_contains(normalitza_text($v('tipus_soci')), 'ordin')) {
-                $r['avisos'][] = t('imp.av_tipus', $v('tipus_soci'));
+            [$tipusSoci, $trobat] = tipus_soci_importat($v('tipus_soci'));
+            $r['extra'] = ['numero' => $num, 'tipus' => $tipusSoci, 'data_alta' => data_importada($v('data_alta'))];
+            if (!$trobat) {
+                $r['avisos'][] = t('imp.av_tipus', $v('tipus_soci'), nom_tipus_soci($tipusSoci) ?: '—');
             }
             if ($r['persona_id'] && isset($socis[$r['persona_id']])) {
                 $r['avisos'][] = t('imp.av_ja_soci');

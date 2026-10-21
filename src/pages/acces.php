@@ -39,6 +39,7 @@ function pagina_configuracio_inicial(): void
             db()->beginTransaction();
             desa_config('societat_nom', $nom);
             desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
+            sembra_tipus_socis(db(), isset(IDIOMES[$l]) ? $l : 'ca');
             q('INSERT INTO usuaris(usuari, contrasenya, idioma) VALUES(?, ?, ?)', [$usuari, password_hash(post('contrasenya'), PASSWORD_DEFAULT), $l]);
             $id = (int)db()->lastInsertId();
             assigna_rol($id, 'admin');

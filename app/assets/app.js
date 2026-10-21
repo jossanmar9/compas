@@ -55,6 +55,33 @@ document.addEventListener('DOMContentLoaded', () => {
         actualitza();
     }
 
+    // Uniformes: la llista de talles segueix l'article triat
+    document.querySelectorAll('input[data-talles]').forEach(inp => {
+        const talles = JSON.parse(inp.dataset.talles || '{}');
+        const llista = document.getElementById(inp.getAttribute('list'));
+        const article = inp.form && inp.form.querySelector('select[name="uniforme_id"]');
+        if (!llista || !article) return;
+        const posa = () => {
+            const t = talles[article.value];
+            if (!t) return;
+            llista.replaceChildren(...t.map(x => Object.assign(document.createElement('option'), { value: x })));
+        };
+        article.addEventListener('change', posa);
+        posa();
+        // En una venda nova, l'import es proposa amb el preu de l'article
+        const preus = JSON.parse(inp.dataset.preus || '{}');
+        const imp = inp.form.querySelector('input[name="import"]'), tipus = inp.form.querySelector('select[name="tipus"]'), qt = inp.form.querySelector('input[name="quantitat"]');
+        if (imp && tipus && qt) {
+            let proposat = imp.value === '';
+            const preu = () => {
+                if (!proposat || tipus.value !== 'venda' || preus[article.value] == null) return;
+                imp.value = (preus[article.value] * (parseInt(qt.value, 10) || 1)).toFixed(2).replace('.', ',');
+            };
+            imp.addEventListener('input', () => { proposat = false; });
+            [article, tipus, qt].forEach(x => x.addEventListener('change', preu));
+        }
+    });
+
     // Menú en pantalles menudes
     const boto = document.querySelector('.obre-menu');
     if (boto) boto.addEventListener('click', () => boto.closest('.lateral').classList.toggle('obert'));

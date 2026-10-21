@@ -38,9 +38,12 @@ function informes(): array
         'consentiments' => ['persones.view', '📷'],
         'etiquetes' => ['persones.view', '🏷'],
         'antiguitat' => ['socis.view', '🏅'],
-        'memoria' => ['escola.view', '📊'],
+        'memoria' => ['socis.view', '📊'],
     ];
 }
+
+/** Mòdul del qual depén cada informe (si està desactivat, no es mostra) */
+const MODUL_INFORMES = ['alumnes_grup' => 'escola', 'musics' => 'agrupacions'];
 
 /* ---------- Paràmetres de cada informe ---------- */
 
@@ -57,7 +60,7 @@ function params_informe(string $inf): string
             return camp_param(t('camp.curs_id'), select_simple('curs', opcions_ref('cursos'), $curs, false))
                 . camp_param(t('camp.grup_id'), select_simple('grup', opcions_grups($curs), get('grup'), true, t('llist.tria_grup')));
         case 'socis':
-            $tipus = array_combine(entitat('socis')['camps']['tipus']['opcions'], array_map(fn($o) => t('opt.' . $o), entitat('socis')['camps']['tipus']['opcions']));
+            $tipus = opcions_ref('tipus_socis');
             return camp_param(t('camp.tipus'), select_simple('tipus', $tipus, get('tipus'), true, t('filtre.tots')))
                 . '<div class="camp camp-check"><label><input type="checkbox" name="baixes" value="1"' . (get('baixes') === '1' ? ' checked' : '') . ' onchange="this.form.submit()"> ' . h(t('mostra_baixes')) . '</label></div>';
         case 'musics':
@@ -121,10 +124,10 @@ function dades_informe(string $inf): ?array
             $socis = q("SELECT s.*, p.nom, p.cognoms, p.document, p.telefon, p.email FROM socis s JOIN persones p ON p.id = s.persona_id WHERE $where
                 ORDER BY (COALESCE(s.numero, '') = ''), CAST(s.numero AS INTEGER), s.numero, p.cognoms, p.nom", $params)->fetchAll();
             $files = array_map(fn($s) => [(string)$s['numero'], nom_complet($s), (string)$s['document'], (string)$s['telefon'], (string)$s['email'],
-                $s['tipus'] ? t('opt.' . $s['tipus']) : '', data_llegible($s['data_alta']) . ($s['estat'] !== 'actiu' ? ' · ' . t('opt.baixa') : '')], $socis);
+                nom_tipus_soci($s['tipus']), data_llegible($s['data_alta']) . ($s['estat'] !== 'actiu' ? ' · ' . t('opt.baixa') : '')], $socis);
             return [
                 'titol' => t('llist.socis_titol'),
-                'subtitol' => t('n_resultats', count($socis)) . (get('tipus') !== '' ? ' · ' . t('opt.' . get('tipus')) : ''),
+                'subtitol' => t('n_resultats', count($socis)) . (get('tipus') !== '' ? ' · ' . nom_tipus_soci(get('tipus')) : ''),
                 'seccions' => [['cols' => [t('camp.numero'), t('ent1.socis'), t('camp.document'), t('camp.telefon'), t('camp.email'), t('camp.tipus'), t('camp.data_alta')],
                     'num' => [0], 'files' => $files]],
             ];
@@ -218,7 +221,7 @@ function dades_memoria(): array
     $curs = fila('SELECT * FROM cursos WHERE id = ?', [(int)get('curs', (string)(curs_actual()['id'] ?? 0))]);
     $seccions = [];
     $ref = $curs['data_inici'] ?? date('Y-m-d');
-    if ($curs) {
+    if ($curs && modul_actiu('escola')) {
         $alumnes = q("SELECT DISTINCT p.* FROM matricules m JOIN alumnes al ON al.id = m.alumne_id JOIN persones p ON p.id = al.persona_id
             WHERE m.curs_id = ? AND m.estat = 'actiu'", [$curs['id']])->fetchAll();
         $trams = [[0, 7], [8, 12], [13, 17], [18, 25], [26, 200]];
@@ -267,19 +270,21 @@ function dades_memoria(): array
             'files' => [[t('mem.professors'), (string)$prof], [t('ent.grups'), (string)$grups], [t('mem.alumnes'), (string)count($alumnes)]]];
     }
 
-    $agr = q("SELECT a.nom, COUNT(DISTINCT m.persona_id) AS musics,
+    $agr = !modul_actiu('agrupacions') ? [] : q("SELECT a.nom, COUNT(DISTINCT m.persona_id) AS musics,
         COUNT(DISTINCT CASE WHEN p.data_naixement > date(?, '-18 years') THEN m.persona_id END) AS menors
         FROM agrupacions a LEFT JOIN membres m ON m.agrupacio_id = a.id AND m.estat = 'actiu' LEFT JOIN persones p ON p.id = m.persona_id
         WHERE a.estat = 'actiu' GROUP BY a.id ORDER BY a.nom", [$ref])->fetchAll();
-    $seccions[] = ['titol' => t('mem.agrupacions'), 'cols' => [t('ent1.agrupacions'), t('mem.musics'), t('mem.menors')], 'num' => [1, 2],
-        'files' => array_map(fn($r) => [$r['nom'], (string)$r['musics'], (string)$r['menors']], $agr),
-        'peu' => [t('mem.musics_diferents'), (string)valor("SELECT COUNT(DISTINCT persona_id) FROM membres WHERE estat = 'actiu'"), '']];
+    if ($agr) {
+        $seccions[] = ['titol' => t('mem.agrupacions'), 'cols' => [t('ent1.agrupacions'), t('mem.musics'), t('mem.menors')], 'num' => [1, 2],
+            'files' => array_map(fn($r) => [$r['nom'], (string)$r['musics'], (string)$r['menors']], $agr),
+            'peu' => [t('mem.musics_diferents'), (string)valor("SELECT COUNT(DISTINCT persona_id) FROM membres WHERE estat = 'actiu'"), '']];
+    }
 
     $any = (int)substr($ref, 0, 4);
     $socis = q("SELECT COALESCE(tipus, '') AS tipus, COUNT(*) AS n FROM socis WHERE estat = 'actiu' GROUP BY tipus ORDER BY n DESC")->fetchAll();
     $total = array_sum(array_column($socis, 'n'));
     $seccions[] = ['titol' => t('mem.socis'), 'cols' => [t('camp.tipus'), t('ent.socis')], 'num' => [1],
-        'files' => array_map(fn($r) => [$r['tipus'] !== '' ? t('opt.' . $r['tipus']) : '—', (string)$r['n']], $socis),
+        'files' => array_map(fn($r) => [nom_tipus_soci($r['tipus']) ?: '—', (string)$r['n']], $socis),
         'peu' => [t('mem.total'), (string)$total]];
     $seccions[] = ['titol' => t('mem.socis_moviment', $any), 'cols' => [t('mem.concepte'), t('mem.total')], 'num' => [1], 'files' => [
         [t('mem.altes'), (string)valor("SELECT COUNT(*) FROM socis WHERE substr(data_alta, 1, 4) = ?", [(string)$any])],
@@ -369,7 +374,7 @@ function imprimeix_informe(array $d): void
 function pagina_llistats(): void
 {
     $inf = get('informe');
-    $informes = array_filter(informes(), fn($i) => pot($i[0]));
+    $informes = array_filter(informes(), fn($i, $k) => pot($i[0]) && (!isset(MODUL_INFORMES[$k]) || modul_actiu(MODUL_INFORMES[$k])), ARRAY_FILTER_USE_BOTH);
     if ($inf === '' || !isset($informes[$inf])) {
         $html = '<p>' . h(t('llist.intro')) . '</p><div class="graella-informes">';
         foreach ($informes as $k => [$cap, $icona]) {

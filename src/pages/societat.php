@@ -321,12 +321,11 @@ function pagina_full_alta(): void
         $tarifes[$t['tipus_soci'] ?? ''] ??= $t;
     }
     $tipus = '';
-    foreach (['ordinari', 'protector', 'juvenil', 'honorari'] as $ts) {
-        $t = $tarifes[$ts] ?? $tarifes[''] ?? null;
-        if ($ts === 'honorari' && !isset($tarifes['honorari'])) {
-            continue; // els honoraris els nomena la societat
-        }
-        $tipus .= '<span><span class="casella"></span>' . h(t('opt.' . $ts)) . ($t ? ' <small>(' . h(euros($t['import']) . ' ' . mb_strtolower(t('opt.' . $t['periodicitat']))) . ')</small>' : '') . '</span>';
+    // Els tipus que la societat ha marcat per al full d'alta (els d'honor, per exemple, no es demanen: els nomena la societat)
+    foreach (q("SELECT * FROM tipus_socis WHERE estat = 'actiu' AND full_alta = 1 ORDER BY COALESCE(ordre, 999999), nom")->fetchAll() as $ts) {
+        $t = $tarifes[(string)$ts['id']] ?? $tarifes[''] ?? null;
+        $tipus .= '<span><span class="casella"></span>' . h($ts['nom']) . ($t ? ' <small>(' . h(euros($t['import']) . ' ' . mb_strtolower(t('opt.' . $t['periodicitat']))) . ')</small>' : '')
+            . ($ts['descripcio'] ? ' <small class="desc-tipus">' . h($ts['descripcio']) . '</small>' : '') . '</span>';
     }
     $caselles = fn(int $n) => str_repeat('<span class="caixeta"></span>', $n);
     $intro = config('full_alta_intro') ?: t('alta.intro_defecte', $societat);
@@ -360,11 +359,13 @@ function pagina_full_alta(): void
 /** Grups de destinataris possibles: clau => etiqueta */
 function grups_destinataris(): array
 {
-    $g = ['socis' => t('com.socis'), 'junta' => t('com.junta'), 'professorat' => t('com.professorat'), 'families' => t('com.families'), 'tothom' => t('com.tothom')];
-    foreach (q("SELECT id, nom FROM agrupacions WHERE estat = 'actiu' ORDER BY nom")->fetchAll() as $a) {
+    $escola = modul_actiu('escola');
+    $g = ['socis' => t('com.socis')] + (modul_actiu('junta') ? ['junta' => t('com.junta')] : [])
+        + ($escola ? ['professorat' => t('com.professorat'), 'families' => t('com.families')] : []) + ['tothom' => t('com.tothom')];
+    foreach (modul_actiu('agrupacions') ? q("SELECT id, nom FROM agrupacions WHERE estat = 'actiu' ORDER BY nom")->fetchAll() : [] as $a) {
         $g['agrupacio:' . $a['id']] = t('com.agrupacio', $a['nom']);
     }
-    if ($curs = curs_actual()) {
+    if ($escola && ($curs = curs_actual())) {
         foreach (opcions_grups((int)$curs['id']) as $id => $nom) {
             $g['grup:' . $id] = t('com.grup', $nom);
         }

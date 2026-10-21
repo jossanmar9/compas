@@ -19,6 +19,74 @@ const FITXERS_PERMESOS = ['pdf' => 'application/pdf', 'jpg' => 'image/jpeg', 'jp
     'doc' => 'application/msword', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'xls' => 'application/vnd.ms-excel', 'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 const MIDA_DOCUMENT_MB = 20;
+const TIPUS_UNIFORMES = ['samarreta', 'polo', 'camisa', 'dessuadora', 'jaqueta', 'pantalo', 'motxilla', 'gorra', 'altre_uniforme'];
+
+/**
+ * Mòduls que una societat pot desactivar (Administració → Mòduls i avisos): pantalles i entitats de cadascun.
+ * Persones, socis, llistats, importació i administració no es poden desactivar.
+ */
+const MODULS = [
+    'escola' => ['alumnes', 'professors', 'matricules', 'grups', 'horari', 'notes', 'butlleti', 'cursos', 'assignatures', 'aules', 'periodes', 'horaris',
+        'matricula_grups', 'tutories', 'passa_curs'],
+    'agrupacions' => ['agrupacions', 'membres'],
+    'instruments' => ['instruments', 'cessions', 'manteniments'],
+    'uniformes' => ['uniformes', 'uniforme_compres', 'uniforme_lliuraments'],
+    'economia' => ['economia', 'rebuts', 'rebut_linies', 'genera_rebuts', 'remeses', 'remesa', 'remesa_xml', 'rebut_accio', 'rebut_doc', 'mandat_doc', 'mandats',
+        'tarifes', 'economia_config'],
+    'loteria' => ['loteries', 'talonaris', 'loteria', 'participacions'],
+    'caixa' => ['caixa', 'moviments'],
+    'junta' => ['junta', 'junta_doc', 'carrecs', 'reunions', 'reunio_doc'],
+    'documents' => ['documents', 'document_fitxer', 'rgpd'],
+    'comunicats' => ['comunicats'],
+];
+
+/** Avisos de la pantalla d'inici que es poden amagar */
+const AVISOS = ['copia_externa', 'junta_renovacio', 'documents_caducitat', 'certificat_delictes', 'cessions_vencudes', 'curs_actual'];
+
+/** Mòdul al qual pertany una pantalla o entitat (null: no es pot desactivar) */
+function modul_de(string $clau): ?string
+{
+    foreach (MODULS as $m => $claus) {
+        if (in_array($clau, $claus, true)) {
+            return $m;
+        }
+    }
+    return null;
+}
+
+function llista_config(string $clau): array
+{
+    return array_values(array_filter(explode(',', (string)config($clau))));
+}
+
+function modul_actiu(string $modul): bool
+{
+    return !in_array($modul, llista_config('moduls_desactivats'), true);
+}
+
+/** La pantalla o entitat està disponible (el seu mòdul, si en té, està actiu) */
+function disponible(string $clau): bool
+{
+    $m = modul_de($clau);
+    return $m === null || modul_actiu($m);
+}
+
+function avis_actiu(string $avis): bool
+{
+    return !in_array($avis, llista_config('avisos_desactivats'), true);
+}
+
+/** Nom d'un tipus de soci (socis.tipus i tarifes.tipus_soci guarden l'id) */
+function nom_tipus_soci($id): string
+{
+    return $id === null || $id === '' ? '' : (opcions_ref('tipus_socis')[(int)$id] ?? '');
+}
+
+/** Tipus de soci actius, en l'ordre de la societat: id => nom */
+function tipus_socis_actius(): array
+{
+    return array_column(q("SELECT id, nom FROM tipus_socis WHERE estat = 'actiu' ORDER BY COALESCE(ordre, 999999), nom")->fetchAll(), 'nom', 'id');
+}
 
 /** Edat a partir de la qual DNI i telèfon són obligatoris */
 const MAJORIA_EDAT = 18;
@@ -65,7 +133,7 @@ function entitats(): array
     }
     $estat = ['tipus' => 'select', 'opcions' => ['actiu', 'baixa'], 'llista' => 1];
     // L'IBAN a la fitxa de persona i de soci, per a qui pot fer domiciliacions
-    $ambIban = function_exists('pot') && pot('economia.edit');
+    $ambIban = function_exists('pot') && pot('economia.edit') && modul_actiu('economia');
     $persona = ['tipus' => 'ref', 'ref' => 'persones', 'req' => 1, 'llista' => 1];
     $obs = ['tipus' => 'textarea'];
     $perfil = fn(string $taula) => [
@@ -107,17 +175,19 @@ function entitats(): array
             'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')),
             'fills' => [['socis', 'persona_id'], ['alumnes', 'persona_id'], ['professors', 'persona_id'],
                 ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id'],
-                ['mandats', 'persona_id'], ['rebuts', 'persona_id'], ['carrecs', 'persona_id'], ['documents', 'persona_id']],
+                ['mandats', 'persona_id'], ['rebuts', 'persona_id'], ['carrecs', 'persona_id'], ['documents', 'persona_id'],
+                ['uniforme_lliuraments', 'persona_id']],
         ],
         'socis' => $perfil('socis') + [
             'cap' => 'socis',
-            'accions_llista' => fn() => boto_document(url('full_alta'), t('alta.boto')),
+            'accions_llista' => fn() => '<a class="boto secundari" href="' . h(url('llista', ['e' => 'tipus_socis'])) . '">🏷 ' . h(t('ent.tipus_socis')) . '</a>'
+                . boto_document(url('full_alta'), t('alta.boto')),
             'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'soci', 'id' => $f['id']]), t('cert.boto')),
             'cerca' => ['p.nom', 'p.cognoms', 't.numero'],
             'camps' => [
                 'persona_id' => $persona,
                 'numero' => ['tipus' => 'text', 'llista' => 1],
-                'tipus' => ['tipus' => 'select', 'opcions' => ['ordinari', 'protector', 'honorari', 'juvenil'], 'llista' => 1],
+                'tipus' => ['tipus' => 'ref', 'ref' => 'tipus_socis', 'llista' => 1, 'ajuda' => t('ajuda.tipus_soci')],
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
@@ -142,7 +212,7 @@ function entitats(): array
         'professors' => $perfil('professors') + [
             'cap' => 'escola',
             'filtres' => ['sense_certificat' => 't.certificat_delictes IS NULL'],
-            'avis_fila' => fn(array $f) => $f['estat'] === 'actiu' && !$f['certificat_delictes'] ? t('prof.avis_certificat') : null,
+            'avis_fila' => fn(array $f) => $f['estat'] === 'actiu' && !$f['certificat_delictes'] && avis_actiu('certificat_delictes') ? t('prof.avis_certificat') : null,
             'camps' => [
                 'persona_id' => $persona,
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
@@ -371,7 +441,7 @@ function entitats(): array
             'camps' => [
                 'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.tarifa_nom')],
                 'tipus' => ['tipus' => 'select', 'opcions' => ['quota_soci', 'matricula', 'classe', 'altres'], 'llista' => 1],
-                'tipus_soci' => ['tipus' => 'select', 'opcions' => ['ordinari', 'protector', 'honorari', 'juvenil'], 'buit' => 1, 'llista' => 1, 'ajuda' => t('ajuda.tarifa_tipus_soci')],
+                'tipus_soci' => ['tipus' => 'ref', 'ref' => 'tipus_socis', 'llista' => 1, 'ajuda' => t('ajuda.tarifa_tipus_soci')],
                 'assignatura_id' => ['tipus' => 'ref', 'ref' => 'assignatures', 'llista' => 1, 'ajuda' => t('ajuda.tarifa_assignatura')],
                 'periodicitat' => ['tipus' => 'select', 'opcions' => ['anual', 'semestral', 'trimestral', 'mensual', 'unica'], 'llista' => 1, 'ajuda' => t('ajuda.tarifa_periodicitat')],
                 'import' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1],
@@ -650,6 +720,86 @@ function entitats(): array
                 'adreces' => ['tipus' => 'textarea'],
                 'usuari' => ['tipus' => 'text'],
             ],
+        ],
+        // ---------- Tipus de soci ----------
+        'tipus_socis' => [
+            'cap' => 'socis',
+            'cerca' => ['t.nom', 't.descripcio'],
+            'ordre' => "(t.estat <> 'actiu'), COALESCE(t.ordre, 999999), t.nom",
+            'etiqueta' => "SELECT id, nom AS e FROM tipus_socis ORDER BY COALESCE(ordre, 999999), nom",
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'descripcio' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.tipus_soci_descripcio')],
+                'ordre' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.ordre')],
+                'full_alta' => ['tipus' => 'bool', 'llista' => 1, 'defecte' => 1, 'ajuda' => t('ajuda.tipus_soci_full_alta')],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'fills' => [['socis', 'tipus'], ['tarifes', 'tipus_soci']],
+            'elimina_permes' => fn(int $id) => valor('SELECT COUNT(*) FROM socis WHERE tipus = ?', [$id]) + valor('SELECT COUNT(*) FROM tarifes WHERE tipus_soci = ?', [$id])
+                ? t('err.tipus_soci_en_us') : null,
+        ],
+        // ---------- Uniformes ----------
+        'uniformes' => [
+            'cap' => 'instruments',
+            'cerca' => ['t.nom', 't.talles', 't.observacions'],
+            'ordre' => "(t.estat <> 'actiu'), t.tipus, t.nom",
+            'etiqueta' => 'SELECT id, nom AS e FROM uniformes ORDER BY nom',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.uniforme_nom')],
+                'tipus' => ['tipus' => 'select', 'opcions' => TIPUS_UNIFORMES, 'llista' => 1],
+                'talles' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.talles')],
+                'preu' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1, 'etiqueta' => 'camp.preu_venda', 'ajuda' => t('ajuda.uniforme_preu')],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'seccio_fitxa' => 'seccio_existencies',
+            'despres' => fn(int $id, array $d) => q('UPDATE uniformes SET talles = ? WHERE id = ?', [implode(', ', talles_text($d['talles'] ?? null)) ?: null, $id]),
+            'fills' => [['uniforme_compres', 'uniforme_id'], ['uniforme_lliuraments', 'uniforme_id']],
+        ],
+        'uniforme_compres' => [
+            'cap' => 'instruments',
+            'from' => 'uniforme_compres t JOIN uniformes u ON u.id = t.uniforme_id',
+            'cerca' => ['u.nom', 't.talla', 't.proveidor', 't.observacions'],
+            'ordre' => 't.data DESC, t.id DESC',
+            'camps' => [
+                'uniforme_id' => ['tipus' => 'ref', 'ref' => 'uniformes', 'req' => 1, 'llista' => 1],
+                'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'talla' => ['tipus' => 'talla', 'llista' => 1],
+                'quantitat' => ['tipus' => 'number', 'req' => 1, 'llista' => 1],
+                'preu_unitat' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1],
+                'proveidor' => ['tipus' => 'text', 'llista' => 1],
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d) => valida_talla($d),
+        ],
+        'uniforme_lliuraments' => [
+            'cap' => 'instruments',
+            'from' => 'uniforme_lliuraments t JOIN uniformes u ON u.id = t.uniforme_id JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['u.nom', 't.talla', 'p.nom', 'p.cognoms', 't.observacions'],
+            'ordre' => "(t.tipus = 'prestec' AND t.data_retorn IS NULL) DESC, t.data DESC, t.id DESC",
+            'filtres' => ['prestecs' => "t.tipus = 'prestec' AND t.data_retorn IS NULL"],
+            'camps' => [
+                'uniforme_id' => ['tipus' => 'ref', 'ref' => 'uniformes', 'req' => 1, 'llista' => 1],
+                'persona_id' => $persona,
+                'talla' => ['tipus' => 'talla', 'llista' => 1],
+                'quantitat' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'defecte' => 1],
+                'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'tipus' => ['tipus' => 'select', 'opcions' => ['venda', 'prestec', 'gratuit'], 'llista' => 1, 'ajuda' => t('ajuda.lliurament_tipus')],
+                'import' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1, 'ajuda' => t('ajuda.lliurament_import')],
+                'data_retorn' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.lliurament_retorn')],
+                'observacions' => $obs,
+            ],
+            'avis_fila' => 'avis_lliurament',
+            'valida' => function (array $d, ?int $id): ?string {
+                if ($msg = valida_talla($d)) {
+                    return $msg;
+                }
+                if ($d['data_retorn'] !== null && $d['tipus'] !== 'prestec') {
+                    return t('err.retorn_prestec');
+                }
+                return $d['data_retorn'] !== null && $d['data_retorn'] < $d['data'] ? t('err.dates') : null;
+            },
         ],
         'moviments' => [
             'cap' => 'economia',

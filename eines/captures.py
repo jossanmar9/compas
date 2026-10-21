@@ -254,7 +254,7 @@ async def fes_captures(l: str):
             await c.ves(f'?r=fitxa&e=persones&id={persona}')
             await p.locator(await c.boto_afig('socis')).first.click()
             await p.wait_for_load_state('networkidle')
-            await c.omple({'numero': '120', 'tipus': 'juvenil'})
+            await c.omple({'numero': '120', 'tipus': 'Juvenil'})
             await c.foto('15-soci-nou', 'select[name="tipus"]')
             await c.desa()
             enllac = await p.locator('section.fill a[href*="e=socis&id="]').first.get_attribute('href')
@@ -472,6 +472,17 @@ async def fes_captures(l: str):
             await c.foto('75-rgpd', zona='.full', alt_max=1300)
             await c.ves('?r=caixa')
             await c.foto('76-caixa', 'a.boto[href*="e=moviments"]', alt_max=1300)
+
+            # --- Tipus de soci, uniformes i mòduls ---
+            await c.ves('?r=llista&e=tipus_socis')
+            await c.foto('77-tipus-socis', 'a.boto[href*="r=edita"]')
+            await c.ves('?r=uniformes')
+            await c.foto('78-uniformes', 'a.boto[href*="e=uniforme_lliuraments"]', alt_max=1500)
+            await c.ves('?r=edita&e=uniforme_lliuraments')
+            await c.omple({'uniforme_id': 'Polo de la banda', 'talla': 'M', 'tipus': 'venda'})
+            await c.foto('79-uniforme-lliurament', 'input[name="talla"]', 'select[name="tipus"]', alt_max=1000)
+            await c.ves('?r=moduls')
+            await c.foto('80-moduls', 'input[value="loteria"]', alt_max=1400)
 
             # --- Captures per a la web: totes de finestra sencera i del mateix format (16:10) ---
             for nom, ruta in [('web-inici', '?r=inici'), ('web-alumne', '?r=fitxa&e=alumnes&id=1'), ('web-notes', '?r=notes&grup=1'),

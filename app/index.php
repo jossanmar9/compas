@@ -74,6 +74,13 @@ try {
     }
     copia_automatica();
 
+    // Pantalles d'un mòdul que la societat ha desactivat
+    $clauModul = in_array($r, ['llista', 'fitxa', 'edita', 'elimina'], true) ? (string)get('e') : $r;
+    if (!disponible($clauModul)) {
+        pagina_modul_desactivat(modul_de($clauModul));
+        exit;
+    }
+
     switch ($r) {
         case 'inici':
             pagina_inici();
@@ -180,6 +187,12 @@ try {
             break;
         case 'rgpd':
             pagina_rgpd();
+            break;
+        case 'uniformes':
+            pagina_uniformes();
+            break;
+        case 'moduls':
+            pagina_moduls();
             break;
         case 'caixa':
             pagina_caixa();

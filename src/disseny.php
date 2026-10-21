@@ -23,9 +23,10 @@ function menu(): array
         ['_agrup', 'menu.agrupacions', null, null],
         ['agrupacions', 'ent.agrupacions', 'agrupacions.view', '🎺'],
         ['membres', 'ent.membres', 'agrupacions.view', '🎶'],
-        ['_instr', 'menu.instruments', null, null],
+        ['_instr', 'menu.material', null, null],
         ['instruments', 'ent.instruments', 'instruments.view', '🎷'],
         ['cessions', 'ent.cessions', 'instruments.view', '⇄'],
+        ['uniformes', 'menu.uniformes', 'instruments.view', '👕'],
         ['_economia', 'menu.economia', null, null],
         ['economia', 'menu.resum_economic', 'economia.view', '€'],
         ['rebuts', 'ent.rebuts', 'economia.view', '🧾'],
@@ -46,6 +47,7 @@ function menu(): array
         ['_admin', 'menu.administracio', null, null],
         ['usuaris', 'menu.usuaris', 'usuaris.manage', '🔑'],
         ['configuracio', 'menu.configuracio', 'config.manage', '⚙'],
+        ['moduls', 'menu.moduls', 'config.manage', '🧩'],
         ['auditoria', 'menu.auditoria', 'auditoria.view', '📜'],
         ['copia', 'menu.copia', 'copia.manage', '💾'],
         ['perfil', 'menu.compte', null, '🔒'],
@@ -56,7 +58,7 @@ function menu(): array
 function enllac_menu(string $clau): string
 {
     // «remeses» té pantalla pròpia (preparar i descarregar), encara que també siga una entitat
-    return isset(entitats()[$clau]) && !in_array($clau, ['remeses', 'comunicats'], true) ? url('llista', ['e' => $clau]) : url($clau);
+    return isset(entitats()[$clau]) && !in_array($clau, ['remeses', 'comunicats', 'uniformes'], true) ? url('llista', ['e' => $clau]) : url($clau);
 }
 
 function html_menu(): string
@@ -66,7 +68,8 @@ function html_menu(): string
         $actual = get('e');
     }
     $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'talonaris' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia',
-        'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents'][$actual] ?? $actual;
+        'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents',
+        'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis'][$actual] ?? $actual;
     $items = [];
     $seccio = null;
     foreach (menu() as [$clau, $etq, $cap, $icona]) {
@@ -74,7 +77,7 @@ function html_menu(): string
             $seccio = '<li class="seccio">' . h(t($etq)) . '</li>';
             continue;
         }
-        if ($cap && !pot($cap)) {
+        if (($cap && !pot($cap)) || !disponible($clau)) {
             continue;
         }
         if ($seccio) {
