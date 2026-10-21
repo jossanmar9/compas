@@ -475,3 +475,38 @@ CREATE INDEX IF NOT EXISTS idx_moviments_data ON moviments(data);
 CREATE INDEX IF NOT EXISTS idx_ucompres_uniforme ON uniforme_compres(uniforme_id);
 CREATE INDEX IF NOT EXISTS idx_ulliuraments_uniforme ON uniforme_lliuraments(uniforme_id);
 CREATE INDEX IF NOT EXISTS idx_ulliuraments_persona ON uniforme_lliuraments(persona_id);
+
+-- Indexs addicionals de rendiment
+-- Índexs addicionals de rendiment per a Compàs.
+-- Revisats per a evitar duplicar els UNIQUE i els índexs ja presents a schema.sql.
+
+-- Relacions i consultes habituals
+CREATE INDEX IF NOT EXISTS idx_tutories_tutor ON tutories(tutor_id);
+CREATE INDEX IF NOT EXISTS idx_membres_persona_estat ON membres(persona_id, estat);
+CREATE INDEX IF NOT EXISTS idx_periodes_curs_ordre ON periodes(curs_id, ordre);
+CREATE INDEX IF NOT EXISTS idx_grups_assignatura ON grups(assignatura_id);
+CREATE INDEX IF NOT EXISTS idx_grups_professor ON grups(professor_id);
+CREATE INDEX IF NOT EXISTS idx_grups_aula ON grups(aula_id);
+CREATE INDEX IF NOT EXISTS idx_horaris_grup_dia ON horaris(grup_id, dia, hora_inici);
+CREATE INDEX IF NOT EXISTS idx_matricules_curs_estat ON matricules(curs_id, estat);
+CREATE INDEX IF NOT EXISTS idx_qualificacions_alumne ON qualificacions(alumne_id);
+CREATE INDEX IF NOT EXISTS idx_qualificacions_periode ON qualificacions(periode_id);
+CREATE INDEX IF NOT EXISTS idx_qualificacions_professor ON qualificacions(professor_id);
+CREATE INDEX IF NOT EXISTS idx_manteniments_instrument_data ON manteniments(instrument_id, data);
+CREATE INDEX IF NOT EXISTS idx_cessions_persona ON cessions(persona_id);
+
+-- Economia
+CREATE INDEX IF NOT EXISTS idx_tarifes_tipus_estat_periodicitat
+    ON tarifes(tipus, estat, periodicitat);
+CREATE INDEX IF NOT EXISTS idx_tarifes_assignatura ON tarifes(assignatura_id);
+CREATE INDEX IF NOT EXISTS idx_mandats_persona_estat_data
+    ON mandats(persona_id, estat, data_signatura DESC);
+CREATE INDEX IF NOT EXISTS idx_rebuts_remesa ON rebuts(remesa_id);
+CREATE INDEX IF NOT EXISTS idx_rebuts_mandat ON rebuts(mandat_id);
+CREATE INDEX IF NOT EXISTS idx_rebuts_data ON rebuts(data_emissio);
+CREATE INDEX IF NOT EXISTS idx_linies_alumne ON rebut_linies(alumne_id);
+
+-- Altres relacions que poden créixer amb l'històric
+CREATE INDEX IF NOT EXISTS idx_talonaris_persona ON talonaris(persona_id);
+CREATE INDEX IF NOT EXISTS idx_documents_persona ON documents(persona_id);
+CREATE INDEX IF NOT EXISTS idx_auditoria_usuari ON auditoria(usuari_id);
