@@ -236,6 +236,21 @@ function calcula_escola(array $curs, string $codi, array &$resum): array
 
     $alumnes = q("SELECT al.*, p.nom, p.cognoms, p.data_naixement, m.id AS matricula_id FROM matricules m JOIN alumnes al ON al.id = m.alumne_id
         JOIN persones p ON p.id = al.persona_id WHERE m.curs_id = ? AND m.estat = 'actiu' AND al.estat = 'actiu' ORDER BY p.cognoms, p.nom", [$curs['id']])->fetchAll();
+
+    // Carrega en una sola consulta els grups de totes les matrícules actives del curs.
+    // Abans es feia una consulta per alumne (patró N+1).
+    $grupsPerMatricula = [];
+    $grupsCurs = q("SELECT mg.matricula_id, g.assignatura_id, a.nom
+        FROM matricules m
+        JOIN matricula_grups mg ON mg.matricula_id = m.id
+        JOIN grups g ON g.id = mg.grup_id
+        JOIN assignatures a ON a.id = g.assignatura_id
+        WHERE m.curs_id = ? AND m.estat = 'actiu' AND g.estat = 'actiu'
+        ORDER BY mg.matricula_id, a.nom", [$curs['id']])->fetchAll();
+    foreach ($grupsCurs as $g) {
+        $grupsPerMatricula[(int)$g['matricula_id']][] = $g;
+    }
+
     $perPagador = [];
     foreach ($alumnes as $al) {
         $nom = nom_natural($al);
@@ -243,8 +258,7 @@ function calcula_escola(array $curs, string $codi, array &$resum): array
         foreach ($generals as $t) {
             $linies[] = [$t['nom'] . ' — ' . $nom, round((float)$t['import'], 2), (int)$al['id']];
         }
-        $grups = q("SELECT g.assignatura_id, a.nom FROM matricula_grups mg JOIN grups g ON g.id = mg.grup_id JOIN assignatures a ON a.id = g.assignatura_id
-            WHERE mg.matricula_id = ? AND g.estat = 'actiu' ORDER BY a.nom", [$al['matricula_id']])->fetchAll();
+        $grups = $grupsPerMatricula[(int)$al['matricula_id']] ?? [];
         $vistes = [];
         foreach ($grups as $g) {
             $t = $perAssignatura[(int)$g['assignatura_id']] ?? null;
