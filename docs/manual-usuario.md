@@ -14,14 +14,14 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 ### Abrir y cerrar Compàs
 
 1. Haz doble clic en el icono **Compàs** del escritorio o del menú Inicio.
-2. Al cabo de unos segundos, Compàs se abre en **una ventana propia**, sin pestañas ni barra de direcciones.
+2. Al cabo de unos segundos, se abre **la ventana de Compàs**. Es una ventana del programa, como la de cualquier otro: no hace falta ningún navegador.
 3. Para terminar, **cierra la ventana** (la ✕ de arriba a la derecha). Compàs hará una copia de seguridad si ha habido cambios y se detendrá.
 
-Mientras está abierto, el icono de Compàs aparece en la bandeja del sistema, junto al reloj. Con el botón derecho tienes **Abrir Compàs** (otra ventana), **Carpeta de datos** y **Detener y cerrar**.
+Si vuelves a abrir Compàs mientras ya está abierto, se muestra la ventana que ya tenías. Los documentos para imprimir (boletines, certificados, listados…) se abren en otra ventana de Compàs, y los archivos que se descargan (CSV, copias) van a la carpeta **Descargas**. Para abrir la **carpeta de datos**, haz clic en el icono de arriba a la izquierda de la ventana (o pulsa Alt+Espacio) y elige **Carpeta de datos de Compàs**.
 
-La ventana propia la pone Microsoft Edge, que viene con todo Windows 10 y 11, o Google Chrome. Si el ordenador no tiene ninguno, Compàs se abre en el navegador habitual y aparece una ventana pequeña: **no la cierres** mientras trabajas, porque es la que hace funcionar Compàs, y ciérrala para terminar. Si prefieres el navegador habitual, pon `finestra = 0` en `compas.ini`.
+La ventana usa el componente WebView2, que traen Windows 10 y 11. En el raro ordenador que no lo tenga, Compàs se abre con Microsoft Edge o Google Chrome o, si tampoco, en el navegador habitual con una ventana pequeña que **no debes cerrar** mientras trabajas.
 
-> **En Linux**, la ventana propia la ponen Chromium, Google Chrome, Microsoft Edge o Brave. Si no hay ninguno, se abre el navegador habitual y una ventana de terminal: no la cierres mientras trabajas, y para terminar pulsa **Ctrl+C** o ciérrala.
+> **En Linux**, la ventana usa WebKitGTK, que el paquete .deb instala si hace falta. Si no está, Compàs prueba Chromium, Google Chrome, Microsoft Edge o Brave y, si tampoco, se abre el navegador habitual con una ventana de terminal: no la cierres mientras trabajas, y para terminar pulsa **Ctrl+C** o ciérrala.
 
 ### Entrar
 

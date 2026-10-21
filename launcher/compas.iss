@@ -64,8 +64,10 @@ Name: "{group}\Manual de Compàs"; Filename: "{app}\docs\pdf\manual-usuario.pdf"
 Name: "{autodesktop}\Compàs"; Filename: "{app}\Compas.exe"; Tasks: escriptori
 
 [UninstallDelete]
-; Perfil de la finestra pròpia (Edge o Chrome en mode aplicació). Les dades de Compàs no es toquen.
+; Configuració de la finestra de Compàs (WebView2, o Edge o Chrome en mode aplicació). Les dades de Compàs no es toquen.
+Type: filesandordirs; Name: "{localappdata}\Compas\visor"
 Type: filesandordirs; Name: "{localappdata}\Compas\finestra"
+Type: files; Name: "{localappdata}\Compas\finestra.txt"
 Type: dirifempty; Name: "{localappdata}\Compas"
 
 [Run]

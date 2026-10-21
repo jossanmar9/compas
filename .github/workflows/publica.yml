@@ -72,10 +72,30 @@ jobs:
           & "$php\php.exe" -c "$php\php.ini" -d "extension_dir=$PWD\$php\ext" -m | Tee-Object mods.txt
           foreach ($m in 'pdo_sqlite','mbstring','sqlite3','sodium','SimpleXML','xmlreader','zlib') { if (-not (Select-String -Path mods.txt -Pattern "^$m$" -Quiet)) { throw "Falta $m" } }
 
+      - name: Baixa WebView2 (el component de Windows per a la finestra de Compàs)
+        shell: pwsh
+        run: |
+          $v = '1.0.4129.50'
+          $zip = Join-Path $env:RUNNER_TEMP 'webview2.zip'
+          $dir = Join-Path $env:RUNNER_TEMP 'webview2'
+          Invoke-WebRequest "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/$v" -OutFile $zip
+          Expand-Archive $zip $dir -Force
+          $lib = Get-ChildItem "$dir\lib" -Directory | Where-Object Name -like 'net4*' | Sort-Object Name | Select-Object -First 1
+          if (-not $lib) { throw "No s'ha trobat la biblioteca de WebView2 per a .NET Framework" }
+          Copy-Item "$($lib.FullName)\Microsoft.Web.WebView2.Core.dll", "$($lib.FullName)\Microsoft.Web.WebView2.WinForms.dll" dist\Compas
+          Copy-Item "$dir\runtimes\win-x64\native\WebView2Loader.dll" dist\Compas
+          $llic = Get-ChildItem $dir -Filter 'LICENSE*' -File | Select-Object -First 1
+          if ($llic) { Copy-Item $llic.FullName dist\Compas\WebView2-LICENSE.txt }
+          Get-ChildItem dist\Compas -File
+
       - name: Compila el llançador
         shell: pwsh
         run: |
-          $csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+          # El compilador de Visual Studio si hi és; si no, el de .NET Framework (C# 5)
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $csc = if (Test-Path $vswhere) { & $vswhere -latest -products * -find 'MSBuild\**\Bin\Roslyn\csc.exe' | Select-Object -First 1 }
+          if (-not $csc) { $csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" }
+          Write-Host "Compilador: $csc"
           # Versió a les propietats de Compas.exe (el nom, la descripció i la llicència ja són a Compas.cs)
           $n = "${{ steps.versio.outputs.numerica }}.0"
           $info = Join-Path $env:RUNNER_TEMP "Versio.cs"
@@ -86,10 +106,12 @@ jobs:
             "[assembly: AssemblyFileVersion(""$n"")]"
             "[assembly: AssemblyInformationalVersion(""${{ steps.versio.outputs.versio }}"")]"
           ) | Set-Content $info -Encoding utf8
-          & $csc /nologo /codepage:65001 /optimize+ /target:winexe /platform:anycpu `
+          & $csc /nologo /codepage:65001 /optimize+ /target:winexe /platform:x64 `
             /out:dist\Compas\Compas.exe /win32icon:launcher\compas.ico `
             /resource:app\assets\icona.png,icona.png `
-            /r:System.Windows.Forms.dll /r:System.Drawing.dll launcher\Compas.cs $info
+            /r:System.Windows.Forms.dll /r:System.Drawing.dll `
+            /r:dist\Compas\Microsoft.Web.WebView2.Core.dll /r:dist\Compas\Microsoft.Web.WebView2.WinForms.dll `
+            launcher\Compas.cs launcher\Visor.cs $info
           if ($LASTEXITCODE -ne 0) { throw "Error compilant el llançador" }
 
       - name: Copia el programa i la documentació
@@ -134,6 +156,22 @@ jobs:
           $r = Invoke-WebRequest http://127.0.0.1:8741/ -UseBasicParsing
           Stop-Process $p
           if ($r.Content -notmatch "Configuraci") { throw "La pàgina inicial no s'ha carregat" }
+
+      - name: Prova la finestra de Compàs (WebView2)
+        # Si l'ordinador de GitHub no pot obrir finestres, només avisa: cal provar-ho a mà
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $env:COMPAS_DADES = Join-Path $env:RUNNER_TEMP 'dades-visor'
+          $env:COMPAS_PROVA_VISOR = Join-Path $env:RUNNER_TEMP 'visor.txt'
+          $p = Start-Process (Resolve-Path dist\Compas\Compas.exe).Path -PassThru
+          $acabat = $p.WaitForExit(120000)
+          Get-Content (Join-Path $env:COMPAS_DADES 'servidor.log') -ErrorAction SilentlyContinue | Select-Object -Last 15
+          if (-not $acabat) { Stop-Process $p -Force; throw "Compas.exe no s'ha tancat sol" }
+          if (-not (Test-Path $env:COMPAS_PROVA_VISOR)) { throw "La finestra de Compàs no ha carregat la pàgina" }
+          $r = Get-Content $env:COMPAS_PROVA_VISOR -Raw -Encoding utf8
+          Write-Host "Resultat: $r"
+          if ($r -notmatch '^ok ') { throw "La finestra de Compàs no ha carregat bé: $r" }
 
       - name: Crea el zip portable
         shell: pwsh
@@ -182,7 +220,7 @@ jobs:
           cp -a docs/imatges "$d/docs/"
           cp -a win/Compas/docs/pdf "$d/docs/"
           cp README.md CHANGELOG.md PRIVACITAT.md LICENSE compas.ini "$d/"
-          cp launcher/linux/compas.sh launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
+          cp launcher/linux/compas.sh launcher/linux/compas-visor.py launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
           chmod +x "$d"/*.sh
           tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas
           bash eines/construeix-deb.sh dist/Compas "$v" dist
@@ -197,6 +235,20 @@ jobs:
           cat llançador.log
           grep -q "Configuració inicial" pagina.html
           kill -TERM $LLANCADOR; wait $LLANCADOR || true
+
+      - name: Prova la finestra de Compàs (WebKitGTK)
+        # Si l'ordinador de GitHub no pot obrir la finestra, només avisa: cal provar-ho a mà
+        continue-on-error: true
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1 xvfb
+          export COMPAS_DADES=$RUNNER_TEMP/dades-visor COMPAS_PORT=8744 COMPAS_PROVA_VISOR=$RUNNER_TEMP/visor.txt
+          timeout 120 xvfb-run -a dist/Compas/compas.sh < /dev/null > visor.log 2>&1 || true
+          cat visor.log
+          cat "$COMPAS_DADES/visor.log" 2>/dev/null || true
+          echo "Resultat: $(cat "$COMPAS_PROVA_VISOR")"
+          grep -q '^ok ' "$COMPAS_PROVA_VISOR"
+          grep -q "Fent la còpia de seguretat" visor.log
 
       - name: Prova el paquet .deb
         run: |

@@ -8,6 +8,16 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.8.0] - 2026-10-21
+
+### Canviat
+- **Compàs té la seua pròpia finestra i ja no necessita cap navegador.** A Windows es fa amb el component WebView2, que porten Windows 10 i 11; a Linux, amb WebKitGTK. En tancar la finestra, es fa la còpia de seguretat i Compàs s'atura.
+- Si es torna a obrir Compàs mentre ja està obert, es mostra la finestra que ja hi havia.
+- Els documents per a imprimir s'obrin en una altra finestra de Compàs; els fitxers descarregats van a la carpeta Baixades, i a Linux els PDF s'obrin amb el programa habitual. Els enllaços de fora de Compàs s'obrin al navegador habitual.
+- La finestra recorda la mida i la posició. A Windows, la **carpeta de dades** s'obri des del menú de la icona de dalt a l'esquerra de la finestra.
+- Si el component no hi és, Compàs funciona com en la 1.7: Edge, Chrome o Chromium en mode aplicació o, si tampoc, el navegador habitual.
+- El paquet .deb recomana els paquets de la finestra (`python3-gi`, `gir1.2-webkit2-4.1`), que `apt` instal·la sols.
+
 ## [1.7.0] - 2026-10-21
 
 ### Canviat
@@ -115,6 +125,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.8.0]: https://github.com/jossanmar9/compas/releases/tag/v1.8.0
 [1.7.0]: https://github.com/jossanmar9/compas/releases/tag/v1.7.0
 [1.6.0]: https://github.com/jossanmar9/compas/releases/tag/v1.6.0
 [1.5.0]: https://github.com/jossanmar9/compas/releases/tag/v1.5.0

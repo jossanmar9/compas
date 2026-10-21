@@ -78,17 +78,21 @@ Per a **actualitzar**, descomprimeix la versió nova i torna a executar `./insta
 
 ### Com funciona a Linux
 
-Compàs s'obri en una finestra pròpia si hi ha Chromium, Google Chrome, Microsoft Edge o Brave (a Ubuntu: `sudo snap install chromium`; a Debian: `sudo apt install chromium`). En tancar-la, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
+Compàs s'obri en la seua finestra, feta amb WebKitGTK (el motor web de GNOME). El paquet .deb l'instal·la si cal; amb el .tar.gz, instal·la'l amb `sudo apt install python3-gi gir1.2-webkit2-4.1`. En tancar la finestra, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
 
-Si no n'hi ha cap, s'obri el navegador habitual i una finestra de terminal. **Mentre la finestra del terminal estiga oberta, Compàs funciona.** Per a tancar-lo, prem **Ctrl+C** o tanca la finestra.
+Si WebKitGTK no hi és, Compàs prova Chromium, Google Chrome, Microsoft Edge o Brave en mode aplicació.
+
+Si tampoc no n'hi ha cap, s'obri el navegador habitual i una finestra de terminal. **Mentre la finestra del terminal estiga oberta, Compàs funciona.** Per a tancar-lo, prem **Ctrl+C** o tanca la finestra.
 
 Les dades es guarden a `~/.local/share/compas/dades` (o a la carpeta que indique la variable `COMPAS_DADES`).
 
 ## Com funciona
 
-En obrir Compàs, s'obri en **una finestra pròpia**, sense pestanyes ni barra d'adreces. La posa Microsoft Edge, que porta tot Windows 10 i 11, o Google Chrome, amb un perfil separat: no es barreja amb el navegador, les adreces d'interés ni les contrasenyes de l'usuari. En tancar la finestra, Compàs fa una còpia de seguretat (si hi ha hagut canvis) i s'atura. Mentre està obert, la icona de Compàs és a la safata del sistema, al costat del rellotge.
+En obrir Compàs, s'obri **la seua finestra**, sense cap navegador. A Windows es fa amb el component **WebView2**, que porten Windows 10 i 11 (és el que fan servir molts programes per a mostrar pantalles); a Linux, amb WebKitGTK. En tancar la finestra, Compàs fa una còpia de seguretat (si hi ha hagut canvis) i s'atura. Les pàgines de fora de Compàs (per exemple, la web o GitHub) s'obrin al navegador habitual.
 
-Si l'ordinador no té Edge ni Chrome (o si es posa `finestra = 0` a `compas.ini`), s'obri el navegador habitual a `http://localhost:8740` i una finestra menuda de Compàs. **Mentre la finestra menuda estiga oberta, Compàs funciona.**
+A Windows, si falta WebView2, Compàs s'obri amb Microsoft Edge o Google Chrome en mode aplicació, amb un perfil separat; mentrestant, la icona de Compàs és a la safata del sistema, al costat del rellotge.
+
+Si no hi ha res d'això (o si es posa `finestra = 0` a `compas.ini`), s'obri el navegador habitual a `http://localhost:8740` i una finestra menuda de Compàs. **Mentre la finestra menuda estiga oberta, Compàs funciona.**
 
 Compàs només es pot utilitzar des d'aquest ordinador: no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora (vegeu la [declaració de privacitat](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md)).
 
@@ -112,7 +116,7 @@ Obri'l amb el Bloc de notes (o qualsevol editor de text). Després de canviar-lo
 
 - `port = 8740`: canvia'l si un altre programa ja l'utilitza.
 - `navegador = 1`: obri Compàs en arrancar.
-- `finestra = 1`: obri Compàs en una finestra pròpia. Amb `finestra = 0`, s'obri al navegador habitual i es mostra la finestra menuda.
+- `finestra = 1`: obri Compàs en la seua finestra. Amb `finestra = 0`, s'obri al navegador habitual i es mostra la finestra menuda.
 
 ## Còpies de seguretat
 

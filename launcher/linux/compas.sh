@@ -3,10 +3,10 @@
 # Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
-# Arranca el servidor de PHP només a 127.0.0.1 i obri Compàs en una finestra pròpia (Chromium,
-# Google Chrome, Microsoft Edge o Brave en mode aplicació). Quan es tanca la finestra, fa una còpia de
-# seguretat si hi ha hagut canvis i s'atura. Si no hi ha cap d'estos navegadors, obri el navegador
-# habitual i Compàs funciona mentre el terminal estiga obert (Ctrl+C per a tancar-lo).
+# Arranca el servidor de PHP només a 127.0.0.1 i obri Compàs en la seua finestra (compas-visor.py, amb
+# WebKitGTK). Quan es tanca la finestra, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
+# Si WebKitGTK no hi és, prova Chromium, Google Chrome, Microsoft Edge o Brave en mode aplicació i, si
+# tampoc, obri el navegador habitual i Compàs funciona mentre el terminal estiga obert (Ctrl+C per a tancar-lo).
 #
 # Variables opcionals: COMPAS_DADES (carpeta de dades), COMPAS_PHP (ruta de php), COMPAS_PORT,
 # COMPAS_NAVEGADOR=0 (no obrir res), COMPAS_FINESTRA=0 (navegador habitual en lloc de finestra pròpia).
@@ -77,7 +77,14 @@ NAVEGADOR="${COMPAS_NAVEGADOR:-$NAVEGADOR}"
 FINESTRA="${COMPAS_FINESTRA:-$FINESTRA}"
 URL="http://localhost:$PORT/"
 
-# Navegador per a la finestra pròpia (mode aplicació, sense pestanyes ni barra d'adreces)
+# Finestra pròpia de Compàs (WebKitGTK)
+VISOR=""
+if [ "$NAVEGADOR" = 1 ] && [ "$FINESTRA" = 1 ] && [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ] \
+   && command -v python3 >/dev/null 2>&1 && python3 "$ARREL/compas-visor.py" --comprova 2>/dev/null; then
+    VISOR=1
+fi
+
+# Si no, un navegador en mode aplicació (sense pestanyes ni barra d'adreces)
 APP=""
 if [ "$NAVEGADOR" = 1 ] && [ "$FINESTRA" = 1 ]; then
     for b in chromium chromium-browser google-chrome google-chrome-stable microsoft-edge microsoft-edge-stable brave-browser; do
@@ -97,7 +104,7 @@ obri_finestra() {
 }
 
 # Obert des del menú, sense finestra pròpia possible: cal un terminal perquè l'usuari puga tancar Compàs
-if [ "$EN_TERMINAL" = 0 ] && [ "$NAVEGADOR" = 1 ] && [ -z "$APP" ] && [ -z "${COMPAS_EN_TERMINAL:-}" ] \
+if [ "$EN_TERMINAL" = 0 ] && [ "$NAVEGADOR" = 1 ] && [ -z "$VISOR" ] && [ -z "$APP" ] && [ -z "${COMPAS_EN_TERMINAL:-}" ] \
    && [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]; then
     export COMPAS_EN_TERMINAL=1
     JO="$(readlink -f "$0")"
@@ -135,7 +142,9 @@ peticio() { "$PHP" -r '$c = stream_context_create(["http" => ["timeout" => (floa
 
 obri_navegador() {
     [ "$NAVEGADOR" = 1 ] || return 0
-    if [ -n "$APP" ]; then
+    if [ -n "$VISOR" ]; then
+        setsid python3 "$ARREL/compas-visor.py" "$URL" >/dev/null 2>&1 &
+    elif [ -n "$APP" ]; then
         obri_finestra &
     elif command -v xdg-open >/dev/null 2>&1; then
         xdg-open "$URL" >/dev/null 2>&1 &
@@ -186,6 +195,17 @@ done
 
 printf '\n  Compàs · %s\n\n' "$URL"
 t "  Les dades es guarden a: $DADES" "  Los datos se guardan en: $DADES"
+
+if [ -n "$VISOR" ]; then
+    t "  Compàs s'ha obert en la seua finestra. En tancar-la, es fa la còpia de seguretat i s'atura." \
+      "  Compàs se ha abierto en su ventana. Al cerrarla, se hace la copia de seguridad y se detiene."
+    echo
+    python3 "$ARREL/compas-visor.py" "$URL" 2>>"$DADES/visor.log" && exit 0
+    # Si el visor falla, es continua amb un navegador
+    t "  No s'ha pogut obrir la finestra de Compàs (mira $DADES/visor.log)." \
+      "  No se ha podido abrir la ventana de Compàs (mira $DADES/visor.log)."
+    VISOR=""
+fi
 
 if [ -n "$APP" ]; then
     t "  Compàs s'ha obert en una finestra pròpia. En tancar-la, es fa la còpia de seguretat i s'atura." \

@@ -77,7 +77,7 @@ Hi ha més de 40 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
    - **`compas_X.Y.Z_all.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_all.deb`, que porta també PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: per a altres Linux. Descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior amb `pdo_sqlite` i `mbstring`).
 2. El programa **encara no està signat digitalment**. Windows SmartScreen pot avisar: prem **Més informació → Executa igualment**. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows el bloqueja (també la versió portable) i cal desactivar-lo: vegeu la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
-3. Obri **Compàs**. S'obri en una finestra pròpia, sense pestanyes ni barra d'adreces (la posa Microsoft Edge o Google Chrome). En tancar-la, fa una còpia de seguretat i s'atura.
+3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En tancar-la, fa una còpia de seguretat i s'atura.
 
 **Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
 
@@ -140,7 +140,8 @@ El manual també es pot consultar dins del programa, al menú **Ajuda**.
 - **PHP 8** sense dependències ni frameworks, servit pel servidor integrat de PHP.
 - **SQLite** a través de PDO, amb consultes preparades (preparat per a passar a MariaDB/MySQL si calguera).
 - **HTML, CSS i JavaScript** propis, sense biblioteques externes.
-- **Llançador per a Windows** en C# (.NET Framework 4, inclòs en Windows), compilat amb el `csc.exe` del sistema.
+- **Llançador per a Windows** en C# (.NET Framework 4, inclòs en Windows), amb la finestra de Compàs feta amb el component **WebView2** de Windows (`launcher/Visor.cs`).
+- **Llançador per a Linux** en Bash, amb la finestra de Compàs feta amb **WebKitGTK** (`launcher/linux/compas-visor.py`).
 - **Instal·lador** amb Inno Setup; **PHP portable** baixat de windows.php.net en cada construcció.
 
 ### Estructura
@@ -219,4 +220,4 @@ Si es modifica Compàs i s'ofereix als usuaris a través d'una xarxa, la llicèn
 
 Consulta [LICENSE](LICENSE).
 
-Les versions per a Windows inclouen [PHP](https://www.php.net/license/), distribuït sota la PHP License, i [SQLite](https://www.sqlite.org/copyright.html), de domini públic.
+Les versions per a Windows inclouen [PHP](https://www.php.net/license/), distribuït sota la PHP License, [SQLite](https://www.sqlite.org/copyright.html), de domini públic, i les biblioteques del [SDK de Microsoft WebView2](https://www.nuget.org/packages/Microsoft.Web.WebView2), distribuïdes sota la llicència BSD (`WebView2-LICENSE.txt`).

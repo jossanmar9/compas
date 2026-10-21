@@ -1,6 +1,7 @@
 // Compàs: Gestió lliure per a societats musicals
-// Llançador per a Windows: arranca el servidor integrat de PHP i obri Compàs en una finestra pròpia
-// (Microsoft Edge o Google Chrome en mode aplicació) o, si no n'hi ha, al navegador habitual.
+// Llançador per a Windows: arranca el servidor integrat de PHP i obri Compàs en la seua finestra (Visor.cs,
+// amb el component WebView2 de Windows). Si no hi és, prova Microsoft Edge o Google Chrome en mode
+// aplicació i, si tampoc, el navegador habitual amb la finestra menuda.
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
@@ -14,6 +15,7 @@ using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -45,7 +47,13 @@ namespace Compas
                 var config = Config.Llig();
                 if (!nou)
                 {
-                    // Ja està en marxa: només cal obrir una altra finestra
+                    // Ja està en marxa: es demana a la instància oberta que mostre la seua finestra
+                    try
+                    {
+                        using (var avis = EventWaitHandle.OpenExisting(Finestra.NomAvis)) avis.Set();
+                        return;
+                    }
+                    catch { }
                     string url = "http://localhost:" + config.Port + "/";
                     if (!config.Finestra || AppNavegador.Obri(url) == null) Finestra.ObriNavegador(url);
                     return;
@@ -154,7 +162,7 @@ namespace Compas
                 Directory.CreateDirectory(Perfil);
                 string args = "--app=\"" + url + "\" --user-data-dir=\"" + Perfil + "\""
                     + " --no-first-run --no-default-browser-check --disable-background-mode --disable-sync"
-                    + " --disable-features=msEdgeStartupBoost,msImplicitSignin,Translate --window-size=1280,860";
+                    + " --disable-features=msEdgeStartupBoost,msImplicitSignin,msSmartScreenProtection,Translate --window-size=1280,860";
                 return Process.Start(new ProcessStartInfo(exe, args) { UseShellExecute = false });
             }
             catch { return null; }
@@ -177,9 +185,20 @@ namespace Compas
         Process app;
         DateTime appObertA;
         NotifyIcon safata;
+        Form visor;                // la finestra de Compàs (Visor), si el component WebView2 hi és
+        EventWaitHandle avisObri;  // una segona execució de Compas.exe demana que es mostre la finestra
+
+        public const string NomAvis = @"Local\Compas-ObriFinestra";
 
         string Url { get { return "http://localhost:" + config.Port + "/"; } }
-        string Dades { get { return Path.Combine(config.Arrel, "data"); } }
+        string Dades
+        {
+            get
+            {
+                string d = Environment.GetEnvironmentVariable("COMPAS_DADES");
+                return string.IsNullOrEmpty(d) ? Path.Combine(config.Arrel, "data") : d;
+            }
+        }
 
         public Finestra(Config c)
         {
@@ -239,8 +258,35 @@ namespace Compas
             });
 
             visible = !config.Finestra;
-            if (config.Finestra) CreaSafata();
             FormClosing += Tancant;
+            EscoltaAvisos();
+        }
+
+        void EscoltaAvisos()
+        {
+            try { avisObri = new EventWaitHandle(false, EventResetMode.AutoReset, NomAvis); }
+            catch { return; }
+            var fil = new Thread(delegate ()
+            {
+                while (true)
+                {
+                    try
+                    {
+                        avisObri.WaitOne();
+                        if (tancant || IsDisposed) return;
+                        BeginInvoke((MethodInvoker)ObriFinestra);
+                    }
+                    catch { return; }
+                }
+            });
+            fil.IsBackground = true;
+            fil.Start();
+        }
+
+        void Log(string text)
+        {
+            if (registre == null) return;
+            lock (registre) { try { registre.WriteLine("[Compàs] " + text); } catch { } }
         }
 
         // Mentre no cal, la finestra menuda queda amagada (però el programa continua en marxa)
@@ -280,7 +326,7 @@ namespace Compas
             safata.DoubleClick += delegate { ObriFinestra(); };
         }
 
-        void ObriCarpeta()
+        public void ObriCarpeta()
         {
             try
             {
@@ -292,13 +338,57 @@ namespace Compas
 
         void ObriFinestra()
         {
+            if (visor != null && !visor.IsDisposed) { PortaVisor(); return; }
             if (!config.Finestra || AppNavegador.Obri(Url) == null) ObriNavegador(Url);
         }
 
-        /// <summary>Obri la finestra pròpia; quan l'usuari la tanca, Compàs fa la còpia i s'atura</summary>
+        // Els tipus de WebView2 només es carreguen ací: si falten les biblioteques, el llançador continua igual
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static bool VisorDisponible() { return Visor.Disponible(); }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        Form CreaVisor() { return new Visor(this, config.Port, Url); }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        void PortaVisor() { ((Visor)visor).Porta(); }
+
+        /// <summary>Obri la finestra de Compàs; quan l'usuari la tanca, Compàs fa la còpia i s'atura</summary>
         void ObriFinestraPropia()
         {
+            bool ok = false;
+            try { ok = VisorDisponible(); } catch (Exception ex) { Log("Visor: " + ex.Message); }
+            if (ok)
+            {
+                try
+                {
+                    visor = CreaVisor();
+                    visor.Show();
+                    return;
+                }
+                catch (Exception ex) { Log("Visor: " + ex.Message); visor = null; }
+            }
+            ObriAppNavegador();
+        }
+
+        /// <summary>El visor no s'ha pogut iniciar: es prova Edge o Chrome en mode aplicació</summary>
+        public void VisorHaFallat(string motiu)
+        {
+            Log("Visor: " + motiu);
+            if (visor != null) { try { visor.Dispose(); } catch { } visor = null; }
+            ObriAppNavegador();
+        }
+
+        /// <summary>L'usuari ha tancat la finestra de Compàs: còpia de seguretat i fi</summary>
+        public void TancaDesDelVisor()
+        {
+            tancaSensePreguntar = true;
+            Close();
+        }
+
+        void ObriAppNavegador()
+        {
             app = AppNavegador.Obri(Url);
+            if (app != null) CreaSafata();
             if (app == null)
             {
                 // Sense Edge ni Chrome: navegador habitual i finestra menuda, com abans
@@ -478,6 +568,7 @@ namespace Compas
             tancant = true;
             // Si es tanca des de la finestra menuda o la safata, també es tanca la finestra de Compàs
             try { if (app != null && !app.HasExited) app.CloseMainWindow(); } catch { }
+            try { if (avisObri != null) avisObri.Set(); } catch { }
             if (safata != null) safata.Text = Textos.T("Compàs: guardant la còpia…", "Compàs: guardando la copia…");
             if (php != null && !php.HasExited)
             {

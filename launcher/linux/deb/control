@@ -4,7 +4,7 @@ Architecture: all
 Maintainer: José Vicente Sanjuan <jossanmar9@users.noreply.github.com>
 Installed-Size: @MIDA@
 Depends: php-cli, php-sqlite3, php-mbstring
-Recommends: php-xml, xdg-utils
+Recommends: php-xml, xdg-utils, python3-gi, gir1.2-gtk-3.0, gir1.2-webkit2-4.1 | gir1.2-webkit2-4.0
 Suggests: chromium | google-chrome-stable | microsoft-edge-stable, zenity
 Section: misc
 Priority: optional
