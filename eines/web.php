@@ -1,7 +1,7 @@
 <?php
 // Genera la web de presentació de Compàs (GitHub Pages) en valencià i castellà.
 // Ús: php eines/web.php carpeta-eixida
-// Copia el logotip, unes quantes captures (docs/imatges) i els PDF (docs/pdf)
+// Copia el logotip, unes quantes captures (docs/imatges) i els PDF (docs/pdf, si s'han generat amb eines/pdf.sh)
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -293,7 +293,10 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $req = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['req']));
     $avisos = implode('', array_map(fn($a) => '<dt>' . e($a[0]) . '</dt><dd>' . e($a[1]) . '</dd>', $t['avis']));
     $guia = $repo . '/blob/main/docs/' . ($l === 'es' ? 'guia-instalacion.md#si-windows-no-te-deja-abrirlo' : 'guia-installacio.md#si-windows-no-et-deixa-obrir-lo');
-    $docs = implode('', array_map(fn($d) => '<li><a href="' . $base . 'pdf/' . e($d[0]) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span></li>', $t['docs']));
+    // Els PDF es generen en publicar la web (workflow web.yml); si no hi són, s'enllacen els de l'última versió de GitHub
+    $pdf = fn(string $f) => is_file(dirname(__DIR__) . '/docs/pdf/' . $f) ? $base . 'pdf/' . $f : $repo . '/releases/latest/download/' . $f;
+    $docs = implode('', array_map(fn($d) => '<li><a href="' . e($pdf($d[0])) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span></li>', $t['docs']));
+    $manualPdf = e($pdf($t['docs'][0][0]));
 
     $miniatures = '';
     $primera = $captures[0];
@@ -344,7 +347,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p class="entrada">{$t['hero_text']}</p>
     <div class="accions">
       <a class="boto" href="{$descarrega}">{$t['descarrega']}</a>
-      <a class="boto secundari" href="{$base}pdf/{$t['docs'][0][0]}">{$t['manual']}</a>
+      <a class="boto secundari" href="{$manualPdf}">{$t['manual']}</a>
     </div>
     <p class="versio">{$versioText}</p>
     <p class="qui-lema">{$t['qui_lema']} <a href="#qui">{$t['qui_llig']} →</a></p>

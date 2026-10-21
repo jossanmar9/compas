@@ -782,6 +782,18 @@ Menú **Administració → Còpies de seguretat**:
 
 ![Còpies de seguretat](imatges/ca/34-copies.jpg)
 
+### Quantes còpies es guarden
+
+Les còpies automàtiques no s'acumulen sense fi. Compàs guarda:
+
+- **totes** les dels últims 7 dies;
+- **una per setmana** de les últimes 5 setmanes;
+- **una per mes** fins al límit que tries a **Quant de temps es guarden les còpies automàtiques** (1 any si no es canvia).
+
+Amb una còpia cada dia, això són unes vint còpies que arriben a un any arrere. Les manuals i les d'«abans de restaurar» o «abans d'importar» no s'esborren soles. La mateixa rotació es fa a la carpeta externa.
+
+La pantalla diu quant ocupa la base de dades (i quant d'això són documents) i quant ocupen totes les còpies. Si la base de dades passa de 200 MB, normalment pels documents arxivats, Compàs avisa: cada còpia ocupa el mateix, així que cal comprovar que hi ha prou espai a l'ordinador i a la carpeta externa.
+
 ### Configurar la carpeta externa (molt important)
 
 Si l'ordinador s'espatlla o el roben, les còpies que hi ha dins es perden amb ell. Cal guardar-les també fora:

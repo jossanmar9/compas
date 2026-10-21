@@ -9,7 +9,12 @@ prémer es ressalta en taronja.
 Requisits: PHP 8.1+ (pdo_sqlite, mbstring), Python 3, Pillow i Playwright:
     pip install playwright pillow && playwright install chromium
 Ús (des de l'arrel del repositori):
-    python3 eines/captures.py
+    python3 eines/captures.py               totes les captures, en valencià i castellà
+    python3 eines/captures.py 78 81-82      només estes (les altres no es toquen)
+    python3 eines/captures.py es web        només les de la web, en castellà
+
+Per a no fer créixer el repositori, en una versió nova només es tornen a fer les captures de les
+pantalles que han canviat: totes porten la data del dia i canviarien encara que la pantalla fora igual.
 
 © 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later
 """
@@ -124,6 +129,9 @@ class Captures:
         im = Image.open(io.BytesIO(png)).convert('RGB')
         # Amb el menú lateral (finestra sencera) es mira només el contingut de la dreta
         im = retalla_buit(im) if zona else retalla_buit(im, menu=int(250 * ESCALA), alt_minim=int(420 * ESCALA))
+        if not cal_desar(nom):
+            await self.lleva_ressalt()
+            return
         im.save(self.dir / f'{nom}.jpg', 'JPEG', quality=QUALITAT, optimize=True, progressive=True)
         await self.lleva_ressalt()
         print(f'  {self.l}/{nom}.jpg  {im.size[0]}x{im.size[1]}')
@@ -189,6 +197,8 @@ async def fes_captures(l: str):
             await c.desa()
 
             # Codi de recuperació (es mostra una sola vegada, just després de la configuració inicial)
+            # El codi és aleatori: a la imatge se'n posa un de fix perquè no canvie en cada versió
+            await p.evaluate("document.querySelector('.codi-recuperacio').textContent = 'K7QM-4XRP-2HDN-8WTB'")
             await c.foto('01b-codi-recuperacio', '.codi-recuperacio', zona='.caixa')
             await p.locator('.caixa a.boto').click()
             await p.wait_for_load_state('networkidle')
@@ -348,14 +358,16 @@ async def fes_captures(l: str):
             await p.set_viewport_size({'width': AMPLE, 'height': 2400})
             caixa = await p.locator('section.fill:has(input[name="copia_externa"])').bounding_box()
             png = await p.screenshot(clip=caixa)
-            retalla_buit(Image.open(io.BytesIO(png)).convert('RGB')).save(c.dir / '35-copies-carpeta.jpg', 'JPEG', quality=QUALITAT, optimize=True)
-            print(f'  {l}/35-copies-carpeta.jpg')
+            if cal_desar('35-copies-carpeta'):
+                retalla_buit(Image.open(io.BytesIO(png)).convert('RGB')).save(c.dir / '35-copies-carpeta.jpg', 'JPEG', quality=QUALITAT, optimize=True)
+                print(f'  {l}/35-copies-carpeta.jpg')
             await c.lleva_ressalt()
             caixa = await p.locator('table.taula').first.bounding_box()
             png = await p.screenshot(clip=caixa)
             await p.set_viewport_size({'width': AMPLE, 'height': ALT})
-            Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / '36-copies-llista.jpg', 'JPEG', quality=QUALITAT, optimize=True)
-            print(f'  {l}/36-copies-llista.jpg')
+            if cal_desar('36-copies-llista'):
+                Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / '36-copies-llista.jpg', 'JPEG', quality=QUALITAT, optimize=True)
+                print(f'  {l}/36-copies-llista.jpg')
 
             # --- Usuaris i compte ---
             await c.ves('?r=usuaris&id=2')
@@ -495,6 +507,8 @@ async def fes_captures(l: str):
                               ('web-loteria', '?r=loteria&id=1'), ('web-agrupacio', '?r=fitxa&e=agrupacions&id=1'),
                               ('web-llistat', '?r=llistats&informe=alumnes_grup&curs=1&grup=1'), ('web-copies', '?r=copia')]:
                 await c.ves(ruta)
+                if not cal_desar(nom):
+                    continue
                 png = await p.screenshot()
                 Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / f'{nom}.jpg', 'JPEG', quality=QUALITAT, optimize=True, progressive=True)
                 print(f'  {l}/{nom}.jpg')
@@ -519,11 +533,33 @@ async def fes_captures(l: str):
         shutil.rmtree(dades, ignore_errors=True)
 
 
+FILTRE: list[str] = []
+
+
+def cal_desar(nom: str) -> bool:
+    """Si s'han demanat només unes captures (per número, interval o «web»), si esta n'és una"""
+    if not FILTRE:
+        return True
+    num = re.match(r'(\d+)', nom)
+    for f in FILTRE:
+        if f == 'web' and nom.startswith('web-'):
+            return True
+        if num and re.fullmatch(r'\d+-\d+', f):
+            a, b = map(int, f.split('-'))
+            if a <= int(num.group(1)) <= b:
+                return True
+        elif nom == f or nom.startswith(f + '-') or (num and f.isdigit() and int(f) == int(num.group(1)) and not nom[len(num.group(1)):][:1].isalpha()):
+            return True
+    return False
+
+
 async def main():
-    idiomes = sys.argv[1:] or ['ca', 'es']
+    idiomes = [a for a in sys.argv[1:] if a in ('ca', 'es')] or ['ca', 'es']
+    FILTRE.extend(a for a in sys.argv[1:] if a not in ('ca', 'es'))
     for l in idiomes:
-        print(f'Captures en «{l}»:')
-        shutil.rmtree(EIXIDA / l, ignore_errors=True)
+        print(f'Captures en «{l}»' + (f' (només {", ".join(FILTRE)})' if FILTRE else '') + ':')
+        if not FILTRE:
+            shutil.rmtree(EIXIDA / l, ignore_errors=True)
         await fes_captures(l)
 
 

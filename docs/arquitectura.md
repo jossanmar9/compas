@@ -35,13 +35,14 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
 | `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, caixa (llibre de caixa), societat (junta, actes, documents, full d'alta, comunicats), rgpd, uniformes, repertori, usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
 | `src/fulls.php` | Lectura de CSV i Excel (.xlsx) per a la importació, sense l'extensió zip: llig el directori central del zip i descomprimeix amb `gzinflate`. |
+| `src/rotacio.php` | Quines còpies automàtiques es conserven: totes les dels últims 7 dies, una per setmana de les últimes 5 i una per mes fins al límit configurat (`copia_mesos`, 12 per defecte). |
 | `src/xifrat.php` | Xifrat de les còpies externes amb libsodium. |
 | `src/sepa.php` | IBAN (mòdul 97), identificador de creditor SEPA, text amb el joc de caràcters SEPA i XML de la remesa (pain.008.001.02 o .08, CORE; un bloc FRST per als mandats que no s'han usat mai i un RCUR per a la resta). |
 | `app/assets/document.css` | Documents A4: consentiments, certificats, llistats i etiquetes (sobre `butlleti.css`). |
 | `src/lang/ca.php`, `es.php` | Textos en valencià i castellà. |
 | `app/assets/` | Estil, JavaScript, logotip i icona. |
 | `src/markdown.php` | Conversor de Markdown a HTML (manual dins del programa i PDF). |
-| `eines/document-html.php` | Prepara cada manual com a pàgina A4 amb portada; GitHub Actions la imprimeix en PDF amb Chrome o Edge (`docs/pdf/`). |
+| `eines/document-html.php`, `eines/pdf.sh` | Preparen cada manual com a pàgina A4 amb portada i l'imprimeixen en PDF amb Chrome (`docs/pdf/`). Els PDF no es guarden al repositori: els fa GitHub Actions en publicar una versió (s'adjunten a la versió) i en publicar la web. |
 | `eines/captures.py` | Genera les captures dels manuals (`docs/imatges/ca` i `es`) fent cada procés amb dades d'exemple. Requereix Python, Pillow i Playwright: `python3 eines/captures.py`. |
 | `eines/web.php`, `eines/web.css` | Generen la web de presentació (valencià i castellà) amb captures i PDF. El workflow `web.yml` la publica a GitHub Pages. |
 

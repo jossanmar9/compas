@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      # Els PDF dels manuals no es guarden al repositori: es fan ací, amb el Chrome del servidor de GitHub
+      - name: Genera els manuals en PDF
+        run: bash eines/pdf.sh
       - name: Genera la web
         run: php eines/web.php _site
       - uses: actions/configure-pages@v5

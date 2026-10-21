@@ -7,6 +7,8 @@
 // - Manual: botó «Fes una còpia ara» o baixada directa.
 // - Cada còpia es guarda a data\copies i, si està configurada, també a una carpeta externa (USB, disc extern, núvol…).
 
+require_once SRC_DIR . '/rotacio.php';
+
 const PATRO_COPIA = '/^compas-\d{8}-\d{6}-(auto|manual|tancament|abans-restaurar|abans-importar)\.db$/';
 const ACCIONS_SENSE_CANVIS = ['entrada', 'eixida', 'entrada_fallida', 'exporta', 'copia_baixada', 'copia_feta'];
 
@@ -25,9 +27,11 @@ function carpeta_externa(): ?string
     return $c ? rtrim($c, '/\\') : null;
 }
 
-function copies_a_conservar(): int
+/** Mesos que es conserva una còpia automàtica per mes (la resta de la rotació és a rotacio.php) */
+function mesos_copies(): int
 {
-    return max(3, min(365, (int)config('copia_conservar', '30')));
+    $m = (int)config('copia_mesos', '12');
+    return in_array($m, [1, 3, 6, 12, 24], true) ? $m : 12;
 }
 
 /** Hi ha canvis en les dades des de l'última còpia? */
@@ -74,14 +78,25 @@ function fes_copia(string $tipus): array
     return [$nom, $errorExterna];
 }
 
-/** Esborra les còpies automàtiques més antigues; les manuals es conserven */
+/** Esborra les còpies automàtiques que ja no calen segons la rotació; les manuals es conserven */
 function neteja_copies(string $carpeta): void
 {
-    $auto = array_filter(glob($carpeta . DIRECTORY_SEPARATOR . 'compas-*.db*') ?: [], fn($f) => preg_match('/-(auto|tancament)\.db(\.xifrat)?$/', $f));
-    sort($auto);
-    foreach (array_slice($auto, 0, max(0, count($auto) - copies_a_conservar())) as $vella) {
+    $auto = array_values(array_filter(glob($carpeta . DIRECTORY_SEPARATOR . 'compas-*.db*') ?: [], fn($f) => preg_match('/-(auto|tancament)\.db(\.xifrat)?$/', $f)));
+    foreach (array_diff($auto, copies_a_mantindre($auto, mesos_copies())) as $vella) {
         @unlink($vella);
     }
+}
+
+/** «12,3 MB» */
+function mida_llegible(int $bytes): string
+{
+    return $bytes >= 1024 * 1024 ? number_format($bytes / 1048576, 1, ',', '.') . ' MB' : number_format($bytes / 1024, 0, ',', '.') . ' KB';
+}
+
+/** Mida d'una carpeta de còpies (bytes) */
+function mida_copies(string $carpeta): int
+{
+    return array_sum(array_map('filesize', glob($carpeta . DIRECTORY_SEPARATOR . 'compas-*.db*') ?: []));
 }
 
 /** Còpia automàtica diària (es crida en cada pàgina, després d'entrar) */
@@ -156,7 +171,7 @@ function prepara_restauracio(string $origen, bool $pujat): void
 {
     $conserva = [];
     // El codi de recuperació tampoc no torna arrere: un codi antic ja invalidat no ha de tornar a valdre
-    foreach (['copia_externa', 'copia_conservar', 'copia_ultima_externa', 'copia_auto_dia', 'codi_recuperacio', 'codi_recuperacio_data',
+    foreach (['copia_externa', 'copia_mesos', 'copia_ultima_externa', 'copia_auto_dia', 'codi_recuperacio', 'codi_recuperacio_data',
         'copia_xifra_clau', 'copia_xifra_sal', 'copia_xifra_data'] as $c) {
         $conserva[$c] = config($c);
     }
@@ -288,7 +303,8 @@ function pagina_copia(): void
                 }
                 desa_config('copia_externa', $ext !== '' ? $ext : null);
                 desa_config('copia_error_externa', null);
-                desa_config('copia_conservar', (string)max(3, min(365, (int)post('copia_conservar'))));
+                desa_config('copia_mesos', in_array((int)post('copia_mesos'), [1, 3, 6, 12, 24], true) ? (string)(int)post('copia_mesos') : '12');
+                neteja_copies(carpeta_copies());
                 // Xifrat de les còpies externes
                 $c1 = (string)($_POST['xifra_contrasenya'] ?? '');
                 if (post('xifra') === '1') {
@@ -336,7 +352,13 @@ function pagina_copia(): void
     // Llista
     $copies = llista_copies();
     $html .= '<section class="fill"><header><h2>' . h(t('copia.llista')) . ' <span class="compte">' . count($copies) . '</span></h2></header>';
-    $html .= '<p class="nota">' . h(t('copia.llista_text', copies_a_conservar())) . ' <code>' . h(carpeta_copies()) . '</code></p>';
+    $mida = filesize(DADES_DIR . DIRECTORY_SEPARATOR . 'compas.db');
+    $docs = (int)valor('SELECT COALESCE(SUM(length(contingut)), 0) FROM document_fitxers');
+    $html .= '<p class="nota">' . h(t('copia.llista_text', ROTACIO_DIES, mesos_copies())) . ' <code>' . h(carpeta_copies()) . '</code></p>'
+        . '<p class="nota">' . h(t('copia.mides', mida_llegible($mida), mida_llegible($docs), mida_llegible(mida_copies(carpeta_copies())))) . '</p>';
+    if ($mida > 200 * 1024 * 1024) {
+        $html .= '<div class="avis atencio">⚠ ' . h(t('copia.avis_gran', mida_llegible($mida))) . '</div>';
+    }
     if ($copies) {
         $html .= '<div class="taula-wrap"><table class="taula compacta"><thead><tr><th>' . h(t('camp.data')) . '</th><th>' . h(t('camp.tipus')) . '</th><th>' . h(t('copia.mida'))
             . '</th><th></th></tr></thead><tbody>';
@@ -362,7 +384,8 @@ function pagina_copia(): void
         $html .= '<section class="fill"><header><h2>' . h(t('copia.configuracio')) . '</h2></header><p class="nota">' . h(t('copia.externa_text')) . '</p>'
             . '<form method="post" class="formulari">' . csrf_camp() . '<input type="hidden" name="accio" value="configura"><div class="camps">'
             . '<div class="camp ample"><label>' . h(t('copia.externa')) . '</label><input name="copia_externa" value="' . h($ext) . '" placeholder="E:\Copies Compàs"><small>' . h(t('copia.externa_ajuda')) . '</small></div>'
-            . '<div class="camp"><label>' . h(t('copia.conservar')) . '</label><input type="number" min="3" max="365" name="copia_conservar" value="' . copies_a_conservar() . '"></div>'
+            . '<div class="camp"><label>' . h(t('copia.mesos')) . '</label>' . select_simple('copia_mesos', [1 => t('copia.mesos_1'), 3 => t('copia.mesos_n', 3), 6 => t('copia.mesos_n', 6),
+                12 => t('copia.mesos_12'), 24 => t('copia.mesos_24')], mesos_copies(), false, '', false) . '<small>' . h(t('copia.mesos_ajuda', ROTACIO_DIES, ROTACIO_SETMANES)) . '</small></div>'
             . '<fieldset class="camp ample"><legend>🔒 ' . h(t('copia.xifrat')) . '</legend>'
             . (xifrat_disponible()
                 ? '<label class="check"><input type="checkbox" name="xifra" value="1"' . (xifrat_actiu() ? ' checked' : '') . '> ' . h(t('copia.xifra')) . '</label>'

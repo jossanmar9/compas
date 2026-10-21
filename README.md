@@ -19,11 +19,11 @@ Està pensat per a qui porta la secretaria i l'escola de música d'una banda, en
 >
 > *Aviso de responsabilidad: Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).*
 
-*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos, lotería, caja, junta directiva y documentación. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](docs/pdf/manual-usuario.pdf).*
+*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos, lotería, caja, junta directiva y documentación. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuario.pdf).*
 
 Un projecte de **José Vicente Sanjuan**.
 
-🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](docs/pdf/manual-usuari.pdf) · 🔒 [Privacitat](PRIVACITAT.md)
+🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuari.pdf) · 🔒 [Privacitat](PRIVACITAT.md)
 
 ![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.jpg)
 
@@ -148,7 +148,7 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 
 - Totes les dades estan en un sol fitxer: `data\compas.db`, dins de la carpeta del programa.
 - Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora: ni estadístiques, ni informes d'errors, ni comprovacions d'actualitzacions. Vegeu la [declaració de privacitat](PRIVACITAT.md).
-- **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es conserven les 30 últimes (configurable).
+- **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es guarden totes les dels últims 7 dies, una per setmana de l'últim mes i una per mes de l'últim any (configurable): unes vint còpies que arriben a un any arrere.
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
 - **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.
 - **Restaurar** una còpia es fa amb un clic. Abans, Compàs guarda una còpia de les dades actuals, de manera que sempre es pot tornar arrere.
@@ -161,8 +161,8 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 
 | Document | Valencià | Castellano |
 |---|---|---|
-| Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](docs/pdf/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](docs/pdf/manual-usuario.pdf) |
-| Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](docs/pdf/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](docs/pdf/guia-instalacion.pdf) |
+| Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuario.pdf) |
+| Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/guia-instalacion.pdf) |
 | Declaració de privacitat | [PRIVACITAT](PRIVACITAT.md) | [PRIVACITAT](PRIVACITAT.md#privacidad-de-compàs) |
 | Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
 | Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
@@ -209,10 +209,11 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 
 | Ordre | Què fa |
 |---|---|
-| `python3 eines/captures.py` | Torna a fer totes les captures dels manuals (`docs/imatges/ca` i `es`) recorrent cada procés amb dades d'exemple. Requereix Pillow i Playwright. |
-| `php eines/document-html.php docs/manual-usuari.md eixida.html` | Prepara un manual com a pàgina A4 amb portada; després s'imprimeix en PDF amb Chrome o Edge. |
+| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només desa estes: en una versió nova només es refan les pantalles que han canviat, perquè el repositori no cresca. Requereix Pillow i Playwright. |
+| `bash eines/pdf.sh` | Fa els manuals i les guies en PDF (`docs/pdf/`) amb Chrome o Chromium. No es guarden al repositori: els fa GitHub Actions en publicar cada versió i la web. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
-| `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades). Vegeu [tests/README.md](tests/README.md). |
+| `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies). Vegeu [tests/README.md](tests/README.md). |
+| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà. |
 | `php tests/performance.php` | Prova de rendiment de SQLite amb 100.000 rebuts. |
 
 ## Publicar una versió

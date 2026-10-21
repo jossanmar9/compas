@@ -26,6 +26,9 @@ jobs:
       - name: Executa les proves automatitzades
         run: php tests/run.php
 
+      - name: Proves d'integració (Compàs de veres, en valencià i castellà)
+        run: python3 tests/integracio.py
+
       - name: Prova d'arrancada
         run: |
           export COMPAS_DADES=$RUNNER_TEMP/dades

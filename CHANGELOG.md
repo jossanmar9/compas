@@ -8,6 +8,18 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.13.3] - 2026-10-21
+
+### Canviat
+- **Rotació de les còpies de seguretat**: es guarden totes les còpies automàtiques dels últims 7 dies, una per setmana de les últimes 5 setmanes i una per mes fins al límit triat (1 any si no es canvia). Amb una còpia diària són unes vint còpies que arriben a un any arrere, en lloc de les 30 últimes (un mes). Les manuals no s'esborren soles. També a la carpeta externa.
+- La pantalla de còpies diu quant ocupen la base de dades, els documents i totes les còpies, i avisa si la base de dades passa de 200 MB.
+- **Els PDF dels manuals ja no es guarden al repositori**: els fa GitHub Actions en publicar cada versió (s'adjunten a la versió) i la web. Per a fer-los a mà: `bash eines/pdf.sh`. Cada versió feia créixer el repositori uns 25 MB.
+- `eines/captures.py` pot refer només les captures que han canviat (`python3 eines/captures.py 34-36 web`), i el codi de recuperació de la captura ja no canvia en cada versió.
+
+### Afegit
+- **Proves d'integració dins del repositori** (`tests/integracio.py`): més de 800 comprovacions en valencià i castellà que arranquen Compàs de veres i recorren l'economia, la societat, els uniformes, el repertori, l'avís de responsabilitat, la importació i totes les pantalles. GitHub Actions les executa en cada `push`.
+- Proves de la rotació de les còpies a `tests/run.php`.
+
 ## [1.13.2] - 2026-10-21
 
 ### Afegit
@@ -240,6 +252,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.13.3]: https://github.com/jossanmar9/compas/releases/tag/v1.13.3
 [1.13.2]: https://github.com/jossanmar9/compas/releases/tag/v1.13.2
 [1.13.1]: https://github.com/jossanmar9/compas/releases/tag/v1.13.1
 [1.13.0]: https://github.com/jossanmar9/compas/releases/tag/v1.13.0

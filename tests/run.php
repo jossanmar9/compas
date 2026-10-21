@@ -189,5 +189,58 @@ if (xifrat_disponible()) {
     echo "↷ xifrat: omés (libsodium no disponible)\n";
 }
 
+/* ---------- Rotació de les còpies automàtiques ---------- */
+
+require_once __DIR__ . '/../src/rotacio.php';
+
+/** Una còpia automàtica cada dia durant $dies dies fins a $ara */
+function copies_diaries(int $ara, int $dies): array
+{
+    $c = [];
+    for ($i = 0; $i < $dies; $i++) {
+        $c[] = 'compas-' . date('Ymd', $ara - $i * 86400) . '-090000-auto.db';
+    }
+    return $c;
+}
+
+prova('Llig la data del nom de la còpia', function (): void {
+    igual(mktime(15, 30, 0, 10, 21, 2026), data_nom_copia('/carpeta/compas-20261021-153000-auto.db.xifrat'));
+    igual(null, data_nom_copia('altra-cosa.db'));
+});
+
+prova('Rotació: amb poques còpies no s\'esborra res', function (): void {
+    $ara = mktime(12, 0, 0, 10, 21, 2026);
+    $c = copies_diaries($ara, 5);
+    igual($c, copies_a_mantindre($c, 12, $ara));
+});
+
+prova('Rotació: un any de còpies diàries queda en unes vint', function (): void {
+    $ara = mktime(12, 0, 0, 10, 21, 2026);
+    $c = copies_diaries($ara, 400);
+    $m = copies_a_mantindre($c, 12, $ara);
+    cert(count($m) >= 18 && count($m) <= 26, 'se\'n conserven ' . count($m));
+    // Totes les dels últims 7 dies
+    foreach (array_slice($c, 0, 7) as $x) {
+        cert(in_array($x, $m, true), "falta $x");
+    }
+    // Cap de fa més d'un any i un mes
+    foreach ($m as $x) {
+        cert(data_nom_copia($x) >= strtotime('-13 months', $ara), "massa antiga: $x");
+    }
+});
+
+prova('Rotació: hi ha una còpia de cada un dels últims dotze mesos', function (): void {
+    $ara = mktime(12, 0, 0, 10, 21, 2026);
+    $m = copies_a_mantindre(copies_diaries($ara, 400), 12, $ara);
+    $mesos = array_unique(array_map(fn($x) => date('Y-m', data_nom_copia($x)), $m));
+    cert(count($mesos) >= 12, 'mesos: ' . count($mesos));
+});
+
+prova('Rotació: amb 1 mes es guarden menys còpies', function (): void {
+    $ara = mktime(12, 0, 0, 10, 21, 2026);
+    $c = copies_diaries($ara, 400);
+    cert(count(copies_a_mantindre($c, 1, $ara)) < count(copies_a_mantindre($c, 12, $ara)));
+});
+
 echo "\n$proves proves executades; $fallades fallades.\n";
 exit($fallades === 0 ? 0 : 1);
