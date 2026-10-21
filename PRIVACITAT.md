@@ -23,10 +23,11 @@
 - La web de presentació ([jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/)), el codi i les descàrregues estan allotjats a **GitHub**. Com qualsevol servidor, GitHub pot registrar l'adreça IP i dades tècniques de qui visita la web o baixa el programa. Vegeu la [declaració de privacitat de GitHub](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement).
 - La web no utilitza galetes, ni analítica, ni tipografies o programes de tercers. Les tipografies, que són lliures (llicència SIL Open Font License), es serveixen des de la mateixa web.
 - El que s'escriu en una incidència de GitHub és públic. No hi poseu dades de persones, ni en el text ni en les captures.
+- El formulari de contacte de la web és de **Google Forms**: el que s'hi escriu (nom, correu, societat i missatge) es guarda al compte de Google de Compàs i només s'utilitza per a contestar. Google el tracta d'acord amb la seua [política de privadesa](https://policies.google.com/privacy). Si ho preferiu, podeu escriure directament a compas.lliure@gmail.com. Per a demanar que s'esborren les vostres dades, escriviu a eixa mateixa adreça.
 
 ## Contacte
 
-Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta declaració, obriu una [incidència](https://github.com/jossanmar9/compas/issues/new/choose).
+Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta declaració, escriviu a [compas.lliure@gmail.com](mailto:compas.lliure@gmail.com) o obriu una [incidència](https://github.com/jossanmar9/compas/issues/new/choose).
 
 *Darrera actualització: octubre de 2026.*
 
@@ -57,10 +58,11 @@ Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta dec
 - La web de presentación ([jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/)), el código y las descargas están alojados en **GitHub**. Como cualquier servidor, GitHub puede registrar la dirección IP y datos técnicos de quien visita la web o descarga el programa. Véase la [declaración de privacidad de GitHub](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement).
 - La web no usa cookies, ni analítica, ni tipografías o programas de terceros. Las tipografías, que son libres (licencia SIL Open Font License), se sirven desde la propia web.
 - Lo que se escribe en una incidencia de GitHub es público. No pongáis datos de personas, ni en el texto ni en las capturas.
+- El formulario de contacto de la web es de **Google Forms**: lo que se escribe en él (nombre, correo, sociedad y mensaje) se guarda en la cuenta de Google de Compàs y solo se usa para responder. Google lo trata según su [política de privacidad](https://policies.google.com/privacy). Si lo preferís, podéis escribir directamente a compas.lliure@gmail.com. Para pedir que se borren vuestros datos, escribid a esa misma dirección.
 
 ## Contacto
 
-Compàs es un proyecto de José Vicente Sanjuan. Si tenéis dudas sobre esta declaración, abrid una [incidencia](https://github.com/jossanmar9/compas/issues/new/choose).
+Compàs es un proyecto de José Vicente Sanjuan. Si tenéis dudas sobre esta declaración, escribid a [compas.lliure@gmail.com](mailto:compas.lliure@gmail.com) o abrid una [incidencia](https://github.com/jossanmar9/compas/issues/new/choose).
 
 *Última actualización: octubre de 2026.*
 
@@ -68,4 +70,4 @@ Compàs es un proyecto de José Vicente Sanjuan. Si tenéis dudas sobre esta dec
 
 # Privacy statement (English)
 
-**This program will not transfer any information to other networked systems.** Compàs runs on a single Windows or Linux computer and only listens on `127.0.0.1`. It has no telemetry, crash reporting, update checks, advertising or remote resources. Its window uses the Windows WebView2 component (WebKitGTK on Linux) only to display local pages, with SmartScreen and autofill disabled; WebView2 is part of Windows and is updated by Microsoft under the Windows privacy settings. All data, including the bank accounts used for direct debits, is stored locally in `data\compas.db`. Direct debit files are prepared locally and uploaded to the bank by the user; Compàs never connects to the bank. Backups are written only to the local computer and, if the user configures it, to an external folder of their choice (optionally encrypted with a password). The music society using Compàs is the data controller; the developer (José Vicente Sanjuan) has no access to any data. The website and downloads are hosted on GitHub ([GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)); the website uses no cookies, analytics or third-party resources.
+**This program will not transfer any information to other networked systems.** Compàs runs on a single Windows or Linux computer and only listens on `127.0.0.1`. It has no telemetry, crash reporting, update checks, advertising or remote resources. Its window uses the Windows WebView2 component (WebKitGTK on Linux) only to display local pages, with SmartScreen and autofill disabled; WebView2 is part of Windows and is updated by Microsoft under the Windows privacy settings. All data, including the bank accounts used for direct debits, is stored locally in `data\compas.db`. Direct debit files are prepared locally and uploaded to the bank by the user; Compàs never connects to the bank. Backups are written only to the local computer and, if the user configures it, to an external folder of their choice (optionally encrypted with a password). The music society using Compàs is the data controller; the developer (José Vicente Sanjuan) has no access to any data. The website and downloads are hosted on GitHub ([GitHub Privacy Statement](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement)); the website uses no cookies, analytics or third-party resources. The contact form linked from the website is a Google Form: answers are stored in the Compàs Google account and used only to reply (contact: compas.lliure@gmail.com).
