@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Desinstal·la Compàs. Les dades i les còpies de seguretat NO s'esborren.
-# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-License-Identifier: AGPL-3.0-or-later
 set -eu
 BASE="${XDG_DATA_HOME:-$HOME/.local/share}"
 case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in es*) ES=1 ;; *) ES=0 ;; esac

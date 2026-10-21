@@ -1,6 +1,6 @@
 -- Compàs: Gestió lliure per a societats musicals
 -- Esquema de la base de dades (SQLite)
--- SPDX-License-Identifier: GPL-2.0-or-later
+-- SPDX-License-Identifier: AGPL-3.0-or-later
 
 PRAGMA foreign_keys = ON;
 

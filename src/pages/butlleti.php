@@ -1,6 +1,6 @@
 <?php
 // Butlletins de qualificacions per a imprimir i logotip de la societat
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 /* ---------- Logotip de la societat ---------- */
 

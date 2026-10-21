@@ -1,6 +1,6 @@
 <?php
 // Inici, resum acadèmic de l'alumne i horari general
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 function targeta(string $xifra, string $text, ?string $enllac = null): string
 {

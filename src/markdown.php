@@ -1,6 +1,6 @@
 <?php
 // Conversor senzill de Markdown a HTML (manual dins del programa i PDF)
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**
  * @param callable|null $imatge Rep la ruta relativa d'una imatge (p. ex. «imatges/ca/01.jpg») i retorna l'URL que s'ha d'usar,

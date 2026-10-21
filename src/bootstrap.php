@@ -1,10 +1,10 @@
 <?php
 // Compàs: Gestió lliure per a societats musicals
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.5.0';
+const COMPAS_VERSIO = '1.6.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));

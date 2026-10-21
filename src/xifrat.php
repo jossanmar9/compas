@@ -1,6 +1,6 @@
 <?php
 // Xifrat de les còpies de seguretat externes amb contrasenya (libsodium)
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Format del fitxer .xifrat:
 //   "COMPASX1" | sal (16) | opslimit (4, LE) | memlimit en KiB (4, LE) | capçalera secretstream (24) | blocs

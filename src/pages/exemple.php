@@ -1,6 +1,6 @@
 <?php
 // Dades d'exemple (opcionals) per a provar el programa. Noms genèrics.
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 function carrega_dades_exemple(): void
 {

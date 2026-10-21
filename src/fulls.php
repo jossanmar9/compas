@@ -1,6 +1,6 @@
 <?php
 // Lectura de fulls de càlcul per a la importació: CSV i Excel (.xlsx)
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // L'.xlsx és un zip amb XML. Com que el PHP portable de Compàs no porta l'extensió zip,
 // es llig el directori central del zip a mà i es descomprimeix amb zlib (gzinflate).

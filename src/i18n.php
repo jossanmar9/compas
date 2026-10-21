@@ -1,6 +1,6 @@
 <?php
 // Traduccions: valencià (ca) i castellà (es)
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 const IDIOMES = ['ca' => 'Valencià', 'es' => 'Castellano'];
 

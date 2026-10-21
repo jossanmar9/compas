@@ -1,6 +1,6 @@
 <?php
 // Rols i capacitats. Compàs té dos rols fixos: administrador i administratiu.
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 const ROLS = ['admin', 'administratiu'];
 

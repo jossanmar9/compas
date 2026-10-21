@@ -1,6 +1,6 @@
 // Compàs: Gestió lliure per a societats musicals
 // Llançador per a Windows: arranca el servidor integrat de PHP i obri el navegador.
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Es compila amb el csc.exe de .NET Framework 4 (C# 5), sense dependències externes.
 
@@ -19,7 +19,7 @@ using System.Windows.Forms;
 [assembly: System.Reflection.AssemblyTitle("Compàs")]
 [assembly: System.Reflection.AssemblyDescription("Gestió lliure per a societats musicals")]
 [assembly: System.Reflection.AssemblyProduct("Compàs")]
-[assembly: System.Reflection.AssemblyCopyright("GPL-2.0-or-later")]
+[assembly: System.Reflection.AssemblyCopyright("AGPL-3.0-or-later")]
 
 namespace Compas
 {

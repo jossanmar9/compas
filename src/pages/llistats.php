@@ -1,6 +1,6 @@
 <?php
 // Llistats per a imprimir, etiquetes, antiguitat i dades per a la memòria anual
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Cada informe retorna seccions (títol, columnes, files) i el mateix codi les mostra
 // a la pantalla, les prepara per a imprimir o les exporta a CSV.

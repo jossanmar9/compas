@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Instal·la Compàs per a l'usuari actual (sense sudo): programa, accés al menú i ordre «compas».
 # Les dades no es toquen mai: es queden a ~/.local/share/compas/dades.
-# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-License-Identifier: AGPL-3.0-or-later
 set -eu
 
 ORIGEN="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"

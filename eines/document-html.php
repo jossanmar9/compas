@@ -2,7 +2,7 @@
 // Converteix un manual o guia (Markdown) en una pàgina HTML preparada per a imprimir en PDF.
 // Ús: php eines/document-html.php docs/manual-usuari.md eixida.html
 // Després: navegador sense interfície (Chrome/Edge) --print-to-pdf
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 if ($argc < 3) {
     fwrite(STDERR, "Ús: php eines/document-html.php entrada.md eixida.html\n");

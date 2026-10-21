@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Compàs: Gestió lliure per a societats musicals — llançador per a Linux
-# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # Arranca el servidor de PHP només a 127.0.0.1, obri el navegador i, en tancar
 # (Ctrl+C o tancant la finestra del terminal), fa una còpia de seguretat si hi ha hagut canvis.
@@ -32,8 +32,11 @@ error() {
     exit 1
 }
 
-# Configuració (mateix compas.ini que a Windows)
-if [ -f "$ARREL/compas.ini" ]; then
+# Configuració (mateix compas.ini que a Windows). Si l'usuari en té un a ~/.config/compas, mana el seu
+# (amb el paquet .deb el programa és a /usr/share/compas i no s'hi pot escriure).
+CONFIG_USUARI="${XDG_CONFIG_HOME:-$HOME/.config}/compas/compas.ini"
+for INI in "$ARREL/compas.ini" "$CONFIG_USUARI"; do
+    [ -f "$INI" ] || continue
     while IFS='=' read -r clau valor; do
         clau="$(printf '%s' "$clau" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"
         valor="$(printf '%s' "${valor:-}" | tr -d '[:space:]\r')"
@@ -41,8 +44,8 @@ if [ -f "$ARREL/compas.ini" ]; then
             port) [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 1023 ] && [ "$valor" -lt 65536 ] && PORT="$valor" ;;
             navegador) case "$valor" in 0|no|false) NAVEGADOR=0 ;; esac ;;
         esac
-    done < <(grep -v '^[[:space:]]*[;#]' "$ARREL/compas.ini")
-fi
+    done < <(grep -v '^[[:space:]]*[;#]' "$INI")
+done
 PORT="${COMPAS_PORT:-$PORT}"
 NAVEGADOR="${COMPAS_NAVEGADOR:-$NAVEGADOR}"
 URL="http://localhost:$PORT/"
@@ -86,8 +89,8 @@ if RESPOSTA="$(peticio "$URL" 1)"; then
         exit 0
     fi
     error "$(t \
-        "El port $PORT l'utilitza un altre programa. Canvia el port a $ARREL/compas.ini." \
-        "El puerto $PORT lo usa otro programa. Cambia el puerto en $ARREL/compas.ini.")"
+        "El port $PORT l'utilitza un altre programa. Posa un altre port (per exemple, port = 8750) a $CONFIG_USUARI." \
+        "El puerto $PORT lo usa otro programa. Pon otro puerto (por ejemplo, port = 8750) en $CONFIG_USUARI.")"
 fi
 
 TOKEN="$(od -An -N24 -tx1 /dev/urandom | tr -d ' \n')"

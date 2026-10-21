@@ -40,6 +40,20 @@ Compàs és programari lliure i encara **no està signat digitalment** (un certi
 
 ## Linux
 
+### Debian, Ubuntu, Linux Mint i semblants: paquet .deb (recomanat)
+
+1. Baixa `compas_X.Y.Z_all.deb`.
+2. Obri un terminal a la carpeta on l'has baixat i escriu:
+   ```
+   sudo apt install ./compas_X.Y.Z_all.deb
+   ```
+   Instal·la Compàs i, si falten, PHP i les extensions que necessita. També es pot obrir amb doble clic des del gestor de fitxers (Centre de programari o GDebi).
+3. Obri **Compàs** des del menú d'aplicacions o escrivint `compas` en un terminal.
+
+Per a **actualitzar**, instal·la el `.deb` de la versió nova de la mateixa manera. Per a **desinstal·lar**: `sudo apt remove compas`. Les dades no es toquen mai. El port i les altres opcions es canvien a `~/.config/compas/compas.ini` (crea'l si no hi és), amb el mateix format que el `compas.ini` de Windows.
+
+### Altres distribucions: paquet .tar.gz
+
 Cal tindre PHP 8.1 o posterior amb les extensions `pdo_sqlite` i `mbstring` (i `xml` per a importar fitxers d'Excel). En Debian, Ubuntu, Linux Mint i semblants:
 
 ```
@@ -48,7 +62,7 @@ sudo apt install php-cli php-sqlite3 php-mbstring php-xml
 
 En Fedora: `sudo dnf install php-cli php-pdo php-mbstring php-xml php-sodium`. En Arch: `sudo pacman -S php php-sqlite` (i activa `pdo_sqlite` a `/etc/php/php.ini`).
 
-### Instal·lar
+#### Instal·lar
 
 1. Baixa `Compas-X.Y.Z-linux.tar.gz` i descomprimeix-lo.
 2. Dins de la carpeta `Compas`, executa:

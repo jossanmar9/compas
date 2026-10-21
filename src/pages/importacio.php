@@ -1,6 +1,6 @@
 <?php
 // Importació de persones, socis i alumnes des d'un full de càlcul (Excel o CSV)
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Passos: 1) pujar el fitxer  2) dir què és cada columna  3) revisar (duplicats i errors)  4) importar.
 // Entre passos, les files es guarden en un fitxer temporal de la carpeta de dades (no en la sessió).

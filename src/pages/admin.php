@@ -1,6 +1,6 @@
 <?php
 // Administració: usuaris, configuració, registre d'activitat i ajuda
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 /** Comprova que almenys un usuari actiu continua podent gestionar usuaris */
 function queda_administrador(): bool

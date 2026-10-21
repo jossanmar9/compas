@@ -1,4 +1,4 @@
-// Compàs — SPDX-License-Identifier: GPL-2.0-or-later
+// Compàs — SPDX-License-Identifier: AGPL-3.0-or-later
 document.addEventListener('DOMContentLoaded', () => {
     // Files clicables als llistats
     document.querySelectorAll('tr[data-href]').forEach(tr => {

@@ -1,6 +1,6 @@
 <?php
 // Definició de les entitats que es gestionen amb el formulari genèric
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Cada camp: tipus (text, textarea, date, time, email, tel, number, decimal, bool, select, ref, dia),
 // req (obligatori), llista (es mostra al llistat), opcions (per a select), ref (entitat relacionada).

@@ -1,0 +1,18 @@
+Package: compas
+Version: @VERSIO@
+Architecture: all
+Maintainer: jossanmar9 <jossanmar9@gmail.com>
+Installed-Size: @MIDA@
+Depends: php-cli, php-sqlite3, php-mbstring
+Recommends: php-xml, xdg-utils
+Section: misc
+Priority: optional
+Homepage: https://jossanmar9.github.io/compas/
+Description: Gestió lliure per a societats musicals
+ Compàs porta en un sol lloc les persones, els socis, l'escola de música,
+ les notes i els butlletins, les agrupacions i els instruments d'una
+ societat musical. Funciona sense Internet en un sol ordinador: només
+ escolta a 127.0.0.1 i no envia cap dada fora. En valencià i castellà.
+ .
+ Free management software for music societies (bands, music schools and
+ ensembles). Runs offline on one computer and never sends any data.

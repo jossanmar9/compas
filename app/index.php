@@ -1,7 +1,7 @@
 <?php
 // Compàs: Gestió lliure per a societats musicals
 // Punt d'entrada únic. També fa de "router" per al servidor integrat de PHP.
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 if (PHP_SAPI === 'cli-server') {
     $ruta = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

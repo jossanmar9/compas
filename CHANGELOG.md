@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.6.0] - 2026-10-21
+
+### Afegit
+- **Paquet .deb** per a Debian, Ubuntu, Linux Mint i distribucions semblants: s'instal·la amb `sudo apt install ./compas_X.Y.Z_all.deb`, que porta també PHP i les extensions que falten. Crea l'ordre `compas` i l'accés al menú, i es desinstal·la amb `sudo apt remove compas` sense tocar les dades.
+- A Linux, cada usuari pot canviar el port i les altres opcions a `~/.config/compas/compas.ini`.
+
+### Canviat
+- **Llicència:** Compàs passa a distribuir-se sota la **GNU Affero General Public License v3 o posterior (AGPL-3.0-or-later)**. Si algú el modifica i l'ofereix a través d'una xarxa, ha de donar accés al codi de la seua versió.
+
 ## [1.5.0] - 2026-10-20
 
 ### Afegit
@@ -99,6 +108,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.6.0]: https://github.com/jossanmar9/compas/releases/tag/v1.6.0
 [1.5.0]: https://github.com/jossanmar9/compas/releases/tag/v1.5.0
 [1.4.1]: https://github.com/jossanmar9/compas/releases/tag/v1.4.1
 [1.4.0]: https://github.com/jossanmar9/compas/releases/tag/v1.4.0

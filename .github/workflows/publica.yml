@@ -185,6 +185,7 @@ jobs:
           cp launcher/linux/compas.sh launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
           chmod +x "$d"/*.sh
           tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas
+          eines/construeix-deb.sh dist/Compas "$v" dist
           ls -la dist
 
       - name: Prova el paquet
@@ -197,11 +198,25 @@ jobs:
           grep -q "Configuració inicial" pagina.html
           kill -TERM $LLANCADOR; wait $LLANCADOR || true
 
+      - name: Prova el paquet .deb
+        run: |
+          sudo apt-get install -y --no-install-recommends ./dist/compas_*_all.deb
+          export COMPAS_DADES=$RUNNER_TEMP/dades-deb COMPAS_NAVEGADOR=0 COMPAS_PORT=8743
+          compas > deb.log 2>&1 &
+          LLANCADOR=$!
+          for i in $(seq 1 30); do curl -fsS -o pagina.html http://127.0.0.1:8743/ && break; sleep 1; done
+          cat deb.log
+          grep -q "Configuració inicial" pagina.html
+          kill -TERM $LLANCADOR; wait $LLANCADOR || true
+          sudo apt-get remove -y compas
+
       - name: Guarda el paquet
         uses: actions/upload-artifact@v6
         with:
           name: Compas-linux
-          path: dist/*.tar.gz
+          path: |
+            dist/*.tar.gz
+            dist/*.deb
 
   publica:
     needs: [windows, linux]
@@ -239,7 +254,8 @@ jobs:
               '| Fitxer | Per a |', '|---|---|',
               '| **Compas-…-installador.exe** | Windows 10/11 (64 bits). No necessita permisos d\'administrador. |',
               '| **Compas-…-portable.zip** | Windows, sense instal·lar: descomprimeix-lo i obri `Compas.exe`. |',
-              '| **Compas-…-linux.tar.gz** | Linux: descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior). |', '',
+              '| **compas_…_all.deb** | Debian, Ubuntu, Linux Mint…: `sudo apt install ./compas_…_all.deb` (instal·la també PHP). |',
+              '| **Compas-…-linux.tar.gz** | Altres Linux: descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior). |', '',
               '> El programa encara no està signat digitalment: Windows pot avisar o bloquejar-lo. '
               f'Com obrir-lo igualment: [guia d\'instal·lació]({repo}/blob/main/docs/guia-installacio.md).', '',
               'Manuals i guies en PDF (valencià i castellà) adjunts a esta versió i dins del programa (Ajuda). '
@@ -259,5 +275,6 @@ jobs:
             paquets/*.zip
             paquets/*.exe
             paquets/*.tar.gz
+            paquets/*.deb
             paquets/Compas/docs/pdf/*.pdf
           body_path: notes.md

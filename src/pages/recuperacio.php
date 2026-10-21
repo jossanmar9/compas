@@ -1,6 +1,6 @@
 <?php
 // Recuperar l'accés quan l'administrador/a ha oblidat la contrasenya
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 //
 // Dues maneres:
 //  1. Codi de recuperació: es mostra una sola vegada (en la configuració inicial o quan es genera

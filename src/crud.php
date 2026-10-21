@@ -1,6 +1,6 @@
 <?php
 // Llistats, fitxes i formularis genèrics per a les entitats de entitats.php
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 const PER_PAGINA = 50;
 

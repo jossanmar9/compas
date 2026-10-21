@@ -1,6 +1,6 @@
 <?php
 // Escola: introducció de qualificacions
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 /** Grups actius del curs actual */
 function grups_permesos(): array
