@@ -7,6 +7,8 @@ return [
     'lema' => 'Gestión libre para sociedades musicales',
 
     'cercar' => 'Buscar…',
+    'llista.ordena' => 'Ordenar por esta columna (otro clic, al revés)',
+    'llista.ordre_defecte' => 'Volver al orden de siempre',
     'filtrar' => 'Filtrar',
     'nou' => 'Nuevo',
     'nou_x' => 'Nuevo: %s',

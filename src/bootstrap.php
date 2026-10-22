@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.14.2';
+const COMPAS_VERSIO = '1.15.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -22,6 +22,20 @@ require SRC_DIR . '/xifrat.php';
 require SRC_DIR . '/sepa.php';
 
 /* ---------------- Base de dades ---------------- */
+
+/** Text en minúscules i sense accents, per a ordenar alfabèticament */
+function clau_alfabetica(string $s): string
+{
+    static $cache = [];
+    if (isset($cache[$s])) {
+        return $cache[$s];
+    }
+    if (count($cache) > 20000) {
+        $cache = [];
+    }
+    return $cache[$s] = strtr(mb_strtolower(trim($s)), ['à' => 'a', 'á' => 'a', 'è' => 'e', 'é' => 'e', 'ì' => 'i', 'í' => 'i', 'ï' => 'i', 'ò' => 'o', 'ó' => 'o',
+        'ù' => 'u', 'ú' => 'u', 'ü' => 'u', 'ç' => 'c', 'ñ' => 'n~', '·' => '', 'ŀ' => 'l', "'" => '', '’' => '']);
+}
 
 function db(): PDO
 {
@@ -51,6 +65,10 @@ function db(): PDO
     $pdo->exec('PRAGMA foreign_keys = ON');
     $pdo->exec('PRAGMA journal_mode = WAL');
     $pdo->exec('PRAGMA busy_timeout = 5000');
+    // Ordre alfabètic «com les persones»: sense distingir majúscules ni accents (Àlex va amb la A) i amb els números
+    // en ordre natural (2 abans que 10, INV-9 abans que INV-10). S'usa amb «COLLATE ALFA» en ordenar els llistats.
+    $alfa = fn($a, $b) => strnatcmp(clau_alfabetica((string)$a), clau_alfabetica((string)$b)) ?: strcmp((string)$a, (string)$b);
+    method_exists($pdo, 'createCollation') ? $pdo->createCollation('ALFA', $alfa) : $pdo->sqliteCreateCollation('ALFA', $alfa);
     // L'esquema i les migracions només es repassen quan canvia la versió de Compàs o l'esquema:
     // la base de dades guarda en «user_version» amb quina combinació s'ha preparat.
     $esquema = (string)file_get_contents(SRC_DIR . '/schema.sql');

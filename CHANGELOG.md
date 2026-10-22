@@ -8,6 +8,16 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.15.0] - 2026-10-23
+
+### Afegit
+- **Els llistats es poden ordenar per qualsevol columna**: un clic al títol de la columna ordena per ella (els socis per número, els grups per aula o professor, els rebuts per import…) i un altre clic, al revés. Compàs recorda l'ordre de cada llistat mentre treballes, l'exportació CSV ix en el mateix ordre, i davall de la taula hi ha l'enllaç per a tornar a l'ordre de sempre.
+- `eines/societat-gran.php`: omple una instal·lació nova amb una societat gran inventada (341 socis, 278 alumnes, cinc agrupacions, 653 obres…) per a provar el programa amb moltes dades.
+
+### Canviat
+- L'ordre alfabètic ja no té en compte els accents ni les majúscules (Àlex va amb la A, no al final) i els números van en ordre natural (el soci 2 abans que el 10; INV-9 abans que INV-10).
+- La web: captures d'una societat gran, apartats de funcions amb la seua captura, xifres, menú i botó de descàrrega pensats per al mòbil i imatge per a quan es comparteix l'enllaç.
+
 ## [1.14.2] - 2026-10-22
 
 ### Seguretat
@@ -293,6 +303,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.15.0]: https://github.com/jossanmar9/compas/releases/tag/v1.15.0
 [1.14.2]: https://github.com/jossanmar9/compas/releases/tag/v1.14.2
 [1.14.1]: https://github.com/jossanmar9/compas/releases/tag/v1.14.1
 [1.14.0]: https://github.com/jossanmar9/compas/releases/tag/v1.14.0

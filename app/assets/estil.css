@@ -371,3 +371,9 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .taula td.permis { text-align: center; width: 9rem; font-weight: 600; color: var(--ok); }
 .taula:has(td.permis) th:not(:first-child) { text-align: center; }
 .taula td.permis.no { color: var(--suau, #888); font-weight: 400; }
+
+/* Llistats: es poden ordenar fent clic a la capçalera de cada columna */
+.taula.ordenable th a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: .3em; }
+.taula.ordenable th a:hover { color: var(--blau); text-decoration: underline; }
+.taula.ordenable th[aria-sort] { color: var(--blau); }
+.fletxa-ordre { font-size: .75em; }

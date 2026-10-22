@@ -72,7 +72,8 @@ Todas las secciones funcionan igual. Si aprendes una, las sabes todas.
 
 - **Buscar**: escribe un nombre, apellido, teléfono… y pulsa **Filtrar**.
 - **Mostrar también las bajas**: por defecto se ocultan las personas inactivas y las bajas.
-- **Exportar CSV**: descarga la lista para abrirla con Excel o LibreOffice Calc.
+- **Ordenar**: haz clic en el título de una columna para ordenar por ella (por ejemplo, los socios por número o los grupos por aula o profesor); otro clic lo ordena al revés. Compàs recuerda el orden de cada listado, y debajo de la tabla está el enlace **Volver al orden de siempre**.
+- **Exportar CSV**: descarga la lista para abrirla con Excel o LibreOffice Calc, en el orden que esté elegido.
 - **+ Nuevo**: crea un elemento nuevo.
 - Haz clic en cualquier fila para abrir su **ficha**.
 

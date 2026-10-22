@@ -158,6 +158,86 @@ function filtre_llista(array $e, array &$params): string
     return implode(' AND ', $where);
 }
 
+/**
+ * Ordre d'un llistat: la columna triada (paràmetres «o» i «d», recordats en la sessió per a cada llistat) o l'ordre de l'entitat.
+ * Retorna [ORDER BY, columna triada o '', descendent?]
+ */
+function ordre_llista(array $e, string $nom): array
+{
+    $o = (string)get('o');
+    $desc = get('d') === '1';
+    if ($o === '-') {
+        unset($_SESSION['ordre'][$nom]);
+        $o = '';
+    } elseif ($o === '' && isset($_SESSION['ordre'][$nom])) {
+        [$o, $desc] = $_SESSION['ordre'][$nom];
+    }
+    $d = $e['camps'][$o] ?? null;
+    if (!$d || empty($d['llista']) || !empty($d['virtual'])) {
+        return [$e['ordre'], '', false];
+    }
+    $_SESSION['ordre'][$nom] = [$o, $desc];
+    $parts = expressio_ordre($e, $o, $d);
+    $dir = $desc ? ' DESC' : '';
+    // Els buits sempre al final; després, l'ordre de sempre per a desempatar
+    return ['(' . $parts[0] . ') IS NULL, ' . implode(', ', array_map(fn($x) => $x . $dir, $parts)) . ', ' . $e['ordre'], $o, $desc];
+}
+
+/** Expressions SQL per a ordenar per una columna, segons el tipus de camp */
+function expressio_ordre(array $e, string $c, array $d): array
+{
+    $col = "t.$c";
+    switch ($d['tipus']) {
+        case 'number':
+        case 'decimal':
+        case 'bool':
+        case 'dia':
+            return [$col];
+        case 'date':
+        case 'time':
+            return ["NULLIF($col, '')"];
+        case 'select':
+            // Per l'etiqueta que es veu (en l'idioma de la pantalla), no pel valor intern
+            $opcions = $d['opcions'];
+            $etiquetes = [];
+            foreach ($opcions as $op) {
+                $etiquetes[$op] = clau_alfabetica(t('opt.' . $op));
+            }
+            asort($etiquetes, SORT_NATURAL);
+            $cas = '';
+            $i = 0;
+            foreach (array_keys($etiquetes) as $op) {
+                $cas .= ' WHEN ' . db()->quote((string)$op) . ' THEN ' . (++$i);
+            }
+            return ["CASE $col$cas END"];
+        case 'ref':
+            if ($d['ref'] === 'persones') {
+                // Per cognoms i nom: amb la persona que ja porta la consulta o, si no, buscant-la
+                if (preg_match('/JOIN persones (\w+) ON \1\.id = t\.' . preg_quote($c, '/') . '\b/', $e['from'], $m)) {
+                    return ["{$m[1]}.cognoms COLLATE ALFA", "{$m[1]}.nom COLLATE ALFA"];
+                }
+                return ["(SELECT cognoms || ', ' || nom FROM persones WHERE id = $col) COLLATE ALFA"];
+            }
+            // La resta, en l'ordre en què es mostren les opcions (per nom, o els cursos del més nou al més antic…)
+            $opcions = opcions_ref($d['ref']);
+            if (!$opcions || count($opcions) > 1500) {
+                return [$col];
+            }
+            // Si les opcions van per nom, alfabèticament de veres (sense accents i amb els números en ordre)
+            if (preg_match('/ORDER BY (e|nom)$/', entitat($d['ref'])['etiqueta'] ?? '')) {
+                uasort($opcions, fn($a, $b) => strnatcmp(clau_alfabetica((string)$a), clau_alfabetica((string)$b)));
+            }
+            $cas = '';
+            $i = 0;
+            foreach (array_keys($opcions) as $id) {
+                $cas .= ' WHEN ' . (int)$id . ' THEN ' . (++$i);
+            }
+            return ["CASE $col$cas END"];
+        default:
+            return ["NULLIF($col, '') COLLATE ALFA"];
+    }
+}
+
 function pagina_llista(string $nom): void
 {
     $e = entitat($nom);
@@ -165,14 +245,15 @@ function pagina_llista(string $nom): void
     $params = [];
     $where = filtre_llista($e, $params);
 
+    [$ordre, $ordreCol, $ordreDesc] = ordre_llista($e, $nom);
     if (get('csv') === '1') {
-        exporta_csv($e, $where, $params);
+        exporta_csv($e, $where, $params, $ordre);
     }
 
     $total = (int)valor("SELECT COUNT(*) FROM {$e['from']} WHERE $where", $params);
     $pag = max(1, (int)get('p', '1'));
     $offset = ($pag - 1) * PER_PAGINA;
-    $files = q("SELECT t.* FROM {$e['from']} WHERE $where ORDER BY {$e['ordre']} LIMIT " . PER_PAGINA . " OFFSET $offset", $params)->fetchAll();
+    $files = q("SELECT t.* FROM {$e['from']} WHERE $where ORDER BY $ordre LIMIT " . PER_PAGINA . " OFFSET $offset", $params)->fetchAll();
 
     $fixats = array_keys(array_filter((array)($_GET['f'] ?? []), fn($v) => $v !== ''));
     $cols = array_filter($e['camps'], fn($d, $c) => !empty($d['llista']) && !in_array($c, $fixats, true), ARRAY_FILTER_USE_BOTH);
@@ -224,22 +305,43 @@ function pagina_llista(string $nom): void
     if (!$files) {
         echo '<div class="buit">' . h(t('cap_resultat')) . '</div>';
     } else {
-        echo taula_files($e, $files, $cols);
+        echo taula_files($e, $files, $cols, [$ordreCol, $ordreDesc]);
         echo html_pagines($pag, (int)ceil($total / PER_PAGINA));
     }
     $suma = '';
     if (isset($e['suma']) && $total) {
         $suma = ' · ' . t('total') . ': ' . number_format((float)valor("SELECT SUM(t.{$e['suma']}) FROM {$e['from']} WHERE $where", $params), 2, ',', '.') . ' €';
     }
-    echo '<p class="peu-taula">' . h(t('n_resultats', $total) . $suma) . '</p>';
+    $tornaOrdre = '';
+    if ($ordreCol !== '') {
+        $qs = $_GET;
+        unset($qs['p'], $qs['d']);
+        $qs['o'] = '-';
+        $tornaOrdre = ' · <a href="?' . h(http_build_query($qs)) . '">' . h(t('llista.ordre_defecte')) . '</a>';
+    }
+    echo '<p class="peu-taula">' . h(t('n_resultats', $total) . $suma) . $tornaOrdre . '</p>';
     pagina(t('ent.' . $nom), ob_get_clean());
 }
 
-function taula_files(array $e, array $files, array $cols): string
+/** $ordre: [columna, descendent?] per a poder ordenar fent clic a les capçaleres (només als llistats) */
+function taula_files(array $e, array $files, array $cols, ?array $ordre = null): string
 {
-    $html = '<div class="taula-wrap"><table class="taula"><thead><tr>';
+    $html = '<div class="taula-wrap"><table class="taula' . ($ordre ? ' ordenable' : '') . '"><thead><tr>';
     foreach ($cols as $c => $d) {
-        $html .= '<th>' . h(etiqueta_camp($c, $d)) . '</th>';
+        $etiqueta = h(etiqueta_camp($c, $d));
+        if ($ordre === null || !empty($d['virtual'])) {
+            $html .= '<th>' . $etiqueta . '</th>';
+            continue;
+        }
+        // Un clic ordena per esta columna; un altre, al revés
+        $actual = $ordre[0] === $c;
+        $qs = $_GET;
+        unset($qs['p'], $qs['csv']);
+        $qs['o'] = $c;
+        $qs['d'] = $actual && !$ordre[1] ? '1' : '0';
+        $aria = $actual ? ' aria-sort="' . ($ordre[1] ? 'descending' : 'ascending') . '"' : '';
+        $fletxa = $actual ? ' <span class="fletxa-ordre" aria-hidden="true">' . ($ordre[1] ? '▼' : '▲') . '</span>' : '';
+        $html .= '<th' . $aria . '><a href="?' . h(http_build_query($qs)) . '" title="' . h(t('llista.ordena')) . '">' . $etiqueta . $fletxa . '</a></th>';
     }
     $html .= '</tr></thead><tbody>';
     foreach ($files as $f) {
@@ -261,9 +363,9 @@ function taula_files(array $e, array $files, array $cols): string
     return $html . '</tbody></table></div>';
 }
 
-function exporta_csv(array $e, string $where, array $params): never
+function exporta_csv(array $e, string $where, array $params, ?string $ordre = null): never
 {
-    $files = q("SELECT t.* FROM {$e['from']} WHERE $where ORDER BY {$e['ordre']}", $params)->fetchAll();
+    $files = q("SELECT t.* FROM {$e['from']} WHERE $where ORDER BY " . ($ordre ?? $e['ordre']), $params)->fetchAll();
     header('Content-Type: text/csv; charset=UTF-8');
     header('Content-Disposition: attachment; filename="' . $e['nom'] . '-' . date('Ymd') . '.csv"');
     $out = fopen('php://output', 'w');

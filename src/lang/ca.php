@@ -8,6 +8,8 @@ return [
 
     // General
     'cercar' => 'Cerca…',
+    'llista.ordena' => 'Ordena per esta columna (un altre clic, al revés)',
+    'llista.ordre_defecte' => 'Torna a l\'ordre de sempre',
     'filtrar' => 'Filtra',
     'nou' => 'Nou',
     'nou_x' => 'Nou: %s',
