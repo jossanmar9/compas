@@ -303,6 +303,10 @@ function serveix_document(): never
     $enLinia = get('baixa') !== '1' && in_array($d['fitxer_tipus'], ['application/pdf', 'image/jpeg', 'image/png', 'text/plain'], true);
     header('Content-Type: ' . $d['fitxer_tipus'] . ($d['fitxer_tipus'] === 'text/plain' ? '; charset=UTF-8' : ''));
     header('Content-Length: ' . strlen($contingut));
+    // Un document pujat no pot executar res dins de Compàs (els PDF, no: el visor de PDF del navegador no funciona aïllat)
+    if ($d['fitxer_tipus'] !== 'application/pdf') {
+        header("Content-Security-Policy: sandbox; default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'");
+    }
     header('Content-Disposition: ' . ($enLinia ? 'inline' : 'attachment') . "; filename*=UTF-8''" . rawurlencode($d['fitxer_nom']));
     echo $contingut;
     exit;

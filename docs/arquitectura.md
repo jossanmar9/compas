@@ -74,11 +74,11 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 
 ## Seguretat
 
-- Només escolta a `127.0.0.1`: no és accessible des de la xarxa.
-- Contrasenyes amb `password_hash`. Bloqueig temporal després de 5 intents fallits.
+- Només escolta a `127.0.0.1`: no és accessible des de la xarxa. A més, només respon a les peticions adreçades a `127.0.0.1`, `localhost` o `[::1]` (contra el *DNS rebinding*: una web maliciosa que apunte el seu nom cap a este ordinador rep un 421). Altres noms, si cal: variable `COMPAS_HOSTS`.
+- Contrasenyes amb `password_hash`. Bloqueig temporal de 30 segons després de 5 intents fallits, comptats a la base de dades per a tot el programa (no per sessió, que es pot evitar sense galeta).
 - Recuperació de l'accés (`src/pages/recuperacio.php`): codi de 16 caràcters (80 bits, alfabet sense 0/O/1/I) guardat només com a `password_hash` a `config`; d'un sol ús (en usar-lo se'n genera un altre) i no torna arrere en restaurar una còpia. Alternativa sense codi: un fitxer `recupera-acces` a la carpeta de dades, vàlid 60 minuts i esborrat en usar-lo (qui pot escriure-hi ja té accés a `compas.db`). Només per a comptes d'administrador; límit d'intents guardat a la base de dades, no a la sessió.
 - Token CSRF en tots els formularis. Cookies `HttpOnly` i `SameSite=Strict`.
-- Tota l'eixida s'escapa amb `htmlspecialchars`.
+- Tota l'eixida s'escapa amb `htmlspecialchars`. Política de seguretat de continguts (CSP): el programa només carrega i envia coses a si mateix, de manera que un codi colat no podria enviar dades fora. Els documents pujats (excepte els PDF) s'obrin aïllats (`sandbox`). Les redireccions només van a adreces del programa.
 - La carpeta de dades queda fora de la carpeta pública (`app/`); el servidor només serveix `app/assets/`.
 - L'usuari/ària no pot gestionar usuaris, configuració, registre d'activitat ni restaurar còpies.
 - Còpies amb `VACUUM INTO` (consistents encara que el programa estiga obert): diària, en tancar si hi ha canvis, manual, abans de restaurar i abans d'importar; duplicades a una carpeta externa opcional.

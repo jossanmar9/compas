@@ -8,6 +8,16 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.14.2] - 2026-10-22
+
+### Seguretat
+- **Compàs només respon a este ordinador.** Ja només escoltava a 127.0.0.1; ara, a més, rebutja les peticions que arriben amb un altre nom de servidor. Així una pàgina web maliciosa oberta al mateix ordinador no pot fer-se passar per Compàs canviant la seua adreça (l'atac anomenat *DNS rebinding*), ni provar contrasenyes ni crear el primer compte d'una instal·lació nova.
+- **Intents d'entrada per a tot el programa**: després de 5 contrasenyes incorrectes cal esperar 30 segons. Abans es comptaven per sessió i es podia evitar començant una sessió nova en cada intent.
+- **Política de seguretat de continguts**: les pantalles de Compàs només poden carregar i enviar coses al mateix programa. Si alguna vegada s'hi colara codi, no podria enviar les dades enlloc.
+- Els documents pujats (excepte els PDF) s'obrin aïllats i no poden executar res dins de Compàs.
+- El canvi d'idioma ja no pot redirigir a una altra web amb adreces del tipus `/\exemple.com`.
+- Proves noves de tot açò (bateria `seguretat`).
+
 ## [1.14.1] - 2026-10-22
 
 ### Seguretat
@@ -283,6 +293,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.14.2]: https://github.com/jossanmar9/compas/releases/tag/v1.14.2
 [1.14.1]: https://github.com/jossanmar9/compas/releases/tag/v1.14.1
 [1.14.0]: https://github.com/jossanmar9/compas/releases/tag/v1.14.0
 [1.13.4]: https://github.com/jossanmar9/compas/releases/tag/v1.13.4

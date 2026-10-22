@@ -15,6 +15,15 @@ if (PHP_SAPI === 'cli-server') {
     }
 }
 
+// Només es responen les peticions adreçades a este ordinador. Així una pàgina web maliciosa no pot fer-se passar
+// per Compàs canviant el seu DNS cap a 127.0.0.1 (DNS rebinding). Altres noms: variable COMPAS_HOSTS, separats per comes.
+$host = strtolower(preg_replace('/:\d+$/', '', (string)($_SERVER['HTTP_HOST'] ?? '')));
+$permesos = array_merge(['127.0.0.1', 'localhost', '[::1]'], array_filter(array_map('trim', explode(',', strtolower((string)getenv('COMPAS_HOSTS'))))));
+if (!in_array($host, $permesos, true)) {
+    http_response_code(421);
+    exit('421');
+}
+
 require dirname(__DIR__) . '/src/bootstrap.php';
 require SRC_DIR . '/entitats.php';
 require SRC_DIR . '/crud.php';
@@ -25,6 +34,9 @@ foreach (glob(SRC_DIR . '/pages/*.php') as $fitxer) {
 header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
+// Compàs no carrega res de fora: si mai s'hi colara codi, no podria enviar dades enlloc
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+    . "font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
 
 inicia_sessio();
 comprova_csrf();
@@ -50,7 +62,8 @@ try {
             }
         }
         $tornar = get('tornar');
-        header('Location: ' . (str_starts_with($tornar, '/') && !str_starts_with($tornar, '//') ? $tornar : '?'));
+        // Només adreces d'este programa («/\\» els navegadors el llegixen com «//», que seria un altre lloc)
+        header('Location: ' . (preg_match('#^/(?![/\\\\])#', $tornar) && !preg_match('/[\\x00-\\x1F\\\\]/', $tornar) ? $tornar : '?'));
         exit;
     }
 

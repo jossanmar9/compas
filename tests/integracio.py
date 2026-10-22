@@ -42,6 +42,7 @@ BATERIES = {
     'gran': (['gran.py'], True),
     'avis': (['avis.py'], False),
     'importacio': (['importacio.php'], True),
+    'seguretat': (['seguretat.py'], True),
 }
 
 ERR_PHP = ['Fatal error', 'Warning:', 'Notice:', 'Deprecated:', 'Uncaught']

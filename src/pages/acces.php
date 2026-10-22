@@ -106,18 +106,18 @@ function pagina_entrada(): void
 {
     $error = null;
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && get('r') === 'entrada') {
-        $intents = $_SESSION['intents'] ?? 0;
-        // El servidor integrat de PHP atén una petició cada vegada: no fem sleep(), bloquegem un temps
-        if ($intents >= 5 && time() - ($_SESSION['darrer_intent'] ?? 0) < 30) {
+        // Els intents fallits es compten per a tot el programa (no per sessió: sense galeta no es podrien comptar).
+        // El servidor integrat de PHP atén una petició cada vegada: no fem sleep(), bloquegem un temps.
+        $intents = (int)config('entrada_fallides');
+        if ($intents >= 5 && time() - (int)config('entrada_darrer') < 30) {
             pagina_simple(t('entra'), '<div class="avis error">' . h(t('err.massa_intents')) . '</div><p><a href="?">' . h(t('torna')) . '</a></p>');
             return;
         }
-        $_SESSION['darrer_intent'] = time();
         $u = fila('SELECT * FROM usuaris WHERE usuari = ? AND actiu = 1', [post('usuari')]);
         if ($u && password_verify((string)post('contrasenya'), $u['contrasenya'])) {
             session_regenerate_id(true);
             $_SESSION['usuari_id'] = $u['id'];
-            $_SESSION['intents'] = 0;
+            desa_config('entrada_fallides', null);
             if ($u['idioma']) {
                 $_SESSION['idioma'] = $u['idioma'];
             }
@@ -128,7 +128,8 @@ function pagina_entrada(): void
             audita('entrada');
             redirigeix('inici');
         }
-        $_SESSION['intents'] = $intents + 1;
+        desa_config('entrada_fallides', (string)($intents >= 5 ? 1 : $intents + 1));
+        desa_config('entrada_darrer', (string)time());
         q('INSERT INTO auditoria(accio, usuari, detall) VALUES(?, ?, ?)', ['entrada_fallida', mb_substr((string)post('usuari'), 0, 60), $_SERVER['REMOTE_ADDR'] ?? '']);
         $error = t('err.entrada');
     }
