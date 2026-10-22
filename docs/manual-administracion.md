@@ -9,7 +9,7 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 | Personas, socios y tipos de socio | ✔ | ✔ |
 | Escuela: cursos, grupos, matrículas, notas y boletines | ✔ | ✔ |
 | Agrupaciones, repertorio, instrumentos y uniformes | ✔ | ✔ |
-| Cuotas, recibos, domiciliaciones, remesas y lotería | ✔ | ✔ |
+| Cuotas, recibos, domiciliaciones, remesas, lotería y subvenciones | ✔ | ✔ |
 | Libro de caja | ✔ | ✔ |
 | Junta, actas, documentos y comunicados | ✔ | ✔ |
 | Listados, certificados e importación desde Excel | ✔ | ✔ |
@@ -64,11 +64,11 @@ Menú **Administración → Configuración** (solo el administrador/a).
 
 ### Módulos y avisos
 
-No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos y comunicados.
+No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos, comunicados y subvenciones.
 
 Un módulo desactivado desaparece del menú, del inicio, de los listados y de las fichas de las personas, pero **no se borra ningún dato**: si se vuelve a activar, todo está como estaba. Personas, socios, listados, importación y administración siempre están activos.
 
-En la misma pantalla se pueden ocultar los **avisos del inicio** que la sociedad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver y el curso actual.
+En la misma pantalla se pueden ocultar los **avisos del inicio** que la sociedad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver, el curso actual y los plazos de las subvenciones.
 
 ![Módulos y avisos](imatges/es/80-moduls.webp)
 

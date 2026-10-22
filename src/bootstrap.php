@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.15.0';
+const COMPAS_VERSIO = '1.16.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -137,6 +137,14 @@ function migra_esquema(PDO $pdo): void
             'pagador_id' => 'INTEGER REFERENCES persones(id) ON DELETE SET NULL',
             'descompte_pct' => 'REAL',
         ],
+        // 1.16: dades de la factura (per a justificar subvencions) i document lligat a una subvenció
+        'moviments' => [
+            'proveidor' => 'TEXT',
+            'nif' => 'TEXT',
+        ],
+        'documents' => [
+            'subvencio_id' => 'INTEGER REFERENCES subvencions(id) ON DELETE SET NULL',
+        ],
     ];
     foreach ($columnes as $taula => $cols) {
         $existents = array_column($pdo->query("PRAGMA table_info($taula)")->fetchAll(PDO::FETCH_ASSOC), 'name');
@@ -151,6 +159,64 @@ function migra_esquema(PDO $pdo): void
     if ((int)$pdo->query('SELECT COUNT(*) FROM usuaris')->fetchColumn() > 0) {
         sembra_tipus_socis($pdo);
         sembra_tipus_obres($pdo);
+        sembra_subvencions($pdo);
+    }
+}
+
+/**
+ * Organismes i requisits de justificació inicials (una sola vegada), i com es justifica normalment cada organisme.
+ * Són només un punt de partida: cada societat els canvia quan vol (Subvencions → Organismes / Com es justifica).
+ */
+function sembra_subvencions(PDO $pdo, ?string $idioma = null): void
+{
+    if ($pdo->query("SELECT valor FROM config WHERE clau = 'subvencions_inicials'")->fetchColumn()) {
+        return;
+    }
+    $es = ($idioma ?? (string)($pdo->query("SELECT valor FROM config WHERE clau = 'idioma'")->fetchColumn() ?: 'ca')) === 'es';
+    $requisits = [
+        'compte' => [$es ? 'Cuenta justificativa (relación de facturas y pagos)' : 'Compte justificatiu (relació de factures i pagaments)'],
+        'factures' => [$es ? 'Facturas y justificantes de pago' : 'Factures i justificants de pagament'],
+        'memoria' => [$es ? 'Memoria de la actividad' : 'Memòria de l\'activitat'],
+        'certificat' => [$es ? 'Certificado de la secretaría con el visto bueno de la presidencia' : 'Certificat de la secretaria amb el vistiplau de la presidència'],
+        'hisenda' => [$es ? 'Certificado de estar al corriente con Hacienda' : 'Certificat d\'estar al corrent amb Hisenda'],
+        'ss' => [$es ? 'Certificado de estar al corriente con la Seguridad Social' : 'Certificat d\'estar al corrent amb la Seguretat Social'],
+        'ajudes' => [$es ? 'Declaración de otras ayudas recibidas' : 'Declaració d\'altres ajudes rebudes'],
+        'publicitat' => [$es ? 'Publicidad de la ayuda (logotipo en carteles, programas y redes)' : 'Publicitat de l\'ajuda (logotip en cartells, programes i xarxes)'],
+        'fotos' => [$es ? 'Fotografías, carteles o programas de la actividad' : 'Fotografies, cartells o programes de l\'activitat'],
+        'seu' => [$es ? 'Presentación por la sede electrónica' : 'Presentació per la seu electrònica'],
+    ];
+    $organismes = [
+        [$es ? 'Generalitat' : 'Generalitat', ['compte', 'factures', 'memoria', 'hisenda', 'ss', 'ajudes', 'publicitat', 'seu']],
+        [$es ? 'Diputación' : 'Diputació', ['compte', 'factures', 'memoria', 'certificat', 'hisenda', 'ss', 'ajudes', 'publicitat']],
+        [$es ? 'Ayuntamiento' : 'Ajuntament', ['factures', 'memoria', 'certificat', 'fotos']],
+        [$es ? 'Federación' : 'Federació', ['memoria', 'certificat']],
+        [$es ? 'Otros' : 'Altres', []],
+    ];
+    $propia = !$pdo->inTransaction();
+    if ($propia) {
+        $pdo->beginTransaction();
+    }
+    if ((int)$pdo->query('SELECT COUNT(*) FROM organismes')->fetchColumn() === 0 && (int)$pdo->query('SELECT COUNT(*) FROM requisits_justificacio')->fetchColumn() === 0) {
+        $ids = [];
+        $ordre = 0;
+        foreach ($requisits as $clau => [$nom]) {
+            $ordre += 10;
+            $pdo->prepare('INSERT INTO requisits_justificacio(nom, ordre) VALUES(?, ?)')->execute([$nom, $ordre]);
+            $ids[$clau] = (int)$pdo->lastInsertId();
+        }
+        $ordre = 0;
+        foreach ($organismes as [$nom, $reqs]) {
+            $ordre += 10;
+            $pdo->prepare('INSERT INTO organismes(nom, ordre) VALUES(?, ?)')->execute([$nom, $ordre]);
+            $org = (int)$pdo->lastInsertId();
+            foreach ($reqs as $r) {
+                $pdo->prepare('INSERT INTO organisme_requisits(organisme_id, requisit_id) VALUES(?, ?)')->execute([$org, $ids[$r]]);
+            }
+        }
+    }
+    $pdo->exec("INSERT INTO config(clau, valor) VALUES('subvencions_inicials', '1') ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor");
+    if ($propia) {
+        $pdo->commit();
     }
 }
 

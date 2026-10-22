@@ -9,7 +9,7 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 | Persones, socis i tipus de soci | ✔ | ✔ |
 | Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
 | Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
-| Quotes, rebuts, domiciliacions, remeses i loteria | ✔ | ✔ |
+| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
 | Llibre de caixa | ✔ | ✔ |
 | Junta, actes, documents i comunicats | ✔ | ✔ |
 | Llistats, certificats i importació des d'Excel | ✔ | ✔ |
@@ -64,11 +64,11 @@ Menú **Administració → Configuració** (només l'administrador/a).
 
 ### Mòduls i avisos
 
-No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents i comunicats.
+No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents, comunicats i subvencions.
 
 Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
 
-A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar i el curs actual.
+A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar, el curs actual i els terminis de les subvencions.
 
 ![Mòduls i avisos](imatges/ca/80-moduls.webp)
 

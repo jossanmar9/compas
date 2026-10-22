@@ -9,7 +9,7 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 | Persones, socis i tipus de soci | ✔ | ✔ |
 | Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
 | Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
-| Quotes, rebuts, domiciliacions, remeses i loteria | ✔ | ✔ |
+| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
 | Llibre de caixa | ✔ | ✔ |
 | Junta, actes, documents i comunicats | ✔ | ✔ |
 | Llistats, certificats i importació des d'Excel | ✔ | ✔ |
@@ -550,11 +550,32 @@ Menú **Economia → Llibre de caixa**. Mostra tots els ingressos i despeses de 
 
 - els rebuts cobrats en efectiu (a la caixa) o per transferència (al banc);
 - les remeses cobrades, en una sola línia, com apareixen al banc;
-- els diners de la loteria que lliura cada talonari.
+- els diners de la loteria que lliura cada talonari;
+- els cobraments de les subvencions (apartat 13.8).
 
-La resta (factures, subvencions, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot vore només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
+La resta (factures, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. En les factures, posa també el **proveïdor**, el **NIF** i el **número de factura**: fan falta per a justificar subvencions. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot vore només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
 
 ![Llibre de caixa](imatges/ca/76-caixa.webp)
+
+### 13.8 Subvencions
+
+Menú **Economia → Subvencions**. Cada subvenció té una fitxa amb tot el que cal saber: qui la dona, per a què és, l'**estat** (prevista, sol·licitada, concedida, denegada, justificada o tancada), els terminis per a demanar-la i per a justificar-la i els imports (pressupost, sol·licitat, concedit i el que cal justificar, que de vegades és més que el concedit).
+
+**Com es justifica.** En crear una subvenció i triar l'**organisme**, es marquen sols els requisits que demana normalment: compte justificatiu, memòria, certificats… Es poden canviar per a eixa subvenció. A la fitxa ix la llista amb una casella per a cada requisit: marca'ls a mesura que estiguen fets i prem **Desa**.
+
+![Subvenció nova: en triar l'organisme es marquen els requisits](imatges/ca/84-subvencio-nova.webp)
+
+**Organismes i requisits, a la mida de la societat.** Al llistat de subvencions, els botons **Organismes** i **Com es justifica** porten a les dues llistes, que es poden canviar sempre que calga: afegir un organisme o un requisit, canviar-ne el nom o indicar què demana normalment cada organisme. Si un requisit ja no es demana, posa'l **de baixa**: no ix en les subvencions noves, però es conserva en les antigues.
+
+**Cobraments.** A la fitxa, **Cobraments → + Afig** per a cada pagament (la bestreta, el pagament final…). Entren sols al llibre de caixa: no cal apuntar-los com a moviment.
+
+**Despeses imputades.** Les factures s'apunten al llibre de caixa com sempre, amb el **proveïdor**, el **NIF** i el **número de factura** al camp Justificant. Després, a la fitxa de la subvenció, **Despeses imputades → + Afig** i tria la despesa. Si no poses import, s'imputa tota la factura (o el que en quede, si una part ja està imputada a una altra subvenció). Compàs no deixa imputar una factura per més del que val. La fitxa mostra quant portes justificat i quant en falta.
+
+![Fitxa d'una subvenció: resum, com es justifica, cobraments i despeses](imatges/ca/83-subvencio.webp)
+
+**Relació de despeses.** El botó **Relació de despeses** prepara la relació per a la justificació (data, proveïdor, NIF, número de factura, concepte, import de la factura i import imputat) amb les dades de la subvenció i les signatures, per a imprimir o guardar en PDF. **Relació en CSV** la baixa per a obrir-la amb Excel.
+
+**Avisos i any següent.** L'inici avisa quan falten 30 dies o menys per a demanar una subvenció prevista o per a justificar una de concedida. El botó **Copia per a…** crea la mateixa subvenció per a l'any següent, amb els mateixos requisits (sense fer) i les dates un any més tard.
 
 ## 14. Loteria
 

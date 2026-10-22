@@ -59,8 +59,8 @@ h=G(f'r=fitxa&e=persones&id={pid}'); ok('uniforme_lliuraments' in h, 'lliurament
 h=G('r=rgpd'); ok('Uniformes' in h, 'activitat de tractament d uniformes')
 # Mòduls i avisos
 h=G('r=moduls'); ok(not err(h) and 'moduls[]' in h, 'pantalla de mòduls')
-tots=['escola','agrupacions','repertori','instruments','uniformes','economia','loteria','caixa','junta','documents','comunicats']
-avisos=['copia_externa','junta_renovacio','documents_caducitat','certificat_delictes','cessions_vencudes','curs_actual']
+tots=['escola','agrupacions','repertori','instruments','uniformes','economia','loteria','caixa','junta','documents','comunicats','subvencions']
+avisos=['copia_externa','junta_renovacio','documents_caducitat','certificat_delictes','cessions_vencudes','curs_actual','subvencions_terminis']
 h=G('r=inici'); ok('r=junta' in h and 'caduquen' in h.lower() or 'caducan' in h.lower(), 'avisos a l inici abans de desactivar')
 P('r=moduls', {'moduls[]':[m for m in tots if m not in ('escola','uniformes')], 'avisos[]':[a for a in avisos if a not in ('junta_renovacio','documents_caducitat','copia_externa')]})
 ok(n("select valor from config where clau='moduls_desactivats'")=='escola,uniformes', 'mòduls desactivats desats')

@@ -419,6 +419,9 @@ function pagina_fitxa(string $nom, int $id): void
 
     echo '<dl class="fitxa">';
     foreach ($e['camps'] as $c => $d) {
+        if (!empty($d['amaga_fitxa'])) {
+            continue; // es mostra d'una altra manera (per exemple, la llista de requisits amb caselles)
+        }
         $v = mostra_valor($d, valor_camp($d, $f, $c), true);
         if ($v === '' && $d['tipus'] !== 'bool') {
             continue;
@@ -496,8 +499,15 @@ function camp_formulari(string $c, array $d, $v): string
         case 'refs':
             // Caselles: el camp ocult fa que s'envie encara que no se'n marque cap
             $marcats = array_map('intval', (array)$v);
-            $in = '<input type="hidden" name="' . $nom . '[]" value=""><div class="opcions">';
+            // Les opcions retirades (de baixa) només es veuen si ja estaven marcades
+            $actius = isset($d['nomes_actius']) ? ($d['nomes_actius'])() : null;
+            // «segons»: en canviar un altre camp (per exemple, l'organisme), app.js marca les opcions que li corresponen
+            $segons = isset($d['segons']) ? ' data-segons="' . h($d['segons'][0]) . '" data-mapa="' . h(json_encode((object)($d['segons'][1])())) . '"' : '';
+            $in = '<input type="hidden" name="' . $nom . '[]" value=""><div class="opcions"' . $segons . '>';
             foreach (opcions_ref($d['ref']) as $k => $text) {
+                if ($actius !== null && !in_array((int)$k, $actius, true) && !in_array((int)$k, $marcats, true)) {
+                    continue;
+                }
                 $in .= '<label><input type="checkbox" name="' . $nom . '[]" value="' . h($k) . '"' . (in_array((int)$k, $marcats, true) ? ' checked' : '') . '> ' . h($text) . '</label>';
             }
             $in .= '</div>';

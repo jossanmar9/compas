@@ -9,7 +9,7 @@
 
 # Compàs
 
-**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions, els instruments, els uniformes, les quotes, els rebuts, la loteria, la caixa, la junta directiva i la documentació d'una societat musical.
+**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions, els instruments, els uniformes, les quotes, els rebuts, la loteria, la caixa, les subvencions, la junta directiva i la documentació d'una societat musical.
 
 Està pensat per a qui porta la secretaria i l'escola de música d'una banda, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de la societat.
 
@@ -63,7 +63,8 @@ Un projecte de **José Vicente Sanjuan**.
 | **Quotes i rebuts** | Tarifes de les quotes de soci (per tipus i periodicitat), de la matrícula i de les classes. Rebuts generats per període: un per soci i un per família a l'escola, amb descomptes de soci, de germans i propis. Cobrament en efectiu, transferència o domiciliació, rebuts retornats i qui deu diners. Rebuts amb el logotip per a imprimir. |
 | **Remeses bancàries** | Domiciliacions (mandats SEPA) amb l'IBAN validat i l'ordre de domiciliació per a signar. Fitxer XML d'adeutaments directes SEPA (pain.008) per a pujar a la banca electrònica. |
 | **Loteria** | Sorteigs, talonaris repartits a cada persona, participacions per a imprimir i liquidació: venudes, tornades, diners lliurats i el que queda per a la societat. |
-| **Llibre de caixa** | Ingressos i despeses amb saldo, separats per banc i caixa. Els rebuts cobrats, les remeses i la loteria hi entren sols; la resta s'apunta a mà. Resum per categories per a l'assemblea i exportació a CSV. |
+| **Llibre de caixa** | Ingressos i despeses amb saldo, separats per banc i caixa. Els rebuts cobrats, les remeses, la loteria i els cobraments de subvencions hi entren sols; la resta s'apunta a mà, amb el proveïdor, el NIF i la factura. Resum per categories per a l'assemblea i exportació a CSV. |
+| **Subvencions** | Cada subvenció amb l'organisme, l'estat, els terminis i els imports. Com es justifica cada una, amb caselles que es marquen a mesura que es fa: els organismes i els requisits els edita cada societat, i en triar l'organisme es marquen els que demana normalment. Cobraments, despeses del llibre de caixa imputades (sense passar-se de l'import de cada factura), relació de despeses per a la justificació en PDF o CSV, avisos de terminis i còpia per a l'any següent. |
 | **Junta directiva i actes** | Càrrecs amb data d'inici i de fi i l'historial de totes les juntes. Avís quan s'acosta la renovació segons els anys de mandat dels estatuts (i recordatori del Registre d'Associacions). Llibre d'actes de juntes i assemblees: convocatòria, acta i certificat d'un acord per a imprimir. Els certificats agafen sols qui signa i el vistiplau. |
 | **Documents de la societat** | Estatuts, reglament de règim intern, actes signades, inscripció al registre, CIF, pòlisses, contractes… guardats dins de Compàs i, per tant, en les còpies de seguretat. Data de caducitat amb avís abans que vencen. Model de registre d'activitats de tractament (RGPD) generat amb les dades reals. |
 | **Professorat** | Certificat de delictes de naturalesa sexual de cada professor/a, amb avís si en falta algun. |
@@ -140,7 +141,7 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 | Persones, socis i tipus de soci | ✔ | ✔ |
 | Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
 | Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
-| Quotes, rebuts, domiciliacions, remeses i loteria | ✔ | ✔ |
+| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
 | Llibre de caixa | ✔ | ✔ |
 | Junta, actes, documents i comunicats | ✔ | ✔ |
 | Llistats, certificats i importació des d'Excel | ✔ | ✔ |

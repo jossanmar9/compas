@@ -776,8 +776,7 @@ foreach ([2025, 2026] as $any) {
     }
     $movs[] = ["$any-02-15", 'despesa', 'banc', 'federacio', $tr('Quota anual de la Federació', 'Cuota anual de la Federación'), 640];
     $movs[] = ["$any-03-01", 'despesa', 'banc', 'assegurances', $tr('Assegurança de responsabilitat civil', 'Seguro de responsabilidad civil'), 410];
-    $movs[] = ["$any-06-30", 'ingres', 'banc', 'subvencions', $tr('Subvenció de l\'ajuntament', 'Subvención del ayuntamiento'), 18000];
-    $movs[] = ["$any-07-15", 'ingres', 'banc', 'subvencions', $tr('Subvenció de la Diputació', 'Subvención de la Diputación'), 4500];
+    // Les subvencions entren per l'apartat de Subvencions (cobraments), no com a moviments
     $movs[] = ["$any-04-20", 'despesa', 'banc', 'desplacaments', $tr('Autobusos del certamen', 'Autobuses del certamen'), 1350];
     $movs[] = ["$any-05-10", 'despesa', 'banc', 'instruments', $tr('Compra d\'instruments', 'Compra de instrumentos'), $rnd(2500, 6000)];
     $movs[] = ["$any-11-25", 'ingres', 'caixa', 'donatius', $tr('Donatius del concert de Santa Cecília', 'Donativos del concierto de Santa Cecilia'), 480];
@@ -787,6 +786,71 @@ foreach ([2025, 2026] as $any) {
         }
     }
 }
+// Proveïdors i factures de les despeses (per a poder justificar subvencions)
+$proveidors = [
+    'personal' => [$tr('Nòmina', 'Nómina'), null], 'subministraments' => [$tr('Companyia Elèctrica del Mediterrani', 'Compañía Eléctrica del Mediterráneo'), 'A46000001'],
+    'material' => [$tr('Música i Partitures SL', 'Música y Partituras SL'), 'B12000001'], 'federacio' => [$tr('Federació de Societats Musicals', 'Federación de Sociedades Musicales'), 'G46000002'],
+    'assegurances' => [$tr('Assegurances La Plana', 'Seguros La Plana'), 'A12000003'], 'desplacaments' => [$tr('Autocars del Maestrat', 'Autocares del Maestrazgo'), 'B12000004'],
+    'instruments' => [$tr('Taller de Vent La Plana', 'Taller de Viento La Plana'), 'B12000002'],
+];
+foreach (q("SELECT id, categoria FROM moviments WHERE tipus = 'despesa' ORDER BY id")->fetchAll() as $k => $m) {
+    if (isset($proveidors[$m['categoria']]) && $m['categoria'] !== 'comissions') {
+        q('UPDATE moviments SET proveidor = ?, nif = ?, justificant = ? WHERE id = ?', [$proveidors[$m['categoria']][0], $proveidors[$m['categoria']][1],
+            $m['categoria'] === 'personal' ? null : sprintf('F-%04d', 100 + $k), $m['id']]);
+    }
+}
+
+// ---------- Subvencions ----------
+$org = fn(int $ordre) => (int)valor('SELECT id FROM organismes WHERE ordre = ?', [$ordre]);
+$despesesDe = fn(string $categoria, string $ini, string $fi) => q("SELECT id, import FROM moviments WHERE tipus = 'despesa' AND categoria = ? AND data BETWEEN ? AND ? ORDER BY data",
+    [$categoria, $ini, $fi])->fetchAll();
+$subvencio = function (array $c, int $fets, array $cobraments, array $despeses) use ($id): int {
+    q('INSERT INTO subvencions(' . implode(', ', array_keys($c)) . ') VALUES(' . implode(', ', array_fill(0, count($c), '?')) . ')', array_values($c));
+    $sid = $id();
+    q('INSERT INTO subvencio_requisits(subvencio_id, requisit_id) SELECT ?, requisit_id FROM organisme_requisits WHERE organisme_id = ?', [$sid, $c['organisme_id']]);
+    foreach (array_slice(q('SELECT requisit_id FROM subvencio_requisits WHERE subvencio_id = ? ORDER BY requisit_id', [$sid])->fetchAll(PDO::FETCH_COLUMN), 0, $fets) as $r) {
+        q('UPDATE subvencio_requisits SET fet = 1, data_fet = ? WHERE subvencio_id = ? AND requisit_id = ?', [$c['data_justificacio'] ?? '2026-10-15', $sid, $r]);
+    }
+    foreach ($cobraments as [$data, $import, $concepte]) {
+        q("INSERT INTO subvencio_cobraments(subvencio_id, data, import, compte, concepte) VALUES(?, ?, ?, 'banc', ?)", [$sid, $data, $import, $concepte]);
+    }
+    foreach ($despeses as [$moviment, $import]) {
+        q('INSERT INTO subvencio_despeses(subvencio_id, moviment_id, import) VALUES(?, ?, ?)', [$sid, $moviment, $import]);
+    }
+    return $sid;
+};
+$bestreta = $tr('Bestreta', 'Anticipo');
+$final = $tr('Pagament final', 'Pago final');
+foreach ([2025, 2026] as $any) {
+    $tancat = $any === 2025;
+    // Conveni amb l'ajuntament: nòmines del professorat
+    $nomines = array_map(fn($m) => [$m['id'], 1800.0], array_slice($despesesDe('personal', "$any-01-01", "$any-12-31"), 0, 12));
+    $subvencio(['nom' => $tr('Conveni de l\'escola de música', 'Convenio de la escuela de música'), 'organisme_id' => $org(30), 'exercici' => $any, 'expedient' => "CONV-$any-07",
+        'objecte' => $tr('Escola de música', 'Escuela de música'), 'estat' => $tancat ? 'tancada' : 'concedida', 'data_resolucio' => "$any-02-10",
+        'data_limit_justificacio' => "$any-12-15", 'data_justificacio' => $tancat ? "$any-12-05" : null, 'import_concedit' => 18000, 'import_justificar' => 18000],
+        $tancat ? 4 : 2, [["$any-06-30", 9000, $bestreta]] + ($tancat ? [1 => ["$any-12-28", 9000, $final]] : []), $tancat ? $nomines : array_slice($nomines, 0, 8));
+    // Diputació: compra d'instruments i desplaçaments
+    $instruments = $despesesDe('instruments', "$any-01-01", "$any-12-31");
+    $autobusos = $despesesDe('desplacaments', "$any-01-01", "$any-12-31");
+    $subvencio(['nom' => $tr('Ajudes a societats musicals', 'Ayudas a sociedades musicales'), 'organisme_id' => $org(20), 'exercici' => $any, 'expedient' => "SUBV/$any/0412",
+        'objecte' => $tr('Instruments i certamen', 'Instrumentos y certamen'), 'estat' => $tancat ? 'tancada' : 'concedida', 'data_sollicitud' => "$any-02-20", 'data_resolucio' => "$any-06-02",
+        'data_limit_justificacio' => $tancat ? "$any-11-30" : '2026-11-16', 'data_justificacio' => $tancat ? "$any-11-20" : null,
+        'import_pressupost' => 9000, 'import_sollicitat' => 6000, 'import_concedit' => 4500, 'import_justificar' => 6000],
+        $tancat ? 8 : 5, [["$any-07-15", 2250, $bestreta]] + ($tancat ? [1 => ["$any-12-20", 2250, $final]] : []),
+        array_merge(array_map(fn($m) => [$m['id'], (float)$m['import']], $instruments), array_map(fn($m) => [$m['id'], (float)$m['import']], $autobusos)));
+    // Federació: memòria i certificat
+    $subvencio(['nom' => $tr('Ajuda a la formació musical', 'Ayuda a la formación musical'), 'organisme_id' => $org(40), 'exercici' => $any, 'objecte' => $tr('Escola de música', 'Escuela de música'),
+        'estat' => $tancat ? 'tancada' : 'justificada', 'data_limit_justificacio' => "$any-10-31", 'data_justificacio' => "$any-10-20", 'import_concedit' => 1200],
+        2, $tancat ? [["$any-12-10", 1200, $final]] : [], []);
+}
+// Generalitat: concedida, per a justificar; i la de l'any vinent, per demanar
+$subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => 2026, 'expedient' => 'IVC-SM-2026-1187',
+    'objecte' => $tr('Temporada de concerts', 'Temporada de conciertos'), 'estat' => 'concedida', 'data_sollicitud' => '2026-03-14', 'data_resolucio' => '2026-07-21',
+    'data_limit_justificacio' => '2026-12-01', 'import_pressupost' => 14000, 'import_sollicitat' => 7000, 'import_concedit' => 5200, 'import_justificar' => 10400],
+    3, [], array_map(fn($m) => [$m['id'], (float)$m['import']], array_merge($despesesDe('material', '2026-01-01', '2026-12-31'), $despesesDe('subministraments', '2026-01-01', '2026-06-30'))));
+$subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => 2027,
+    'objecte' => $tr('Temporada de concerts', 'Temporada de conciertos'), 'estat' => 'prevista', 'data_limit_sollicitud' => '2026-11-05', 'import_pressupost' => 15000, 'import_sollicitat' => 7500], 0, [], []);
+
 desa_config('caixa_saldo_2025_banc', '14250');
 desa_config('caixa_saldo_2025_caixa', '640');
 desa_config('caixa_saldo_2026_banc', '17980.35');

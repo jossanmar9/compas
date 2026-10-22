@@ -218,6 +218,15 @@ try {
         case 'caixa':
             pagina_caixa();
             break;
+        case 'subvencio_requisits':
+            pagina_subvencio_requisits();
+            break;
+        case 'subvencio_duplica':
+            pagina_subvencio_duplica();
+            break;
+        case 'subvencio_relacio':
+            pagina_subvencio_relacio();
+            break;
         case 'usuaris':
             pagina_usuaris();
             break;

@@ -503,6 +503,14 @@ async def fes_captures(l: str):
             await c.ves('?r=moduls')
             await c.foto('80-moduls', 'input[value="loteria"]', alt_max=1400)
 
+            # --- Subvencions (v1.16) ---
+            await c.ves('?r=fitxa&e=subvencions&id=1')
+            await c.foto('83-subvencio', '.llista-requisits', alt_max=2000)
+            await c.ves('?r=edita&e=subvencions')
+            await p.locator('input[name="nom"]').fill('Ajudes a la música' if l == 'ca' else 'Ayudas a la música')
+            await p.locator('select[name="organisme_id"]').select_option(label='Diputació' if l == 'ca' else 'Diputación')
+            await c.foto('84-subvencio-nova', 'select[name="organisme_id"]', '.opcions[data-segons]', alt_max=1100)
+
             # --- Entrada ---
             ctx2 = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA)
             p2 = await ctx2.new_page()

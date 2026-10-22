@@ -44,6 +44,7 @@ function pagina_configuracio_inicial(): void
             desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_tipus_socis(db(), isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_tipus_obres(db(), isset(IDIOMES[$l]) ? $l : 'ca');
+            sembra_subvencions(db(), isset(IDIOMES[$l]) ? $l : 'ca');
             desa_config('avis_responsabilitat', date('Y-m-d H:i') . '|' . $usuari);
             q('INSERT INTO usuaris(usuari, contrasenya, idioma) VALUES(?, ?, ?)', [$usuari, password_hash(post('contrasenya'), PASSWORD_DEFAULT), $l]);
             $id = (int)db()->lastInsertId();

@@ -377,3 +377,19 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .taula.ordenable th a:hover { color: var(--blau); text-decoration: underline; }
 .taula.ordenable th[aria-sort] { color: var(--blau); }
 .fletxa-ordre { font-size: .75em; }
+
+/* Subvencions: barres de progrés i llista de com es justifica */
+.progres { display: flex; align-items: center; gap: 12px; margin: 10px 0 14px; max-width: 760px; }
+.progres-barra { flex: 1; height: 10px; border-radius: 999px; background: var(--vora); overflow: hidden; }
+.progres-barra span { display: block; height: 100%; border-radius: 999px; background: var(--blau); }
+.progres.complet .progres-barra span { background: var(--ok); }
+.progres-text { font-size: .88rem; color: var(--suau); white-space: nowrap; }
+.llista-requisits { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 6px; max-width: 760px; }
+.llista-requisits li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 12px; border: 1px solid var(--vora); border-radius: 8px; background: var(--superficie); }
+.llista-requisits label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.llista-requisits label small { display: block; color: var(--suau); }
+.llista-requisits input { margin-top: 3px; }
+.llista-requisits li.fet span:first-of-type { color: var(--suau); }
+.resum-subvencio .targetes { margin-bottom: 4px; }
+.opcions input[type="checkbox"], .opcions input[type="radio"] { flex: none; }
+.resum-subvencio .targeta { min-width: 230px; }

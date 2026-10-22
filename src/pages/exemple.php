@@ -221,6 +221,34 @@ function carrega_dades_exemple(): void
     ] as [$d, $tp, $cmp, $cat, $c, $imp]) {
         q('INSERT INTO moviments(data, tipus, compte, categoria, concepte, import) VALUES(?,?,?,?,?,?)', [$d, $tp, $cmp, $cat, $c, $imp]);
     }
+    // Subvencions: una de la Diputació concedida i a mig justificar, una de la Generalitat per demanar i el conveni de l'ajuntament de l'any passat
+    q("UPDATE moviments SET proveidor = ?, nif = ?, justificant = ? WHERE categoria = 'material'", [$tr('Música i Partitures SL', 'Música y Partituras SL'), 'B12000001', 'F-2026-0187']);
+    q('INSERT INTO moviments(data, tipus, compte, categoria, concepte, import, justificant, proveidor, nif) VALUES(?,?,?,?,?,?,?,?,?)', [date('Y-m-d', strtotime('-20 days')), 'despesa', 'banc',
+        'instruments', $tr('Reparació d\'instruments de l\'escola', 'Reparación de instrumentos de la escuela'), 1450, 'F-311', $tr('Taller de Vent La Plana', 'Taller de Viento La Plana'), 'B12000002']);
+    $reparacio = $id();
+    $partitures = (int)valor("SELECT id FROM moviments WHERE categoria = 'material' LIMIT 1");
+    $org = fn(int $ordre) => (int)valor('SELECT id FROM organismes WHERE ordre = ?', [$ordre]);
+    $subvencio = function (array $c, int $fets) use ($id): int {
+        q('INSERT INTO subvencions(' . implode(', ', array_keys($c)) . ') VALUES(' . implode(', ', array_fill(0, count($c), '?')) . ')', array_values($c));
+        $sid = $id();
+        q('INSERT INTO subvencio_requisits(subvencio_id, requisit_id) SELECT ?, requisit_id FROM organisme_requisits WHERE organisme_id = ?', [$sid, $c['organisme_id']]);
+        foreach (array_slice(q('SELECT requisit_id FROM subvencio_requisits WHERE subvencio_id = ? ORDER BY requisit_id', [$sid])->fetchAll(PDO::FETCH_COLUMN), 0, $fets) as $r) {
+            q("UPDATE subvencio_requisits SET fet = 1, data_fet = date('now','localtime','-5 days') WHERE subvencio_id = ? AND requisit_id = ?", [$sid, $r]);
+        }
+        return $sid;
+    };
+    $dip = $subvencio(['nom' => $tr('Ajudes a societats musicals', 'Ayudas a sociedades musicales'), 'organisme_id' => $org(20), 'exercici' => (int)date('Y'), 'expedient' => 'SUBV/' . date('Y') . '/0412',
+        'objecte' => $tr('Escola de música i material', 'Escuela de música y material'), 'estat' => 'concedida', 'data_sollicitud' => date('Y-m-d', strtotime('-150 days')),
+        'data_resolucio' => date('Y-m-d', strtotime('-45 days')), 'data_limit_justificacio' => date('Y-m-d', strtotime('+25 days')),
+        'import_pressupost' => 6000, 'import_sollicitat' => 3000, 'import_concedit' => 2400, 'import_justificar' => 3000], 3);
+    q('INSERT INTO subvencio_cobraments(subvencio_id, data, import, compte, concepte) VALUES(?, ?, ?, ?, ?)', [$dip, date('Y-m-d', strtotime('-20 days')), 1200, 'banc', $tr('Bestreta del 50 %', 'Anticipo del 50 %')]);
+    q('INSERT INTO subvencio_despeses(subvencio_id, moviment_id, import) VALUES(?, ?, ?), (?, ?, ?)', [$dip, $reparacio, 1450, $dip, $partitures, 85.5]);
+    $subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => (int)date('Y') + 1,
+        'objecte' => $tr('Concerts de la banda', 'Conciertos de la banda'), 'estat' => 'prevista', 'data_limit_sollicitud' => date('Y-m-d', strtotime('+12 days')), 'import_pressupost' => 9000, 'import_sollicitat' => 4500], 0);
+    $passat = $subvencio(['nom' => $tr('Conveni de l\'escola de música', 'Convenio de la escuela de música'), 'organisme_id' => $org(30), 'exercici' => (int)date('Y') - 1,
+        'objecte' => $tr('Escola de música', 'Escuela de música'), 'estat' => 'tancada', 'data_limit_justificacio' => ((int)date('Y') - 1) . '-12-15', 'data_justificacio' => ((int)date('Y') - 1) . '-12-10',
+        'import_concedit' => 1500], 4);
+    q('INSERT INTO subvencio_cobraments(subvencio_id, data, import, compte, concepte) VALUES(?, ?, ?, ?, ?)', [$passat, ((int)date('Y') - 1) . '-12-28', 1500, 'banc', $tr('Pagament', 'Pago')]);
     desa_config('caixa_saldo_' . date('Y') . '_banc', '2350');
     desa_config('caixa_saldo_' . date('Y') . '_caixa', '180');
     q('INSERT INTO comunicats(data, destinataris, n_destinataris, adreces, assumpte, cos) VALUES(?,?,?,?,?,?)', [date('Y-m-d', strtotime('-3 days')), $tr('Socis i sòcies', 'Socios y socias'), 8, null,

@@ -125,6 +125,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Caselles que depenen d'un altre camp: en triar l'organisme d'una subvenció es marquen els requisits que demana normalment
+    document.querySelectorAll('.opcions[data-segons]').forEach(caixa => {
+        const camp = caixa.closest('form').querySelector('[name="' + caixa.dataset.segons + '"]');
+        if (!camp) return;
+        const mapa = JSON.parse(caixa.dataset.mapa || '{}');
+        camp.addEventListener('change', () => {
+            const marcar = (mapa[camp.value] || []).map(String);
+            caixa.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = marcar.includes(c.value); });
+        });
+    });
+
     // Menú en pantalles menudes
     const boto = document.querySelector('.obre-menu');
     if (boto) boto.addEventListener('click', () => boto.closest('.lateral').classList.toggle('obert'));

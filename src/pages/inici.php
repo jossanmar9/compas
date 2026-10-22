@@ -49,6 +49,10 @@ function pagina_inici(): void
         $html .= '<div class="avis atencio">⚠ ' . h(t('inici.sense_certificat', $n)) . ' <a href="' . h(url('llista', ['e' => 'professors', 'filtre' => 'sense_certificat'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
     }
 
+    if ($es('economia.view', 'subvencions') && avis_actiu('subvencions_terminis')) {
+        $html .= avis_inici_subvencions();
+    }
+
     if ($es('escola.view', 'escola') && avis_actiu('curs_actual') && !$curs) {
         $html .= '<div class="avis info">' . h(t('inici.sense_curs')) . ' <a href="' . h(url('edita', ['e' => 'cursos'])) . '">' . h(t('inici.crea_curs')) . '</a></div>';
     }

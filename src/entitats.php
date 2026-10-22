@@ -21,6 +21,7 @@ const FITXERS_PERMESOS = ['pdf' => 'application/pdf', 'jpg' => 'image/jpeg', 'jp
 const MIDA_DOCUMENT_MB = 20;
 const ESTATS_OBRA = ['complet', 'incomplet', 'en_revisio', 'retirat'];
 const TIPUS_UNIFORMES = ['samarreta', 'polo', 'camisa', 'dessuadora', 'jaqueta', 'pantalo', 'motxilla', 'gorra', 'altre_uniforme'];
+const ESTATS_SUBVENCIO = ['prevista', 'sollicitada', 'concedida', 'denegada', 'justificada', 'tancada'];
 
 /**
  * Mòduls que una societat pot desactivar (Administració → Mòduls i avisos): pantalles i entitats de cadascun.
@@ -40,10 +41,12 @@ const MODULS = [
     'junta' => ['junta', 'junta_doc', 'carrecs', 'reunions', 'reunio_doc'],
     'documents' => ['documents', 'document_fitxer', 'rgpd'],
     'comunicats' => ['comunicats'],
+    'subvencions' => ['subvencions', 'organismes', 'requisits_justificacio', 'subvencio_cobraments', 'subvencio_despeses', 'subvencio_requisits',
+        'subvencio_duplica', 'subvencio_relacio'],
 ];
 
 /** Avisos de la pantalla d'inici que es poden amagar */
-const AVISOS = ['copia_externa', 'junta_renovacio', 'documents_caducitat', 'certificat_delictes', 'cessions_vencudes', 'curs_actual'];
+const AVISOS = ['copia_externa', 'junta_renovacio', 'documents_caducitat', 'certificat_delictes', 'cessions_vencudes', 'curs_actual', 'subvencions_terminis'];
 
 /** Mòdul al qual pertany una pantalla o entitat (null: no es pot desactivar) */
 function modul_de(string $clau): ?string
@@ -699,6 +702,7 @@ function entitats(): array
                 'persona_id' => ['tipus' => 'ref', 'ref' => 'persones', 'llista' => 1, 'ajuda' => t('ajuda.document_persona')],
                 'data_document' => ['tipus' => 'date', 'llista' => 1],
                 'data_caducitat' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.caducitat')],
+                'subvencio_id' => ['tipus' => 'ref', 'ref' => 'subvencions', 'ajuda' => t('ajuda.document_subvencio')],
                 'fitxer' => [
                     'tipus' => 'fitxer', 'virtual' => 1, 'accepta' => '.' . implode(',.', array_keys(FITXERS_PERMESOS)), 'ajuda' => t('ajuda.fitxer', MIDA_DOCUMENT_MB),
                     'carrega' => fn(array $f) => $f['fitxer_nom'] ?? null,
@@ -848,9 +852,12 @@ function entitats(): array
         ],
         'moviments' => [
             'cap' => 'economia',
-            'cerca' => ['t.concepte', 't.justificant', 't.observacions'],
+            'cerca' => ['t.concepte', 't.justificant', 't.proveidor', 't.nif', 't.observacions'],
             'ordre' => 't.data DESC, t.id DESC',
             'suma' => 'import',
+            // Per a triar les despeses que s'imputen a una subvenció
+            'etiqueta' => "SELECT m.id, strftime('%d/%m/%Y', m.data) || ' · ' || m.concepte || COALESCE(' · ' || m.proveidor, '') || ' · '
+                || replace(printf('%.2f', m.import), '.', ',') || ' €' AS e FROM moviments m WHERE m.tipus = 'despesa' ORDER BY m.data DESC, m.id DESC",
             'camps' => [
                 'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
                 'tipus' => ['tipus' => 'select', 'opcions' => ['despesa', 'ingres'], 'llista' => 1],
@@ -859,9 +866,133 @@ function entitats(): array
                 'concepte' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
                 'import' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.moviment_import')],
                 'justificant' => ['tipus' => 'text', 'ajuda' => t('ajuda.justificant')],
+                'proveidor' => ['tipus' => 'text', 'ajuda' => t('ajuda.proveidor')],
+                'nif' => ['tipus' => 'text', 'etiqueta' => 'camp.nif_proveidor'],
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d, ?int $id) => $d['import'] === null || $d['import'] <= 0 ? t('err.import_positiu')
+                : ($id && ($imputat = (float)valor('SELECT SUM(import) FROM subvencio_despeses WHERE moviment_id = ?', [$id])) > 0
+                    && ($d['tipus'] !== 'despesa' || $d['import'] + 0.005 < $imputat) ? t('err.moviment_imputat', euros($imputat)) : null),
+            'fills' => [['subvencio_despeses', 'moviment_id']],
+        ],
+        // ---------- Subvencions ----------
+        'subvencions' => [
+            'cap' => 'economia',
+            'from' => 'subvencions t LEFT JOIN organismes o ON o.id = t.organisme_id',
+            'cerca' => ['t.nom', 't.expedient', 't.objecte', 't.observacions', 'o.nom'],
+            'ordre' => "COALESCE(t.exercici, 0) DESC, CASE t.estat WHEN 'concedida' THEN 1 WHEN 'sollicitada' THEN 2 WHEN 'prevista' THEN 3 WHEN 'justificada' THEN 4 ELSE 5 END, t.nom",
+            'etiqueta' => "SELECT s.id, s.nom || COALESCE(' (' || s.exercici || ')', '') AS e FROM subvencions s ORDER BY COALESCE(s.exercici, 0) DESC, s.nom",
+            'filtres' => [
+                'en_curs' => "t.estat IN ('prevista', 'sollicitada', 'concedida')",
+                'per_justificar' => "t.estat = 'concedida'",
+                'per_cobrar' => "t.estat IN ('concedida', 'justificada') AND COALESCE(t.import_concedit, 0) > 0.005 + (SELECT COALESCE(SUM(c.import), 0) FROM subvencio_cobraments c WHERE c.subvencio_id = t.id)",
+            ],
+            'suma' => 'import_concedit',
+            'accions_llista' => 'accions_llista_subvencions',
+            'accions_fitxa' => 'accions_fitxa_subvencio',
+            'seccio_fitxa' => 'seccio_subvencio',
+            'avis_fila' => 'avis_subvencio',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'etiqueta' => 'camp.convocatoria', 'ajuda' => t('ajuda.subvencio_nom')],
+                'organisme_id' => ['tipus' => 'ref', 'ref' => 'organismes', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.organisme')],
+                'exercici' => ['tipus' => 'number', 'llista' => 1, 'defecte' => fn() => (int)date('Y')],
+                'expedient' => ['tipus' => 'text', 'ajuda' => t('ajuda.expedient')],
+                'objecte' => ['tipus' => 'text', 'ajuda' => t('ajuda.subvencio_objecte')],
+                'estat' => ['tipus' => 'select', 'opcions' => ESTATS_SUBVENCIO, 'llista' => 1, 'etiqueta' => 'camp.estat_subvencio', 'ajuda' => t('ajuda.subvencio_estat')],
+                'requisits' => [
+                    'tipus' => 'refs', 'ref' => 'requisits_justificacio', 'virtual' => 1, 'etiqueta' => 'camp.com_es_justifica', 'ajuda' => t('ajuda.subvencio_requisits'), 'amaga_fitxa' => 1,
+                    'nomes_actius' => fn() => array_map('intval', q("SELECT id FROM requisits_justificacio WHERE estat = 'actiu'")->fetchAll(PDO::FETCH_COLUMN)),
+                    // En triar l'organisme es marquen els requisits que demana normalment (app.js)
+                    'segons' => ['organisme_id', fn() => requisits_per_organisme()],
+                    'carrega' => fn(array $f) => isset($f['id']) ? array_map('intval', q('SELECT requisit_id FROM subvencio_requisits WHERE subvencio_id = ?', [$f['id']])->fetchAll(PDO::FETCH_COLUMN)) : [],
+                    'desa' => 'desa_requisits_subvencio',
+                ],
+                'data_limit_sollicitud' => ['tipus' => 'date'],
+                'data_sollicitud' => ['tipus' => 'date'],
+                'data_resolucio' => ['tipus' => 'date'],
+                'data_limit_justificacio' => ['tipus' => 'date', 'llista' => 1],
+                'data_justificacio' => ['tipus' => 'date'],
+                'import_pressupost' => ['tipus' => 'decimal', 'euros' => 1, 'ajuda' => t('ajuda.import_pressupost')],
+                'import_sollicitat' => ['tipus' => 'decimal', 'euros' => 1],
+                'import_concedit' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1],
+                'import_justificar' => ['tipus' => 'decimal', 'euros' => 1, 'ajuda' => t('ajuda.import_justificar')],
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d): ?string {
+                foreach (['import_pressupost', 'import_sollicitat', 'import_concedit', 'import_justificar'] as $c) {
+                    if ($d[$c] !== null && $d[$c] < 0) {
+                        return t('err.import_positiu');
+                    }
+                }
+                return $d['exercici'] !== null && ($d['exercici'] < 1900 || $d['exercici'] > 2200) ? t('err.exercici') : null;
+            },
+            'fills' => [['subvencio_cobraments', 'subvencio_id'], ['subvencio_despeses', 'subvencio_id'], ['documents', 'subvencio_id']],
+        ],
+        'organismes' => [
+            'cap' => 'economia',
+            'cerca' => ['t.nom', 't.observacions'],
+            'ordre' => "(t.estat <> 'actiu'), COALESCE(t.ordre, 999999), t.nom",
+            'etiqueta' => 'SELECT id, nom AS e FROM organismes ORDER BY (estat <> \'actiu\'), COALESCE(ordre, 999999), nom',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'requisits' => [
+                    'tipus' => 'refs', 'ref' => 'requisits_justificacio', 'virtual' => 1, 'etiqueta' => 'camp.com_es_justifica_normalment', 'ajuda' => t('ajuda.organisme_requisits'),
+                    'nomes_actius' => fn() => array_map('intval', q("SELECT id FROM requisits_justificacio WHERE estat = 'actiu'")->fetchAll(PDO::FETCH_COLUMN)),
+                    'carrega' => fn(array $f) => isset($f['id']) ? array_map('intval', q('SELECT requisit_id FROM organisme_requisits WHERE organisme_id = ?', [$f['id']])->fetchAll(PDO::FETCH_COLUMN)) : [],
+                    'desa' => 'desa_requisits_organisme',
+                ],
+                'ordre' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.ordre')],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'fills' => [['subvencions', 'organisme_id']],
+            'elimina_permes' => fn(int $id) => valor('SELECT COUNT(*) FROM subvencions WHERE organisme_id = ?', [$id]) ? t('err.organisme_en_us') : null,
+        ],
+        'requisits_justificacio' => [
+            'cap' => 'economia',
+            'cerca' => ['t.nom', 't.descripcio'],
+            'ordre' => "(t.estat <> 'actiu'), COALESCE(t.ordre, 999999), t.nom",
+            'etiqueta' => 'SELECT id, nom AS e FROM requisits_justificacio ORDER BY (estat <> \'actiu\'), COALESCE(ordre, 999999), nom',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'descripcio' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.requisit_descripcio')],
+                'ordre' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.ordre')],
+                'estat' => $estat + ['ajuda' => t('ajuda.requisit_estat')],
+                'observacions' => $obs,
+            ],
+            'elimina_permes' => fn(int $id) => valor('SELECT COUNT(*) FROM subvencio_requisits WHERE requisit_id = ?', [$id]) ? t('err.requisit_en_us') : null,
+        ],
+        'subvencio_cobraments' => [
+            'cap' => 'economia',
+            'from' => 'subvencio_cobraments t JOIN subvencions s ON s.id = t.subvencio_id',
+            'cerca' => ['s.nom', 't.concepte', 't.observacions'],
+            'ordre' => 't.data DESC, t.id DESC',
+            'suma' => 'import',
+            'camps' => [
+                'subvencio_id' => ['tipus' => 'ref', 'ref' => 'subvencions', 'req' => 1, 'llista' => 1],
+                'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
+                'concepte' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.cobrament_concepte')],
+                'import' => ['tipus' => 'decimal', 'req' => 1, 'euros' => 1, 'llista' => 1],
+                'compte' => ['tipus' => 'select', 'opcions' => ['banc', 'caixa'], 'llista' => 1, 'ajuda' => t('ajuda.cobrament_compte')],
                 'observacions' => $obs,
             ],
             'valida' => fn(array $d) => $d['import'] === null || $d['import'] <= 0 ? t('err.import_positiu') : null,
+        ],
+        'subvencio_despeses' => [
+            'cap' => 'economia',
+            'from' => 'subvencio_despeses t JOIN moviments m ON m.id = t.moviment_id JOIN subvencions s ON s.id = t.subvencio_id',
+            'cerca' => ['m.concepte', 'm.proveidor', 'm.justificant', 's.nom', 't.observacions'],
+            'ordre' => 'm.data, m.id',
+            'suma' => 'import',
+            'camps' => [
+                'subvencio_id' => ['tipus' => 'ref', 'ref' => 'subvencions', 'req' => 1, 'llista' => 1],
+                'moviment_id' => ['tipus' => 'ref', 'ref' => 'moviments', 'req' => 1, 'llista' => 1, 'etiqueta' => 'camp.despesa', 'ajuda' => t('ajuda.despesa_imputada')],
+                'import' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1, 'etiqueta' => 'camp.import_imputat', 'ajuda' => t('ajuda.import_imputat')],
+                'observacions' => $obs,
+            ],
+            'valida' => 'valida_despesa_subvencio',
+            'despres' => fn(int $id, array $d) => q('UPDATE subvencio_despeses SET import = (SELECT m.import - COALESCE((SELECT SUM(x.import) FROM subvencio_despeses x
+                WHERE x.moviment_id = m.id AND x.id <> ?), 0) FROM moviments m WHERE m.id = subvencio_despeses.moviment_id) WHERE id = ? AND import IS NULL', [$id, $id]),
         ],
     ];
 

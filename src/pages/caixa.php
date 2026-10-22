@@ -33,6 +33,13 @@ function moviments_caixa(int $any): array
         $m[] = [$t['data_liquidacio'] ?: $t['data_entrega'], t('caixa.talonari', $t['loteria'], $t['numero'], $t['persona'] ?? ''), 'loteria', 'caixa', (float)$t['import_liquidat'],
             url('fitxa', ['e' => 'talonaris', 'id' => $t['id']]), null];
     }
+    // Subvencions: cada cobrament (bestreta, pagament final…) entra sol, sense apuntar-lo
+    if (modul_actiu('subvencions')) {
+        foreach (q('SELECT c.*, s.nom FROM subvencio_cobraments c JOIN subvencions s ON s.id = c.subvencio_id WHERE c.data BETWEEN ? AND ?', [$ini, $fi])->fetchAll() as $c) {
+            $m[] = [$c['data'], t('caixa.subvencio', $c['nom'], $c['concepte'] ?: t('subv.cobrament')), 'subvencions', $c['compte'], (float)$c['import'],
+                url('fitxa', ['e' => 'subvencio_cobraments', 'id' => $c['id']]), null];
+        }
+    }
     usort($m, fn($a, $b) => strcmp($a[0], $b[0]));
     return $m;
 }

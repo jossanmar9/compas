@@ -43,6 +43,7 @@ BATERIES = {
     'avis': (['avis.py'], False),
     'importacio': (['importacio.php'], True),
     'seguretat': (['seguretat.py'], True),
+    'subvencions': (['subvencions.py'], True),
 }
 
 ERR_PHP = ['Fatal error', 'Warning:', 'Notice:', 'Deprecated:', 'Uncaught']

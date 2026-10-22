@@ -339,6 +339,7 @@ CREATE TABLE IF NOT EXISTS documents (
     fitxer_nom     TEXT,
     fitxer_tipus   TEXT,
     fitxer_mida    INTEGER,
+    subvencio_id   INTEGER REFERENCES subvencions(id) ON DELETE SET NULL,
     observacions   TEXT
 );
 
@@ -369,6 +370,8 @@ CREATE TABLE IF NOT EXISTS moviments (
     concepte     TEXT NOT NULL,
     import       REAL NOT NULL,
     justificant  TEXT,
+    proveidor    TEXT,
+    nif          TEXT,
     observacions TEXT
 );
 
@@ -488,6 +491,80 @@ CREATE TABLE IF NOT EXISTS obra_agrupacions (
     PRIMARY KEY (obra_id, agrupacio_id)
 );
 
+-- Subvencions: organismes i requisits de justificació editables per cada societat
+CREATE TABLE IF NOT EXISTS organismes (
+    id           INTEGER PRIMARY KEY,
+    nom          TEXT NOT NULL,
+    ordre        INTEGER,
+    estat        TEXT NOT NULL DEFAULT 'actiu',
+    observacions TEXT
+);
+
+CREATE TABLE IF NOT EXISTS requisits_justificacio (
+    id           INTEGER PRIMARY KEY,
+    nom          TEXT NOT NULL,
+    descripcio   TEXT,
+    ordre        INTEGER,
+    estat        TEXT NOT NULL DEFAULT 'actiu',
+    observacions TEXT
+);
+
+-- Com es justifica normalment cada organisme (es proposa en crear una subvenció d'eixe organisme)
+CREATE TABLE IF NOT EXISTS organisme_requisits (
+    organisme_id INTEGER NOT NULL REFERENCES organismes(id) ON DELETE CASCADE,
+    requisit_id  INTEGER NOT NULL REFERENCES requisits_justificacio(id) ON DELETE CASCADE,
+    PRIMARY KEY (organisme_id, requisit_id)
+);
+
+CREATE TABLE IF NOT EXISTS subvencions (
+    id                      INTEGER PRIMARY KEY,
+    nom                     TEXT NOT NULL,
+    organisme_id            INTEGER REFERENCES organismes(id) ON DELETE RESTRICT,
+    exercici                INTEGER,
+    expedient               TEXT,
+    objecte                 TEXT,
+    estat                   TEXT NOT NULL DEFAULT 'prevista',
+    data_limit_sollicitud   TEXT,
+    data_sollicitud         TEXT,
+    data_resolucio          TEXT,
+    data_limit_justificacio TEXT,
+    data_justificacio       TEXT,
+    import_pressupost       REAL,
+    import_sollicitat       REAL,
+    import_concedit         REAL,
+    import_justificar       REAL,
+    observacions            TEXT
+);
+
+-- Com es justifica cada subvenció: la llista de requisits i si ja està fet
+CREATE TABLE IF NOT EXISTS subvencio_requisits (
+    subvencio_id INTEGER NOT NULL REFERENCES subvencions(id) ON DELETE CASCADE,
+    requisit_id  INTEGER NOT NULL REFERENCES requisits_justificacio(id) ON DELETE RESTRICT,
+    fet          INTEGER NOT NULL DEFAULT 0,
+    data_fet     TEXT,
+    PRIMARY KEY (subvencio_id, requisit_id)
+);
+
+-- Diners rebuts (bestreta, pagament final…): entren sols al llibre de caixa
+CREATE TABLE IF NOT EXISTS subvencio_cobraments (
+    id           INTEGER PRIMARY KEY,
+    subvencio_id INTEGER NOT NULL REFERENCES subvencions(id) ON DELETE CASCADE,
+    data         TEXT NOT NULL,
+    import       REAL NOT NULL,
+    compte       TEXT NOT NULL DEFAULT 'banc',
+    concepte     TEXT,
+    observacions TEXT
+);
+
+-- Despeses del llibre de caixa imputades a una subvenció (per a la justificació)
+CREATE TABLE IF NOT EXISTS subvencio_despeses (
+    id           INTEGER PRIMARY KEY,
+    subvencio_id INTEGER NOT NULL REFERENCES subvencions(id) ON DELETE CASCADE,
+    moviment_id  INTEGER NOT NULL REFERENCES moviments(id) ON DELETE RESTRICT,
+    import       REAL,
+    observacions TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_persones_cognoms ON persones(cognoms, nom);
 CREATE INDEX IF NOT EXISTS idx_membres_agrup ON membres(agrupacio_id);
 CREATE INDEX IF NOT EXISTS idx_grups_curs ON grups(curs_id);
@@ -544,3 +621,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_obres_numero ON obres(numero_arxiu);
 CREATE INDEX IF NOT EXISTS idx_obres_titol ON obres(titol);
 CREATE INDEX IF NOT EXISTS idx_obres_tipus ON obres(tipus_id);
 CREATE INDEX IF NOT EXISTS idx_obra_agrupacions_agrupacio ON obra_agrupacions(agrupacio_id);
+
+-- Subvencions
+CREATE INDEX IF NOT EXISTS idx_subvencions_organisme ON subvencions(organisme_id);
+CREATE INDEX IF NOT EXISTS idx_subvencio_cobraments ON subvencio_cobraments(subvencio_id);
+CREATE INDEX IF NOT EXISTS idx_subvencio_despeses ON subvencio_despeses(subvencio_id);
+CREATE INDEX IF NOT EXISTS idx_subvencio_despeses_moviment ON subvencio_despeses(moviment_id);

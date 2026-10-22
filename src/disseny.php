@@ -36,6 +36,7 @@ function menu(): array
         ['mandats', 'ent.mandats', 'economia.view', '✍'],
         ['tarifes', 'ent.tarifes', 'economia.view', '🏷'],
         ['loteries', 'ent.loteries', 'economia.view', '🎟'],
+        ['subvencions', 'ent.subvencions', 'economia.view', '🤝'],
         ['caixa', 'menu.caixa', 'economia.view', '📒'],
         ['_societat', 'menu.societat', null, null],
         ['junta', 'menu.junta', 'societat.view', '🏛'],
@@ -70,7 +71,8 @@ function html_menu(): string
     }
     $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'talonaris' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia',
         'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents',
-        'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis', 'obres' => 'repertori', 'tipus_obres' => 'repertori'][$actual] ?? $actual;
+        'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis', 'obres' => 'repertori', 'tipus_obres' => 'repertori',
+        'organismes' => 'subvencions', 'requisits_justificacio' => 'subvencions', 'subvencio_cobraments' => 'subvencions', 'subvencio_despeses' => 'subvencions'][$actual] ?? $actual;
     $items = [];
     $seccio = null;
     foreach (menu() as [$clau, $etq, $cap, $icona]) {

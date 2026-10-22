@@ -8,6 +8,22 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.16.0] - 2026-10-23
+
+### Afegit
+- **Subvencions** (menú Economia, mòdul que es pot desactivar):
+  - Cada subvenció amb l'organisme, la convocatòria, l'exercici, l'expedient, per a què és, l'estat (prevista, sol·licitada, concedida, denegada, justificada o tancada), els terminis per a demanar-la i justificar-la i els imports (pressupost, sol·licitat, concedit i el que cal justificar).
+  - **Com es justifica**: una llista de requisits amb caselles que es marquen a mesura que estan fets (amb la data). En triar l'organisme es marquen sols els que demana normalment, i es poden canviar per a cada subvenció.
+  - **Organismes i requisits editables** per cada societat (Generalitat, Diputació, Ajuntament, Federació, Altres i deu requisits habituals per a començar). Un requisit que ja no es demana es posa de baixa i es conserva en les subvencions antigues.
+  - **Cobraments** (bestreta, pagament final…), que entren sols al llibre de caixa.
+  - **Despeses imputades**: les factures del llibre de caixa que justifiquen la subvenció. Una factura no es pot imputar, entre totes les subvencions, per més del que val.
+  - Resum a la fitxa (concedit, cobrat, justificat i el que falta) amb barres de progrés.
+  - **Relació de despeses** per a la justificació, per a imprimir o guardar en PDF amb les signatures, i en CSV.
+  - **Copia per a l'any següent**, amb els mateixos requisits i les dates un any més tard.
+  - Avís a l'inici quan falten 30 dies o menys per a demanar o justificar una subvenció (es pot amagar).
+  - Els documents es poden lligar a una subvenció i surten a la seua fitxa.
+- Llibre de caixa: les despeses tenen proveïdor i NIF, a més del número de factura (justificant).
+
 ## [1.15.0] - 2026-10-23
 
 ### Afegit
@@ -303,6 +319,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.16.0]: https://github.com/jossanmar9/compas/releases/tag/v1.16.0
 [1.15.0]: https://github.com/jossanmar9/compas/releases/tag/v1.15.0
 [1.14.2]: https://github.com/jossanmar9/compas/releases/tag/v1.14.2
 [1.14.1]: https://github.com/jossanmar9/compas/releases/tag/v1.14.1

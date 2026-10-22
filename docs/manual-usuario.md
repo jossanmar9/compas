@@ -9,7 +9,7 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 | Personas, socios y tipos de socio | ✔ | ✔ |
 | Escuela: cursos, grupos, matrículas, notas y boletines | ✔ | ✔ |
 | Agrupaciones, repertorio, instrumentos y uniformes | ✔ | ✔ |
-| Cuotas, recibos, domiciliaciones, remesas y lotería | ✔ | ✔ |
+| Cuotas, recibos, domiciliaciones, remesas, lotería y subvenciones | ✔ | ✔ |
 | Libro de caja | ✔ | ✔ |
 | Junta, actas, documentos y comunicados | ✔ | ✔ |
 | Listados, certificados e importación desde Excel | ✔ | ✔ |
@@ -550,11 +550,32 @@ Menú **Economía → Libro de caja**. Muestra todos los ingresos y gastos del a
 
 - los recibos cobrados en efectivo (en la caja) o por transferencia (en el banco);
 - las remesas cobradas, en una sola línea, como aparecen en el banco;
-- el dinero de la lotería que entrega cada talonario.
+- el dinero de la lotería que entrega cada talonario;
+- los cobros de las subvenciones (apartado 13.8).
 
-El resto (facturas, subvenciones, la cuota de la Federación…) se anota con **+ Nuevo movimiento**: fecha, ingreso o gasto, banco o caja, categoría, concepto e importe. Al final de la página se pone el **saldo inicial** del 1 de enero del banco y de la caja, para que los saldos sean los reales. Se puede ver solo el banco o solo la caja, imprimirlo y exportarlo a CSV. El resumen **por categorías** sirve para presentar las cuentas a la asamblea y para la memoria.
+El resto (facturas, la cuota de la Federación…) se anota con **+ Nuevo movimiento**: fecha, ingreso o gasto, banco o caja, categoría, concepto e importe. En las facturas, pon también el **proveedor**, el **NIF** y el **número de factura**: hacen falta para justificar subvenciones. Al final de la página se pone el **saldo inicial** del 1 de enero del banco y de la caja, para que los saldos sean los reales. Se puede ver solo el banco o solo la caja, imprimirlo y exportarlo a CSV. El resumen **por categorías** sirve para presentar las cuentas a la asamblea y para la memoria.
 
 ![Libro de caja](imatges/es/76-caixa.webp)
+
+### 13.8 Subvenciones
+
+Menú **Economía → Subvenciones**. Cada subvención tiene una ficha con todo lo que hay que saber: quién la da, para qué es, el **estado** (prevista, solicitada, concedida, denegada, justificada o cerrada), los plazos para pedirla y para justificarla y los importes (presupuesto, solicitado, concedido y lo que hay que justificar, que a veces es más que lo concedido).
+
+**Cómo se justifica.** Al crear una subvención y elegir el **organismo**, se marcan solos los requisitos que pide normalmente: cuenta justificativa, memoria, certificados… Se pueden cambiar para esa subvención. En la ficha sale la lista con una casilla para cada requisito: márcalos a medida que estén hechos y pulsa **Guardar**.
+
+![Subvención nueva: al elegir el organismo se marcan los requisitos](imatges/es/84-subvencio-nova.webp)
+
+**Organismos y requisitos, a la medida de la sociedad.** En el listado de subvenciones, los botones **Organismos** y **Cómo se justifica** llevan a las dos listas, que se pueden cambiar siempre que haga falta: añadir un organismo o un requisito, cambiarles el nombre o indicar qué pide normalmente cada organismo. Si un requisito ya no se pide, ponlo **de baja**: no sale en las subvenciones nuevas, pero se conserva en las antiguas.
+
+**Cobros.** En la ficha, **Cobros → + Añadir** para cada pago (el anticipo, el pago final…). Entran solos en el libro de caja: no hace falta apuntarlos como movimiento.
+
+**Gastos imputados.** Las facturas se apuntan en el libro de caja como siempre, con el **proveedor**, el **NIF** y el **número de factura** en el campo Justificante. Después, en la ficha de la subvención, **Gastos imputados → + Añadir** y elige el gasto. Si no pones importe, se imputa toda la factura (o lo que quede, si una parte ya está imputada a otra subvención). Compàs no deja imputar una factura por más de lo que vale. La ficha muestra cuánto llevas justificado y cuánto falta.
+
+![Ficha de una subvención: resumen, cómo se justifica, cobros y gastos](imatges/es/83-subvencio.webp)
+
+**Relación de gastos.** El botón **Relación de gastos** prepara la relación para la justificación (fecha, proveedor, NIF, número de factura, concepto, importe de la factura e importe imputado) con los datos de la subvención y las firmas, para imprimir o guardar en PDF. **Relación en CSV** la descarga para abrirla con Excel.
+
+**Avisos y año siguiente.** El inicio avisa cuando faltan 30 días o menos para pedir una subvención prevista o para justificar una concedida. El botón **Copiar para…** crea la misma subvención para el año siguiente, con los mismos requisitos (sin hacer) y las fechas un año más tarde.
 
 ## 14. Lotería
 
