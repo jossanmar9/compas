@@ -254,3 +254,7 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 /* Avís de responsabilitat: amb el mateix aspecte que el quadre de Windows */
 .avis-resp p { margin: 0; color: var(--suau); }
 .peu-resp { font-size: .8rem !important; max-width: 60rem; margin-top: .6rem !important; display: block !important; }
+
+/* Enllaç a Teixit */
+.teixit { margin-top: 2rem; }
+.teixit p { margin: 0; color: var(--suau); }

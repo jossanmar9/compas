@@ -137,6 +137,8 @@ $T = [
         'llicencia' => 'Resum de la llicència',
         'errades' => 'Has trobat una errada o tens una proposta? Obri una incidència a GitHub.',
         'fi' => 'Fet per a les societats musicals.',
+        'teixit_titol' => 'Pertanys a una altra associació?',
+        'teixit' => 'Pots vore <a href="https://jossanmar9.github.io/teixit/">Teixit</a>, l\'aplicació germana de Compàs per a falles, comparses, clubs i altres entitats. Amb la mateixa filosofia: local, lliure i sense recollir dades.',
         'resp_titol' => 'Avís de responsabilitat',
         'resp' => 'Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L\'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l\'ús del programa, d\'una errada, d\'una actualització o d\'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).',
         'anterior' => 'Anterior', 'seguent' => 'Següent',
@@ -260,6 +262,8 @@ $T = [
         'llicencia' => 'Resumen de la licencia',
         'errades' => '¿Has encontrado un error o tienes una propuesta? Abre una incidencia en GitHub.',
         'fi' => 'Hecho para las sociedades musicales.',
+        'teixit_titol' => '¿Perteneces a otra asociación?',
+        'teixit' => 'Puedes ver <a href="https://jossanmar9.github.io/teixit/">Teixit</a>, la aplicación hermana de Compàs para fallas, comparsas, clubes y otras entidades. Con la misma filosofía: local, libre y sin recoger datos.',
         'resp_titol' => 'Aviso de responsabilidad',
         'resp' => 'Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).',
         'anterior' => 'Anterior', 'seguent' => 'Siguiente',
@@ -430,6 +434,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <p class="nota">{$t['ia']}</p>
   <p><a class="boto secundari" href="{$repo}">{$t['codi']}</a></p>
   <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues/new/choose">{$t['errades']}</a></p>
+  <aside class="avis-windows teixit"><h3>{$t['teixit_titol']}</h3><p>{$t['teixit']}</p></aside>
 </section>
 </main>
 
