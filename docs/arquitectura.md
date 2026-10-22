@@ -44,6 +44,7 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/markdown.php` | Conversor de Markdown a HTML (manual dins del programa i PDF). |
 | `eines/document-html.php`, `eines/pdf.sh` | Preparen cada manual com a pàgina A4 amb portada i l'imprimeixen en PDF amb Chrome (`docs/pdf/`). Els PDF no es guarden al repositori: els fa GitHub Actions en publicar una versió (s'adjunten a la versió) i en publicar la web. |
 | `eines/captures.py` | Genera les captures dels manuals (`docs/imatges/ca` i `es`) fent cada procés amb dades d'exemple. Requereix Python, Pillow i Playwright: `python3 eines/captures.py`. |
+| `eines/societat-gran.php` | Omple una instal·lació nova amb una societat gran inventada (341 socis, 278 alumnes, 5 agrupacions, 653 obres, dos cursos amb notes i horaris, uns 5.000 rebuts…), en l'idioma de la instal·lació i sempre igual. Serveix per a provar el programa amb moltes dades i per a les captures de la web. |
 | `eines/web.php`, `eines/web.css` | Generen la web de presentació (valencià i castellà) amb captures i PDF. El workflow `web.yml` la publica a GitHub Pages. |
 
 Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `entitats.php`, afig-la al menú (`src/disseny.php`) i posa els textos a `lang/`. Una entitat pot afegir botons a la seua fitxa amb `accions_fitxa` (així es fan els botons de certificat, full de consentiment i passar de curs).

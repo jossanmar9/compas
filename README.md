@@ -225,6 +225,7 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 |---|---|
 | `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`, en WebP) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només desa estes: en una versió nova només es refan les pantalles que han canviat, perquè el repositori no cresca. Requereix Pillow i Playwright. |
 | `bash eines/pdf.sh` | Fa els manuals i les guies en PDF (`docs/pdf/`) amb Chrome o Chromium. No es guarden al repositori: els fa GitHub Actions en publicar cada versió i la web. |
+| `COMPAS_DADES=carpeta php eines/societat-gran.php` | Omple una instal·lació nova (configurada sense dades d'exemple) amb una societat gran inventada: 341 socis, 278 alumnes, 5 agrupacions, 653 obres i uns 5.000 rebuts. Per a provar el programa amb moltes dades; també la fan servir les captures de la web. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
 | `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies). Vegeu [tests/README.md](tests/README.md). |
 | `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà. |

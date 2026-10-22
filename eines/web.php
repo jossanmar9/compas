@@ -15,11 +15,14 @@ $correu = 'compas.lliure@gmail.com';
 $formulari = 'https://forms.gle/qFcmkXbef3sCvywT8'; // enllaç al formulari de contacte (Google Forms), si n'hi ha
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
-$captures = ['web-inici', 'web-alumne', 'web-notes', 'web-butlleti', 'web-horari', 'web-rebuts', 'web-economia', 'web-loteria', 'web-agrupacio', 'web-llistat', 'web-copies'];
+$web = 'https://jossanmar9.github.io/compas/'; // adreça pública de la web (per a la imatge que es veu en compartir l'enllaç)
+// Captures de la galeria (eines/captures.py web, amb la societat gran inventada d'eines/societat-gran.php)
+$captures = ['web-inici', 'web-socis', 'web-alumne', 'web-horari', 'web-notes', 'web-butlleti', 'web-agrupacio', 'web-repertori', 'web-economia',
+    'web-rebuts', 'web-remesa', 'web-loteria', 'web-junta', 'web-llistat', 'web-copies'];
 
 $T = [
     'ca' => [
-        'lang' => 'ca-valencia', 'altre' => 'es', 'altre_nom' => 'Castellano', 'altre_url' => 'es/',
+        'lang' => 'ca-valencia', 'og_locale' => 'ca_ES', 'altre' => 'es', 'altre_nom' => 'Castellano', 'altre_url' => 'es/',
         'titol' => 'Compàs: gestió lliure per a societats musicals',
         'descripcio' => "Programa lliure i gratuït per a gestionar una societat musical des d'un ordinador amb Windows o Linux: persones, socis, escola de música, notes, butlletins, agrupacions, instruments, quotes, rebuts i loteria.",
         'lema' => 'Gestió lliure per a societats musicals',
@@ -97,6 +100,15 @@ $T = [
         ],
         'anterior' => 'Captura anterior', 'seguent' => 'Captura següent',
         'contacte' => 'Contacte',
+        'xifres' => [['0 €', 'per sempre, sense límit de membres'], ['0', 'dades que isquen de l\'ordinador'], ['Sense Internet', 'funciona sense connexió'], ['VAL · ES', 'en valencià i en castellà']],
+        'blocs' => [
+            ['Persones i socis', 'Una fitxa per persona i tota la societat en un sol lloc, encara que una mateixa persona siga sòcia, música i mare d\'alumnes.', 'web-socis', [0, 1, 18, 16, 20]],
+            ['Escola de música', 'Des de la matrícula fins al butlletí del tercer trimestre, amb els horaris de tot el professorat i totes les aules.', 'web-horari', [2, 3, 4, 5, 19]],
+            ['Agrupacions, arxiu i material', 'Qui toca en cada formació, quines obres teniu a l\'arxiu i on està cada instrument i cada uniforme.', 'web-repertori', [6, 7, 8, 9]],
+            ['Economia', 'Quotes, classes i remeses al banc sense fulls de càlcul: els rebuts es fan sols i no se\'n duplica cap.', 'web-rebuts', [10, 11, 12, 13, 17]],
+            ['Junta, documents i còpies', 'La part institucional de la societat en ordre, i les dades sempre amb còpia.', 'web-junta', [14, 15, 21, 22]],
+        ],
+        'nav_menu' => 'Menú',
         'que_titol' => 'Què pots fer amb Compàs',
         'que_intro' => 'Pensat per a qui porta la secretaria i l\'escola de música, encara que no siga informàtic.',
         'moduls' => [
@@ -125,9 +137,13 @@ $T = [
             ['Còpies de seguretat', 'Còpia automàtica cada dia i en tancar, també en un USB o en el núvol, xifrada amb contrasenya si vols.'],
         ],
         'veure_titol' => 'Així es veu',
-        'veure_intro' => 'Captures reals del programa amb dades d\'exemple.',
+        'veure_intro' => 'Captures reals del programa amb una societat inventada de 341 socis, 278 alumnes, cinc agrupacions i 653 obres a l\'arxiu.',
         'captures' => [
             'web-inici' => 'La pantalla d\'inici: el resum de la societat, les classes de hui i els avisos.',
+            'web-socis' => 'Els socis, amb el número, el tipus i la data d\'alta. Es busquen per nom o número.',
+            'web-repertori' => 'El repertori: 653 obres amb el número d\'arxiu, les agrupacions i on està cada carpeta.',
+            'web-remesa' => 'Una remesa preparada per al banc: els rebuts domiciliats i el fitxer SEPA per a pujar-lo.',
+            'web-junta' => 'La junta directiva actual i les anteriors, amb l\'avís de quan toca renovar-la.',
             'web-alumne' => 'La fitxa d\'un alumne: grups, horari, notes i tutors legals.',
             'web-notes' => 'Les notes d\'un grup i una avaluació, amb les observacions del professor.',
             'web-butlleti' => 'Un butlletí de notes preparat per a imprimir, amb el logotip de la societat.',
@@ -179,7 +195,7 @@ $T = [
         'anterior' => 'Anterior', 'seguent' => 'Següent',
     ],
     'es' => [
-        'lang' => 'es', 'altre' => 'ca', 'altre_nom' => 'Valencià', 'altre_url' => '../',
+        'lang' => 'es', 'og_locale' => 'es_ES', 'altre' => 'ca', 'altre_nom' => 'Valencià', 'altre_url' => '../',
         'titol' => 'Compàs: gestión libre para sociedades musicales',
         'descripcio' => 'Programa libre y gratuito para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos y lotería.',
         'lema' => 'Gestión libre para sociedades musicales',
@@ -257,6 +273,15 @@ $T = [
         ],
         'anterior' => 'Captura anterior', 'seguent' => 'Captura siguiente',
         'contacte' => 'Contacto',
+        'xifres' => [['0 €', 'para siempre, sin límite de miembros'], ['0', 'datos que salgan del ordenador'], ['Sin Internet', 'funciona sin conexión'], ['VAL · ES', 'en valenciano y en castellano']],
+        'blocs' => [
+            ['Personas y socios', 'Una ficha por persona y toda la sociedad en un solo lugar, aunque una misma persona sea socia, música y madre de alumnos.', 'web-socis', [0, 1, 18, 16, 20]],
+            ['Escuela de música', 'Desde la matrícula hasta el boletín del tercer trimestre, con los horarios de todo el profesorado y todas las aulas.', 'web-horari', [2, 3, 4, 5, 19]],
+            ['Agrupaciones, archivo y material', 'Quién toca en cada formación, qué obras tenéis en el archivo y dónde está cada instrumento y cada uniforme.', 'web-repertori', [6, 7, 8, 9]],
+            ['Economía', 'Cuotas, clases y remesas al banco sin hojas de cálculo: los recibos se hacen solos y no se duplica ninguno.', 'web-rebuts', [10, 11, 12, 13, 17]],
+            ['Junta, documentos y copias', 'La parte institucional de la sociedad en orden, y los datos siempre con copia.', 'web-junta', [14, 15, 21, 22]],
+        ],
+        'nav_menu' => 'Menú',
         'que_titol' => 'Qué puedes hacer con Compàs',
         'que_intro' => 'Pensado para quien lleva la secretaría y la escuela de música, aunque no sea informático.',
         'moduls' => [
@@ -285,9 +310,13 @@ $T = [
             ['Copias de seguridad', 'Copia automática cada día y al cerrar, también en un USB o en la nube, cifrada con contraseña si quieres.'],
         ],
         'veure_titol' => 'Así se ve',
-        'veure_intro' => 'Capturas reales del programa con datos de ejemplo.',
+        'veure_intro' => 'Capturas reales del programa con una sociedad inventada de 341 socios, 278 alumnos, cinco agrupaciones y 653 obras en el archivo.',
         'captures' => [
             'web-inici' => 'La pantalla de inicio: el resumen de la sociedad, las clases de hoy y los avisos.',
+            'web-socis' => 'Los socios, con el número, el tipo y la fecha de alta. Se buscan por nombre o número.',
+            'web-repertori' => 'El repertorio: 653 obras con el número de archivo, las agrupaciones y dónde está cada carpeta.',
+            'web-remesa' => 'Una remesa preparada para el banco: los recibos domiciliados y el archivo SEPA para subirlo.',
+            'web-junta' => 'La junta directiva actual y las anteriores, con el aviso de cuándo toca renovarla.',
             'web-alumne' => 'La ficha de un alumno: grupos, horario, notas y tutores legales.',
             'web-notes' => 'Las notas de un grupo y una evaluación, con las observaciones del profesor.',
             'web-butlleti' => 'Un boletín de notas preparado para imprimir, con el logotipo de la sociedad.',
@@ -345,7 +374,7 @@ function e(string $s): string
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
 
-function pagina(array $t, string $l, string $base, string $repo, string $versio, array $captures, string $correu, string $formulari): string
+function pagina(array $t, string $l, string $base, string $repo, string $versio, array $captures, string $correu, string $formulari, string $web): string
 {
     $descarrega = $repo . '/releases/latest';
     $qui = implode('', array_map(fn($p) => '<p>' . e($p) . '</p>', $t['qui']));
@@ -355,10 +384,18 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $privPunts = implode('', array_map(fn($p) => '<div class="punt-priv"><h3>' . e($p[0]) . '</h3><p>' . e($p[1]) . '</p></div>', $t['priv_punts']));
     $compCap = implode('', array_map(fn($c) => '<th>' . e($c) . '</th>', $t['comp_cols']));
     $compFiles = implode('', array_map(fn($f) => '<tr><th>' . e($f[0]) . '</th><td class="si">' . e($f[1]) . '</td><td>' . e($f[2]) . '</td></tr>', $t['comp']));
-    $moduls = '';
-    foreach ($t['moduls'] as [$nom, $text]) {
-        $moduls .= '<div class="modul"><dt>' . e($nom) . '</dt><dd>' . e($text) . '</dd></div>';
+    $xifres = implode('', array_map(fn($x) => '<li><b>' . e($x[0]) . '</b><span>' . e($x[1]) . '</span></li>', $t['xifres']));
+    // Què fa: cinc blocs, cada un amb la seua captura (alternant el costat)
+    $blocs = '';
+    foreach ($t['blocs'] as $k => [$titol, $intro, $cap, $index]) {
+        $llista = implode('', array_map(fn($i) => '<div><dt>' . e($t['moduls'][$i][0]) . '</dt><dd>' . e($t['moduls'][$i][1]) . '</dd></div>', $index));
+        $blocs .= '<article class="bloc' . ($k % 2 ? ' invers' : '') . '"><div class="bloc-text"><p class="bloc-num">' . sprintf('%02d', $k + 1) . '</p><h3>' . e($titol) . '</h3>'
+            . '<p class="bloc-intro">' . e($intro) . '</p><dl>' . $llista . '</dl></div>'
+            . '<figure class="bloc-captura"><img src="' . $base . 'img/' . $l . '/' . $cap . '.webp" alt="' . e($t['captures'][$cap]) . '" width="1920" height="1200" loading="lazy">'
+            . '<figcaption>' . e($t['captures'][$cap]) . '</figcaption></figure></article>';
     }
+    $compartir = $web . ($l === 'es' ? 'img/es/' : 'img/ca/') . 'web-compartir.png';
+    $urlPagina = $web . ($l === 'es' ? 'es/' : '');
     $passos = '';
     foreach ($t['passos'] as [$nom, $text]) {
         $passos .= '<li><h3>' . e($nom) . '</h3><p>' . $text . '</p></li>';
@@ -395,16 +432,23 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <meta name="description" content="{$t['descripcio']}">
 <meta property="og:title" content="{$t['titol']}">
 <meta property="og:description" content="{$t['descripcio']}">
-<meta property="og:image" content="{$base}img/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{$urlPagina}">
+<meta property="og:image" content="{$compartir}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="{$t['og_locale']}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#14284b">
 <link rel="icon" href="{$base}img/icona.png">
 <link rel="alternate" hreflang="{$t['altre']}" href="{$t['altre_url']}">
 <link rel="preload" href="{$base}fonts/atkinson-hyperlegible-regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="{$base}estil.css">
 </head>
 <body>
-<header class="barra">
+<header class="cap-web"><div class="barra">
   <a class="marca" href="./"><img src="{$base}img/icona.png" alt="" width="36" height="36"><span>Compàs</span></a>
-  <nav aria-label="Seccions">
+  <nav aria-label="{$t['nav_menu']}">
     <a href="#privacitat">{$t['nav_priv']}</a>
     <a href="#que">{$t['nav_que']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
@@ -414,7 +458,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <a href="{$repo}">{$t['nav_codi']}</a>
     <a class="idioma" href="{$t['altre_url']}" hreflang="{$t['altre']}" lang="{$t['altre']}">{$t['altre_nom']}</a>
   </nav>
-</header>
+</div></header>
 
 <main>
 <section class="hero">
@@ -435,7 +479,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   </figure>
 </section>
 
-<section id="privacitat" class="seccio privacitat">
+<ul class="xifres">{$xifres}</ul>
+
+<div class="banda fosca"><section id="privacitat" class="seccio privacitat">
   <div class="cap">
     <h2>{$t['priv_titol']}</h2>
     <p>{$t['priv_intro']}</p>
@@ -443,14 +489,14 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <div class="punts-priv">{$privPunts}</div>
   <h3 class="comp-titol">{$t['comp_titol']}</h3>
   <div class="taula-comp-wrap"><table class="taula-comp"><thead><tr>{$compCap}</tr></thead><tbody>{$compFiles}</tbody></table></div>
-</section>
+</section></div>
 
 <section id="que" class="seccio">
   <div class="cap">
     <h2>{$t['que_titol']}</h2>
     <p>{$t['que_intro']}</p>
   </div>
-  <dl class="moduls">{$moduls}</dl>
+  <div class="blocs">{$blocs}</div>
 </section>
 
 <section id="captures" class="seccio galeria">
@@ -468,6 +514,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   </figure>
   <ul class="miniatures" aria-label="{$t['veure_titol']}">{$miniatures}</ul>
 </section>
+
+<div class="separador" aria-hidden="true"></div>
 
 <section id="qui" class="seccio qui">
   <h2>{$t['qui_titol']}</h2>
@@ -502,6 +550,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   </div>
 </section>
 
+<div class="separador" aria-hidden="true"></div>
+
 <section id="preguntes" class="seccio preguntes">
   <div class="cap">
     <h2>{$t['faq_titol']}</h2>
@@ -523,6 +573,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 </section>
 </main>
 
+<div class="baixa-fixa" hidden><a class="boto" href="{$descarrega}">{$t['descarrega']}</a></div>
+
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
   <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/LLICENCIA.md">{$t['llicencia']}</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
@@ -530,6 +582,14 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 </footer>
 
 <script>
+// Mòbil: el botó de descàrrega es queda a baix quan els botons de dalt ja no es veuen
+(() => {
+  const fixa = document.querySelector('.baixa-fixa');
+  const dalt = document.querySelector('.hero .accions');
+  if (!fixa || !dalt || !('IntersectionObserver' in window)) return;
+  fixa.hidden = false;
+  new IntersectionObserver(([e]) => fixa.classList.toggle('visible', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(dalt);
+})();
 (() => {
   const botons = [...document.querySelectorAll('.miniatures button')];
   const img = document.getElementById('captura');
@@ -604,11 +664,12 @@ foreach (['ca', 'es'] as $l) {
     foreach ($captures as $c) {
         copy("$arrel/docs/imatges/$l/$c.webp", "$eixida/img/$l/$c.webp");
     }
+    copy("$arrel/docs/imatges/$l/web-compartir.png", "$eixida/img/$l/web-compartir.png");
 }
 foreach (glob($arrel . '/docs/pdf/*.pdf') as $pdf) {
     copy($pdf, $eixida . '/pdf/' . basename($pdf));
 }
-file_put_contents($eixida . '/index.html', pestanya_nova(pagina($T['ca'], 'ca', '', $repo, $versio, $captures, $correu, $formulari)));
-file_put_contents($eixida . '/es/index.html', pestanya_nova(pagina($T['es'], 'es', '../', $repo, $versio, $captures, $correu, $formulari)));
+file_put_contents($eixida . '/index.html', pestanya_nova(pagina($T['ca'], 'ca', '', $repo, $versio, $captures, $correu, $formulari, $web)));
+file_put_contents($eixida . '/es/index.html', pestanya_nova(pagina($T['es'], 'es', '../', $repo, $versio, $captures, $correu, $formulari, $web)));
 file_put_contents($eixida . '/.nojekyll', '');
 echo "Web generada a $eixida\n";

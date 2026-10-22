@@ -13,6 +13,9 @@ Requisits: PHP 8.1+ (pdo_sqlite, mbstring), Python 3, Pillow i Playwright:
     python3 eines/captures.py 78 81-82      només estes (les altres no es toquen)
     python3 eines/captures.py es web        només les de la web, en castellà
 
+Les captures de la web («web-…») es fan a part, amb una societat gran inventada (eines/societat-gran.php):
+341 socis, 278 alumnes, cinc agrupacions i 653 obres. També fan la imatge per a compartir l'enllaç (web-compartir.png).
+
 Per a no fer créixer el repositori, en una versió nova només es tornen a fer les captures de les
 pantalles que han canviat: totes porten la data del dia i canviarien encara que la pantalla fora igual.
 
@@ -500,19 +503,6 @@ async def fes_captures(l: str):
             await c.ves('?r=moduls')
             await c.foto('80-moduls', 'input[value="loteria"]', alt_max=1400)
 
-            # --- Captures per a la web: totes de finestra sencera i del mateix format (16:10) ---
-            for nom, ruta in [('web-inici', '?r=inici'), ('web-alumne', '?r=fitxa&e=alumnes&id=1'), ('web-notes', '?r=notes&grup=1'),
-                              ('web-butlleti', '?r=butlleti&imprimir=1&curs=1&periode=1&ambit=alumne&alumne=1'), ('web-horari', '?r=horari'),
-                              ('web-rebuts', '?r=genera_rebuts&tipus=escola&curs=1&periode=MAT'), ('web-economia', '?r=economia'),
-                              ('web-loteria', '?r=loteria&id=1'), ('web-agrupacio', '?r=fitxa&e=agrupacions&id=1'),
-                              ('web-llistat', '?r=llistats&informe=alumnes_grup&curs=1&grup=1'), ('web-copies', '?r=copia')]:
-                await c.ves(ruta)
-                if not cal_desar(nom):
-                    continue
-                png = await p.screenshot()
-                Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / f'{nom}.webp', 'WEBP', quality=QUALITAT, method=6)
-                print(f'  {l}/{nom}.webp')
-
             # --- Entrada ---
             ctx2 = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA)
             p2 = await ctx2.new_page()
@@ -531,6 +521,147 @@ async def fes_captures(l: str):
         srv.terminate()
         srv.wait()
         shutil.rmtree(dades, ignore_errors=True)
+
+
+WEB = ['web-inici', 'web-socis', 'web-alumne', 'web-horari', 'web-notes', 'web-butlleti', 'web-agrupacio', 'web-repertori', 'web-economia',
+       'web-rebuts', 'web-remesa', 'web-loteria', 'web-junta', 'web-llistat', 'web-copies']
+
+
+def logo_societat_gran(desti: Path) -> None:
+    """Un logotip inventat per a la societat gran de la web (una clau de sol estilitzada amb les inicials)"""
+    im = Image.new('RGBA', (400, 400), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.ellipse((10, 10, 390, 390), fill='#14284b')
+    d.ellipse((34, 34, 366, 366), outline='#e8a33d', width=8)
+    for y in (150, 180, 210, 240, 270):
+        d.line((70, y, 330, y), fill='#2c4a7a', width=3)
+    try:
+        f = ImageFont.truetype(str(ARREL / 'eines' / 'fonts' / 'bricolage-grotesque.woff'), 150)
+    except OSError:
+        f = ImageFont.load_default()
+    d.text((200, 205), 'UM', fill='#e8a33d', font=f, anchor='mm')
+    im.save(desti)
+
+
+async def fes_captures_web(l: str):
+    """Captures de la web: amb una societat gran inventada (eines/societat-gran.php), de finestra sencera i en format 16:10"""
+    import sqlite3
+    import urllib.parse
+    import urllib.request
+    import http.cookiejar
+    if not any(cal_desar(n) for n in WEB + ['web-compartir']):
+        return
+    dades = Path(tempfile.mkdtemp(prefix='compas-web-'))
+    port = port_lliure()
+    entorn = dict(os.environ, COMPAS_DADES=str(dades), COMPAS_TOKEN='captures')
+    srv = subprocess.Popen(['php', '-S', f'127.0.0.1:{port}', '-t', 'app', 'app/index.php'], cwd=ARREL, env=entorn,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(1.2)
+    url = f'http://127.0.0.1:{port}/'
+    try:
+        # Configuració inicial (sense dades d'exemple) i la societat gran
+        op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+        h = op.open(url).read().decode()
+        csrf = re.search(r'name="_csrf" value="([^"]+)"', h).group(1)
+        op.open(url, urllib.parse.urlencode(dict(_csrf=csrf, societat_nom='Compàs', idioma=l, usuari='admin', contrasenya='contrasenya1',
+                                                 contrasenya2='contrasenya1', usuari2='secretaria', contrasenya_b='contrasenya2',
+                                                 contrasenya_b2='contrasenya2', accepta_avis='1')).encode()).read()
+        subprocess.run(['php', str(ARREL / 'eines' / 'societat-gran.php')], env=entorn, check=True, stdout=subprocess.DEVNULL)
+        logo_societat_gran(dades / 'logo.png')
+        externa = dades / 'usb'
+        externa.mkdir()
+        db = sqlite3.connect(dades / 'compas.db')
+        v = lambda q: db.execute(q).fetchone()[0]
+        db.execute("insert into config(clau, valor) values('copia_externa', ?) on conflict(clau) do update set valor = excluded.valor", [str(externa)])
+        db.commit()
+        curs = v('select id from cursos where actual = 1')
+        passat = v('select id from cursos where actual = 0')
+        llenguatge = "select g.id from grups g join assignatures a on a.id = g.assignatura_id where g.curs_id = {} and a.tipus = 'llenguatge' order by g.id limit 1 offset 4"
+        grup_passat = v(llenguatge.format(passat))
+        grup_actual = v(llenguatge.format(curs))
+        periode = v(f'select id from periodes where curs_id = {passat} order by ordre desc limit 1')
+        alumne = v(f"""select m.alumne_id from matricules m join matricula_grups mg on mg.matricula_id = m.id where m.curs_id = {curs}
+                       and m.alumne_id in (select alumne_id from tutories group by alumne_id having count(*) = 2)
+                       and m.alumne_id in (select m2.alumne_id from matricules m2 where m2.curs_id = {passat})
+                       group by m.alumne_id having count(*) >= 3 order by m.alumne_id limit 1""")
+        loteria = v("select id from loteries where estat = 'actiu'")
+        remesa = v("select id from remeses where estat = 'preparada'")
+        db.close()
+        rutes = {
+            'web-inici': '?r=inici', 'web-socis': '?r=llista&e=socis', 'web-alumne': f'?r=fitxa&e=alumnes&id={alumne}', 'web-horari': '?r=horari',
+            'web-notes': f'?r=notes&grup={grup_passat}&periode={periode}',
+            'web-butlleti': f'?r=butlleti&imprimir=1&curs={passat}&periode={periode}&ambit=alumne&alumne={alumne}',
+            'web-agrupacio': '?r=fitxa&e=agrupacions&id=1', 'web-repertori': '?r=repertori', 'web-economia': '?r=economia',
+            'web-rebuts': f'?r=genera_rebuts&tipus=escola&curs={curs}&periode=M2026-11', 'web-remesa': f'?r=remesa&id={remesa}',
+            'web-loteria': f'?r=loteria&id={loteria}', 'web-junta': '?r=junta', 'web-llistat': f'?r=llistats&informe=alumnes_grup&curs={curs}&grup={grup_actual}',
+            'web-copies': '?r=copia',
+        }
+        async with async_playwright() as pw:
+            nav = await pw.chromium.launch()
+            ctx = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA, locale='es-ES' if l == 'es' else 'ca-ES')
+            p = await ctx.new_page()
+            await p.goto(url)
+            await p.locator('input[name="usuari"]').fill('admin')
+            await p.locator('input[name="contrasenya"]').fill('contrasenya1')
+            await p.locator('form button').first.click()
+            await p.wait_for_load_state('networkidle')
+            # Unes quantes còpies (manuals i automàtiques) perquè la pantalla de còpies no estiga buida
+            await p.goto(url + '?r=copia')
+            await p.locator('input[name="accio"][value="fes"] + button').click()
+            await p.wait_for_load_state('networkidle')
+            dir_ = EIXIDA / l
+            dir_.mkdir(parents=True, exist_ok=True)
+            for nom in WEB:
+                if not cal_desar(nom):
+                    continue
+                await p.goto(url + rutes[nom])
+                await p.wait_for_load_state('networkidle')
+                # Les carpetes temporals de les proves, com si fora un ordinador amb Windows
+                await p.evaluate(r"""([dades, ruta]) => {
+                    const canvia = s => s.split(/(\s+)/).map(x => x.startsWith(dades) ? (ruta + x.slice(dades.length)).replaceAll('/', '\\') : x).join('');
+                    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+                    for (let n; (n = w.nextNode());) if (n.nodeValue.includes(dades)) n.nodeValue = canvia(n.nodeValue);
+                    document.querySelectorAll('input').forEach(i => { if (i.value.includes(dades)) i.value = canvia(i.value); });
+                }""", [str(dades), 'C:\\Users\\Secretaria\\AppData\\Local\\Programs\\Compas\\data'])
+                png = await p.screenshot()
+                Image.open(io.BytesIO(png)).convert('RGB').save(dir_ / f'{nom}.webp', 'WEBP', quality=QUALITAT, method=6)
+                print(f'  {l}/{nom}.webp')
+            await nav.close()
+        if cal_desar('web-compartir'):
+            imatge_compartir(l)
+    finally:
+        srv.terminate()
+        srv.wait()
+        shutil.rmtree(dades, ignore_errors=True)
+
+
+def imatge_compartir(l: str) -> None:
+    """La imatge que es veu quan s'envia l'enllaç de la web (WhatsApp, correu, xarxes): 1200x630"""
+    fonts = ARREL / 'eines' / 'fonts'
+    titol = ImageFont.truetype(str(fonts / 'bricolage-grotesque.woff'), 74)
+    text = ImageFont.truetype(str(fonts / 'atkinson-hyperlegible-regular.woff'), 27)
+    marca = ImageFont.truetype(str(fonts / 'bricolage-grotesque.woff'), 40)
+    im = Image.new('RGB', (1200, 630), '#14284b')
+    d = ImageDraw.Draw(im)
+    for y in range(470, 590, 24):  # pentagrama
+        d.line((0, y, 1200, y), fill='#22396a', width=2)
+    captura = Image.open(EIXIDA / l / 'web-inici.webp').convert('RGB')
+    captura = captura.resize((720, 450), Image.LANCZOS)
+    vora = Image.new('RGB', (captura.width + 8, captura.height + 8), '#e8a33d')
+    vora.paste(captura, (4, 4))
+    im.paste(vora, (640, 120))
+    icona = Image.open(ARREL / 'app' / 'assets' / 'icona.png').convert('RGBA').resize((64, 64), Image.LANCZOS)
+    im.paste(icona, (60, 60), icona)
+    d.text((140, 92), 'Compàs', font=marca, fill='#ffffff', anchor='lm')
+    linies = ['Tota la societat', 'musical, en un', 'sol programa.'] if l == 'ca' else ['Toda la sociedad', 'musical, en un', 'solo programa.']
+    for i, li in enumerate(linies):
+        d.text((60, 190 + i * 82), li, font=titol, fill='#ffffff')
+    sub = ('Gratuït · Sense núvol', 'Sense recollir cap dada', 'Valencià i castellà · Windows i Linux') if l == 'ca' else \
+          ('Gratuito · Sin nube', 'Sin recoger ningún dato', 'Valenciano y castellano · Windows y Linux')
+    for i, li in enumerate(sub):
+        d.text((60, 455 + i * 38), li, font=text, fill='#e8a33d' if i < 2 else '#c9d3e3')
+    im.save(EIXIDA / l / 'web-compartir.png', optimize=True)
+    print(f'  {l}/web-compartir.png')
 
 
 FILTRE: list[str] = []
@@ -560,7 +691,9 @@ async def main():
         print(f'Captures en «{l}»' + (f' (només {", ".join(FILTRE)})' if FILTRE else '') + ':')
         if not FILTRE:
             shutil.rmtree(EIXIDA / l, ignore_errors=True)
-        await fes_captures(l)
+        if not FILTRE or any(f != 'web' for f in FILTRE):
+            await fes_captures(l)
+        await fes_captures_web(l)
 
 
 if __name__ == '__main__':
