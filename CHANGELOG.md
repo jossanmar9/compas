@@ -8,6 +8,17 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.14.0] - 2026-10-22
+
+### Afegit
+- **Manual d'administració**, separat del manual d'usuari: configuració de la societat, dades del banc i descomptes, còpies de seguretat, comptes i contrasenyes, com actualitzar Compàs i preguntes freqüents. A **Ajuda** hi ha una pestanya per a cada manual (la d'administració només la veu l'administrador/a), i els dos tenen el seu PDF i accés directe al menú d'inici de Windows.
+- **Taula de permisos**: una taula amb què pot fer cada compte, al començament dels dos manuals, al README i a la web.
+- **Preguntes freqüents a la web**: si és gratis, si cal Internet, si envia dades, Windows i Linux, diversos ordinadors, dades d'exemple, importar d'Excel, factures, què passa si s'espatlla l'ordinador i com s'actualitza.
+
+### Canviat
+- El compte «administratiu/va» ara es diu **usuari/ària** («usuario/a» en castellà), per a no confondre'l amb l'administrador/a. Només canvia el nom: els permisos són els mateixos.
+- El manual d'usuari ja només explica la feina del dia a dia; el que és de l'administrador/a remet al manual d'administració.
+
 ## [1.13.4] - 2026-10-22
 
 ### Afegit
@@ -265,6 +276,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.14.0]: https://github.com/jossanmar9/compas/releases/tag/v1.14.0
 [1.13.4]: https://github.com/jossanmar9/compas/releases/tag/v1.13.4
 [1.13.3]: https://github.com/jossanmar9/compas/releases/tag/v1.13.3
 [1.13.2]: https://github.com/jossanmar9/compas/releases/tag/v1.13.2

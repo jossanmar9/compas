@@ -265,11 +265,11 @@ return [
 
     // Roles
     'rol.admin' => 'Administrador/a',
-    'rol.administratiu' => 'Administrativo/a',
+    'rol.administratiu' => 'Usuario/a',
     'camp.rol' => 'Rol',
-    'usuaris.rol_ajuda' => 'El administrador/a lo puede todo. El administrativo/a gestiona todos los datos y hace copias, pero no gestiona usuarios, configuración, registro de actividad ni restauraciones.',
-    'usuaris.nota' => 'Compàs está pensado para dos cuentas: una de administrador/a y una de administrativo/a.',
-    'setup.administratiu' => 'Cuenta de administrativo/a (opcional)',
+    'usuaris.rol_ajuda' => 'El administrador/a lo puede todo. El usuario/a gestiona todos los datos y hace copias, pero no gestiona usuarios, configuración, registro de actividad ni restauraciones.',
+    'usuaris.nota' => 'Compàs está pensado para dos cuentas: una de administrador/a y una de usuario/a.',
+    'setup.administratiu' => 'Cuenta de usuario/a (opcional)',
     'setup.administratiu_ajuda' => 'Para la persona que lleva la gestión diaria. También se puede crear después desde Usuarios.',
 
     'resum.titol' => 'Curso %s',
@@ -376,7 +376,7 @@ return [
     'recup.imprimeix' => 'Imprime',
     'recup.guardat' => 'Ya lo he guardado, continúa',
     'recup.oblit_titol' => 'He olvidado la contraseña',
-    'recup.nomes_admin' => 'Esta página es para el administrador/a. Si eres administrativo/a, pide al administrador/a que te ponga una contraseña nueva en Usuarios.',
+    'recup.nomes_admin' => 'Esta página es para el administrador/a. Si eres usuario/a, pide al administrador/a que te ponga una contraseña nueva en Usuarios.',
     'recup.amb_codi' => 'Escribe tu usuario, el código de recuperación que guardaste y la contraseña nueva.',
     'recup.fitxer_trobat' => 'Se ha encontrado el archivo de recuperación en la carpeta de datos. Escribe tu usuario y la contraseña nueva.',
     'recup.usuari_admin' => 'Usuario administrador',
@@ -1285,6 +1285,7 @@ return [
     'audit.rgpd' => 'Registro de actividades de tratamiento',
     'audit.avis_responsabilitat' => 'Aviso de responsabilidad aceptado',
     'ajuda.llicencia' => 'Licencia',
+    'ajuda.manual_usuari' => 'Manual de usuario', 'ajuda.manual_admin' => 'Manual de administración', 'ajuda.pdf_manual_admin' => 'Manual de administración en PDF',
     'ajuda.versio_nova' => '¿Hay versión nueva?',
     'ajuda.versio_ajuda' => 'Tienes la versión %s. «¿Hay versión nueva?» abre en el navegador la página de la última versión publicada (Compàs no se conecta a Internet): si el número es más alto, descárgala e instálala encima; los datos se conservan.',
     'rep.totes' => 'Mostrarlas todas (%d)', 'rep.paginat' => 'Se muestran de %d en %d. Para imprimir el catálogo entero, muéstralas todas.',

@@ -258,3 +258,23 @@ code { font-size: .92em; background: color-mix(in srgb, var(--blau) 12%, transpa
 /* Enllaç a Teixit */
 .teixit { margin-top: 2rem; }
 .teixit p { margin: 0; color: var(--suau); }
+
+/* Preguntes freqüents i taula de comptes */
+.faq { display: grid; gap: .6rem; max-width: 52rem; }
+.faq details { border: 1px solid var(--linia); border-radius: 10px; padding: .2rem 1rem; background: var(--blanc); }
+.faq summary { cursor: pointer; padding: .75rem 0; font-weight: 600; color: var(--mari); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 700 1.2rem var(--display); color: var(--or-fosc); line-height: 1; }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { margin: 0 0 .9rem; }
+.comptes-intro { max-width: 52rem; }
+.taula-comptes { max-width: 52rem; }
+.taula-comptes tbody th { width: auto; font-weight: 500; color: inherit; }
+.taula-comptes thead th:not(:first-child), .taula-comptes td.permis { text-align: center; width: 9.5rem; }
+.taula-comptes td.permis { font-weight: 700; color: var(--blau); }
+.taula-comptes td.permis.no { color: var(--suau); font-weight: 400; }
+@media (prefers-color-scheme: dark) { .faq summary { color: #fff; } }
+@media (max-width: 640px) {
+  .taula-comptes thead th:not(:first-child), .taula-comptes td.permis { width: 4.8rem; }
+  .taula-comptes thead th { font-size: .82rem; overflow-wrap: anywhere; hyphens: auto; }
+}

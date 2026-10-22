@@ -79,6 +79,9 @@ pre { background: #f4f6fa; border: 1px solid #dde3ec; border-radius: 2mm; paddin
 blockquote { margin: 4mm 0; padding: 2.5mm 4mm; background: #fff6e5; border-left: 3px solid #e8a33d; border-radius: 1mm; page-break-inside: avoid; }
 table { width: 100%; border-collapse: collapse; margin: 3mm 0; page-break-inside: avoid; }
 th, td { border: 1px solid #c9d2df; padding: 1.8mm 2.5mm; text-align: left; vertical-align: top; }
+table:has(td.permis) th:not(:first-child) { text-align: center; }
+td.permis { text-align: center; width: 28mm; font-weight: 600; color: #1e7d4f; }
+td.permis.no { color: #888; font-weight: 400; }
 th { background: #e8f0fa; font-size: 9.5pt; }
 a { color: #1f5aa6; text-decoration: none; }
 .taula-wrap { overflow: visible; }

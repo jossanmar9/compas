@@ -1,6 +1,6 @@
 # Arquitectura de Compàs
 
-Compàs és un programa de gestió per a una única societat musical, en un sol ordinador amb Windows i amb dos comptes (administrador/a i administratiu/va). No té web pública ni accés per xarxa.
+Compàs és un programa de gestió per a una única societat musical, en un sol ordinador amb Windows i amb dos comptes (administrador/a i usuari/ària). No té web pública ni accés per xarxa.
 
 ## Peces
 
@@ -61,7 +61,7 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 - Escola: `cursos` → `periodes`, `grups` (assignatura + curs + professor + aula) → `horaris`; `matricules` (alumne + curs) → `matricula_grups`; `qualificacions` (grup + alumne + període). Compàs no registra l'assistència: és un programa de gestió.
 - Inventari: `instruments` → `cessions`, `manteniments`.
 - Drets d'imatge: `persones.consentiment_imatge` (`pendent`, `autoritza`, `no_autoritza`) i `consentiment_data`.
-- Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
+- Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`, que a la pantalla es diu «usuari/ària»), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
 - Economia: `tarifes`, `mandats`, `remeses`, `rebuts` → `rebut_linies`, `loteries` → `talonaris`, `moviments` (llibre de caixa: només els apunts manuals; rebuts, remeses i loteria s'hi sumen en llegir-lo).
 - Societat: `carrecs` (persona + càrrec + dates; vigent si no té `data_fi`), `reunions` (convocatòria, acta i acords en text, un per línia), `comunicats`.
 - Repertori: `tipus_obres` (definits per cada societat; `sembra_tipus_obres()` en crea uns quants la primera vegada) → `obres` (número d'arxiu únic quan n'hi ha) ↔ `obra_agrupacions` (molts a molts amb `agrupacions`). Al formulari genèric, les agrupacions són un camp virtual de tipus `refs` (caselles). La pantalla `?r=repertori` (`src/pages/repertori.php`) fa la cerca, els filtres, l'ordre natural, la impressió i el CSV; la importació (`analitza_obres`, `executa_importacio_obres`) va pel mateix assistent que la de persones.
@@ -80,7 +80,7 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 - Token CSRF en tots els formularis. Cookies `HttpOnly` i `SameSite=Strict`.
 - Tota l'eixida s'escapa amb `htmlspecialchars`.
 - La carpeta de dades queda fora de la carpeta pública (`app/`); el servidor només serveix `app/assets/`.
-- L'administratiu/va no pot gestionar usuaris, configuració, registre d'activitat ni restaurar còpies.
+- L'usuari/ària no pot gestionar usuaris, configuració, registre d'activitat ni restaurar còpies.
 - Còpies amb `VACUUM INTO` (consistents encara que el programa estiga obert): diària, en tancar si hi ha canvis, manual, abans de restaurar i abans d'importar; duplicades a una carpeta externa opcional.
 - Còpies externes xifrades (opcional): clau derivada de la contrasenya amb Argon2id (`crypto_pwhash`) i xifrat en blocs d'1 MB amb XChaCha20-Poly1305 (`crypto_secretstream`), que detecta qualsevol modificació o tall del fitxer. A l'ordinador només es guarda la clau derivada, per a poder fer les còpies automàtiques; la contrasenya fa falta per a restaurar.
 - Importació: els .xlsx es llegeixen sense DTD (`LIBXML_NONET`, sense entitats externes); les dades entre passos es guarden en un fitxer temporal de la carpeta de dades amb un nom aleatori lligat a la sessió, i s'esborren en acabar o al cap d'un dia.

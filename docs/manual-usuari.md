@@ -2,12 +2,27 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes:
+Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
 
-| Compte | Què pot fer |
-|---|---|
-| **Administrador/a** | Tot. També gestionar usuaris, la configuració (també les dades bancàries), el registre d'activitat i restaurar còpies. |
-| **Administratiu/va** | La gestió diària: persones, socis, escola, notes, butlletins, agrupacions, instruments, uniformes, rebuts, remeses, loteria, caixa, junta, actes, documents, comunicats i fer còpies. |
+| Què es pot fer | Administrador/a | Usuari/ària |
+|---|:---:|:---:|
+| Persones, socis i tipus de soci | ✔ | ✔ |
+| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
+| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
+| Quotes, rebuts, domiciliacions, remeses i loteria | ✔ | ✔ |
+| Llibre de caixa | ✔ | ✔ |
+| Junta, actes, documents i comunicats | ✔ | ✔ |
+| Llistats, certificats i importació des d'Excel | ✔ | ✔ |
+| Fer i baixar còpies de seguretat | ✔ | ✔ |
+| Canviar la pròpia contrasenya | ✔ | ✔ |
+| Configuració de la societat, logotip, mòduls i avisos | ✔ | — |
+| Dades bancàries i descomptes de l'escola | ✔ | — |
+| Crear i gestionar els comptes | ✔ | — |
+| Registre d'activitat | ✔ | — |
+| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — |
+| Recuperar l'accés amb el codi de recuperació | ✔ | — |
+
+Este manual és per a les persones que porten la gestió diària. La configuració inicial, les dades de la societat, els comptes, la restauració de còpies i les actualitzacions les fa l'administrador/a: són al **Manual d'administració**.
 
 > En este manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
@@ -31,27 +46,12 @@ Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idio
 
 ![Pantalla d'entrada](imatges/ca/00-entrada.webp)
 
-Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 21).
+Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu el Manual d'administració).
 
-### La primera vegada: configuració inicial
 
-La primera vegada que s'obri Compàs apareix la **Configuració inicial**:
+### La primera vegada
 
-1. Escriu el **nom de la societat musical**.
-2. Tria l'**idioma** per defecte.
-3. Crea l'**usuari administrador** i la seua contrasenya (almenys 8 caràcters). Apunta-la en un lloc segur.
-4. Si vols, crea també el compte d'**administratiu/va** (es pot fer després).
-5. Marca **Carrega dades d'exemple** només si vols provar el programa amb dades inventades.
-6. Llig l'**avís de responsabilitat** i marca que l'acceptes.
-7. Prem **Comença**.
-
-![Configuració inicial](imatges/ca/01-configuracio-inicial.webp)
-
-Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una contrasenya nova si l'administrador/a l'oblida, i **només es mostra esta vegada**. Prem **Imprimeix** (o apunta'l) i guarda'l amb els papers de la societat, no a l'ordinador. Després prem **Ja l'he guardat, continua**.
-
-![Codi de recuperació](imatges/ca/01b-codi-recuperacio.webp)
-
-> Per a començar a treballar de veres sense les dades d'exemple, tanca Compàs, esborra la carpeta `data` del programa i torna a obrir-lo.
+La primera vegada que s'obri Compàs, l'administrador/a fa la **configuració inicial** i crea els comptes (**Manual d'administració**). Després, cada persona entra amb el seu usuari i la seua contrasenya.
 
 ## 2. La pantalla principal
 
@@ -101,25 +101,9 @@ Compàs no deixa eliminar res que tinga historial (matrícules, notes, cessions�
 
 Les baixes desapareixen dels llistats, però es poden tornar a vore marcant **Mostra també les baixes**.
 
-## 4. Configuració de la societat i logotip
+## 4. Configuració de la societat
 
-Menú **Administració → Configuració** (només l'administrador/a).
-
-1. Omple les dades de la societat: nom, CIF, adreça, telèfon, correu i web. Ixen als butlletins.
-2. A **Logotip de la societat**, prem el botó de triar fitxer i selecciona la imatge del logotip (PNG, JPG o WEBP, fins a 3 MB).
-3. Prem **Desa**. El logotip apareix al menú i als butlletins.
-
-![Configuració i logotip](imatges/ca/03-configuracio.webp)
-
-### Mòduls i avisos
-
-No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents i comunicats.
-
-Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
-
-A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar i el curs actual.
-
-![Mòduls i avisos](imatges/ca/80-moduls.webp)
+Les dades de la societat, el logotip, els mòduls que es fan servir i els avisos de l'inici els configura l'administrador/a (**Manual d'administració**). Si en la teua societat no veus algun apartat d'este manual (l'escola, la loteria…), segurament està desactivat.
 
 ## 5. Preparar el curs acadèmic
 
@@ -508,13 +492,7 @@ Menú **Economia → Tarifes**. Cada tarifa té un nom (el que apareixerà al re
 
 ### 13.2 Dades del banc i descomptes
 
-L'administrador/a ho configura una sola vegada a **Resum econòmic → Configuració d'Economia**:
-
-- **Dades bancàries de la societat**: el NIF i l'IBAN on es cobren els rebuts. Les dona el banc quan es contracta el servei d'adeutaments directes SEPA («remeses» o «quadern 19»). Compàs calcula l'**identificador de creditor**: comprova que és el mateix que t'ha donat el banc.
-- **Descomptes de l'escola**: un percentatge per a qui és soci (l'alumne o qui paga) i un altre per a cada germà a partir del segon. S'apliquen a les classes, no a la matrícula. A la fitxa de l'alumne es pot posar, a més, un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
-- **Text al peu dels rebuts**, si la societat en vol posar un.
-
-![Configuració d'Economia](imatges/ca/57-economia-config.webp)
+Les dades bancàries de la societat i els descomptes de l'escola els configura l'administrador/a (**Manual d'administració**). A la fitxa de cada alumne sí que pots posar un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
 
 ### 13.3 Generar els rebuts
 
@@ -712,9 +690,7 @@ A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i 
 
 ![Certificat de soci](imatges/ca/49-certificat.webp)
 
-La primera vegada, a **Configuració → Certificats i fulls de consentiment**, posa qui signa (normalment el secretari/ària), el càrrec i, si voleu el vist i plau, el president/a. Posa també la **població** de la societat, que ix al final del certificat.
-
-![Dades dels certificats a la configuració](imatges/ca/40-config-documents.webp)
+Qui signa els certificats (normalment el secretari/ària) i el vistiplau del president/a s'agafen sols de la junta directiva (apartat 15). Si cal, l'administrador/a ho pot canviar a la configuració.
 
 ## 19. Importar dades des d'Excel
 
@@ -753,7 +729,7 @@ A la columna **Avisos** veuràs, per exemple, dates que no s'entenen o persones 
 
 ![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.webp)
 
-Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 20).
+Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, l'administrador/a la pot restaurar (Manual d'administració).
 
 ### Importar el repertori
 
@@ -783,55 +759,15 @@ Menú **Administració → Còpies de seguretat**:
 
 ![Còpies de seguretat](imatges/ca/34-copies.webp)
 
-### Quantes còpies es guarden
 
-Les còpies automàtiques no s'acumulen sense fi. Compàs guarda:
+### Fer i baixar còpies
 
-- **totes** les dels últims 7 dies;
-- **una per setmana** de les últimes 5 setmanes;
-- **una per mes** fins al límit que tries a **Quant de temps es guarden les còpies automàtiques** (1 any si no es canvia).
+- **Fes una còpia ara**: fa una còpia en el moment. Convé fer-ne una abans d'un canvi gran.
+- **Baixa** (a la llista): descarrega una còpia, per exemple per a guardar-la en un USB.
 
-Amb una còpia cada dia, això són unes vint còpies que arriben a un any arrere. Les manuals i les d'«abans de restaurar» o «abans d'importar» no s'esborren soles. La mateixa rotació es fa a la carpeta externa.
-
-La pantalla diu quant ocupa la base de dades (i quant d'això són documents) i quant ocupen totes les còpies. Si la base de dades passa de 200 MB, normalment pels documents arxivats, Compàs avisa: cada còpia ocupa el mateix, així que cal comprovar que hi ha prou espai a l'ordinador i a la carpeta externa.
-
-### Configurar la carpeta externa (molt important)
-
-Si l'ordinador s'espatlla o el roben, les còpies que hi ha dins es perden amb ell. Cal guardar-les també fora:
-
-1. Connecta un **disc o llapis USB**, o tria una carpeta **sincronitzada amb el núvol** (OneDrive, Google Drive…).
-2. Crea-hi una carpeta, per exemple `Copies Compàs`, i copia'n la ruta des de l'Explorador de Windows (per exemple `E:\Copies Compàs`).
-3. A **Configuració de les còpies**, enganxa la ruta a **Carpeta externa**.
-4. Prem **Desa**.
-
-![Carpeta externa de còpies](imatges/ca/35-copies-carpeta.webp)
-
-A partir d'ara, cada còpia es guarda també en esta carpeta. Si no està disponible (per exemple, el USB no està connectat) o fa més de 7 dies que no s'hi guarda res, l'inici ho avisa.
-
-### Llista de còpies, restaurar i eliminar
-
-![Llista de còpies](imatges/ca/36-copies-llista.webp)
-
-- **Baixa**: descarrega aquella còpia.
-- **Restaura** (només l'administrador/a): substitueix totes les dades actuals per les de la còpia. Abans, Compàs guarda una còpia de les dades actuals («Abans de restaurar»), de manera que sempre es pot tornar arrere. Després cal tornar a entrar.
-- **Elimina** (només l'administrador/a): esborra la còpia.
-
-Per a restaurar una còpia guardada fora (per exemple, des del USB), utilitza **Restaura des d'un fitxer**, al final de la pàgina.
+Triar la carpeta externa (USB o núvol), xifrar les còpies, decidir quant de temps es guarden i **restaurar** una còpia ho fa l'administrador/a (**Manual d'administració**).
 
 > Les còpies contenen dades personals, també de menors. Guarda-les en un lloc segur.
-
-### Còpies externes xifrades
-
-Si la carpeta externa és un llapis USB o el núvol, convé xifrar-les: si es perd el USB, ningú podrà obrir les dades sense la contrasenya.
-
-1. A **Configuració de les còpies**, marca **Xifra amb contrasenya les còpies de la carpeta externa**.
-2. Escriu una contrasenya (almenys 8 caràcters) dues vegades i prem **Desa**.
-
-![Còpies externes xifrades](imatges/ca/54-copies-xifrat.webp)
-
-A partir d'ara, les còpies de la carpeta externa acaben en `.xifrat`. Les de l'ordinador no es xifren. Per a restaurar-ne una, a **Restaura des d'un fitxer** tria el fitxer `.xifrat` i escriu la contrasenya.
-
-> **Apunta la contrasenya en paper** junt amb el codi de recuperació. Si s'oblida, les còpies xifrades no es poden recuperar.
 
 ## 21. Usuaris i contrasenyes
 
@@ -844,48 +780,9 @@ Cada usuari pot canviar la seua quan vulga:
 3. Escriu la **contrasenya nova** dues vegades (almenys 8 caràcters).
 4. Prem **Desa**.
 
-Si no recordes l'actual, no la pots canviar ací: l'administratiu/va ha de demanar-ne una de nova a l'administrador/a, i l'administrador/a pot recuperar l'accés des de l'entrada (vegeu més avall).
+Si no recordes l'actual, no la pots canviar ací: demana a l'administrador/a que et pose una contrasenya nova.
 
 ![El meu compte](imatges/ca/38-meu-compte.webp)
-
-### Gestionar els comptes (administrador/a)
-
-Menú **Administració → Usuaris**. Obri un compte per a:
-
-- canviar-li el **rol** (administrador/a o administratiu/va);
-- posar-li una **contrasenya nova** si l'ha oblidada (deixa-la en blanc per a no canviar-la);
-- desactivar-lo (desmarca **Actiu**) o eliminar-lo.
-
-![Editar un usuari](imatges/ca/37-usuari.webp)
-
-Sempre ha de quedar almenys un administrador actiu.
-
-### Si l'administrador/a oblida la contrasenya
-
-1. A la pantalla d'entrada, prem **Eres l'administrador/a? Recupera l'accés**.
-2. Escriu el teu **usuari**, el **codi de recuperació** que vas guardar i la **contrasenya nova** dues vegades.
-3. Prem **Canvia la contrasenya**. Entraràs directament al programa.
-4. Compàs mostra un **codi de recuperació nou**, perquè l'anterior ja no val. Imprimeix-lo i guarda'l en lloc de l'antic.
-
-![He oblidat la contrasenya](imatges/ca/00b-recuperacio.webp)
-
-**Si no trobes el codi**, prem **No tinc el codi de recuperació** a la mateixa pàgina i segueix els passos:
-
-1. Obri l'Explorador de fitxers i ves a la carpeta de dades de Compàs. La pàgina mostra la ruta exacta: copia-la a la barra d'adreces de l'Explorador.
-2. Crea-hi un fitxer nou (botó dret → **Nou → Document de text**) i posa-li de nom `recupera-acces`.
-3. Torna a la pàgina de Compàs i recarrega-la (tecla **F5**). Ja no demanarà el codi: escriu l'usuari i la contrasenya nova.
-
-El fitxer només val durant una hora i s'esborra sol en usar-lo. Este sistema és segur perquè només pot crear el fitxer qui ja té accés a l'ordinador i a les dades.
-
-### Codi de recuperació
-
-Si has perdut el codi o creus que algú l'ha vist, ves a **Administració → Usuaris** i, a baix, prem **Genera un codi nou**. L'anterior deixa de valdre. Si Compàs es va instal·lar abans de la versió 1.3, la pantalla d'inici avisa que no hi ha codi fins que el generes.
-
-Totes les recuperacions, també les que fallen, queden al **Registre d'activitat**.
-
-### Registre d'activitat
-
-Menú **Administració → Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
 
 ## 22. Ajuda
 
@@ -909,7 +806,7 @@ El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obri
 
 **El butlletí no mostra una assignatura.** L'alumne no està inscrit en aquell grup dins de la seua matrícula.
 
-**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (apartat 21).
+**L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (Manual d'administració).
 
 **Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 19): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
 

@@ -52,7 +52,8 @@ function markdown_simple(string $md, ?callable $imatge = null): string
                 $html .= '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . implode('</th><th>', array_map($inline, $cells)) . '</th></tr></thead><tbody>';
                 $taula = true;
             } else {
-                $html .= '<tr><td>' . implode('</td><td>', array_map($inline, $cells)) . '</td></tr>';
+                // Les caselles de marca (✔ o —) van centrades, com en una taula de permisos
+                $html .= '<tr>' . implode('', array_map(fn($c) => in_array($c, ['✔', '—'], true) ? '<td class="permis' . ($c === '—' ? ' no' : '') . '">' . $c . '</td>' : '<td>' . $inline($c) . '</td>', $cells)) . '</tr>';
             }
             continue;
         }

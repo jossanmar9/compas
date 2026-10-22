@@ -150,7 +150,7 @@ jobs:
           $d = "dist\Compas"
           Copy-Item app, src -Destination $d -Recurse
           New-Item -ItemType Directory "$d\docs", "$d\data" -Force | Out-Null
-          Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\guia-installacio.md, docs\guia-instalacion.md "$d\docs"
+          Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\manual-administracio.md, docs\manual-administracion.md, docs\guia-installacio.md, docs\guia-instalacion.md "$d\docs"
           Copy-Item docs\imatges -Destination "$d\docs" -Recurse
           Copy-Item README.md, CHANGELOG.md, PRIVACITAT.md, LLICENCIA.md, LICENSE, compas.ini $d
           Set-Content "$d\data\LLEGIX-ME.txt" "Ací es guarden les dades de Compàs (compas.db) i les còpies automàtiques. No l'esborres."
@@ -166,7 +166,7 @@ jobs:
           if (-not $nav) { throw "No hi ha cap navegador per a generar els PDF" }
           $pdf = "$PWD\dist\Compas\docs\pdf"
           New-Item -ItemType Directory $pdf -Force | Out-Null
-          foreach ($d in 'manual-usuari','manual-usuario','guia-installacio','guia-instalacion') {
+          foreach ($d in 'manual-usuari','manual-usuario','manual-administracio','manual-administracion','guia-installacio','guia-instalacion') {
             $html = Join-Path $env:RUNNER_TEMP "$d.html"
             $gd = if (Test-Path "$env:RUNNER_TEMP\php_gd.dll") { @('-d', "extension=$env:RUNNER_TEMP\php_gd.dll") } else { @() }
             & "$php\php.exe" -c "$php\php.ini" -d "extension_dir=$PWD\$php\ext" @gd eines\document-html.php "docs\$d.md" $html
@@ -247,7 +247,7 @@ jobs:
           d=dist/Compas
           mkdir -p "$d/docs"
           cp -a app src "$d/"
-          cp docs/manual-usuari.md docs/manual-usuario.md docs/guia-installacio.md docs/guia-instalacion.md "$d/docs/"
+          cp docs/manual-usuari.md docs/manual-usuario.md docs/manual-administracio.md docs/manual-administracion.md docs/guia-installacio.md docs/guia-instalacion.md "$d/docs/"
           cp -a docs/imatges "$d/docs/"
           cp -a win/Compas/docs/pdf "$d/docs/"
           cp README.md CHANGELOG.md PRIVACITAT.md LLICENCIA.md LICENSE compas.ini "$d/"

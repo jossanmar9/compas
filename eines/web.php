@@ -60,6 +60,41 @@ $T = [
         'qui_errades' => 'Si sabeu fer-ho, les errades també es poden avisar a GitHub.',
         'qui_lema' => 'Fet per l\'expresident d\'una societat musical, per a les societats musicals.',
         'qui_llig' => 'Per què el vaig fer',
+        'nav_faq' => 'Preguntes',
+        'faq_titol' => 'Preguntes freqüents',
+        'faq_intro' => 'El que més ens pregunten les societats abans de provar-lo. Si teniu un altre dubte, escriviu-nos.',
+        'comptes_titol' => 'Qui pot fer què',
+        'comptes_intro' => 'Compàs té dos comptes: el de l\'administrador/a (normalment, la presidència o qui porta l\'informàtica) i el d\'usuari/ària (la secretaria o la tresoreria). Els dos fan tota la feina del dia a dia; només l\'administrador/a pot tocar la configuració, els comptes i la restauració de còpies.',
+        'comptes_cols' => ['Què es pot fer', 'Administrador/a', 'Usuari/ària'],
+        'comptes' => [
+            ['Persones, socis i tipus de soci', true],
+            ['Escola: cursos, grups, matrícules, notes i butlletins', true],
+            ['Agrupacions, repertori, instruments i uniformes', true],
+            ['Quotes, rebuts, domiciliacions, remeses i loteria', true],
+            ['Llibre de caixa', true],
+            ['Junta, actes, documents i comunicats', true],
+            ['Llistats, certificats i importació des d\'Excel', true],
+            ['Fer i baixar còpies de seguretat', true],
+            ['Canviar la pròpia contrasenya', true],
+            ['Configuració de la societat, logotip, mòduls i avisos', false],
+            ['Dades bancàries i descomptes de l\'escola', false],
+            ['Crear i gestionar els comptes', false],
+            ['Registre d\'activitat', false],
+            ['Restaurar i eliminar còpies, carpeta externa i xifrat', false],
+            ['Recuperar l\'accés amb el codi de recuperació', false],
+        ],
+        'faq' => [
+            ['És gratis de veres?', 'Sí. És programari lliure: sense quotes, sense límit de membres i sense versió «de pagament». No hi ha res a contractar.'],
+            ['Cal Internet?', 'No. Compàs funciona sense connexió. Els fitxers de remeses per al banc i els correus es preparen al programa i els envieu vosaltres des de la banca electrònica o el vostre correu.'],
+            ['Compàs envia les nostres dades a algun lloc?', 'No. Les dades es queden a l\'ordinador de la societat i, si la configureu, a la carpeta externa de còpies (un USB o una carpeta al núvol que trieu vosaltres). Ni el programa ni esta web recullen res.'],
+            ['Funciona en Windows i en Linux?', 'Sí. Per a Windows 10 o 11 de 64 bits hi ha un instal·lador i una versió portable; per a Linux, un paquet .deb i un .tar.gz. No hi ha versió per a Mac ni per al mòbil.'],
+            ['Es pot gastar des de diversos ordinadors alhora?', 'No: Compàs s\'instal·la en un ordinador de la societat i s\'usa en eixe ordinador. Per a canviar d\'ordinador, n\'hi ha prou de restaurar l\'última còpia al nou.'],
+            ['Puc provar-lo sense posar les dades de la societat?', 'Sí. En instal·lar-lo, podeu demanar que es carreguen dades d\'exemple: socis, alumnat, notes, rebuts… inventats. Quan el conegueu, comenceu de zero amb les dades de veres.'],
+            ['Tenim els socis en un Excel. Cal escriure\'ls tots?', 'No. Importa dades llig fitxers .xlsx i .csv: trieu quina columna és cada dada, reviseu la vista prèvia i s\'importen. Les persones que ja hi ha no es dupliquen.'],
+            ['Compàs fa factures?', 'No, fa rebuts. Les factures s\'han de fer amb un programa de facturació que complisca la normativa (Verifactu).'],
+            ['I si s\'espatlla l\'ordinador?', 'Per això hi ha les còpies de seguretat. Compàs en fa una cada vegada que es tanca, i convé configurar una carpeta externa perquè també es guarden fora de l\'ordinador. Amb l\'última còpia, ho recupereu tot en un altre ordinador.'],
+            ['Com s\'actualitza?', 'A Ajuda, el botó «Hi ha versió nova?» obri la pàgina de l\'última versió. Si n\'hi ha una de nova, s\'instal·la damunt de l\'anterior i les dades es conserven; abans d\'actualitzar, Compàs en fa una còpia.'],
+        ],
         'anterior' => 'Captura anterior', 'seguent' => 'Captura següent',
         'contacte' => 'Contacte',
         'que_titol' => 'Què pots fer amb Compàs',
@@ -108,13 +143,13 @@ $T = [
         'passos' => [
             ['Descarrega l\'instal·lador', 'Des de la pàgina de descàrregues, baixa <code>Compas-…-installador.exe</code>. També hi ha una versió portable que no cal instal·lar i paquets per a Linux (<code>.deb</code> per a Debian i Ubuntu, i <code>.tar.gz</code>).'],
             ['Instal·la\'l', 'No demana permisos d\'administrador. Com que encara no està signat, Windows pot avisar: llig el quadre de baix.'],
-            ['Comença', 'Escriu el nom de la societat i crea els comptes d\'administrador i d\'administratiu. Si vols, carrega dades d\'exemple per a provar-lo.'],
+            ['Comença', 'Escriu el nom de la societat i crea els comptes d\'administrador/a i d\'usuari/ària. Si vols, carrega dades d\'exemple per a provar-lo.'],
         ],
         'dades_titol' => 'Les dades es queden a la societat',
         'dades' => [
             'Compàs funciona en un ordinador de la societat i no envia res a Internet.',
             'Les dades d\'alumnes menors i socis no passen per cap servidor de fora.',
-            'Té dos comptes: administrador i administratiu, i un registre de qui ha fet cada canvi.',
+            'Té dos comptes: administrador/a i usuari/ària, i un registre de qui ha fet cada canvi.',
             'Esta web tampoc no té galetes ni analítica, i les tipografies (lliures) se serveixen des d\'ací mateix.',
         ],
         'avis_titol' => 'Si Windows no et deixa obrir-lo',
@@ -126,7 +161,7 @@ $T = [
         'req_titol' => 'Què cal',
         'req' => ['Un ordinador amb Windows 10 o 11 de 64 bits, o amb Linux i PHP 8.1 o posterior', 'Uns 100 MB de disc', 'Un llapis USB o una carpeta al núvol per a les còpies (recomanat)'],
         'docs_titol' => 'Manuals',
-        'docs' => [['manual-usuari.pdf', 'Manual d\'usuari, pas a pas amb captures'], ['guia-installacio.pdf', 'Guia d\'instal·lació']],
+        'docs' => [['manual-usuari.pdf', 'Manual d\'usuari, pas a pas amb captures'], ['manual-administracio.pdf', 'Manual d\'administració: configuració, comptes, còpies i actualitzacions'], ['guia-installacio.pdf', 'Guia d\'instal·lació']],
         'lliure_titol' => 'Programari lliure',
         'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s’oferisquen a través d’una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
         'autor' => 'Un projecte de José Vicente Sanjuan.',
@@ -185,6 +220,41 @@ $T = [
         'qui_errades' => 'Si sabéis hacerlo, los errores también se pueden avisar en GitHub.',
         'qui_lema' => 'Hecho por el expresidente de una sociedad musical, para las sociedades musicales.',
         'qui_llig' => 'Por qué lo hice',
+        'nav_faq' => 'Preguntas',
+        'faq_titol' => 'Preguntas frecuentes',
+        'faq_intro' => 'Lo que más nos preguntan las sociedades antes de probarlo. Si tenéis otra duda, escribidnos.',
+        'comptes_titol' => 'Quién puede hacer qué',
+        'comptes_intro' => 'Compàs tiene dos cuentas: la del administrador/a (normalmente, la presidencia o quien lleva la informática) y la de usuario/a (la secretaría o la tesorería). Las dos hacen todo el trabajo del día a día; solo el administrador/a puede tocar la configuración, las cuentas y la restauración de copias.',
+        'comptes_cols' => ['Qué se puede hacer', 'Administrador/a', 'Usuario/a'],
+        'comptes' => [
+            ['Personas, socios y tipos de socio', true],
+            ['Escuela: cursos, grupos, matrículas, notas y boletines', true],
+            ['Agrupaciones, repertorio, instrumentos y uniformes', true],
+            ['Cuotas, recibos, domiciliaciones, remesas y lotería', true],
+            ['Libro de caja', true],
+            ['Junta, actas, documentos y comunicados', true],
+            ['Listados, certificados e importación desde Excel', true],
+            ['Hacer y descargar copias de seguridad', true],
+            ['Cambiar la propia contraseña', true],
+            ['Configuración de la sociedad, logotipo, módulos y avisos', false],
+            ['Datos bancarios y descuentos de la escuela', false],
+            ['Crear y gestionar las cuentas', false],
+            ['Registro de actividad', false],
+            ['Restaurar y eliminar copias, carpeta externa y cifrado', false],
+            ['Recuperar el acceso con el código de recuperación', false],
+        ],
+        'faq' => [
+            ['¿Es gratis de verdad?', 'Sí. Es software libre: sin cuotas, sin límite de miembros y sin versión «de pago». No hay nada que contratar.'],
+            ['¿Hace falta Internet?', 'No. Compàs funciona sin conexión. Los ficheros de remesas para el banco y los correos se preparan en el programa y los enviáis vosotros desde la banca electrónica o vuestro correo.'],
+            ['¿Compàs envía nuestros datos a algún sitio?', 'No. Los datos se quedan en el ordenador de la sociedad y, si la configuráis, en la carpeta externa de copias (un USB o una carpeta en la nube que elegís vosotros). Ni el programa ni esta web recogen nada.'],
+            ['¿Funciona en Windows y en Linux?', 'Sí. Para Windows 10 u 11 de 64 bits hay un instalador y una versión portable; para Linux, un paquete .deb y un .tar.gz. No hay versión para Mac ni para el móvil.'],
+            ['¿Se puede usar desde varios ordenadores a la vez?', 'No: Compàs se instala en un ordenador de la sociedad y se usa en ese ordenador. Para cambiar de ordenador, basta con restaurar la última copia en el nuevo.'],
+            ['¿Puedo probarlo sin poner los datos de la sociedad?', 'Sí. Al instalarlo, podéis pedir que se carguen datos de ejemplo: socios, alumnado, notas, recibos… inventados. Cuando lo conozcáis, empezad de cero con los datos reales.'],
+            ['Tenemos los socios en un Excel. ¿Hay que escribirlos todos?', 'No. Importar datos lee ficheros .xlsx y .csv: elegís qué columna es cada dato, revisáis la vista previa y se importan. Las personas que ya están no se duplican.'],
+            ['¿Compàs hace facturas?', 'No, hace recibos. Las facturas se tienen que hacer con un programa de facturación que cumpla la normativa (Verifactu).'],
+            ['¿Y si se estropea el ordenador?', 'Para eso están las copias de seguridad. Compàs hace una cada vez que se cierra, y conviene configurar una carpeta externa para que también se guarden fuera del ordenador. Con la última copia, lo recuperáis todo en otro ordenador.'],
+            ['¿Cómo se actualiza?', 'En Ayuda, el botón «¿Hay versión nueva?» abre la página de la última versión. Si hay una nueva, se instala encima de la anterior y los datos se conservan; antes de actualizar, Compàs hace una copia.'],
+        ],
         'anterior' => 'Captura anterior', 'seguent' => 'Captura siguiente',
         'contacte' => 'Contacto',
         'que_titol' => 'Qué puedes hacer con Compàs',
@@ -233,13 +303,13 @@ $T = [
         'passos' => [
             ['Descarga el instalador', 'Desde la página de descargas, baja <code>Compas-…-installador.exe</code>. También hay una versión portable que no hace falta instalar y paquetes para Linux (<code>.deb</code> para Debian y Ubuntu, y <code>.tar.gz</code>).'],
             ['Instálalo', 'No pide permisos de administrador. Como todavía no está firmado, Windows puede avisar: lee el cuadro de abajo.'],
-            ['Empieza', 'Escribe el nombre de la sociedad y crea las cuentas de administrador y de administrativo. Si quieres, carga datos de ejemplo para probarlo.'],
+            ['Empieza', 'Escribe el nombre de la sociedad y crea las cuentas de administrador/a y de usuario/a. Si quieres, carga datos de ejemplo para probarlo.'],
         ],
         'dades_titol' => 'Los datos se quedan en la sociedad',
         'dades' => [
             'Compàs funciona en un ordenador de la sociedad y no envía nada a Internet.',
             'Los datos de alumnos menores y socios no pasan por ningún servidor de fuera.',
-            'Tiene dos cuentas: administrador y administrativo, y un registro de quién ha hecho cada cambio.',
+            'Tiene dos cuentas: administrador/a y usuario/a, y un registro de quién ha hecho cada cambio.',
             'Esta web tampoco tiene cookies ni analítica, y las tipografías (libres) se sirven desde aquí mismo.',
         ],
         'avis_titol' => 'Si Windows no te deja abrirlo',
@@ -251,7 +321,7 @@ $T = [
         'req_titol' => 'Qué hace falta',
         'req' => ['Un ordenador con Windows 10 u 11 de 64 bits, o con Linux y PHP 8.1 o posterior', 'Unos 100 MB de disco', 'Un lápiz USB o una carpeta en la nube para las copias (recomendado)'],
         'docs_titol' => 'Manuales',
-        'docs' => [['manual-usuario.pdf', 'Manual de usuario, paso a paso con capturas'], ['guia-instalacion.pdf', 'Guía de instalación']],
+        'docs' => [['manual-usuario.pdf', 'Manual de usuario, paso a paso con capturas'], ['manual-administracion.pdf', 'Manual de administración: configuración, cuentas, copias y actualizaciones'], ['guia-instalacion.pdf', 'Guía de instalación']],
         'lliure_titol' => 'Software libre',
         'lliure' => 'Compàs se distribuye bajo la licencia GNU AGPL v3 o posterior: puedes utilizarlo, estudiarlo, modificarlo y compartirlo. Las versiones modificadas que se ofrezcan a través de una red también deben poner su código fuente a disposición de los usuarios. El código es público en GitHub.',
         'autor' => 'Un proyecto de José Vicente Sanjuan.',
@@ -295,6 +365,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     }
     $dades = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['dades']));
     $req = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['req']));
+    $comptesCap = implode('', array_map(fn($c) => '<th>' . e($c) . '</th>', $t['comptes_cols']));
+    $comptes = implode('', array_map(fn($f) => '<tr><th>' . e($f[0]) . '</th><td class="permis">✔</td><td class="permis' . ($f[1] ? '">✔' : ' no">—') . '</td></tr>', $t['comptes']));
+    $faq = implode('', array_map(fn($f) => '<details><summary>' . e($f[0]) . '</summary><p>' . e($f[1]) . '</p></details>', $t['faq']));
     $avisos = implode('', array_map(fn($a) => '<dt>' . e($a[0]) . '</dt><dd>' . e($a[1]) . '</dd>', $t['avis']));
     $guia = $repo . '/blob/main/docs/' . ($l === 'es' ? 'guia-instalacion.md#si-windows-no-te-deja-abrirlo' : 'guia-installacio.md#si-windows-no-et-deixa-obrir-lo');
     // Els PDF es generen en publicar la web (workflow web.yml); si no hi són, s'enllacen els de l'última versió de GitHub
@@ -337,6 +410,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <a href="#captures">{$t['nav_veure']}</a>
     <a href="#qui">{$t['nav_qui']}</a>
     <a href="#comencar">{$t['nav_com']}</a>
+    <a href="#preguntes">{$t['nav_faq']}</a>
     <a href="{$repo}">{$t['nav_codi']}</a>
     <a class="idioma" href="{$t['altre_url']}" hreflang="{$t['altre']}" lang="{$t['altre']}">{$t['altre_nom']}</a>
   </nav>
@@ -426,6 +500,17 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <h2 class="h2-segon">{$t['docs_titol']}</h2>
     <ul class="docs">{$docs}</ul>
   </div>
+</section>
+
+<section id="preguntes" class="seccio preguntes">
+  <div class="cap">
+    <h2>{$t['faq_titol']}</h2>
+    <p>{$t['faq_intro']}</p>
+  </div>
+  <div class="faq">{$faq}</div>
+  <h3 class="comp-titol">{$t['comptes_titol']}</h3>
+  <p class="comptes-intro">{$t['comptes_intro']}</p>
+  <div class="taula-comp-wrap"><table class="taula-comp taula-comptes"><thead><tr>{$comptesCap}</tr></thead><tbody>{$comptes}</tbody></table></div>
 </section>
 
 <section class="seccio lliure">

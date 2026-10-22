@@ -2,12 +2,27 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas:
+Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas. Esta tabla resume qué puede hacer cada una:
 
-| Cuenta | Qué puede hacer |
-|---|---|
-| **Administrador/a** | Todo. También gestionar usuarios, la configuración (también los datos bancarios), el registro de actividad y restaurar copias. |
-| **Administrativo/a** | La gestión diaria: personas, socios, escuela, notas, boletines, agrupaciones, instrumentos, uniformes, recibos, remesas, lotería, caja, junta, actas, documentos, comunicados y hacer copias. |
+| Qué se puede hacer | Administrador/a | Usuario/a |
+|---|:---:|:---:|
+| Personas, socios y tipos de socio | ✔ | ✔ |
+| Escuela: cursos, grupos, matrículas, notas y boletines | ✔ | ✔ |
+| Agrupaciones, repertorio, instrumentos y uniformes | ✔ | ✔ |
+| Cuotas, recibos, domiciliaciones, remesas y lotería | ✔ | ✔ |
+| Libro de caja | ✔ | ✔ |
+| Junta, actas, documentos y comunicados | ✔ | ✔ |
+| Listados, certificados e importación desde Excel | ✔ | ✔ |
+| Hacer y descargar copias de seguridad | ✔ | ✔ |
+| Cambiar la propia contraseña | ✔ | ✔ |
+| Configuración de la sociedad, logotipo, módulos y avisos | ✔ | — |
+| Datos bancarios y descuentos de la escuela | ✔ | — |
+| Crear y gestionar las cuentas | ✔ | — |
+| Registro de actividad | ✔ | — |
+| Restaurar y eliminar copias, carpeta externa y cifrado | ✔ | — |
+| Recuperar el acceso con el código de recuperación | ✔ | — |
+
+Este manual es para las personas que llevan la gestión diaria. La configuración inicial, los datos de la sociedad, las cuentas, la restauración de copias y las actualizaciones las hace el administrador/a: están en el **Manual de administración**.
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
@@ -31,27 +46,12 @@ Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el i
 
 ![Pantalla de entrada](imatges/es/00-entrada.webp)
 
-Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 21).
+Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el Manual de administración).
 
-### La primera vez: configuración inicial
 
-La primera vez que se abre Compàs aparece la **Configuración inicial**:
+### La primera vez
 
-1. Escribe el **nombre de la sociedad musical**.
-2. Elige el **idioma** por defecto.
-3. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
-4. Si quieres, crea también la cuenta de **administrativo/a** (se puede hacer después).
-5. Marca **Cargar datos de ejemplo** solo si quieres probar el programa con datos inventados.
-6. Lee el **aviso de responsabilidad** y marca que lo aceptas.
-7. Pulsa **Empezar**.
-
-![Configuración inicial](imatges/es/01-configuracio-inicial.webp)
-
-A continuación, Compàs muestra el **código de recuperación**. Sirve para poner una contraseña nueva si el administrador/a la olvida, y **solo se muestra esta vez**. Pulsa **Imprime** (o apúntalo) y guárdalo con los papeles de la sociedad, no en el ordenador. Después pulsa **Ya lo he guardado, continúa**.
-
-![Código de recuperación](imatges/es/01b-codi-recuperacio.webp)
-
-> Para empezar a trabajar de verdad sin los datos de ejemplo, cierra Compàs, borra la carpeta `data` del programa y vuelve a abrirlo.
+La primera vez que se abre Compàs, el administrador/a hace la **configuración inicial** y crea las cuentas (**Manual de administración**). Después, cada persona entra con su usuario y su contraseña.
 
 ## 2. La pantalla principal
 
@@ -101,25 +101,9 @@ Compàs no deja eliminar nada que tenga historial (matrículas, notas, cesiones�
 
 Las bajas desaparecen de los listados, pero se pueden volver a ver marcando **Mostrar también las bajas**.
 
-## 4. Configuración de la sociedad y logotipo
+## 4. Configuración de la sociedad
 
-Menú **Administración → Configuración** (solo el administrador/a).
-
-1. Rellena los datos de la sociedad: nombre, CIF, dirección, teléfono, correo y web. Salen en los boletines.
-2. En **Logotipo de la sociedad**, pulsa el botón de elegir archivo y selecciona la imagen del logotipo (PNG, JPG o WEBP, hasta 3 MB).
-3. Pulsa **Guardar**. El logotipo aparece en el menú y en los boletines.
-
-![Configuración y logotipo](imatges/es/03-configuracio.webp)
-
-### Módulos y avisos
-
-No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos y comunicados.
-
-Un módulo desactivado desaparece del menú, del inicio, de los listados y de las fichas de las personas, pero **no se borra ningún dato**: si se vuelve a activar, todo está como estaba. Personas, socios, listados, importación y administración siempre están activos.
-
-En la misma pantalla se pueden ocultar los **avisos del inicio** que la sociedad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver y el curso actual.
-
-![Módulos y avisos](imatges/es/80-moduls.webp)
+Los datos de la sociedad, el logotipo, los módulos que se usan y los avisos del inicio los configura el administrador/a (**Manual de administración**). Si en tu sociedad no ves algún apartado de este manual (la escuela, la lotería…), seguramente está desactivado.
 
 ## 5. Preparar el curso académico
 
@@ -508,13 +492,7 @@ Menú **Economía → Tarifas**. Cada tarifa tiene un nombre (el que aparecerá 
 
 ### 13.2 Datos del banco y descuentos
 
-El administrador/a lo configura una sola vez en **Resumen económico → Configuración de Economía**:
-
-- **Datos bancarios de la sociedad**: el NIF y el IBAN donde se cobran los recibos. Los da el banco cuando se contrata el servicio de adeudos directos SEPA («remesas» o «cuaderno 19»). Compàs calcula el **identificador de acreedor**: comprueba que es el mismo que te ha dado el banco.
-- **Descuentos de la escuela**: un porcentaje para quien es socio (el alumno o quien paga) y otro para cada hermano a partir del segundo. Se aplican a las clases, no a la matrícula. En la ficha del alumno se puede poner, además, un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
-- **Texto al pie de los recibos**, si la sociedad quiere poner uno.
-
-![Configuración de Economía](imatges/es/57-economia-config.webp)
+Los datos bancarios de la sociedad y los descuentos de la escuela los configura el administrador/a (**Manual de administración**). En la ficha de cada alumno sí que puedes poner un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
 
 ### 13.3 Generar los recibos
 
@@ -712,9 +690,7 @@ En la ficha de un **socio**, de una **matrícula** o de un **músico** (en **Mú
 
 ![Certificado de socio](imatges/es/49-certificat.webp)
 
-La primera vez, en **Configuración → Certificados y hojas de consentimiento**, pon quién firma (normalmente el secretario/a), el cargo y, si queréis el visto bueno, el presidente/a. Pon también la **población** de la sociedad, que sale al final del certificado.
-
-![Datos de los certificados en la configuración](imatges/es/40-config-documents.webp)
+Quién firma los certificados (normalmente el secretario/a) y el visto bueno del presidente/a se toman solos de la junta directiva (apartado 15). Si hace falta, el administrador/a lo puede cambiar en la configuración.
 
 ## 19. Importar datos desde Excel
 
@@ -753,7 +729,7 @@ En la columna **Avisos** verás, por ejemplo, fechas que no se entienden o perso
 
 ![Importar: revisión antes de importar](imatges/es/53-importa-revisa.webp)
 
-Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 20).
+Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, el administrador/a la puede restaurar (Manual de administración).
 
 ### Importar el repertorio
 
@@ -783,55 +759,15 @@ Menú **Administración → Copias de seguridad**:
 
 ![Copias de seguridad](imatges/es/34-copies.webp)
 
-### Cuántas copias se guardan
 
-Las copias automáticas no se acumulan sin fin. Compàs guarda:
+### Hacer y descargar copias
 
-- **todas** las de los últimos 7 días;
-- **una por semana** de las últimas 5 semanas;
-- **una por mes** hasta el límite que elijas en **Cuánto tiempo se guardan las copias automáticas** (1 año si no se cambia).
+- **Haz una copia ahora**: hace una copia en el momento. Conviene hacer una antes de un cambio grande.
+- **Descargar** (en la lista): descarga una copia, por ejemplo para guardarla en un USB.
 
-Con una copia cada día, eso son unas veinte copias que llegan a un año atrás. Las manuales y las de «antes de restaurar» o «antes de importar» no se borran solas. La misma rotación se hace en la carpeta externa.
-
-La pantalla dice cuánto ocupa la base de datos (y cuánto de eso son documentos) y cuánto ocupan todas las copias. Si la base de datos pasa de 200 MB, normalmente por los documentos archivados, Compàs avisa: cada copia ocupa lo mismo, así que hay que comprobar que hay espacio suficiente en el ordenador y en la carpeta externa.
-
-### Configurar la carpeta externa (muy importante)
-
-Si el ordenador se estropea o lo roban, las copias que hay dentro se pierden con él. Hay que guardarlas también fuera:
-
-1. Conecta un **disco o lápiz USB**, o elige una carpeta **sincronizada con la nube** (OneDrive, Google Drive…).
-2. Crea en ella una carpeta, por ejemplo `Copias Compàs`, y copia su ruta desde el Explorador de Windows (por ejemplo `E:\Copias Compàs`).
-3. En **Configuración de las copias**, pega la ruta en **Carpeta externa**.
-4. Pulsa **Guardar**.
-
-![Carpeta externa de copias](imatges/es/35-copies-carpeta.webp)
-
-A partir de ahora, cada copia se guarda también en esta carpeta. Si no está disponible (por ejemplo, el USB no está conectado) o hace más de 7 días que no se guarda nada en ella, el inicio lo avisa.
-
-### Lista de copias, restaurar y eliminar
-
-![Lista de copias](imatges/es/36-copies-llista.webp)
-
-- **Descargar**: descarga esa copia.
-- **Restaurar** (solo el administrador/a): sustituye todos los datos actuales por los de la copia. Antes, Compàs guarda una copia de los datos actuales («Antes de restaurar»), de manera que siempre se puede volver atrás. Después hay que volver a entrar.
-- **Eliminar** (solo el administrador/a): borra la copia.
-
-Para restaurar una copia guardada fuera (por ejemplo, desde el USB), usa **Restaurar desde un archivo**, al final de la página.
+Elegir la carpeta externa (USB o nube), cifrar las copias, decidir cuánto tiempo se guardan y **restaurar** una copia lo hace el administrador/a (**Manual de administración**).
 
 > Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro.
-
-### Copias externas cifradas
-
-Si la carpeta externa es un pendrive o la nube, conviene cifrarlas: si se pierde el USB, nadie podrá abrir los datos sin la contraseña.
-
-1. En **Configuración de las copias**, marca **Cifra con contraseña las copias de la carpeta externa**.
-2. Escribe una contraseña (al menos 8 caracteres) dos veces y pulsa **Guardar**.
-
-![Copias externas cifradas](imatges/es/54-copies-xifrat.webp)
-
-A partir de ahora, las copias de la carpeta externa terminan en `.xifrat`. Las del ordenador no se cifran. Para restaurar una, en **Restaurar desde un archivo** elige el archivo `.xifrat` y escribe la contraseña.
-
-> **Apunta la contraseña en papel** junto con el código de recuperación. Si se olvida, las copias cifradas no se pueden recuperar.
 
 ## 21. Usuarios y contraseñas
 
@@ -844,48 +780,9 @@ Cada usuario puede cambiar la suya cuando quiera:
 3. Escribe la **contraseña nueva** dos veces (al menos 8 caracteres).
 4. Pulsa **Guardar**.
 
-Si no recuerdas la actual, no la puedes cambiar aquí: el administrativo/a debe pedir una nueva al administrador/a, y el administrador/a puede recuperar el acceso desde la entrada (ver más abajo).
+Si no recuerdas la actual, no la puedes cambiar aquí: pide al administrador/a que te ponga una contraseña nueva.
 
 ![Mi cuenta](imatges/es/38-meu-compte.webp)
-
-### Gestionar las cuentas (administrador/a)
-
-Menú **Administración → Usuarios**. Abre una cuenta para:
-
-- cambiarle el **rol** (administrador/a o administrativo/a);
-- ponerle una **contraseña nueva** si la ha olvidado (déjala en blanco para no cambiarla);
-- desactivarla (desmarca **Activo**) o eliminarla.
-
-![Editar un usuario](imatges/es/37-usuari.webp)
-
-Siempre debe quedar al menos un administrador activo.
-
-### Si el administrador/a olvida la contraseña
-
-1. En la pantalla de entrada, pulsa **¿Eres el administrador/a? Recupera el acceso**.
-2. Escribe tu **usuario**, el **código de recuperación** que guardaste y la **contraseña nueva** dos veces.
-3. Pulsa **Cambia la contraseña**. Entrarás directamente en el programa.
-4. Compàs muestra un **código de recuperación nuevo**, porque el anterior ya no vale. Imprímelo y guárdalo en lugar del antiguo.
-
-![He olvidado la contraseña](imatges/es/00b-recuperacio.webp)
-
-**Si no encuentras el código**, pulsa **No tengo el código de recuperación** en la misma página y sigue los pasos:
-
-1. Abre el Explorador de archivos y ve a la carpeta de datos de Compàs. La página muestra la ruta exacta: cópiala en la barra de direcciones del Explorador.
-2. Crea un archivo nuevo (botón derecho → **Nuevo → Documento de texto**) y ponle de nombre `recupera-acces`.
-3. Vuelve a la página de Compàs y recárgala (tecla **F5**). Ya no pedirá el código: escribe el usuario y la contraseña nueva.
-
-El archivo solo vale durante una hora y se borra solo al usarlo. Este sistema es seguro porque solo puede crear el archivo quien ya tiene acceso al ordenador y a los datos.
-
-### Código de recuperación
-
-Si has perdido el código o crees que alguien lo ha visto, ve a **Administración → Usuarios** y, abajo, pulsa **Genera un código nuevo**. El anterior deja de valer. Si Compàs se instaló antes de la versión 1.3, la pantalla de inicio avisa de que no hay código hasta que lo generes.
-
-Todas las recuperaciones, también las que fallan, quedan en el **Registro de actividad**.
-
-### Registro de actividad
-
-Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
 
 ## 22. Ayuda
 
@@ -909,7 +806,7 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **El boletín no muestra una asignatura.** El alumno no está inscrito en ese grupo dentro de su matrícula.
 
-**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (apartado 21).
+**El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (Manual de administración).
 
 **Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 19): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
 

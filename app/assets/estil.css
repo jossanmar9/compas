@@ -362,3 +362,12 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .pagines-repertori { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 12px; }
 .pagines-repertori .pagines { margin: 0; }
 .pagines-repertori small { color: var(--suau); }
+
+/* Ajuda: manual d'usuari i manual d'administració */
+.pestanyes-manual { display: flex; gap: 6px; margin: 18px 0 0; border-bottom: 2px solid var(--vora); }
+.pestanyes-manual a { padding: 8px 16px; border-radius: var(--radi) var(--radi) 0 0; text-decoration: none; color: var(--suau); font-weight: 600; margin-bottom: -2px; border-bottom: 2px solid transparent; }
+.pestanyes-manual a.actiu { color: var(--blau); border-bottom-color: var(--blau); background: var(--blau-clar); }
+
+.taula td.permis { text-align: center; width: 9rem; font-weight: 600; color: var(--ok); }
+.taula:has(td.permis) th:not(:first-child) { text-align: center; }
+.taula td.permis.no { color: var(--suau, #888); font-weight: 400; }

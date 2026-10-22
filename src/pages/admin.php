@@ -262,7 +262,7 @@ function pagina_auditoria(): void
 /* ---------- Ajuda ---------- */
 
 /** Manuals i guies que es poden descarregar en PDF */
-const DOCUMENTS_PDF = ['manual-usuari', 'manual-usuario', 'guia-installacio', 'guia-instalacion'];
+const DOCUMENTS_PDF = ['manual-usuari', 'manual-usuario', 'manual-administracio', 'manual-administracion', 'guia-installacio', 'guia-instalacion'];
 
 /** URL d'una captura del manual (docs/imatges/…) per a mostrar-la dins del programa */
 function url_imatge_doc(string $ruta): ?string
@@ -314,10 +314,15 @@ function pagina_ajuda(): void
         pagina_llicencia();
         return;
     }
-    $fitxer = DOCS_DIR . '/' . (idioma() === 'es' ? 'manual-usuario.md' : 'manual-usuari.md');
+    // Dos manuals: el d'usuari (la gestió diària) i el d'administració (configuració, comptes, còpies i actualitzacions).
+    // L'administrador/a pot vore els dos; la resta, només el d'usuari.
+    $es = idioma() === 'es';
+    $nomManual = ['usuari' => $es ? 'manual-usuario' : 'manual-usuari', 'admin' => $es ? 'manual-administracion' : 'manual-administracio'];
+    $quin = get('manual') === 'admin' && pot('config.manage') ? 'admin' : 'usuari';
+    $fitxer = DOCS_DIR . '/' . $nomManual[$quin] . '.md';
     $md = is_file($fitxer) ? file_get_contents($fitxer) : t('ajuda.no_manual');
-    $docs = idioma() === 'es' ? ['manual-usuario' => t('ajuda.pdf_manual'), 'guia-instalacion' => t('ajuda.pdf_guia')]
-        : ['manual-usuari' => t('ajuda.pdf_manual'), 'guia-installacio' => t('ajuda.pdf_guia')];
+    $docs = [$nomManual['usuari'] => t('ajuda.pdf_manual')] + (pot('config.manage') ? [$nomManual['admin'] => t('ajuda.pdf_manual_admin')] : [])
+        + [$es ? 'guia-instalacion' : 'guia-installacio' => t('ajuda.pdf_guia')];
     $enllacos = '';
     foreach ($docs as $doc => $text) {
         if (is_file(DOCS_DIR . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $doc . '.pdf')) {
@@ -336,7 +341,10 @@ function pagina_ajuda(): void
     // Compàs no es connecta a Internet: el botó només obri al navegador la pàgina de l'última versió
     $enllacos .= '<a class="boto secundari" target="_blank" rel="noopener" href="https://github.com/jossanmar9/compas/releases/latest" title="'
         . h(t('ajuda.versio_ajuda', COMPAS_VERSIO)) . '">🔄 ' . h(t('ajuda.versio_nova')) . '</a>';
-    $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '') . '<p class="nota">' . h(t('ajuda.versio_ajuda', COMPAS_VERSIO)) . '</p>' . avis_responsabilitat_text()
+    $pestanyes = !pot('config.manage') ? '' : '<nav class="pestanyes-manual">'
+        . '<a href="' . h(url('ajuda')) . '"' . ($quin === 'usuari' ? ' class="actiu"' : '') . '>📘 ' . h(t('ajuda.manual_usuari')) . '</a>'
+        . '<a href="' . h(url('ajuda', ['manual' => 'admin'])) . '"' . ($quin === 'admin' ? ' class="actiu"' : '') . '>🛠 ' . h(t('ajuda.manual_admin')) . '</a></nav>';
+    $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '') . $pestanyes . '<p class="nota">' . h(t('ajuda.versio_ajuda', COMPAS_VERSIO)) . '</p>' . avis_responsabilitat_text()
         . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
 }

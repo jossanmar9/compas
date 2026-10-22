@@ -72,7 +72,7 @@ Un projecte de **José Vicente Sanjuan**.
 | **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, músics per instrument, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula i d'agrupació amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
 | **A la mida** | Cada societat desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol vore. Les dades no s'esborren. |
-| **Administració** | Dos comptes (administrador/a i administratiu/va), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
+| **Administració** | Dos comptes (administrador/a i usuari/ària), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
 
@@ -120,7 +120,7 @@ Més detalls i solució de problemes a la [guia d'instal·lació](docs/guia-inst
 
 ## Primers passos
 
-La primera vegada, Compàs demana el nom de la societat i crea el compte d'administrador (i, si vols, el d'administratiu). També pot carregar **dades d'exemple** per a provar-lo.
+La primera vegada, Compàs demana el nom de la societat i crea el compte d'administrador (i, si vols, el d'usuari/ària). També pot carregar **dades d'exemple** per a provar-lo.
 
 Ordre recomanat per a començar:
 
@@ -135,10 +135,23 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 
 ## Usuaris i permisos
 
-| Compte | Pot fer |
-|---|---|
-| **Administrador/a** | Tot, incloent-hi usuaris, configuració, registre d'activitat i restauració de còpies. |
-| **Administratiu/va** | Tota la gestió diària (persones, socis, escola, notes, butlletins, agrupacions, instruments, uniformes, economia, junta, documents i comunicats) i fer còpies. |
+| Què es pot fer | Administrador/a | Usuari/ària |
+|---|:---:|:---:|
+| Persones, socis i tipus de soci | ✔ | ✔ |
+| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
+| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
+| Quotes, rebuts, domiciliacions, remeses i loteria | ✔ | ✔ |
+| Llibre de caixa | ✔ | ✔ |
+| Junta, actes, documents i comunicats | ✔ | ✔ |
+| Llistats, certificats i importació des d'Excel | ✔ | ✔ |
+| Fer i baixar còpies de seguretat | ✔ | ✔ |
+| Canviar la pròpia contrasenya | ✔ | ✔ |
+| Configuració de la societat, logotip, mòduls i avisos | ✔ | — |
+| Dades bancàries i descomptes de l'escola | ✔ | — |
+| Crear i gestionar els comptes | ✔ | — |
+| Registre d'activitat | ✔ | — |
+| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — |
+| Recuperar l'accés amb el codi de recuperació | ✔ | — |
 
 Les contrasenyes es guarden xifrades, hi ha un bloqueig temporal després de cinc intents fallits i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
 
@@ -162,12 +175,13 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 | Document | Valencià | Castellano |
 |---|---|---|
 | Manual d'usuari, pas a pas amb captures | [MD](docs/manual-usuari.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuari.pdf) | [MD](docs/manual-usuario.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuario.pdf) |
+| Manual d'administració: configuració, comptes, còpies i actualitzacions | [MD](docs/manual-administracio.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-administracio.pdf) | [MD](docs/manual-administracion.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-administracion.pdf) |
 | Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/guia-instalacion.pdf) |
 | Declaració de privacitat | [PRIVACITAT](PRIVACITAT.md) | [PRIVACITAT](PRIVACITAT.md#privacidad-de-compàs) |
 | Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
 | Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
 
-El manual també es pot consultar dins del programa, al menú **Ajuda**.
+Els manuals també es poden consultar dins del programa, al menú **Ajuda** (el d'administració, només l'administrador/a).
 
 ## Per a desenvolupar
 
