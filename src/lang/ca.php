@@ -338,6 +338,7 @@ return [
     'copia.tipus.tancament' => 'Automàtica (en tancar)',
     'copia.tipus.manual' => 'Manual',
     'copia.tipus.abans-restaurar' => 'Abans de restaurar',
+    'copia.tipus.abans-actualitzar' => 'Abans d\'actualitzar',
     'copia.baixa_curt' => 'Baixa',
     'copia.restaura_curt' => 'Restaura',
     'copia.confirma_restaurar' => 'Es substituiran TOTES les dades actuals per les d\'esta còpia. Abans es farà una còpia de les actuals. Continuar?',
@@ -1304,6 +1305,10 @@ return [
     'audit.rgpd' => 'Registre d\'activitats de tractament',
     'audit.avis_responsabilitat' => 'Avís de responsabilitat acceptat',
     'ajuda.llicencia' => 'Llicència',
+    'ajuda.versio_nova' => 'Hi ha versió nova?',
+    'ajuda.versio_ajuda' => 'Tens la versió %s. «Hi ha versió nova?» obri al navegador la pàgina de l\'última versió publicada (Compàs no es connecta a Internet): si el número és més alt, baixa-la i instal·la-la damunt; les dades es conserven.',
+    'rep.totes' => 'Mostra-les totes (%d)', 'rep.paginat' => 'Es mostren de %d en %d. Per a imprimir el catàleg sencer, mostra-les totes.',
+    'cerca_ref.placeholder' => 'Escriu almenys dos lletres per a buscar…',
     // ---------- 1.11: tipus de soci, uniformes, mòduls i avisos ----------
     'ent.tipus_socis' => 'Tipus de soci', 'ent1.tipus_socis' => 'Tipus de soci',
     'ent.uniformes' => 'Articles d\'uniforme', 'ent1.uniformes' => 'Article d\'uniforme',

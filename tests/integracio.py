@@ -36,9 +36,10 @@ DIR = ARREL / 'tests' / 'integracio'
 
 # Bateries: nom → (fitxers que s'executen en ordre sobre la mateixa instal·lació, instal·lar?)
 BATERIES = {
-    'economia': (['economia.py', 'iban.py', 'societat.py', 'repas.py'], True),
+    'economia': (['economia.py', 'iban.py', 'societat.py', 'repas.py', 'actualitzacio.py'], True),
     'uniformes': (['uniformes_moduls.py'], True),
     'repertori': (['repertori.py'], True),
+    'gran': (['gran.py'], True),
     'avis': (['avis.py'], False),
     'importacio': (['importacio.php'], True),
 }

@@ -348,3 +348,17 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .avis-responsabilitat label.check { display: flex; gap: 8px; align-items: flex-start; }
 .peu-app { padding: 14px 28px 22px; font-size: .78rem; color: var(--suau); border-top: 1px solid var(--vora); margin-top: 10px; }
 .peu-app a { color: var(--suau); }
+
+/* Camp de relació amb cerca (moltes opcions) */
+.cerca-ref { position: relative; }
+.cerca-ref input { width: 100%; }
+.resultats-ref { position: absolute; z-index: 20; left: 0; right: 0; top: 100%; margin: 2px 0 0; padding: 4px 0; list-style: none; max-height: 280px; overflow-y: auto;
+    background: var(--superficie); border: 1px solid var(--vora); border-radius: var(--radi); box-shadow: 0 6px 18px rgba(20, 40, 75, .15); }
+.resultats-ref li { padding: 6px 12px; cursor: pointer; }
+.resultats-ref li:hover, .resultats-ref li.actiu { background: var(--blau-clar); }
+.resultats-ref li.buit { color: var(--suau); cursor: default; }
+
+.pagines .salt { padding: 0 4px; color: var(--suau); }
+.pagines-repertori { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 12px; }
+.pagines-repertori .pagines { margin: 0; }
+.pagines-repertori small { color: var(--suau); }

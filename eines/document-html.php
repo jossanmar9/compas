@@ -20,11 +20,21 @@ $titol = preg_match('/^# (.+)$/m', $md, $m) ? trim($m[1]) : 'Compàs';
 $docsDir = dirname(realpath($argv[1]));
 $cos = markdown_simple(preg_replace('/^# .*\R/', '', $md, 1), function (string $ruta) use ($docsDir) {
     $f = $docsDir . '/' . $ruta;
-    if (!preg_match('#^imatges/(ca|es)/[\w-]+\.(jpg|png)$#', $ruta) || !is_file($f)) {
+    if (!preg_match('#^imatges/(ca|es)/[\w-]+\.(jpg|png|webp)$#', $ruta) || !is_file($f)) {
         fwrite(STDERR, "Falta la imatge $ruta\n");
         return null;
     }
-    return 'data:image/' . (str_ends_with($f, '.png') ? 'png' : 'jpeg') . ';base64,' . base64_encode(file_get_contents($f));
+    // Les captures són WebP; Chrome les guardaria al PDF sense comprimir (i el manual passaria de 12 a 40 MB),
+    // així que, si PHP té GD, es converteixen a JPEG per al PDF
+    if (str_ends_with($f, '.webp') && function_exists('imagecreatefromwebp') && ($im = @imagecreatefromwebp($f))) {
+        ob_start();
+        imagejpeg($im, null, 78);
+        return 'data:image/jpeg;base64,' . base64_encode((string)ob_get_clean());
+    }
+    if (str_ends_with($f, '.webp') && !isset($GLOBALS['avis_gd'])) {
+        $GLOBALS['avis_gd'] = fwrite(STDERR, "Avís: PHP no té GD amb WebP; el PDF serà més gran\n");
+    }
+    return 'data:image/' . (str_ends_with($f, '.png') ? 'png' : (str_ends_with($f, '.webp') ? 'webp' : 'jpeg')) . ';base64,' . base64_encode(file_get_contents($f));
 });
 $castella = str_contains(basename($argv[1]), 'usuario') || str_contains(basename($argv[1]), 'instalacion');
 $lema = $castella ? 'Gestión libre para sociedades musicales' : 'Gestió lliure per a societats musicals';

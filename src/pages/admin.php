@@ -268,17 +268,17 @@ const DOCUMENTS_PDF = ['manual-usuari', 'manual-usuario', 'guia-installacio', 'g
 function url_imatge_doc(string $ruta): ?string
 {
     $rel = preg_replace('#^imatges/#', '', $ruta);
-    return preg_match('#^(ca|es)/[\w-]+\.(jpg|png)$#', $rel) && is_file(DOCS_DIR . '/imatges/' . $rel) ? url('doc_img', ['f' => $rel]) : null;
+    return preg_match('#^(ca|es)/[\w-]+\.(jpg|png|webp)$#', $rel) && is_file(DOCS_DIR . '/imatges/' . $rel) ? url('doc_img', ['f' => $rel]) : null;
 }
 
 function serveix_imatge_doc(): never
 {
     $rel = (string)get('f');
-    if (!preg_match('#^(ca|es)/[\w-]+\.(jpg|png)$#', $rel, $m) || !is_file($f = DOCS_DIR . '/imatges/' . $rel)) {
+    if (!preg_match('#^(ca|es)/[\w-]+\.(jpg|png|webp)$#', $rel, $m) || !is_file($f = DOCS_DIR . '/imatges/' . $rel)) {
         http_response_code(404);
         exit;
     }
-    header('Content-Type: image/' . ($m[2] === 'jpg' ? 'jpeg' : 'png'));
+    header('Content-Type: image/' . ['jpg' => 'jpeg', 'png' => 'png', 'webp' => 'webp'][$m[2]]);
     header('Cache-Control: private, max-age=86400');
     header('Content-Length: ' . filesize($f));
     readfile($f);
@@ -333,7 +333,10 @@ function pagina_ajuda(): void
     if (is_file(ARREL_DIR . DIRECTORY_SEPARATOR . 'LLICENCIA.md')) {
         $enllacos .= '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'llicencia'])) . '">⚖ ' . h(t('ajuda.llicencia')) . '</a>';
     }
-    $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '') . avis_responsabilitat_text()
+    // Compàs no es connecta a Internet: el botó només obri al navegador la pàgina de l'última versió
+    $enllacos .= '<a class="boto secundari" target="_blank" rel="noopener" href="https://github.com/jossanmar9/compas/releases/latest" title="'
+        . h(t('ajuda.versio_ajuda', COMPAS_VERSIO)) . '">🔄 ' . h(t('ajuda.versio_nova')) . '</a>';
+    $html = ($enllacos ? '<div class="accions">' . $enllacos . '</div>' : '') . '<p class="nota">' . h(t('ajuda.versio_ajuda', COMPAS_VERSIO)) . '</p>' . avis_responsabilitat_text()
         . '<article class="manual">' . markdown_simple(preg_replace('/^# .*\R/', '', $md), 'url_imatge_doc') . '</article>';
     pagina(t('menu.ajuda'), $html);
 }

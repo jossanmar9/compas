@@ -29,7 +29,7 @@ La ventana usa el componente WebView2, que traen Windows 10 y 11. En el raro ord
 
 Escribe tu usuario y la contraseña y pulsa **Entrar**. Abajo puedes elegir el idioma.
 
-![Pantalla de entrada](imatges/es/00-entrada.jpg)
+![Pantalla de entrada](imatges/es/00-entrada.webp)
 
 Si olvidas la contraseña, el administrador te puede poner una nueva. Si quien la ha olvidado es el administrador/a, pulsa **Recupera el acceso** (ver el apartado 21).
 
@@ -45,17 +45,17 @@ La primera vez que se abre Compàs aparece la **Configuración inicial**:
 6. Lee el **aviso de responsabilidad** y marca que lo aceptas.
 7. Pulsa **Empezar**.
 
-![Configuración inicial](imatges/es/01-configuracio-inicial.jpg)
+![Configuración inicial](imatges/es/01-configuracio-inicial.webp)
 
 A continuación, Compàs muestra el **código de recuperación**. Sirve para poner una contraseña nueva si el administrador/a la olvida, y **solo se muestra esta vez**. Pulsa **Imprime** (o apúntalo) y guárdalo con los papeles de la sociedad, no en el ordenador. Después pulsa **Ya lo he guardado, continúa**.
 
-![Código de recuperación](imatges/es/01b-codi-recuperacio.jpg)
+![Código de recuperación](imatges/es/01b-codi-recuperacio.webp)
 
 > Para empezar a trabajar de verdad sin los datos de ejemplo, cierra Compàs, borra la carpeta `data` del programa y vuelve a abrirlo.
 
 ## 2. La pantalla principal
 
-![Pantalla de inicio](imatges/es/02-inici.jpg)
+![Pantalla de inicio](imatges/es/02-inici.webp)
 
 - **Menú lateral** (izquierda): todas las secciones, agrupadas en Escuela de música, Agrupaciones, Instrumentos, Documentos y datos (listados, informes e importación) y Administración.
 - **Arriba a la derecha**: cambio de idioma (`VAL` / `ES`), tu nombre de usuario (para cambiar la contraseña) y **Salir**.
@@ -68,7 +68,7 @@ Todas las secciones funcionan igual. Si aprendes una, las sabes todas.
 
 ### Listados
 
-![Listado de personas](imatges/es/04-persones-llista.jpg)
+![Listado de personas](imatges/es/04-persones-llista.webp)
 
 - **Buscar**: escribe un nombre, apellido, teléfono… y pulsa **Filtrar**.
 - **Mostrar también las bajas**: por defecto se ocultan las personas inactivas y las bajas.
@@ -80,7 +80,7 @@ Todas las secciones funcionan igual. Si aprendes una, las sabes todas.
 
 La ficha muestra todos los datos de un elemento y todo lo que está relacionado con él. Por ejemplo, la ficha de una persona muestra si es socia, alumna, profesora, música…
 
-![Ficha de una persona](imatges/es/06-persona-fitxa.jpg)
+![Ficha de una persona](imatges/es/06-persona-fitxa.webp)
 
 - **Editar**: cambia los datos.
 - **Eliminar**: solo se puede si no tiene nada relacionado (ver «Bajas» más abajo).
@@ -109,7 +109,7 @@ Menú **Administración → Configuración** (solo el administrador/a).
 2. En **Logotipo de la sociedad**, pulsa el botón de elegir archivo y selecciona la imagen del logotipo (PNG, JPG o WEBP, hasta 3 MB).
 3. Pulsa **Guardar**. El logotipo aparece en el menú y en los boletines.
 
-![Configuración y logotipo](imatges/es/03-configuracio.jpg)
+![Configuración y logotipo](imatges/es/03-configuracio.webp)
 
 ### Módulos y avisos
 
@@ -119,7 +119,7 @@ Un módulo desactivado desaparece del menú, del inicio, de los listados y de la
 
 En la misma pantalla se pueden ocultar los **avisos del inicio** que la sociedad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver y el curso actual.
 
-![Módulos y avisos](imatges/es/80-moduls.jpg)
+![Módulos y avisos](imatges/es/80-moduls.webp)
 
 ## 5. Preparar el curso académico
 
@@ -133,7 +133,7 @@ Antes de matricular hay que tener el curso preparado. Orden recomendado: **curso
 4. Pulsa **Guardar**. Se abre la ficha del curso.
 5. En el apartado **Periodos de evaluación**, pulsa **+ Añadir** y crea uno para cada evaluación (`1.er trimestre`, `2.º trimestre`, `3.er trimestre`), con el orden 1, 2, 3.
 
-![Ficha del curso con los periodos, grupos y matrículas](imatges/es/21-curs-fitxa.jpg)
+![Ficha del curso con los periodos, grupos y matrículas](imatges/es/21-curs-fitxa.webp)
 
 ### 5.2 Asignaturas y aulas
 
@@ -150,7 +150,7 @@ Un profesor es una **persona** con ficha de profesor:
 2. En su ficha, en el apartado **Profesorado**, pulsa **+ Añadir**.
 3. Comprueba la fecha de alta y pulsa **Guardar**.
 
-![Alta de un profesor](imatges/es/20-professor-nou.jpg)
+![Alta de un profesor](imatges/es/20-professor-nou.webp)
 
 **Certificado de delitos de naturaleza sexual.** Es obligatorio para todo el que trabaja con menores. En la ficha de profesor, pon su **fecha**. Si falta el de algún profesor en activo, Compàs lo avisa en el inicio y el listado de profesorado tiene el filtro **Sin certificado de delitos sexuales**.
 
@@ -162,13 +162,13 @@ Un **grupo** es una asignatura impartida en un curso por un profesor: por ejempl
 2. Elige el **curso**, la **asignatura**, escribe el **nombre** del grupo y elige el **profesor** y el **aula**.
 3. Pulsa **Guardar**. Se abre la ficha del grupo.
 
-![Nuevo grupo](imatges/es/22-grup-nou.jpg)
+![Nuevo grupo](imatges/es/22-grup-nou.webp)
 
 4. En el apartado **Horario**, pulsa **+ Añadir**, elige el **día** y las horas de inicio y de fin, y pulsa **Guardar**. Repítelo si el grupo tiene clase más de un día.
 
-![Añadir una franja horaria](imatges/es/23-horari-nou.jpg)
+![Añadir una franja horaria](imatges/es/23-horari-nou.webp)
 
-![Ficha del grupo con el horario](imatges/es/24-grup-fitxa.jpg)
+![Ficha del grupo con el horario](imatges/es/24-grup-fitxa.webp)
 
 Desde la ficha del grupo también puedes ir directamente a las **Calificaciones** del grupo.
 
@@ -176,7 +176,7 @@ Desde la ficha del grupo también puedes ir directamente a las **Calificaciones*
 
 El menú **Horario** muestra todas las clases de la semana. Puedes filtrar por profesor o por aula para imprimir el horario de cada uno.
 
-![Horario general](imatges/es/25-horari.jpg)
+![Horario general](imatges/es/25-horari.webp)
 
 ### 5.6 Pasar al curso siguiente
 
@@ -188,7 +188,7 @@ Cuando se acerca el curso nuevo no hace falta crearlo todo desde cero:
 4. Deja marcado **Marca el curso nuevo como curso actual** y, si quieres, **Cierra** el curso anterior.
 5. Pulsa **Crea el curso nuevo**.
 
-![Asistente para pasar de curso](imatges/es/50-passa-curs.jpg)
+![Asistente para pasar de curso](imatges/es/50-passa-curs.webp)
 
 Después solo hay que ajustar lo que cambie (un grupo nuevo, otro profesor…) e inscribir a los alumnos en los grupos. Las notas no se copian nunca, y el curso anterior se conserva entero.
 
@@ -211,7 +211,7 @@ Al poner una fecha de nacimiento de mayor de edad, los campos DNI y teléfono pa
 
 Si la persona es mayor de edad y pagará recibos por el banco (un socio, o el padre o la madre de un alumno), escribe su **IBAN**. Compàs crea la domiciliación (apartado 13.4). También se puede escribir el número de cuenta antiguo de 20 cifras: Compàs lo convierte en IBAN.
 
-![Formulario de persona nueva](imatges/es/05-persona-nova.jpg)
+![Formulario de persona nueva](imatges/es/05-persona-nova.webp)
 
 Se abre la **ficha de la persona**, con un apartado para cada función: Socios, Alumnado, Profesorado, Músicos y miembros, Tutores legales (cuando es tutor de alguien) y Cesiones.
 
@@ -223,11 +223,11 @@ De los menores no hace falta tener el DNI ni el teléfono. Cuando una persona cu
 - Su fila se marca **en amarillo** con el símbolo ⚠. Si pasas el ratón por encima, dice qué datos faltan.
 - En su ficha también aparece el aviso, con un enlace para editarla.
 
-![Aviso de personas con datos que faltan](imatges/es/04-persones-llista.jpg)
+![Aviso de personas con datos que faltan](imatges/es/04-persones-llista.webp)
 
 Pulsa **Mostrarlas** (o elige el filtro **Faltan datos obligatorios**) para ver solo esas personas. Abre cada una, pulsa **Editar**, completa el DNI y el teléfono y guarda. El aviso desaparece cuando ya no falta ninguno.
 
-![Personas con datos que faltan](imatges/es/04b-persones-avis.jpg)
+![Personas con datos que faltan](imatges/es/04b-persones-avis.webp)
 
 ### Derechos de imagen (fotos y vídeos)
 
@@ -236,9 +236,9 @@ Antes de publicar fotos o vídeos en la web o las redes, la sociedad tiene que t
 1. Abre la ficha de la persona (o del alumno) y pulsa **🖨 Hoja de consentimiento**. Sale una hoja A4 con los datos del alumno y del tutor/a, el texto de la autorización y el espacio para firmar.
 2. Cuando la devuelvan firmada, edita la persona y, en **Derechos de imagen**, elige **Autoriza fotos y vídeos** o **No autoriza**. Si no pones la **fecha de la firma**, se pone la de hoy.
 
-![Derechos de imagen en la ficha de la persona](imatges/es/41-persona-consentiment.jpg)
+![Derechos de imagen en la ficha de la persona](imatges/es/41-persona-consentiment.webp)
 
-![Hoja de consentimiento para firmar](imatges/es/42-consentiment-full.jpg)
+![Hoja de consentimiento para firmar](imatges/es/42-consentiment-full.webp)
 
 Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 18). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
 
@@ -256,11 +256,11 @@ Da de alta al alumno como **persona** (apartado 6). Si el tutor legal todavía n
 
 1. En la ficha de la persona, en el apartado **Alumnado**, pulsa **+ Añadir**.
 
-![Añadir la ficha de alumno desde la persona](imatges/es/06-persona-fitxa.jpg)
+![Añadir la ficha de alumno desde la persona](imatges/es/06-persona-fitxa.webp)
 
 2. La persona ya viene elegida. Comprueba la **fecha de alta** y pulsa **Guardar**.
 
-![Ficha de alumno nueva](imatges/es/07-alumne-nou.jpg)
+![Ficha de alumno nueva](imatges/es/07-alumne-nou.webp)
 
 Se abre la **ficha del alumno**, donde se completan los pasos siguientes.
 
@@ -268,13 +268,13 @@ Se abre la **ficha del alumno**, donde se completan los pasos siguientes.
 
 1. En el apartado **Tutores legales**, pulsa **+ Añadir**.
 
-![Ficha del alumno recién creado](imatges/es/08-alumne-fitxa.jpg)
+![Ficha del alumno recién creado](imatges/es/08-alumne-fitxa.webp)
 
 2. En el desplegable **Tutor legal**, escribe en la lupa el nombre del padre, la madre o el tutor y elígelo.
 3. Elige la **relación** (madre, padre, tutor/a legal…) y marca **Principal** si es el contacto principal.
 4. Pulsa **Guardar**. Repítelo si hay más de un tutor.
 
-![Añadir el tutor legal](imatges/es/09-tutor-nou.jpg)
+![Añadir el tutor legal](imatges/es/09-tutor-nou.webp)
 
 > Hermanos: los dos alumnos pueden tener el mismo tutor. No hace falta darlo de alta dos veces.
 
@@ -283,7 +283,7 @@ Se abre la **ficha del alumno**, donde se completan los pasos siguientes.
 1. En la ficha del alumno, en el apartado **Matrículas**, pulsa **+ Añadir**.
 2. Comprueba que el **curso** es el actual y pulsa **Guardar**.
 
-![Matrícula nueva](imatges/es/10-matricula-nova.jpg)
+![Matrícula nueva](imatges/es/10-matricula-nova.webp)
 
 ### Paso 5. Inscribirlo en los grupos
 
@@ -291,20 +291,20 @@ Se abre la ficha de la matrícula.
 
 1. En el apartado **Inscripciones en grupos**, pulsa **+ Añadir**.
 
-![Ficha de la matrícula](imatges/es/11-matricula-fitxa.jpg)
+![Ficha de la matrícula](imatges/es/11-matricula-fitxa.webp)
 
 2. Elige el **grupo** (por ejemplo *Lenguaje musical · 1.º A*) y pulsa **Guardar**.
 3. Repítelo para cada asignatura (por ejemplo *Clarinete · Individual*).
 
-![Inscripción en un grupo](imatges/es/12-inscripcio-grup.jpg)
+![Inscripción en un grupo](imatges/es/12-inscripcio-grup.webp)
 
-![Matrícula con los grupos inscritos](imatges/es/13-matricula-grups.jpg)
+![Matrícula con los grupos inscritos](imatges/es/13-matricula-grups.webp)
 
 ### Resultado
 
 La ficha del alumno muestra el resumen del curso: grupos, profesores, horario y notas de cada evaluación, el botón para **imprimir su boletín**, los tutores legales y las matrículas de todos los cursos.
 
-![Ficha del alumno con el resumen del curso](imatges/es/14-alumne-resum.jpg)
+![Ficha del alumno con el resumen del curso](imatges/es/14-alumne-resum.webp)
 
 ### Al empezar un curso nuevo
 
@@ -329,7 +329,7 @@ Cada sociedad tiene los tipos de socio que dicen sus estatutos. Compàs trae cua
 
 Un tipo que ya tienen algunos socios o que tiene tarifa no se puede eliminar: se pone de **baja** y deja de aparecer en los socios nuevos.
 
-![Tipos de socio](imatges/es/77-tipus-socis.jpg)
+![Tipos de socio](imatges/es/77-tipus-socis.webp)
 
 ### Alta de un socio
 
@@ -339,17 +339,17 @@ Un tipo que ya tienen algunos socios o que tiene tarifa no se puede eliminar: se
 4. Si las cuotas se cobrarán por el banco, escribe el **IBAN** (si todavía no lo tiene en su ficha de persona).
 5. Pulsa **Guardar**.
 
-![Alta de un socio](imatges/es/15-soci-nou.jpg)
+![Alta de un socio](imatges/es/15-soci-nou.webp)
 
 ### Listado de socios
 
 El menú **Socios** muestra todos los socios activos. Puedes buscar por el nombre o por el número y exportar la lista a CSV (por ejemplo, para hacer etiquetas o enviar una circular).
 
-![Listado de socios](imatges/es/16-socis-llista.jpg)
+![Listado de socios](imatges/es/16-socis-llista.webp)
 
 **Hoja de alta de socio.** En el listado de socios, **Hoja de alta de socio** hace una hoja en blanco para quien quiere hacerse socio: datos personales, tipo de socio (con la cuota, si hay tarifas), forma de pago, orden de domiciliación SEPA, autorización de imagen, firma y la información de protección de datos. Los textos de arriba y del pie se pueden cambiar en **Configuración**.
 
-![Hoja de alta de socio](imatges/es/73-full-alta.jpg)
+![Hoja de alta de socio](imatges/es/73-full-alta.webp)
 
 ### Baja de un socio
 
@@ -357,7 +357,7 @@ El menú **Socios** muestra todos los socios activos. Puedes buscar por el nombr
 2. Cambia el **estado** a **Baja** y pon la **fecha de baja**.
 3. Pulsa **Guardar**.
 
-![Baja de un socio](imatges/es/17-soci-baixa.jpg)
+![Baja de un socio](imatges/es/17-soci-baixa.webp)
 
 El socio desaparece del listado, pero se conserva con su historial.
 
@@ -370,7 +370,7 @@ El socio desaparece del listado, pero se conserva con su historial.
 3. Elige la **agrupación** (Banda, Banda juvenil, Coral…), escribe el **instrumento o voz** y elige la **función**: miembro, director/a titular, director/a asistente o responsable.
 4. Pulsa **Guardar**.
 
-![Alta de un músico](imatges/es/18-membre-nou.jpg)
+![Alta de un músico](imatges/es/18-membre-nou.webp)
 
 Una persona puede estar en varias agrupaciones: repítelo para cada una.
 
@@ -378,7 +378,7 @@ Una persona puede estar en varias agrupaciones: repítelo para cada una.
 
 Menú **Agrupaciones** → abre la agrupación. Muestra todos sus miembros con el instrumento y la función. Desde aquí también puedes añadir miembros con **+ Añadir**.
 
-![Ficha de una agrupación](imatges/es/19-agrupacio-fitxa.jpg)
+![Ficha de una agrupación](imatges/es/19-agrupacio-fitxa.webp)
 
 Para crear una agrupación nueva: menú **Agrupaciones → + Nuevo**.
 
@@ -394,11 +394,11 @@ Para añadir una obra, pulsa **+ Obra**:
 - **Ubicación** del material físico (Armario A · Estantería 3 · Carpeta 27) y **material** que hay (Partitura + particellas).
 - **Estado** (completa, incompleta, en revisión o retirada), si está **digitalizada** y **observaciones**, por ejemplo qué particella falta.
 
-![Ficha de una obra](imatges/es/82-obra.jpg)
+![Ficha de una obra](imatges/es/82-obra.webp)
 
 La pantalla del repertorio tiene un **buscador** (título, compositor, número de archivo, ubicación…), **filtros** por tipo, agrupación, estado y si está digitalizada, y se puede **ordenar** por título, compositor, número de archivo, tipo o ubicación. Lo que se ve se puede **imprimir** (o guardar en PDF) y **exportar a CSV**. Las obras incompletas o en revisión tienen un aviso en su ficha, y en la ficha de cada agrupación hay un enlace a sus obras.
 
-![Repertorio](imatges/es/81-repertori.jpg)
+![Repertorio](imatges/es/81-repertori.webp)
 
 Los **tipos de obra** los elige cada sociedad: en el repertorio, pulsa **Tipos de obra** para cambiarlos, añadir o ordenarlos. Un tipo que ya tienen algunas obras no se puede eliminar, pero se puede dar de baja.
 
@@ -414,7 +414,7 @@ El profesorado pasa las notas a administración y administración las introduce.
 4. Si el profesor ha pasado observaciones, escríbelas en **Observaciones académicas**. Salen en el boletín.
 5. Pulsa **Guardar**.
 
-![Introducir las notas](imatges/es/27-qualificacions.jpg)
+![Introducir las notas](imatges/es/27-qualificacions.webp)
 
 Para borrar una nota, deja en blanco la nota y las observaciones y guarda.
 
@@ -426,11 +426,11 @@ Para borrar una nota, deja en blanco la nota y las observaciones y guarda.
 4. Si quieres, escribe un **texto al pie** (por ejemplo, la fecha de las audiciones). Se recuerda para la próxima vez.
 5. Pulsa **Preparar los boletines**.
 
-![Preparar los boletines](imatges/es/28-butlletins.jpg)
+![Preparar los boletines](imatges/es/28-butlletins.webp)
 
 Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir el boletín** (arriba del todo).
 
-![Boletín preparado para imprimir](imatges/es/29-butlleti-impres.jpg)
+![Boletín preparado para imprimir](imatges/es/29-butlleti-impres.webp)
 
 > Para guardarlos en PDF (para enviarlos por correo), elige **Microsoft Print to PDF** como impresora.
 
@@ -442,7 +442,7 @@ Se abre una pestaña nueva con una hoja A4 por alumno. Pulsa **Imprimir el bolet
 2. Rellena el **número de inventario** y el **tipo** (obligatorios) y el resto de datos: marca, modelo, número de serie, estado, ubicación y fecha de adquisición.
 3. Pulsa **Guardar**.
 
-![Alta de un instrumento](imatges/es/30-instrument-nou.jpg)
+![Alta de un instrumento](imatges/es/30-instrument-nou.webp)
 
 En la ficha del instrumento está el historial de **cesiones** y de **mantenimientos** (reparaciones, revisiones…).
 
@@ -452,7 +452,7 @@ En la ficha del instrumento está el historial de **cesiones** y de **mantenimie
 2. Elige la **persona**, comprueba la **fecha de entrega** y pon la **devolución prevista**, el estado en que se entrega y la fianza si la hay.
 3. Pulsa **Guardar**.
 
-![Nueva cesión](imatges/es/31-cessio-nova.jpg)
+![Nueva cesión](imatges/es/31-cessio-nova.webp)
 
 Un instrumento no se puede prestar a dos personas a la vez.
 
@@ -462,13 +462,13 @@ Un instrumento no se puede prestar a dos personas a la vez.
 2. Pon la **fecha de devolución** y el **estado en la devolución**.
 3. Pulsa **Guardar**. El instrumento vuelve a estar disponible.
 
-![Registrar la devolución](imatges/es/32-cessio-retorn.jpg)
+![Registrar la devolución](imatges/es/32-cessio-retorn.webp)
 
 ### Listado de cesiones
 
 Menú **Cesiones**. Con el filtro puedes ver las **cesiones activas** o solo las que tienen la **devolución vencida**. Las vencidas también aparecen en el inicio.
 
-![Listado de cesiones](imatges/es/33-cessions-llista.jpg)
+![Listado de cesiones](imatges/es/33-cessions-llista.webp)
 
 ### Uniformes
 
@@ -482,9 +482,9 @@ Cuando se devuelve un préstamo, se edita la entrega y se pone la **fecha de dev
 
 La pantalla muestra, para cada artículo y talla, el **total** de prendas que tiene la sociedad (las compradas, menos las vendidas y las gratuitas), las que están **en préstamo** y las **disponibles**. Si de una talla se han entregado más de las que constan como compradas, el número sale en rojo: falta apuntar alguna compra. Las entregas de cada persona aparecen también en su ficha.
 
-![Uniformes por talla](imatges/es/78-uniformes.jpg)
+![Uniformes por talla](imatges/es/78-uniformes.webp)
 
-![Entrega de un uniforme](imatges/es/79-uniforme-lliurament.jpg)
+![Entrega de un uniforme](imatges/es/79-uniforme-lliurament.webp)
 
 > Compàs no hace recibos de las ventas de uniformes. Si hace falta, apunta el dinero en el libro de caja (apartado 13.7).
 
@@ -492,7 +492,7 @@ La pantalla muestra, para cada artículo y talla, el **total** de prendas que ti
 
 El apartado **Economía** del menú lleva el dinero de la sociedad: las cuotas de los socios, la matrícula y las clases de la escuela, los recibos, las remesas al banco y la lotería. **Resumen económico** muestra lo que hay por cobrar, lo cobrado este año, los recibos devueltos por el banco y quién debe dinero.
 
-![Resumen económico](imatges/es/55-economia.jpg)
+![Resumen económico](imatges/es/55-economia.webp)
 
 > Compàs hace **recibos**, no facturas. Si la sociedad tiene que hacer una factura (por ejemplo, de un concierto para el ayuntamiento), debe hacerla con un programa de facturación que cumpla la normativa, o la gestoría.
 
@@ -504,7 +504,7 @@ Menú **Economía → Tarifas**. Cada tarifa tiene un nombre (el que aparecerá 
 - **Matrícula**: una sola vez por curso y alumno.
 - **Clases**: mensual, trimestral (por evaluaciones) o anual. Si se pone una **asignatura**, se cobra a cada alumno inscrito en algún grupo de esa asignatura. Si no, se cobra una vez por alumno (una cuota de escuela fija).
 
-![Tarifas](imatges/es/56-tarifes.jpg)
+![Tarifas](imatges/es/56-tarifes.webp)
 
 ### 13.2 Datos del banco y descuentos
 
@@ -514,7 +514,7 @@ El administrador/a lo configura una sola vez en **Resumen económico → Configu
 - **Descuentos de la escuela**: un porcentaje para quien es socio (el alumno o quien paga) y otro para cada hermano a partir del segundo. Se aplican a las clases, no a la matrícula. En la ficha del alumno se puede poner, además, un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
 - **Texto al pie de los recibos**, si la sociedad quiere poner uno.
 
-![Configuración de Economía](imatges/es/57-economia-config.jpg)
+![Configuración de Economía](imatges/es/57-economia-config.webp)
 
 ### 13.3 Generar los recibos
 
@@ -525,7 +525,7 @@ Menú **Economía → Genera recibos**. Hay dos opciones:
 
 Pulsa **Previsualiza**: Compàs muestra quién pagará, el detalle y el importe, y avisa de los alumnos que no tienen quien pague. Si está bien, pulsa **Crea**. Si vuelves a generar el mismo periodo, no se duplica nada: los que ya existen aparecen como «Ya generado».
 
-![Generar los recibos de la escuela](imatges/es/58-genera-rebuts.jpg)
+![Generar los recibos de la escuela](imatges/es/58-genera-rebuts.webp)
 
 Los recibos de quien tiene una **domiciliación** activa se cobrarán por el banco; los demás, en **efectivo**. También se puede hacer un recibo a mano con **Recibos → + Nuevo** (por ejemplo, un donativo o la venta de un uniforme).
 
@@ -533,17 +533,17 @@ Los recibos de quien tiene una **domiciliación** activa se cobrarán por el ban
 
 Para cobrar un recibo por el banco, quien paga debe haber firmado la **orden de domiciliación** (el mandato SEPA). La manera más sencilla es escribir el **IBAN en la ficha de la persona o del socio**: al guardar, Compàs crea la domiciliación con la fecha de hoy. Si después se cambia el IBAN, la anterior se da de baja y se crea una nueva (hay que volver a firmarla); si se borra, se da de baja. También se puede hacer desde **Economía → Domiciliaciones → + Nuevo**, donde se puede poner la fecha de firma y un titular de la cuenta diferente. Compàs comprueba que el IBAN es correcto y le pone una referencia. Solo se puede domiciliar a nombre de un mayor de edad. En los listados, el IBAN solo se ve en parte.
 
-![Domiciliaciones](imatges/es/59-domiciliacions.jpg)
+![Domiciliaciones](imatges/es/59-domiciliacions.webp)
 
 En la ficha de la domiciliación, **Imprime la orden de domiciliación** hace la hoja para firmar. La sociedad debe guardarla firmada mientras se cobre y 14 meses más.
 
-![Orden de domiciliación](imatges/es/60-ordre-domiciliacio.jpg)
+![Orden de domiciliación](imatges/es/60-ordre-domiciliacio.webp)
 
 ### 13.5 Remesas: cobrar por el banco
 
 Menú **Economía → Remesas bancarias**. Aparecen los recibos domiciliados pendientes de cobrar (también los que el banco ha devuelto). Elígelos, pon la **fecha de cobro** (muchos bancos piden al menos dos días hábiles) y pulsa **Prepara la remesa**.
 
-![Preparar una remesa](imatges/es/61-remeses.jpg)
+![Preparar una remesa](imatges/es/61-remeses.webp)
 
 Después:
 
@@ -551,7 +551,7 @@ Después:
 2. Entra en la banca electrónica de la sociedad y súbelo al apartado de adeudos directos SEPA (esquema CORE). Si el banco rechaza el archivo, cambia el **formato** en la configuración de Economía y vuelve a descargarlo.
 3. Cuando el banco la haya cobrado, pulsa **Márcala como cobrada**: todos los recibos quedan pagados.
 
-![Una remesa](imatges/es/62-remesa.jpg)
+![Una remesa](imatges/es/62-remesa.webp)
 
 Si el banco **devuelve** un recibo, ábrelo y pulsa **Devuelto por el banco**. Volverá a estar por cobrar: lo puedes cobrar en mano o ponerlo en la remesa siguiente. Mientras una remesa no se ha subido al banco, se puede quitar un recibo o deshacerla.
 
@@ -559,9 +559,9 @@ Si el banco **devuelve** un recibo, ábrelo y pulsa **Devuelto por el banco**. V
 
 Abre el recibo, elige cómo se ha pagado (**efectivo** o **transferencia**) y la fecha, y pulsa **Pagado**. Con **Imprime el recibo** se hace el recibo con el logotipo; si está pagado, lleva el sello «PAGADO». Desde el **Resumen económico**, **Imprime los recibos por cobrar en mano** los hace todos de golpe, dos por hoja.
 
-![Ficha de un recibo](imatges/es/63-rebut.jpg)
+![Ficha de un recibo](imatges/es/63-rebut.webp)
 
-![Recibo impreso](imatges/es/64-rebut-imprés.jpg)
+![Recibo impreso](imatges/es/64-rebut-imprés.webp)
 
 En el listado de **Recibos**, los filtros muestran los que están por cobrar, los devueltos, los que hay que cobrar en mano o los domiciliados que todavía no están en ninguna remesa. Abajo se ve el total. En la ficha de cada persona están sus recibos y su domiciliación.
 
@@ -575,7 +575,7 @@ Menú **Economía → Libro de caja**. Muestra todos los ingresos y gastos del a
 
 El resto (facturas, subvenciones, la cuota de la Federación…) se anota con **+ Nuevo movimiento**: fecha, ingreso o gasto, banco o caja, categoría, concepto e importe. Al final de la página se pone el **saldo inicial** del 1 de enero del banco y de la caja, para que los saldos sean los reales. Se puede ver solo el banco o solo la caja, imprimirlo y exportarlo a CSV. El resumen **por categorías** sirve para presentar las cuentas a la asamblea y para la memoria.
 
-![Libro de caja](imatges/es/76-caixa.jpg)
+![Libro de caja](imatges/es/76-caixa.webp)
 
 ## 14. Lotería
 
@@ -585,19 +585,19 @@ Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por 
 
 Elige la persona y cuántos talonarios se lleva, y pulsa **Reparte talonarios**. Compàs los numera seguidos: el talonario 1 lleva las participaciones 0001–0050, el 2 las 0051–0100, etc.
 
-![Talonarios y liquidación](imatges/es/65-loteria.jpg)
+![Talonarios y liquidación](imatges/es/65-loteria.webp)
 
 ### Imprimir las participaciones
 
 En la ficha de cada talonario, **Imprime las participaciones** hace sus 50 participaciones (8 por hoja), con el logotipo, los números, el precio y el número de participación. Desde el resumen se pueden imprimir todas de golpe. El texto legal del pie se cambia en la ficha del sorteo.
 
-![Participaciones](imatges/es/67-participacions.jpg)
+![Participaciones](imatges/es/67-participacions.webp)
 
 ### Liquidar
 
 Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones ha **vendido**, cuántas **devuelve** sin vender y cuánto **dinero entrega**. El resumen muestra lo que falta por entregar (en rojo), cuánto hay que comprar en la administración de lotería y lo que queda para la sociedad.
 
-![Liquidar un talonario](imatges/es/66-talonari.jpg)
+![Liquidar un talonario](imatges/es/66-talonari.webp)
 
 ## 15. Junta directiva y actas
 
@@ -605,7 +605,7 @@ Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones h
 
 Menú **Sociedad → Junta directiva**. Muestra la junta actual y las anteriores. Para poner un cargo, pulsa **+ Añade un cargo**: elige la persona, el cargo (presidente/a, vicepresidente/a, secretario/a, tesorero/a, vocal…) y la fecha de inicio. La fecha de fin se deja vacía mientras el cargo está vigente.
 
-![Junta directiva](imatges/es/68-junta.jpg)
+![Junta directiva](imatges/es/68-junta.webp)
 
 - **Años de mandato:** pon los que digan los estatutos. Compàs avisará en el inicio cuatro meses antes de que se tenga que renovar la junta.
 - **Junta nueva:** cuando se elige una junta nueva, pulsa **Cierra los cargos actuales** con la fecha de la elección y después añade los cargos nuevos. Los anteriores quedan en el historial. Recordad que los cambios de junta se deben comunicar al Registro de Asociaciones.
@@ -623,19 +623,19 @@ En la ficha de la reunión hay tres documentos para imprimir:
 2. **Acta**. Después de la reunión, edítala y completa los **asistentes**, el **desarrollo** y los **acuerdos** (uno por línea), y márcala como celebrada. En las reuniones de junta, si no pones los asistentes, el acta pone la junta actual.
 3. **Certificado de un acuerdo**: elige el acuerdo y Compàs hace el certificado que piden a menudo el banco o las administraciones.
 
-![Ficha de una reunión](imatges/es/69-reunio.jpg)
+![Ficha de una reunión](imatges/es/69-reunio.webp)
 
-![Acta de una asamblea](imatges/es/70-acta.jpg)
+![Acta de una asamblea](imatges/es/70-acta.webp)
 
 ## 16. Documentos de la sociedad
 
 Menú **Sociedad → Documentos**. Aquí se guardan los estatutos, el reglamento de régimen interno, las actas firmadas, la inscripción en el registro, el CIF, las pólizas de seguro, los contratos del profesorado y de la dirección, los convenios…
 
-![Documentos](imatges/es/71-documents.jpg)
+![Documentos](imatges/es/71-documents.webp)
 
 Para añadir uno, pulsa **+ Nuevo**, escribe el título, elige el tipo y el **archivo** (PDF, imagen, Word, Excel, LibreOffice o texto, hasta 20 MB). Si es de una persona (un contrato, por ejemplo), elígela: aparecerá también en su ficha. Si el documento caduca (un seguro, una licencia, un convenio), pon la **fecha de caducidad**: Compàs avisará en el inicio 60 días antes.
 
-![Añadir un documento](imatges/es/72-document-nou.jpg)
+![Añadir un documento](imatges/es/72-document-nou.webp)
 
 El archivo se guarda **dentro de Compàs**, no en una carpeta aparte. Así entra en las copias de seguridad (y, si las cifráis, también va cifrado). A cambio, las copias ocupan más si guardáis muchos documentos grandes.
 
@@ -643,7 +643,7 @@ El archivo se guarda **dentro de Compàs**, no en una carpeta aparte. Así entra
 
 Desde el listado de documentos, **Registro de actividades de tratamiento (RGPD)** hace el documento que el Reglamento de protección de datos pide a las entidades. Compàs lo prepara con los datos que trata la sociedad y las medidas de seguridad que tiene configuradas. Es un modelo orientativo: revisadlo, adaptadlo y guardadlo firmado con la documentación de la sociedad.
 
-![Registro de actividades de tratamiento](imatges/es/75-rgpd.jpg)
+![Registro de actividades de tratamiento](imatges/es/75-rgpd.webp)
 
 ## 17. Comunicados
 
@@ -656,19 +656,19 @@ Menú **Sociedad → Comunicados**. Compàs no envía correos ni se conecta a In
 
 Las personas del grupo que no tienen correo aparecen en una lista aparte, para avisarlas de otra manera.
 
-![Comunicados](imatges/es/74-comunicats.jpg)
+![Comunicados](imatges/es/74-comunicats.webp)
 
 ## 18. Listados, certificados y memoria
 
 Menú **Documentos y datos → Listados e informes**. Cada listado se puede ver en pantalla, **imprimir** (o guardar en PDF) y **exportar a CSV** para abrirlo con Excel.
 
-![Listados e informes](imatges/es/43-llistats.jpg)
+![Listados e informes](imatges/es/43-llistats.webp)
 
 ### Alumnos de un grupo
 
 Elige el curso y el grupo. Sale cada alumno con la edad, el padre, la madre o el tutor/a y sus teléfonos y correos. Es el listado que necesita el profesorado. En amarillo, los que no autorizan fotos.
 
-![Alumnos de un grupo con los teléfonos de los tutores](imatges/es/44-llistat-grup.jpg)
+![Alumnos de un grupo con los teléfonos de los tutores](imatges/es/44-llistat-grup.webp)
 
 ### Socios por número y músicos por instrumento
 
@@ -679,7 +679,7 @@ Elige el curso y el grupo. Sale cada alumno con la edad, el padre, la madre o el
 
 Quién puede salir en fotos y vídeos: el resumen (cuántos autorizan, cuántos no y cuántos faltan) y la lista, con los que no autorizan en amarillo. Antes de un concierto, imprímela para quien hace las fotos. El botón **Hojas de consentimiento de los pendientes** imprime las hojas que faltan.
 
-![Derechos de imagen](imatges/es/45-drets-imatge.jpg)
+![Derechos de imagen](imatges/es/45-drets-imatge.webp)
 
 ### Etiquetas para las circulares
 
@@ -688,7 +688,7 @@ Quién puede salir en fotos y vídeos: el resumen (cuántos autorizan, cuántos 
 3. Si la hoja ya está empezada, indica cuántas etiquetas **ya se han gastado**.
 4. Pulsa **Prepara las etiquetas** e imprime con el **tamaño real (100 %)** y **sin márgenes**.
 
-![Etiquetas](imatges/es/46-etiquetes.jpg)
+![Etiquetas](imatges/es/46-etiquetes.webp)
 
 > Haz primero una prueba en papel normal con **Muestra los bordes** y ponla encima de la hoja de etiquetas a contraluz.
 
@@ -696,7 +696,7 @@ Quién puede salir en fotos y vídeos: el resumen (cuántos autorizan, cuántos 
 
 Elige el **año** y los **años que se premian** (por defecto 25 y 50). Sale quién los cumple ese año, como socio y como músico. Marca **Muestra también la lista completa** para ver a todos ordenados por antigüedad.
 
-![Antigüedad e insignias](imatges/es/47-antiguitat.jpg)
+![Antigüedad e insignias](imatges/es/47-antiguitat.webp)
 
 La antigüedad se cuenta desde la fecha de alta. Para los músicos, desde la primera alta en cualquier agrupación.
 
@@ -704,17 +704,17 @@ La antigüedad se cuenta desde la fecha de alta. Para los músicos, desde la pri
 
 Elige el curso. Sale lo que suelen pedir la Diputación, el IVC o el ayuntamiento: alumnos por edad (con menores y mayores), por asignatura y por población, profesorado y grupos, músicos de cada agrupación (con los menores), socios por tipo y las altas y bajas del año.
 
-![Datos para la memoria anual](imatges/es/48-memoria.jpg)
+![Datos para la memoria anual](imatges/es/48-memoria.webp)
 
 ### Certificados
 
 En la ficha de un **socio**, de una **matrícula** o de un **músico** (en **Músicos y miembros**) está el botón **🖨 Certificado**. Sale un certificado en A4 con el logotipo, los datos de la persona y la fecha de hoy, preparado para firmar. Sirve para becas, el conservatorio, el trabajo…
 
-![Certificado de socio](imatges/es/49-certificat.jpg)
+![Certificado de socio](imatges/es/49-certificat.webp)
 
 La primera vez, en **Configuración → Certificados y hojas de consentimiento**, pon quién firma (normalmente el secretario/a), el cargo y, si queréis el visto bueno, el presidente/a. Pon también la **población** de la sociedad, que sale al final del certificado.
 
-![Datos de los certificados en la configuración](imatges/es/40-config-documents.jpg)
+![Datos de los certificados en la configuración](imatges/es/40-config-documents.webp)
 
 ## 19. Importar datos desde Excel
 
@@ -726,7 +726,7 @@ Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volv
 2. Elige el archivo: Excel (**.xlsx**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel y guárdalo como .xlsx.
 3. Deja marcado **La primera fila tiene los títulos de las columnas** si es el caso, y pulsa **Siguiente**.
 
-![Importar: elegir el archivo](imatges/es/51-importa.jpg)
+![Importar: elegir el archivo](imatges/es/51-importa.webp)
 
 Si empiezas de cero, descarga una **plantilla**, rellénala y súbela.
 
@@ -736,7 +736,7 @@ Compàs reconoce las columnas habituales (Nombre, Apellidos, DNI, Teléfono, Fec
 
 Si la hoja lleva la **cuenta bancaria** (IBAN o el número antiguo de 20 cifras), Compàs crea la domiciliación de cada persona mayor de edad; al importar alumnado, la del padre, la madre o el tutor/a. Si hay una columna con la **fecha de firma** de la domiciliación, también la coge. A las personas que ya tienen una domiciliación con otro IBAN no se les cambia.
 
-![Importar: qué es cada columna](imatges/es/52-importa-columnes.jpg)
+![Importar: qué es cada columna](imatges/es/52-importa-columnes.webp)
 
 ### Paso 3. Revisar e importar
 
@@ -751,7 +751,7 @@ Antes de importar nada, Compàs muestra cada fila:
 
 En la columna **Avisos** verás, por ejemplo, fechas que no se entienden o personas a las que faltan datos obligatorios (quedarán en amarillo, como siempre).
 
-![Importar: revisión antes de importar](imatges/es/53-importa-revisa.jpg)
+![Importar: revisión antes de importar](imatges/es/53-importa-revisa.webp)
 
 Pulsa **Importa**. Antes de importar, Compàs hace una copia de seguridad («Antes de importar»): si el resultado no es el que esperabas, la puedes restaurar (apartado 20).
 
@@ -777,10 +777,11 @@ Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 | Cuando pulsas **Hacer una copia ahora** | Manual |
 | Justo antes de restaurar | Antes de restaurar |
 | Justo antes de importar datos | Antes de importar |
+| Al abrir por primera vez una versión nueva de Compàs | Antes de actualizar |
 
 Menú **Administración → Copias de seguridad**:
 
-![Copias de seguridad](imatges/es/34-copies.jpg)
+![Copias de seguridad](imatges/es/34-copies.webp)
 
 ### Cuántas copias se guardan
 
@@ -803,13 +804,13 @@ Si el ordenador se estropea o lo roban, las copias que hay dentro se pierden con
 3. En **Configuración de las copias**, pega la ruta en **Carpeta externa**.
 4. Pulsa **Guardar**.
 
-![Carpeta externa de copias](imatges/es/35-copies-carpeta.jpg)
+![Carpeta externa de copias](imatges/es/35-copies-carpeta.webp)
 
 A partir de ahora, cada copia se guarda también en esta carpeta. Si no está disponible (por ejemplo, el USB no está conectado) o hace más de 7 días que no se guarda nada en ella, el inicio lo avisa.
 
 ### Lista de copias, restaurar y eliminar
 
-![Lista de copias](imatges/es/36-copies-llista.jpg)
+![Lista de copias](imatges/es/36-copies-llista.webp)
 
 - **Descargar**: descarga esa copia.
 - **Restaurar** (solo el administrador/a): sustituye todos los datos actuales por los de la copia. Antes, Compàs guarda una copia de los datos actuales («Antes de restaurar»), de manera que siempre se puede volver atrás. Después hay que volver a entrar.
@@ -826,7 +827,7 @@ Si la carpeta externa es un pendrive o la nube, conviene cifrarlas: si se pierde
 1. En **Configuración de las copias**, marca **Cifra con contraseña las copias de la carpeta externa**.
 2. Escribe una contraseña (al menos 8 caracteres) dos veces y pulsa **Guardar**.
 
-![Copias externas cifradas](imatges/es/54-copies-xifrat.jpg)
+![Copias externas cifradas](imatges/es/54-copies-xifrat.webp)
 
 A partir de ahora, las copias de la carpeta externa terminan en `.xifrat`. Las del ordenador no se cifran. Para restaurar una, en **Restaurar desde un archivo** elige el archivo `.xifrat` y escribe la contraseña.
 
@@ -845,7 +846,7 @@ Cada usuario puede cambiar la suya cuando quiera:
 
 Si no recuerdas la actual, no la puedes cambiar aquí: el administrativo/a debe pedir una nueva al administrador/a, y el administrador/a puede recuperar el acceso desde la entrada (ver más abajo).
 
-![Mi cuenta](imatges/es/38-meu-compte.jpg)
+![Mi cuenta](imatges/es/38-meu-compte.webp)
 
 ### Gestionar las cuentas (administrador/a)
 
@@ -855,7 +856,7 @@ Menú **Administración → Usuarios**. Abre una cuenta para:
 - ponerle una **contraseña nueva** si la ha olvidado (déjala en blanco para no cambiarla);
 - desactivarla (desmarca **Activo**) o eliminarla.
 
-![Editar un usuario](imatges/es/37-usuari.jpg)
+![Editar un usuario](imatges/es/37-usuari.webp)
 
 Siempre debe quedar al menos un administrador activo.
 
@@ -866,7 +867,7 @@ Siempre debe quedar al menos un administrador activo.
 3. Pulsa **Cambia la contraseña**. Entrarás directamente en el programa.
 4. Compàs muestra un **código de recuperación nuevo**, porque el anterior ya no vale. Imprímelo y guárdalo en lugar del antiguo.
 
-![He olvidado la contraseña](imatges/es/00b-recuperacio.jpg)
+![He olvidado la contraseña](imatges/es/00b-recuperacio.webp)
 
 **Si no encuentras el código**, pulsa **No tengo el código de recuperación** en la misma página y sigue los pasos:
 
@@ -888,9 +889,11 @@ Menú **Administración → Registro de actividad** (solo el administrador/a): q
 
 ## 22. Ayuda
 
-El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF.
+El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF, el registro de cambios, la privacidad y el resumen de la licencia.
 
-![Ayuda](imatges/es/39-ajuda.jpg)
+**¿Hay versión nueva?** abre en el navegador la página de la última versión de Compàs. Compàs no se conecta a Internet ni comprueba nada solo: compara el número de esa página con el tuyo, que aparece justo debajo. Si es más alto, descarga la versión nueva e instálala encima: los datos se conservan, y antes de actualizar la base de datos Compàs hace una copia («Antes de actualizar»).
+
+![Ayuda](imatges/es/39-ajuda.webp)
 
 ## 23. Preguntas frecuentes
 

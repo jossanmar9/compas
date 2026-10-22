@@ -24,7 +24,7 @@ h=G('r=genera_rebuts'); ok(not err(h), 'generar rebuts')
 db.execute("delete from config where clau='tipus_socis_inicials'"); ids={r[1]:r[0] for r in db.execute('select id,codi from tipus_socis')}
 for c,i in ids.items():
     if c: db.execute('update socis set tipus=? where tipus=?',(c,str(i))); db.execute('update tarifes set tipus_soci=? where tipus_soci=?',(c,str(i)))
-db.execute('delete from tipus_socis'); db.commit()
+db.execute('delete from tipus_socis'); db.execute('pragma user_version = 0'); db.commit()  # com si fora d'una versió anterior
 ok(n("select count(*) from socis where tipus='ordinari'")>0, 'preparada la base de dades amb codis antics')
 G('r=inici')
 ok(n('select count(*) from tipus_socis')==4 and n("select count(*) from socis where tipus in ('ordinari','protector')")==0 and n("select count(*) from tarifes where tipus_soci in ('ordinari','protector')")==0, 'migració dels codis antics')

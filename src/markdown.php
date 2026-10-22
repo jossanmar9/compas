@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 /**
- * @param callable|null $imatge Rep la ruta relativa d'una imatge (p. ex. «imatges/ca/01.jpg») i retorna l'URL que s'ha d'usar,
+ * @param callable|null $imatge Rep la ruta relativa d'una imatge (p. ex. «imatges/ca/01.webp») i retorna l'URL que s'ha d'usar,
  *                              o null si no existeix.
  */
 function markdown_simple(string $md, ?callable $imatge = null): string

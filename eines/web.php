@@ -305,7 +305,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $miniatures = '';
     $primera = $captures[0];
     foreach ($captures as $i => $c) {
-        $src = $base . 'img/' . $l . '/' . $c . '.jpg';
+        $src = $base . 'img/' . $l . '/' . $c . '.webp';
         $miniatures .= '<li><button type="button" data-src="' . e($src) . '" data-peu="' . e($t['captures'][$c]) . '"' . ($i === 0 ? ' aria-current="true"' : '')
             . ' aria-label="' . e($t['captures'][$c]) . '"><img src="' . e($src) . '" alt="" loading="lazy"></button></li>';
     }
@@ -357,7 +357,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p class="qui-lema">{$t['qui_lema']} <a href="#qui">{$t['qui_llig']} →</a></p>
   </div>
   <figure class="hero-captura">
-    <img src="{$base}img/{$l}/web-inici.jpg" alt="{$t['captures']['web-inici']}" width="1920" height="1200">
+    <img src="{$base}img/{$l}/web-inici.webp" alt="{$t['captures']['web-inici']}" width="1920" height="1200">
   </figure>
 </section>
 
@@ -386,7 +386,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   </div>
   <figure class="principal">
     <div class="visor">
-      <img id="captura" src="{$base}img/{$l}/{$primera}.jpg" alt="{$t['captures'][$primera]}">
+      <img id="captura" src="{$base}img/{$l}/{$primera}.webp" alt="{$t['captures'][$primera]}">
       <button type="button" class="fletxa ant" aria-label="{$t['anterior']}">‹</button>
       <button type="button" class="fletxa seg" aria-label="{$t['seguent']}">›</button>
     </div>
@@ -517,7 +517,7 @@ foreach (glob(__DIR__ . '/fonts/*') as $f) {
 }
 foreach (['ca', 'es'] as $l) {
     foreach ($captures as $c) {
-        copy("$arrel/docs/imatges/$l/$c.jpg", "$eixida/img/$l/$c.jpg");
+        copy("$arrel/docs/imatges/$l/$c.webp", "$eixida/img/$l/$c.webp");
     }
 }
 foreach (glob($arrel . '/docs/pdf/*.pdf') as $pdf) {

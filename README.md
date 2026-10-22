@@ -25,7 +25,7 @@ Un projecte de **José Vicente Sanjuan**.
 
 🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuari.pdf) · 🔒 [Privacitat](PRIVACITAT.md)
 
-![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.jpg)
+![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.webp)
 
 ## Contingut
 
@@ -95,9 +95,9 @@ Les plataformes en línia tenen avantatges reals (una app per al mòbil dels mú
 
 | | |
 |---|---|
-| ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.jpg) | ![Introduir les notes](docs/imatges/ca/27-qualificacions.jpg) |
+| ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.webp) | ![Introduir les notes](docs/imatges/ca/27-qualificacions.webp) |
 | La fitxa d'un alumne: grups, horari, notes i tutors legals. | Les notes d'un grup, amb les observacions del professor. |
-| ![Butlletí de notes](docs/imatges/ca/29-butlleti-impres.jpg) | ![Còpies de seguretat](docs/imatges/ca/34-copies.jpg) |
+| ![Butlletí de notes](docs/imatges/ca/29-butlleti-impres.webp) | ![Còpies de seguretat](docs/imatges/ca/34-copies.webp) |
 | Un butlletí de notes preparat per a imprimir. | Les còpies de seguretat: automàtiques, manuals i externes. |
 
 Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md).
@@ -209,7 +209,7 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 
 | Ordre | Què fa |
 |---|---|
-| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només desa estes: en una versió nova només es refan les pantalles que han canviat, perquè el repositori no cresca. Requereix Pillow i Playwright. |
+| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`, en WebP) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només desa estes: en una versió nova només es refan les pantalles que han canviat, perquè el repositori no cresca. Requereix Pillow i Playwright. |
 | `bash eines/pdf.sh` | Fa els manuals i les guies en PDF (`docs/pdf/`) amb Chrome o Chromium. No es guarden al repositori: els fa GitHub Actions en publicar cada versió i la web. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
 | `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies). Vegeu [tests/README.md](tests/README.md). |

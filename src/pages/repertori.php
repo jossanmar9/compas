@@ -93,12 +93,11 @@ function obres_repertori(array $filtre): array
         'ubicacio' => fn($o) => [mb_strtolower((string)$o['ubicacio']) ?: '~', normalitza_text($o['titol'])],
         default => fn($o) => [normalitza_text($o['titol']), normalitza_text((string)$o['compositor'])],
     };
-    usort($obres, function ($a, $b) use ($clau) {
-        [$a1, $a2] = $clau($a);
-        [$b1, $b2] = $clau($b);
-        return strnatcasecmp($a1, $b1) ?: strnatcasecmp($a2, $b2);
-    });
-    return $obres;
+    // Les claus es calculen una sola vegada per obra (no en cada comparació)
+    $claus = array_map($clau, $obres);
+    $ordre = array_keys($obres);
+    usort($ordre, fn($a, $b) => strnatcasecmp($claus[$a][0], $claus[$b][0]) ?: strnatcasecmp($claus[$a][1], $claus[$b][1]));
+    return array_map(fn($i) => $obres[$i], $ordre);
 }
 
 /** Columnes del CSV (els mateixos títols es reconeixen en importar-lo) */
@@ -116,6 +115,7 @@ function pagina_repertori(): void
         'estat' => in_array(get('estat'), ESTATS_OBRA, true) ? get('estat') : '', 'dig' => in_array(get('dig'), ['0', '1'], true) ? get('dig') : '',
         'ordre' => in_array(get('ordre'), ['titol', 'compositor', 'numero', 'tipus', 'ubicacio'], true) ? get('ordre') : 'titol'];
     $obres = obres_repertori($filtre);
+    $trobades = count($obres);
 
     if (get('csv') === '1') {
         header('Content-Type: text/csv; charset=UTF-8');
@@ -158,8 +158,14 @@ function pagina_repertori(): void
         . '<button type="button" class="secundari" onclick="window.print()">🖨 ' . h(t('llist.imprimeix')) . '</button></div>';
 
     $total = (int)valor('SELECT COUNT(*) FROM obres');
+    // Amb catàlegs molt grans, es mostra per pàgines; «Mostra-les totes» és per a imprimir-lo sencer
+    $perPagina = 100;
+    $pagines = (int)ceil($trobades / $perPagina);
+    $pag = min(max(1, (int)get('p', '1')), max(1, $pagines));
+    $totes = get('tot') === '1' || $pagines <= 1;
+    $mostrades = $totes ? $obres : array_slice($obres, ($pag - 1) * $perPagina, $perPagina);
     $html .= '<div class="targetes no-imprimir">' . targeta((string)$total, t('rep.obres'), url('repertori'))
-        . ($filtrat ? targeta((string)count($obres), t('rep.trobades')) : '')
+        . ($filtrat ? targeta((string)$trobades, t('rep.trobades')) : '')
         . targeta((string)valor("SELECT COUNT(*) FROM obres WHERE estat IN ('incomplet', 'en_revisio')"), t('rep.per_revisar'), url('repertori', ['estat' => 'incomplet']))
         . targeta((string)valor('SELECT COUNT(*) FROM obres WHERE digitalitzada = 1'), t('rep.digitalitzades'), url('repertori', ['dig' => 1])) . '</div>';
 
@@ -172,7 +178,7 @@ function pagina_repertori(): void
         $filtre['dig'] !== '' ? ($filtre['dig'] === '1' ? t('rep.digitalitzades') : t('rep.no_digitalitzades')) : null,
     ]);
     $html .= '<div class="nomes-imprimir capcalera-repertori"><h2>' . h((config('societat_nom') ?: 'Compàs') . ' · ' . t('menu.repertori')) . '</h2><p>'
-        . h(t('n_resultats', count($obres)) . ($descr ? ' · ' . implode(' · ', $descr) : '') . ' · ' . data_llegible(date('Y-m-d'))) . '</p></div>';
+        . h(t('n_resultats', $trobades) . ($descr ? ' · ' . implode(' · ', $descr) : '') . ' · ' . data_llegible(date('Y-m-d'))) . '</p></div>';
 
     if (!$obres) {
         $html .= '<p class="buit">' . h($total ? t('rep.cap_trobada') : t('rep.buit')) . '</p>';
@@ -180,7 +186,7 @@ function pagina_repertori(): void
         $html .= '<div class="taula-wrap"><table class="taula repertori"><thead><tr><th>' . h(t('rep.num')) . '</th><th>' . h(t('camp.titol')) . '</th><th>' . h(t('rep.tipus_obra'))
             . '</th><th>' . h(t('camp.compositor')) . '</th><th>' . h(t('camp.agrupacions')) . '</th><th>' . h(t('camp.ubicacio')) . '</th><th>' . h(t('camp.estat'))
             . '</th><th title="' . h(t('camp.digitalitzada')) . '">' . h(t('rep.dig')) . '</th></tr></thead><tbody>';
-        foreach ($obres as $o) {
+        foreach ($mostrades as $o) {
             $enllac = url('fitxa', ['e' => 'obres', 'id' => $o['id']]);
             $html .= '<tr data-href="' . h($enllac) . '"><td class="num-arxiu">' . h($o['numero_arxiu']) . '</td><td><a href="' . h($enllac) . '">' . h($o['titol']) . '</a>'
                 . ($o['observacions'] ? ' <span class="nota-obra" title="' . h($o['observacions']) . '">💬</span>' : '') . '</td><td>' . h($o['tipus_nom']) . '</td><td>' . h($o['compositor'])
@@ -188,6 +194,11 @@ function pagina_repertori(): void
                 . '</td><td><span class="estat-obra ' . h($o['estat']) . '">' . h(t('opt.' . $o['estat'])) . '</span></td><td class="centrat">' . ($o['digitalitzada'] ? '✔' : '') . '</td></tr>';
         }
         $html .= '</tbody></table></div>';
+        if (!$totes) {
+            $html .= '<div class="no-imprimir pagines-repertori">' . html_pagines($pag, $pagines)
+                . '<a class="boto petit secundari" href="' . h(url('repertori', array_filter($filtre + ['tot' => 1], fn($x) => $x !== ''))) . '">' . h(t('rep.totes', $trobades)) . '</a>'
+                . '<small>' . h(t('rep.paginat', $perPagina, $perPagina)) . '</small></div>';
+        }
     }
     $html .= '<p class="nota no-imprimir">' . h(t('rep.nota')) . '</p>';
     pagina(t('menu.repertori'), $html);

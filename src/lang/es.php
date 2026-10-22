@@ -318,6 +318,7 @@ return [
     'copia.tipus.tancament' => 'Automática (al cerrar)',
     'copia.tipus.manual' => 'Manual',
     'copia.tipus.abans-restaurar' => 'Antes de restaurar',
+    'copia.tipus.abans-actualitzar' => 'Antes de actualizar',
     'copia.baixa_curt' => 'Descargar',
     'copia.restaura_curt' => 'Restaurar',
     'copia.confirma_restaurar' => 'Se sustituirán TODOS los datos actuales por los de esta copia. Antes se hará una copia de los actuales. ¿Continuar?',
@@ -1284,6 +1285,10 @@ return [
     'audit.rgpd' => 'Registro de actividades de tratamiento',
     'audit.avis_responsabilitat' => 'Aviso de responsabilidad aceptado',
     'ajuda.llicencia' => 'Licencia',
+    'ajuda.versio_nova' => '¿Hay versión nueva?',
+    'ajuda.versio_ajuda' => 'Tienes la versión %s. «¿Hay versión nueva?» abre en el navegador la página de la última versión publicada (Compàs no se conecta a Internet): si el número es más alto, descárgala e instálala encima; los datos se conservan.',
+    'rep.totes' => 'Mostrarlas todas (%d)', 'rep.paginat' => 'Se muestran de %d en %d. Para imprimir el catálogo entero, muéstralas todas.',
+    'cerca_ref.placeholder' => 'Escribe al menos dos letras para buscar…',
     // ---------- 1.11: tipos de socio, uniformes, módulos y avisos ----------
     'ent.tipus_socis' => 'Tipos de socio', 'ent1.tipus_socis' => 'Tipo de socio',
     'ent.uniformes' => 'Artículos de uniforme', 'ent1.uniformes' => 'Artículo de uniforme',

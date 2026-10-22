@@ -8,6 +8,19 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.13.4] - 2026-10-22
+
+### Afegit
+- **Hi ha versió nova?** a l'ajuda: obri al navegador la pàgina de l'última versió de Compàs, i davall es veu la versió que tens. Compàs continua sense connectar-se a Internet.
+- Societats grans: quan hi ha més de 400 persones (o d'altres opcions), el camp de persona dels formularis es busca escrivint, sense tindre en compte els accents, en lloc d'un desplegable amb tota la llista. El repertori es mostra de 100 en 100, amb un enllaç per a mostrar-lo sencer i imprimir-lo, i els llistats llargs ja no mostren totes les pàgines.
+
+### Canviat
+- **Actualitzacions més segures**: la base de dades només es prepara una vegada per versió (abans es repassava en cada clic), en una sola transacció i amb una còpia «abans d'actualitzar». Les pantalles carreguen un 40 % més ràpid.
+- **Cap versió no es publica si alguna prova falla**: el workflow de publicació passa abans totes les proves, també les d'integració.
+- L'instal·lador de Windows ja no porta les parts de PHP que Compàs no fa servir (intl, curl, openssl…).
+- Les captures dels manuals i de la web són WebP: ocupen un 40 % menys.
+- El repertori ordena un catàleg de milers d'obres cinc vegades més ràpid.
+
 ## [1.13.3] - 2026-10-21
 
 ### Canviat
@@ -252,6 +265,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.13.4]: https://github.com/jossanmar9/compas/releases/tag/v1.13.4
 [1.13.3]: https://github.com/jossanmar9/compas/releases/tag/v1.13.3
 [1.13.2]: https://github.com/jossanmar9/compas/releases/tag/v1.13.2
 [1.13.1]: https://github.com/jossanmar9/compas/releases/tag/v1.13.1

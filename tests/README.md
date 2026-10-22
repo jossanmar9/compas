@@ -31,9 +31,10 @@ Arranquen Compàs de veres (el servidor de PHP amb dades d'exemple en una carpet
 
 | Bateria | Fitxers (a `tests/integracio/`) | Què comprova |
 |---|---|---|
-| `economia` | `economia.py`, `iban.py`, `societat.py`, `repas.py` | Tarifes, rebuts, remeses SEPA, domiciliacions i loteria; IBAN a les fitxes i en importar; junta, actes, documents, full d'alta, comunicats, RGPD i caixa; i un repàs de totes les pantalles (llistats, CSV, fitxes i formularis) sense errors de PHP. |
+| `economia` | `economia.py`, `iban.py`, `societat.py`, `repas.py`, `actualitzacio.py` | Tarifes, rebuts, remeses SEPA, domiciliacions i loteria; IBAN a les fitxes i en importar; junta, actes, documents, full d'alta, comunicats, RGPD i caixa; un repàs de totes les pantalles (llistats, CSV, fitxes i formularis) sense errors de PHP; i que la base de dades només s'actualitza una vegada per versió, amb una còpia abans. |
 | `uniformes` | `uniformes_moduls.py` | Tipus de soci propis (i la migració dels antics), uniformes per talla, mòduls i avisos desactivables. |
 | `repertori` | `repertori.py` | Catàleg, cerca, filtres, ordre, CSV, número d'arxiu i importació des d'un full. |
+| `gran` | `gran.py` | Societats grans: el camp de persona amb cerca quan n'hi ha centenars, el repertori per pàgines i els llistats llargs. |
 | `avis` | `avis.py` | L'avís de responsabilitat en la configuració inicial i en les instal·lacions antigues. |
 | `importacio` | `importacio.php` | Importació de socis i alumnat amb IBAN (crida les funcions de PHP directament). |
 

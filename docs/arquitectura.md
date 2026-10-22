@@ -50,6 +50,10 @@ Per a afegir una entitat senzilla: crea la taula a `schema.sql`, defineix-la a `
 
 Si una versió nova afig columnes a una taula que ja existeix, cal posar-les a `schema.sql` (instal·lacions noves) i a `migra_esquema()` de `src/bootstrap.php` (bases de dades d'abans), que les afig amb `ALTER TABLE` si falten.
 
+L'esquema i les migracions no es repassen en cada clic: `PRAGMA user_version` guarda un número calculat amb la versió de Compàs i el contingut de `schema.sql`. Quan no coincideix (una versió nova o una còpia restaurada d'una versió anterior), `actualitza_esquema()` fa primer una còpia «abans d'actualitzar» i després tot el procés en una sola transacció: si alguna cosa falla, la base de dades queda com estava.
+
+Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan un desplegable: es busca escrivint i `?r=cerca_ref` torna les 30 primeres que coincideixen, sense tindre en compte els accents.
+
 ## Model de dades
 
 - **Persona** és l'entitat central. Cada persona existeix una sola vegada.

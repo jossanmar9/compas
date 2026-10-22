@@ -29,7 +29,7 @@ La finestra utilitza el component WebView2, que porten Windows 10 i 11. En l'ord
 
 Escriu el teu usuari i la contrasenya i prem **Entra**. A baix pots triar l'idioma.
 
-![Pantalla d'entrada](imatges/ca/00-entrada.jpg)
+![Pantalla d'entrada](imatges/ca/00-entrada.webp)
 
 Si oblides la contrasenya, l'administrador te'n pot posar una de nova. Si qui l'ha oblidada és l'administrador/a, prem **Recupera l'accés** (vegeu l'apartat 21).
 
@@ -45,17 +45,17 @@ La primera vegada que s'obri Compàs apareix la **Configuració inicial**:
 6. Llig l'**avís de responsabilitat** i marca que l'acceptes.
 7. Prem **Comença**.
 
-![Configuració inicial](imatges/ca/01-configuracio-inicial.jpg)
+![Configuració inicial](imatges/ca/01-configuracio-inicial.webp)
 
 Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una contrasenya nova si l'administrador/a l'oblida, i **només es mostra esta vegada**. Prem **Imprimeix** (o apunta'l) i guarda'l amb els papers de la societat, no a l'ordinador. Després prem **Ja l'he guardat, continua**.
 
-![Codi de recuperació](imatges/ca/01b-codi-recuperacio.jpg)
+![Codi de recuperació](imatges/ca/01b-codi-recuperacio.webp)
 
 > Per a començar a treballar de veres sense les dades d'exemple, tanca Compàs, esborra la carpeta `data` del programa i torna a obrir-lo.
 
 ## 2. La pantalla principal
 
-![Pantalla d'inici](imatges/ca/02-inici.jpg)
+![Pantalla d'inici](imatges/ca/02-inici.webp)
 
 - **Menú lateral** (esquerra): totes les seccions, agrupades per Escola de música, Agrupacions, Instruments, Documents i dades (llistats, informes i importació) i Administració.
 - **Dalt a la dreta**: canvi d'idioma (`VAL` / `ES`), el teu nom d'usuari (per a canviar la contrasenya) i **Ix** per a eixir.
@@ -68,7 +68,7 @@ Totes les seccions funcionen igual. Si n'aprens una, les saps totes.
 
 ### Llistats
 
-![Llistat de persones](imatges/ca/04-persones-llista.jpg)
+![Llistat de persones](imatges/ca/04-persones-llista.webp)
 
 - **Cerca**: escriu un nom, cognom, telèfon… i prem **Filtra**.
 - **Mostra també les baixes**: per defecte s'amaguen les persones inactives i les baixes.
@@ -80,7 +80,7 @@ Totes les seccions funcionen igual. Si n'aprens una, les saps totes.
 
 La fitxa mostra totes les dades d'un element i tot el que hi està relacionat. Per exemple, la fitxa d'una persona mostra si és sòcia, alumna, professora, música…
 
-![Fitxa d'una persona](imatges/ca/06-persona-fitxa.jpg)
+![Fitxa d'una persona](imatges/ca/06-persona-fitxa.webp)
 
 - **Edita**: canvia les dades.
 - **Elimina**: només es pot si no té res relacionat (vegeu «Baixes» més avall).
@@ -109,7 +109,7 @@ Menú **Administració → Configuració** (només l'administrador/a).
 2. A **Logotip de la societat**, prem el botó de triar fitxer i selecciona la imatge del logotip (PNG, JPG o WEBP, fins a 3 MB).
 3. Prem **Desa**. El logotip apareix al menú i als butlletins.
 
-![Configuració i logotip](imatges/ca/03-configuracio.jpg)
+![Configuració i logotip](imatges/ca/03-configuracio.webp)
 
 ### Mòduls i avisos
 
@@ -119,7 +119,7 @@ Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fi
 
 A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar i el curs actual.
 
-![Mòduls i avisos](imatges/ca/80-moduls.jpg)
+![Mòduls i avisos](imatges/ca/80-moduls.webp)
 
 ## 5. Preparar el curs acadèmic
 
@@ -133,7 +133,7 @@ Abans de matricular cal tindre el curs preparat. Ordre recomanat: **curs → per
 4. Prem **Desa**. S'obri la fitxa del curs.
 5. A l'apartat **Períodes d'avaluació**, prem **+ Afig** i crea'n un per a cada avaluació (`1r trimestre`, `2n trimestre`, `3r trimestre`), amb l'ordre 1, 2, 3.
 
-![Fitxa del curs amb els períodes, grups i matrícules](imatges/ca/21-curs-fitxa.jpg)
+![Fitxa del curs amb els períodes, grups i matrícules](imatges/ca/21-curs-fitxa.webp)
 
 ### 5.2 Assignatures i aules
 
@@ -150,7 +150,7 @@ Un professor és una **persona** amb fitxa de professor:
 2. A la seua fitxa, en l'apartat **Professorat**, prem **+ Afig**.
 3. Comprova la data d'alta i prem **Desa**.
 
-![Alta d'un professor](imatges/ca/20-professor-nou.jpg)
+![Alta d'un professor](imatges/ca/20-professor-nou.webp)
 
 **Certificat de delictes de naturalesa sexual.** És obligatori per a tothom que treballa amb menors. A la fitxa de professor, posa'n la **data**. Si falta el d'algun professor en actiu, Compàs ho avisa a l'inici i el llistat de professorat té el filtre **Sense certificat de delictes sexuals**.
 
@@ -162,13 +162,13 @@ Un **grup** és una assignatura impartida en un curs per un professor: per exemp
 2. Tria el **curs**, l'**assignatura**, escriu el **nom** del grup i tria el **professor** i l'**aula**.
 3. Prem **Desa**. S'obri la fitxa del grup.
 
-![Nou grup](imatges/ca/22-grup-nou.jpg)
+![Nou grup](imatges/ca/22-grup-nou.webp)
 
 4. A l'apartat **Horari**, prem **+ Afig**, tria el **dia** i les hores d'inici i de fi, i prem **Desa**. Repeteix-ho si el grup té classe més d'un dia.
 
-![Afegir una franja horària](imatges/ca/23-horari-nou.jpg)
+![Afegir una franja horària](imatges/ca/23-horari-nou.webp)
 
-![Fitxa del grup amb l'horari](imatges/ca/24-grup-fitxa.jpg)
+![Fitxa del grup amb l'horari](imatges/ca/24-grup-fitxa.webp)
 
 Des de la fitxa del grup també pots anar directament a les **Qualificacions** del grup.
 
@@ -176,7 +176,7 @@ Des de la fitxa del grup també pots anar directament a les **Qualificacions** d
 
 El menú **Horari** mostra totes les classes de la setmana. Pots filtrar per professor o per aula per a imprimir l'horari de cadascú.
 
-![Horari general](imatges/ca/25-horari.jpg)
+![Horari general](imatges/ca/25-horari.webp)
 
 ### 5.6 Passar al curs següent
 
@@ -188,7 +188,7 @@ Quan s'acosta el curs nou no cal crear-ho tot des de zero:
 4. Deixa marcat **Marca el curs nou com a curs actual** i, si vols, **Tanca** el curs anterior.
 5. Prem **Crea el curs nou**.
 
-![Assistent per a passar de curs](imatges/ca/50-passa-curs.jpg)
+![Assistent per a passar de curs](imatges/ca/50-passa-curs.webp)
 
 Després només cal ajustar el que canvie (un grup nou, un altre professor…) i inscriure els alumnes als grups. Les notes no es copien mai, i el curs anterior es conserva sencer.
 
@@ -211,7 +211,7 @@ En posar una data de naixement de major d'edat, els camps DNI i telèfon passen 
 
 Si la persona és major d'edat i pagarà rebuts pel banc (un soci, o el pare o la mare d'un alumne), escriu el seu **IBAN**. Compàs crea la domiciliació (apartat 13.4). També s'hi pot escriure el número de compte antic de 20 xifres: Compàs el converteix en IBAN.
 
-![Formulari de persona nova](imatges/ca/05-persona-nova.jpg)
+![Formulari de persona nova](imatges/ca/05-persona-nova.webp)
 
 S'obri la **fitxa de la persona**, amb un apartat per a cada funció: Socis, Alumnat, Professorat, Músics i membres, Tutors legals (quan és tutor d'algú) i Cessions.
 
@@ -223,11 +223,11 @@ Dels menors no cal tindre el DNI ni el telèfon. Quan una persona fa 18 anys i n
 - La seua fila es marca **en groc** amb el símbol ⚠. Si passes el ratolí per damunt, diu quines dades falten.
 - A la seua fitxa també apareix l'avís, amb un enllaç per a editar-la.
 
-![Avís de persones amb dades que falten](imatges/ca/04-persones-llista.jpg)
+![Avís de persones amb dades que falten](imatges/ca/04-persones-llista.webp)
 
 Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a vore només eixes persones. Obri cadascuna, prem **Edita**, completa el DNI i el telèfon i desa. L'avís desapareix quan ja no en falta cap.
 
-![Persones amb dades que falten](imatges/ca/04b-persones-avis.jpg)
+![Persones amb dades que falten](imatges/ca/04b-persones-avis.webp)
 
 ### Drets d'imatge (fotos i vídeos)
 
@@ -236,9 +236,9 @@ Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tind
 1. Obri la fitxa de la persona (o de l'alumne) i prem **🖨 Full de consentiment**. Ix un full A4 amb les dades de l'alumne i del tutor/a, el text de l'autorització i l'espai per a signar.
 2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la de hui.
 
-![Drets d'imatge a la fitxa de la persona](imatges/ca/41-persona-consentiment.jpg)
+![Drets d'imatge a la fitxa de la persona](imatges/ca/41-persona-consentiment.webp)
 
-![Full de consentiment per a signar](imatges/ca/42-consentiment-full.jpg)
+![Full de consentiment per a signar](imatges/ca/42-consentiment-full.webp)
 
 Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 18). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
 
@@ -256,11 +256,11 @@ Dona d'alta l'alumne com a **persona** (apartat 6). Si el tutor legal encara no 
 
 1. A la fitxa de la persona, en l'apartat **Alumnat**, prem **+ Afig**.
 
-![Afegir la fitxa d'alumne des de la persona](imatges/ca/06-persona-fitxa.jpg)
+![Afegir la fitxa d'alumne des de la persona](imatges/ca/06-persona-fitxa.webp)
 
 2. La persona ja ve triada. Comprova la **data d'alta** i prem **Desa**.
 
-![Fitxa d'alumne nova](imatges/ca/07-alumne-nou.jpg)
+![Fitxa d'alumne nova](imatges/ca/07-alumne-nou.webp)
 
 S'obri la **fitxa de l'alumne**, on es completen els passos següents.
 
@@ -268,13 +268,13 @@ S'obri la **fitxa de l'alumne**, on es completen els passos següents.
 
 1. A l'apartat **Tutors legals**, prem **+ Afig**.
 
-![Fitxa de l'alumne acabat de crear](imatges/ca/08-alumne-fitxa.jpg)
+![Fitxa de l'alumne acabat de crear](imatges/ca/08-alumne-fitxa.webp)
 
 2. Al desplegable **Tutor legal**, escriu a la lupa el nom del pare, la mare o el tutor i tria'l.
 3. Tria la **relació** (mare, pare, tutor/a legal…) i marca **Principal** si és el contacte principal.
 4. Prem **Desa**. Repeteix-ho si hi ha més d'un tutor.
 
-![Afegir el tutor legal](imatges/ca/09-tutor-nou.jpg)
+![Afegir el tutor legal](imatges/ca/09-tutor-nou.webp)
 
 > Germans: tots dos alumnes poden tindre el mateix tutor. No cal donar-lo d'alta dues vegades.
 
@@ -283,7 +283,7 @@ S'obri la **fitxa de l'alumne**, on es completen els passos següents.
 1. A la fitxa de l'alumne, en l'apartat **Matrícules**, prem **+ Afig**.
 2. Comprova que el **curs** és l'actual i prem **Desa**.
 
-![Matrícula nova](imatges/ca/10-matricula-nova.jpg)
+![Matrícula nova](imatges/ca/10-matricula-nova.webp)
 
 ### Pas 5. Inscriure'l als grups
 
@@ -291,20 +291,20 @@ S'obri la fitxa de la matrícula.
 
 1. A l'apartat **Inscripcions als grups**, prem **+ Afig**.
 
-![Fitxa de la matrícula](imatges/ca/11-matricula-fitxa.jpg)
+![Fitxa de la matrícula](imatges/ca/11-matricula-fitxa.webp)
 
 2. Tria el **grup** (per exemple *Llenguatge musical · 1r A*) i prem **Desa**.
 3. Repeteix-ho per a cada assignatura (per exemple *Clarinet · Individual*).
 
-![Inscripció en un grup](imatges/ca/12-inscripcio-grup.jpg)
+![Inscripció en un grup](imatges/ca/12-inscripcio-grup.webp)
 
-![Matrícula amb els grups inscrits](imatges/ca/13-matricula-grups.jpg)
+![Matrícula amb els grups inscrits](imatges/ca/13-matricula-grups.webp)
 
 ### Resultat
 
 La fitxa de l'alumne mostra el resum del curs: grups, professors, horari i notes de cada avaluació, el botó per a **imprimir-ne el butlletí**, els tutors legals i les matrícules de tots els cursos.
 
-![Fitxa de l'alumne amb el resum del curs](imatges/ca/14-alumne-resum.jpg)
+![Fitxa de l'alumne amb el resum del curs](imatges/ca/14-alumne-resum.webp)
 
 ### En començar un curs nou
 
@@ -329,7 +329,7 @@ Cada societat té els tipus de soci que diuen els seus estatuts. Compàs en port
 
 Un tipus que ja tenen alguns socis o que té tarifa no es pot eliminar: es posa de **baixa** i deixa d'aparéixer en els socis nous.
 
-![Tipus de soci](imatges/ca/77-tipus-socis.jpg)
+![Tipus de soci](imatges/ca/77-tipus-socis.webp)
 
 ### Alta d'un soci
 
@@ -339,17 +339,17 @@ Un tipus que ja tenen alguns socis o que té tarifa no es pot eliminar: es posa 
 4. Si les quotes es cobraran pel banc, escriu l'**IBAN** (si encara no el té a la seua fitxa de persona).
 5. Prem **Desa**.
 
-![Alta d'un soci](imatges/ca/15-soci-nou.jpg)
+![Alta d'un soci](imatges/ca/15-soci-nou.webp)
 
 ### Llistat de socis
 
 El menú **Socis** mostra tots els socis actius. Pots buscar pel nom o pel número i exportar la llista a CSV (per exemple, per a fer etiquetes o enviar una circular).
 
-![Llistat de socis](imatges/ca/16-socis-llista.jpg)
+![Llistat de socis](imatges/ca/16-socis-llista.webp)
 
 **Full d'alta de soci.** Al llistat de socis, **Full d'alta de soci** fa un full en blanc per a qui vol fer-se soci: dades personals, tipus de soci (amb la quota, si hi ha tarifes), forma de pagament, ordre de domiciliació SEPA, autorització d'imatge, signatura i la informació de protecció de dades. Els textos de dalt i del peu es poden canviar a **Configuració**.
 
-![Full d'alta de soci](imatges/ca/73-full-alta.jpg)
+![Full d'alta de soci](imatges/ca/73-full-alta.webp)
 
 ### Baixa d'un soci
 
@@ -357,7 +357,7 @@ El menú **Socis** mostra tots els socis actius. Pots buscar pel nom o pel núme
 2. Canvia l'**estat** a **Baixa** i posa la **data de baixa**.
 3. Prem **Desa**.
 
-![Baixa d'un soci](imatges/ca/17-soci-baixa.jpg)
+![Baixa d'un soci](imatges/ca/17-soci-baixa.webp)
 
 El soci desapareix del llistat, però es conserva amb el seu historial.
 
@@ -370,7 +370,7 @@ El soci desapareix del llistat, però es conserva amb el seu historial.
 3. Tria l'**agrupació** (Banda, Banda juvenil, Coral…), escriu l'**instrument o veu** i tria la **funció**: membre, director/a titular, director/a assistent o responsable.
 4. Prem **Desa**.
 
-![Alta d'un músic](imatges/ca/18-membre-nou.jpg)
+![Alta d'un músic](imatges/ca/18-membre-nou.webp)
 
 Una persona pot ser de diverses agrupacions: repeteix-ho per a cadascuna.
 
@@ -378,7 +378,7 @@ Una persona pot ser de diverses agrupacions: repeteix-ho per a cadascuna.
 
 Menú **Agrupacions** → obri l'agrupació. Mostra tots els seus membres amb l'instrument i la funció. Des d'ací també pots afegir membres amb **+ Afig**.
 
-![Fitxa d'una agrupació](imatges/ca/19-agrupacio-fitxa.jpg)
+![Fitxa d'una agrupació](imatges/ca/19-agrupacio-fitxa.webp)
 
 Per a crear una agrupació nova: menú **Agrupacions → + Nou**.
 
@@ -394,11 +394,11 @@ Per a afegir una obra, prem **+ Obra**:
 - **Ubicació** del material físic (Armari A · Prestatgeria 3 · Carpeta 27) i **material** que hi ha (Partitura + particel·les).
 - **Estat** (complet, incomplet, en revisió o retirat), si està **digitalitzada** i **observacions**, per exemple quina particel·la falta.
 
-![Fitxa d'una obra](imatges/ca/82-obra.jpg)
+![Fitxa d'una obra](imatges/ca/82-obra.webp)
 
 La pantalla del repertori té un **cercador** (títol, compositor, número d'arxiu, ubicació…), **filtres** per tipus, agrupació, estat i si està digitalitzada, i es pot **ordenar** per títol, compositor, número d'arxiu, tipus o ubicació. El que es veu es pot **imprimir** (o guardar en PDF) i **exportar a CSV**. Les obres incompletes o en revisió tenen un avís a la seua fitxa, i a la fitxa de cada agrupació hi ha un enllaç a les seues obres.
 
-![Repertori](imatges/ca/81-repertori.jpg)
+![Repertori](imatges/ca/81-repertori.webp)
 
 Els **tipus d'obra** els tria cada societat: al repertori, prem **Tipus d'obra** per a canviar-los, afegir-ne o ordenar-los. Un tipus que ja tenen algunes obres no es pot eliminar, però es pot donar de baixa.
 
@@ -414,7 +414,7 @@ El professorat passa les notes a administració i administració les introdueix.
 4. Si el professor ha passat observacions, escriu-les a **Observacions acadèmiques**. Ixen al butlletí.
 5. Prem **Desa**.
 
-![Introduir les notes](imatges/ca/27-qualificacions.jpg)
+![Introduir les notes](imatges/ca/27-qualificacions.webp)
 
 Per a esborrar una nota, deixa en blanc la nota i les observacions i desa.
 
@@ -426,11 +426,11 @@ Per a esborrar una nota, deixa en blanc la nota i les observacions i desa.
 4. Si vols, escriu un **text al peu** (per exemple, la data de les audicions). Es recorda per a la pròxima vegada.
 5. Prem **Prepara els butlletins**.
 
-![Preparar els butlletins](imatges/ca/28-butlletins.jpg)
+![Preparar els butlletins](imatges/ca/28-butlletins.webp)
 
 S'obri una pestanya nova amb un full A4 per alumne. Prem **Imprimeix el butlletí** (dalt de tot).
 
-![Butlletí preparat per a imprimir](imatges/ca/29-butlleti-impres.jpg)
+![Butlletí preparat per a imprimir](imatges/ca/29-butlleti-impres.webp)
 
 > Per a guardar-los en PDF (per a enviar-los per correu), tria **Microsoft Print to PDF** com a impressora.
 
@@ -442,7 +442,7 @@ S'obri una pestanya nova amb un full A4 per alumne. Prem **Imprimeix el butllet�
 2. Omple el **número d'inventari** i el **tipus** (obligatoris) i la resta de dades: marca, model, número de sèrie, estat, ubicació i data d'adquisició.
 3. Prem **Desa**.
 
-![Alta d'un instrument](imatges/ca/30-instrument-nou.jpg)
+![Alta d'un instrument](imatges/ca/30-instrument-nou.webp)
 
 A la fitxa de l'instrument hi ha l'historial de **cessions** i de **manteniments** (reparacions, revisions…).
 
@@ -452,7 +452,7 @@ A la fitxa de l'instrument hi ha l'historial de **cessions** i de **manteniments
 2. Tria la **persona**, comprova la **data d'entrega** i posa la **devolució prevista**, l'estat en què s'entrega i la fiança si n'hi ha.
 3. Prem **Desa**.
 
-![Nova cessió](imatges/ca/31-cessio-nova.jpg)
+![Nova cessió](imatges/ca/31-cessio-nova.webp)
 
 Un instrument no es pot deixar a dues persones alhora.
 
@@ -462,13 +462,13 @@ Un instrument no es pot deixar a dues persones alhora.
 2. Posa la **data de devolució** i l'**estat en la devolució**.
 3. Prem **Desa**. L'instrument torna a estar disponible.
 
-![Registrar la devolució](imatges/ca/32-cessio-retorn.jpg)
+![Registrar la devolució](imatges/ca/32-cessio-retorn.webp)
 
 ### Llistat de cessions
 
 Menú **Cessions**. Amb el filtre pots vore les **cessions actives** o només les que tenen la **devolució vençuda**. Les vençudes també apareixen a l'inici.
 
-![Llistat de cessions](imatges/ca/33-cessions-llista.jpg)
+![Llistat de cessions](imatges/ca/33-cessions-llista.webp)
 
 ### Uniformes
 
@@ -482,9 +482,9 @@ Quan es torna un préstec, s'edita el lliurament i es posa la **data de devoluci
 
 La pantalla mostra, per a cada article i talla, el **total** de peces que té la societat (les comprades, menys les venudes i les gratuïtes), les que estan **en préstec** i les **disponibles**. Si d'una talla s'han lliurat més de les que consten com a comprades, el número ix en roig: falta apuntar alguna compra. Els lliuraments de cada persona apareixen també a la seua fitxa.
 
-![Uniformes per talla](imatges/ca/78-uniformes.jpg)
+![Uniformes per talla](imatges/ca/78-uniformes.webp)
 
-![Lliurament d'un uniforme](imatges/ca/79-uniforme-lliurament.jpg)
+![Lliurament d'un uniforme](imatges/ca/79-uniforme-lliurament.webp)
 
 > Compàs no fa rebuts de les vendes d'uniformes. Si cal, apunta els diners al llibre de caixa (apartat 13.7).
 
@@ -492,7 +492,7 @@ La pantalla mostra, per a cada article i talla, el **total** de peces que té la
 
 L'apartat **Economia** del menú porta els diners de la societat: les quotes dels socis, la matrícula i les classes de l'escola, els rebuts, les remeses al banc i la loteria. **Resum econòmic** mostra el que hi ha per cobrar, el que s'ha cobrat enguany, els rebuts retornats pel banc i qui deu diners.
 
-![Resum econòmic](imatges/ca/55-economia.jpg)
+![Resum econòmic](imatges/ca/55-economia.webp)
 
 > Compàs fa **rebuts**, no factures. Si la societat ha de fer una factura (per exemple, d'un concert per a l'ajuntament), l'ha de fer amb un programa de facturació que complisca la normativa, o la gestoria.
 
@@ -504,7 +504,7 @@ Menú **Economia → Tarifes**. Cada tarifa té un nom (el que apareixerà al re
 - **Matrícula**: una sola vegada per curs i alumne.
 - **Classes**: mensual, trimestral (per avaluacions) o anual. Si es posa una **assignatura**, es cobra a cada alumne inscrit en algun grup d'eixa assignatura. Si no, es cobra una vegada per alumne (una quota d'escola fixa).
 
-![Tarifes](imatges/ca/56-tarifes.jpg)
+![Tarifes](imatges/ca/56-tarifes.webp)
 
 ### 13.2 Dades del banc i descomptes
 
@@ -514,7 +514,7 @@ L'administrador/a ho configura una sola vegada a **Resum econòmic → Configura
 - **Descomptes de l'escola**: un percentatge per a qui és soci (l'alumne o qui paga) i un altre per a cada germà a partir del segon. S'apliquen a les classes, no a la matrícula. A la fitxa de l'alumne es pot posar, a més, un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
 - **Text al peu dels rebuts**, si la societat en vol posar un.
 
-![Configuració d'Economia](imatges/ca/57-economia-config.jpg)
+![Configuració d'Economia](imatges/ca/57-economia-config.webp)
 
 ### 13.3 Generar els rebuts
 
@@ -525,7 +525,7 @@ Menú **Economia → Genera rebuts**. Hi ha dues opcions:
 
 Prem **Previsualitza**: Compàs mostra qui pagarà, el detall i l'import, i avisa dels alumnes que no tenen qui pague. Si està bé, prem **Crea**. Si tornes a generar el mateix període, no es duplica res: els que ja existeixen apareixen com a «Ja generat».
 
-![Generar els rebuts de l'escola](imatges/ca/58-genera-rebuts.jpg)
+![Generar els rebuts de l'escola](imatges/ca/58-genera-rebuts.webp)
 
 Els rebuts de qui té una **domiciliació** activa es cobraran pel banc; els altres, en **efectiu**. També es pot fer un rebut a mà amb **Rebuts → + Nou** (per exemple, un donatiu o la venda d'un uniforme).
 
@@ -533,17 +533,17 @@ Els rebuts de qui té una **domiciliació** activa es cobraran pel banc; els alt
 
 Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data de hui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
 
-![Domiciliacions](imatges/ca/59-domiciliacions.jpg)
+![Domiciliacions](imatges/ca/59-domiciliacions.webp)
 
 A la fitxa de la domiciliació, **Imprimeix l'ordre de domiciliació** fa el full per a signar. La societat ha de guardar-lo signat mentre es cobre i 14 mesos més.
 
-![Ordre de domiciliació](imatges/ca/60-ordre-domiciliacio.jpg)
+![Ordre de domiciliació](imatges/ca/60-ordre-domiciliacio.webp)
 
 ### 13.5 Remeses: cobrar pel banc
 
 Menú **Economia → Remeses bancàries**. Apareixen els rebuts domiciliats pendents de cobrar (també els que el banc ha retornat). Tria'ls, posa la **data de cobrament** (molts bancs demanen almenys dos dies hàbils) i prem **Prepara la remesa**.
 
-![Preparar una remesa](imatges/ca/61-remeses.jpg)
+![Preparar una remesa](imatges/ca/61-remeses.webp)
 
 Després:
 
@@ -551,7 +551,7 @@ Després:
 2. Entra a la banca electrònica de la societat i puja'l a l'apartat d'adeutaments directes SEPA (esquema CORE). Si el banc rebutja el fitxer, canvia el **format** a la configuració d'Economia i torna a descarregar-lo.
 3. Quan el banc l'haja cobrada, prem **Marca-la com a cobrada**: tots els rebuts queden pagats.
 
-![Una remesa](imatges/ca/62-remesa.jpg)
+![Una remesa](imatges/ca/62-remesa.webp)
 
 Si el banc **retorna** un rebut, obri'l i prem **Retornat pel banc**. Tornarà a estar per cobrar: el pots cobrar en mà o posar-lo en la remesa següent. Mentre una remesa no s'ha pujat al banc, se'n pot traure un rebut o desfer-la.
 
@@ -559,9 +559,9 @@ Si el banc **retorna** un rebut, obri'l i prem **Retornat pel banc**. Tornarà a
 
 Obri el rebut, tria com s'ha pagat (**efectiu** o **transferència**) i la data, i prem **Pagat**. Amb **Imprimeix el rebut** es fa el rebut amb el logotip; si està pagat, porta el segell «PAGAT». Des del **Resum econòmic**, **Imprimeix els rebuts per cobrar en mà** els fa tots de colp, dos per full.
 
-![Fitxa d'un rebut](imatges/ca/63-rebut.jpg)
+![Fitxa d'un rebut](imatges/ca/63-rebut.webp)
 
-![Rebut imprés](imatges/ca/64-rebut-imprés.jpg)
+![Rebut imprés](imatges/ca/64-rebut-imprés.webp)
 
 Al llistat de **Rebuts**, els filtres mostren els que estan per cobrar, els retornats, els que cal cobrar en mà o els domiciliats que encara no són en cap remesa. A baix es veu el total. A la fitxa de cada persona hi ha els seus rebuts i la seua domiciliació.
 
@@ -575,7 +575,7 @@ Menú **Economia → Llibre de caixa**. Mostra tots els ingressos i despeses de 
 
 La resta (factures, subvencions, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot vore només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
 
-![Llibre de caixa](imatges/ca/76-caixa.jpg)
+![Llibre de caixa](imatges/ca/76-caixa.webp)
 
 ## 14. Loteria
 
@@ -585,19 +585,19 @@ Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple
 
 Tria la persona i quants talonaris s'endú, i prem **Reparteix talonaris**. Compàs els numera seguits: el talonari 1 porta les participacions 0001–0050, el 2 les 0051–0100, etc.
 
-![Talonaris i liquidació](imatges/ca/65-loteria.jpg)
+![Talonaris i liquidació](imatges/ca/65-loteria.webp)
 
 ### Imprimir les participacions
 
 A la fitxa de cada talonari, **Imprimeix les participacions** fa les seues 50 participacions (8 per full), amb el logotip, els números, el preu i el número de participació. Des del resum es poden imprimir totes de colp. El text legal del peu es canvia a la fitxa del sorteig.
 
-![Participacions](imatges/ca/67-participacions.jpg)
+![Participacions](imatges/ca/67-participacions.webp)
 
 ### Liquidar
 
 Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut**, quantes **torna** sense vendre i quants **diners lliura**. El resum mostra el que falta per lliurar (en roig), quant cal comprar a l'administració de loteria i el que queda per a la societat.
 
-![Liquidar un talonari](imatges/ca/66-talonari.jpg)
+![Liquidar un talonari](imatges/ca/66-talonari.webp)
 
 ## 15. Junta directiva i actes
 
@@ -605,7 +605,7 @@ Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut*
 
 Menú **Societat → Junta directiva**. Mostra la junta actual i les anteriors. Per a posar un càrrec, prem **+ Afig un càrrec**: tria la persona, el càrrec (president/a, vicepresident/a, secretari/ària, tresorer/a, vocal…) i la data d'inici. La data de fi es deixa buida mentre el càrrec està vigent.
 
-![Junta directiva](imatges/ca/68-junta.jpg)
+![Junta directiva](imatges/ca/68-junta.webp)
 
 - **Anys de mandat:** posa els que diguen els estatuts. Compàs avisarà a l'inici quatre mesos abans que s'haja de renovar la junta.
 - **Junta nova:** quan s'elegeix una junta nova, prem **Tanca els càrrecs actuals** amb la data de l'elecció i després afig els càrrecs nous. Els anteriors queden a l'historial. Recordeu que els canvis de junta s'han de comunicar al Registre d'Associacions.
@@ -623,19 +623,19 @@ A la fitxa de la reunió hi ha tres documents per a imprimir:
 2. **Acta**. Després de la reunió, edita-la i completa els **assistents**, el **desenvolupament** i els **acords** (un per línia), i marca-la com a celebrada. En les reunions de junta, si no poses els assistents, l'acta posa la junta actual.
 3. **Certificat d'un acord**: tria l'acord i Compàs fa el certificat que demanen sovint el banc o les administracions.
 
-![Fitxa d'una reunió](imatges/ca/69-reunio.jpg)
+![Fitxa d'una reunió](imatges/ca/69-reunio.webp)
 
-![Acta d'una assemblea](imatges/ca/70-acta.jpg)
+![Acta d'una assemblea](imatges/ca/70-acta.webp)
 
 ## 16. Documents de la societat
 
 Menú **Societat → Documents**. Ací es guarden els estatuts, el reglament de règim intern, les actes signades, la inscripció al registre, el CIF, les pòlisses d'assegurança, els contractes del professorat i de la direcció, els convenis…
 
-![Documents](imatges/ca/71-documents.jpg)
+![Documents](imatges/ca/71-documents.webp)
 
 Per a afegir-ne un, prem **+ Nou**, escriu el títol, tria el tipus i el **fitxer** (PDF, imatge, Word, Excel, LibreOffice o text, fins a 20 MB). Si és d'una persona (un contracte, per exemple), tria-la: apareixerà també a la seua fitxa. Si el document caduca (una assegurança, una llicència, un conveni), posa la **data de caducitat**: Compàs avisarà a l'inici 60 dies abans.
 
-![Afegir un document](imatges/ca/72-document-nou.jpg)
+![Afegir un document](imatges/ca/72-document-nou.webp)
 
 El fitxer es guarda **dins de Compàs**, no en una carpeta a part. Així entra a les còpies de seguretat (i, si les xifreu, també va xifrat). A canvi, les còpies ocupen més si hi guardeu molts documents grans.
 
@@ -643,7 +643,7 @@ El fitxer es guarda **dins de Compàs**, no en una carpeta a part. Així entra a
 
 Des del llistat de documents, **Registre d'activitats de tractament (RGPD)** fa el document que el Reglament de protecció de dades demana a les entitats. Compàs el prepara amb les dades que tracta la societat i les mesures de seguretat que té configurades. És un model orientatiu: reviseu-lo, adapteu-lo i guardeu-lo signat amb la documentació de la societat.
 
-![Registre d'activitats de tractament](imatges/ca/75-rgpd.jpg)
+![Registre d'activitats de tractament](imatges/ca/75-rgpd.webp)
 
 ## 17. Comunicats
 
@@ -656,19 +656,19 @@ Menú **Societat → Comunicats**. Compàs no envia correus ni es connecta a Int
 
 Les persones del grup que no tenen correu apareixen en una llista a part, per a avisar-les d'una altra manera.
 
-![Comunicats](imatges/ca/74-comunicats.jpg)
+![Comunicats](imatges/ca/74-comunicats.webp)
 
 ## 18. Llistats, certificats i memòria
 
 Menú **Documents i dades → Llistats i informes**. Cada llistat es pot vore a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
 
-![Llistats i informes](imatges/ca/43-llistats.jpg)
+![Llistats i informes](imatges/ca/43-llistats.webp)
 
 ### Alumnes d'un grup
 
 Tria el curs i el grup. Ix cada alumne amb l'edat, el pare, la mare o el tutor/a i els seus telèfons i correus. És el llistat que necessita el professorat. En groc, els que no autoritzen fotos.
 
-![Alumnes d'un grup amb els telèfons dels tutors](imatges/ca/44-llistat-grup.jpg)
+![Alumnes d'un grup amb els telèfons dels tutors](imatges/ca/44-llistat-grup.webp)
 
 ### Socis per número i músics per instrument
 
@@ -679,7 +679,7 @@ Tria el curs i el grup. Ix cada alumne amb l'edat, el pare, la mare o el tutor/a
 
 Qui pot eixir en fotos i vídeos: el resum (quants autoritzen, quants no i quants falten) i la llista, amb els que no autoritzen en groc. Abans d'un concert, imprimeix-la per a qui fa les fotos. El botó **Fulls de consentiment dels pendents** imprimeix els fulls que falten.
 
-![Drets d'imatge](imatges/ca/45-drets-imatge.jpg)
+![Drets d'imatge](imatges/ca/45-drets-imatge.webp)
 
 ### Etiquetes per a les circulars
 
@@ -688,7 +688,7 @@ Qui pot eixir en fotos i vídeos: el resum (quants autoritzen, quants no i quant
 3. Si el full ja està començat, indica quantes etiquetes **ja s'han gastat**.
 4. Prem **Prepara les etiquetes** i imprimeix amb la **mida real (100 %)** i **sense marges**.
 
-![Etiquetes](imatges/ca/46-etiquetes.jpg)
+![Etiquetes](imatges/ca/46-etiquetes.webp)
 
 > Fes primer una prova en paper normal amb **Mostra les vores** i posa-la damunt del full d'etiquetes a contrallum.
 
@@ -696,7 +696,7 @@ Qui pot eixir en fotos i vídeos: el resum (quants autoritzen, quants no i quant
 
 Tria l'**any** i els **anys que es premien** (per defecte 25 i 50). Ix qui els complix eixe any, com a soci i com a músic. Marca **Mostra també la llista completa** per a vore tothom ordenat per antiguitat.
 
-![Antiguitat i insígnies](imatges/ca/47-antiguitat.jpg)
+![Antiguitat i insígnies](imatges/ca/47-antiguitat.webp)
 
 L'antiguitat es compta des de la data d'alta. Per als músics, des de la primera alta en qualsevol agrupació.
 
@@ -704,17 +704,17 @@ L'antiguitat es compta des de la data d'alta. Per als músics, des de la primera
 
 Tria el curs. Ix el que solen demanar la Diputació, l'IVC o l'ajuntament: alumnes per edat (amb menors i majors), per assignatura i per població, professorat i grups, músics de cada agrupació (amb els menors), socis per tipus i les altes i baixes de l'any.
 
-![Dades per a la memòria anual](imatges/ca/48-memoria.jpg)
+![Dades per a la memòria anual](imatges/ca/48-memoria.webp)
 
 ### Certificats
 
 A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i membres**) hi ha el botó **🖨 Certificat**. Ix un certificat en A4 amb el logotip, les dades de la persona i la data de hui, preparat per a signar. Serveix per a beques, el conservatori, la feina…
 
-![Certificat de soci](imatges/ca/49-certificat.jpg)
+![Certificat de soci](imatges/ca/49-certificat.webp)
 
 La primera vegada, a **Configuració → Certificats i fulls de consentiment**, posa qui signa (normalment el secretari/ària), el càrrec i, si voleu el vist i plau, el president/a. Posa també la **població** de la societat, que ix al final del certificat.
 
-![Dades dels certificats a la configuració](imatges/ca/40-config-documents.jpg)
+![Dades dels certificats a la configuració](imatges/ca/40-config-documents.webp)
 
 ## 19. Importar dades des d'Excel
 
@@ -726,7 +726,7 @@ Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a esc
 2. Tria el fitxer: Excel (**.xlsx**) o **CSV**. Si és un .xls antic, obri'l amb Excel i guarda'l com a .xlsx.
 3. Deixa marcat **La primera fila té els títols de les columnes** si és el cas, i prem **Següent**.
 
-![Importar: triar el fitxer](imatges/ca/51-importa.jpg)
+![Importar: triar el fitxer](imatges/ca/51-importa.webp)
 
 Si comences de zero, baixa una **plantilla**, omple-la i puja-la.
 
@@ -736,7 +736,7 @@ Compàs reconeix les columnes habituals (Nom, Cognoms, DNI, Telèfon, Data de na
 
 Si el full porta el **compte bancari** (IBAN o el número antic de 20 xifres), Compàs crea la domiciliació de cada persona major d'edat; en importar alumnat, la del pare, la mare o el tutor/a. Si hi ha una columna amb la **data de signatura** de la domiciliació, també l'agafa. A les persones que ja tenen una domiciliació amb un altre IBAN no se'ls canvia.
 
-![Importar: què és cada columna](imatges/ca/52-importa-columnes.jpg)
+![Importar: què és cada columna](imatges/ca/52-importa-columnes.webp)
 
 ### Pas 3. Revisar i importar
 
@@ -751,7 +751,7 @@ Abans d'importar res, Compàs mostra cada fila:
 
 A la columna **Avisos** veuràs, per exemple, dates que no s'entenen o persones a qui falten dades obligatòries (quedaran en groc, com sempre).
 
-![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.jpg)
+![Importar: revisió abans d'importar](imatges/ca/53-importa-revisa.webp)
 
 Prem **Importa**. Abans d'importar, Compàs fa una còpia de seguretat («Abans d'importar»): si el resultat no és el que esperaves, la pots restaurar (apartat 20).
 
@@ -777,10 +777,11 @@ Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 | Quan prems **Fes una còpia ara** | Manual |
 | Just abans de restaurar | Abans de restaurar |
 | Just abans d'importar dades | Abans d'importar |
+| En obrir per primera vegada una versió nova de Compàs | Abans d'actualitzar |
 
 Menú **Administració → Còpies de seguretat**:
 
-![Còpies de seguretat](imatges/ca/34-copies.jpg)
+![Còpies de seguretat](imatges/ca/34-copies.webp)
 
 ### Quantes còpies es guarden
 
@@ -803,13 +804,13 @@ Si l'ordinador s'espatlla o el roben, les còpies que hi ha dins es perden amb e
 3. A **Configuració de les còpies**, enganxa la ruta a **Carpeta externa**.
 4. Prem **Desa**.
 
-![Carpeta externa de còpies](imatges/ca/35-copies-carpeta.jpg)
+![Carpeta externa de còpies](imatges/ca/35-copies-carpeta.webp)
 
 A partir d'ara, cada còpia es guarda també en esta carpeta. Si no està disponible (per exemple, el USB no està connectat) o fa més de 7 dies que no s'hi guarda res, l'inici ho avisa.
 
 ### Llista de còpies, restaurar i eliminar
 
-![Llista de còpies](imatges/ca/36-copies-llista.jpg)
+![Llista de còpies](imatges/ca/36-copies-llista.webp)
 
 - **Baixa**: descarrega aquella còpia.
 - **Restaura** (només l'administrador/a): substitueix totes les dades actuals per les de la còpia. Abans, Compàs guarda una còpia de les dades actuals («Abans de restaurar»), de manera que sempre es pot tornar arrere. Després cal tornar a entrar.
@@ -826,7 +827,7 @@ Si la carpeta externa és un llapis USB o el núvol, convé xifrar-les: si es pe
 1. A **Configuració de les còpies**, marca **Xifra amb contrasenya les còpies de la carpeta externa**.
 2. Escriu una contrasenya (almenys 8 caràcters) dues vegades i prem **Desa**.
 
-![Còpies externes xifrades](imatges/ca/54-copies-xifrat.jpg)
+![Còpies externes xifrades](imatges/ca/54-copies-xifrat.webp)
 
 A partir d'ara, les còpies de la carpeta externa acaben en `.xifrat`. Les de l'ordinador no es xifren. Per a restaurar-ne una, a **Restaura des d'un fitxer** tria el fitxer `.xifrat` i escriu la contrasenya.
 
@@ -845,7 +846,7 @@ Cada usuari pot canviar la seua quan vulga:
 
 Si no recordes l'actual, no la pots canviar ací: l'administratiu/va ha de demanar-ne una de nova a l'administrador/a, i l'administrador/a pot recuperar l'accés des de l'entrada (vegeu més avall).
 
-![El meu compte](imatges/ca/38-meu-compte.jpg)
+![El meu compte](imatges/ca/38-meu-compte.webp)
 
 ### Gestionar els comptes (administrador/a)
 
@@ -855,7 +856,7 @@ Menú **Administració → Usuaris**. Obri un compte per a:
 - posar-li una **contrasenya nova** si l'ha oblidada (deixa-la en blanc per a no canviar-la);
 - desactivar-lo (desmarca **Actiu**) o eliminar-lo.
 
-![Editar un usuari](imatges/ca/37-usuari.jpg)
+![Editar un usuari](imatges/ca/37-usuari.webp)
 
 Sempre ha de quedar almenys un administrador actiu.
 
@@ -866,7 +867,7 @@ Sempre ha de quedar almenys un administrador actiu.
 3. Prem **Canvia la contrasenya**. Entraràs directament al programa.
 4. Compàs mostra un **codi de recuperació nou**, perquè l'anterior ja no val. Imprimeix-lo i guarda'l en lloc de l'antic.
 
-![He oblidat la contrasenya](imatges/ca/00b-recuperacio.jpg)
+![He oblidat la contrasenya](imatges/ca/00b-recuperacio.webp)
 
 **Si no trobes el codi**, prem **No tinc el codi de recuperació** a la mateixa pàgina i segueix els passos:
 
@@ -888,9 +889,11 @@ Menú **Administració → Registre d'activitat** (només l'administrador/a): qu
 
 ## 22. Ajuda
 
-El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF.
+El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF, el registre de canvis, la privacitat i el resum de la llicència.
 
-![Ajuda](imatges/ca/39-ajuda.jpg)
+**Hi ha versió nova?** obri al navegador la pàgina de l'última versió de Compàs. Compàs no es connecta a Internet ni comprova res sol: compara el número d'eixa pàgina amb el teu, que apareix just davall. Si és més alt, baixa la versió nova i instal·la-la damunt: les dades es conserven, i abans d'actualitzar la base de dades Compàs en fa una còpia («Abans d'actualitzar»).
+
+![Ajuda](imatges/ca/39-ajuda.webp)
 
 ## 23. Preguntes freqüents
 
