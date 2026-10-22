@@ -8,6 +8,13 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [1.14.1] - 2026-10-22
+
+### Seguretat
+- **PHP actualitzada per les vulnerabilitats «PHP2Shell»** (CVE-2026-109618 i CVE-2026-109619). La versió per a Windows porta PHP 8.3.36 o posterior, que les corregix, i la publicació falla si la PHP que es baixa és més antiga. A Linux, Compàs usa la PHP del sistema: n'hi ha prou d'actualitzar el sistema com sempre.
+- Es desactiva una opció de PHP que Compàs no fa servir (`session.upload_progress`), una de les mesures recomanades per a estes vulnerabilitats.
+- El risc per a Compàs era baix: el seu servidor només escolta el mateix ordinador (127.0.0.1) i no s'hi pot accedir des de la xarxa ni des d'Internet.
+
 ## [1.14.0] - 2026-10-22
 
 ### Afegit
@@ -276,6 +283,7 @@ Primera versió.
 - Tot en valencià i castellà.
 - Manual d'usuari pas a pas amb captures i guia d'instal·lació, en PDF i dins del programa (Ajuda).
 
+[1.14.1]: https://github.com/jossanmar9/compas/releases/tag/v1.14.1
 [1.14.0]: https://github.com/jossanmar9/compas/releases/tag/v1.14.0
 [1.13.4]: https://github.com/jossanmar9/compas/releases/tag/v1.13.4
 [1.13.3]: https://github.com/jossanmar9/compas/releases/tag/v1.13.3
