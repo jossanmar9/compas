@@ -1,11 +1,11 @@
 <?php
-// Compàs: Gestió lliure per a societats musicals
+// Compàs: Gestió lliure per a associacions
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '1.16.0';
+const COMPAS_VERSIO = '2.0.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -16,6 +16,8 @@ date_default_timezone_set(getenv('COMPAS_ZONA') ?: 'Europe/Madrid');
 mb_internal_encoding('UTF-8');
 
 require SRC_DIR . '/i18n.php';
+require SRC_DIR . '/tipus.php';
+require SRC_DIR . '/lang/vocabulari.php';
 require SRC_DIR . '/capacitats.php';
 require SRC_DIR . '/markdown.php';
 require SRC_DIR . '/xifrat.php';
@@ -101,7 +103,12 @@ function actualitza_esquema(PDO $pdo, string $esquema, int $versio): void
         if (!is_dir($copies)) {
             mkdir($copies, 0770, true);
         }
-        $pdo->prepare('VACUUM INTO ?')->execute([$copies . DIRECTORY_SEPARATOR . 'compas-' . date('Ymd-His') . '-abans-actualitzar.db']);
+        // Dos actualitzacions en el mateix segon no han de xocar (VACUUM INTO no sobreescriu)
+        $desti = $copies . DIRECTORY_SEPARATOR . 'compas-' . date('Ymd-His') . '-abans-actualitzar.db';
+        for ($i = 2; file_exists($desti); $i++) {
+            $desti = $copies . DIRECTORY_SEPARATOR . 'compas-' . date('Ymd-His') . "-$i-abans-actualitzar.db";
+        }
+        $pdo->prepare('VACUUM INTO ?')->execute([$desti]);
     }
     $pdo->beginTransaction();
     try {
@@ -160,6 +167,14 @@ function migra_esquema(PDO $pdo): void
         sembra_tipus_socis($pdo);
         sembra_tipus_obres($pdo);
         sembra_subvencions($pdo);
+        // 2.0: les instal·lacions anteriors són societats musicals; els mòduls nous d'altres tipus queden desactivats
+        if (!$pdo->query("SELECT valor FROM config WHERE clau = 'tipus_entitat'")->fetchColumn()) {
+            $desactivats = array_filter(explode(',', (string)$pdo->query("SELECT valor FROM config WHERE clau = 'moduls_desactivats'")->fetchColumn()));
+            $desactivats = array_values(array_unique(array_merge($desactivats, moduls_desactivats_tipus('societat_musical'))));
+            $desa = $pdo->prepare('INSERT INTO config(clau, valor) VALUES(?, ?) ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor');
+            $desa->execute(['tipus_entitat', 'societat_musical']);
+            $desa->execute(['moduls_desactivats', implode(',', $desactivats) ?: null]);
+        }
     }
 }
 

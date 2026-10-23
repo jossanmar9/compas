@@ -196,7 +196,7 @@ async def fes_captures(l: str):
             await c.omple({'societat_nom': t['societat'], 'usuari': 'admin', 'contrasenya': 'contrasenya1',
                            'contrasenya2': 'contrasenya1', 'usuari2': 'secretaria', 'contrasenya_b': 'contrasenya2',
                            'contrasenya_b2': 'contrasenya2', 'exemple': True, 'accepta_avis': True})
-            await c.foto('01-configuracio-inicial', 'input[name="accepta_avis"]', 'button', zona='.caixa', alt_max=1900)
+            await c.foto('01-configuracio-inicial', 'input[name="accepta_avis"]', 'button', zona='.caixa', alt_max=2700)
             await c.desa()
 
             # Codi de recuperació (es mostra una sola vegada, just després de la configuració inicial)
@@ -675,6 +675,67 @@ def imatge_compartir(l: str) -> None:
 FILTRE: list[str] = []
 
 
+# Altres tipus d'entitat: per als capítols nous del manual i per a la web
+TIPUS_WEB = ['web-club', 'web-activitat', 'web-falla']
+NOMS_TIPUS = {'club_esportiu': ('Club Esportiu La Plana', 'Club Deportivo La Plana'), 'falla': ('Falla Plaça Major', 'Falla Plaza Mayor'),
+              'federacio': ('Federació d\'Entitats d\'Exemple', 'Federación de Entidades de Ejemplo')}
+
+
+async def fes_captures_tipus(l: str):
+    """Instal·la un club esportiu, una falla i una federació amb les dades d'exemple i en fa les captures"""
+    import urllib.parse
+    import urllib.request
+    import http.cookiejar
+    plans = {
+        'club_esportiu': [('96-llicencies', '?r=llista&e=llicencies', 'main'), ('97-categories', '?r=llista&e=categories', 'main'),
+                          ('98-activitat', '?r=fitxa&e=activitats&id=1', 'main'), ('web-club', '?r=llista&e=llicencies', None),
+                          ('web-activitat', '?r=fitxa&e=activitats&id=1', None)],
+        'falla': [('99-carrecs-festa', '?r=llista&e=carrecs_festa', 'main'), ('web-falla', '?r=inici', None)],
+        'federacio': [('100-entitats-federades', '?r=llista&e=entitats_federades', 'main')],
+    }
+    for tipus, fotos in plans.items():
+        if not any(cal_desar(n) for n, _, _ in fotos):
+            continue
+        dades = Path(tempfile.mkdtemp(prefix='compas-tipus-'))
+        port = port_lliure()
+        entorn = dict(os.environ, COMPAS_DADES=str(dades), COMPAS_TOKEN='captures')
+        srv = subprocess.Popen(['php', '-S', f'127.0.0.1:{port}', '-t', 'app', 'app/index.php'], cwd=ARREL, env=entorn,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(1.2)
+        url = f'http://127.0.0.1:{port}/'
+        try:
+            op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+            h = op.open(url).read().decode()
+            csrf = re.search(r'name="_csrf" value="([^"]+)"', h).group(1)
+            op.open(url, urllib.parse.urlencode(dict(_csrf=csrf, societat_nom=NOMS_TIPUS[tipus][l == 'es'], tipus_entitat=tipus, idioma=l, usuari='admin',
+                                                     contrasenya='contrasenya1', contrasenya2='contrasenya1', exemple='1', accepta_avis='1')).encode()).read()
+            async with async_playwright() as pw:
+                nav = await pw.chromium.launch()
+                ctx = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA, locale='es-ES' if l == 'es' else 'ca-ES')
+                p = await ctx.new_page()
+                await p.goto(url)
+                await p.locator('input[name="usuari"]').fill('admin')
+                await p.locator('input[name="contrasenya"]').fill('contrasenya1')
+                await p.locator('form button').first.click()
+                await p.wait_for_load_state('networkidle')
+                c = Captures(p, url, l)
+                for nom, ruta, zona in fotos:
+                    if not cal_desar(nom):
+                        continue
+                    await c.ves(ruta)
+                    if zona:
+                        await c.foto(nom, zona=zona)
+                    else:
+                        png = await p.screenshot()
+                        Image.open(io.BytesIO(png)).convert('RGB').save(EIXIDA / l / f'{nom}.webp', 'WEBP', quality=QUALITAT, method=6)
+                        print(f'  {l}/{nom}.webp')
+                await nav.close()
+        finally:
+            srv.terminate()
+            srv.wait()
+            shutil.rmtree(dades, ignore_errors=True)
+
+
 def cal_desar(nom: str) -> bool:
     """Si s'han demanat només unes captures (per número, interval o «web»), si esta n'és una"""
     if not FILTRE:
@@ -702,6 +763,7 @@ async def main():
         if not FILTRE or any(f != 'web' for f in FILTRE):
             await fes_captures(l)
         await fes_captures_web(l)
+        await fes_captures_tipus(l)
 
 
 if __name__ == '__main__':

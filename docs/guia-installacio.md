@@ -35,7 +35,7 @@ Compàs és programari lliure i encara **no està signat digitalment** (un certi
 
 **«Una directiva de Control d'aplicacions ha bloquejat aquest fitxer» (codi 4551).** És el **Control intel·ligent d'aplicacions** (Smart App Control), que porten activat alguns ordinadors nous amb Windows 11. Bloqueja qualsevol programa no signat, també la versió portable, i Windows no permet fer una excepció per a un sol programa. Les opcions són:
 
-- **Desactivar-lo:** *Seguretat de Windows → Control d'aplicacions i del navegador → Configuració del Control intel·ligent d'aplicacions → Desactivat*. Amb Windows actualitzat (des de l'abril de 2026) es pot tornar a activar després des del mateix lloc. Decideix-ho tu o la persona que porta els ordinadors de la societat.
+- **Desactivar-lo:** *Seguretat de Windows → Control d'aplicacions i del navegador → Configuració del Control intel·ligent d'aplicacions → Desactivat*. Amb Windows actualitzat (des de l'abril de 2026) es pot tornar a activar després des del mateix lloc. Decideix-ho tu o la persona que porta els ordinadors de l'entitat.
 - **Utilitzar un altre ordinador** que no el tinga activat, o la **versió per a Linux**.
 
 > Comprova que has baixat Compàs de la pàgina oficial de descàrregues ([github.com/jossanmar9/compas/releases](https://github.com/jossanmar9/compas/releases)). No l'obrigues si te l'han enviat per correu o des d'una altra web.
@@ -98,7 +98,7 @@ Si no hi ha res d'això (o si es posa `finestra = 0` a `compas.ini`), s'obri el 
 
 Compàs només es pot utilitzar des d'este ordinador: no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora (vegeu la [declaració de privacitat](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md)).
 
-La primera vegada demana el nom de la societat i crea el compte d'administrador i, opcionalment, el d'usuari/ària. Després mostra un **codi de recuperació**: imprimeix-lo o apunta'l, perquè és el que permet posar una contrasenya nova si l'administrador/a l'oblida.
+La primera vegada demana el nom de l'entitat i crea el compte d'administrador i, opcionalment, el d'usuari/ària. Després mostra un **codi de recuperació**: imprimeix-lo o apunta'l, perquè és el que permet posar una contrasenya nova si l'administrador/a l'oblida.
 
 ## Carpeta del programa (Windows)
 

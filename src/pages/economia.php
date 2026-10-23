@@ -137,16 +137,20 @@ function pagador_alumne(array $alumne): ?int
 /** Períodes per a les quotes de soci d'un any: codi => [etiqueta, periodicitat, inici, fi] */
 function periodes_quotes(int $any): array
 {
-    $p = ['A' => [t('per.anual', $any), 'anual', "$any-01-01", "$any-12-31"]];
+    // L'exercici pot començar un altre mes (setembre en un club, abril en una falla): $any és l'any en què comença
+    $m0 = mes_inici_exercici();
+    $nom = nom_exercici($any);
+    $mes = fn(int $n) => strtotime(sprintf('%d-%02d-01', $any, $m0) . ' +' . ($n - 1) . ' months'); // n: 1-12 dins de l'exercici
+    $fi = fn(int $n) => date('Y-m-t', $mes($n));
+    $p = ['A' => [t($m0 === 1 ? 'per.anual' : 'per.anual_exercici', $nom), 'anual', date('Y-m-d', $mes(1)), $fi(12)]];
     for ($i = 1; $i <= 2; $i++) {
-        $p["S$i"] = [t('per.semestre' . $i, $any), 'semestral', sprintf('%d-%02d-01', $any, $i * 6 - 5), date('Y-m-t', strtotime(sprintf('%d-%02d-01', $any, $i * 6)))];
+        $p["S$i"] = [t('per.semestre' . $i, $nom), 'semestral', date('Y-m-d', $mes($i * 6 - 5)), $fi($i * 6)];
     }
     for ($i = 1; $i <= 4; $i++) {
-        $p["T$i"] = [t('per.trimestre' . $i, $any), 'trimestral', sprintf('%d-%02d-01', $any, $i * 3 - 2), date('Y-m-t', strtotime(sprintf('%d-%02d-01', $any, $i * 3)))];
+        $p["T$i"] = [t('per.trimestre' . $i, $nom), 'trimestral', date('Y-m-d', $mes($i * 3 - 2)), $fi($i * 3)];
     }
     for ($i = 1; $i <= 12; $i++) {
-        $ini = sprintf('%d-%02d-01', $any, $i);
-        $p[sprintf('M%02d', $i)] = [t('mes.' . $i) . ' ' . $any, 'mensual', $ini, date('Y-m-t', strtotime($ini))];
+        $p[sprintf('M%02d', $i)] = [t('mes.' . date('n', $mes($i))) . ' ' . date('Y', $mes($i)), 'mensual', date('Y-m-d', $mes($i)), $fi($i)];
     }
     return $p;
 }
@@ -407,7 +411,7 @@ function pagina_genera_rebuts(): void
     requereix('economia.edit');
     $tipus = get('tipus');
     $cursos = q('SELECT * FROM cursos ORDER BY data_inici DESC, nom DESC')->fetchAll();
-    $any = (int)(get('any') ?: date('Y'));
+    $any = (int)(get('any') ?: any_exercici());
     $html = '';
 
     // Formularis per a triar què es genera
@@ -419,8 +423,8 @@ function pagina_genera_rebuts(): void
         }
     }
     $anys = '';
-    for ($a = (int)date('Y') - 1; $a <= (int)date('Y') + 1; $a++) {
-        $anys .= '<option' . ($a === $any ? ' selected' : '') . '>' . $a . '</option>';
+    for ($a = any_exercici() - 1; $a <= any_exercici() + 1; $a++) {
+        $anys .= '<option value="' . $a . '"' . ($a === $any ? ' selected' : '') . '>' . h(nom_exercici($a)) . '</option>';
     }
     $html .= '<div class="graella-informes graella-genera">';
     $html .= '<form class="informe" method="get"><input type="hidden" name="r" value="genera_rebuts"><input type="hidden" name="tipus" value="socis">'
@@ -444,6 +448,7 @@ function pagina_genera_rebuts(): void
             $cursFila = $c;
         }
     }
+    if (modul_actiu('escola')) {
     $html .= '<form class="informe" method="get"><input type="hidden" name="r" value="genera_rebuts"><input type="hidden" name="tipus" value="escola">'
         . '<h2>🎓 ' . h(t('genera.escola')) . '</h2><p>' . h(t('genera.escola_ajuda')) . '</p>';
     if (!$cursFila) {
@@ -456,7 +461,26 @@ function pagina_genera_rebuts(): void
         $html .= '<label>' . h(t('ent1.cursos')) . ' <select name="curs" onchange="this.form.periode.value=\'\';this.form.submit()">' . $opCursos . '</select></label> '
             . '<label>' . h(t('genera.periode')) . ' <select name="periode">' . $opEscola . '</select></label> <button>' . h(t('genera.previsualitza')) . '</button>';
     }
-    $html .= '</form></div>';
+    $html .= '</form>';
+    }
+    // Activitats amb inscripcions per cobrar
+    $activitatSel = (int)get('activitat');
+    if (modul_actiu('activitats')) {
+        $acts = array_column(q("SELECT a.id, a.nom || ' (' || strftime('%d/%m/%Y', a.data) || ')' AS e FROM activitats a WHERE a.estat <> 'anullada'
+            AND (a.id = ? OR EXISTS (SELECT 1 FROM activitat_inscripcions i WHERE i.activitat_id = a.id AND i.rebut_id IS NULL AND COALESCE(i.import, 0) > 0))
+            ORDER BY a.data DESC LIMIT 100", [$activitatSel])->fetchAll(), 'e', 'id');
+        $html .= '<form class="informe" method="get"><input type="hidden" name="r" value="genera_rebuts"><input type="hidden" name="tipus" value="activitat">'
+            . '<h2>🗓 ' . h(t('genera.activitat')) . '</h2><p>' . h(t('genera.activitat_ajuda')) . '</p>'
+            . ($acts ? '<label>' . h(t('ent1.activitats')) . ' ' . select_simple('activitat', $acts, $activitatSel ?: null, false, '', false) . '</label> <button>' . h(t('genera.previsualitza')) . '</button>'
+                : '<p class="nota">' . h(t('genera.sense_activitats')) . '</p>') . '</form>';
+    }
+    // Quotes de les entitats federades
+    if (modul_actiu('entitats')) {
+        $html .= '<form class="informe" method="get"><input type="hidden" name="r" value="genera_rebuts"><input type="hidden" name="tipus" value="federades">'
+            . '<h2>🏢 ' . h(t('genera.federades')) . '</h2><p>' . h(t('genera.federades_ajuda')) . '</p>'
+            . '<label>' . h(t('genera.any')) . ' <select name="any">' . $anys . '</select></label> <button>' . h(t('genera.previsualitza')) . '</button></form>';
+    }
+    $html .= '</div>';
 
     // Previsualització i creació
     $codi = get('periode');
@@ -469,11 +493,20 @@ function pagina_genera_rebuts(): void
     } elseif ($tipus === 'escola' && $cursFila && isset(periodes_escola($cursFila)[$codi])) {
         $rebuts = calcula_escola($cursFila, $codi, $resum);
         $titolPeriode = periodes_escola($cursFila)[$codi][0];
+    } elseif ($tipus === 'activitat' && modul_actiu('activitats') && ($act = fila('SELECT * FROM activitats WHERE id = ?', [$activitatSel]))) {
+        $rebuts = calcula_activitat($act, $resum);
+        $titolPeriode = $act['nom'];
+    } elseif ($tipus === 'federades' && modul_actiu('entitats')) {
+        $rebuts = calcula_federades($any, $resum);
+        $titolPeriode = t('rebut.concepte_federada', nom_exercici($any));
     }
     if ($rebuts !== null) {
         $data = normalitza(['tipus' => 'date'], post('data', date('Y-m-d'))) ?? date('Y-m-d');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             [$n, $total] = crea_rebuts($rebuts, $data);
+            if ($tipus === 'activitat') {
+                enllaca_rebuts_activitat($activitatSel);
+            }
             audita('genera_rebuts', 'rebuts', null, "$tipus $titolPeriode: $n");
             avis(t('genera.fet', $n, euros($total)));
             redirigeix('llista', ['e' => 'rebuts', 'q' => $titolPeriode]);

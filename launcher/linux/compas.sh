@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Compàs: Gestió lliure per a societats musicals — llançador per a Linux
+# Compàs: Gestió lliure per a associacions — llançador per a Linux
 # Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #

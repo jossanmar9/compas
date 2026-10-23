@@ -2,7 +2,7 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
+Compàs és el programa de gestió de l'entitat: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
 
 | Què es pot fer | Administrador/a | Usuari/ària |
 |---|:---:|:---:|
@@ -15,7 +15,7 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 | Llistats, certificats i importació des d'Excel | ✔ | ✔ |
 | Fer i baixar còpies de seguretat | ✔ | ✔ |
 | Canviar la pròpia contrasenya | ✔ | ✔ |
-| Configuració de la societat, logotip, mòduls i avisos | ✔ | — |
+| Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — |
 | Dades bancàries i descomptes de l'escola | ✔ | — |
 | Crear i gestionar els comptes | ✔ | — |
 | Registre d'activitat | ✔ | — |
@@ -36,45 +36,53 @@ Com s'obri, es tanca i s'entra a Compàs és igual per a tots els comptes: ho ex
 
 La primera vegada que s'obri Compàs apareix la **Configuració inicial**:
 
-1. Escriu el **nom de la societat musical**.
-2. Tria l'**idioma** per defecte.
-3. Crea l'**usuari administrador** i la seua contrasenya (almenys 8 caràcters). Apunta-la en un lloc segur.
-4. Si vols, crea també el compte d'**usuari/ària** (es pot fer després).
-5. Marca **Carrega dades d'exemple** només si vols provar el programa amb dades inventades.
-6. Llig l'**avís de responsabilitat** i marca que l'acceptes.
-7. Prem **Comença**.
+1. Escriu el **nom de l'entitat**.
+2. Tria el **tipus d'entitat**: societat musical, club esportiu, colla, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació. Compàs hi adapta els noms (socis, fallers i falleres, esportistes, equips…), els apartats que activa, el mes en què comença l'exercici i les categories d'edat. Tot es pot canviar després.
+3. Tria l'**idioma** per defecte.
+4. Crea l'**usuari administrador** i la seua contrasenya (almenys 8 caràcters). Apunta-la en un lloc segur.
+5. Si vols, crea també el compte d'**usuari/ària** (es pot fer després).
+6. Marca **Carrega dades d'exemple** només si vols provar el programa amb dades inventades.
+7. Llig l'**avís de responsabilitat** i marca que l'acceptes.
+8. Prem **Comença**.
 
 ![Configuració inicial](imatges/ca/01-configuracio-inicial.webp)
 
-Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una contrasenya nova si l'administrador/a l'oblida, i **només es mostra esta vegada**. Prem **Imprimeix** (o apunta'l) i guarda'l amb els papers de la societat, no a l'ordinador. Després prem **Ja l'he guardat, continua**.
+Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una contrasenya nova si l'administrador/a l'oblida, i **només es mostra esta vegada**. Prem **Imprimeix** (o apunta'l) i guarda'l amb els papers de l'entitat, no a l'ordinador. Després prem **Ja l'he guardat, continua**.
 
 ![Codi de recuperació](imatges/ca/01b-codi-recuperacio.webp)
 
 > Per a començar a treballar de veres sense les dades d'exemple, tanca Compàs, esborra la carpeta `data` del programa i torna a obrir-lo.
 
-## 2. Configuració de la societat i logotip
+## 2. Configuració de l'entitat i logotip
 
 Menú **Administració → Configuració** (només l'administrador/a).
 
-1. Omple les dades de la societat: nom, CIF, adreça, telèfon, correu i web. Ixen als butlletins.
-2. A **Logotip de la societat**, prem el botó de triar fitxer i selecciona la imatge del logotip (PNG, JPG o WEBP, fins a 3 MB).
+1. Omple les dades de l'entitat: nom, CIF, adreça, telèfon, correu i web. Ixen als rebuts, als certificats i als butlletins.
+2. A **Logotip de l'entitat**, prem el botó de triar fitxer i selecciona la imatge del logotip (PNG, JPG o WEBP, fins a 3 MB).
 3. Prem **Desa**. El logotip apareix al menú i als butlletins.
 
 ![Configuració i logotip](imatges/ca/03-configuracio.webp)
 
+### Tipus d'entitat i exercici
+
+A la mateixa pantalla es pot canviar el **tipus d'entitat**. En canviar-lo, canvien els noms de les pantalles; si marques **Activa també els apartats i el mes d'inici propis d'este tipus**, també s'activen els apartats del tipus nou i es desactiven els que no li calen. Les dades no es toquen mai: un apartat desactivat es pot tornar a activar a **Mòduls i avisos**.
+
+El **mes en què comença l'exercici** decideix com es diuen i com es compten els exercicis: gener per a l'any natural («2026»), setembre per a una temporada esportiva o un curs escolar («2026-2027»), abril per a l'exercici faller o juliol per al fogueril. Compàs el fa servir per als períodes de les quotes (l'anual, els semestres i els trimestres comencen eixe mes), la temporada de les llicències, l'exercici dels càrrecs de festa i les categories d'edat.
+
+
 ### Mòduls i avisos
 
-No totes les societats fan servir tot: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot desactivar cada apartat: escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents, comunicats i subvencions.
+El tipus d'entitat activa uns apartats per a començar, però cada entitat els tria: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot activar o desactivar cada apartat: escola, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents, comunicats, subvencions, activitats, llicències, entitats federades i càrrecs de festa.
 
 Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
 
-A la mateixa pantalla es poden amagar els **avisos de l'inici** que la societat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar, el curs actual i els terminis de les subvencions.
+A la mateixa pantalla es poden amagar els **avisos de l'inici** que l'entitat no vol vore: la carpeta externa de les còpies, la renovació de la junta, els documents que caduquen, el certificat de delictes del professorat, els instruments per tornar, el curs actual, els terminis de les subvencions, les llicències i revisions mèdiques que caduquen i les activitats dels pròxims dies.
 
 ![Mòduls i avisos](imatges/ca/80-moduls.webp)
 
 ### Dades dels certificats
 
-La primera vegada, a **Configuració → Certificats i fulls de consentiment**, posa qui signa (normalment el secretari/ària), el càrrec i, si voleu el vist i plau, el president/a. Posa també la **població** de la societat, que ix al final del certificat.
+La primera vegada, a **Configuració → Certificats i fulls de consentiment**, posa qui signa (normalment el secretari/ària), el càrrec i, si voleu el vist i plau, el president/a. Posa també la **població** de l'entitat, que ix al final del certificat.
 
 ![Dades dels certificats a la configuració](imatges/ca/40-config-documents.webp)
 
@@ -83,9 +91,9 @@ La primera vegada, a **Configuració → Certificats i fulls de consentiment**, 
 
 L'administrador/a ho configura una sola vegada a **Resum econòmic → Configuració d'Economia**:
 
-- **Dades bancàries de la societat**: el NIF i l'IBAN on es cobren els rebuts. Les dona el banc quan es contracta el servei d'adeutaments directes SEPA («remeses» o «quadern 19»). Compàs calcula l'**identificador de creditor**: comprova que és el mateix que t'ha donat el banc.
+- **Dades bancàries de l'entitat**: el NIF i l'IBAN on es cobren els rebuts. Les dona el banc quan es contracta el servei d'adeutaments directes SEPA («remeses» o «quadern 19»). Compàs calcula l'**identificador de creditor**: comprova que és el mateix que t'ha donat el banc.
 - **Descomptes de l'escola**: un percentatge per a qui és soci (l'alumne o qui paga) i un altre per a cada germà a partir del segon. S'apliquen a les classes, no a la matrícula. A la fitxa de l'alumne es pot posar, a més, un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
-- **Text al peu dels rebuts**, si la societat en vol posar un.
+- **Text al peu dels rebuts**, si l'entitat en vol posar un.
 
 ![Configuració d'Economia](imatges/ca/57-economia-config.webp)
 

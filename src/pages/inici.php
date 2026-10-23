@@ -20,6 +20,13 @@ function pagina_inici(): void
     if (pot('socis.view')) {
         $html .= targeta((string)valor("SELECT COUNT(*) FROM socis WHERE estat = 'actiu'"), t('inici.socis_actius'), url('llista', ['e' => 'socis']));
     }
+    if ($es('socis.view', 'llicencies')) {
+        $html .= targeta((string)valor("SELECT COUNT(*) FROM llicencies WHERE estat <> 'baixa' AND temporada = ?", [nom_exercici(any_exercici())]),
+            t('inici.llicencies', nom_exercici(any_exercici())), url('llista', ['e' => 'llicencies', 'filtre' => 'temporada_actual']));
+    }
+    if ($es('socis.view', 'entitats')) {
+        $html .= targeta((string)valor("SELECT COUNT(*) FROM entitats_federades WHERE estat = 'actiu'"), t('inici.federades'), url('llista', ['e' => 'entitats_federades']));
+    }
     if ($es('escola.view', 'escola') && $curs) {
         $html .= targeta((string)valor("SELECT COUNT(*) FROM matricules WHERE curs_id = ? AND estat = 'actiu'", [$curs['id']]), t('inici.matriculats', $curs['nom']),
             url('llista', ['e' => 'matricules', 'f[curs_id]' => $curs['id']]));
@@ -52,6 +59,9 @@ function pagina_inici(): void
     if ($es('economia.view', 'subvencions') && avis_actiu('subvencions_terminis')) {
         $html .= avis_inici_subvencions();
     }
+    if ($es('socis.view', 'llicencies') && avis_actiu('llicencies_caducitat')) {
+        $html .= avis_inici_llicencies();
+    }
 
     if ($es('escola.view', 'escola') && avis_actiu('curs_actual') && !$curs) {
         $html .= '<div class="avis info">' . h(t('inici.sense_curs')) . ' <a href="' . h(url('edita', ['e' => 'cursos'])) . '">' . h(t('inici.crea_curs')) . '</a></div>';
@@ -68,6 +78,10 @@ function pagina_inici(): void
             }
             $html .= '</ul></section>';
         }
+    }
+
+    if ($es('societat.view', 'activitats') && avis_actiu('activitats_properes')) {
+        $html .= avis_inici_activitats();
     }
 
     // Classes de hui

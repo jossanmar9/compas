@@ -21,6 +21,7 @@ function pagina_configuracio_inicial(): void
     $error = null;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = post('societat_nom');
+        $tipus = isset(TIPUS_ENTITAT[post('tipus_entitat')]) ? post('tipus_entitat') : 'societat_musical';
         $usuari = post('usuari');
         $l = post('idioma');
         $error = valida_contrasenya((string)post('contrasenya'), (string)post('contrasenya2'));
@@ -42,6 +43,8 @@ function pagina_configuracio_inicial(): void
             db()->beginTransaction();
             desa_config('societat_nom', $nom);
             desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
+            // El tipus d'entitat: mòduls, mes d'inici de l'exercici i categories d'edat (tot es pot canviar després)
+            aplica_tipus(db(), $tipus, true, isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_tipus_socis(db(), isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_tipus_obres(db(), isset(IDIOMES[$l]) ? $l : 'ca');
             sembra_subvencions(db(), isset(IDIOMES[$l]) ? $l : 'ca');
@@ -74,6 +77,7 @@ function pagina_configuracio_inicial(): void
     }
     $html .= '<form method="post" class="formulari vertical">' . csrf_camp()
         . '<div class="camp"><label>' . h(t('camp.societat_nom')) . '</label><input name="societat_nom" required value="' . h(post('societat_nom')) . '" placeholder="' . h(t('setup.exemple_nom')) . '"></div>'
+        . selector_tipus_entitat(post('tipus_entitat') ?: 'societat_musical')
         . '<div class="camp"><label>' . h(t('camp.idioma')) . '</label><select name="idioma">';
     foreach (IDIOMES as $k => $n) {
         $html .= '<option value="' . $k . '"' . ($k === idioma() ? ' selected' : '') . '>' . h($n) . '</option>';
@@ -92,6 +96,17 @@ function pagina_configuracio_inicial(): void
         . '<button>' . h(t('setup.comenca')) . '</button></form>';
     $html .= '<p class="idiomes-peu">' . enllacos_idioma() . '</p>';
     pagina_simple(t('setup.titol'), $html);
+}
+
+/** Caselles per a triar el tipus d'entitat, amb una línia que explica cada un */
+function selector_tipus_entitat(string $actual): string
+{
+    $html = '<fieldset class="camp tipus-entitat"><legend>' . h(t('camp.tipus_entitat')) . '</legend><small>' . h(t('setup.tipus_ajuda')) . '</small><div class="opcions-tipus">';
+    foreach (TIPUS_ENTITAT as $k => $tp) {
+        $html .= '<label><input type="radio" name="tipus_entitat" value="' . h($k) . '"' . ($k === $actual ? ' checked' : '') . ' required> <span><b>'
+            . h($tp['nom'][idioma()]) . '</b><small>' . h($tp['descripcio'][idioma()]) . '</small></span></label>';
+    }
+    return $html . '</div></fieldset>';
 }
 
 function enllacos_idioma(): string

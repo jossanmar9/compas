@@ -2,7 +2,7 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas. Esta tabla resume qué puede hacer cada una:
+Compàs es el programa de gestión de la entidad: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas. Esta tabla resume qué puede hacer cada una:
 
 | Qué se puede hacer | Administrador/a | Usuario/a |
 |---|:---:|:---:|
@@ -15,7 +15,7 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 | Listados, certificados e importación desde Excel | ✔ | ✔ |
 | Hacer y descargar copias de seguridad | ✔ | ✔ |
 | Cambiar la propia contraseña | ✔ | ✔ |
-| Configuración de la sociedad, logotipo, módulos y avisos | ✔ | — |
+| Configuración de la entidad, logotipo, módulos y avisos | ✔ | — |
 | Datos bancarios y descuentos de la escuela | ✔ | — |
 | Crear y gestionar las cuentas | ✔ | — |
 | Registro de actividad | ✔ | — |
@@ -36,45 +36,53 @@ Cómo se abre, se cierra y se entra en Compàs es igual para todas las cuentas: 
 
 La primera vez que se abre Compàs aparece la **Configuración inicial**:
 
-1. Escribe el **nombre de la sociedad musical**.
-2. Elige el **idioma** por defecto.
-3. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
-4. Si quieres, crea también la cuenta de **usuario/a** (se puede hacer después).
-5. Marca **Cargar datos de ejemplo** solo si quieres probar el programa con datos inventados.
-6. Lee el **aviso de responsabilidad** y marca que lo aceptas.
-7. Pulsa **Empezar**.
+1. Escribe el **nombre de la entidad**.
+2. Elige el **tipo de entidad**: sociedad musical, club deportivo, colla, asociación cultural, AMPA, falla, gaiata, foguera, comparsa, peña o federación. Compàs adapta los nombres (socios, falleros y falleras, deportistas, equipos…), los apartados que activa, el mes en que empieza el ejercicio y las categorías de edad. Todo se puede cambiar después.
+3. Elige el **idioma** por defecto.
+4. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
+5. Si quieres, crea también la cuenta de **usuario/a** (se puede hacer después).
+6. Marca **Cargar datos de ejemplo** solo si quieres probar el programa con datos inventados.
+7. Lee el **aviso de responsabilidad** y marca que lo aceptas.
+8. Pulsa **Empezar**.
 
 ![Configuración inicial](imatges/es/01-configuracio-inicial.webp)
 
-A continuación, Compàs muestra el **código de recuperación**. Sirve para poner una contraseña nueva si el administrador/a la olvida, y **solo se muestra esta vez**. Pulsa **Imprime** (o apúntalo) y guárdalo con los papeles de la sociedad, no en el ordenador. Después pulsa **Ya lo he guardado, continúa**.
+A continuación, Compàs muestra el **código de recuperación**. Sirve para poner una contraseña nueva si el administrador/a la olvida, y **solo se muestra esta vez**. Pulsa **Imprime** (o apúntalo) y guárdalo con los papeles de la entidad, no en el ordenador. Después pulsa **Ya lo he guardado, continúa**.
 
 ![Código de recuperación](imatges/es/01b-codi-recuperacio.webp)
 
 > Para empezar a trabajar de verdad sin los datos de ejemplo, cierra Compàs, borra la carpeta `data` del programa y vuelve a abrirlo.
 
-## 2. Configuración de la sociedad y logotipo
+## 2. Configuración de la entidad y logotipo
 
 Menú **Administración → Configuración** (solo el administrador/a).
 
-1. Rellena los datos de la sociedad: nombre, CIF, dirección, teléfono, correo y web. Salen en los boletines.
-2. En **Logotipo de la sociedad**, pulsa el botón de elegir archivo y selecciona la imagen del logotipo (PNG, JPG o WEBP, hasta 3 MB).
+1. Rellena los datos de la entidad: nombre, CIF, dirección, teléfono, correo y web. Salen en los recibos, los certificados y los boletines.
+2. En **Logotipo de la entidad**, pulsa el botón de elegir archivo y selecciona la imagen del logotipo (PNG, JPG o WEBP, hasta 3 MB).
 3. Pulsa **Guardar**. El logotipo aparece en el menú y en los boletines.
 
 ![Configuración y logotipo](imatges/es/03-configuracio.webp)
 
+### Tipo de entidad y ejercicio
+
+En la misma pantalla se puede cambiar el **tipo de entidad**. Al cambiarlo, cambian los nombres de las pantallas; si marcas **Activa también los apartados y el mes de inicio propios de este tipo**, también se activan los apartados del tipo nuevo y se desactivan los que no necesita. Los datos no se tocan nunca: un apartado desactivado se puede volver a activar en **Módulos y avisos**.
+
+El **mes en que empieza el ejercicio** decide cómo se llaman y cómo se cuentan los ejercicios: enero para el año natural («2026»), septiembre para una temporada deportiva o un curso escolar («2026-2027»), abril para el ejercicio fallero o julio para el foguerer. Compàs lo usa para los periodos de las cuotas (la anual, los semestres y los trimestres empiezan ese mes), la temporada de las licencias, el ejercicio de los cargos de fiesta y las categorías de edad.
+
+
 ### Módulos y avisos
 
-No todas las sociedades lo usan todo: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede desactivar cada apartado: escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos, comunicados y subvenciones.
+El tipo de entidad activa unos apartados para empezar, pero cada entidad los elige: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede activar o desactivar cada apartado: escuela, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos, comunicados, subvenciones, actividades, licencias, entidades federadas y cargos de fiesta.
 
 Un módulo desactivado desaparece del menú, del inicio, de los listados y de las fichas de las personas, pero **no se borra ningún dato**: si se vuelve a activar, todo está como estaba. Personas, socios, listados, importación y administración siempre están activos.
 
-En la misma pantalla se pueden ocultar los **avisos del inicio** que la sociedad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver, el curso actual y los plazos de las subvenciones.
+En la misma pantalla se pueden ocultar los **avisos del inicio** que la entidad no quiere ver: la carpeta externa de las copias, la renovación de la junta, los documentos que caducan, el certificado de delitos del profesorado, los instrumentos por devolver, el curso actual, los plazos de las subvenciones, las licencias y revisiones médicas que caducan y las actividades de los próximos días.
 
 ![Módulos y avisos](imatges/es/80-moduls.webp)
 
 ### Datos de los certificados
 
-La primera vez, en **Configuración → Certificados y hojas de consentimiento**, pon quién firma (normalmente el secretario/a), el cargo y, si queréis el visto bueno, el presidente/a. Pon también la **población** de la sociedad, que sale al final del certificado.
+La primera vez, en **Configuración → Certificados y hojas de consentimiento**, pon quién firma (normalmente el secretario/a), el cargo y, si queréis el visto bueno, el presidente/a. Pon también la **población** de la entidad, que sale al final del certificado.
 
 ![Datos de los certificados en la configuración](imatges/es/40-config-documents.webp)
 
@@ -83,9 +91,9 @@ La primera vez, en **Configuración → Certificados y hojas de consentimiento**
 
 El administrador/a lo configura una sola vez en **Resumen económico → Configuración de Economía**:
 
-- **Datos bancarios de la sociedad**: el NIF y el IBAN donde se cobran los recibos. Los da el banco cuando se contrata el servicio de adeudos directos SEPA («remesas» o «cuaderno 19»). Compàs calcula el **identificador de acreedor**: comprueba que es el mismo que te ha dado el banco.
+- **Datos bancarios de la entidad**: el NIF y el IBAN donde se cobran los recibos. Los da el banco cuando se contrata el servicio de adeudos directos SEPA («remesas» o «cuaderno 19»). Compàs calcula el **identificador de acreedor**: comprueba que es el mismo que te ha dado el banco.
 - **Descuentos de la escuela**: un porcentaje para quien es socio (el alumno o quien paga) y otro para cada hermano a partir del segundo. Se aplican a las clases, no a la matrícula. En la ficha del alumno se puede poner, además, un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
-- **Texto al pie de los recibos**, si la sociedad quiere poner uno.
+- **Texto al pie de los recibos**, si la entidad quiere poner uno.
 
 ![Configuración de Economía](imatges/es/57-economia-config.webp)
 

@@ -565,6 +565,92 @@ CREATE TABLE IF NOT EXISTS subvencio_despeses (
     observacions TEXT
 );
 
+-- 2.0: categories d'edat (aleví, cadet…, infantil, major…), editables per cada entitat
+CREATE TABLE IF NOT EXISTS categories (
+    id           INTEGER PRIMARY KEY,
+    nom          TEXT NOT NULL,
+    edat_min     INTEGER NOT NULL DEFAULT 0,
+    edat_max     INTEGER NOT NULL DEFAULT 120,
+    ordre        INTEGER,
+    observacions TEXT
+);
+
+-- Activitats (sopars, viatges, tallers, concerts, partits…) amb inscripcions que es poden cobrar amb rebuts
+CREATE TABLE IF NOT EXISTS activitats (
+    id                  INTEGER PRIMARY KEY,
+    nom                 TEXT NOT NULL,
+    tipus               TEXT,
+    data                TEXT NOT NULL,
+    hora                TEXT,
+    data_fi             TEXT,
+    lloc                TEXT,
+    agrupacio_id        INTEGER REFERENCES agrupacions(id) ON DELETE SET NULL,
+    preu                REAL,
+    places              INTEGER,
+    data_limit          TEXT,
+    estat               TEXT NOT NULL DEFAULT 'oberta',
+    descripcio          TEXT,
+    observacions        TEXT
+);
+
+CREATE TABLE IF NOT EXISTS activitat_inscripcions (
+    id           INTEGER PRIMARY KEY,
+    activitat_id INTEGER NOT NULL REFERENCES activitats(id) ON DELETE CASCADE,
+    persona_id   INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    places       INTEGER NOT NULL DEFAULT 1,
+    import       REAL,
+    rebut_id     INTEGER REFERENCES rebuts(id) ON DELETE SET NULL,
+    data         TEXT,
+    observacions TEXT,
+    UNIQUE (activitat_id, persona_id)
+);
+
+-- Llicències federatives i revisions mèdiques (clubs esportius)
+CREATE TABLE IF NOT EXISTS llicencies (
+    id              INTEGER PRIMARY KEY,
+    persona_id      INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    agrupacio_id    INTEGER REFERENCES agrupacions(id) ON DELETE SET NULL,
+    federacio       TEXT,
+    numero          TEXT,
+    temporada       TEXT,
+    data_alta       TEXT,
+    data_caducitat  TEXT,
+    revisio_medica  TEXT,
+    import          REAL,
+    estat           TEXT NOT NULL DEFAULT 'actiu',
+    observacions    TEXT
+);
+
+-- Entitats federades (federacions): cada una amb la persona que la representa i la seua quota
+CREATE TABLE IF NOT EXISTS entitats_federades (
+    id           INTEGER PRIMARY KEY,
+    nom          TEXT NOT NULL,
+    tipus        TEXT,
+    cif          TEXT,
+    adreca       TEXT,
+    codi_postal  TEXT,
+    poblacio     TEXT,
+    telefon      TEXT,
+    email        TEXT,
+    persona_id   INTEGER REFERENCES persones(id) ON DELETE SET NULL,
+    numero       TEXT,
+    data_alta    TEXT,
+    data_baixa   TEXT,
+    quota        REAL,
+    estat        TEXT NOT NULL DEFAULT 'actiu',
+    observacions TEXT
+);
+
+-- Càrrecs de festa de cada exercici: Fallera Major, Bellesa, Madrina, capitania… (falles, gaiates, fogueres, comparses)
+CREATE TABLE IF NOT EXISTS carrecs_festa (
+    id           INTEGER PRIMARY KEY,
+    persona_id   INTEGER NOT NULL REFERENCES persones(id) ON DELETE RESTRICT,
+    carrec       TEXT NOT NULL,
+    exercici     TEXT NOT NULL,
+    data         TEXT,
+    observacions TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_persones_cognoms ON persones(cognoms, nom);
 CREATE INDEX IF NOT EXISTS idx_membres_agrup ON membres(agrupacio_id);
 CREATE INDEX IF NOT EXISTS idx_grups_curs ON grups(curs_id);
@@ -627,3 +713,11 @@ CREATE INDEX IF NOT EXISTS idx_subvencions_organisme ON subvencions(organisme_id
 CREATE INDEX IF NOT EXISTS idx_subvencio_cobraments ON subvencio_cobraments(subvencio_id);
 CREATE INDEX IF NOT EXISTS idx_subvencio_despeses ON subvencio_despeses(subvencio_id);
 CREATE INDEX IF NOT EXISTS idx_subvencio_despeses_moviment ON subvencio_despeses(moviment_id);
+
+-- 2.0
+CREATE INDEX IF NOT EXISTS idx_activitats_data ON activitats(data);
+CREATE INDEX IF NOT EXISTS idx_inscripcions_persona ON activitat_inscripcions(persona_id);
+CREATE INDEX IF NOT EXISTS idx_llicencies_persona ON llicencies(persona_id);
+CREATE INDEX IF NOT EXISTS idx_llicencies_caducitat ON llicencies(data_caducitat);
+CREATE INDEX IF NOT EXISTS idx_carrecs_festa_persona ON carrecs_festa(persona_id);
+CREATE INDEX IF NOT EXISTS idx_entitats_federades_persona ON entitats_federades(persona_id);

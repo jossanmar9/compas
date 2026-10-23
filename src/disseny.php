@@ -9,6 +9,8 @@ function menu(): array
         ['inici', 'menu.inici', null, '⌂'],
         ['persones', 'ent.persones', 'persones.view', '👤'],
         ['socis', 'ent.socis', 'socis.view', '★'],
+        ['llicencies', 'ent.llicencies', 'socis.view', '🪪'],
+        ['entitats_federades', 'ent.entitats_federades', 'socis.view', '🏢'],
         ['_escola', 'menu.escola', null, null],
         ['alumnes', 'ent.alumnes', 'escola.view', '🎓'],
         ['professors', 'ent.professors', 'escola.view', '🧑‍🏫'],
@@ -39,7 +41,9 @@ function menu(): array
         ['subvencions', 'ent.subvencions', 'economia.view', '🤝'],
         ['caixa', 'menu.caixa', 'economia.view', '📒'],
         ['_societat', 'menu.societat', null, null],
+        ['activitats', 'ent.activitats', 'societat.view', '🗓'],
         ['junta', 'menu.junta', 'societat.view', '🏛'],
+        ['carrecs_festa', 'ent.carrecs_festa', 'societat.view', '👑'],
         ['reunions', 'ent.reunions', 'societat.view', '📖'],
         ['documents', 'ent.documents', 'societat.view', '📁'],
         ['comunicats', 'menu.comunicats', 'societat.view', '✉'],
@@ -57,6 +61,19 @@ function menu(): array
     ];
 }
 
+/** Les icones de música només per a les entitats musicals */
+function icona_menu(string $clau, string $icona): string
+{
+    if (in_array(tipus_entitat(), ['societat_musical', 'colla'], true)) {
+        return $icona;
+    }
+    $esport = tipus_entitat() === 'club_esportiu';
+    return [
+        'agrupacions' => $esport ? '🏅' : '👥', 'membres' => '🙋', 'instruments' => '📦', 'assignatures' => $esport ? '⚽' : '◆',
+        'alumnes' => $esport ? '🏃' : '🎓', 'professors' => $esport ? '📣' : '🧑‍🏫',
+    ][$clau] ?? $icona;
+}
+
 function enllac_menu(string $clau): string
 {
     // «remeses» té pantalla pròpia (preparar i descarregar), encara que també siga una entitat
@@ -72,7 +89,8 @@ function html_menu(): string
     $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'talonaris' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia',
         'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents',
         'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis', 'obres' => 'repertori', 'tipus_obres' => 'repertori',
-        'organismes' => 'subvencions', 'requisits_justificacio' => 'subvencions', 'subvencio_cobraments' => 'subvencions', 'subvencio_despeses' => 'subvencions'][$actual] ?? $actual;
+        'organismes' => 'subvencions', 'requisits_justificacio' => 'subvencions', 'subvencio_cobraments' => 'subvencions', 'subvencio_despeses' => 'subvencions',
+        'activitat_inscripcions' => 'activitats', 'categories' => 'socis'][$actual] ?? $actual;
     $items = [];
     $seccio = null;
     foreach (menu() as [$clau, $etq, $cap, $icona]) {
@@ -80,7 +98,7 @@ function html_menu(): string
             $seccio = '<li class="seccio">' . h(t($etq)) . '</li>';
             continue;
         }
-        if (($cap && !pot($cap)) || !disponible($clau)) {
+        if (($cap && !pot($cap)) || !disponible($clau) || (in_array($clau, ['notes', 'butlleti'], true) && !te_notes())) {
             continue;
         }
         if ($seccio) {
@@ -88,7 +106,7 @@ function html_menu(): string
             $seccio = null;
         }
         $items[] = '<li><a href="' . h(enllac_menu($clau)) . '"' . ($clau === $actual ? ' class="actiu"' : '') . '><span class="ic">'
-            . h($icona) . '</span>' . h(t($etq)) . '</a></li>';
+            . h(icona_menu($clau, $icona)) . '</span>' . h(t($etq)) . '</a></li>';
     }
     return '<ul>' . implode('', $items) . '</ul>';
 }

@@ -151,6 +151,19 @@ function pagina_configuracio(): void
         }
         $l = post('idioma');
         desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
+        // Tipus d'entitat i mes en què comença l'exercici o la temporada
+        $tipus = post('tipus_entitat');
+        $ambModuls = false;
+        if (isset(TIPUS_ENTITAT[$tipus]) && $tipus !== tipus_entitat()) {
+            $ambModuls = post('moduls_tipus') === '1';
+            aplica_tipus(db(), $tipus, $ambModuls, idioma());
+            audita('modifica', 'config', null, 'tipus ' . $tipus);
+        }
+        $mes = (int)post('mes_exercici');
+        // Si s'han aplicat els apartats del tipus nou, també mana el seu mes d'inici
+        if (!$ambModuls && $mes >= 1 && $mes <= 12) {
+            desa_config('mes_exercici', (string)$mes);
+        }
         if (post('esborra_logo') === '1') {
             esborra_logo();
         } elseif (!empty($_FILES['logo']['name'])) {
@@ -167,6 +180,17 @@ function pagina_configuracio(): void
         $html .= '<div class="camp"><label>' . h(t('camp.' . $c)) . '</label><input name="' . $c . '" value="' . h(config($c)) . '"' . ($c === 'societat_nom' ? ' required' : '') . '></div>';
     }
     $html .= '<div class="camp"><label>' . h(t('config.idioma_defecte')) . '</label>' . select_simple('idioma', IDIOMES, config('idioma', 'ca'), false, '', false) . '</div>';
+    // Tipus d'entitat: canvia els noms i, si es vol, els mòduls
+    $tipus = array_map(fn($tp) => $tp['nom'][idioma()], TIPUS_ENTITAT);
+    $mesos = [];
+    for ($m = 1; $m <= 12; $m++) {
+        $mesos[$m] = ucfirst(t('mes.' . $m));
+    }
+    $html .= '<div class="camp"><label>' . h(t('camp.tipus_entitat')) . '</label>' . select_simple('tipus_entitat', $tipus, tipus_entitat(), false, '', false)
+        . '<small>' . h(t('config.tipus_ajuda')) . '</small></div>'
+        . '<div class="camp camp-check"><label><input type="checkbox" name="moduls_tipus" value="1"> ' . h(t('config.moduls_tipus')) . '</label></div>'
+        . '<div class="camp"><label>' . h(t('camp.mes_exercici')) . '</label>' . select_simple('mes_exercici', $mesos, (string)mes_inici_exercici(), false, '', false)
+        . '<small>' . h(t('config.mes_exercici_ajuda', nom_exercici(any_exercici()))) . '</small></div>';
     $logo = url_logo();
     $html .= '<div class="camp ample"><label>' . h(t('logo.titol')) . '</label>'
         . ($logo ? '<img class="logo-previ" src="' . h($logo) . '" alt=""><label class="check"><input type="checkbox" name="esborra_logo" value="1"> ' . h(t('logo.esborra')) . '</label>' : '')

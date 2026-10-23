@@ -32,12 +32,15 @@ function idioma(): string
 function t(string $clau, ...$args): string
 {
     static $textos = [];
-    $l = idioma();
+    $idioma = idioma();
+    $l = $idioma . '|' . tipus_entitat(); // els noms canvien segons el tipus d'entitat
     if (!isset($textos[$l])) {
-        $textos[$l] = require SRC_DIR . "/lang/$l.php";
-        if ($l !== 'ca') {
+        $textos[$l] = require SRC_DIR . "/lang/$idioma.php";
+        if ($idioma !== 'ca') {
             $textos[$l] += require SRC_DIR . '/lang/ca.php';
         }
+        // Els noms que canvien segons el tipus d'entitat (fallers, esportistes, equips…)
+        $textos[$l] = vocabulari(tipus_entitat(), $idioma) + $textos[$l];
     }
     $s = $textos[$l][$clau] ?? $clau;
     return $args ? vsprintf($s, $args) : $s;

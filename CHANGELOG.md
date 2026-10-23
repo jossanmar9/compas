@@ -8,6 +8,36 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.0.0] - 2026-10-23
+
+Compàs passa a ser la **gestió lliure per a associacions**: a més de les societats musicals, ara serveix per a clubs esportius, colles, associacions culturals, AMPA, falles, gaiates, fogueres, comparses, penyes i federacions.
+
+**En actualitzar:** una instal·lació anterior continua sent una societat musical i tot es queda igual. Apareix l'apartat nou **Activitats** (al menú Entitat); els altres apartats nous (llicències, entitats federades i càrrecs de festa) estan desactivats i es poden activar a **Administració → Mòduls i avisos**. Abans d'actualitzar la base de dades, Compàs en fa una còpia.
+
+### Afegit
+- **Tipus d'entitat**, que es tria en la configuració inicial i es pot canviar a **Administració → Configuració**. Cada tipus:
+  - **Adapta els noms**: socis, fallers i falleres, foguerers i foguereres, comparsistes, famílies associades o membres de la colla; escola de música, escola esportiva, activitats extraescolars o tallers; alumnat o esportistes; professorat, entrenadors o monitors; agrupacions, equips, seccions, esquadres o comissions; instruments o material; uniformes, equipacions o vestits…
+  - **Activa els apartats que li calen** (i desactiva els altres; tot es pot tornar a activar). Les notes i els butlletins només hi són en les societats musicals i les colles.
+  - Posa el **mes en què comença l'exercici**: gener, setembre (temporada esportiva o curs escolar), abril (exercici faller) o juliol (fogueres). Es pot canviar a la configuració. Els períodes de les quotes (l'anual, els semestres, els trimestres i els mesos) van per exercici, que es diu «2026» o «2026-2027».
+  - Carrega unes **dades d'exemple** pròpies si es demanen en la instal·lació.
+- **Activitats**: sopars, eixides, viatges, actes, competicions, tallers… amb data, lloc, preu per plaça i places. **Inscripcions** amb les places de cadascuna (l'import es calcula sol), avís quan s'omplin o ha passat la data límit, **llista d'inscrits** per a imprimir i **un rebut per inscripció** (els menors alumnes, a nom de qui paga les seues classes). Les activitats dels pròxims 15 dies ixen a l'inici.
+- **Categories d'edat** (prebenjamí… veterà als clubs; infantil i major a les falles…), editables. La categoria es calcula amb l'edat que es fa l'any en què comença l'exercici i ix a la fitxa de cada persona. Llistat **Persones per categoria** i socis per categoria a la memòria.
+- **Llicències i revisions mèdiques**: llicència federativa de cada temporada per equip, amb la caducitat i la revisió mèdica, avís a l'inici un mes abans que caduquen i llistat **Llicències per equip**.
+- **Càrrecs de festa** de cada exercici (Fallera Major, Bellesa, Madrina, capitania…), amb suggeriments segons el tipus, historial, certificat i llistat per exercici.
+- **Entitats federades** (federacions): cens amb el representant i la quota anual, **rebuts de la quota** a nom del representant i llistat per a imprimir.
+- Els tipus d'agrupació depenen del tipus d'entitat: equip, secció, grup, comissió o esquadra.
+- Rebuts de tipus «Activitat» i «Quota d'entitat federada»; generació de rebuts d'activitats i de quotes d'entitats federades a **Economia → Genera rebuts**.
+- Camps de text amb suggeriments (federacions, càrrecs de festa, tipus d'entitat federada).
+
+### Canviat
+- Lema nou: «Gestió lliure per a associacions». Els textos generals diuen «entitat» en lloc de «societat», també al logotip, a la declaració de privacitat, al llançador i als paquets.
+- Els llistats amagen per defecte només el que està de baixa (per exemple, una llicència en tràmit sí que es veu).
+- Manuals: tipus d'entitat i exercici, taula de noms segons el tipus, i capítols nous d'activitats, categories, llicències, càrrecs de festa i entitats federades.
+- Web i README reescrits per a tots els tipus d'associació.
+
+### Corregit
+- Dues actualitzacions de la base de dades en el mateix segon ja no xoquen en fer la còpia «abans d'actualitzar».
+
 ## [1.16.0] - 2026-10-23
 
 ### Afegit

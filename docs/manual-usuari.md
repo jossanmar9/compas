@@ -2,7 +2,7 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de la societat musical: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
+Compàs és el programa de gestió de l'entitat: persones, socis, quotes i rebuts, activitats, loteria, llibre de caixa, subvencions, junta directiva i actes, documents, comunicats i còpies de seguretat i, segons el tipus d'entitat, l'escola, les agrupacions o els equips, el repertori, els instruments i uniformes, les llicències, els càrrecs de festa o les entitats federades. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
 
 | Què es pot fer | Administrador/a | Usuari/ària |
 |---|:---:|:---:|
@@ -15,14 +15,14 @@ Compàs és el programa de gestió de la societat musical: persones, socis, esco
 | Llistats, certificats i importació des d'Excel | ✔ | ✔ |
 | Fer i baixar còpies de seguretat | ✔ | ✔ |
 | Canviar la pròpia contrasenya | ✔ | ✔ |
-| Configuració de la societat, logotip, mòduls i avisos | ✔ | — |
+| Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — |
 | Dades bancàries i descomptes de l'escola | ✔ | — |
 | Crear i gestionar els comptes | ✔ | — |
 | Registre d'activitat | ✔ | — |
 | Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — |
 | Recuperar l'accés amb el codi de recuperació | ✔ | — |
 
-Este manual és per a les persones que porten la gestió diària. La configuració inicial, les dades de la societat, els comptes, la restauració de còpies i les actualitzacions les fa l'administrador/a: són al **Manual d'administració**.
+Este manual és per a les persones que porten la gestió diària. La configuració inicial, les dades de l'entitat, els comptes, la restauració de còpies i les actualitzacions les fa l'administrador/a: són al **Manual d'administració**.
 
 > En este manual, el botó o el camp que cal utilitzar en cada pas apareix **marcat en taronja** a les captures.
 
@@ -97,14 +97,35 @@ La fitxa mostra totes les dades d'un element i tot el que hi està relacionat. P
 
 Compàs no deixa eliminar res que tinga historial (matrícules, notes, cessions…), perquè no es perda informació. En lloc d'eliminar:
 
-- una **persona** que ja no té relació amb la societat: edita-la i desmarca **Actiu**;
+- una **persona** que ja no té relació amb l'entitat: edita-la i desmarca **Actiu**;
 - un **soci, alumne, professor o músic**: edita'l, posa l'**estat «Baixa»** i la **data de baixa**.
 
 Les baixes desapareixen dels llistats, però es poden tornar a vore marcant **Mostra també les baixes**.
 
-## 4. Configuració de la societat
+## 4. Configuració i tipus d'entitat
 
-Les dades de la societat, el logotip, els mòduls que es fan servir i els avisos de l'inici els configura l'administrador/a (**Manual d'administració**). Si en la teua societat no veus algun apartat d'este manual (l'escola, la loteria…), segurament està desactivat.
+### Els noms canvien segons el tipus d'entitat
+
+En instal·lar Compàs es tria el **tipus d'entitat** (societat musical, club esportiu, colla, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació). Compàs hi adapta els noms de les pantalles, els apartats que es veuen i el mes en què comença l'exercici. Este manual fa servir els noms d'una societat musical; en la teua entitat poden ser uns altres:
+
+| En este manual | Club esportiu | AMPA | Falla | Comparsa | Colla |
+|---|---|---|---|---|---|
+| Socis | Socis | Famílies associades | Fallers i falleres | Comparsistes | Membres de la colla |
+| Escola de música | Escola esportiva | Activitats extraescolars | — | — | Escola de la colla |
+| Alumnat / Professorat | Esportistes / Entrenadors | Alumnat / Monitors | — | — | Alumnat / Professorat |
+| Assignatures / Aules | Esports / Instal·lacions | Activitats / Espais | — | — | Assignatures / Aules |
+| Curs acadèmic | Temporada | Curs escolar | — | — | Curs |
+| Agrupacions / Músics | Equips / Jugadors | Comissions / Membres | — | Esquadres / Membres | Seccions / Membres |
+| Instruments | Material esportiu | — | — | — | Material |
+| Uniformes | Equipacions | Roba i marxandatge | Roba i marxandatge | Vestits i roba | Roba i marxandatge |
+| Exercici | Setembre-agost | Setembre-agost | Abril-març | Gener-desembre | Gener-desembre |
+
+Les associacions culturals tenen tallers, participants i grups; les gaiates, membres de la comissió; les fogueres, foguerers i foguereres; les penyes i les federacions, socis (i, les federacions, entitats federades). Les notes i els butlletins només hi són en les entitats i les colles.
+
+### Configuració
+
+
+Les dades de l'entitat, el logotip, els mòduls que es fan servir i els avisos de l'inici els configura l'administrador/a (**Manual d'administració**). Si en la teua entitat no veus algun apartat d'este manual (l'escola, la loteria…), segurament està desactivat.
 
 ## 5. Preparar el curs acadèmic
 
@@ -216,7 +237,7 @@ Prem **Mostra-les** (o tria el filtre **Falten dades obligatòries**) per a vore
 
 ### Drets d'imatge (fotos i vídeos)
 
-Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tindre l'autorització de cada persona; per als menors, la del pare, la mare o el tutor/a.
+Abans de publicar fotos o vídeos en la web o les xarxes, l'entitat ha de tindre l'autorització de cada persona; per als menors, la del pare, la mare o el tutor/a.
 
 1. Obri la fitxa de la persona (o de l'alumne) i prem **🖨 Full de consentiment**. Ix un full A4 amb les dades de l'alumne i del tutor/a, el text de l'autorització i l'espai per a signar.
 2. Quan el tornen signat, edita la persona i, a **Drets d'imatge**, tria **Autoritza fotos i vídeos** o **No autoritza**. Si no poses la **data de la signatura**, es posa la de hui.
@@ -225,7 +246,7 @@ Abans de publicar fotos o vídeos en la web o les xarxes, la societat ha de tind
 
 ![Full de consentiment per a signar](imatges/ca/42-consentiment-full.webp)
 
-Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 18). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
+Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatge** pots imprimir de colp els fulls de tots els pendents o els d'un grup (apartat 23). Al llistat de **Persones**, el filtre **Alumnes sense consentiment d'imatge signat** mostra qui falta.
 
 > El text del full és un model. Revisa'l amb la junta i, si cal, afig-hi el que vulgues a **Configuració → Text addicional del full de consentiment**.
 
@@ -300,17 +321,17 @@ Les matrícules i les notes dels cursos anteriors es conserven a la fitxa de l'a
 
 ### Quan un alumne deixa l'escola
 
-Edita la seua fitxa d'alumne i posa l'estat **Baixa** i la **data de baixa**. Si a més ja no és res de la societat, desmarca **Actiu** a la seua fitxa de persona.
+Edita la seua fitxa d'alumne i posa l'estat **Baixa** i la **data de baixa**. Si a més ja no és res de l'entitat, desmarca **Actiu** a la seua fitxa de persona.
 
 ## 8. Socis
 
 ### Tipus de soci
 
-Cada societat té els tipus de soci que diuen els seus estatuts. Compàs en porta quatre per a començar (ordinari, protector, juvenil i d'honor), però es poden canviar, afegir-ne i donar-ne de baixa: al llistat de socis, prem **Tipus de soci**.
+Cada entitat té els tipus de soci que diuen els seus estatuts. Compàs en porta quatre per a començar (ordinari, protector, juvenil i d'honor), però es poden canviar, afegir-ne i donar-ne de baixa: al llistat de socis, prem **Tipus de soci**.
 
 - **Nom** i, si es vol, una **descripció** (per exemple, «Majors de 65 anys»).
 - **Ordre**: en quin lloc ix als llistats i al full d'alta.
-- **Al full d'alta**: si qui es fa soci el pot triar. Els que nomena la societat (d'honor…) normalment no hi van.
+- **Al full d'alta**: si qui es fa soci el pot triar. Els que nomena l'entitat (d'honor…) normalment no hi van.
 
 Un tipus que ja tenen alguns socis o que té tarifa no es pot eliminar: es posa de **baixa** i deixa d'aparéixer en els socis nous.
 
@@ -320,7 +341,7 @@ Un tipus que ja tenen alguns socis o que té tarifa no es pot eliminar: es posa 
 
 1. Busca o dona d'alta la **persona** (apartat 6).
 2. A la seua fitxa, en l'apartat **Socis**, prem **+ Afig**.
-3. Escriu el **número de soci**, tria el **tipus** (els que tinga la societat) i comprova la **data d'alta**.
+3. Escriu el **número de soci**, tria el **tipus** (els que tinga l'entitat) i comprova la **data d'alta**.
 4. Si les quotes es cobraran pel banc, escriu l'**IBAN** (si encara no el té a la seua fitxa de persona).
 5. Prem **Desa**.
 
@@ -369,7 +390,7 @@ Per a crear una agrupació nova: menú **Agrupacions → + Nou**.
 
 ### Repertori: el catàleg de l'arxiu musical
 
-Menú **Repertori**. És el catàleg de les obres que té la societat: de quin tipus són, per a quines agrupacions servixen, en quin estat estan i on és el material. Compàs no guarda partitures ni fitxers, només el catàleg.
+Menú **Repertori**. És el catàleg de les obres que té l'entitat: de quin tipus són, per a quines agrupacions servixen, en quin estat estan i on és el material. Compàs no guarda partitures ni fitxers, només el catàleg.
 
 Per a afegir una obra, prem **+ Obra**:
 
@@ -385,9 +406,9 @@ La pantalla del repertori té un **cercador** (títol, compositor, número d'arx
 
 ![Repertori](imatges/ca/81-repertori.webp)
 
-Els **tipus d'obra** els tria cada societat: al repertori, prem **Tipus d'obra** per a canviar-los, afegir-ne o ordenar-los. Un tipus que ja tenen algunes obres no es pot eliminar, però es pot donar de baixa.
+Els **tipus d'obra** els tria cada entitat: al repertori, prem **Tipus d'obra** per a canviar-los, afegir-ne o ordenar-los. Un tipus que ja tenen algunes obres no es pot eliminar, però es pot donar de baixa.
 
-Si la societat ja té el catàleg en un full de càlcul, no cal tornar-lo a escriure: es pot importar (apartat 19).
+Si l'entitat ja té el catàleg en un full de càlcul, no cal tornar-lo a escriure: es pot importar (apartat 24).
 
 ## 10. Qualificacions
 
@@ -465,7 +486,7 @@ Menú **Uniformes**: polos, samarretes, dessuadores, jaquetes, motxilles, gorres
 
 Quan es torna un préstec, s'edita el lliurament i es posa la **data de devolució**: la peça torna a estar disponible.
 
-La pantalla mostra, per a cada article i talla, el **total** de peces que té la societat (les comprades, menys les venudes i les gratuïtes), les que estan **en préstec** i les **disponibles**. Si d'una talla s'han lliurat més de les que consten com a comprades, el número ix en roig: falta apuntar alguna compra. Els lliuraments de cada persona apareixen també a la seua fitxa.
+La pantalla mostra, per a cada article i talla, el **total** de peces que té l'entitat (les comprades, menys les venudes i les gratuïtes), les que estan **en préstec** i les **disponibles**. Si d'una talla s'han lliurat més de les que consten com a comprades, el número ix en roig: falta apuntar alguna compra. Els lliuraments de cada persona apareixen també a la seua fitxa.
 
 ![Uniformes per talla](imatges/ca/78-uniformes.webp)
 
@@ -475,11 +496,11 @@ La pantalla mostra, per a cada article i talla, el **total** de peces que té la
 
 ## 13. Economia: quotes, escola i rebuts
 
-L'apartat **Economia** del menú porta els diners de la societat: les quotes dels socis, la matrícula i les classes de l'escola, els rebuts, les remeses al banc i la loteria. **Resum econòmic** mostra el que hi ha per cobrar, el que s'ha cobrat enguany, els rebuts retornats pel banc i qui deu diners.
+L'apartat **Economia** del menú porta els diners de l'entitat: les quotes dels socis, la matrícula i les classes de l'escola, els rebuts, les remeses al banc i la loteria. **Resum econòmic** mostra el que hi ha per cobrar, el que s'ha cobrat enguany, els rebuts retornats pel banc i qui deu diners.
 
 ![Resum econòmic](imatges/ca/55-economia.webp)
 
-> Compàs fa **rebuts**, no factures. Si la societat ha de fer una factura (per exemple, d'un concert per a l'ajuntament), l'ha de fer amb un programa de facturació que complisca la normativa, o la gestoria.
+> Compàs fa **rebuts**, no factures. Si l'entitat ha de fer una factura (per exemple, d'un concert per a l'ajuntament), l'ha de fer amb un programa de facturació que complisca la normativa, o la gestoria.
 
 ### 13.1 Tarifes: el preu de cada cosa
 
@@ -493,7 +514,7 @@ Menú **Economia → Tarifes**. Cada tarifa té un nom (el que apareixerà al re
 
 ### 13.2 Dades del banc i descomptes
 
-Les dades bancàries de la societat i els descomptes de l'escola els configura l'administrador/a (**Manual d'administració**). A la fitxa de cada alumne sí que pots posar un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
+Les dades bancàries de l'entitat i els descomptes de l'escola els configura l'administrador/a (**Manual d'administració**). A la fitxa de cada alumne sí que pots posar un **descompte propi** (família nombrosa, beca…) i **qui paga** les classes, si no és el tutor principal.
 
 ### 13.3 Generar els rebuts
 
@@ -514,7 +535,7 @@ Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domicili
 
 ![Domiciliacions](imatges/ca/59-domiciliacions.webp)
 
-A la fitxa de la domiciliació, **Imprimeix l'ordre de domiciliació** fa el full per a signar. La societat ha de guardar-lo signat mentre es cobre i 14 mesos més.
+A la fitxa de la domiciliació, **Imprimeix l'ordre de domiciliació** fa el full per a signar. L'entitat ha de guardar-lo signat mentre es cobre i 14 mesos més.
 
 ![Ordre de domiciliació](imatges/ca/60-ordre-domiciliacio.webp)
 
@@ -527,7 +548,7 @@ Menú **Economia → Remeses bancàries**. Apareixen els rebuts domiciliats pend
 Després:
 
 1. Prem **Descarrega el fitxer per al banc (XML)**.
-2. Entra a la banca electrònica de la societat i puja'l a l'apartat d'adeutaments directes SEPA (esquema CORE). Si el banc rebutja el fitxer, canvia el **format** a la configuració d'Economia i torna a descarregar-lo.
+2. Entra a la banca electrònica de l'entitat i puja'l a l'apartat d'adeutaments directes SEPA (esquema CORE). Si el banc rebutja el fitxer, canvia el **format** a la configuració d'Economia i torna a descarregar-lo.
 3. Quan el banc l'haja cobrada, prem **Marca-la com a cobrada**: tots els rebuts queden pagats.
 
 ![Una remesa](imatges/ca/62-remesa.webp)
@@ -565,7 +586,7 @@ Menú **Economia → Subvencions**. Cada subvenció té una fitxa amb tot el que
 
 ![Subvenció nova: en triar l'organisme es marquen els requisits](imatges/ca/84-subvencio-nova.webp)
 
-**Organismes i requisits, a la mida de la societat.** Al llistat de subvencions, els botons **Organismes** i **Com es justifica** porten a les dues llistes, que es poden canviar sempre que calga: afegir un organisme o un requisit, canviar-ne el nom o indicar què demana normalment cada organisme. Si un requisit ja no es demana, posa'l **de baixa**: no ix en les subvencions noves, però es conserva en les antigues.
+**Organismes i requisits, a la mida de l'entitat.** Al llistat de subvencions, els botons **Organismes** i **Com es justifica** porten a les dues llistes, que es poden canviar sempre que calga: afegir un organisme o un requisit, canviar-ne el nom o indicar què demana normalment cada organisme. Si un requisit ja no es demana, posa'l **de baixa**: no ix en les subvencions noves, però es conserva en les antigues.
 
 **Cobraments.** A la fitxa, **Cobraments → + Afig** per a cada pagament (la bestreta, el pagament final…). Entren sols al llibre de caixa: no cal apuntar-los com a moviment.
 
@@ -579,7 +600,7 @@ Menú **Economia → Subvencions**. Cada subvenció té una fitxa amb tot el que
 
 ## 14. Loteria
 
-Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple, «Loteria de Nadal 2026»), la data, els **números**, el **preu** de cada participació, l'import que **juga** (la resta és el donatiu per a la societat) i quantes participacions porta cada talonari. A la fitxa, **Talonaris i liquidació** obri el resum.
+Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple, «Loteria de Nadal 2026»), la data, els **números**, el **preu** de cada participació, l'import que **juga** (la resta és el donatiu per a l'entitat) i quantes participacions porta cada talonari. A la fitxa, **Talonaris i liquidació** obri el resum.
 
 ### Repartir els talonaris
 
@@ -595,7 +616,7 @@ A la fitxa de cada talonari, **Imprimeix les participacions** fa les seues 50 pa
 
 ### Liquidar
 
-Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut**, quantes **torna** sense vendre i quants **diners lliura**. El resum mostra el que falta per lliurar (en roig), quant cal comprar a l'administració de loteria i el que queda per a la societat.
+Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut**, quantes **torna** sense vendre i quants **diners lliura**. El resum mostra el que falta per lliurar (en roig), quant cal comprar a l'administració de loteria i el que queda per a l'entitat.
 
 ![Liquidar un talonari](imatges/ca/66-talonari.webp)
 
@@ -627,7 +648,7 @@ A la fitxa de la reunió hi ha tres documents per a imprimir:
 
 ![Acta d'una assemblea](imatges/ca/70-acta.webp)
 
-## 16. Documents de la societat
+## 16. Documents de l'entitat
 
 Menú **Societat → Documents**. Ací es guarden els estatuts, el reglament de règim intern, les actes signades, la inscripció al registre, el CIF, les pòlisses d'assegurança, els contractes del professorat i de la direcció, els convenis…
 
@@ -641,13 +662,13 @@ El fitxer es guarda **dins de Compàs**, no en una carpeta a part. Així entra a
 
 ### Registre d'activitats de tractament (RGPD)
 
-Des del llistat de documents, **Registre d'activitats de tractament (RGPD)** fa el document que el Reglament de protecció de dades demana a les entitats. Compàs el prepara amb les dades que tracta la societat i les mesures de seguretat que té configurades. És un model orientatiu: reviseu-lo, adapteu-lo i guardeu-lo signat amb la documentació de la societat.
+Des del llistat de documents, **Registre d'activitats de tractament (RGPD)** fa el document que el Reglament de protecció de dades demana a les entitats. Compàs el prepara amb les dades que tracta l'entitat i les mesures de seguretat que té configurades. És un model orientatiu: reviseu-lo, adapteu-lo i guardeu-lo signat amb la documentació de l'entitat.
 
 ![Registre d'activitats de tractament](imatges/ca/75-rgpd.webp)
 
 ## 17. Comunicats
 
-Menú **Societat → Comunicats**. Compàs no envia correus ni es connecta a Internet: prepara les adreces perquè envieu el comunicat des del correu de la societat.
+Menú **Societat → Comunicats**. Compàs no envia correus ni es connecta a Internet: prepara les adreces perquè envieu el comunicat des del correu de l'entitat.
 
 1. Tria **a qui**: els socis, la junta, el professorat, les famílies de l'escola o d'un grup, els membres d'una agrupació o tothom.
 2. Prem **Copia les adreces** i apega-les al camp **CCO** (còpia oculta) del correu, perquè ningú no veja les adreces dels altres. Si són poques, **Obri el correu amb les adreces en CCO** ho fa directament.
@@ -658,7 +679,75 @@ Les persones del grup que no tenen correu apareixen en una llista a part, per a 
 
 ![Comunicats](imatges/ca/74-comunicats.webp)
 
-## 18. Llistats, certificats i memòria
+## 18. Activitats i inscripcions
+
+Menú **Entitat → Activitats**. Una activitat és qualsevol cosa a què s'apunta la gent: un sopar, una eixida, un viatge, un acte, una competició, un taller…
+
+1. Prem **+ Nou** i omple el nom, el tipus, la data (i la data de fi, si dura més d'un dia), l'hora i el lloc. Si és d'un grup o equip concret, tria'l.
+2. Si es paga, posa el **preu per plaça**. Si hi ha un màxim de places, posa'l: quan s'omplin, Compàs no deixarà inscriure ningú més. La **data límit d'inscripció** és opcional; quan passa, l'activitat es marca en groc.
+3. A la fitxa de l'activitat, a **Inscripcions**, prem **+ Afig** per a cada persona. Indica quantes **places** ocupa (una família de quatre, per exemple): l'import es calcula sol (places × preu). Si algú no paga, posa 0 a l'import.
+
+La fitxa mostra les inscripcions, les places ocupades i les lliures, l'import total i quantes inscripcions tenen ja el rebut. Una persona no es pot inscriure dues vegades: es canvien les places de la seua inscripció.
+
+- **Llista d'inscrits**: per a imprimir (per a passar llista, per a l'autobús, per al restaurant), amb una casella per a marcar.
+- **Crea els rebuts**: fa un rebut per a cada inscripció que encara no en té (si la persona és menor i és alumna de l'escola, a nom de qui paga les seues classes). Després, a cada inscripció apareix el seu rebut i es cobra com qualsevol altre (en mà o per remesa).
+
+L'inici mostra les activitats dels pròxims 15 dies amb les places ocupades. Quan una activitat ja s'ha fet, posa-li l'estat **Feta**; si se suspén, **Anul·lada**.
+
+![Una activitat amb les inscripcions](imatges/ca/98-activitat.webp)
+
+## 19. Categories d'edat
+
+Als clubs esportius, falles, gaiates, fogueres i comparses, les persones es classifiquen per categories d'edat: prebenjamí, benjamí, aleví, infantil, cadet, juvenil, sènior i veterà, o infantil i major. Compàs en posa unes per a començar segons el tipus d'entitat, i cada entitat les canvia al seu gust: llistat de **Socis → Categories**.
+
+Cada categoria té un nom i les edats (des de i fins a). L'edat que compta és la que la persona **fa durant l'any en què comença l'exercici**: en una temporada 2026-2027, qui naix el 2014 té 12 anys, encara que encara no els haja complit. Així es fa en les federacions esportives i en les comissions falleres.
+
+- La **fitxa de cada persona** diu la seua categoria.
+- **Llistats → Persones per categoria** fa la llista de cada categoria, dels socis, dels alumnes, dels membres dels grups o de totes les persones, per a imprimir o en CSV.
+- La **memòria anual** compta els socis de cada categoria.
+
+![Les categories d'edat d'un club](imatges/ca/97-categories.webp)
+
+## 20. Llicències i revisions mèdiques
+
+Menú **Llicències** (clubs esportius; en altres entitats s'activa a **Mòduls i avisos**). Cada llicència és d'una persona i d'una temporada:
+
+1. Des de la fitxa de la persona (o des del llistat), prem **+ Afig** a **Llicències**.
+2. Tria l'**equip**, escriu la **federació** (Compàs suggerix les que ja s'han escrit), el **número de llicència** i la **temporada** (ja posa l'actual).
+3. Posa la **data de caducitat** de la llicència, si caduca abans de la fi de la temporada, i fins quan és vàlida la **revisió mèdica**.
+4. L'estat és **En tràmit** mentre la federació no la dona per bona, i **Actiu** després.
+
+Les llicències que han caducat o que caduquen en 30 dies, i les revisions mèdiques en la mateixa situació, es marquen en groc i surten en un avís a l'inici. El filtre **Caducades o que caduquen en 30 dies** del llistat les mostra totes. **Llistats → Llicències per equip** les imprimeix agrupades per equip, amb la categoria de cada jugador.
+
+En començar una temporada nova, afig les llicències noves; les de la temporada anterior es queden com a historial (o posa-les de baixa).
+
+![Les llicències d'un club, amb les que caduquen en groc](imatges/ca/96-llicencies.webp)
+
+## 21. Càrrecs de festa
+
+Menú **Entitat → Càrrecs de festa** (falles, gaiates, fogueres i comparses). Ací s'apunta qui ha tingut cada càrrec en cada exercici: Fallera Major i Fallera Major Infantil, President/a, damas; Madrina; Bellesa i dames d'honor; capità o capitana, alferes, abanderat/da…
+
+1. Prem **+ Nou**. L'**exercici** ja ve posat (per exemple, «2026-2027»).
+2. Escriu el **càrrec** o tria'l de la llista: Compàs suggerix els del tipus d'entitat i els que ja s'han fet servir.
+3. Tria la persona i, si vols, la data de la proclamació.
+
+Cada càrrec té un **certificat** per a imprimir («és Fallera Major de l'exercici…» o «va ser…»), amb les signatures, i **Llistats → Càrrecs de festa per exercici** fa l'historial de l'entitat. Els càrrecs també surten a la fitxa de cada persona.
+
+Els càrrecs de la junta directiva (presidència, secretaria, tresoreria…) no van ací, sinó a **Junta directiva**.
+
+![Els càrrecs de festa d'una falla](imatges/ca/99-carrecs-festa.webp)
+
+## 22. Entitats federades
+
+Menú **Entitats federades** (federacions). Cada entitat associada a la federació té el número, el tipus, el CIF, l'adreça, el contacte, la data d'alta i la **quota anual**, i una **persona representant**: la de contacte, a nom de qui es fan els rebuts.
+
+- **Economia → Genera rebuts → Quotes de les entitats federades**: tria l'exercici i Compàs fa un rebut per a cada entitat d'alta amb quota. Les que no tenen representant s'indiquen a part perquè els en poses un.
+- **Llistats → Cens d'entitats federades**: les entitats d'alta amb el representant, el telèfon, el correu i la quota, per a imprimir o en CSV.
+- Quan una entitat deixa la federació, posa-li la data de baixa i l'estat **Baixa**.
+
+![Les entitats d'una federació](imatges/ca/100-entitats-federades.webp)
+
+## 23. Llistats, certificats i memòria
 
 Menú **Documents i dades → Llistats i informes**. Cada llistat es pot vore a la pantalla, **imprimir** (o guardar en PDF) i **exportar a CSV** per a obrir-lo amb Excel.
 
@@ -714,9 +803,9 @@ A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i 
 
 Qui signa els certificats (normalment el secretari/ària) i el vistiplau del president/a s'agafen sols de la junta directiva (apartat 15). Si cal, l'administrador/a ho pot canviar a la configuració.
 
-## 19. Importar dades des d'Excel
+## 24. Importar dades des d'Excel
 
-Si la societat ja té els socis o l'alumnat en un Excel, no cal tornar-los a escriure. Menú **Documents i dades → Importa dades**.
+Si l'entitat ja té els socis o l'alumnat en un Excel, no cal tornar-los a escriure. Menú **Documents i dades → Importa dades**.
 
 ### Pas 1. El fitxer
 
@@ -764,7 +853,7 @@ Tria **Repertori** en el primer pas. Compàs reconeix les columnes més habitual
 
 El CSV que es baixa del repertori es pot tornar a importar: és una manera senzilla de corregir moltes obres alhora amb Excel.
 
-## 20. Còpies de seguretat
+## 25. Còpies de seguretat
 
 Totes les dades estan en un sol fitxer. Compàs en fa còpies automàticament:
 
@@ -791,7 +880,7 @@ Triar la carpeta externa (USB o núvol), xifrar les còpies, decidir quant de te
 
 > Les còpies contenen dades personals, també de menors. Guarda-les en un lloc segur.
 
-## 21. Usuaris i contrasenyes
+## 26. Usuaris i contrasenyes
 
 ### Canviar la teua contrasenya
 
@@ -806,7 +895,7 @@ Si no recordes l'actual, no la pots canviar ací: demana a l'administrador/a que
 
 ![El meu compte](imatges/ca/38-meu-compte.webp)
 
-## 22. Ajuda
+## 27. Ajuda
 
 El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obrin el manual i la guia d'instal·lació en PDF, el registre de canvis, la privacitat i el resum de la llicència.
 
@@ -814,7 +903,7 @@ El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obri
 
 ![Ajuda](imatges/ca/39-ajuda.webp)
 
-## 23. Preguntes freqüents
+## 28. Preguntes freqüents
 
 **He donat d'alta una persona dues vegades. Què faig?** Si la segona no té res vinculat, obri-la i prem **Elimina**. Si ja té coses vinculades, edita-les perquè apunten a la persona bona i després elimina la repetida.
 
@@ -830,11 +919,11 @@ El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obri
 
 **L'administrador/a ha oblidat la contrasenya.** Prem **Recupera l'accés** a la pantalla d'entrada i utilitza el codi de recuperació. Si no el trobes, també hi ha una manera sense codi (Manual d'administració).
 
-**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 19): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
+**Hem de passar a Compàs els socis que tenim en Excel.** Utilitza **Importa dades** (apartat 24): no cal escriure'ls a mà, i les persones que ja hi ha no es dupliquen.
 
-**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 18).
+**Qui pot eixir en les fotos del concert?** **Llistats i informes → Drets d'imatge** (apartat 23).
 
-**Com cobrem les quotes pel banc?** Posa les dades bancàries de la societat, crea la domiciliació de cada pagador, genera els rebuts i prepara una remesa: Compàs fa el fitxer que es puja a la banca electrònica (apartat 13).
+**Com cobrem les quotes pel banc?** Posa les dades bancàries de l'entitat, crea la domiciliació de cada pagador, genera els rebuts i prepara una remesa: Compàs fa el fitxer que es puja a la banca electrònica (apartat 13).
 
 **Compàs fa factures?** No, fa rebuts. Les factures s'han de fer amb un programa de facturació que complisca la normativa (Verifactu).
 

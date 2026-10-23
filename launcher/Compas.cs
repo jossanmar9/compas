@@ -1,4 +1,4 @@
-// Compàs: Gestió lliure per a societats musicals
+// Compàs: Gestió lliure per a associacions
 // Llançador per a Windows: arranca el servidor integrat de PHP i obri Compàs en la seua finestra (Visor.cs,
 // amb el component WebView2 de Windows). Si no hi és, prova Microsoft Edge o Google Chrome en mode
 // aplicació i, si tampoc, el navegador habitual amb la finestra menuda.
@@ -22,7 +22,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 [assembly: System.Reflection.AssemblyTitle("Compàs")]
-[assembly: System.Reflection.AssemblyDescription("Gestió lliure per a societats musicals")]
+[assembly: System.Reflection.AssemblyDescription("Gestió lliure per a associacions")]
 [assembly: System.Reflection.AssemblyProduct("Compàs")]
 [assembly: System.Reflection.AssemblyCopyright("© 2026 José Vicente Sanjuan · AGPL-3.0-or-later")]
 
@@ -222,7 +222,7 @@ namespace Compas
             Controls.Add(logo);
 
             Controls.Add(new Label { Text = "Compàs", Location = new Point(108, 22), AutoSize = true, Font = new Font("Segoe UI", 18f, FontStyle.Bold), ForeColor = Color.FromArgb(20, 40, 75) });
-            Controls.Add(new Label { Text = Textos.T("Gestió lliure per a societats musicals", "Gestión libre para sociedades musicales"), Location = new Point(110, 62), AutoSize = true, ForeColor = Color.FromArgb(93, 103, 120) });
+            Controls.Add(new Label { Text = Textos.T("Gestió lliure per a associacions", "Gestión libre para asociaciones"), Location = new Point(110, 62), AutoSize = true, ForeColor = Color.FromArgb(93, 103, 120) });
 
             estat.Location = new Point(20, 112);
             estat.Size = new Size(400, 22);

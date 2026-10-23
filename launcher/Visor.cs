@@ -1,4 +1,4 @@
-// Compàs: Gestió lliure per a societats musicals
+// Compàs: Gestió lliure per a associacions
 // Visor propi per a Windows: la finestra de Compàs, amb el component WebView2 de Windows.
 // No és cap navegador: no té pestanyes ni barra d'adreces i només obri les pàgines de Compàs;
 // els enllaços de fora s'obrin amb el navegador habitual.

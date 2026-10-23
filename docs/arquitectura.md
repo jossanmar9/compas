@@ -1,6 +1,6 @@
 # Arquitectura de Compàs
 
-Compàs és un programa de gestió per a una única societat musical, en un sol ordinador amb Windows i amb dos comptes (administrador/a i usuari/ària). No té web pública ni accés per xarxa.
+Compàs és un programa de gestió per a una única associació (societat musical, club esportiu, colla, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació), en un sol ordinador amb Windows i amb dos comptes (administrador/a i usuari/ària). No té web pública ni accés per xarxa.
 
 ## Peces
 
@@ -31,9 +31,11 @@ app/index.php  ──►  src/  (lògica en PHP)
 | `src/bootstrap.php` | Connexió, sessió, CSRF, usuari actual, permisos, auditoria. |
 | `src/schema.sql` | Esquema de la base de dades (es crea sol la primera vegada). |
 | `src/capacitats.php` | Capacitats i rols per defecte. |
+| `src/tipus.php` | Tipus d'entitat (`TIPUS_ENTITAT`): els mòduls que activa cada tipus, el perfil de vocabulari, el mes en què comença l'exercici, si l'escola posa notes, les categories d'edat i els càrrecs de festa per a començar. `aplica_tipus()` ho configura en la instal·lació i en canviar de tipus; `any_exercici()` i `nom_exercici()` calculen l'exercici («2026» o «2026-2027»). |
+| `src/lang/vocabulari.php` | Vocabulari de cada tipus: els textos base són els d'una societat musical i `vocabulari()` en torna els que canvien (perfils d'escola, grups, socis, material i roba sobre plantilles amb ranures `{…}`). `t()` els aplica per sobre dels de l'idioma. |
 | `src/entitats.php` | Definició declarativa de cada entitat: camps, relacions i validacions. |
 | `src/crud.php` | Llistats, fitxes, formularis i exportació CSV genèrics a partir de `entitats.php`. |
-| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, caixa (llibre de caixa), societat (junta, actes, documents, full d'alta, comunicats), rgpd, uniformes, repertori, subvencions (fitxa amb el resum i els requisits, relació de despeses, còpia per a l'any següent, avisos), usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
+| `src/pages/*.php` | Pantalles específiques: inici, horari, qualificacions, butlletins i logotip, documents (consentiments i certificats), llistats i informes, importació, passar de curs, economia (generació de rebuts, remeses, rebuts i mandats per a imprimir, configuració), loteria, caixa (llibre de caixa), societat (junta, actes, documents, full d'alta, comunicats), rgpd, uniformes, repertori, subvencions (fitxa amb el resum i els requisits, relació de despeses, còpia per a l'any següent, avisos), associacions (activitats i inscripcions, categories d'edat, llicències, entitats federades, càrrecs de festa i els seus informes), dades d'exemple de cada tipus (`exemple_associacions.php`), usuaris, configuració, auditoria, còpies, recuperació, ajuda. |
 | `src/fulls.php` | Lectura de CSV i Excel (.xlsx) per a la importació, sense l'extensió zip: llig el directori central del zip i descomprimeix amb `gzinflate`. |
 | `src/rotacio.php` | Quines còpies automàtiques es conserven: totes les dels últims 7 dies, una per setmana de les últimes 5 i una per mes fins al límit configurat (`copia_mesos`, 12 per defecte). |
 | `src/xifrat.php` | Xifrat de les còpies externes amb libsodium. |
@@ -64,12 +66,13 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 - Drets d'imatge: `persones.consentiment_imatge` (`pendent`, `autoritza`, `no_autoritza`) i `consentiment_data`.
 - Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`, que a la pantalla es diu «usuari/ària»), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
 - Economia: `tarifes`, `mandats`, `remeses`, `rebuts` → `rebut_linies`, `loteries` → `talonaris`, `moviments` (llibre de caixa: només els apunts manuals, amb el proveïdor i el NIF de les factures; rebuts, remeses, loteria i cobraments de subvencions s'hi sumen en llegir-lo).
-- Subvencions: `organismes` i `requisits_justificacio` (llistes que edita cada societat; `organisme_requisits`: què demana normalment cada organisme), `subvencions` → `subvencio_requisits` (com es justifica i si està fet), `subvencio_cobraments` (entren sols a la caixa) i `subvencio_despeses` (moviments de caixa imputats; una despesa no es pot imputar per més del que val). `documents.subvencio_id` lliga els documents a la subvenció.
+- Subvencions: `organismes` i `requisits_justificacio` (llistes que edita cada entitat; `organisme_requisits`: què demana normalment cada organisme), `subvencions` → `subvencio_requisits` (com es justifica i si està fet), `subvencio_cobraments` (entren sols a la caixa) i `subvencio_despeses` (moviments de caixa imputats; una despesa no es pot imputar per més del que val). `documents.subvencio_id` lliga els documents a la subvenció.
 - Societat: `carrecs` (persona + càrrec + dates; vigent si no té `data_fi`), `reunions` (convocatòria, acta i acords en text, un per línia), `comunicats`.
-- Repertori: `tipus_obres` (definits per cada societat; `sembra_tipus_obres()` en crea uns quants la primera vegada) → `obres` (número d'arxiu únic quan n'hi ha) ↔ `obra_agrupacions` (molts a molts amb `agrupacions`). Al formulari genèric, les agrupacions són un camp virtual de tipus `refs` (caselles). La pantalla `?r=repertori` (`src/pages/repertori.php`) fa la cerca, els filtres, l'ordre natural, la impressió i el CSV; la importació (`analitza_obres`, `executa_importacio_obres`) va pel mateix assistent que la de persones.
-- Tipus de soci: `tipus_socis`, definits per cada societat. `socis.tipus` i `tarifes.tipus_soci` guarden l'id (en text). Fins a la 1.10 eren quatre codis fixos (`ordinari`, `protector`, `juvenil`, `honorari`): `sembra_tipus_socis()` crea els quatre tipus la primera vegada (en la configuració inicial, o en obrir una base de dades antiga) i hi passa els codis; `tipus_socis.codi` en guarda l'origen.
+- Repertori: `tipus_obres` (definits per cada entitat; `sembra_tipus_obres()` en crea uns quants la primera vegada) → `obres` (número d'arxiu únic quan n'hi ha) ↔ `obra_agrupacions` (molts a molts amb `agrupacions`). Al formulari genèric, les agrupacions són un camp virtual de tipus `refs` (caselles). La pantalla `?r=repertori` (`src/pages/repertori.php`) fa la cerca, els filtres, l'ordre natural, la impressió i el CSV; la importació (`analitza_obres`, `executa_importacio_obres`) va pel mateix assistent que la de persones.
+- 2.0: `categories` (nom i edats; la categoria d'una persona es calcula amb l'edat que fa l'any en què comença l'exercici), `activitats` → `activitat_inscripcions` (places, import i `rebut_id`; els rebuts tenen la clau `activitat:{activitat}:{inscripció}`), `llicencies` (persona, equip, temporada, caducitat i revisió mèdica), `entitats_federades` (representant `persona_id` i quota; rebuts amb la clau `entitat:{id}:{any}`) i `carrecs_festa` (persona, càrrec i exercici en text). Les instal·lacions anteriors es queden com a societat musical, amb els mòduls nous que no li calen desactivats (`migra_esquema`).
+- Tipus de soci: `tipus_socis`, definits per cada entitat. `socis.tipus` i `tarifes.tipus_soci` guarden l'id (en text). Fins a la 1.10 eren quatre codis fixos (`ordinari`, `protector`, `juvenil`, `honorari`): `sembra_tipus_socis()` crea els quatre tipus la primera vegada (en la configuració inicial, o en obrir una base de dades antiga) i hi passa els codis; `tipus_socis.codi` en guarda l'origen.
 - Uniformes: `uniformes` (talles en text, separades per comes) → `uniforme_compres` i `uniforme_lliuraments` (venda, préstec o gratuït). Les existències es calculen: comprades − lliurades + préstecs tornats.
-- Mòduls: `MODULS` (a `entitats.php`) diu quines pantalles i entitats té cada mòdul; `config.moduls_desactivats` i `config.avisos_desactivats` guarden el que ha desactivat la societat. `disponible()` amaga el menú, les fitxes filles i els informes, i `app/index.php` no obri les pantalles d'un mòdul desactivat.
+- Mòduls: `MODULS` (a `entitats.php`) diu quines pantalles i entitats té cada mòdul; `config.moduls_desactivats` i `config.avisos_desactivats` guarden el que ha desactivat l'entitat; el tipus d'entitat en desactiva uns per a començar. `disponible()` amaga el menú, les fitxes filles i els informes, i `app/index.php` no obri les pantalles d'un mòdul desactivat.
 - Documents: `documents` (metadades i caducitat) i `document_fitxers` (contingut en BLOB, `ON DELETE CASCADE`). Guardar-los a la base de dades fa que `VACUUM INTO` els incloga en cada còpia, xifrada o no, sense una carpeta a banda. Es serveixen amb `?r=document_fitxer` (en línia per a PDF, imatges i text; descarregats la resta).
 - `auditoria` registra les operacions sensibles.
 - Les claus foranes no deixen esborrar res amb historial: les baixes es marquen amb estat o data de baixa.
@@ -89,8 +92,8 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 
 ## Pendent (pròximes versions)
 
-- Calendari d'assajos, concerts i activitats (amb els espais municipals); repertori de les agrupacions.
-- Repertori de cada concert (SGAE), subvencions.
+- Calendari d'assajos, entrenaments, partits i actes (amb els espais municipals); assistència.
+- Repertori de cada concert (SGAE).
 
 ## Notes
 

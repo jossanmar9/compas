@@ -1,4 +1,4 @@
-/* Compàs: Gestió lliure per a societats musicals — © 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Compàs: Gestió lliure per a associacions — © 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later */
 :root {
     --marina: #14284b;
     --blau: #1f5aa6;
@@ -393,3 +393,16 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .resum-subvencio .targetes { margin-bottom: 4px; }
 .opcions input[type="checkbox"], .opcions input[type="radio"] { flex: none; }
 .resum-subvencio .targeta { min-width: 230px; }
+
+/* 2.0: tipus d'entitat (configuració inicial) i resum d'una activitat */
+.tipus-entitat { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
+.tipus-entitat > small { display: block; margin: 2px 0 8px; }
+.opcions-tipus { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px; }
+.opcions-tipus label { display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--vora); border-radius: 10px;
+    background: var(--superficie); cursor: pointer; font-weight: 400; color: var(--text); }
+.opcions-tipus label:hover { border-color: var(--blau); }
+.opcions-tipus label:has(input:checked) { border-color: var(--blau); box-shadow: 0 0 0 2px color-mix(in srgb, var(--blau) 25%, transparent); }
+.opcions-tipus input { flex: none; margin-top: 3px; }
+.opcions-tipus b { display: block; font-size: .95rem; }
+.opcions-tipus small { display: block; color: var(--suau); font-size: .8rem; line-height: 1.35; margin-top: 2px; }
+.resum-activitat { margin: 12px 0 4px; }

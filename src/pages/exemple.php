@@ -5,6 +5,10 @@
 
 function carrega_dades_exemple(): void
 {
+    if (tipus_entitat() !== 'societat_musical') {
+        carrega_exemple_associacio(tipus_entitat());
+        return;
+    }
     $any = (int)date('n') >= 9 ? (int)date('Y') : (int)date('Y') - 1;
     // Dades inventades: els adults tenen DNI i telèfon d'exemple, excepte un (per a veure l'avís de dades que falten)
     $comptador = 0;
@@ -306,4 +310,7 @@ function carrega_dades_exemple(): void
     }
     q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, quantitat, data, tipus) VALUES(?, ?, '12', 1, ?, 'prestec')",
         [$unif[1], $alumnesPersona[0], date('Y-m-d', strtotime('-10 days'))]);
+
+    // Activitats: el viatge a un certamen, amb inscripcions i rebuts
+    exemple_activitats(array_merge($musics, $tutors));
 }

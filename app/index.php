@@ -1,5 +1,5 @@
 <?php
-// Compàs: Gestió lliure per a societats musicals
+// Compàs: Gestió lliure per a associacions
 // Punt d'entrada únic. També fa de "router" per al servidor integrat de PHP.
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
@@ -226,6 +226,9 @@ try {
             break;
         case 'subvencio_relacio':
             pagina_subvencio_relacio();
+            break;
+        case 'activitat_llista':
+            pagina_activitat_llista();
             break;
         case 'usuaris':
             pagina_usuaris();

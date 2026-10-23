@@ -2,7 +2,7 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la sociedad musical: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas. Esta tabla resume qué puede hacer cada una:
+Compàs es el programa de gestión de la entidad: personas, socios, cuotas y recibos, actividades, lotería, libro de caja, subvenciones, junta directiva y actas, documentos, comunicados y copias de seguridad y, según el tipo de entidad, la escuela, las agrupaciones o los equipos, el repertorio, los instrumentos y uniformes, las licencias, los cargos de fiesta o las entidades federadas. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas. Esta tabla resume qué puede hacer cada una:
 
 | Qué se puede hacer | Administrador/a | Usuario/a |
 |---|:---:|:---:|
@@ -15,14 +15,14 @@ Compàs es el programa de gestión de la sociedad musical: personas, socios, esc
 | Listados, certificados e importación desde Excel | ✔ | ✔ |
 | Hacer y descargar copias de seguridad | ✔ | ✔ |
 | Cambiar la propia contraseña | ✔ | ✔ |
-| Configuración de la sociedad, logotipo, módulos y avisos | ✔ | — |
+| Configuración de la entidad, logotipo, módulos y avisos | ✔ | — |
 | Datos bancarios y descuentos de la escuela | ✔ | — |
 | Crear y gestionar las cuentas | ✔ | — |
 | Registro de actividad | ✔ | — |
 | Restaurar y eliminar copias, carpeta externa y cifrado | ✔ | — |
 | Recuperar el acceso con el código de recuperación | ✔ | — |
 
-Este manual es para las personas que llevan la gestión diaria. La configuración inicial, los datos de la sociedad, las cuentas, la restauración de copias y las actualizaciones las hace el administrador/a: están en el **Manual de administración**.
+Este manual es para las personas que llevan la gestión diaria. La configuración inicial, los datos de la entidad, las cuentas, la restauración de copias y las actualizaciones las hace el administrador/a: están en el **Manual de administración**.
 
 > En este manual, el botón o el campo que hay que usar en cada paso aparece **marcado en naranja** en las capturas.
 
@@ -97,14 +97,35 @@ La ficha muestra todos los datos de un elemento y todo lo que está relacionado 
 
 Compàs no deja eliminar nada que tenga historial (matrículas, notas, cesiones…), para que no se pierda información. En lugar de eliminar:
 
-- una **persona** que ya no tiene relación con la sociedad: edítala y desmarca **Activo**;
+- una **persona** que ya no tiene relación con la entidad: edítala y desmarca **Activo**;
 - un **socio, alumno, profesor o músico**: edítalo, pon el **estado «Baja»** y la **fecha de baja**.
 
 Las bajas desaparecen de los listados, pero se pueden volver a ver marcando **Mostrar también las bajas**.
 
-## 4. Configuración de la sociedad
+## 4. Configuración y tipo de entidad
 
-Los datos de la sociedad, el logotipo, los módulos que se usan y los avisos del inicio los configura el administrador/a (**Manual de administración**). Si en tu sociedad no ves algún apartado de este manual (la escuela, la lotería…), seguramente está desactivado.
+### Los nombres cambian según el tipo de entidad
+
+Al instalar Compàs se elige el **tipo de entidad** (sociedad musical, club deportivo, colla, asociación cultural, AMPA, falla, gaiata, foguera, comparsa, peña o federación). Compàs adapta los nombres de las pantallas, los apartados que se ven y el mes en que empieza el ejercicio. Este manual usa los nombres de una sociedad musical; en tu entidad pueden ser otros:
+
+| En este manual | Club deportivo | AMPA | Falla | Comparsa | Colla |
+|---|---|---|---|---|---|
+| Socios | Socios | Familias asociadas | Falleros y falleras | Comparsistas | Miembros de la colla |
+| Escuela de música | Escuela deportiva | Actividades extraescolares | — | — | Escuela de la colla |
+| Alumnado / Profesorado | Deportistas / Entrenadores | Alumnado / Monitores | — | — | Alumnado / Profesorado |
+| Asignaturas / Aulas | Deportes / Instalaciones | Actividades / Espacios | — | — | Asignaturas / Aulas |
+| Curso académico | Temporada | Curso escolar | — | — | Curso |
+| Agrupaciones / Músicos | Equipos / Jugadores | Comisiones / Miembros | — | Escuadras / Miembros | Secciones / Miembros |
+| Instrumentos | Material deportivo | — | — | — | Material |
+| Uniformes | Equipaciones | Ropa y merchandising | Ropa y merchandising | Trajes y ropa | Ropa y merchandising |
+| Ejercicio | Septiembre-agosto | Septiembre-agosto | Abril-marzo | Enero-diciembre | Enero-diciembre |
+
+Las asociaciones culturales tienen talleres, participantes y grupos; las gaiatas, miembros de la comisión; las fogueres, foguerers y foguereras; las peñas y las federaciones, socios (y, las federaciones, entidades federadas). Las notas y los boletines solo están en las entidades y las collas.
+
+### Configuración
+
+
+Los datos de la entidad, el logotipo, los módulos que se usan y los avisos del inicio los configura el administrador/a (**Manual de administración**). Si en tu entidad no ves algún apartado de este manual (la escuela, la lotería…), seguramente está desactivado.
 
 ## 5. Preparar el curso académico
 
@@ -216,7 +237,7 @@ Pulsa **Mostrarlas** (o elige el filtro **Faltan datos obligatorios**) para ver 
 
 ### Derechos de imagen (fotos y vídeos)
 
-Antes de publicar fotos o vídeos en la web o las redes, la sociedad tiene que tener la autorización de cada persona; para los menores, la del padre, la madre o el tutor/a.
+Antes de publicar fotos o vídeos en la web o las redes, la entidad tiene que tener la autorización de cada persona; para los menores, la del padre, la madre o el tutor/a.
 
 1. Abre la ficha de la persona (o del alumno) y pulsa **🖨 Hoja de consentimiento**. Sale una hoja A4 con los datos del alumno y del tutor/a, el texto de la autorización y el espacio para firmar.
 2. Cuando la devuelvan firmada, edita la persona y, en **Derechos de imagen**, elige **Autoriza fotos y vídeos** o **No autoriza**. Si no pones la **fecha de la firma**, se pone la de hoy.
@@ -225,7 +246,7 @@ Antes de publicar fotos o vídeos en la web o las redes, la sociedad tiene que t
 
 ![Hoja de consentimiento para firmar](imatges/es/42-consentiment-full.webp)
 
-Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 18). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
+Para repartirlas a principio de curso, en **Listados e informes → Derechos de imagen** puedes imprimir de golpe las hojas de todos los pendientes o las de un grupo (apartado 23). En el listado de **Personas**, el filtro **Alumnos sin consentimiento de imagen firmado** muestra quién falta.
 
 > El texto de la hoja es un modelo. Revísalo con la junta y, si hace falta, añade lo que quieras en **Configuración → Texto adicional de la hoja de consentimiento**.
 
@@ -300,17 +321,17 @@ Las matrículas y las notas de los cursos anteriores se conservan en la ficha de
 
 ### Cuando un alumno deja la escuela
 
-Edita su ficha de alumno y pon el estado **Baja** y la **fecha de baja**. Si además ya no es nada de la sociedad, desmarca **Activo** en su ficha de persona.
+Edita su ficha de alumno y pon el estado **Baja** y la **fecha de baja**. Si además ya no es nada de la entidad, desmarca **Activo** en su ficha de persona.
 
 ## 8. Socios
 
 ### Tipos de socio
 
-Cada sociedad tiene los tipos de socio que dicen sus estatutos. Compàs trae cuatro para empezar (ordinario, protector, juvenil y de honor), pero se pueden cambiar, añadir y dar de baja: en el listado de socios, pulsa **Tipos de socio**.
+Cada entidad tiene los tipos de socio que dicen sus estatutos. Compàs trae cuatro para empezar (ordinario, protector, juvenil y de honor), pero se pueden cambiar, añadir y dar de baja: en el listado de socios, pulsa **Tipos de socio**.
 
 - **Nombre** y, si se quiere, una **descripción** (por ejemplo, «Mayores de 65 años»).
 - **Orden**: en qué lugar sale en los listados y en la hoja de alta.
-- **En la hoja de alta**: si quien se hace socio lo puede elegir. Los que nombra la sociedad (de honor…) normalmente no van.
+- **En la hoja de alta**: si quien se hace socio lo puede elegir. Los que nombra la entidad (de honor…) normalmente no van.
 
 Un tipo que ya tienen algunos socios o que tiene tarifa no se puede eliminar: se pone de **baja** y deja de aparecer en los socios nuevos.
 
@@ -320,7 +341,7 @@ Un tipo que ya tienen algunos socios o que tiene tarifa no se puede eliminar: se
 
 1. Busca o da de alta a la **persona** (apartado 6).
 2. En su ficha, en el apartado **Socios**, pulsa **+ Añadir**.
-3. Escribe el **número de socio**, elige el **tipo** (los que tenga la sociedad) y comprueba la **fecha de alta**.
+3. Escribe el **número de socio**, elige el **tipo** (los que tenga la entidad) y comprueba la **fecha de alta**.
 4. Si las cuotas se cobrarán por el banco, escribe el **IBAN** (si todavía no lo tiene en su ficha de persona).
 5. Pulsa **Guardar**.
 
@@ -369,7 +390,7 @@ Para crear una agrupación nueva: menú **Agrupaciones → + Nuevo**.
 
 ### Repertorio: el catálogo del archivo musical
 
-Menú **Repertorio**. Es el catálogo de las obras que tiene la sociedad: de qué tipo son, para qué agrupaciones sirven, en qué estado están y dónde está el material. Compàs no guarda partituras ni archivos, solo el catálogo.
+Menú **Repertorio**. Es el catálogo de las obras que tiene la entidad: de qué tipo son, para qué agrupaciones sirven, en qué estado están y dónde está el material. Compàs no guarda partituras ni archivos, solo el catálogo.
 
 Para añadir una obra, pulsa **+ Obra**:
 
@@ -385,9 +406,9 @@ La pantalla del repertorio tiene un **buscador** (título, compositor, número d
 
 ![Repertorio](imatges/es/81-repertori.webp)
 
-Los **tipos de obra** los elige cada sociedad: en el repertorio, pulsa **Tipos de obra** para cambiarlos, añadir o ordenarlos. Un tipo que ya tienen algunas obras no se puede eliminar, pero se puede dar de baja.
+Los **tipos de obra** los elige cada entidad: en el repertorio, pulsa **Tipos de obra** para cambiarlos, añadir o ordenarlos. Un tipo que ya tienen algunas obras no se puede eliminar, pero se puede dar de baja.
 
-Si la sociedad ya tiene el catálogo en una hoja de cálculo, no hace falta volver a escribirlo: se puede importar (apartado 19).
+Si la entidad ya tiene el catálogo en una hoja de cálculo, no hace falta volver a escribirlo: se puede importar (apartado 24).
 
 ## 10. Calificaciones
 
@@ -465,7 +486,7 @@ Menú **Uniformes**: polos, camisetas, sudaderas, chaquetas, mochilas, gorras…
 
 Cuando se devuelve un préstamo, se edita la entrega y se pone la **fecha de devolución**: la prenda vuelve a estar disponible.
 
-La pantalla muestra, para cada artículo y talla, el **total** de prendas que tiene la sociedad (las compradas, menos las vendidas y las gratuitas), las que están **en préstamo** y las **disponibles**. Si de una talla se han entregado más de las que constan como compradas, el número sale en rojo: falta apuntar alguna compra. Las entregas de cada persona aparecen también en su ficha.
+La pantalla muestra, para cada artículo y talla, el **total** de prendas que tiene la entidad (las compradas, menos las vendidas y las gratuitas), las que están **en préstamo** y las **disponibles**. Si de una talla se han entregado más de las que constan como compradas, el número sale en rojo: falta apuntar alguna compra. Las entregas de cada persona aparecen también en su ficha.
 
 ![Uniformes por talla](imatges/es/78-uniformes.webp)
 
@@ -475,11 +496,11 @@ La pantalla muestra, para cada artículo y talla, el **total** de prendas que ti
 
 ## 13. Economía: cuotas, escuela y recibos
 
-El apartado **Economía** del menú lleva el dinero de la sociedad: las cuotas de los socios, la matrícula y las clases de la escuela, los recibos, las remesas al banco y la lotería. **Resumen económico** muestra lo que hay por cobrar, lo cobrado este año, los recibos devueltos por el banco y quién debe dinero.
+El apartado **Economía** del menú lleva el dinero de la entidad: las cuotas de los socios, la matrícula y las clases de la escuela, los recibos, las remesas al banco y la lotería. **Resumen económico** muestra lo que hay por cobrar, lo cobrado este año, los recibos devueltos por el banco y quién debe dinero.
 
 ![Resumen económico](imatges/es/55-economia.webp)
 
-> Compàs hace **recibos**, no facturas. Si la sociedad tiene que hacer una factura (por ejemplo, de un concierto para el ayuntamiento), debe hacerla con un programa de facturación que cumpla la normativa, o la gestoría.
+> Compàs hace **recibos**, no facturas. Si la entidad tiene que hacer una factura (por ejemplo, de un concierto para el ayuntamiento), debe hacerla con un programa de facturación que cumpla la normativa, o la gestoría.
 
 ### 13.1 Tarifas: el precio de cada cosa
 
@@ -493,7 +514,7 @@ Menú **Economía → Tarifas**. Cada tarifa tiene un nombre (el que aparecerá 
 
 ### 13.2 Datos del banco y descuentos
 
-Los datos bancarios de la sociedad y los descuentos de la escuela los configura el administrador/a (**Manual de administración**). En la ficha de cada alumno sí que puedes poner un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
+Los datos bancarios de la entidad y los descuentos de la escuela los configura el administrador/a (**Manual de administración**). En la ficha de cada alumno sí que puedes poner un **descuento propio** (familia numerosa, beca…) y **quién paga** las clases, si no es el tutor principal.
 
 ### 13.3 Generar los recibos
 
@@ -514,7 +535,7 @@ Para cobrar un recibo por el banco, quien paga debe haber firmado la **orden de 
 
 ![Domiciliaciones](imatges/es/59-domiciliacions.webp)
 
-En la ficha de la domiciliación, **Imprime la orden de domiciliación** hace la hoja para firmar. La sociedad debe guardarla firmada mientras se cobre y 14 meses más.
+En la ficha de la domiciliación, **Imprime la orden de domiciliación** hace la hoja para firmar. La entidad debe guardarla firmada mientras se cobre y 14 meses más.
 
 ![Orden de domiciliación](imatges/es/60-ordre-domiciliacio.webp)
 
@@ -527,7 +548,7 @@ Menú **Economía → Remesas bancarias**. Aparecen los recibos domiciliados pen
 Después:
 
 1. Pulsa **Descarga el archivo para el banco (XML)**.
-2. Entra en la banca electrónica de la sociedad y súbelo al apartado de adeudos directos SEPA (esquema CORE). Si el banco rechaza el archivo, cambia el **formato** en la configuración de Economía y vuelve a descargarlo.
+2. Entra en la banca electrónica de la entidad y súbelo al apartado de adeudos directos SEPA (esquema CORE). Si el banco rechaza el archivo, cambia el **formato** en la configuración de Economía y vuelve a descargarlo.
 3. Cuando el banco la haya cobrado, pulsa **Márcala como cobrada**: todos los recibos quedan pagados.
 
 ![Una remesa](imatges/es/62-remesa.webp)
@@ -565,7 +586,7 @@ Menú **Economía → Subvenciones**. Cada subvención tiene una ficha con todo 
 
 ![Subvención nueva: al elegir el organismo se marcan los requisitos](imatges/es/84-subvencio-nova.webp)
 
-**Organismos y requisitos, a la medida de la sociedad.** En el listado de subvenciones, los botones **Organismos** y **Cómo se justifica** llevan a las dos listas, que se pueden cambiar siempre que haga falta: añadir un organismo o un requisito, cambiarles el nombre o indicar qué pide normalmente cada organismo. Si un requisito ya no se pide, ponlo **de baja**: no sale en las subvenciones nuevas, pero se conserva en las antiguas.
+**Organismos y requisitos, a la medida de la entidad.** En el listado de subvenciones, los botones **Organismos** y **Cómo se justifica** llevan a las dos listas, que se pueden cambiar siempre que haga falta: añadir un organismo o un requisito, cambiarles el nombre o indicar qué pide normalmente cada organismo. Si un requisito ya no se pide, ponlo **de baja**: no sale en las subvenciones nuevas, pero se conserva en las antiguas.
 
 **Cobros.** En la ficha, **Cobros → + Añadir** para cada pago (el anticipo, el pago final…). Entran solos en el libro de caja: no hace falta apuntarlos como movimiento.
 
@@ -579,7 +600,7 @@ Menú **Economía → Subvenciones**. Cada subvención tiene una ficha con todo 
 
 ## 14. Lotería
 
-Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por ejemplo, «Lotería de Navidad 2026»), la fecha, los **números**, el **precio** de cada participación, el importe que **juega** (el resto es el donativo para la sociedad) y cuántas participaciones lleva cada talonario. En la ficha, **Talonarios y liquidación** abre el resumen.
+Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por ejemplo, «Lotería de Navidad 2026»), la fecha, los **números**, el **precio** de cada participación, el importe que **juega** (el resto es el donativo para la entidad) y cuántas participaciones lleva cada talonario. En la ficha, **Talonarios y liquidación** abre el resumen.
 
 ### Repartir los talonarios
 
@@ -595,7 +616,7 @@ En la ficha de cada talonario, **Imprime las participaciones** hace sus 50 parti
 
 ### Liquidar
 
-Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones ha **vendido**, cuántas **devuelve** sin vender y cuánto **dinero entrega**. El resumen muestra lo que falta por entregar (en rojo), cuánto hay que comprar en la administración de lotería y lo que queda para la sociedad.
+Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones ha **vendido**, cuántas **devuelve** sin vender y cuánto **dinero entrega**. El resumen muestra lo que falta por entregar (en rojo), cuánto hay que comprar en la administración de lotería y lo que queda para la entidad.
 
 ![Liquidar un talonario](imatges/es/66-talonari.webp)
 
@@ -627,7 +648,7 @@ En la ficha de la reunión hay tres documentos para imprimir:
 
 ![Acta de una asamblea](imatges/es/70-acta.webp)
 
-## 16. Documentos de la sociedad
+## 16. Documentos de la entidad
 
 Menú **Sociedad → Documentos**. Aquí se guardan los estatutos, el reglamento de régimen interno, las actas firmadas, la inscripción en el registro, el CIF, las pólizas de seguro, los contratos del profesorado y de la dirección, los convenios…
 
@@ -641,13 +662,13 @@ El archivo se guarda **dentro de Compàs**, no en una carpeta aparte. Así entra
 
 ### Registro de actividades de tratamiento (RGPD)
 
-Desde el listado de documentos, **Registro de actividades de tratamiento (RGPD)** hace el documento que el Reglamento de protección de datos pide a las entidades. Compàs lo prepara con los datos que trata la sociedad y las medidas de seguridad que tiene configuradas. Es un modelo orientativo: revisadlo, adaptadlo y guardadlo firmado con la documentación de la sociedad.
+Desde el listado de documentos, **Registro de actividades de tratamiento (RGPD)** hace el documento que el Reglamento de protección de datos pide a las entidades. Compàs lo prepara con los datos que trata la entidad y las medidas de seguridad que tiene configuradas. Es un modelo orientativo: revisadlo, adaptadlo y guardadlo firmado con la documentación de la entidad.
 
 ![Registro de actividades de tratamiento](imatges/es/75-rgpd.webp)
 
 ## 17. Comunicados
 
-Menú **Sociedad → Comunicados**. Compàs no envía correos ni se conecta a Internet: prepara las direcciones para que enviéis el comunicado desde el correo de la sociedad.
+Menú **Sociedad → Comunicados**. Compàs no envía correos ni se conecta a Internet: prepara las direcciones para que enviéis el comunicado desde el correo de la entidad.
 
 1. Elige **a quién**: los socios, la junta, el profesorado, las familias de la escuela o de un grupo, los miembros de una agrupación o todo el mundo.
 2. Pulsa **Copia las direcciones** y pégalas en el campo **CCO** (copia oculta) del correo, para que nadie vea las direcciones de los demás. Si son pocas, **Abre el correo con las direcciones en CCO** lo hace directamente.
@@ -658,7 +679,75 @@ Las personas del grupo que no tienen correo aparecen en una lista aparte, para a
 
 ![Comunicados](imatges/es/74-comunicats.webp)
 
-## 18. Listados, certificados y memoria
+## 18. Actividades e inscripciones
+
+Menú **Entidad → Actividades**. Una actividad es cualquier cosa a la que se apunta la gente: una cena, una salida, un viaje, un acto, una competición, un taller…
+
+1. Pulsa **+ Nuevo** y rellena el nombre, el tipo, la fecha (y la fecha de fin, si dura más de un día), la hora y el lugar. Si es de un grupo o equipo concreto, elígelo.
+2. Si se paga, pon el **precio por plaza**. Si hay un máximo de plazas, ponlo: cuando se llenen, Compàs no dejará inscribir a nadie más. La **fecha límite de inscripción** es opcional; cuando pasa, la actividad se marca en amarillo.
+3. En la ficha de la actividad, en **Inscripciones**, pulsa **+ Añadir** para cada persona. Indica cuántas **plazas** ocupa (una familia de cuatro, por ejemplo): el importe se calcula solo (plazas × precio). Si alguien no paga, pon 0 en el importe.
+
+La ficha muestra las inscripciones, las plazas ocupadas y las libres, el importe total y cuántas inscripciones tienen ya el recibo. Una persona no se puede inscribir dos veces: se cambian las plazas de su inscripción.
+
+- **Lista de inscritos**: para imprimir (para pasar lista, para el autobús, para el restaurante), con una casilla para marcar.
+- **Crea los recibos**: hace un recibo para cada inscripción que todavía no lo tiene (si la persona es menor y es alumna de la escuela, a nombre de quien paga sus clases). Después, en cada inscripción aparece su recibo y se cobra como cualquier otro (en mano o por remesa).
+
+El inicio muestra las actividades de los próximos 15 días con las plazas ocupadas. Cuando una actividad ya se ha hecho, ponle el estado **Realizada**; si se suspende, **Anulada**.
+
+![Una actividad con las inscripciones](imatges/es/98-activitat.webp)
+
+## 19. Categorías de edad
+
+En los clubes deportivos, fallas, gaiatas, fogueres y comparsas, las personas se clasifican por categorías de edad: prebenjamín, benjamín, alevín, infantil, cadete, juvenil, sénior y veterano, o infantil y mayor. Compàs pone unas para empezar según el tipo de entidad, y cada entidad las cambia a su gusto: listado de **Socios → Categorías**.
+
+Cada categoría tiene un nombre y las edades (desde y hasta). La edad que cuenta es la que la persona **cumple durante el año en que empieza el ejercicio**: en una temporada 2026-2027, quien nace en 2014 tiene 12 años, aunque todavía no los haya cumplido. Así se hace en las federaciones deportivas y en las comisiones falleras.
+
+- La **ficha de cada persona** dice su categoría.
+- **Listados → Personas por categoría** hace la lista de cada categoría, de los socios, de los alumnos, de los miembros de los grupos o de todas las personas, para imprimir o en CSV.
+- La **memoria anual** cuenta los socios de cada categoría.
+
+![Las categorías de edad de un club](imatges/es/97-categories.webp)
+
+## 20. Licencias y revisiones médicas
+
+Menú **Licencias** (clubes deportivos; en otras entidades se activa en **Módulos y avisos**). Cada licencia es de una persona y de una temporada:
+
+1. Desde la ficha de la persona (o desde el listado), pulsa **+ Añadir** en **Licencias**.
+2. Elige el **equipo**, escribe la **federación** (Compàs sugiere las que ya se han escrito), el **número de licencia** y la **temporada** (ya pone la actual).
+3. Pon la **fecha de caducidad** de la licencia, si caduca antes del final de la temporada, y hasta cuándo es válida la **revisión médica**.
+4. El estado es **En trámite** mientras la federación no la da por buena, y **Activo** después.
+
+Las licencias que han caducado o que caducan en 30 días, y las revisiones médicas en la misma situación, se marcan en amarillo y salen en un aviso en el inicio. El filtro **Caducadas o que caducan en 30 días** del listado las muestra todas. **Listados → Licencias por equipo** las imprime agrupadas por equipo, con la categoría de cada jugador.
+
+Al empezar una temporada nueva, añade las licencias nuevas; las de la temporada anterior se quedan como historial (o ponlas de baja).
+
+![Las licencias de un club, con las que caducan en amarillo](imatges/es/96-llicencies.webp)
+
+## 21. Cargos de fiesta
+
+Menú **Entidad → Cargos de fiesta** (fallas, gaiatas, fogueres y comparsas). Aquí se apunta quién ha tenido cada cargo en cada ejercicio: Fallera Mayor y Fallera Mayor Infantil, Presidente/a, damas; Madrina; Belleza y damas de honor; capitán o capitana, alférez, abanderado/a…
+
+1. Pulsa **+ Nuevo**. El **ejercicio** ya viene puesto (por ejemplo, «2026-2027»).
+2. Escribe el **cargo** o elígelo de la lista: Compàs sugiere los del tipo de entidad y los que ya se han usado.
+3. Elige la persona y, si quieres, la fecha de la proclamación.
+
+Cada cargo tiene un **certificado** para imprimir («es Fallera Mayor del ejercicio…» o «fue…»), con las firmas, y **Listados → Cargos de fiesta por ejercicio** hace el historial de la entidad. Los cargos también salen en la ficha de cada persona.
+
+Los cargos de la junta directiva (presidencia, secretaría, tesorería…) no van aquí, sino en **Junta directiva**.
+
+![Los cargos de fiesta de una falla](imatges/es/99-carrecs-festa.webp)
+
+## 22. Entidades federadas
+
+Menú **Entidades federadas** (federaciones). Cada entidad asociada a la federación tiene el número, el tipo, el CIF, la dirección, el contacto, la fecha de alta y la **cuota anual**, y una **persona representante**: la de contacto, a nombre de quien se hacen los recibos.
+
+- **Economía → Generar recibos → Cuotas de las entidades federadas**: elige el ejercicio y Compàs hace un recibo para cada entidad de alta con cuota. Las que no tienen representante se indican aparte para que les pongas uno.
+- **Listados → Censo de entidades federadas**: las entidades de alta con el representante, el teléfono, el correo y la cuota, para imprimir o en CSV.
+- Cuando una entidad deja la federación, ponle la fecha de baja y el estado **Baja**.
+
+![Las entidades de una federación](imatges/es/100-entitats-federades.webp)
+
+## 23. Listados, certificados y memoria
 
 Menú **Documentos y datos → Listados e informes**. Cada listado se puede ver en pantalla, **imprimir** (o guardar en PDF) y **exportar a CSV** para abrirlo con Excel.
 
@@ -714,9 +803,9 @@ En la ficha de un **socio**, de una **matrícula** o de un **músico** (en **Mú
 
 Quién firma los certificados (normalmente el secretario/a) y el visto bueno del presidente/a se toman solos de la junta directiva (apartado 15). Si hace falta, el administrador/a lo puede cambiar en la configuración.
 
-## 19. Importar datos desde Excel
+## 24. Importar datos desde Excel
 
-Si la sociedad ya tiene los socios o el alumnado en un Excel, no hace falta volver a escribirlos. Menú **Documentos y datos → Importar datos**.
+Si la entidad ya tiene los socios o el alumnado en un Excel, no hace falta volver a escribirlos. Menú **Documentos y datos → Importar datos**.
 
 ### Paso 1. El archivo
 
@@ -764,7 +853,7 @@ Elige **Repertorio** en el primer paso. Compàs reconoce las columnas más habit
 
 El CSV que se descarga del repertorio se puede volver a importar: es una manera sencilla de corregir muchas obras a la vez con Excel.
 
-## 20. Copias de seguridad
+## 25. Copias de seguridad
 
 Todos los datos están en un solo archivo. Compàs hace copias automáticamente:
 
@@ -791,7 +880,7 @@ Elegir la carpeta externa (USB o nube), cifrar las copias, decidir cuánto tiemp
 
 > Las copias contienen datos personales, también de menores. Guárdalas en un lugar seguro.
 
-## 21. Usuarios y contraseñas
+## 26. Usuarios y contraseñas
 
 ### Cambiar tu contraseña
 
@@ -806,7 +895,7 @@ Si no recuerdas la actual, no la puedes cambiar aquí: pide al administrador/a q
 
 ![Mi cuenta](imatges/es/38-meu-compte.webp)
 
-## 22. Ayuda
+## 27. Ayuda
 
 El menú **Ayuda** muestra este manual dentro del programa. Los botones de arriba abren el manual y la guía de instalación en PDF, el registro de cambios, la privacidad y el resumen de la licencia.
 
@@ -814,7 +903,7 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 ![Ayuda](imatges/es/39-ajuda.webp)
 
-## 23. Preguntas frecuentes
+## 28. Preguntas frecuentes
 
 **He dado de alta a una persona dos veces. ¿Qué hago?** Si la segunda no tiene nada vinculado, ábrela y pulsa **Eliminar**. Si ya tiene cosas vinculadas, edítalas para que apunten a la persona buena y después elimina la repetida.
 
@@ -830,11 +919,11 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **El administrador/a ha olvidado la contraseña.** Pulsa **Recupera el acceso** en la pantalla de entrada y usa el código de recuperación. Si no lo encuentras, también hay una manera sin código (Manual de administración).
 
-**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 19): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
+**Tenemos que pasar a Compàs los socios que tenemos en Excel.** Usa **Importar datos** (apartado 24): no hace falta escribirlos a mano, y las personas que ya están no se duplican.
 
-**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 18).
+**¿Quién puede salir en las fotos del concierto?** **Listados e informes → Derechos de imagen** (apartado 23).
 
-**¿Cómo cobramos las cuotas por el banco?** Pon los datos bancarios de la sociedad, crea la domiciliación de cada pagador, genera los recibos y prepara una remesa: Compàs hace el archivo que se sube a la banca electrónica (apartado 13).
+**¿Cómo cobramos las cuotas por el banco?** Pon los datos bancarios de la entidad, crea la domiciliación de cada pagador, genera los recibos y prepara una remesa: Compàs hace el archivo que se sube a la banca electrónica (apartado 13).
 
 **¿Compàs hace facturas?** No, hace recibos. Las facturas se tienen que hacer con un programa de facturación que cumpla la normativa (Verifactu).
 

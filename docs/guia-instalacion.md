@@ -35,7 +35,7 @@ Compàs es software libre y todavía **no está firmado digitalmente** (un certi
 
 **«Una directiva de Control de aplicaciones bloqueó este archivo» (código 4551).** Es el **Control inteligente de aplicaciones** (Smart App Control), que llevan activado algunos ordenadores nuevos con Windows 11. Bloquea cualquier programa sin firmar, también la versión portable, y Windows no permite hacer una excepción para un solo programa. Las opciones son:
 
-- **Desactivarlo:** *Seguridad de Windows → Control de aplicaciones y navegador → Configuración del Control inteligente de aplicaciones → Desactivado*. Con Windows actualizado (desde abril de 2026) se puede volver a activar después desde el mismo sitio. Decídelo tú o la persona que lleva los ordenadores de la sociedad.
+- **Desactivarlo:** *Seguridad de Windows → Control de aplicaciones y navegador → Configuración del Control inteligente de aplicaciones → Desactivado*. Con Windows actualizado (desde abril de 2026) se puede volver a activar después desde el mismo sitio. Decídelo tú o la persona que lleva los ordenadores de la entidad.
 - **Usar otro ordenador** que no lo tenga activado, o la **versión para Linux**.
 
 > Comprueba que has descargado Compàs de la página oficial de descargas ([github.com/jossanmar9/compas/releases](https://github.com/jossanmar9/compas/releases)). No lo abras si te lo han enviado por correo o desde otra web.
@@ -98,7 +98,7 @@ Si no hay nada de esto (o si se pone `finestra = 0` en `compas.ini`), se abre el
 
 Compàs solo se puede usar desde este ordenador: no es accesible desde la red ni desde Internet, y no envía ningún dato fuera (véase la [declaración de privacidad](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md#privacidad-de-compàs)).
 
-La primera vez pide el nombre de la sociedad y crea la cuenta de administrador y, opcionalmente, la de usuario/a. Después muestra un **código de recuperación**: imprímelo o apúntalo, porque es lo que permite poner una contraseña nueva si el administrador/a la olvida.
+La primera vez pide el nombre de la entidad y crea la cuenta de administrador y, opcionalmente, la de usuario/a. Después muestra un **código de recuperación**: imprímelo o apúntalo, porque es lo que permite poner una contraseña nueva si el administrador/a la olvida.
 
 ## Carpeta del programa (Windows)
 

@@ -178,12 +178,23 @@ function pagina_certificat(): void
                 JOIN assignatures a ON a.id = g.assignatura_id WHERE mg.matricula_id = ? ORDER BY a.nom", [$id])->fetchAll(), 'e');
             $cos = t($m['estat'] === 'actiu' ? 'cert.matricula_actiu' : 'cert.matricula_baixa', $m['curs']) . ($llista ? ' ' . t('cert.assignatures') : '.');
             break;
+        case 'carrec_festa':
+            requereix('societat.view');
+            $c = fila('SELECT c.*, p.nom, p.cognoms, p.document, p.data_naixement FROM carrecs_festa c JOIN persones p ON p.id = c.persona_id WHERE c.id = ?', [$id]);
+            if (!$c) {
+                break;
+            }
+            $p = $c;
+            $actual = $c['exercici'] === nom_exercici(any_exercici());
+            $cos = t($actual ? 'cert.carrec_festa_actual' : 'cert.carrec_festa', $c['carrec'], $c['exercici'])
+                . ($c['data'] ? t('cert.proclamacio', data_llegible($c['data'])) : '') . '.';
+            break;
     }
     if ($cos === '') {
         avis(t('err.no_trobat'), 'error');
         redirigeix('inici');
     }
-    audita('certificat', $tipus === 'membre' ? 'membres' : ($tipus === 'soci' ? 'socis' : 'matricules'), $id);
+    audita('certificat', ['membre' => 'membres', 'soci' => 'socis', 'carrec_festa' => 'carrecs_festa'][$tipus] ?? 'matricules', $id);
 
     $societat = config('societat_nom') ?: 'Compàs';
     [$signant, $carrec, $president] = signants_certificat();

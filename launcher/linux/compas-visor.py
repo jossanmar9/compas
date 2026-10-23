@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Compàs: Gestió lliure per a societats musicals — visor propi per a Linux
+# Compàs: Gestió lliure per a associacions — visor propi per a Linux
 # Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #

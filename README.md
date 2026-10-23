@@ -1,4 +1,4 @@
-<p align="center"><img src="app/assets/logo.png" alt="Compàs: Gestió lliure per a societats musicals" width="260"></p>
+<p align="center"><img src="app/assets/logo.png" alt="Compàs: Gestió lliure per a associacions" width="260"></p>
 
 <p align="center">
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/jossanmar9/compas?label=versi%C3%B3&color=1f5aa6" alt="Última versió"></a>
@@ -9,17 +9,19 @@
 
 # Compàs
 
-**Gestió lliure per a societats musicals.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, l'escola de música, les notes, els butlletins, les agrupacions, els instruments, els uniformes, les quotes, els rebuts, la loteria, la caixa, les subvencions, la junta directiva i la documentació d'una societat musical.
+**Gestió lliure per a associacions.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, les quotes i els rebuts, les activitats, la loteria, la caixa, les subvencions, la junta directiva i la documentació d'una associació. I, segons el tipus d'entitat, també l'escola (de música, esportiva, de tallers o d'extraescolars), els equips o les seccions, les llicències federatives, els càrrecs de festa o les entitats federades.
 
-Està pensat per a qui porta la secretaria i l'escola de música d'una banda, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de la societat.
+Serveix per a **societats musicals, clubs esportius, colles, associacions culturals, AMPA, falles, gaiates, fogueres, comparses, penyes i federacions**. En instal·lar-lo es tria el tipus d'entitat i Compàs adapta els noms (socis, fallers i falleres, comparsistes, famílies associades…), els apartats i l'exercici (l'any natural, la temporada de setembre a agost, l'exercici faller…).
 
-> 🔒 **La privacitat és el centre del projecte.** A diferència de les plataformes en línia per a societats musicals, Compàs **no té servidor, no demana registrar-se ni pagar una subscripció i no recull cap dada**: ni de la societat, ni dels socis, ni de l'alumnat menor d'edat. Tot es queda en un fitxer de l'ordinador de la societat, que en controla les còpies. No hi ha telemetria, ni publicitat, ni comptes en el núvol de ningú.
+Està pensat per a qui porta la secretaria d'una entitat, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de l'entitat.
+
+> 🔒 **La privacitat és el centre del projecte.** A diferència de les plataformes en línia per a associacions, Compàs **no té servidor, no demana registrar-se ni pagar una subscripció i no recull cap dada**: ni de l'entitat, ni dels socis, ni dels menors. Tot es queda en un fitxer de l'ordinador de l'entitat, que en controla les còpies. No hi ha telemetria, ni publicitat, ni comptes en el núvol de ningú.
 
 > ⚠ **Avís de responsabilitat.** Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l'ús del programa, d'una errada, d'una actualització o d'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).
 >
 > *Aviso de responsabilidad: Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).*
 
-*Compàs es un programa libre para gestionar una sociedad musical desde un ordenador con Windows o Linux: personas, socios, escuela de música, notas, boletines, agrupaciones, instrumentos, cuotas, recibos, lotería, caja, junta directiva y documentación. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuario.pdf).*
+*Compàs es un programa libre para gestionar una asociación desde un ordenador con Windows o Linux: sociedades musicales, clubes deportivos, collas, asociaciones culturales, AMPA, fallas, gaiatas, fogueres, comparsas, peñas y federaciones. Personas, socios, cuotas, recibos, actividades, lotería, caja, subvenciones, junta directiva y documentación y, según el tipo de entidad, escuela, equipos, licencias federativas, cargos de fiesta o entidades federadas. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuario.pdf).*
 
 Un projecte de **José Vicente Sanjuan**.
 
@@ -29,6 +31,7 @@ Un projecte de **José Vicente Sanjuan**.
 
 ## Contingut
 
+- [Per a quines entitats](#per-a-quines-entitats)
 - [Què fa](#què-fa)
 - [Per què sense núvol](#per-què-sense-núvol)
 - [Captures](#captures)
@@ -45,34 +48,57 @@ Un projecte de **José Vicente Sanjuan**.
 - [Avís de responsabilitat](#avís-de-responsabilitat)
 - [Llicència](#llicència)
 
+## Per a quines entitats
+
+| Tipus | Com s'hi diu | Apartats que s'activen | Exercici |
+|---|---|---|---|
+| **Societat musical** | Socis, alumnat, agrupacions, músics | Escola de música amb notes i butlletins, agrupacions, repertori, instruments, uniformes, loteria | Gener |
+| **Club esportiu** | Socis, esportistes, entrenadors, equips, jugadors | Escola esportiva, equips, llicències i revisions mèdiques, categories (prebenjamí… veterà), material i equipacions | Setembre (temporada) |
+| **Colla** | Membres de la colla, seccions | Seccions (dolçaina i tabal, gegants…), escola de la colla, material, roba | Gener |
+| **Associació cultural** | Socis, participants, tallers, grups | Tallers i cursos, grups (teatre, dansa, cor…), material | Gener |
+| **AMPA / AFA** | Famílies associades, alumnat, monitors, comissions | Activitats extraescolars, comissions, roba | Setembre (curs) |
+| **Falla** | Fallers i falleres | Càrrecs de festa (Fallera Major…), categories infantil i major, loteria, roba | Abril |
+| **Gaiata** | Membres de la comissió | Càrrecs de festa (Madrina…), loteria, roba | Abril |
+| **Foguera** | Foguerers i foguereres | Càrrecs de festa (Bellesa…), loteria, roba | Juliol |
+| **Comparsa** | Comparsistes, esquadres | Esquadres, càrrecs de festa (capitania…), vestits | Gener |
+| **Penya** | Socis | Quotes, loteria, activitats i eixides | Gener |
+| **Federació** | Entitats federades | Cens d'entitats amb representant i quota anual | Gener |
+
+Tots els tipus tenen persones, socis, quotes i rebuts, remeses, activitats amb inscripcions, caixa, junta i actes, documents, comunicats i llistats. Cada entitat pot activar o desactivar qualsevol apartat, canviar el mes en què comença l'exercici i canviar de tipus quan vulga (Administració → Configuració): les dades no es toquen.
+
 ## Què fa
 
 | Mòdul | Què fa |
 |---|---|
-| **Persones** | Registre únic: cada persona s'introdueix una sola vegada i pot ser sòcia, música, alumna, professora i tutora alhora sense duplicar dades. Nom, cognoms i data de naixement són obligatoris; DNI i telèfon, només per als majors d'edat. Quan un menor fa 18 anys sense eixes dades, la seua fila es marca en groc. |
+| **Persones** | Registre únic: cada persona s'introdueix una sola vegada i pot ser sòcia, membre d'un grup, alumna, monitora i tutora alhora sense duplicar dades. Nom, cognoms i data de naixement són obligatoris; DNI i telèfon, només per als majors d'edat. Quan un menor fa 18 anys sense eixes dades, la seua fila es marca en groc. |
 | **Drets d'imatge** | Si cada persona autoritza fotos i vídeos, amb la data de la signatura. Fulls de consentiment per a imprimir amb les dades de l'alumne i del tutor/a, i llistat de qui pot eixir en les fotos. |
-| **Socis** | Número, tipus de soci (els defineix cada societat segons els seus estatuts), altes i baixes. Llistat per número, etiquetes per a les circulars i antiguitat per a les insígnies de 25 i 50 anys. |
-| **Escola de música** | Cursos acadèmics i avaluacions, assignatures, aules, professorat, grups amb horari, matrícules i tutors legals. Historial de cada alumne curs a curs. Assistent per a passar al curs següent sense començar de zero. |
+| **Socis** | Número, tipus de soci (els defineix cada entitat segons els seus estatuts), altes i baixes. Llistat per número, etiquetes per a les circulars i antiguitat per a les insígnies de 25 i 50 anys. |
+| **Categories d'edat** | Prebenjamí, aleví, cadet…, o infantil i major: cada entitat defineix les seues. La categoria de cada persona es calcula sola amb l'edat que fa en l'exercici, i hi ha un llistat per categories. |
+| **Activitats** | Sopars, eixides, viatges, actes, competicions o tallers amb data, lloc, preu i places. Inscripcions (amb les places de cada una), avís quan s'omplin, llista d'inscrits per a imprimir i un rebut per inscripció. |
+| **Llicències** | Llicències federatives de cada temporada per equip, amb el número, la caducitat i la revisió mèdica. Avís a l'inici un mes abans que caduquen. |
+| **Càrrecs de festa** | Fallera Major, Bellesa, Madrina, capitania… de cada exercici, amb l'historial i el certificat. |
+| **Entitats federades** | Per a federacions: cada entitat amb el CIF, el representant i la quota anual, que es cobra amb rebuts. |
+| **Escola** | De música, esportiva, de tallers o d'extraescolars: cursos o temporades i avaluacions, assignatures, aules, professorat, grups amb horari, matrícules i tutors legals. Historial de cada alumne curs a curs. Assistent per a passar al curs següent sense començar de zero. |
 | **Qualificacions** | Administració introdueix les notes que passa el professorat, per grup i avaluació, amb observacions acadèmiques. |
-| **Butlletins** | Butlletins de notes en A4 amb el logotip i les dades de la societat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
+| **Butlletins** | (Societats musicals i colles.) Butlletins de notes en A4 amb el logotip i les dades de l'entitat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
 | **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
-| **Agrupacions** | Banda, banda juvenil, coral, orquestra, cambra… amb els membres, l'instrument o veu i la funció (direcció titular, assistent…). |
-| **Repertori** | Catàleg de l'arxiu musical: títol, tipus d'obra (els de cada societat), compositor, arranjador, agrupacions que la poden interpretar, número d'arxiu, ubicació física, material, estat i si està digitalitzada. Cerca, filtres, ordenació, impressió, CSV i importació des d'Excel. No guarda partitures: només el catàleg. |
-| **Instruments** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
-| **Uniformes** | Polos, samarretes, dessuadores, motxilles… per talla: compres, vendes, préstecs i el que queda de cada talla. |
-| **Quotes i rebuts** | Tarifes de les quotes de soci (per tipus i periodicitat), de la matrícula i de les classes. Rebuts generats per període: un per soci i un per família a l'escola, amb descomptes de soci, de germans i propis. Cobrament en efectiu, transferència o domiciliació, rebuts retornats i qui deu diners. Rebuts amb el logotip per a imprimir. |
+| **Agrupacions, equips o seccions** | Banda i coral, equips, seccions de la colla, esquadres de la comparsa o comissions de l'AMPA, amb els membres, l'instrument, la posició o la tasca, i qui en té la direcció. |
+| **Repertori** | (Societats musicals.) Catàleg de l'arxiu musical: títol, tipus d'obra (els de cada societat), compositor, arranjador, agrupacions que la poden interpretar, número d'arxiu, ubicació física, material, estat i si està digitalitzada. Cerca, filtres, ordenació, impressió, CSV i importació des d'Excel. No guarda partitures: només el catàleg. |
+| **Instruments i material** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
+| **Uniformes, equipacions o vestits** | Polos, equipacions, vestits de l'esquadra, dessuadores, motxilles… per talla: compres, vendes, préstecs i el que queda de cada talla. |
+| **Quotes i rebuts** | Tarifes de les quotes de soci (per tipus i periodicitat), de la matrícula i de les classes. Rebuts generats per període (segons l'exercici de l'entitat): un per soci, un per família a l'escola, un per inscripció a una activitat i un per entitat federada, amb descomptes de soci, de germans i propis. Cobrament en efectiu, transferència o domiciliació, rebuts retornats i qui deu diners. Rebuts amb el logotip per a imprimir. |
 | **Remeses bancàries** | Domiciliacions (mandats SEPA) amb l'IBAN validat i l'ordre de domiciliació per a signar. Fitxer XML d'adeutaments directes SEPA (pain.008) per a pujar a la banca electrònica. |
-| **Loteria** | Sorteigs, talonaris repartits a cada persona, participacions per a imprimir i liquidació: venudes, tornades, diners lliurats i el que queda per a la societat. |
+| **Loteria** | Sorteigs, talonaris repartits a cada persona, participacions per a imprimir i liquidació: venudes, tornades, diners lliurats i el que queda per a l'entitat. |
 | **Llibre de caixa** | Ingressos i despeses amb saldo, separats per banc i caixa. Els rebuts cobrats, les remeses, la loteria i els cobraments de subvencions hi entren sols; la resta s'apunta a mà, amb el proveïdor, el NIF i la factura. Resum per categories per a l'assemblea i exportació a CSV. |
-| **Subvencions** | Cada subvenció amb l'organisme, l'estat, els terminis i els imports. Com es justifica cada una, amb caselles que es marquen a mesura que es fa: els organismes i els requisits els edita cada societat, i en triar l'organisme es marquen els que demana normalment. Cobraments, despeses del llibre de caixa imputades (sense passar-se de l'import de cada factura), relació de despeses per a la justificació en PDF o CSV, avisos de terminis i còpia per a l'any següent. |
+| **Subvencions** | Cada subvenció amb l'organisme, l'estat, els terminis i els imports. Com es justifica cada una, amb caselles que es marquen a mesura que es fa: els organismes i els requisits els edita cada entitat, i en triar l'organisme es marquen els que demana normalment. Cobraments, despeses del llibre de caixa imputades (sense passar-se de l'import de cada factura), relació de despeses per a la justificació en PDF o CSV, avisos de terminis i còpia per a l'any següent. |
 | **Junta directiva i actes** | Càrrecs amb data d'inici i de fi i l'historial de totes les juntes. Avís quan s'acosta la renovació segons els anys de mandat dels estatuts (i recordatori del Registre d'Associacions). Llibre d'actes de juntes i assemblees: convocatòria, acta i certificat d'un acord per a imprimir. Els certificats agafen sols qui signa i el vistiplau. |
-| **Documents de la societat** | Estatuts, reglament de règim intern, actes signades, inscripció al registre, CIF, pòlisses, contractes… guardats dins de Compàs i, per tant, en les còpies de seguretat. Data de caducitat amb avís abans que vencen. Model de registre d'activitats de tractament (RGPD) generat amb les dades reals. |
-| **Professorat** | Certificat de delictes de naturalesa sexual de cada professor/a, amb avís si en falta algun. |
-| **Comunicats** | Llistes de correu (socis, junta, professorat, famílies, un grup o una agrupació) per a copiar en CCO al correu de la societat, i registre de què s'ha enviat, quan i a qui. Compàs no envia res. |
+| **Documents de l'entitat** | Estatuts, reglament de règim intern, actes signades, inscripció al registre, CIF, pòlisses, contractes… guardats dins de Compàs i, per tant, en les còpies de seguretat. Data de caducitat amb avís abans que vencen. Model de registre d'activitats de tractament (RGPD) generat amb les dades reals. |
+| **Professorat i monitors** | Certificat de delictes de naturalesa sexual de cada professor/a o monitor/a, amb avís si en falta algun. |
+| **Comunicats** | Llistes de correu (socis, junta, professorat, famílies, un grup o una agrupació) per a copiar en CCO al correu de l'entitat, i registre de què s'ha enviat, quan i a qui. Compàs no envia res. |
 | **Full d'alta de soci** | Model estàndard per a imprimir, amb els tipus de soci, les quotes i l'ordre de domiciliació, i textos personalitzables. |
-| **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, músics per instrument, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula i d'agrupació amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
+| **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, membres per instrument o posició, persones per categoria, llicències per equip, càrrecs de festa, cens d'entitats federades, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula, d'agrupació i de càrrec de festa amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
-| **A la mida** | Cada societat desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol vore. Les dades no s'esborren. |
+| **A la mida** | El tipus d'entitat posa els noms i els apartats; després, cada entitat activa o desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol vore. Les dades no s'esborren. |
 | **Administració** | Dos comptes (administrador/a i usuari/ària), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
@@ -83,14 +109,14 @@ Compàs fa **rebuts**, no factures: les factures han de complir el reglament del
 
 | | Compàs | Plataformes en línia |
 |---|---|---|
-| On són les dades | A l'ordinador de la societat | Al servidor de l'empresa |
+| On són les dades | A l'ordinador de l'entitat | Al servidor de l'empresa |
 | Qui les pot vore | Només qui fa servir l'ordinador | L'empresa i els seus proveïdors |
 | Recollida de dades i analítica | Cap | Habitual (ús, dispositius, cookies) |
 | Funciona sense Internet | Sí | No |
 | Cost | Gratuït i lliure (AGPL) | Subscripció anual |
 | Si el projecte desapareix | El programa i les dades continuen | Depens que el servei continue |
 
-Les plataformes en línia tenen avantatges reals (una app per al mòbil dels músics, accés des de qualsevol lloc), però les dades de socis, famílies i menors passen a mans d'un tercer. Compàs tria l'altre camí: menys comoditat i cap dada fora.
+Les plataformes en línia tenen avantatges reals (una app per al mòbil dels socis, accés des de qualsevol lloc), però les dades de socis, famílies i menors passen a mans d'un tercer. Compàs tria l'altre camí: menys comoditat i cap dada fora.
 
 ## Captures
 
@@ -121,18 +147,18 @@ Més detalls i solució de problemes a la [guia d'instal·lació](docs/guia-inst
 
 ## Primers passos
 
-La primera vegada, Compàs demana el nom de la societat i crea el compte d'administrador (i, si vols, el d'usuari/ària). També pot carregar **dades d'exemple** per a provar-lo.
+La primera vegada, Compàs demana el nom i el **tipus d'entitat** i crea el compte d'administrador (i, si vols, el d'usuari/ària). També pot carregar **dades d'exemple** per a provar-lo.
 
 Ordre recomanat per a començar:
 
-1. **Configuració**: dades de la societat i logotip (ix als butlletins).
-2. **Còpies de seguretat**: tria una carpeta externa (USB o núvol).
-3. **Cursos acadèmics**: crea el curs, marca'l com a actual i afig-hi les avaluacions.
-4. **Assignatures**, **aules**, **professorat** i **grups** amb el seu horari.
-5. **Persones** i, des de la fitxa de cadascuna, les seues funcions: soci, alumne, músic…
-6. **Matrícules**: inscriu cada alumne en el curs i en els seus grups.
+1. **Configuració**: dades de l'entitat i logotip (ix als rebuts, certificats i butlletins); comprova el mes en què comença l'exercici.
+2. **Mòduls i avisos**: activa o desactiva els apartats que faràs servir.
+3. **Còpies de seguretat**: tria una carpeta externa (USB o núvol).
+4. **Tipus de soci**, **tarifes** i, si en feu servir, **categories** d'edat.
+5. **Persones** (o importa-les des d'Excel) i, des de la fitxa de cadascuna, les seues funcions: soci, membre d'un equip o secció, alumne…
+6. Si hi ha escola: el curs o la temporada, les assignatures o activitats, els grups amb l'horari i les matrícules o inscripcions.
 
-El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb captures: alta d'alumnes, socis, músics i professorat, matrícules, baixes, notes, butlletins, préstecs d'instruments i còpies.
+El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb captures: alta de socis, alumnes, membres i professorat, matrícules, activitats i inscripcions, llicències, càrrecs de festa, rebuts, baixes, notes, butlletins, préstecs i còpies.
 
 ## Usuaris i permisos
 
@@ -140,14 +166,15 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 |---|:---:|:---:|
 | Persones, socis i tipus de soci | ✔ | ✔ |
 | Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
-| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
+| Agrupacions o equips, repertori, instruments i uniformes | ✔ | ✔ |
+| Activitats, llicències, càrrecs de festa i entitats federades | ✔ | ✔ |
 | Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
 | Llibre de caixa | ✔ | ✔ |
 | Junta, actes, documents i comunicats | ✔ | ✔ |
 | Llistats, certificats i importació des d'Excel | ✔ | ✔ |
 | Fer i baixar còpies de seguretat | ✔ | ✔ |
 | Canviar la pròpia contrasenya | ✔ | ✔ |
-| Configuració de la societat, logotip, mòduls i avisos | ✔ | — |
+| Configuració de l'entitat, tipus, logotip, mòduls i avisos | ✔ | — |
 | Dades bancàries i descomptes de l'escola | ✔ | — |
 | Crear i gestionar els comptes | ✔ | — |
 | Registre d'activitat | ✔ | — |
@@ -166,10 +193,10 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
 - **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.
 - **Restaurar** una còpia es fa amb un clic. Abans, Compàs guarda una còpia de les dades actuals, de manera que sempre es pot tornar arrere.
-- Els **documents** de la societat (PDF, imatges, fulls de càlcul…) es guarden dins de `compas.db`, de manera que entren en totes les còpies (i, si es vol, xifrats). Les còpies creixen tant com els documents que s'hi posen.
+- Els **documents** de l'entitat (PDF, imatges, fulls de càlcul…) es guarden dins de `compas.db`, de manera que entren en totes les còpies (i, si es vol, xifrats). Les còpies creixen tant com els documents que s'hi posen.
 - Res no s'elimina si té historial: les baixes es marquen amb estat i data de baixa.
 
-> Les dades contenen informació personal, també de menors. La societat és la responsable de tractar-les d'acord amb la normativa de protecció de dades.
+> Les dades contenen informació personal, també de menors. L'entitat és la responsable de tractar-les d'acord amb la normativa de protecció de dades.
 
 ## Documentació
 
@@ -191,6 +218,7 @@ Els manuals també es poden consultar dins del programa, al menú **Ajuda** (el 
 - **PHP 8** sense dependències ni frameworks, servit pel servidor integrat de PHP.
 - **SQLite** a través de PDO, amb consultes preparades (preparat per a passar a MariaDB/MySQL si calguera).
 - **HTML, CSS i JavaScript** propis, sense biblioteques externes.
+- **Tipus d'entitat** a `src/tipus.php` (apartats, exercici, categories i càrrecs de cada tipus) i vocabulari de cada tipus a `src/lang/vocabulari.php`.
 - **Llançador per a Windows** en C# (.NET Framework 4, inclòs en Windows), amb la finestra de Compàs feta amb el component **WebView2** de Windows (`launcher/Visor.cs`).
 - **Llançador per a Linux** en Bash, amb la finestra de Compàs feta amb **WebKitGTK** (`launcher/linux/compas-visor.py`).
 - **Instal·lador** amb Inno Setup; **PHP portable** baixat de windows.php.net en cada construcció.
@@ -201,7 +229,7 @@ Els manuals també es poden consultar dins del programa, al menú **Ajuda** (el 
 app/          punt d'entrada (index.php) i recursos web (CSS, JS, icones)
 src/          lògica: base de dades, permisos, entitats, pantalles i traduccions
   lang/       textos en valencià (ca.php) i castellà (es.php)
-  pages/      pantalles específiques (inici, escola, butlletins, còpies…)
+  pages/      pantalles específiques (inici, escola, butlletins, activitats, còpies…)
 launcher/     llançador de Windows (Compas.cs), php.ini, script de l'instal·lador i, a linux/, el llançador i l'instal·lador per a Linux
 docs/         manuals, guies, captures (imatges/) i PDF (pdf/)
 eines/        generació de captures, PDF i web
@@ -229,7 +257,7 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 | `COMPAS_DADES=carpeta php eines/societat-gran.php` | Omple una instal·lació nova (configurada sense dades d'exemple) amb una societat gran inventada: 341 socis, 278 alumnes, 5 agrupacions, 653 obres i uns 5.000 rebuts. Per a provar el programa amb moltes dades; també la fan servir les captures de la web. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
 | `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies). Vegeu [tests/README.md](tests/README.md). |
-| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà. |
+| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà; la bateria `tipus` instal·la cada tipus d'entitat i en recorre totes les pantalles. |
 | `php tests/performance.php` | Prova de rendiment de SQLite amb 100.000 rebuts. |
 
 ## Publicar una versió
@@ -249,14 +277,14 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 ## Pròximes versions
 
-- Calendari d'assajos, concerts i activitats, amb els espais que cal demanar a l'ajuntament; convocatòries i repertori de les agrupacions.
+- Calendari d'assajos, entrenaments, partits i actes, amb els espais que cal demanar a l'ajuntament.
+- Assistència als assajos, entrenaments i activitats.
 - Repertori interpretat en cada concert, per a la declaració a la SGAE.
-- Subvencions: sol·licituds, terminis i justificacions.
 - Cobrament per Bizum o TPV en el registre dels rebuts.
 
 ## Col·laborar
 
-Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada** o **Tinc una proposta**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de les societats musicals són especialment benvingudes.
+Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada** o **Tinc una proposta**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de cada tipus d'entitat són especialment benvingudes.
 
 ## Autoria i ús d'intel·ligència artificial
 

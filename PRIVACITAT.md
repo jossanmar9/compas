@@ -1,6 +1,6 @@
 # Privacitat de Compàs
 
-**En resum: Compàs no recull, no envia i no comparteix cap dada. Tot es queda a l'ordinador de la societat musical.**
+**En resum: Compàs no recull, no envia i no comparteix cap dada. Tot es queda a l'ordinador de l'entitat.**
 
 ## El programa
 
@@ -8,17 +8,17 @@
 - No es connecta a Internet per a res: no envia estadístiques d'ús ni informes d'errors, no comprova actualitzacions, no mostra publicitat i no carrega tipografies, imatges ni programes de fora.
 - La finestra de Compàs mostra només les pàgines del mateix ordinador amb el component **WebView2** de Windows (a Linux, WebKitGTK); els enllaços de fora s'obrin al navegador habitual. Compàs hi desactiva SmartScreen i l'emplenament automàtic, i no hi envia res. WebView2 forma part de Windows: Microsoft l'actualitza i en pot rebre dades de diagnòstic segons la configuració de privacitat de Windows, igual que amb la resta del sistema.
 - Les dades (persones, socis, alumnat, notes, agrupacions, instruments, rebuts i comptes bancaris de les domiciliacions…) es guarden en un fitxer de l'ordinador: `data\compas.db`, dins de la carpeta del programa (a Linux, `~/.local/share/compas/dades`).
-- Les còpies de seguretat es guarden a l'ordinador i, si la societat ho configura, en la carpeta externa que trie: un llapis USB, un disc extern, una unitat de xarxa o una carpeta sincronitzada amb el núvol. En este últim cas, les còpies passen pel servei que la societat haja triat (OneDrive, Google Drive…), amb les seues condicions. Per això Compàs permet xifrar-les amb contrasenya.
-- Les remeses bancàries són un fitxer que Compàs prepara i que la persona responsable puja a la banca electrònica de la societat. Compàs no es connecta al banc.
-- Els documents de la societat que s'hi arxiven (estatuts, actes, contractes, pòlisses…) es guarden dins del mateix fitxer de dades i, per tant, també en les còpies de seguretat.
-- Compàs no envia correus: els comunicats només preparen la llista d'adreces perquè la persona responsable les copie al correu de la societat.
+- Les còpies de seguretat es guarden a l'ordinador i, si l'entitat ho configura, en la carpeta externa que trie: un llapis USB, un disc extern, una unitat de xarxa o una carpeta sincronitzada amb el núvol. En este últim cas, les còpies passen pel servei que l'entitat haja triat (OneDrive, Google Drive…), amb les seues condicions. Per això Compàs permet xifrar-les amb contrasenya.
+- Les remeses bancàries són un fitxer que Compàs prepara i que la persona responsable puja a la banca electrònica de l'entitat. Compàs no es connecta al banc.
+- Els documents de l'entitat que s'hi arxiven (estatuts, actes, contractes, pòlisses…) es guarden dins del mateix fitxer de dades i, per tant, també en les còpies de seguretat.
+- Compàs no envia correus: els comunicats només preparen la llista d'adreces perquè la persona responsable les copie al correu de l'entitat.
 - Els documents que s'imprimeixen o es guarden en PDF o CSV (butlletins, llistats, certificats…) queden on els guarde la persona que els fa.
 
 ## Qui és responsable de les dades
 
-- La **societat musical** que utilitza Compàs és la **responsable del tractament** de les dades personals que hi introdueix. Ha de complir el Reglament general de protecció de dades (RGPD) i la Llei orgànica 3/2018 (LOPDGDD): informar les persones, demanar els consentiments que calguen, atendre els drets d'accés, rectificació, supressió, etc.
-- El **desenvolupador de Compàs** (José Vicente Sanjuan) **no té accés** a les dades de cap societat: no les rep, no les guarda i no les tracta. Per tant, no és encarregat del tractament.
-- Compàs es distribueix tal com és, sense cap garantia: l'autor no es fa responsable de la pèrdua de dades ni de cap altre dany derivat del seu ús. Cada societat ha de fer còpies de seguretat periòdiques en un lloc extern.
+- L'**entitat** que utilitza Compàs és la **responsable del tractament** de les dades personals que hi introdueix. Ha de complir el Reglament general de protecció de dades (RGPD) i la Llei orgànica 3/2018 (LOPDGDD): informar les persones, demanar els consentiments que calguen, atendre els drets d'accés, rectificació, supressió, etc.
+- El **desenvolupador de Compàs** (José Vicente Sanjuan) **no té accés** a les dades de cap entitat: no les rep, no les guarda i no les tracta. Per tant, no és encarregat del tractament.
+- Compàs es distribueix tal com és, sense cap garantia: l'autor no es fa responsable de la pèrdua de dades ni de cap altre dany derivat del seu ús. Cada entitat ha de fer còpies de seguretat periòdiques en un lloc extern.
 - Compàs ajuda a complir la normativa: dos comptes amb permisos diferents, contrasenyes guardades xifrades, registre d'activitat, còpies externes xifrades i control del consentiment d'imatge.
 
 ## La web i les descàrregues
@@ -26,7 +26,7 @@
 - La web de presentació ([jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/)), el codi i les descàrregues estan allotjats a **GitHub**. Com qualsevol servidor, GitHub pot registrar l'adreça IP i dades tècniques de qui visita la web o baixa el programa. Vegeu la [declaració de privacitat de GitHub](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement).
 - La web no utilitza galetes, ni analítica, ni tipografies o programes de tercers. Les tipografies, que són lliures (llicència SIL Open Font License), es serveixen des de la mateixa web.
 - El que s'escriu en una incidència de GitHub és públic. No hi poseu dades de persones, ni en el text ni en les captures.
-- El formulari de contacte de la web és de **Google Forms**: el que s'hi escriu (nom, correu, societat i missatge) es guarda al compte de Google de Compàs i només s'utilitza per a contestar. Google el tracta d'acord amb la seua [política de privadesa](https://policies.google.com/privacy). Si ho preferiu, podeu escriure directament a compas.lliure@gmail.com. Per a demanar que s'esborren les vostres dades, escriviu a eixa mateixa adreça.
+- El formulari de contacte de la web és de **Google Forms**: el que s'hi escriu (nom, correu, entitat i missatge) es guarda al compte de Google de Compàs i només s'utilitza per a contestar. Google el tracta d'acord amb la seua [política de privadesa](https://policies.google.com/privacy). Si ho preferiu, podeu escriure directament a compas.lliure@gmail.com. Per a demanar que s'esborren les vostres dades, escriviu a eixa mateixa adreça.
 
 ## Contacte
 
@@ -38,7 +38,7 @@ Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta dec
 
 # Privacidad de Compàs
 
-**En resumen: Compàs no recoge, no envía y no comparte ningún dato. Todo se queda en el ordenador de la sociedad musical.**
+**En resumen: Compàs no recoge, no envía y no comparte ningún dato. Todo se queda en el ordenador de la entidad.**
 
 ## El programa
 
@@ -46,17 +46,17 @@ Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta dec
 - No se conecta a Internet para nada: no envía estadísticas de uso ni informes de errores, no comprueba actualizaciones, no muestra publicidad y no carga tipografías, imágenes ni programas de fuera.
 - La ventana de Compàs muestra solo las páginas del mismo ordenador con el componente **WebView2** de Windows (en Linux, WebKitGTK); los enlaces de fuera se abren en el navegador habitual. Compàs desactiva en ella SmartScreen y el autocompletado, y no envía nada. WebView2 forma parte de Windows: Microsoft lo actualiza y puede recibir datos de diagnóstico según la configuración de privacidad de Windows, igual que con el resto del sistema.
 - Los datos (personas, socios, alumnado, notas, agrupaciones, instrumentos, recibos y cuentas bancarias de las domiciliaciones…) se guardan en un archivo del ordenador: `data\compas.db`, dentro de la carpeta del programa (en Linux, `~/.local/share/compas/dades`).
-- Las copias de seguridad se guardan en el ordenador y, si la sociedad lo configura, en la carpeta externa que elija: un pendrive, un disco externo, una unidad de red o una carpeta sincronizada con la nube. En este último caso, las copias pasan por el servicio que la sociedad haya elegido (OneDrive, Google Drive…), con sus condiciones. Por eso Compàs permite cifrarlas con contraseña.
-- Las remesas bancarias son un archivo que Compàs prepara y que la persona responsable sube a la banca electrónica de la sociedad. Compàs no se conecta al banco.
-- Los documentos de la sociedad que se archivan (estatutos, actas, contratos, pólizas…) se guardan dentro del mismo archivo de datos y, por tanto, también en las copias de seguridad.
-- Compàs no envía correos: los comunicados solo preparan la lista de direcciones para que la persona responsable las copie en el correo de la sociedad.
+- Las copias de seguridad se guardan en el ordenador y, si la entidad lo configura, en la carpeta externa que elija: un pendrive, un disco externo, una unidad de red o una carpeta sincronizada con la nube. En este último caso, las copias pasan por el servicio que la entidad haya elegido (OneDrive, Google Drive…), con sus condiciones. Por eso Compàs permite cifrarlas con contraseña.
+- Las remesas bancarias son un archivo que Compàs prepara y que la persona responsable sube a la banca electrónica de la entidad. Compàs no se conecta al banco.
+- Los documentos de la entidad que se archivan (estatutos, actas, contratos, pólizas…) se guardan dentro del mismo archivo de datos y, por tanto, también en las copias de seguridad.
+- Compàs no envía correos: los comunicados solo preparan la lista de direcciones para que la persona responsable las copie en el correo de la entidad.
 - Los documentos que se imprimen o se guardan en PDF o CSV (boletines, listados, certificados…) quedan donde los guarde la persona que los hace.
 
 ## Quién es responsable de los datos
 
-- La **sociedad musical** que usa Compàs es la **responsable del tratamiento** de los datos personales que introduce. Debe cumplir el Reglamento general de protección de datos (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD): informar a las personas, pedir los consentimientos necesarios, atender los derechos de acceso, rectificación, supresión, etc.
-- El **desarrollador de Compàs** (José Vicente Sanjuan) **no tiene acceso** a los datos de ninguna sociedad: no los recibe, no los guarda y no los trata. Por tanto, no es encargado del tratamiento.
-- Compàs se distribuye tal cual, sin ninguna garantía: el autor no se hace responsable de la pérdida de datos ni de ningún otro daño derivado de su uso. Cada sociedad debe hacer copias de seguridad periódicas en un lugar externo.
+- La **entidad** que usa Compàs es la **responsable del tratamiento** de los datos personales que introduce. Debe cumplir el Reglamento general de protección de datos (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD): informar a las personas, pedir los consentimientos necesarios, atender los derechos de acceso, rectificación, supresión, etc.
+- El **desarrollador de Compàs** (José Vicente Sanjuan) **no tiene acceso** a los datos de ninguna entidad: no los recibe, no los guarda y no los trata. Por tanto, no es encargado del tratamiento.
+- Compàs se distribuye tal cual, sin ninguna garantía: el autor no se hace responsable de la pérdida de datos ni de ningún otro daño derivado de su uso. Cada entidad debe hacer copias de seguridad periódicas en un lugar externo.
 - Compàs ayuda a cumplir la normativa: dos cuentas con permisos diferentes, contraseñas guardadas cifradas, registro de actividad, copias externas cifradas y control del consentimiento de imagen.
 
 ## La web y las descargas
@@ -64,7 +64,7 @@ Compàs és un projecte de José Vicente Sanjuan. Si teniu dubtes sobre esta dec
 - La web de presentación ([jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/)), el código y las descargas están alojados en **GitHub**. Como cualquier servidor, GitHub puede registrar la dirección IP y datos técnicos de quien visita la web o descarga el programa. Véase la [declaración de privacidad de GitHub](https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement).
 - La web no usa cookies, ni analítica, ni tipografías o programas de terceros. Las tipografías, que son libres (licencia SIL Open Font License), se sirven desde la propia web.
 - Lo que se escribe en una incidencia de GitHub es público. No pongáis datos de personas, ni en el texto ni en las capturas.
-- El formulario de contacto de la web es de **Google Forms**: lo que se escribe en él (nombre, correo, sociedad y mensaje) se guarda en la cuenta de Google de Compàs y solo se usa para responder. Google lo trata según su [política de privacidad](https://policies.google.com/privacy). Si lo preferís, podéis escribir directamente a compas.lliure@gmail.com. Para pedir que se borren vuestros datos, escribid a esa misma dirección.
+- El formulario de contacto de la web es de **Google Forms**: lo que se escribe en él (nombre, correo, entidad y mensaje) se guarda en la cuenta de Google de Compàs y solo se usa para responder. Google lo trata según su [política de privacidad](https://policies.google.com/privacy). Si lo preferís, podéis escribir directamente a compas.lliure@gmail.com. Para pedir que se borren vuestros datos, escribid a esa misma dirección.
 
 ## Contacto
 

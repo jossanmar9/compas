@@ -44,6 +44,7 @@ BATERIES = {
     'importacio': (['importacio.php'], True),
     'seguretat': (['seguretat.py'], True),
     'subvencions': (['subvencions.py'], True),
+    'tipus': (['tipus.py'], False),
 }
 
 ERR_PHP = ['Fatal error', 'Warning:', 'Notice:', 'Deprecated:', 'Uncaught']
@@ -58,7 +59,7 @@ def port_lliure() -> int:
 class Compas:
     """Una instal·lació temporal de Compàs amb el servidor de PHP"""
 
-    def __init__(self, idioma: str, installa: bool):
+    def __init__(self, idioma: str, installa: bool, tipus: str | None = None):
         self.idioma = idioma
         self.dades = tempfile.mkdtemp(prefix='compas-proves-')
         self.port = port_lliure()
@@ -79,7 +80,7 @@ class Compas:
         if installa:
             self.envia('', dict(societat_nom='Societat Prova', idioma=idioma, usuari='admin', contrasenya='contrasenya-llarga1',
                                 contrasenya2='contrasenya-llarga1', usuari2='secre', contrasenya_b='contrasenya-llarga2',
-                                contrasenya_b2='contrasenya-llarga2', exemple='1', accepta_avis='1'))
+                                contrasenya_b2='contrasenya-llarga2', exemple='1', accepta_avis='1', **({'tipus_entitat': tipus} if tipus else {})))
             self.csrf = self.token(self.obri('r=inici'))
 
     @staticmethod
@@ -156,6 +157,7 @@ class Compas:
             G=c.obri, P=c.envia, get=get, post=c.envia, envia=c.envia, form=form, multipart=multipart,
             err=lambda h: any(x in h for x in ERR_PHP),
             re=re, csv=csv, io=io, http=http, os=os, time=time, uuid=uuid, sqlite3=sqlite3, urllib=urllib, subprocess=subprocess,
+            Compas=Compas, ERR_PHP=ERR_PHP, Path=Path,
         )
 
 

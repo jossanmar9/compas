@@ -27,10 +27,10 @@ cat > "$P/usr/share/applications/compas.desktop" <<DESKTOP
 [Desktop Entry]
 Type=Application
 Name=Compàs
-GenericName=Gestió de la societat musical
-GenericName[es]=Gestión de la sociedad musical
-Comment=Gestió lliure per a societats musicals
-Comment[es]=Gestión libre para sociedades musicales
+GenericName=Gestió d'associacions
+GenericName[es]=Gestión de asociaciones
+Comment=Gestió lliure per a associacions
+Comment[es]=Gestión libre para asociaciones
 Exec=compas
 Icon=compas
 Terminal=false

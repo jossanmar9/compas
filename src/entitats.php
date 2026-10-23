@@ -22,6 +22,35 @@ const MIDA_DOCUMENT_MB = 20;
 const ESTATS_OBRA = ['complet', 'incomplet', 'en_revisio', 'retirat'];
 const TIPUS_UNIFORMES = ['samarreta', 'polo', 'camisa', 'dessuadora', 'jaqueta', 'pantalo', 'motxilla', 'gorra', 'altre_uniforme'];
 const ESTATS_SUBVENCIO = ['prevista', 'sollicitada', 'concedida', 'denegada', 'justificada', 'tancada'];
+const TIPUS_ACTIVITATS = ['acte', 'eixida', 'viatge', 'apat', 'competicio', 'curs_taller', 'reunio_oberta', 'altra_activitat'];
+const ESTATS_ACTIVITAT = ['inscripcio_oberta', 'inscripcio_tancada', 'realitzada', 'anullada'];
+/** Tipus d'agrupació de cada tipus d'entitat (els que ja es fan servir es mantenen sempre) */
+const TIPUS_AGRUPACIO = [
+    'societat_musical' => ['banda', 'banda_juvenil', 'coral', 'orquestra', 'cambra', 'altra'],
+    'club_esportiu' => ['equip', 'seccio', 'altra'],
+    'colla' => ['seccio', 'grup', 'altra'],
+    'associacio_cultural' => ['grup', 'seccio', 'coral', 'altra'],
+    'ampa' => ['comissio', 'grup', 'altra'],
+    'comparsa' => ['esquadra', 'seccio', 'comissio', 'altra'],
+];
+
+/** Opcions del tipus d'agrupació segons el tipus d'entitat, més les que ja hi ha guardades */
+function opcions_agrupacio(): array
+{
+    $ops = TIPUS_AGRUPACIO[tipus_entitat()] ?? ['seccio', 'grup', 'comissio', 'altra'];
+    $totes = array_merge(...array_values(TIPUS_AGRUPACIO));
+    try {
+        $usades = q('SELECT DISTINCT tipus FROM agrupacions WHERE tipus IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN);
+    } catch (Throwable $e) {
+        $usades = [];
+    }
+    foreach ($usades as $u) {
+        if (in_array($u, $totes, true) && !in_array($u, $ops, true)) {
+            array_splice($ops, count($ops) - 1, 0, [$u]);
+        }
+    }
+    return $ops;
+}
 
 /**
  * Mòduls que una societat pot desactivar (Administració → Mòduls i avisos): pantalles i entitats de cadascun.
@@ -43,10 +72,15 @@ const MODULS = [
     'comunicats' => ['comunicats'],
     'subvencions' => ['subvencions', 'organismes', 'requisits_justificacio', 'subvencio_cobraments', 'subvencio_despeses', 'subvencio_requisits',
         'subvencio_duplica', 'subvencio_relacio'],
+    'activitats' => ['activitats', 'activitat_inscripcions', 'activitat_llista'],
+    'llicencies' => ['llicencies'],
+    'entitats' => ['entitats_federades'],
+    'carrecs_festa' => ['carrecs_festa'],
 ];
 
 /** Avisos de la pantalla d'inici que es poden amagar */
-const AVISOS = ['copia_externa', 'junta_renovacio', 'documents_caducitat', 'certificat_delictes', 'cessions_vencudes', 'curs_actual', 'subvencions_terminis'];
+const AVISOS = ['copia_externa', 'junta_renovacio', 'documents_caducitat', 'certificat_delictes', 'cessions_vencudes', 'curs_actual', 'subvencions_terminis',
+    'llicencies_caducitat', 'activitats_properes'];
 
 /** Mòdul al qual pertany una pantalla o entitat (null: no es pot desactivar) */
 function modul_de(string $clau): ?string
@@ -176,16 +210,18 @@ function entitats(): array
                 'consentiment_imatge' => ['tipus' => 'select', 'opcions' => ['pendent', 'autoritza', 'no_autoritza'], 'ajuda' => t('ajuda.consentiment')],
                 'consentiment_data' => ['tipus' => 'date'],
                 'actiu' => ['tipus' => 'bool', 'llista' => 1, 'defecte' => 1],
-            ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['id'] ?? null) + ['nomes_major' => 1]] : []),
+            ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['id'] ?? null) + ['nomes_major' => 1]] : [])
+              + ['categoria' => ['tipus' => 'text', 'virtual' => 1, 'nomes_fitxa' => 1, 'carrega' => fn(array $f) => categoria_edat($f['data_naixement'] ?? null)]],
             'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')),
             'fills' => [['socis', 'persona_id'], ['alumnes', 'persona_id'], ['professors', 'persona_id'],
                 ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id'],
-                ['mandats', 'persona_id'], ['rebuts', 'persona_id'], ['carrecs', 'persona_id'], ['documents', 'persona_id'],
-                ['uniforme_lliuraments', 'persona_id']],
+                ['mandats', 'persona_id'], ['rebuts', 'persona_id'], ['carrecs', 'persona_id'], ['carrecs_festa', 'persona_id'], ['llicencies', 'persona_id'],
+                ['activitat_inscripcions', 'persona_id'], ['entitats_federades', 'persona_id'], ['documents', 'persona_id'], ['uniforme_lliuraments', 'persona_id']],
         ],
         'socis' => $perfil('socis') + [
             'cap' => 'socis',
             'accions_llista' => fn() => '<a class="boto secundari" href="' . h(url('llista', ['e' => 'tipus_socis'])) . '">🏷 ' . h(t('ent.tipus_socis')) . '</a>'
+                . (te_categories() ? '<a class="boto secundari" href="' . h(url('llista', ['e' => 'categories'])) . '">◫ ' . h(t('ent.categories')) . '</a>' : '')
                 . boto_document(url('full_alta'), t('alta.boto')),
             'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'soci', 'id' => $f['id']]), t('cert.boto')),
             'cerca' => ['p.nom', 'p.cognoms', 't.numero'],
@@ -249,13 +285,13 @@ function entitats(): array
             'etiqueta' => 'SELECT id, nom AS e FROM agrupacions ORDER BY nom',
             'camps' => [
                 'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
-                'tipus' => ['tipus' => 'select', 'opcions' => ['banda', 'banda_juvenil', 'coral', 'orquestra', 'cambra', 'altra'], 'llista' => 1],
+                'tipus' => ['tipus' => 'select', 'opcions' => opcions_agrupacio(), 'llista' => 1],
                 'descripcio' => $obs,
                 'estat' => $estat,
                 'data_creacio' => ['tipus' => 'date'],
             ],
             'seccio_fitxa' => 'seccio_repertori_agrupacio',
-            'fills' => [['membres', 'agrupacio_id']],
+            'fills' => [['membres', 'agrupacio_id'], ['llicencies', 'agrupacio_id'], ['activitats', 'agrupacio_id']],
         ],
         'membres' => [
             'cap' => 'agrupacions',
@@ -524,7 +560,7 @@ function entitats(): array
                 'numero' => ['tipus' => 'text', 'llista' => 1, 'etiqueta' => 'camp.numero_rebut', 'ajuda' => t('ajuda.rebut_numero')],
                 'persona_id' => $persona + ['etiqueta' => 'camp.pagador', 'ajuda' => t('ajuda.rebut_persona')],
                 'concepte' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
-                'tipus' => ['tipus' => 'select', 'opcions' => ['quota_soci', 'matricula', 'classe', 'loteria', 'altres']],
+                'tipus' => ['tipus' => 'select', 'opcions' => ['quota_soci', 'matricula', 'classe', 'loteria', 'activitat', 'quota_entitat', 'altres']],
                 'periode' => ['tipus' => 'text', 'ajuda' => t('ajuda.rebut_periode')],
                 'data_emissio' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
                 'import' => ['tipus' => 'decimal', 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.rebut_import')],
@@ -993,6 +1029,158 @@ function entitats(): array
             'valida' => 'valida_despesa_subvencio',
             'despres' => fn(int $id, array $d) => q('UPDATE subvencio_despeses SET import = (SELECT m.import - COALESCE((SELECT SUM(x.import) FROM subvencio_despeses x
                 WHERE x.moviment_id = m.id AND x.id <> ?), 0) FROM moviments m WHERE m.id = subvencio_despeses.moviment_id) WHERE id = ? AND import IS NULL', [$id, $id]),
+        ],
+        // ---------- 2.0: categories, activitats, llicències, entitats federades i càrrecs de festa ----------
+        'categories' => [
+            'cap' => 'socis',
+            'cerca' => ['t.nom', 't.observacions'],
+            'ordre' => 'COALESCE(t.ordre, 999999), t.edat_min, t.nom',
+            'etiqueta' => 'SELECT id, nom AS e FROM categories ORDER BY COALESCE(ordre, 999999), edat_min, nom',
+            'accions_llista' => fn() => boto_document(url('llistats', ['informe' => 'categories', 'imprimir' => 1]), t('inf.categories')),
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'edat_min' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'defecte' => 0, 'ajuda' => t('ajuda.categoria_edat', nom_exercici(any_exercici()))],
+                'edat_max' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'defecte' => 120],
+                'ordre' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.ordre')],
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d) => $d['edat_min'] < 0 || $d['edat_max'] < $d['edat_min'] || $d['edat_max'] > 150 ? t('err.edats') : null,
+        ],
+        'activitats' => [
+            'cap' => 'societat',
+            'from' => 'activitats t LEFT JOIN agrupacions a ON a.id = t.agrupacio_id',
+            'cerca' => ['t.nom', 't.lloc', 't.descripcio', 't.observacions', 'a.nom'],
+            'ordre' => "(t.data < date('now','localtime')), CASE WHEN t.data >= date('now','localtime') THEN t.data END, t.data DESC, t.hora",
+            'etiqueta' => "SELECT id, nom || ' (' || strftime('%d/%m/%Y', data) || ')' AS e FROM activitats ORDER BY data DESC, nom",
+            'filtres' => [
+                'properes' => "t.data >= date('now','localtime') AND t.estat <> 'anullada'",
+                'obertes' => "t.estat = 'inscripcio_oberta'",
+                'any_actual' => "t.data >= date('now','localtime','start of year')",
+            ],
+            'accions_fitxa' => 'accions_fitxa_activitat',
+            'seccio_fitxa' => 'seccio_activitat',
+            'avis_fila' => 'avis_activitat',
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.activitat_nom')],
+                'tipus' => ['tipus' => 'select', 'opcions' => TIPUS_ACTIVITATS, 'llista' => 1, 'etiqueta' => 'camp.tipus_activitat'],
+                'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1],
+                'hora' => ['tipus' => 'time', 'llista' => 1],
+                'data_fi' => ['tipus' => 'date', 'ajuda' => t('ajuda.activitat_data_fi')],
+                'lloc' => ['tipus' => 'text', 'llista' => 1],
+                'agrupacio_id' => ['tipus' => 'ref', 'ref' => 'agrupacions', 'ajuda' => t('ajuda.activitat_agrupacio')],
+                'preu' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1, 'etiqueta' => 'camp.preu_placa', 'ajuda' => t('ajuda.activitat_preu')],
+                'places' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.activitat_places')],
+                'data_limit' => ['tipus' => 'date', 'etiqueta' => 'camp.data_limit_inscripcio'],
+                'estat' => ['tipus' => 'select', 'opcions' => ESTATS_ACTIVITAT, 'llista' => 1, 'etiqueta' => 'camp.estat_activitat'],
+                'descripcio' => $obs + ['ajuda' => t('ajuda.activitat_descripcio')],
+                'observacions' => $obs,
+            ],
+            'valida' => function (array $d): ?string {
+                if ($d['data_fi'] !== null && $d['data_fi'] < $d['data']) {
+                    return t('err.dates');
+                }
+                if (($d['preu'] !== null && $d['preu'] < 0) || ($d['places'] !== null && $d['places'] < 1)) {
+                    return t('err.activitat_valors');
+                }
+                return null;
+            },
+            'fills' => [['activitat_inscripcions', 'activitat_id']],
+        ],
+        'activitat_inscripcions' => [
+            'cap' => 'societat',
+            'from' => 'activitat_inscripcions t JOIN persones p ON p.id = t.persona_id JOIN activitats ac ON ac.id = t.activitat_id',
+            'cerca' => ['p.nom', 'p.cognoms', 'ac.nom', 't.observacions'],
+            'ordre' => 'p.cognoms, p.nom',
+            'etiqueta' => "SELECT t.id, ac.nom || ' · ' || " . NOM_PERSONA_SQL . " AS e FROM activitat_inscripcions t JOIN persones p ON p.id = t.persona_id
+                JOIN activitats ac ON ac.id = t.activitat_id ORDER BY ac.data DESC, e",
+            'pare' => ['activitats', 'activitat_id'],
+            'suma' => 'import',
+            'camps' => [
+                'activitat_id' => ['tipus' => 'ref', 'ref' => 'activitats', 'req' => 1, 'llista' => 1],
+                'persona_id' => $persona,
+                'places' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'defecte' => 1, 'etiqueta' => 'camp.places_inscripcio', 'ajuda' => t('ajuda.inscripcio_places')],
+                'import' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1, 'ajuda' => t('ajuda.inscripcio_import')],
+                'data' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui', 'etiqueta' => 'camp.data_inscripcio'],
+                'rebut_id' => ['tipus' => 'ref', 'ref' => 'rebuts', 'llista' => 1, 'ajuda' => t('ajuda.inscripcio_rebut')],
+                'observacions' => $obs,
+            ],
+            'valida' => 'valida_inscripcio',
+            'despres' => fn(int $id, array $d) => q("UPDATE activitat_inscripcions SET import = (SELECT ROUND(a.preu * activitat_inscripcions.places, 2) FROM activitats a
+                WHERE a.id = activitat_inscripcions.activitat_id AND a.preu IS NOT NULL) WHERE id = ? AND import IS NULL", [$id]),
+        ],
+        'llicencies' => [
+            'cap' => 'socis',
+            'from' => 'llicencies t JOIN persones p ON p.id = t.persona_id LEFT JOIN agrupacions a ON a.id = t.agrupacio_id',
+            'cerca' => ['p.nom', 'p.cognoms', 't.numero', 't.federacio', 't.temporada', 'a.nom'],
+            'ordre' => "(t.estat = 'baixa'), COALESCE(t.temporada, '') DESC, p.cognoms, p.nom",
+            'pare' => ['persones', 'persona_id'],
+            'filtres' => [
+                'temporada_actual' => 't.temporada = ' . db()->quote(nom_exercici(any_exercici())),
+                'llic_caduquen' => "t.estat <> 'baixa' AND ((t.data_caducitat IS NOT NULL AND t.data_caducitat <= date('now','localtime','+30 days'))
+                    OR (t.revisio_medica IS NOT NULL AND t.revisio_medica <= date('now','localtime','+30 days')))",
+                'sense_revisio' => "t.estat <> 'baixa' AND t.revisio_medica IS NULL",
+                'en_tramit' => "t.estat = 'tramit'",
+            ],
+            'avis_fila' => 'avis_llicencia',
+            'camps' => [
+                'persona_id' => $persona,
+                'agrupacio_id' => ['tipus' => 'ref', 'ref' => 'agrupacions', 'llista' => 1, 'ajuda' => t('ajuda.llicencia_agrupacio')],
+                'federacio' => ['tipus' => 'text', 'llista' => 1, 'suggeriments' => fn() => valors_usats('llicencies', 'federacio'), 'ajuda' => t('ajuda.llicencia_federacio')],
+                'numero' => ['tipus' => 'text', 'llista' => 1, 'etiqueta' => 'camp.numero_llicencia'],
+                'temporada' => ['tipus' => 'text', 'llista' => 1, 'defecte' => fn() => nom_exercici(any_exercici()), 'etiqueta' => 'camp.temporada'],
+                'data_alta' => ['tipus' => 'date', 'defecte' => 'avui', 'etiqueta' => 'camp.data_tramit'],
+                'data_caducitat' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.llicencia_caducitat')],
+                'revisio_medica' => ['tipus' => 'date', 'llista' => 1, 'ajuda' => t('ajuda.revisio_medica')],
+                'import' => ['tipus' => 'decimal', 'euros' => 1, 'ajuda' => t('ajuda.llicencia_import')],
+                'estat' => ['tipus' => 'select', 'opcions' => ['tramit', 'actiu', 'baixa'], 'llista' => 1, 'etiqueta' => 'camp.estat_llicencia'],
+                'observacions' => $obs,
+            ],
+        ],
+        'entitats_federades' => [
+            'cap' => 'socis',
+            'from' => 'entitats_federades t LEFT JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['t.nom', 't.cif', 't.poblacio', 't.numero', 't.email', 'p.nom', 'p.cognoms'],
+            'ordre' => "(t.estat <> 'actiu'), t.nom",
+            'etiqueta' => 'SELECT id, nom AS e FROM entitats_federades ORDER BY nom',
+            'suma' => 'quota',
+            'accions_llista' => fn() => boto_document(url('llistats', ['informe' => 'federades', 'imprimir' => 1]), t('inf.federades')),
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'numero' => ['tipus' => 'text', 'llista' => 1, 'etiqueta' => 'camp.numero_federada'],
+                'tipus' => ['tipus' => 'text', 'llista' => 1, 'etiqueta' => 'camp.tipus_federada', 'suggeriments' => fn() => valors_usats('entitats_federades', 'tipus')],
+                'cif' => ['tipus' => 'text'],
+                'adreca' => ['tipus' => 'text'],
+                'codi_postal' => ['tipus' => 'text'],
+                'poblacio' => ['tipus' => 'text', 'llista' => 1],
+                'telefon' => ['tipus' => 'tel'],
+                'email' => ['tipus' => 'email'],
+                'persona_id' => ['tipus' => 'ref', 'ref' => 'persones', 'llista' => 1, 'etiqueta' => 'camp.representant', 'ajuda' => t('ajuda.representant')],
+                'data_alta' => ['tipus' => 'date', 'defecte' => 'avui'],
+                'data_baixa' => ['tipus' => 'date'],
+                'quota' => ['tipus' => 'decimal', 'euros' => 1, 'llista' => 1, 'ajuda' => t('ajuda.quota_federada')],
+                'estat' => $estat,
+                'observacions' => $obs,
+            ],
+            'valida' => fn(array $d) => $d['quota'] !== null && $d['quota'] < 0 ? t('err.import_positiu')
+                : ($d['data_baixa'] !== null && $d['data_alta'] !== null && $d['data_baixa'] < $d['data_alta'] ? t('err.dates') : null),
+        ],
+        'carrecs_festa' => [
+            'cap' => 'societat',
+            'from' => 'carrecs_festa t JOIN persones p ON p.id = t.persona_id',
+            'cerca' => ['p.nom', 'p.cognoms', 't.carrec', 't.exercici'],
+            'ordre' => 't.exercici DESC, t.id',
+            'pare' => ['persones', 'persona_id'],
+            'filtres' => ['exercici_actual' => 't.exercici = ' . db()->quote(nom_exercici(any_exercici()))],
+            'accions_fitxa' => fn(array $f) => boto_document(url('certificat', ['tipus' => 'carrec_festa', 'id' => $f['id']]), t('cert.boto')),
+            'accions_llista' => fn() => boto_document(url('llistats', ['informe' => 'carrecs_festa', 'imprimir' => 1]), t('inf.carrecs_festa')),
+            'camps' => [
+                'exercici' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'defecte' => fn() => nom_exercici(any_exercici()), 'ajuda' => t('ajuda.exercici_festa')],
+                'carrec' => ['tipus' => 'text', 'req' => 1, 'llista' => 1, 'etiqueta' => 'camp.carrec_festa', 'suggeriments' => 'suggeriments_carrecs_festa',
+                    'ajuda' => t('ajuda.carrec_festa')],
+                'persona_id' => $persona,
+                'data' => ['tipus' => 'date', 'llista' => 1, 'etiqueta' => 'camp.data_proclamacio'],
+                'observacions' => $obs,
+            ],
         ],
     ];
 

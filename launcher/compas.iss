@@ -17,13 +17,13 @@ AppName=Compàs
 AppVersion={#Versio}
 AppVerName=Compàs {#Versio}
 AppPublisher=José Vicente Sanjuan
-AppComments=Gestió lliure per a societats musicals
+AppComments=Gestió lliure per a associacions
 ; Nom i versió a les propietats de l'instal·lador (Windows: botó dret → Propietats → Detalls)
 VersionInfoVersion={#VersioNum}
 VersionInfoProductName=Compàs
 VersionInfoProductVersion={#VersioNum}
 VersionInfoProductTextVersion={#Versio}
-VersionInfoDescription=Instal·lador de Compàs: gestió lliure per a societats musicals
+VersionInfoDescription=Instal·lador de Compàs: gestió lliure per a associacions
 VersionInfoCompany=Compàs
 VersionInfoCopyright=© 2026 José Vicente Sanjuan · AGPL-3.0-or-later
 DefaultDirName={localappdata}\Programs\Compas

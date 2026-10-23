@@ -37,7 +37,7 @@ $cos = markdown_simple(preg_replace('/^# .*\R/', '', $md, 1), function (string $
     return 'data:image/' . (str_ends_with($f, '.png') ? 'png' : (str_ends_with($f, '.webp') ? 'webp' : 'jpeg')) . ';base64,' . base64_encode(file_get_contents($f));
 });
 $castella = str_contains(basename($argv[1]), 'usuario') || str_contains(basename($argv[1]), 'instalacion');
-$lema = $castella ? 'Gestión libre para sociedades musicales' : 'Gestió lliure per a societats musicals';
+$lema = $castella ? 'Gestión libre para asociaciones' : 'Gestió lliure per a associacions';
 $versio = ($castella ? 'Versión ' : 'Versió ') . (getenv('COMPAS_VERSIO') ?: COMPAS_VERSIO);
 $logo = 'data:image/png;base64,' . base64_encode(file_get_contents(ARREL_DIR . '/app/assets/logo.png'));
 

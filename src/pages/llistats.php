@@ -39,11 +39,15 @@ function informes(): array
         'etiquetes' => ['persones.view', '🏷'],
         'antiguitat' => ['socis.view', '🏅'],
         'memoria' => ['socis.view', '📊'],
+        'categories' => ['socis.view', '◫'],
+        'llicencies' => ['socis.view', '🪪'],
+        'federades' => ['socis.view', '🏢'],
+        'carrecs_festa' => ['societat.view', '👑'],
     ];
 }
 
 /** Mòdul del qual depén cada informe (si està desactivat, no es mostra) */
-const MODUL_INFORMES = ['alumnes_grup' => 'escola', 'musics' => 'agrupacions'];
+const MODUL_INFORMES = ['alumnes_grup' => 'escola', 'musics' => 'agrupacions', 'llicencies' => 'llicencies', 'federades' => 'entitats', 'carrecs_festa' => 'carrecs_festa'];
 
 /* ---------- Paràmetres de cada informe ---------- */
 
@@ -73,6 +77,13 @@ function params_informe(string $inf): string
                 . '<div class="camp camp-check"><label><input type="checkbox" name="tots" value="1"' . (get('tots') === '1' ? ' checked' : '') . ' onchange="this.form.submit()"> ' . h(t('antig.tots')) . '</label></div>';
         case 'memoria':
             return camp_param(t('camp.curs_id'), select_simple('curs', opcions_ref('cursos'), $curs, false));
+        case 'categories':
+            $quins = ['socis' => t('ent.socis'), 'persones' => t('ent.persones')]
+                + (modul_actiu('escola') ? ['alumnes' => t('ent.alumnes')] : []) + (modul_actiu('agrupacions') ? ['membres' => t('ent.membres')] : []);
+            return camp_param(t('cat.qui'), select_simple('qui', $quins, get('qui', 'socis'), false));
+        case 'llicencies':
+            $temps = array_combine($t = valors_usats('llicencies', 'temporada'), $t);
+            return camp_param(t('camp.temporada'), select_simple('temporada', $temps, get('temporada', nom_exercici(any_exercici())), true, t('filtre.tots')));
     }
     return '';
 }
@@ -180,6 +191,14 @@ function dades_informe(string $inf): ?array
 
         case 'memoria':
             return dades_memoria();
+        case 'categories':
+            return dades_categories();
+        case 'llicencies':
+            return dades_llicencies();
+        case 'federades':
+            return dades_federades();
+        case 'carrecs_festa':
+            return dades_carrecs_festa();
     }
     return null;
 }
@@ -280,6 +299,39 @@ function dades_memoria(): array
             'peu' => [t('mem.musics_diferents'), (string)valor("SELECT COUNT(DISTINCT persona_id) FROM membres WHERE estat = 'actiu'"), '']];
     }
 
+    if (llista_categories()) {
+        $compte = [];
+        foreach (q("SELECT p.data_naixement FROM socis s JOIN persones p ON p.id = s.persona_id WHERE s.estat = 'actiu'")->fetchAll(PDO::FETCH_COLUMN) as $n) {
+            $c = categoria_edat($n) ?? t('cat.sense');
+            $compte[$c] = ($compte[$c] ?? 0) + 1;
+        }
+        $files = [];
+        foreach (array_merge(array_column(llista_categories(), 'nom'), [t('cat.sense')]) as $c) {
+            if (isset($compte[$c])) {
+                $files[] = [$c, (string)$compte[$c]];
+            }
+        }
+        $seccions[] = ['titol' => t('mem.per_categoria', nom_exercici(any_exercici())), 'cols' => [t('llist.categoria'), t('ent.socis')], 'num' => [1], 'files' => $files];
+    }
+    if (modul_actiu('llicencies')) {
+        $seccions[] = ['titol' => t('mem.llicencies', nom_exercici(any_exercici())), 'cols' => [t('ent1.agrupacions'), t('ent.llicencies')], 'num' => [1],
+            'files' => array_map(fn($r) => [(string)($r['nom'] ?? t('llic.sense_agrupacio')), (string)$r['n']], q("SELECT a.nom, COUNT(*) AS n FROM llicencies l
+                LEFT JOIN agrupacions a ON a.id = l.agrupacio_id WHERE l.estat <> 'baixa' AND l.temporada = ? GROUP BY a.id ORDER BY a.nom COLLATE ALFA", [nom_exercici(any_exercici())])->fetchAll())];
+    }
+    if (modul_actiu('entitats')) {
+        $seccions[] = ['titol' => t('ent.entitats_federades'), 'cols' => [t('mem.concepte'), t('mem.total')], 'num' => [1], 'files' => [
+            [t('mem.federades_actives'), (string)valor("SELECT COUNT(*) FROM entitats_federades WHERE estat = 'actiu'")]]];
+    }
+    if (modul_actiu('activitats')) {
+        $anyAct = (int)substr($ref, 0, 4);
+        $act = q("SELECT a.nom, a.data, (SELECT COALESCE(SUM(places), 0) FROM activitat_inscripcions i WHERE i.activitat_id = a.id) AS n FROM activitats a
+            WHERE a.estat <> 'anullada' AND substr(a.data, 1, 4) = ? ORDER BY a.data", [(string)$anyAct])->fetchAll();
+        if ($act) {
+            $seccions[] = ['titol' => t('mem.activitats', $anyAct), 'cols' => [t('camp.data'), t('ent1.activitats'), t('act.inscripcions')], 'num' => [2],
+                'files' => array_map(fn($r) => [data_llegible($r['data']), $r['nom'], (string)$r['n']], $act)];
+        }
+    }
+
     $any = (int)substr($ref, 0, 4);
     $socis = q("SELECT COALESCE(tipus, '') AS tipus, COUNT(*) AS n FROM socis WHERE estat = 'actiu' GROUP BY tipus ORDER BY n DESC")->fetchAll();
     $total = array_sum(array_column($socis, 'n'));
@@ -374,7 +426,8 @@ function imprimeix_informe(array $d): void
 function pagina_llistats(): void
 {
     $inf = get('informe');
-    $informes = array_filter(informes(), fn($i, $k) => pot($i[0]) && (!isset(MODUL_INFORMES[$k]) || modul_actiu(MODUL_INFORMES[$k])), ARRAY_FILTER_USE_BOTH);
+    $informes = array_filter(informes(), fn($i, $k) => pot($i[0]) && (!isset(MODUL_INFORMES[$k]) || modul_actiu(MODUL_INFORMES[$k]))
+        && ($k !== 'categories' || te_categories()), ARRAY_FILTER_USE_BOTH);
     if ($inf === '' || !isset($informes[$inf])) {
         $html = '<p>' . h(t('llist.intro')) . '</p><div class="graella-informes">';
         foreach ($informes as $k => [$cap, $icona]) {

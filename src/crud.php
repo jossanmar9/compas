@@ -152,7 +152,8 @@ function filtre_llista(array $e, array &$params): string
         if (isset($e['camps']['actiu'])) {
             $where[] = 't.actiu = 1';
         } elseif (isset($e['camps']['estat']) && in_array('actiu', $e['camps']['estat']['opcions'] ?? [], true) && !isset($f['estat'])) {
-            $where[] = "t.estat = 'actiu'";
+            // Les que estan de baixa s'amaguen; les altres (per exemple, una llicència en tràmit) es veuen
+            $where[] = in_array('baixa', $e['camps']['estat']['opcions'], true) ? "t.estat <> 'baixa'" : "t.estat = 'actiu'";
         }
     }
     return implode(' AND ', $where);
@@ -434,7 +435,7 @@ function pagina_fitxa(string $nom, int $id): void
         echo $e['seccio_fitxa']($f);
     }
 
-    if ($nom === 'grups') {
+    if ($nom === 'grups' && te_notes()) {
         echo '<p class="accions">';
         if (pot('escola.notes')) {
             echo '<a class="boto secundari" href="' . h(url('notes', ['grup' => $id])) . '">' . h(t('menu.notes')) . '</a>';
@@ -442,7 +443,7 @@ function pagina_fitxa(string $nom, int $id): void
         echo '</p>';
     }
 
-    if ($nom === 'alumnes' && ($curs = curs_actual())) {
+    if ($nom === 'alumnes' && te_notes() && ($curs = curs_actual())) {
         echo '<section class="fill"><header><h2>' . h(t('resum.titol', $curs['nom'])) . '</h2><a class="boto petit secundari" target="_blank" href="'
             . h(url('butlleti', ['imprimir' => 1, 'curs' => $curs['id'], 'ambit' => 'alumne', 'alumne' => $id, 'periode' => valor('SELECT id FROM periodes WHERE curs_id = ? ORDER BY ordre DESC LIMIT 1', [$curs['id']])]))
             . '">🖨 ' . h(t('butlleti.imprimeix')) . '</a></header>' . resum_alumne($id, $curs) . '</section>';
@@ -562,6 +563,14 @@ function camp_formulari(string $c, array $d, $v): string
                 $tots = array_values(array_unique(array_merge([], ...array_values($talles))));
                 $llista = '<datalist id="l_' . $nom . '">' . implode('', array_map(fn($x) => '<option value="' . h($x) . '">', $tots)) . '</datalist>';
             }
+            if (isset($d['suggeriments'])) {
+                // Valors per a triar o escriure'n un de nou (federacions, càrrecs de festa…)
+                $sug = array_values(array_filter(array_unique(array_map('strval', ($d['suggeriments'])())), fn($x) => $x !== ''));
+                if ($sug) {
+                    $extra .= ' list="l_' . $nom . '" autocomplete="off"';
+                    $llista = '<datalist id="l_' . $nom . '">' . implode('', array_map(fn($x) => '<option value="' . h($x) . '">', $sug)) . '</datalist>';
+                }
+            }
             $in = '<input type="' . $tipus . '" id="c_' . $nom . '" name="' . $nom . '" value="' . h($v) . '"' . $req . $extra . $major . '>' . ($llista ?? '');
     }
     // «nomes_major»: el camp només apareix si la persona és major d'edat (ho fa app.js)
@@ -614,6 +623,8 @@ function pagina_edita(string $nom, ?int $id): void
 {
     $e = entitat($nom);
     requereix($e['cap'] . '.edit');
+    // Els camps que només es mostren (per exemple, la categoria d'edat d'una persona) no van al formulari
+    $e['camps'] = array_filter($e['camps'], fn($d) => empty($d['nomes_fitxa']));
     if (!empty($e['nomes_lectura'])) {
         redirigeix($id ? 'fitxa' : 'llista', array_filter(['e' => $nom, 'id' => $id]));
     }
@@ -735,6 +746,8 @@ function accio_elimina(string $nom, int $id): void
 {
     $e = entitat($nom);
     requereix($e['cap'] . '.edit');
+    // Els camps que només es mostren (per exemple, la categoria d'edat d'una persona) no van al formulari
+    $e['camps'] = array_filter($e['camps'], fn($d) => empty($d['nomes_fitxa']));
     if (!empty($e['nomes_lectura'])) {
         redirigeix('fitxa', ['e' => $nom, 'id' => $id]);
     }

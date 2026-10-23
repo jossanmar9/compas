@@ -9,13 +9,13 @@ Suggests: chromium | google-chrome-stable | microsoft-edge-stable, zenity
 Section: misc
 Priority: optional
 Homepage: https://jossanmar9.github.io/compas/
-Description: Gestió lliure per a societats musicals
- Compàs porta en un sol lloc les persones, els socis, l'escola de música,
- les notes i els butlletins, les agrupacions i els instruments d'una
- societat musical. Funciona sense Internet en un sol ordinador: només
+Description: Gestió lliure per a associacions
+ Compàs porta en un sol lloc la gestió d'una associació: societats
+ musicals, clubs esportius, colles, associacions culturals, AMPA, falles,
+ gaiates, fogueres, comparses, penyes i federacions. Funciona sense Internet en un sol ordinador: només
  escolta a 127.0.0.1 i no envia cap dada fora. En valencià i castellà.
  Es distribueix sense cap garantia: l'autor no es fa responsable de la
  pèrdua de dades. Feu còpies de seguretat externes.
  .
- Free management software for music societies (bands, music schools and
- ensembles). Runs offline on one computer and never sends any data.
+ Free management software for associations (music societies, sports
+ clubs, cultural associations, parents' associations, festival groups…). Runs offline on one computer and never sends any data.
