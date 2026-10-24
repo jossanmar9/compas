@@ -65,6 +65,10 @@ $T = [
         ],
         'descarrega' => 'Descarrega (Windows i Linux)',
         'versio' => 'Versió %s. Gratuït i lliure.',
+        'nou_titol' => 'Compàs 2.0: per a més associacions',
+        'nou_text' => 'Tria el tipus d’entitat i adapta els noms, els mòduls i l’exercici. Ara també pots gestionar activitats amb inscripcions i rebuts, llicències esportives, càrrecs de festa i entitats federades.',
+        'nou_actualitza' => 'Ja feu servir Compàs? En actualitzar, la vostra instal·lació continua com a societat musical, amb les dades conservades i una còpia abans d’actualitzar la base de dades. Els mòduls nous es poden activar a Administració → Mòduls i avisos.',
+        'nou_enllac' => 'Consulta els canvis de la versió 2.0',
         'manual' => 'Llig el manual',
         'nav_que' => 'Què fa', 'nav_veure' => 'Captures', 'nav_com' => 'Com començar', 'nav_qui' => 'Per què', 'nav_codi' => 'Codi',
         'qui_titol' => 'Per què Compàs',
@@ -122,7 +126,7 @@ $T = [
         'blocs' => [
             ['Persones i socis', 'Una fitxa per persona i tota l\'entitat en un sol lloc, encara que una mateixa persona siga sòcia, jugadora i mare d\'alumnes.', 'web-socis', [0, 1, 28, 18, 16, 20]],
             ['Clubs, falles, comparses i molt més', 'Cada tipus d\'entitat té el que li cal: llicències i revisions mèdiques per als clubs, càrrecs de festa per a falles i comparses, entitats federades per a les federacions, i activitats amb inscripcions per a tothom.', 'web-club', [29, 24, 25, 26, 27]],
-            ['Escola', 'De música, esportiva, de tallers o d\'extraescolars: des de la inscripció fins al butlletí, amb els horaris de tot el professorat i tots els espais.', 'web-horari', [2, 3, 4, 5, 19]],
+            ['Escola', 'De música, esportiva, de tallers o d\'extraescolars: inscripcions, grups i horaris del professorat i dels espais. Les notes i els butlletins estan disponibles per a societats musicals i colles.', 'web-horari', [2, 3, 4, 5, 19]],
             ['Agrupacions, equips i material', 'Qui toca o juga en cada formació, quines obres teniu a l\'arxiu i on està cada instrument, cada equipació i cada vestit.', 'web-repertori', [6, 7, 8, 9]],
             ['Economia', 'Quotes, classes i remeses al banc sense fulls de càlcul: els rebuts es fan sols i no se\'n duplica cap.', 'web-rebuts', [10, 11, 23, 12, 13, 17]],
             ['Junta, documents i còpies', 'La part institucional de l\'entitat en ordre, i les dades sempre amb còpia.', 'web-junta', [14, 15, 21, 22]],
@@ -265,6 +269,10 @@ $T = [
         ],
         'descarrega' => 'Descargar (Windows y Linux)',
         'versio' => 'Versión %s. Gratuito y libre.',
+        'nou_titol' => 'Compàs 2.0: para más asociaciones',
+        'nou_text' => 'Elige el tipo de entidad y adapta los nombres, los módulos y el ejercicio. Ahora también puedes gestionar actividades con inscripciones y recibos, licencias deportivas, cargos de fiesta y entidades federadas.',
+        'nou_actualitza' => '¿Ya usáis Compàs? Al actualizar, vuestra instalación continúa como sociedad musical, con los datos conservados y una copia antes de actualizar la base de datos. Los módulos nuevos se pueden activar en Administración → Módulos y avisos.',
+        'nou_enllac' => 'Consulta los cambios de la versión 2.0',
         'manual' => 'Leer el manual',
         'nav_que' => 'Qué hace', 'nav_veure' => 'Capturas', 'nav_com' => 'Cómo empezar', 'nav_qui' => 'Por qué', 'nav_codi' => 'Código',
         'qui_titol' => 'Por qué Compàs',
@@ -322,7 +330,7 @@ $T = [
         'blocs' => [
             ['Personas y socios', 'Una ficha por persona y toda la entidad en un solo lugar, aunque una misma persona sea socia, jugadora y madre de alumnos.', 'web-socis', [0, 1, 28, 18, 16, 20]],
             ['Clubes, fallas, comparsas y mucho más', 'Cada tipo de entidad tiene lo que necesita: licencias y revisiones médicas para los clubes, cargos de fiesta para fallas y comparsas, entidades federadas para las federaciones, y actividades con inscripciones para todos.', 'web-club', [29, 24, 25, 26, 27]],
-            ['Escuela', 'De música, deportiva, de talleres o de extraescolares: desde la inscripción hasta el boletín, con los horarios de todo el profesorado y todos los espacios.', 'web-horari', [2, 3, 4, 5, 19]],
+            ['Escuela', 'De música, deportiva, de talleres o de extraescolares: inscripciones, grupos y horarios del profesorado y de los espacios. Las notas y los boletines están disponibles para sociedades musicales y collas.', 'web-horari', [2, 3, 4, 5, 19]],
             ['Agrupaciones, equipos y material', 'Quién toca o juega en cada formación, qué obras tenéis en el archivo y dónde está cada instrumento, cada equipación y cada traje.', 'web-repertori', [6, 7, 8, 9]],
             ['Economía', 'Cuotas, clases y remesas al banco sin hojas de cálculo: los recibos se hacen solos y no se duplica ninguno.', 'web-rebuts', [10, 11, 23, 12, 13, 17]],
             ['Junta, documentos y copias', 'La parte institucional de la entidad en orden, y los datos siempre con copia.', 'web-junta', [14, 15, 21, 22]],
@@ -517,6 +525,11 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 </div></header>
 
 <main>
+<aside class="novetats" aria-labelledby="novetats-titol">
+  <h2 id="novetats-titol">{$t['nou_titol']}</h2>
+  <p>{$t['nou_text']}</p>
+  <details><summary>{$t['nou_enllac']}</summary><p>{$t['nou_actualitza']}</p><a href="{$repo}/blob/main/CHANGELOG.md#200---2026-10-23">{$t['novetats']}</a></details>
+</aside>
 <section class="hero">
   <div class="pentagrama" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   <div class="hero-text">
