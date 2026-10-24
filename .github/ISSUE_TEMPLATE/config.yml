@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: "🔒 Vulnerabilitat: comunicació privada / Vulnerabilidad: comunicación privada"
+    url: https://github.com/jossanmar9/compas/blob/main/SECURITY.md
+    about: "No publiques vulnerabilitats en una issue. Consulta el canal privat. / No publiques vulnerabilidades en una issue. Consulta el canal privado."
+  - name: "🤝 Com col·laborar / Cómo colaborar"
+    url: https://github.com/jossanmar9/compas/blob/main/CONTRIBUTING.md
+    about: "Com provar Compàs, executar proves i enviar una PR. / Cómo probar Compàs, ejecutar pruebas y enviar una PR."
   - name: "📖 Manual d'usuari / Manual de usuario"
     url: https://github.com/jossanmar9/compas/blob/main/docs/manual-usuari.md
     about: "Abans d'escriure, mira si el manual ho explica. / Antes de escribir, mira si el manual lo explica."

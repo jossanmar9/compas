@@ -11,12 +11,15 @@ body:
 
         ⚠️ **No poses dades reals de persones** (noms, DNI, telèfons…) ni en el text ni en les captures. Tapa-les o fes la captura amb les dades d'exemple.
         *No pongas datos reales de personas, ni en el texto ni en las capturas.*
+        **Seguretat:** si pot exposar dades o saltar-se permisos, [comunica-ho en privat](https://github.com/jossanmar9/compas/blob/main/SECURITY.md), no en esta issue.
+        *Si puede exponer datos o saltarse permisos, comunícalo en privado.*
+        No adjuntes bases de dades, còpies, IBAN, contrasenyes ni codis de recuperació.
   - type: input
     id: versio
     attributes:
       label: "Quina versió de Compàs tens? / ¿Qué versión tienes?"
-      description: "Ix a Ajuda → «Què canvia en cada versió». Si no ho saps, deixa-ho en blanc."
-      placeholder: "Per exemple: 1.2.1"
+      description: "La pots consultar a Ajuda. / Puedes consultarla en Ayuda."
+      placeholder: "Per exemple: 2.0.2"
   - type: textarea
     id: feia
     attributes:
@@ -47,13 +50,37 @@ body:
       label: "Captures de pantalla / Capturas de pantalla"
       description: "Opcional. Pots arrossegar les imatges ací. Recorda tapar les dades personals."
   - type: dropdown
-    id: windows
+    id: sistema
     attributes:
-      label: "Windows"
+      label: "Sistema operatiu / Sistema operativo"
       options:
         - "Windows 11"
         - "Windows 10"
+        - "Linux (indica la distribució i versió més avall / indica distribución y versión abajo)"
+        - "Altre / Otro"
         - "No ho sé / No lo sé"
+  - type: dropdown
+    id: paquet
+    attributes:
+      label: "Com l'has instal·lat? / ¿Cómo lo has instalado?"
+      options:
+        - "Instal·lador Windows / Instalador Windows"
+        - "Portable Windows (.zip)"
+        - "Linux (.deb)"
+        - "Linux (.tar.gz)"
+        - "Codi font / Código fuente"
+        - "No ho sé / No lo sé"
+  - type: input
+    id: entitat
+    attributes:
+      label: "Tipus d'entitat / Tipo de entidad"
+      placeholder: "Club esportiu, societat musical, AMPA, falla…"
+      description: "Només el tipus, no el nom real de l'entitat. / Solo el tipo, no el nombre real."
+  - type: textarea
+    id: entorn
+    attributes:
+      label: "Altres detalls / Otros detalles"
+      description: "Distribució i versió de Linux, navegador o visor, mòduls actius, si passa amb dades d'exemple… / Distribución y versión de Linux, navegador o visor, módulos activos, si ocurre con datos de ejemplo…"
   - type: checkboxes
     id: dades
     attributes:

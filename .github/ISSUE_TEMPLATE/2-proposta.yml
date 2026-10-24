@@ -6,21 +6,29 @@ body:
   - type: markdown
     attributes:
       value: |
-        Les propostes de qui porta de veritat una societat musical són les més útils. Explica-ho amb les teues paraules.
-        *Las propuestas de quien lleva de verdad una sociedad musical son las más útiles. Puedes escribir en castellano.*
+        Les propostes de qui porta de veritat una associació són les més útils. Explica-ho amb les teues paraules.
+        *Las propuestas de quien lleva de verdad una asociación son las más útiles. Puedes escribir en castellano.*
+        No inclogues dades personals, bancàries ni documents reals. / No incluyas datos personales, bancarios ni documentos reales.
+        Per a un tipus d'entitat nou, tria el seu formulari. / Para un tipo de entidad nuevo, elige su formulario.
   - type: dropdown
     id: part
     attributes:
       label: "De quina part del programa? / ¿De qué parte del programa?"
       options:
-        - "Persones i socis"
-        - "Escola de música (alumnat, matrícules, grups, horari)"
-        - "Notes i butlletins"
-        - "Agrupacions i músics"
-        - "Instruments i cessions"
-        - "Còpies de seguretat"
-        - "Una cosa nova que no hi és / Algo nuevo"
-        - "Altra / Otra"
+        - "Persones i socis / Personas y socios"
+        - "Quotes, rebuts i SEPA / Cuotas, recibos y SEPA"
+        - "Economia, loteria i subvencions / Economía, lotería y subvenciones"
+        - "Activitats i inscripcions / Actividades e inscripciones"
+        - "Escola, notes i butlletins / Escuela, notas y boletines"
+        - "Agrupacions, equips i repertori / Agrupaciones, equipos y repertorio"
+        - "Instruments, material i uniformes / Instrumentos, material y uniformes"
+        - "Llicències i càrrecs de festa / Licencias y cargos de fiesta"
+        - "Entitats federades / Entidades federadas"
+        - "Junta, documents i comunicats / Junta, documentos y comunicados"
+        - "Llistats, importació i exportació / Listados, importación y exportación"
+        - "Configuració, permisos i còpies / Configuración, permisos y copias"
+        - "Accessibilitat, idiomes o web / Accesibilidad, idiomas o web"
+        - "Una cosa nova o altra / Algo nuevo u otra"
     validations:
       required: true
   - type: textarea
@@ -37,7 +45,7 @@ body:
       label: "Com t'imagines que funcionaria? / ¿Cómo te imaginas que funcionaría?"
       description: "Opcional. Si ho feu d'alguna manera ara (Excel, paper, un altre programa), conta-ho."
   - type: input
-    id: societat
+    id: tipus_entitat
     attributes:
-      label: "Societat musical (opcional) / Sociedad musical (opcional)"
-      description: "Ens ajuda a saber qui fa servir Compàs. Deixa-ho en blanc si no ho vols dir."
+      label: "Tipus d'entitat (opcional) / Tipo de entidad (opcional)"
+      description: "Club, AMPA, falla… No cal el nom de l’entitat. / No hace falta el nombre de la entidad."

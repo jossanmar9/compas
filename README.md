@@ -332,13 +332,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 ## Col·laborar
 
+Consulta la [guia de contribució](CONTRIBUTING.md) per a provar Compàs, executar les proves i enviar una PR. Si has trobat una possible vulnerabilitat, comunica-la **en privat** seguint la [política de seguretat](SECURITY.md).
+
 ### ⭐ Dona visibilitat al projecte
 
 Si utilitzes Compàs, t'interessa la idea o vols donar suport al programari lliure per a associacions, una **estrela al repositori** ajuda altres persones a descobrir-lo.
 
 ### 🐛 Errors i propostes
 
-Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada** o **Tinc una proposta**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de cada tipus d'entitat són especialment benvingudes.
+Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada**, **Tinc una proposta** o **Nou tipus d’entitat**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de cada tipus d'entitat són especialment benvingudes.
 
 ### 🧪 Qualitat i rendiment
 

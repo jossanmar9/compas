@@ -1,0 +1,58 @@
+name: "🏢 Nou tipus d'entitat / Nuevo tipo de entidad"
+description: "Proposa adaptar Compàs a una altra associació. / Propón adaptar Compàs a otra asociación."
+title: "[Tipus d'entitat] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Explica com funciona este tipus d'associació amb exemples inventats. No cal saber programar.
+        *Explica cómo funciona este tipo de asociación con ejemplos inventados. No hace falta saber programar.*
+        No inclogues noms reals, dades personals, IBAN ni documents d'una entitat.
+        *No incluyas nombres reales, datos personales, IBAN ni documentos de una entidad.*
+  - type: input
+    id: tipus
+    attributes:
+      label: "Tipus d'entitat proposat / Tipo de entidad propuesto"
+      placeholder: "Quin tipus d'associació és? / ¿Qué tipo de asociación es?"
+    validations:
+      required: true
+  - type: textarea
+    id: necessitat
+    attributes:
+      label: "Què necessita gestionar? / ¿Qué necesita gestionar?"
+      description: "Explica les tasques habituals i què no cobreixen els tipus actuals. / Explica las tareas habituales y qué no cubren los tipos actuales."
+    validations:
+      required: true
+  - type: input
+    id: semblant
+    attributes:
+      label: "Quin tipus actual s'hi assembla més? / ¿Qué tipo actual se parece más?"
+      description: "Si ja l'has provat, indica què t'ha servit i què falta. / Si ya lo has probado, indica qué te ha servido y qué falta."
+  - type: textarea
+    id: vocabulari
+    attributes:
+      label: "Quins noms feu servir? / ¿Qué nombres usáis?"
+      description: "Com anomeneu els socis, els grups, l'alumnat, el professorat o el material? / ¿Cómo llamáis a los socios, grupos, alumnado, profesorado o material?"
+  - type: textarea
+    id: moduls
+    attributes:
+      label: "Quins apartats calen? / ¿Qué apartados hacen falta?"
+      description: "Quotes, activitats, escola, equips, llicències, càrrecs, loteria… Indica també els que no faríeu servir. / Cuotas, actividades, escuela, equipos, licencias, cargos, lotería… Indica también los que no usaríais."
+  - type: input
+    id: exercici
+    attributes:
+      label: "Quan comença l'exercici? / ¿Cuándo empieza el ejercicio?"
+      placeholder: "Gener, setembre… Com l'anomeneu: 2026 o 2026-2027? / ¿Cómo lo llamáis?"
+  - type: textarea
+    id: categories
+    attributes:
+      label: "Categories i càrrecs propis / Categorías y cargos propios"
+      description: "Si hi ha categories d'edat, càrrecs o altres particularitats, explica-les sense dades reals. / Si hay categorías de edad, cargos u otras particularidades, explícalas sin datos reales."
+  - type: checkboxes
+    id: dades
+    attributes:
+      label: "Dades personals / Datos personales"
+      options:
+        - label: "He revisat que no incloc dades personals ni bancàries reals. / He revisado que no incluyo datos personales ni bancarios reales."
+          required: true
