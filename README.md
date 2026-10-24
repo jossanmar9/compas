@@ -1,38 +1,60 @@
-<p align="center"><img src="app/assets/logo.png" alt="Compàs: Gestió lliure per a associacions" width="260"></p>
+<p align="center">
+  <img src="app/assets/logo.png" alt="Compàs: Gestió lliure per a associacions" width="280">
+</p>
+
+<h1 align="center">Compàs</h1>
+
+<p align="center"><strong>Gestió lliure per a associacions</strong></p>
+
+<p align="center">
+  Gestiona persones, socis, quotes, rebuts, activitats, economia, junta i documentació<br>
+  des d'un únic programa, sense núvol ni subscripcions.
+</p>
 
 <p align="center">
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/jossanmar9/compas?label=versi%C3%B3&color=1f5aa6" alt="Última versió"></a>
+  <a href="https://github.com/jossanmar9/compas/actions/workflows/tests.yml"><img src="https://github.com/jossanmar9/compas/actions/workflows/tests.yml/badge.svg" alt="Proves"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/llic%C3%A8ncia-AGPL--3.0--or--later-14284b" alt="Llicència AGPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-e8a33d" alt="Windows 10 i 11">
-  <img src="https://img.shields.io/badge/Linux-.deb%20%7C%20.tar.gz-e8a33d" alt="Linux: .deb i .tar.gz">
+  <img src="https://img.shields.io/badge/Linux-.deb%20%7C%20.tar.gz-e8a33d" alt="Linux">
+  <img src="https://img.shields.io/badge/PHP-8.1%2B-777BB4" alt="PHP 8.1+">
+  <img src="https://img.shields.io/badge/SQLite-local-003B57" alt="SQLite">
 </p>
 
-# Compàs
+<p align="center">
+  <strong>🖥️ Windows i Linux · 🔒 Dades locals · 🌐 Sense Internet · 💶 Sense subscripcions · 🆓 Programari lliure</strong>
+</p>
 
-**Gestió lliure per a associacions.** Compàs és un programa per a un ordinador amb Windows o Linux que porta en un sol lloc les persones, els socis, les quotes i els rebuts, les activitats, la loteria, la caixa, les subvencions, la junta directiva i la documentació d'una associació. I, segons el tipus d'entitat, també l'escola (de música, esportiva, de tallers o d'extraescolars), els equips o les seccions, les llicències federatives, els càrrecs de festa o les entitats federades.
-
-Serveix per a **societats musicals, clubs esportius, colles, associacions culturals, AMPA, falles, gaiates, fogueres, comparses, penyes i federacions**. En instal·lar-lo es tria el tipus d'entitat i Compàs adapta els noms (socis, fallers i falleres, comparsistes, famílies associades…), els apartats i l'exercici (l'any natural, la temporada de setembre a agost, l'exercici faller…).
-
-Està pensat per a qui porta la secretaria d'una entitat, encara que no siga informàtic: s'instal·la com qualsevol altre programa, funciona sense Internet i les dades es queden a l'ordinador de l'entitat.
-
-> 🔒 **La privacitat és el centre del projecte.** A diferència de les plataformes en línia per a associacions, Compàs **no té servidor, no demana registrar-se ni pagar una subscripció i no recull cap dada**: ni de l'entitat, ni dels socis, ni dels menors. Tot es queda en un fitxer de l'ordinador de l'entitat, que en controla les còpies. No hi ha telemetria, ni publicitat, ni comptes en el núvol de ningú.
-
-> ⚠ **Avís de responsabilitat.** Compàs és programari lliure i es distribueix tal com és, sense cap garantia (llicència AGPL-3.0). L'autor no es fa responsable de la pèrdua de dades ni de cap altre dany, directe o indirecte, que puga derivar-se de l'ús del programa, d'una errada, d'una actualització o d'una configuració incorrecta. Cada entitat és responsable de les seues dades i de fer-ne còpies de seguretat periòdiques en un lloc extern (USB o núvol).
->
-> *Aviso de responsabilidad: Compàs es software libre y se distribuye tal cual, sin ninguna garantía (licencia AGPL-3.0). El autor no se hace responsable de la pérdida de datos ni de ningún otro daño, directo o indirecto, que pueda derivarse del uso del programa, de un error, de una actualización o de una configuración incorrecta. Cada entidad es responsable de sus datos y de hacer copias de seguridad periódicas en un lugar externo (USB o nube).*
-
-*Compàs es un programa libre para gestionar una asociación desde un ordenador con Windows o Linux: sociedades musicales, clubes deportivos, collas, asociaciones culturales, AMPA, fallas, gaiatas, fogueres, comparsas, peñas y federaciones. Personas, socios, cuotas, recibos, actividades, lotería, caja, subvenciones, junta directiva y documentación y, según el tipo de entidad, escuela, equipos, licencias federativas, cargos de fiesta o entidades federadas. Funciona en valenciano y castellano, sin Internet, sin servidores y sin recoger ningún dato. [Manual de usuario en castellano](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuario.pdf).*
-
-Un projecte de **José Vicente Sanjuan**.
-
-🌐 **Web:** [jossanmar9.github.io/compas](https://jossanmar9.github.io/compas/) · ⬇️ **Descàrrega:** [última versió](../../releases/latest) · 📖 **Manual:** [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-usuari.pdf) · 🔒 [Privacitat](PRIVACITAT.md)
+<p align="center">
+  <a href="../../releases/latest"><strong>⬇️ Descarregar Compàs</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://jossanmar9.github.io/compas/"><strong>🌐 Web</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/jossanmar9/compas/releases/latest/download/manual-usuari.pdf"><strong>📖 Manual</strong></a>
+  &nbsp;·&nbsp;
+  <a href="PRIVACITAT.md"><strong>🔒 Privacitat</strong></a>
+</p>
 
 ![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.webp)
+
+Compàs és una aplicació d'escriptori per a gestionar una associació des d'un ordinador amb **Windows o Linux**. Està pensada perquè qui porta la secretaria o l'administració d'una entitat puga utilitzar-la sense coneixements informàtics especials.
+
+Serveix per a **societats musicals, clubs esportius, colles, associacions culturals, AMPA/AFA, falles, gaiates, fogueres, comparses, penyes i federacions**. En instal·lar-lo, Compàs adapta el vocabulari, els apartats i l'exercici al tipus d'entitat.
+
+> 🔒 **Les dades són de l'associació.** Compàs no necessita cap servidor extern, no obliga a crear un compte, no té telemetria ni publicitat i no envia dades fora de l'ordinador. L'entitat controla les seues dades i les seues còpies de seguretat.
+
+### ⭐ T'agrada Compàs?
+
+Si Compàs et sembla útil, pots ajudar el projecte donant-li una **estrela a GitHub**. Ajuda a donar-li visibilitat i a fer que més associacions el descobrisquen.
+
+*Compàs también está disponible en castellano. El programa, los manuales y la documentación de uso están en valenciano y castellano.*
+
+Un projecte de **José Vicente Sanjuan**.
 
 ## Contingut
 
 - [Per a quines entitats](#per-a-quines-entitats)
-- [Què fa](#què-fa)
+- [Què pots gestionar](#què-pots-gestionar)
 - [Per què sense núvol](#per-què-sense-núvol)
 - [Captures](#captures)
 - [Instal·lació](#installació)
@@ -66,7 +88,29 @@ Un projecte de **José Vicente Sanjuan**.
 
 Tots els tipus tenen persones, socis, quotes i rebuts, remeses, activitats amb inscripcions, caixa, junta i actes, documents, comunicats i llistats. Cada entitat pot activar o desactivar qualsevol apartat, canviar el mes en què comença l'exercici i canviar de tipus quan vulga (Administració → Configuració): les dades no es toquen.
 
-## Què fa
+## Què pots gestionar
+
+Compàs concentra en un únic programa les àrees habituals de gestió d'una associació:
+
+| | |
+|---|---|
+| 👥 **Persones i socis** | Fitxes, altes i baixes, tipus de soci, categories i drets d'imatge. |
+| 💳 **Quotes i rebuts** | Tarifes, cobraments, devolucions, domiciliacions i remeses SEPA. |
+| 💰 **Economia** | Llibre de caixa, ingressos, despeses, loteria i subvencions. |
+| 📅 **Activitats** | Actes, eixides, competicions, tallers i inscripcions. |
+| 🏛️ **Junta i actes** | Càrrecs, historial de juntes, convocatòries, actes i certificats. |
+| 📁 **Documents** | Estatuts, contractes, pòlisses i altres documents de l'entitat. |
+| 🎓 **Escola i cursos** | Escola de música, esportiva, tallers o extraescolars, segons l'entitat. |
+| 👕 **Material** | Instruments, material, equipacions, uniformes, vestits i préstecs. |
+| 📊 **Llistats i certificats** | Impressió, PDF, CSV i documentació per a la gestió diària. |
+| 💾 **Còpies de seguretat** | Automàtiques, externes i opcionalment xifrades. |
+
+A més, el tipus d'entitat activa funcionalitats específiques com **repertori musical, llicències esportives, càrrecs de festa, esquadres, comissions o entitats federades**.
+
+<details>
+<summary><strong>Veure totes les funcionalitats de Compàs</strong></summary>
+
+<br>
 
 | Mòdul | Què fa |
 |---|---|
@@ -105,6 +149,8 @@ Tot el programa està en **valencià i castellà**, i cada usuari pot triar el s
 
 Compàs fa **rebuts**, no factures: les factures han de complir el reglament dels sistemes de facturació (Verifactu) i s'han de fer amb un programa preparat per a això.
 
+</details>
+
 ## Per què sense núvol
 
 | | Compàs | Plataformes en línia |
@@ -122,10 +168,12 @@ Les plataformes en línia tenen avantatges reals (una app per al mòbil dels soc
 
 | | |
 |---|---|
+| ![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.webp) | ![Còpies de seguretat](docs/imatges/ca/34-copies.webp) |
+| **Inici:** visió general i accés als mòduls de l'entitat. | **Còpies de seguretat:** automàtiques, manuals i externes. |
 | ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.webp) | ![Introduir les notes](docs/imatges/ca/27-qualificacions.webp) |
-| La fitxa d'un alumne: grups, horari, notes i tutors legals. | Les notes d'un grup, amb les observacions del professor. |
-| ![Butlletí de notes](docs/imatges/ca/29-butlleti-impres.webp) | ![Còpies de seguretat](docs/imatges/ca/34-copies.webp) |
-| Un butlletí de notes preparat per a imprimir. | Les còpies de seguretat: automàtiques, manuals i externes. |
+| Exemple d'una fitxa amb informació relacionada. | Exemple d'un mòdul específic d'escola. |
+
+> Les captures d'escola són només un exemple dels mòduls específics. Compàs adapta els apartats a societats musicals, clubs esportius, associacions culturals, AMPA/AFA, entitats festives, penyes i federacions.
 
 Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md).
 
@@ -138,7 +186,7 @@ Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
    - **`Compas-X.Y.Z-portable.zip`**: la mateixa versió sense instal·lar. Descomprimeix-la on vulgues (també en un llapis USB) i obri `Compas.exe`.
    - **`compas_X.Y.Z_all.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_all.deb`, que porta també PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: per a altres Linux. Descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior amb `pdo_sqlite` i `mbstring`).
-2. El programa **encara no està signat digitalment**. Windows SmartScreen pot avisar: prem **Més informació → Executa igualment**. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows el bloqueja (també la versió portable) i cal desactivar-lo: vegeu la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
+2. Compàs **encara no disposa d'un certificat de signatura de codi**, per la qual cosa Windows SmartScreen pot mostrar un avís en obrir l'instal·lador: prem **Més informació → Executa igualment**. El codi font és públic i els paquets es construeixen automàticament amb GitHub Actions. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows pot bloquejar també la versió portable; consulta la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
 3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En tancar-la, fa una còpia de seguretat i s'atura.
 
 **Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
@@ -284,7 +332,17 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 
 ## Col·laborar
 
+### ⭐ Dona visibilitat al projecte
+
+Si utilitzes Compàs, t'interessa la idea o vols donar suport al programari lliure per a associacions, una **estrela al repositori** ajuda altres persones a descobrir-lo.
+
+### 🐛 Errors i propostes
+
 Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada** o **Tinc una proposta**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de cada tipus d'entitat són especialment benvingudes.
+
+### 🧪 Qualitat i rendiment
+
+Compàs disposa de proves automàtiques i d'integració que recorren les funcions principals en valencià i castellà i comproven els diferents tipus d'entitat. També inclou una prova específica de rendiment de SQLite amb **100.000 rebuts**.
 
 ## Autoria i ús d'intel·ligència artificial
 
