@@ -8,6 +8,11 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.0.2] - 2026-10-24
+
+### Canviat
+- La icona de l’instal·lador de Windows mostra només el símbol de Compàs, sense el nom ni el lema, amb fons transparent i diverses resolucions.
+
 ## [2.0.1] - 2026-10-24
 
 ### Canviat
