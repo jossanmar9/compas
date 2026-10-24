@@ -8,6 +8,12 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.0.1] - 2026-10-24
+
+### Canviat
+- Nou logotip de Compàs a la pantalla d’entrada i de configuració inicial, al llançador i a les portades dels manuals.
+- Nova icona de l’aplicació, del navegador i dels paquets de Windows i Linux, a partir del mateix logotip.
+
 ## [2.0.0] - 2026-10-23
 
 Compàs passa a ser la **gestió lliure per a associacions**: a més de les societats musicals, ara serveix per a clubs esportius, colles, associacions culturals, AMPA, falles, gaiates, fogueres, comparses, penyes i federacions.

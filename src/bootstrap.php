@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '2.0.0';
+const COMPAS_VERSIO = '2.0.1';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));

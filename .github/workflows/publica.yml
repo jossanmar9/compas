@@ -336,7 +336,7 @@ jobs:
           if not ''.join(canvis).strip():
               canvis = ['Consulta el registre de canvis.']
           notes = [
-              f'**Compàs {v}**: Gestió lliure per a societats musicals.', '',
+              f'**Compàs {v}**: Gestió lliure per a associacions.', '',
               '| Fitxer | Per a |', '|---|---|',
               '| **Compas-…-installador.exe** | Windows 10/11 (64 bits). No necessita permisos d\'administrador. |',
               '| **Compas-…-portable.zip** | Windows, sense instal·lar: descomprimeix-lo i obri `Compas.exe`. |',
