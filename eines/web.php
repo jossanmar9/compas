@@ -65,10 +65,6 @@ $T = [
         ],
         'descarrega' => 'Descarrega (Windows i Linux)',
         'versio' => 'Versió %s. Gratuït i lliure.',
-        'nou_titol' => 'Compàs 2.0: per a més associacions',
-        'nou_text' => 'Tria el tipus d’entitat i adapta els noms, els mòduls i l’exercici. Ara també pots gestionar activitats amb inscripcions i rebuts, llicències esportives, càrrecs de festa i entitats federades.',
-        'nou_actualitza' => 'Ja feu servir Compàs? En actualitzar, la vostra instal·lació continua com a societat musical, amb les dades conservades i una còpia abans d’actualitzar la base de dades. Els mòduls nous es poden activar a Administració → Mòduls i avisos.',
-        'nou_enllac' => 'Consulta els canvis de la versió 2.0',
         'manual' => 'Llig el manual',
         'nav_que' => 'Què fa', 'nav_veure' => 'Captures', 'nav_com' => 'Com començar', 'nav_qui' => 'Per què', 'nav_codi' => 'Codi',
         'qui_titol' => 'Per què Compàs',
@@ -269,10 +265,6 @@ $T = [
         ],
         'descarrega' => 'Descargar (Windows y Linux)',
         'versio' => 'Versión %s. Gratuito y libre.',
-        'nou_titol' => 'Compàs 2.0: para más asociaciones',
-        'nou_text' => 'Elige el tipo de entidad y adapta los nombres, los módulos y el ejercicio. Ahora también puedes gestionar actividades con inscripciones y recibos, licencias deportivas, cargos de fiesta y entidades federadas.',
-        'nou_actualitza' => '¿Ya usáis Compàs? Al actualizar, vuestra instalación continúa como sociedad musical, con los datos conservados y una copia antes de actualizar la base de datos. Los módulos nuevos se pueden activar en Administración → Módulos y avisos.',
-        'nou_enllac' => 'Consulta los cambios de la versión 2.0',
         'manual' => 'Leer el manual',
         'nav_que' => 'Qué hace', 'nav_veure' => 'Capturas', 'nav_com' => 'Cómo empezar', 'nav_qui' => 'Por qué', 'nav_codi' => 'Código',
         'qui_titol' => 'Por qué Compàs',
@@ -510,7 +502,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 </head>
 <body>
 <header class="cap-web"><div class="barra">
-  <a class="marca" href="./"><img src="{$base}img/icona.png" alt="" width="36" height="36"><span>Compàs</span></a>
+  <a class="marca" href="./"><img src="{$base}img/logo.png" alt="" width="64" height="64"><span>Compàs</span></a>
   <nav aria-label="{$t['nav_menu']}">
     <a href="#entitats">{$t['nav_tipus']}</a>
     <a href="#privacitat">{$t['nav_priv']}</a>
@@ -525,13 +517,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 </div></header>
 
 <main>
-<aside class="novetats" aria-labelledby="novetats-titol">
-  <h2 id="novetats-titol">{$t['nou_titol']}</h2>
-  <p>{$t['nou_text']}</p>
-  <details><summary>{$t['nou_enllac']}</summary><p>{$t['nou_actualitza']}</p><a href="{$repo}/blob/main/CHANGELOG.md#200---2026-10-23">{$t['novetats']}</a></details>
-</aside>
+<figure class="banner-compas"><img src="{$base}img/banner-compas.png" alt="Compàs — {$t['lema']}" width="1774" height="887" fetchpriority="high"></figure>
 <section class="hero">
-  <div class="pentagrama" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   <div class="hero-text">
     <p class="lema">{$t['lema']}</p>
     <h1>{$t['hero']}</h1>
@@ -543,9 +530,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p class="versio">{$versioText}</p>
     <p class="qui-lema">{$t['qui_lema']} <a href="#qui">{$t['qui_llig']} →</a></p>
   </div>
-  <figure class="hero-captura">
-    <img src="{$base}img/{$l}/web-inici.webp" alt="{$t['captures']['web-inici']}" width="1920" height="1200">
-  </figure>
+
 </section>
 
 <ul class="xifres">{$xifres}</ul>
@@ -726,7 +711,8 @@ foreach (['', '/es', '/img/ca', '/img/es', '/pdf'] as $d) {
         mkdir($eixida . $d, 0775, true);
     }
 }
-copy($arrel . '/app/assets/logo.png', $eixida . '/img/logo.png');
+copy($arrel . '/docs/imatges/logo-compas.png', $eixida . '/img/logo.png');
+copy($arrel . '/docs/imatges/banner-compas.png', $eixida . '/img/banner-compas.png');
 copy($arrel . '/app/assets/icona.png', $eixida . '/img/icona.png');
 copy(__DIR__ . '/web.css', $eixida . '/estil.css');
 // Tipografies lliures (SIL OFL) servides des de la mateixa web: cap petició a servidors de tercers

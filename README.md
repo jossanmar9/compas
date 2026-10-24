@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app/assets/logo.png" alt="Compàs: Gestió lliure per a associacions" width="280">
+  <img src="docs/imatges/logo-compas.png" alt="Compàs: Gestió lliure per a associacions" width="280">
 </p>
 
 <h1 align="center">Compàs</h1>
@@ -35,7 +35,7 @@
   <a href="PRIVACITAT.md"><strong>🔒 Privacitat</strong></a>
 </p>
 
-![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.webp)
+![Compàs: gestió lliure per a associacions](docs/imatges/banner-compas.png)
 
 Compàs és una aplicació d'escriptori per a gestionar una associació des d'un ordinador amb **Windows o Linux**. Està pensada perquè qui porta la secretaria o l'administració d'una entitat puga utilitzar-la sense coneixements informàtics especials.
 
