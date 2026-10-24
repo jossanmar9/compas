@@ -4,6 +4,8 @@ name: Web
 on:
   push:
     branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -20,11 +22,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           extensions: gd, mbstring
           coverage: none
+      - name: Versió disponible per a descarregar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq '.tag_name | ltrimstr("v")')
+          echo "COMPAS_VERSIO=$v" >> "$GITHUB_ENV"
       # Els PDF dels manuals no es guarden al repositori: es fan ací, amb el Chrome del servidor de GitHub
       - name: Genera els manuals en PDF
         run: bash eines/pdf.sh

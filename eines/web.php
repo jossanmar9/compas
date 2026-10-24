@@ -423,6 +423,68 @@ $T = [
     ],
 ];
 
+$portada = [
+    'ca' => [
+    'hero_text' => 'Gestiona persones, socis, quotes, rebuts, activitats, economia, junta i documentació des del teu ordinador.',
+    'demo' => 'Veure com funciona',
+    'download' => 'Descarrega Compàs',
+    'trust' => '✓ Windows i Linux · ✓ Gratuït · ✓ Sense núvol · ✓ Programari lliure',
+    'benefits' => [['🖥️', 'Local', 'Les dades estan al teu ordinador.'], ['🔒', 'Privat', 'Sense telemetria ni comptes externs.'], ['💶', 'Gratuït', 'Sense quotes ni límit de socis.'], ['🐧', 'Lliure', 'Windows i Linux. Codi obert.']],
+    'areas' => [['👥', 'Persones i socis', 'Fitxes, tipus de soci i importació des d’Excel.'], ['💳', 'Quotes i rebuts', 'Domiciliacions, SEPA i remeses bancàries.'], ['💰', 'Economia', 'Llibre de caixa, loteria i subvencions.'], ['📅', 'Activitats', 'Inscripcions, agrupacions i equips.'], ['📄', 'Gestió', 'Junta, actes, documents i certificats.'], ['🎓', 'Escola', 'Cursos, grups i matrícules. Notes i butlletins per a societats musicals i colles.']],
+    'all' => 'Veure totes les funcions',
+    'tipus_titol' => 'Compàs s’adapta a la teua associació',
+    'tipus_intro' => 'En la primera configuració tries el tipus d’entitat i Compàs adapta els mòduls i la terminologia.',
+    'veure_titol' => 'Mira Compàs en funcionament',
+    'veure_intro' => 'Pantalles reals del programa amb dades inventades. Tria què vols vore.',
+    'priv_titol' => 'Les dades de la teua associació són de la teua associació.',
+    'flow' => ['Associació', 'Ordinador', 'Base de dades SQLite'],
+    'absent' => ['Sense servidor de Compàs', 'Sense compte extern de Compàs', 'Sense telemetria', 'Sense publicitat', 'Sense subscripció'],
+    'qui_titol' => 'Fet des de l’experiència d’una associació',
+    'qui' => ['Durant sis anys vaig ser president de la Societat Musical de Massalfassar i vaig trobar a faltar una eina fàcil, útil i gratuïta per gestionar-la.', 'Soc José Vicente Sanjuan. Compàs va començar amb les necessitats de la meua societat i ha crescut per a servir també altres associacions. L’he desenvolupat amb l’ajuda d’intel·ligència artificial (Claude, d’Anthropic), a partir de les necessitats i les revisions del projecte.', 'Proveu-lo amb dades d’exemple i, si vos és útil, compartiu-lo amb altres entitats. Els dubtes i les propostes ajuden a millorar-lo.'],
+    'com_titol' => 'Comença amb Compàs',
+    'free' => 'Compàs és gratuït. Sense registre. Sense subscripció.',
+    'latest' => 'Descarrega l’última versió',
+    'installer' => 'Instal·lador',
+    'portable' => 'Portable',
+    'deb' => 'Debian, Ubuntu i Linux Mint',
+    'tar' => 'Altres distribucions Linux',
+    'help' => 'Instal·lació i ajuda',
+    'accounts' => 'Comptes i permisos',
+    'gallery' => ['Inici', 'Socis', 'Economia', 'Rebuts', 'Escola', 'Junta'],
+],
+    'es' => [
+    'hero_text' => 'Gestiona personas, socios, cuotas, recibos, actividades, economía, junta y documentación desde tu ordenador.',
+    'demo' => 'Ver cómo funciona',
+    'download' => 'Descarga Compàs',
+    'trust' => '✓ Windows y Linux · ✓ Gratuito · ✓ Sin nube · ✓ Software libre',
+    'benefits' => [['🖥️', 'Local', 'Los datos están en tu ordenador.'], ['🔒', 'Privado', 'Sin telemetría ni cuentas externas.'], ['💶', 'Gratuito', 'Sin cuotas ni límite de socios.'], ['🐧', 'Libre', 'Windows y Linux. Código abierto.']],
+    'areas' => [['👥', 'Personas y socios', 'Fichas, tipos de socio e importación desde Excel.'], ['💳', 'Cuotas y recibos', 'Domiciliaciones, SEPA y remesas bancarias.'], ['💰', 'Economía', 'Libro de caja, lotería y subvenciones.'], ['📅', 'Actividades', 'Inscripciones, agrupaciones y equipos.'], ['📄', 'Gestión', 'Junta, actas, documentos y certificados.'], ['🎓', 'Escuela', 'Cursos, grupos y matrículas. Notas y boletines para sociedades musicales y collas.']],
+    'all' => 'Ver todas las funciones',
+    'tipus_titol' => 'Compàs se adapta a tu asociación',
+    'tipus_intro' => 'En la primera configuración eliges el tipo de entidad y Compàs adapta los módulos y la terminología.',
+    'veure_titol' => 'Mira Compàs en funcionamiento',
+    'veure_intro' => 'Pantallas reales del programa con datos inventados. Elige qué quieres ver.',
+    'priv_titol' => 'Los datos de tu asociación son de tu asociación.',
+    'flow' => ['Asociación', 'Ordenador', 'Base de datos SQLite'],
+    'absent' => ['Sin servidor de Compàs', 'Sin cuenta externa de Compàs', 'Sin telemetría', 'Sin publicidad', 'Sin suscripción'],
+    'qui_titol' => 'Hecho desde la experiencia de una asociación',
+    'qui' => ['Durante seis años fui presidente de la Societat Musical de Massalfassar y eché en falta una herramienta fácil, útil y gratuita para gestionarla.', 'Soy José Vicente Sanjuan. Compàs empezó con las necesidades de mi sociedad y ha crecido para servir también a otras asociaciones. Lo he desarrollado con ayuda de inteligencia artificial (Claude, de Anthropic), a partir de las necesidades y las revisiones del proyecto.', 'Probadlo con datos de ejemplo y, si os resulta útil, compartidlo con otras entidades. Las dudas y las propuestas ayudan a mejorarlo.'],
+    'com_titol' => 'Empieza con Compàs',
+    'free' => 'Compàs es gratuito. Sin registro. Sin suscripción.',
+    'latest' => 'Descarga la última versión',
+    'installer' => 'Instalador',
+    'portable' => 'Portable',
+    'deb' => 'Debian, Ubuntu y Linux Mint',
+    'tar' => 'Otras distribuciones Linux',
+    'help' => 'Instalación y ayuda',
+    'accounts' => 'Cuentas y permisos',
+    'gallery' => ['Inicio', 'Socios', 'Economía', 'Recibos', 'Escuela', 'Junta'],
+],
+];
+foreach ($portada as $idioma => $textos) {
+    $T[$idioma] = array_replace($T[$idioma], $textos);
+}
+
 function e(string $s): string
 {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
@@ -435,20 +497,16 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $enllacCorreu = '<a href="mailto:' . e($correu) . '">' . e($correu) . '</a>';
     $contacte = sprintf(e($t['qui_contacte']), $enllacCorreu)
         . ($formulari !== '' ? ' <a href="' . e($formulari) . '">' . e($t['qui_formulari']) . '</a>' : '');
-    $privPunts = implode('', array_map(fn($p) => '<div class="punt-priv"><h3>' . e($p[0]) . '</h3><p>' . e($p[1]) . '</p></div>', $t['priv_punts']));
-    $compCap = implode('', array_map(fn($c) => '<th>' . e($c) . '</th>', $t['comp_cols']));
-    $compFiles = implode('', array_map(fn($f) => '<tr><th>' . e($f[0]) . '</th><td class="si">' . e($f[1]) . '</td><td>' . e($f[2]) . '</td></tr>', $t['comp']));
-    $tipus = implode('', array_map(fn($x) => '<li><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3><p>' . e($x[2]) . '</p></li>', $t['tipus']));
-    $xifres = implode('', array_map(fn($x) => '<li><b>' . e($x[0]) . '</b><span>' . e($x[1]) . '</span></li>', $t['xifres']));
-    // Què fa: cinc blocs, cada un amb la seua captura (alternant el costat)
-    $blocs = '';
-    foreach ($t['blocs'] as $k => [$titol, $intro, $cap, $index]) {
-        $llista = implode('', array_map(fn($i) => '<div><dt>' . e($t['moduls'][$i][0]) . '</dt><dd>' . e($t['moduls'][$i][1]) . '</dd></div>', $index));
-        $blocs .= '<article class="bloc' . ($k % 2 ? ' invers' : '') . '"><div class="bloc-text"><p class="bloc-num">' . sprintf('%02d', $k + 1) . '</p><h3>' . e($titol) . '</h3>'
-            . '<p class="bloc-intro">' . e($intro) . '</p><dl>' . $llista . '</dl></div>'
-            . '<figure class="bloc-captura"><img src="' . $base . 'img/' . $l . '/' . $cap . '.webp" alt="' . e($t['captures'][$cap]) . '" width="1920" height="1200" loading="lazy">'
-            . '<figcaption>' . e($t['captures'][$cap]) . '</figcaption></figure></article>';
-    }
+    $compCap = implode('', array_map(fn($c) => '<th scope="col">' . e($c) . '</th>', $t['comp_cols']));
+    $compFiles = implode('', array_map(fn($f) => '<tr><th scope="row">' . e($f[0]) . '</th><td class="si">' . e($f[1]) . '</td><td>' . e($f[2]) . '</td></tr>', $t['comp']));
+    $tipus = implode('', array_map(fn($x) => '<li><span aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3></li>', $t['tipus']));
+    $avantatges = implode('', array_map(fn($x) => '<li><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h2>' . e($x[1]) . '</h2><p>' . e($x[2]) . '</p></li>', $t['benefits']));
+    $arees = implode('', array_map(fn($x) => '<article class="area"><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3><p>' . e($x[2]) . '</p></article>', $t['areas']));
+    $moduls = implode('', array_map(fn($x) => '<div class="modul"><dt>' . e($x[0]) . '</dt><dd>' . e($x[1]) . '</dd></div>', $t['moduls']));
+    $flux = implode('<span class="fletxa-flux" aria-hidden="true">→</span>', array_map(fn($x) => '<span>' . e($x) . '</span>', $t['flow']));
+    $absents = implode('', array_map(fn($x) => '<li>✓ ' . e($x) . '</li>', $t['absent']));
+    $downloads = '<article><span class="ic" aria-hidden="true">🪟</span><h3>Windows 10 / 11</h3><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-installador.exe">↓ ' . e($t['installer']) . '</a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-portable.zip">↓ ' . e($t['portable']) . '</a></article>'
+        . '<article><span class="ic" aria-hidden="true">🐧</span><h3>Linux</h3><a href="' . $descarrega . '/download/compas_' . e($versio) . '_all.deb">↓ .deb <small>' . e($t['deb']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-linux.tar.gz">↓ .tar.gz <small>' . e($t['tar']) . '</small></a></article>';
     $compartir = $web . ($l === 'es' ? 'img/es/' : 'img/ca/') . 'web-compartir.png';
     $urlPagina = $web . ($l === 'es' ? 'es/' : '');
     $passos = '';
@@ -468,11 +526,12 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $manualPdf = e($pdf($t['docs'][0][0]));
 
     $miniatures = '';
-    $primera = $captures[0];
-    foreach ($captures as $i => $c) {
+    $primera = 'web-inici';
+    $galeria = ['web-inici', 'web-socis', 'web-economia', 'web-rebuts', 'web-horari', 'web-junta'];
+    foreach ($galeria as $i => $c) {
         $src = $base . 'img/' . $l . '/' . $c . '.webp';
         $miniatures .= '<li><button type="button" data-src="' . e($src) . '" data-peu="' . e($t['captures'][$c]) . '"' . ($i === 0 ? ' aria-current="true"' : '')
-            . ' aria-label="' . e($t['captures'][$c]) . '"><img src="' . e($src) . '" alt="" loading="lazy"></button></li>';
+            . ' aria-label="' . e($t['captures'][$c]) . '"><img src="' . e($src) . '" alt="" loading="lazy"><span>' . e($t['gallery'][$i]) . '</span></button></li>';
     }
     $versioText = $versio ? sprintf($t['versio'], $versio) : '';
     $any = date('Y');
@@ -505,35 +564,32 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <a class="marca" href="./"><img src="{$base}img/logo.png" alt="" width="64" height="64"><span>Compàs</span></a>
   <nav aria-label="{$t['nav_menu']}">
     <a href="#entitats">{$t['nav_tipus']}</a>
-    <a href="#privacitat">{$t['nav_priv']}</a>
     <a href="#que">{$t['nav_que']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
     <a href="#qui">{$t['nav_qui']}</a>
-    <a href="#comencar">{$t['nav_com']}</a>
+    <a class="nav-baixa" href="#comencar">{$t['download']}</a>
     <a href="#preguntes">{$t['nav_faq']}</a>
-    <a href="{$repo}">{$t['nav_codi']}</a>
     <a class="idioma" href="{$t['altre_url']}" hreflang="{$t['altre']}" lang="{$t['altre']}">{$t['altre_nom']}</a>
   </nav>
 </div></header>
 
 <main>
-<figure class="banner-compas"><img src="{$base}img/banner-compas.png" alt="Compàs — {$t['lema']}" width="1774" height="887" fetchpriority="high"></figure>
 <section class="hero">
   <div class="hero-text">
-    <p class="lema">{$t['lema']}</p>
+    <div class="hero-marca"><img src="{$base}img/logo.png" alt="Compàs" width="160" height="160"><div><p class="nom">Compàs</p><p class="lema">{$t['lema']}</p></div></div>
     <h1>{$t['hero']}</h1>
     <p class="entrada">{$t['hero_text']}</p>
     <div class="accions">
-      <a class="boto" href="{$descarrega}">{$t['descarrega']}</a>
-      <a class="boto secundari" href="{$manualPdf}">{$t['manual']}</a>
+      <a class="boto" href="#comencar">↓ {$t['download']}</a>
+      <a class="boto secundari" href="#captures">{$t['demo']} →</a>
     </div>
     <p class="versio">{$versioText}</p>
-    <p class="qui-lema">{$t['qui_lema']} <a href="#qui">{$t['qui_llig']} →</a></p>
+    <p class="confianca">{$t['trust']}</p>
   </div>
-
+  <figure class="ordinador"><div class="pantalla"><div class="camera" aria-hidden="true"></div><img src="{$base}img/{$l}/web-inici.webp" alt="{$t['captures']['web-inici']}" width="1920" height="1200" fetchpriority="high"></div><div class="peu-ordinador" aria-hidden="true"></div></figure>
 </section>
 
-<ul class="xifres">{$xifres}</ul>
+<ul class="avantatges seccio">{$avantatges}</ul>
 
 <section id="entitats" class="seccio entitats">
   <div class="cap">
@@ -543,22 +599,13 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <ul class="tipus-entitats">{$tipus}</ul>
 </section>
 
-<div class="banda fosca"><section id="privacitat" class="seccio privacitat">
-  <div class="cap">
-    <h2>{$t['priv_titol']}</h2>
-    <p>{$t['priv_intro']}</p>
-  </div>
-  <div class="punts-priv">{$privPunts}</div>
-  <h3 class="comp-titol">{$t['comp_titol']}</h3>
-  <div class="taula-comp-wrap"><table class="taula-comp"><thead><tr>{$compCap}</tr></thead><tbody>{$compFiles}</tbody></table></div>
-</section></div>
-
 <section id="que" class="seccio">
   <div class="cap">
     <h2>{$t['que_titol']}</h2>
     <p>{$t['que_intro']}</p>
   </div>
-  <div class="blocs">{$blocs}</div>
+  <div class="arees">{$arees}</div>
+  <details class="totes-funcions"><summary>{$t['all']} →</summary><dl class="moduls">{$moduls}</dl></details>
 </section>
 
 <section id="captures" class="seccio galeria">
@@ -577,6 +624,15 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <ul class="miniatures" aria-label="{$t['veure_titol']}">{$miniatures}</ul>
 </section>
 
+<section id="privacitat" class="seccio privacitat">
+  <div class="cap"><p class="etiqueta">{$t['nav_priv']}</p><h2>{$t['priv_titol']}</h2></div>
+  <div class="flux" aria-label="Compàs">{$flux}</div>
+  <ul class="absents">{$absents}</ul>
+  <p class="nota">{$t['dades'][0]}</p>
+  <h3 class="comp-titol">{$t['comp_titol']}</h3>
+  <div class="taula-comp-wrap"><table class="taula-comp"><thead><tr>{$compCap}</tr></thead><tbody>{$compFiles}</tbody></table></div>
+</section>
+
 <div class="separador" aria-hidden="true"></div>
 
 <section id="qui" class="seccio qui">
@@ -588,31 +644,14 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <p class="nota"><a href="{$repo}/issues/new/choose">{$t['qui_errades']}</a></p>
 </section>
 
-<section id="comencar" class="seccio">
-  <div class="cap"><h2>{$t['com_titol']}</h2></div>
-  <ol class="passos">{$passos}</ol>
-  <aside class="avis-windows">
-    <h3>{$t['avis_titol']}</h3>
-    <dl>{$avisos}</dl>
-    <p><a href="{$guia}">{$t['avis_mes']}</a></p>
-  </aside>
-  <aside class="avis-windows avis-resp" id="avis"><h3>{$t['resp_titol']}</h3><p>{$t['resp']}</p></aside>
+<section id="comencar" class="seccio descarregues">
+  <div class="cap"><h2>{$t['com_titol']}</h2><p>{$t['free']}</p></div>
+  <div class="paquets">{$downloads}</div>
+  <p><a class="boto" href="{$descarrega}">↓ {$t['latest']}</a></p>
+  <p class="nota">{$versioText}</p>
+  <p class="enllacos"><a href="{$manualPdf}">{$t['manual']}</a> · <a href="{$repo}">{$t['nav_codi']}</a> · <a href="{$repo}/blob/main/LICENSE">AGPL-3.0</a></p>
+  <details class="ajuda"><summary>{$t['help']}</summary><ol class="passos">{$passos}</ol><p><a href="{$guia}">{$t['avis_mes']}</a></p><ul class="punts">{$req}</ul><ul class="docs">{$docs}</ul></details>
 </section>
-
-<section class="seccio dues">
-  <div>
-    <h2>{$t['dades_titol']}</h2>
-    <ul class="punts">{$dades}</ul>
-  </div>
-  <div>
-    <h2>{$t['req_titol']}</h2>
-    <ul class="punts">{$req}</ul>
-    <h2 class="h2-segon">{$t['docs_titol']}</h2>
-    <ul class="docs">{$docs}</ul>
-  </div>
-</section>
-
-<div class="separador" aria-hidden="true"></div>
 
 <section id="preguntes" class="seccio preguntes">
   <div class="cap">
@@ -620,9 +659,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p>{$t['faq_intro']}</p>
   </div>
   <div class="faq">{$faq}</div>
-  <h3 class="comp-titol">{$t['comptes_titol']}</h3>
+  <details class="ajuda"><summary>{$t['accounts']}</summary><h3 class="comp-titol">{$t['comptes_titol']}</h3>
   <p class="comptes-intro">{$t['comptes_intro']}</p>
-  <div class="taula-comp-wrap"><table class="taula-comp taula-comptes"><thead><tr>{$comptesCap}</tr></thead><tbody>{$comptes}</tbody></table></div>
+  <div class="taula-comp-wrap"><table class="taula-comp taula-comptes"><thead><tr>{$comptesCap}</tr></thead><tbody>{$comptes}</tbody></table></div></details>
 </section>
 
 <section class="seccio lliure">
@@ -634,7 +673,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 </section>
 </main>
 
-<div class="baixa-fixa" hidden><a class="boto" href="{$descarrega}">{$t['descarrega']}</a></div>
+<div class="baixa-fixa" hidden><a class="boto" href="#comencar">↓ {$t['download']}</a></div>
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
@@ -662,7 +701,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     document.getElementById('peu').textContent = b.dataset.peu;
     botons.forEach(x => x.removeAttribute('aria-current'));
     b.setAttribute('aria-current', 'true');
-    b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    const llista = b.closest('.miniatures');
+    llista.scrollLeft = b.parentElement.offsetLeft - llista.offsetLeft;
   };
   botons.forEach((b, i) => b.addEventListener('click', () => mostra(i)));
   document.querySelector('.fletxa.ant').addEventListener('click', () => mostra(actual - 1));
@@ -670,11 +710,11 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   // Tecles ← → quan la galeria està a la vista
   const galeria = document.getElementById('captures');
   document.addEventListener('keydown', e => {
-    if (e.target.closest('input, textarea')) return;
+    if (e.target.closest('input, textarea, select, summary, [contenteditable]')) return;
     const r = galeria.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return;
-    if (e.key === 'ArrowLeft') mostra(actual - 1);
-    if (e.key === 'ArrowRight') mostra(actual + 1);
+    if (e.key === 'ArrowLeft') { e.preventDefault(); mostra(actual - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); mostra(actual + 1); }
   });
   // Lliscar amb el dit (mòbils i tauletes)
   let x0 = null;
@@ -712,7 +752,6 @@ foreach (['', '/es', '/img/ca', '/img/es', '/pdf'] as $d) {
     }
 }
 copy($arrel . '/docs/imatges/logo-compas.png', $eixida . '/img/logo.png');
-copy($arrel . '/docs/imatges/banner-compas.png', $eixida . '/img/banner-compas.png');
 copy($arrel . '/app/assets/icona.png', $eixida . '/img/icona.png');
 copy(__DIR__ . '/web.css', $eixida . '/estil.css');
 // Tipografies lliures (SIL OFL) servides des de la mateixa web: cap petició a servidors de tercers
