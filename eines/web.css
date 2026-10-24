@@ -31,6 +31,7 @@ main { overflow:clip; }
 .hero { position:relative; max-width:var(--ample); margin:auto; padding:4rem 1.5rem 4.5rem; display:grid; grid-template-columns:1fr 1.08fr; align-items:center; gap:3.5rem; }
 .hero::before { content:""; position:absolute; z-index:-1; width:760px; height:760px; border-radius:50%; background:radial-gradient(circle,#e7f5ff,transparent 68%); top:-130px; right:-240px; }
 .hero-marca { display:flex; align-items:center; gap:1.2rem; margin-bottom:1.6rem; }
+.hero-marca > div { min-width:0; }
 .hero-marca img { width:128px; height:128px; object-fit:contain; }
 .nom { margin:0; font:800 clamp(2.4rem,4vw,3.7rem)/1 var(--display); color:var(--mari); letter-spacing:-.05em; }
 .lema { margin:.5rem 0 0; font-size:1rem; color:var(--suau); line-height:1.35; }
