@@ -554,14 +554,14 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <meta property="og:locale" content="{$t['og_locale']}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#14284b">
-<link rel="icon" href="{$base}img/icona.png">
+<link rel="icon" href="{$base}img/simbol.ico">
 <link rel="alternate" hreflang="{$t['altre']}" href="{$t['altre_url']}">
 <link rel="preload" href="{$base}fonts/atkinson-hyperlegible-regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="{$base}estil.css">
 </head>
 <body>
 <header class="cap-web"><div class="barra">
-  <a class="marca" href="./"><img src="{$base}img/logo.png" alt="" width="64" height="64"><span>Compàs</span></a>
+  <a class="marca" href="./"><img src="{$base}img/simbol.png" alt="" width="64" height="64"><span>Compàs</span></a>
   <nav aria-label="{$t['nav_menu']}">
     <a href="#entitats">{$t['nav_tipus']}</a>
     <a href="#que">{$t['nav_que']}</a>
@@ -576,7 +576,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <main>
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-marca"><img src="{$base}img/logo.png" alt="Compàs" width="160" height="160"><div><p class="nom">Compàs</p><p class="lema">{$t['lema']}</p></div></div>
+    <div class="hero-marca"><img src="{$base}img/simbol.png" alt="" width="160" height="160"><div><p class="nom">Compàs</p><p class="lema">{$t['lema']}</p></div></div>
     <h1>{$t['hero']}</h1>
     <p class="entrada">{$t['hero_text']}</p>
     <div class="accions">
@@ -677,7 +677,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 
 <footer class="peu">
   <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/icona.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/LLICENCIA.md">{$t['llicencia']}</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
+  <p><img src="{$base}img/simbol.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/LLICENCIA.md">{$t['llicencia']}</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
   <p class="peu-resp">{$t['resp']}</p>
 </footer>
 
@@ -751,8 +751,8 @@ foreach (['', '/es', '/img/ca', '/img/es', '/pdf'] as $d) {
         mkdir($eixida . $d, 0775, true);
     }
 }
-copy($arrel . '/docs/imatges/logo-compas.png', $eixida . '/img/logo.png');
-copy($arrel . '/app/assets/icona.png', $eixida . '/img/icona.png');
+copy($arrel . '/launcher/installador.png', $eixida . '/img/simbol.png');
+copy($arrel . '/launcher/installador.ico', $eixida . '/img/simbol.ico');
 copy(__DIR__ . '/web.css', $eixida . '/estil.css');
 // Tipografies lliures (SIL OFL) servides des de la mateixa web: cap petició a servidors de tercers
 if (!is_dir($eixida . '/fonts')) {
