@@ -59,7 +59,7 @@ function pagina_loteria(): void
                 q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega) VALUES(?, ?, ?, ?)', [$id, $seguent + $i, $persona, date('Y-m-d')]);
             }
             audita('reparteix_talonaris', 'loteries', $id, "$quants → $persona");
-            db()->commit();
+            db()->exec('COMMIT');
             avis(t('loteria.repartits', $quants, $seguent, $seguent + $quants - 1));
             redirigeix('loteria', ['id' => $id]);
         }

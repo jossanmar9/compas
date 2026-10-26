@@ -406,12 +406,16 @@ function crea_rebuts(array $rebuts, string $data): array
             $total += $r['total'];
         }
         if ($propia) {
-            db()->commit();
+            db()->exec('COMMIT');
         }
         return [$n, $total];
     } catch (Throwable $e) {
-        if ($propia && db()->inTransaction()) {
-            db()->rollBack();
+        if ($propia) {
+            try {
+                db()->exec('ROLLBACK');
+            } catch (Throwable $rollbackError) {
+                // La transacciÃ³ pot haver finalitzat ja.
+            }
         }
         throw $e;
     }
@@ -677,7 +681,7 @@ function pagina_remeses(): void
                 return in_array($rid, $triats, true) && array_key_exists($rid, $remesaOriginal) && $actual === $remesaOriginal[$rid];
             }));
             if (!$seleccio) {
-                db()->rollBack();
+                db()->exec('ROLLBACK');
                 $error = t('remesa.err_buida');
             } else {
                 q('INSERT INTO remeses(referencia, data_cobrament, observacions) VALUES(?, ?, ?)', ['tmp-' . bin2hex(random_bytes(6)), $data, post('observacions') ?: null]);
@@ -687,7 +691,7 @@ function pagina_remeses(): void
                     q('UPDATE rebuts SET remesa_id = ?, mandat_id = ? WHERE id = ?', [$id, $r['mandat']['id'], $r['id']]);
                 }
                 audita('crea_remesa', 'remeses', $id, (string)count($seleccio));
-                db()->commit();
+                db()->exec('COMMIT');
                 avis(t('remesa.creada', count($seleccio)));
                 redirigeix('remesa', ['id' => $id]);
             }
