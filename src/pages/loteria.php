@@ -51,8 +51,10 @@ function pagina_loteria(): void
         } elseif ($quants < 1 || $quants > 100) {
             $error = t('loteria.err_quants');
         } else {
+            // Reserva l'escriptor abans de llegir el següent correlatiu perquè dos usuaris
+            // no puguen repartir alhora el mateix número de talonari.
+            db()->exec('BEGIN IMMEDIATE');
             $seguent = (int)valor('SELECT COALESCE(MAX(numero), 0) FROM talonaris WHERE loteria_id = ?', [$id]) + 1;
-            db()->beginTransaction();
             for ($i = 0; $i < $quants; $i++) {
                 q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega) VALUES(?, ?, ?, ?)', [$id, $seguent + $i, $persona, date('Y-m-d')]);
             }

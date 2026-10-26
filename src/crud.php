@@ -733,6 +733,9 @@ function pagina_edita(string $nom, ?int $id): void
 function error_bd(PDOException $ex): string
 {
     $m = $ex->getMessage();
+    if (str_contains($m, 'database is locked') || str_contains($m, 'database table is locked')) {
+        return t('err.bd_ocupada');
+    }
     if (str_contains($m, 'UNIQUE')) {
         return t('err.duplicat');
     }

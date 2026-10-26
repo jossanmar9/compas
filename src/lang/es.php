@@ -250,6 +250,7 @@ return [
     'err.duplicat' => 'Ya hay un registro con estos datos (por ejemplo, la persona ya tiene esta ficha o el número está repetido).',
     'err.relacio' => 'La relación indicada no es válida.',
     'err.bd' => 'Error de la base de datos:',
+    'err.bd_ocupada' => 'La base de datos está ocupada por otra operación. Vuelve a intentarlo en unos segundos.',
     'err.no_eliminable' => 'No se puede eliminar porque tiene datos relacionados. Márcalo como baja o inactivo: así se conserva el historial.',
     'err.grup_curs' => 'El grupo no es del mismo curso que la matrícula.',
     'err.instrument_cedit' => 'Este instrumento ya está cedido. Registra primero la devolución.',

@@ -19,7 +19,7 @@ body:
     attributes:
       label: "Quina versió de Compàs tens? / ¿Qué versión tienes?"
       description: "La pots consultar a Ajuda. / Puedes consultarla en Ayuda."
-      placeholder: "Per exemple: 2.0.2"
+      placeholder: "Per exemple: 2.1.0"
   - type: textarea
     id: feia
     attributes:

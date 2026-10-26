@@ -692,6 +692,11 @@ CREATE INDEX IF NOT EXISTS idx_tarifes_tipus_estat_periodicitat
 CREATE INDEX IF NOT EXISTS idx_tarifes_assignatura ON tarifes(assignatura_id);
 CREATE INDEX IF NOT EXISTS idx_mandats_persona_estat_data
     ON mandats(persona_id, estat, data_signatura DESC);
+-- Última línia de defensa davant altes simultànies des de diversos usuaris.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mandats_un_actiu_persona
+    ON mandats(persona_id) WHERE estat = 'actiu';
+CREATE UNIQUE INDEX IF NOT EXISTS idx_cessions_un_prestec_instrument
+    ON cessions(instrument_id) WHERE data_retorn IS NULL;
 CREATE INDEX IF NOT EXISTS idx_rebuts_remesa ON rebuts(remesa_id);
 CREATE INDEX IF NOT EXISTS idx_rebuts_mandat ON rebuts(mandat_id);
 CREATE INDEX IF NOT EXISTS idx_rebuts_data ON rebuts(data_emissio);

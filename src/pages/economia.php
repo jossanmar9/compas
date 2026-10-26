@@ -381,27 +381,40 @@ function crea_rebuts(array $rebuts, string $data): array
     $n = 0;
     $total = 0.0;
     $propia = !db()->inTransaction();
-    if ($propia) {
-        db()->beginTransaction();
-    }
-    foreach ($rebuts as $r) {
-        if ($r['existeix'] || $r['total'] <= 0) {
-            continue;
+    try {
+        if ($propia) {
+            // Cal reservar l'escriptor abans de calcular el correlatiu: amb una transacció
+            // diferida dos processos podrien llegir el mateix MAX(numero) i generar duplicats.
+            db()->exec('BEGIN IMMEDIATE');
         }
-        q('INSERT INTO rebuts(numero, persona_id, concepte, tipus, periode, data_emissio, import, forma_pagament, estat, mandat_id, clau) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [
-            numero_rebut_nou($data), $r['persona_id'], $r['concepte'], $r['tipus'], $r['periode'], $data, $r['total'], $r['forma'], 'per_cobrar', $r['mandat_id'], $r['clau'],
-        ]);
-        $id = (int)db()->lastInsertId();
-        foreach ($r['linies'] as $i => [$concepte, $import, $alumne]) {
-            q('INSERT INTO rebut_linies(rebut_id, concepte, import, alumne_id, ordre) VALUES(?,?,?,?,?)', [$id, $concepte, $import, $alumne, $i + 1]);
+        $any = substr($data, 0, 4);
+        // El MAX es consulta una sola vegada per lot. A més d'evitar una consulta per rebut,
+        // el valor queda protegit pel bloqueig d'escriptura adquirit abans.
+        $seguent = (int)valor('SELECT MAX(CAST(substr(numero, 6) AS INTEGER)) FROM rebuts WHERE numero LIKE ?', [$any . '/%']) + 1;
+        foreach ($rebuts as $r) {
+            if ($r['existeix'] || $r['total'] <= 0) {
+                continue;
+            }
+            q('INSERT INTO rebuts(numero, persona_id, concepte, tipus, periode, data_emissio, import, forma_pagament, estat, mandat_id, clau) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [
+                sprintf('%s/%04d', $any, $seguent++), $r['persona_id'], $r['concepte'], $r['tipus'], $r['periode'], $data, $r['total'], $r['forma'], 'per_cobrar', $r['mandat_id'], $r['clau'],
+            ]);
+            $id = (int)db()->lastInsertId();
+            foreach ($r['linies'] as $i => [$concepte, $import, $alumne]) {
+                q('INSERT INTO rebut_linies(rebut_id, concepte, import, alumne_id, ordre) VALUES(?,?,?,?,?)', [$id, $concepte, $import, $alumne, $i + 1]);
+            }
+            $n++;
+            $total += $r['total'];
         }
-        $n++;
-        $total += $r['total'];
+        if ($propia) {
+            db()->commit();
+        }
+        return [$n, $total];
+    } catch (Throwable $e) {
+        if ($propia && db()->inTransaction()) {
+            db()->rollBack();
+        }
+        throw $e;
     }
-    if ($propia) {
-        db()->commit();
-    }
-    return [$n, $total];
 }
 
 /* ---------------- Pantalla: generar rebuts ---------------- */
@@ -643,6 +656,10 @@ function pagina_remeses(): void
         $data = normalitza(['tipus' => 'date'], post('data_cobrament'));
         $triats = array_map('intval', (array)($_POST['rebut'] ?? []));
         $seleccio = array_values(array_filter($amb, fn($r) => in_array((int)$r['id'], $triats, true)));
+        $remesaOriginal = [];
+        foreach ($seleccio as $r) {
+            $remesaOriginal[(int)$r['id']] = $r['remesa_id'] === null ? null : (int)$r['remesa_id'];
+        }
         if (!$creditor) {
             $error = t('remesa.err_creditor');
         } elseif (!$data || $data <= date('Y-m-d')) {
@@ -650,17 +667,30 @@ function pagina_remeses(): void
         } elseif (!$seleccio) {
             $error = t('remesa.err_buida');
         } else {
-            db()->beginTransaction();
-            q('INSERT INTO remeses(referencia, data_cobrament, observacions) VALUES(?, ?, ?)', ['tmp-' . bin2hex(random_bytes(6)), $data, post('observacions') ?: null]);
-            $id = (int)db()->lastInsertId();
-            q('UPDATE remeses SET referencia = ? WHERE id = ?', [sprintf('REM-%s-%03d', date('Ymd'), $id), $id]);
-            foreach ($seleccio as $r) {
-                q('UPDATE rebuts SET remesa_id = ?, mandat_id = ? WHERE id = ?', [$id, $r['mandat']['id'], $r['id']]);
+            // La selecció que arriba del formulari pot haver quedat antiga mentre un altre usuari
+            // creava una remesa. Reservem l'escriptor i tornem a validar els rebuts abans d'assignar-los.
+            db()->exec('BEGIN IMMEDIATE');
+            [$ambActual, ] = rebuts_per_remesa();
+            $seleccio = array_values(array_filter($ambActual, function ($r) use ($triats, $remesaOriginal) {
+                $rid = (int)$r['id'];
+                $actual = $r['remesa_id'] === null ? null : (int)$r['remesa_id'];
+                return in_array($rid, $triats, true) && array_key_exists($rid, $remesaOriginal) && $actual === $remesaOriginal[$rid];
+            }));
+            if (!$seleccio) {
+                db()->rollBack();
+                $error = t('remesa.err_buida');
+            } else {
+                q('INSERT INTO remeses(referencia, data_cobrament, observacions) VALUES(?, ?, ?)', ['tmp-' . bin2hex(random_bytes(6)), $data, post('observacions') ?: null]);
+                $id = (int)db()->lastInsertId();
+                q('UPDATE remeses SET referencia = ? WHERE id = ?', [sprintf('REM-%s-%03d', date('Ymd'), $id), $id]);
+                foreach ($seleccio as $r) {
+                    q('UPDATE rebuts SET remesa_id = ?, mandat_id = ? WHERE id = ?', [$id, $r['mandat']['id'], $r['id']]);
+                }
+                audita('crea_remesa', 'remeses', $id, (string)count($seleccio));
+                db()->commit();
+                avis(t('remesa.creada', count($seleccio)));
+                redirigeix('remesa', ['id' => $id]);
             }
-            audita('crea_remesa', 'remeses', $id, (string)count($seleccio));
-            db()->commit();
-            avis(t('remesa.creada', count($seleccio)));
-            redirigeix('remesa', ['id' => $id]);
         }
     }
 

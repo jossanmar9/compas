@@ -266,6 +266,7 @@ return [
     'err.duplicat' => 'Ja hi ha un registre amb estes dades (per exemple, la persona ja té esta fitxa o el número està repetit).',
     'err.relacio' => 'La relació indicada no és vàlida.',
     'err.bd' => 'Error de la base de dades:',
+    'err.bd_ocupada' => 'La base de dades està ocupada per una altra operació. Torna-ho a intentar en uns segons.',
     'err.no_eliminable' => 'No es pot eliminar perquè té dades relacionades. Marca-ho com a baixa o inactiu: així es conserva l\'historial.',
     'err.grup_curs' => 'El grup no és del mateix curs que la matrícula.',
     'err.instrument_cedit' => 'Este instrument ja està cedit. Registra primer la devolució.',

@@ -8,6 +8,28 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.1.0] - 2026-10-26
+
+### Millorat
+- Preparada la capa de dades de Compàs per a treballar amb diversos usuaris simultanis, com a base del futur accés compartit en xarxa local.
+- La generació de lots de rebuts reserva de manera segura la numeració correlativa i calcula l’últim número una sola vegada per lot.
+- Millorada la concurrència en la generació de talonaris de loteria per evitar col·lisions de numeració.
+- Reforçada la consistència de les operacions amb remeses SEPA quan coincidixen diverses operacions.
+- Afegides proteccions de base de dades per evitar més d’un mandat SEPA actiu per persona i més d’una cessió activa del mateix instrument.
+- Millorada la gestió dels bloquejos temporals de SQLite amb missatges comprensibles per a l’usuari.
+
+### Rendiment
+- Eliminades consultes repetitives en la numeració de lots de rebuts, reduint el temps durant el qual es manté una transacció d’escriptura.
+- Es manté SQLite en mode WAL, amb `busy_timeout` i claus foranes, sense afegir cap servidor de base de dades extern.
+
+### Proves
+- Auditades les operacions sensibles a concurrència i les transaccions d’escriptura.
+- Validada la generació concurrent de rebuts i talonaris sense duplicats en proves de càrrega amb múltiples escriptors.
+- Validada la integritat de la base de dades després de les proves de concurrència.
+
+### Notes
+- Esta versió prepara internament Compàs per a l’ús multiusuari. L’accés des de diversos ordinadors de la mateixa xarxa local encara no forma part d’esta versió.
+
 ## [2.0.2] - 2026-10-24
 
 ### Canviat
