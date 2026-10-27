@@ -24,3 +24,7 @@ __pycache__/
 # Generat: la web i els PDF dels manuals (es fan amb eines/pdf.sh i en publicar)
 _site/
 docs/pdf/
+
+# Materials generats i entorn de prova dels PDF (pot contindre claus temporals)
+tmp/pdfs/
+output/pdf/

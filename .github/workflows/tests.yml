@@ -37,9 +37,11 @@ jobs:
           d="$RUNNER_TEMP/programa-https"
           mkdir -p "$d"
           cp -a app src "$d/"
-          cp launcher/linux/compas.sh dist/compas-xarxa "$d/"
+          cp launcher/linux/compas.sh launcher/linux/control-xarxa.php dist/compas-xarxa "$d/"
           printf 'lan=1\nnom_lan=compas-prova.local\nport=18740\nport_https=18443\n' > "$d/compas.ini"
-          export COMPAS_DADES="$RUNNER_TEMP/dades-https" COMPAS_NAVEGADOR=0 XDG_CONFIG_HOME="$RUNNER_TEMP/config-prova"
+          printf 'import sys, pathlib\nif "--comprova" not in sys.argv: pathlib.Path(__file__).with_name("visor-tancat.txt").write_text("tancat")\n' > "$d/compas-visor.py"
+          export COMPAS_EN_TERMINAL=1 DISPLAY=:99 COMPAS_FINESTRA=1
+          export COMPAS_DADES="$RUNNER_TEMP/dades-https" COMPAS_NAVEGADOR=1 XDG_CONFIG_HOME="$RUNNER_TEMP/config-prova"
           bash "$d/compas.sh" > "$RUNNER_TEMP/llancador-https.log" 2>&1 &
           servidor=$!
           trap 'kill -TERM "$servidor" 2>/dev/null || true; wait "$servidor" || true' EXIT
@@ -49,6 +51,10 @@ jobs:
           done
           cat "$RUNNER_TEMP/llancador-https.log"
           grep -q 'Configuració inicial' "$RUNNER_TEMP/https.html"
+          sleep 2
+          test -f "$d/visor-tancat.txt"
+          kill -0 "$servidor"
+          curl --noproxy '*' --cacert "$COMPAS_DADES/https/compas-ca.crt" --resolve compas-prova.local:18443:127.0.0.1 -fsS https://compas-prova.local:18443/ > /dev/null
           test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' http://127.0.0.1:18740/)" = 403
 
       - name: Revisa la sintaxi PHP

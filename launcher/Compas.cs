@@ -131,9 +131,35 @@ namespace Compas
             {
                 if (!System.Text.RegularExpressions.Regex.IsMatch(c.NomLan, @"^[a-z0-9](?:[a-z0-9-]{0,60}[a-z0-9])?\.local$"))
                     throw new Exception(Textos.T("Nom local invàlid. Exemple: compas.local", "Nombre local no válido. Ejemplo: compas.local"));
-                c.Finestra = false; // El panell del servidor queda obert encara que es tanque el navegador.
+                // La finestra de treball i el servidor tenen vides independents en LAN.
             }
             return c;
+        }
+
+        public bool EsAdrecaInterna(string adreca)
+        {
+            Uri u;
+            if (!Uri.TryCreate(adreca, UriKind.Absolute, out u) || u.UserInfo != "") return false;
+            return Lan ? u.Scheme == "https" && u.Host == NomLan && u.Port == PortHttps
+                : u.Scheme == "http" && (u.Host == "localhost" || u.Host == "127.0.0.1") && u.Port == Port;
+        }
+
+        public static bool OrdreXarxaValida(string missatge, string secret, long ara)
+        {
+            if (secret.Length < 32) return false;
+            string[] linies = missatge.Trim().Split('\n');
+            if (linies.Length != 2) return false;
+            string ordre = linies[0].TrimEnd('\r');
+            var m = System.Text.RegularExpressions.Regex.Match(ordre, @"\Axarxa\|([0-9]{10})\|[a-f0-9]{32}\z");
+            long instant;
+            if (!m.Success || !long.TryParse(m.Groups[1].Value, out instant) || Math.Abs(ara - instant) > 30) return false;
+            string esperada;
+            using (var hmac = new System.Security.Cryptography.HMACSHA256(Encoding.UTF8.GetBytes(secret)))
+                esperada = BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(ordre))).Replace("-", "").ToLowerInvariant();
+            string rebuda = linies[1].TrimEnd('\r');
+            if (rebuda.Length != esperada.Length) return false;
+            int diferent = 0; for (int i = 0; i < rebuda.Length; i++) diferent |= rebuda[i] ^ esperada[i];
+            return diferent == 0;
         }
     }
 
@@ -212,6 +238,8 @@ namespace Compas
         readonly Config config;
         Process php;
         Process https;
+        readonly System.Windows.Forms.Timer controlXarxa = new System.Windows.Forms.Timer { Interval = 500 };
+        bool configurantXarxa;
         readonly Label estat = new Label();
         readonly LinkLabel enllac = new LinkLabel();
         readonly string token = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
@@ -230,6 +258,9 @@ namespace Compas
         public const string NomAvis = @"Local\Compas-ObriFinestra";
 
         string Url { get { return config.Url; } }
+        public bool ServidorCompartit { get { return config.Lan; } }
+        public bool EsAdrecaInterna(string adreca) { return config.EsAdrecaInterna(adreca); }
+        public void VisorTancat(Form finestra) { if (ReferenceEquals(visor, finestra)) visor = null; Mostra(); }
         string Dades
         {
             get
@@ -275,7 +306,7 @@ namespace Compas
             Controls.Add(enllac);
 
             var xarxa = new Button { Text = Textos.T("Xarxa local / HTTPS…", "Red local / HTTPS…"), Location = new Point(20, 170), Size = new Size(195, 30) };
-            xarxa.Click += delegate { ConfiguraXarxa(); }; Controls.Add(xarxa);
+            xarxa.Click += delegate { DemanaConfiguracioXarxa(); }; Controls.Add(xarxa);
             var clients = new Button { Text = Textos.T("Preparar altres equips", "Preparar otros equipos"), Location = new Point(225, 170), Size = new Size(195, 30) };
             clients.Click += delegate {
                 string dir = Path.Combine(Dades, "https");
@@ -306,7 +337,8 @@ namespace Compas
                 Location = new Point(20, 262), AutoSize = true, ForeColor = Color.FromArgb(93, 103, 120), Font = new Font("Segoe UI", 8.5f)
             });
 
-            visible = !config.Finestra;
+            visible = config.Lan || !config.Finestra;
+            controlXarxa.Tick += delegate { ComprovaControlXarxa(); };
             FormClosing += Tancant;
             EscoltaAvisos();
         }
@@ -364,7 +396,7 @@ namespace Compas
             var menu = new ContextMenuStrip();
             menu.Items.Add(Textos.T("Obri Compàs", "Abrir Compàs"), null, delegate { ObriFinestra(); });
             menu.Items.Add(Textos.T("Carpeta de dades", "Carpeta de datos"), null, delegate { ObriCarpeta(); });
-            menu.Items.Add(Textos.T("Xarxa local / HTTPS…", "Red local / HTTPS…"), null, delegate { Mostra(); ConfiguraXarxa(); });
+            menu.Items.Add(Textos.T("Xarxa local / HTTPS…", "Red local / HTTPS…"), null, delegate { DemanaConfiguracioXarxa(); });
             menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add(Textos.T("Atura i tanca", "Detener y cerrar"), null, delegate { Close(); });
             safata = new NotifyIcon
@@ -390,7 +422,8 @@ namespace Compas
         void ObriFinestra()
         {
             if (visor != null && !visor.IsDisposed) { PortaVisor(); return; }
-            if (!config.Finestra || AppNavegador.Obri(Url) == null) ObriNavegador(Url);
+            if (config.Finestra) { ObriFinestraPropia(); return; }
+            ObriNavegador(Url);
         }
 
         // Els tipus de WebView2 només es carreguen ací: si falten les biblioteques, el llançador continua igual
@@ -458,6 +491,7 @@ namespace Compas
                     BeginInvoke((MethodInvoker)delegate
                     {
                         if (tancant) return;
+                        if (config.Lan) { app = null; Mostra(); return; }
                         // Si s'acaba de seguida, la finestra l'ha agafada un altre procés del mateix perfil i no
                         // sabrem quan es tanca: es mostra la finestra menuda perquè l'usuari puga aturar Compàs.
                         if ((DateTime.Now - appObertA).TotalSeconds < 5) { Mostra(); return; }
@@ -512,6 +546,8 @@ namespace Compas
             };
             psi.EnvironmentVariables["COMPAS_DADES"] = Dades;
             psi.EnvironmentVariables["COMPAS_TOKEN"] = token;
+            psi.EnvironmentVariables["COMPAS_CONTROL_XARXA"] = "1";
+            psi.EnvironmentVariables["COMPAS_URL_XARXA"] = "https://" + config.NomLan + (config.PortHttps == 443 ? "" : ":" + config.PortHttps) + "/";
             psi.EnvironmentVariables["COMPAS_LAN"] = config.Lan ? "1" : "0";
             psi.EnvironmentVariables["COMPAS_LAN_IP"] = "";
             psi.EnvironmentVariables["COMPAS_PROXY_TOKEN"] = "";
@@ -567,10 +603,46 @@ namespace Compas
                 }
             };
             esperant.Start();
+            controlXarxa.Start();
         }
+
+        void ComprovaControlXarxa()
+        {
+            if (tancant || configurantXarxa) return;
+            string fitxer = Path.Combine(Dades, "control-xarxa.txt");
+            string llegint = fitxer + "." + Guid.NewGuid().ToString("N");
+            try {
+                if (!File.Exists(fitxer)) return;
+                File.Move(fitxer, llegint);
+                if (new FileInfo(llegint).Length > 256) return;
+                string ordre = File.ReadAllText(llegint, Encoding.UTF8);
+                long ara = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+                if (!Config.OrdreXarxaValida(ordre, token, ara)) return;
+                Mostra(); Activate(); ConfiguraXarxa();
+            } catch (Exception e) { Log("Control xarxa: " + e.Message); }
+            finally { try { if (File.Exists(llegint)) File.Delete(llegint); } catch { } }
+        }
+
+        void DemanaConfiguracioXarxa()
+        {
+            string adreca = Url + "?r=xarxa_local";
+            if (config.Finestra) {
+                if (visor == null || visor.IsDisposed) ObriFinestraPropia();
+                if (visor != null && !visor.IsDisposed) {
+                    NavegaVisor(adreca); PortaVisor(); return;
+                }
+            }
+            ObriNavegador(adreca);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        void NavegaVisor(string adreca) { ((Visor)visor).Navega(adreca); }
 
         void ConfiguraXarxa()
         {
+            if (configurantXarxa) return;
+            configurantXarxa = true;
+            try {
             using (var f = new Form { Text = "Compàs · HTTPS", ClientSize = new Size(470, 225), StartPosition = FormStartPosition.CenterParent, FormBorderStyle = FormBorderStyle.FixedDialog, MaximizeBox = false, MinimizeBox = false }) {
                 var activa = new CheckBox { Text = Textos.T("Compartir Compàs en la xarxa privada", "Compartir Compàs en la red privada"), Checked = config.Lan, Location = new Point(20, 18), AutoSize = true };
                 var nom = new TextBox { Text = config.NomLan, Location = new Point(20, 75), Width = 420 };
@@ -595,6 +667,7 @@ namespace Compas
                 };
                 f.ShowDialog(this);
             }
+            } finally { configurantXarxa = false; }
         }
 
         void ArrancaHttps()
@@ -691,6 +764,7 @@ namespace Compas
                 if (r != DialogResult.Yes) { e.Cancel = true; return; }
             }
             tancant = true;
+            controlXarxa.Stop();
             // Si es tanca des de la finestra menuda o la safata, també es tanca la finestra de Compàs
             try { if (app != null && !app.HasExited) app.CloseMainWindow(); } catch { }
             try { if (avisObri != null) avisObri.Set(); } catch { }

@@ -37,7 +37,10 @@ jobs:
           echo "COMPAS_VERSIO=$v" >> "$GITHUB_ENV"
       # Els PDF dels manuals no es guarden al repositori: es fan ací, amb el Chrome del servidor de GitHub
       - name: Genera els manuals en PDF
-        run: bash eines/pdf.sh
+        run: |
+          bash eines/pdf.sh
+          python3 -m pip install --quiet reportlab==4.4.9
+          python3 eines/guia-xarxa-pdf.py
       - name: Genera la web
         run: php eines/web.php _site
       - uses: actions/configure-pages@v5

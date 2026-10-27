@@ -85,7 +85,6 @@ FINESTRA="${COMPAS_FINESTRA:-$FINESTRA}"
 LAN="${COMPAS_LAN:-$LAN}"
 HOST=127.0.0.1
 if [ "$LAN" = 1 ]; then
-    FINESTRA=0
     [[ "$NOM_LAN" =~ ^[a-z0-9]([a-z0-9-]{0,60}[a-z0-9])?\.local$ ]] || error "nom_lan incorrecte (compas.local)"
 fi
 export COMPAS_LAN="$LAN" COMPAS_LAN_IP=""
@@ -124,7 +123,7 @@ obri_finestra() {
 }
 
 # Obert des del menú, sense finestra pròpia possible: cal un terminal perquè l'usuari puga tancar Compàs
-if [ "$EN_TERMINAL" = 0 ] && [ "$NAVEGADOR" = 1 ] && [ -z "$VISOR" ] && [ -z "$APP" ] && [ -z "${COMPAS_EN_TERMINAL:-}" ] \
+if [ "$EN_TERMINAL" = 0 ] && [ "$NAVEGADOR" = 1 ] && { [ "$LAN" = 1 ] || { [ -z "$VISOR" ] && [ -z "$APP" ]; }; } && [ -z "${COMPAS_EN_TERMINAL:-}" ] \
    && [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]; then
     export COMPAS_EN_TERMINAL=1
     JO="$(readlink -f "$0")"
@@ -171,6 +170,15 @@ obri_navegador() {
     fi
 }
 
+# En LAN, PHP intern està protegit. La comprovació pública valida el certificat propi.
+if [ "$LAN" = 1 ] && [ -f "$DADES/https/compas-ca.crt" ]; then
+    RESPOSTA="$("$PHP" -r '$c=stream_context_create(["http"=>["timeout"=>2],"ssl"=>["cafile"=>$argv[2],"verify_peer"=>true,"verify_peer_name"=>true]]); echo @file_get_contents($argv[1],false,$c);' "$URL" "$DADES/https/compas-ca.crt")"
+    if printf '%s' "$RESPOSTA" | grep -q 'Compàs'; then
+        obri_navegador
+        exit 0
+    fi
+fi
+
 # Ja està obert? Només cal obrir el navegador.
 if RESPOSTA="$(peticio "$URL_INTERNA" 1)"; then
     if printf '%s' "$RESPOSTA" | grep -q 'Compàs'; then
@@ -185,6 +193,11 @@ fi
 
 TOKEN="$(od -An -N24 -tx1 /dev/urandom | tr -d ' \n')"
 HTTPS_PID=""
+CONTROL_PID=""
+VISOR_PID=""
+export COMPAS_CONTROL_XARXA=1
+export COMPAS_URL_XARXA="https://$NOM_LAN/"
+[ "$PORT_HTTPS" = 443 ] || export COMPAS_URL_XARXA="https://$NOM_LAN:$PORT_HTTPS/"
 if [ "$LAN" = 1 ]; then
     [ -x "$ARREL/compas-xarxa" ] || error "Falta compas-xarxa; reinstal·la Compàs."
     export COMPAS_PROXY_TOKEN="$TOKEN-proxy" COMPAS_NOM_LAN="$NOM_LAN"
@@ -198,6 +211,8 @@ SERVIDOR=$!
 tanca() {
     local codi="${1:-0}"
     trap - EXIT INT TERM HUP
+    [ -z "$CONTROL_PID" ] || kill "$CONTROL_PID" 2>/dev/null || true
+    [ -z "$VISOR_PID" ] || kill "$VISOR_PID" 2>/dev/null || true
     if kill -0 "$SERVIDOR" 2>/dev/null; then
         t "Fent la còpia de seguretat i tancant Compàs…" "Haciendo la copia de seguridad y cerrando Compàs…"
         peticio "$URL_INTERNA?r=copia_tancament" 60 "$TOKEN" >/dev/null || true
@@ -217,6 +232,23 @@ if [ "$LAN" = 1 ]; then
     kill -0 "$HTTPS_PID" 2>/dev/null || error "HTTPS no ha arrancat. Executa configura-xarxa.sh i revisa $DADES/servidor.log"
 fi
 
+# L’assistent es llança en un terminal propi; el servidor continua atenent clients.
+control_xarxa() {
+    while kill -0 "$SERVIDOR" 2>/dev/null; do
+        if COMPAS_TOKEN="$TOKEN" "$PHP" "$ARREL/control-xarxa.php" "$DADES"; then
+            for terminal in x-terminal-emulator xterm; do
+                if command -v "$terminal" >/dev/null 2>&1; then
+                    COMPAS_DADES="$DADES" "$terminal" -e "$ARREL/configura-xarxa.sh"
+                    break
+                fi
+            done
+        fi
+        sleep 0.5
+    done
+}
+control_xarxa &
+CONTROL_PID=$!
+
 # Espera que el servidor responga
 for _ in $(seq 1 50); do
     peticio "$URL_INTERNA" 1 >/dev/null && break
@@ -231,6 +263,17 @@ t "  Les dades es guarden a: $DADES" "  Los datos se guardan en: $DADES"
 
 if [ "$LAN" = 1 ]; then
     t "  Servidor LAN: mantín esta finestra oberta. Els altres equips poden obrir $URL" "  Servidor LAN: mantén esta ventana abierta. Los otros equipos pueden abrir $URL"
+fi
+
+if [ "$LAN" = 1 ] && [ -n "$VISOR" ]; then
+    python3 "$ARREL/compas-visor.py" "$URL" 2>>"$DADES/visor.log" &
+    VISOR_PID=$!
+    VISOR=""
+    NAVEGADOR=0
+elif [ "$LAN" = 1 ] && [ -n "$APP" ]; then
+    obri_finestra &
+    APP=""
+    NAVEGADOR=0
 fi
 
 if [ -n "$VISOR" ]; then

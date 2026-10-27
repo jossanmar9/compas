@@ -4,6 +4,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 return [
+    'xarxa.pdf' => 'Guia de xarxa local en PDF',
+    'xarxa.titol' => 'Xarxa local / HTTPS',
+    'xarxa.servidor' => 'La xarxa es configura des de l’ordinador servidor.',
+    'xarxa.sense_control' => 'Obri Compàs amb el llançador per a utilitzar l’assistent de xarxa.',
+    'xarxa.error' => 'No s’ha pogut obrir l’assistent. Torna-ho a provar.',
+    'xarxa.obert' => 'S’ha demanat obrir l’assistent al servidor. Si no apareix al davant, busca el panell de Compàs o el terminal del servidor. Els canvis només s’apliquen quan els confirmes en l’assistent.',
+    'xarxa.text' => 'Configura la xarxa privada des del servidor. Pots activar-la amb un compte d’administració o de gestió.',
+    'xarxa.obri' => 'Configura la xarxa local',
+    'xarxa.activa' => 'El servidor està compartit. Els altres equips poden entrar amb el navegador i el seu compte.',
+    'xarxa.local' => 'Ara Compàs funciona només en este ordinador. Activa compartir per a treballar des d’altres equips de la xarxa privada.',
+
     'buidar.titol' => 'Buidar les dades de gestió',
     'buidar.text' => 'Esborra TOTES les dades de gestió, no sols les d’exemple: persones, socis, escola, activitats, economia, documents i historial. Conserva la configuració de l’entitat, el logo, els comptes, els permisos i els catàlegs de tipus i categories. Les tarifes es buiden. Abans guarda una còpia manual que es pot restaurar. Les còpies anteriors es conserven. Cal tornar a entrar. Només disponible amb el mode LAN desactivat.',
     'buidar.local' => 'Desactiva el mode LAN i fes el buidatge des del servidor.',

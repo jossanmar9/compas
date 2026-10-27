@@ -179,7 +179,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Error compilant l’assistent de clients" }
 
           # Comprova configuració local/LAN sense obrir finestres ni arrancar PHP.
-          $test = Join-Path $env:RUNNER_TEMP "compas-prova-config.exe"
+          $test = Join-Path (Resolve-Path dist\Compas).Path "compas-prova-config.exe"
           & $csc /nologo /codepage:65001 /target:exe /main:LauncherConfigTests "/out:$test" `
             /r:System.Windows.Forms.dll /r:System.Drawing.dll `
             /r:dist\Compas\Microsoft.Web.WebView2.Core.dll /r:dist\Compas\Microsoft.Web.WebView2.WinForms.dll `
@@ -187,6 +187,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Error compilant les proves del llançador" }
           & $test
           if ($LASTEXITCODE -ne 0) { throw "Error en la configuració LAN del llançador" }
+          Remove-Item -LiteralPath $test
 
       - name: Copia el programa i la documentació
         shell: pwsh
@@ -220,6 +221,10 @@ jobs:
             Start-Process $nav -Wait -ArgumentList "--headless=new", "--disable-gpu", "--no-first-run", "--user-data-dir=`"$env:RUNNER_TEMP\perfil-nav`"", "--no-pdf-header-footer", "--print-to-pdf=`"$pdf\$d.pdf`"", $url
             if (-not (Test-Path "$pdf\$d.pdf")) { throw "No s'ha generat $d.pdf" }
           }
+          python -m pip install --quiet reportlab==4.4.9
+          if ($LASTEXITCODE -ne 0) { throw "Error preparant la guia LAN" }
+          python eines/guia-xarxa-pdf.py --output "$pdf/guia-xarxa-local.pdf"
+          if ($LASTEXITCODE -ne 0) { throw "Error generant la guia LAN" }
           Get-ChildItem $pdf
 
       - name: Prova el paquet
@@ -307,7 +312,7 @@ jobs:
           cp -a docs/imatges "$d/docs/"
           cp -a win/Compas/docs/pdf "$d/docs/"
           cp README.md CHANGELOG.md PRIVACITAT.md LLICENCIA.md LICENSE compas.ini "$d/"
-          cp launcher/linux/compas.sh launcher/linux/compas-visor.py launcher/linux/installa.sh launcher/linux/desinstalla.sh launcher/linux/configura-xarxa.sh "$d/"
+          cp launcher/linux/compas.sh launcher/linux/compas-visor.py launcher/linux/installa.sh launcher/linux/desinstalla.sh launcher/linux/configura-xarxa.sh launcher/linux/control-xarxa.php "$d/"
           cp win/Compas/Connecta-Compas.exe "$d/"
           chmod +x "$d"/*.sh
           tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas

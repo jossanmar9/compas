@@ -64,7 +64,7 @@ class Visor:
     def __init__(self, url):
         self.url = url
         u = urlparse(url)
-        self.servidor = (u.hostname, u.port)
+        self.servidor = (u.scheme, u.hostname, u.port or (443 if u.scheme == "https" else 80))
         self.finestres = []
         self.carregat = False
 
@@ -142,7 +142,7 @@ class Visor:
         u = urlparse(uri)
         if u.scheme in ("about", "data", "blob"):
             return True
-        return u.scheme == "http" and u.hostname in ("localhost", "127.0.0.1") and u.port == self.servidor[1]
+        return not u.username and (u.scheme, u.hostname, u.port or (443 if u.scheme == "https" else 80)) == self.servidor
 
     def obri_fora(self, uri):
         if urlparse(uri).scheme in ("http", "https", "mailto"):

@@ -100,6 +100,9 @@ try {
     }
 
     switch ($r) {
+        case 'xarxa_local':
+            pagina_xarxa_local();
+            break;
         case 'inici':
             pagina_inici();
             break;

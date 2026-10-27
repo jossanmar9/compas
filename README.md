@@ -189,7 +189,7 @@ Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
    - **`compas_X.Y.Z_amd64.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_amd64.deb`, que porta també PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: per a altres Linux. Descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior amb `pdo_sqlite` i `mbstring`).
 2. Compàs **encara no disposa d'un certificat de signatura de codi**, per la qual cosa Windows SmartScreen pot mostrar un avís en obrir l'instal·lador: prem **Més informació → Executa igualment**. El codi font és públic i els paquets es construeixen automàticament amb GitHub Actions. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows pot bloquejar també la versió portable; consulta la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
-3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En tancar-la, fa una còpia de seguretat i s'atura.
+3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En mode local, en tancar-la fa una còpia de seguretat i s’atura. En mode LAN, el panell del servidor continua obert perquè la resta puga treballar.
 
 **Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
 
@@ -239,11 +239,11 @@ Les contrasenyes es guarden amb hash; en LAN hi ha un bloqueig temporal per comp
 
 Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'entrada amb el **codi de recuperació** que es mostra en la configuració inicial (i que es pot tornar a generar a **Usuaris**). Si s'ha perdut el codi, hi ha una alternativa amb un fitxer a la carpeta de dades, que només pot fer qui té accés a l'ordinador.
 
-## Xarxa local opcional (2.2)
+## Xarxa local opcional
 
 Un sol servidor guarda el programa i SQLite. Els altres equips obrin **https://compas.local/** amb un compte per persona, sense IP fixa ni reserva al router. El nom s’anuncia automàticament amb mDNS.
 
-Windows: **Xarxa local / HTTPS… → Compartir → Desa i reinicia**. Linux: **`compas --xarxa`**. L’assistent demana confirmació per al certificat i el tallafoc privat. El servidor prepara **Client-Compas.zip**: cada client compara l’empremta i confia en el certificat una sola vegada; després només necessita la URL. PHP queda accessible únicament des del servidor HTTPS intern. Els paquets de servidor són Windows x64 i Linux x86-64.
+Des de l’ordinador servidor: **Inici → Configura la xarxa local**, amb un compte administrador o de gestió; el consultor no pot activar-la. Windows: **Compartir → Desa i reinicia**. Linux: **`compas --xarxa`**. L’assistent demana confirmació per al certificat i el tallafoc privat. El servidor prepara **Client-Compas.zip**: cada client compara l’empremta i confia en el certificat una sola vegada; després només necessita la URL. PHP queda accessible únicament des del servidor HTTPS intern. Els paquets de servidor són Windows x64 i Linux x86-64.
 
 Consulta la [guia LAN en valencià i castellà](docs/xarxa-local.md): confiança del certificat, mDNS, rols, còpies i restauració. No compartisques `compas.db` per carpetes de xarxa. El servidor és per a grups menuts en una xarxa privada; no és un allotjament públic i Windows processa les peticions PHP en sèrie.
 

@@ -8,6 +8,13 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.3.2] - 2026-10-27
+
+- El servidor LAN conserva la finestra pròpia de Compàs. Tancar la finestra de treball deixa el servidor en marxa; per a aturar-lo cal usar el panell del servidor.
+- Botó **Configura la xarxa local** al panell d’Inici de l’ordinador servidor, disponible per a administrador i usuari de gestió. El consultor no hi té accés. Els accessos del panell i la safata passen també pel control de permisos de l’aplicació.
+- Guia PDF de xarxa local amb captures i passos senzills, inclosa en l’ajuda, les descàrregues i la web.
+- Proves de permisos, peticions locals autenticades i continuïtat del servidor després de tancar la finestra.
+
 ## [2.3.1] - 2026-10-27
 
 - Seguretat HTTPS: es descarten també les variants amb punts i guions baixos de les capçaleres internes que PHP normalitza. Un client remot no pot falsejar la seua identitat ni fer-se passar pel servidor amb eixes capçaleres.

@@ -12,7 +12,22 @@ function targeta(string $xifra, string $text, ?string $enllac = null): string
 function pagina_inici(): void
 {
     $curs = curs_actual();
-    $html = avis_responsabilitat_pendent() . avis_codi_recuperacio() . avis_copies() . '<div class="targetes">';
+    $html = avis_responsabilitat_pendent() . avis_codi_recuperacio() . avis_copies();
+    if (pot('xarxa.configura') && peticio_del_servidor()) {
+        $html .= '<section class="fill"><header><h2>' . h(t('xarxa.titol')) . '</h2></header><p>'
+            . h(t(mode_lan() ? 'xarxa.activa' : 'xarxa.local')) . '</p>';
+        if (mode_lan()) {
+            $html .= '<p><strong>' . h((string)(getenv('COMPAS_URL_XARXA') ?: 'https://compas.local/')) . '</strong></p>';
+        }
+        if (control_xarxa_disponible()) {
+            $html .= '<form method="post" action="' . h(url('xarxa_local')) . '">' . csrf_camp()
+                . '<button>' . h(t('xarxa.obri')) . '</button></form>';
+        } else {
+            $html .= '<p>' . h(t('xarxa.sense_control')) . '</p>';
+        }
+        $html .= '</section>';
+    }
+    $html .= '<div class="targetes">';
     $es = fn(string $cap, string $modul) => pot($cap) && modul_actiu($modul)
         && (!es_consultor() || !in_array($modul, ['llicencies', 'entitats', 'certificat_delictes'], true));
     if (pot('persones.view')) {

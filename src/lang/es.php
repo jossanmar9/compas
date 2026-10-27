@@ -4,6 +4,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 return [
+    'xarxa.pdf' => 'Guía de red local en PDF (valenciano)',
+    'xarxa.titol' => 'Red local / HTTPS',
+    'xarxa.servidor' => 'La red se configura desde el ordenador servidor.',
+    'xarxa.sense_control' => 'Abre Compàs con el lanzador para utilizar el asistente de red.',
+    'xarxa.error' => 'No se ha podido abrir el asistente. Vuelve a intentarlo.',
+    'xarxa.obert' => 'Se ha solicitado abrir el asistente en el servidor. Si no aparece delante, busca el panel de Compàs o el terminal del servidor. Los cambios solo se aplican cuando los confirmas en el asistente.',
+    'xarxa.text' => 'Configura la red privada desde el servidor. Puedes activarla con una cuenta de administración o de gestión.',
+    'xarxa.obri' => 'Configurar la red local',
+    'xarxa.activa' => 'El servidor está compartido. Los demás equipos pueden entrar con el navegador y su cuenta.',
+    'xarxa.local' => 'Ahora Compàs funciona solo en este ordenador. Activa compartir para trabajar desde otros equipos de la red privada.',
+
     'buidar.titol' => 'Vaciar los datos de gestión',
     'buidar.text' => 'Borra TODOS los datos de gestión, no solo los de ejemplo: personas, socios, escuela, actividades, economía, documentos e historial. Conserva la configuración de la entidad, el logo, las cuentas, los permisos y los catálogos de tipos y categorías. Las tarifas se vacían. Antes guarda una copia manual que se puede restaurar. Las copias anteriores se conservan. Hay que volver a entrar. Solo disponible con el modo LAN desactivado.',
     'buidar.local' => 'Desactiva el modo LAN y vacía los datos desde el servidor.',

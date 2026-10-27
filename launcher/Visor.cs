@@ -32,6 +32,7 @@ namespace Compas
         readonly WebView2 web = new WebView2();
         readonly Label avis = new Label();
         bool carregat;
+        string pendent;
         bool tancant;
 
         const int WM_SYSCOMMAND = 0x112;
@@ -158,7 +159,7 @@ namespace Compas
 
             if (esPrincipal)
             {
-                c.Navigate(url);
+                c.Navigate(pendent ?? url);
             }
             else
             {
@@ -184,8 +185,7 @@ namespace Compas
             Uri u;
             if (!Uri.TryCreate(adreca, UriKind.Absolute, out u)) return true;
             if (u.Scheme == "about" || u.Scheme == "data" || u.Scheme == "blob") return true;
-            if (u.Scheme != Uri.UriSchemeHttp) return false;
-            return (u.Host == "localhost" || u.Host == "127.0.0.1") && u.Port == port;
+            return principal.EsAdrecaInterna(adreca);
         }
 
         static void ObriFora(string adreca)
@@ -202,6 +202,13 @@ namespace Compas
             if (WindowState == FormWindowState.Minimized) WindowState = FormWindowState.Normal;
             Show();
             Activate();
+        }
+
+        public void Navega(string adreca)
+        {
+            if (!principal.EsAdrecaInterna(adreca)) return;
+            pendent = adreca;
+            if (web.CoreWebView2 != null) web.CoreWebView2.Navigate(adreca);
         }
 
         // «Carpeta de dades» al menú de la finestra (clic a la icona de dalt a l'esquerra, o Alt+Espai)
@@ -233,6 +240,10 @@ namespace Compas
             if (!esPrincipal || tancant) return;
             GuardaPosicio();
             if (e.CloseReason != CloseReason.UserClosing) return;
+            if (principal.ServidorCompartit) {
+                principal.VisorTancat(this);
+                return;
+            }
             // Es manté la finestra amb l'avís mentre es fa la còpia; després el programa s'acaba
             e.Cancel = true;
             tancant = true;

@@ -10,13 +10,17 @@ Per defecte, Compàs continua funcionant només en un ordinador. El mode compart
 
 ### Windows
 
-1. Obri Compàs i prem **Xarxa local / HTTPS…** en el panell del servidor o en el menú de la icona de la safata.
+1. En l’ordinador servidor, entra amb un compte administrador o de gestió i prem **Inici → Configura la xarxa local**. El consultor no pot configurar-la. També pots accedir-hi des de **Xarxa local / HTTPS…** al panell del servidor o al menú de la safata; l’aplicació comprova igualment el compte.
 2. Marca **Compartir Compàs en la xarxa privada**. Deixa `compas.local` o tria un altre nom acabat en `.local` si ja hi ha un altre servidor a la xarxa.
 3. Prem **Desa i reinicia**. Confirma la regla del tallafoc; Windows demanarà permís d’administrador només per a preparar eixa regla. Es permeten HTTPS (TCP 443) i descobriment (UDP 5353) en el perfil **Privat**, des de la subxarxa local, només per al servidor de Compàs. La connexió de xarxa de Windows ha d’estar marcada com a privada.
 4. En arrancar, Compàs genera el seu certificat i et mostra l’empremta SHA-256. Confirma que vols confiar en el certificat del teu servidor per al teu usuari. Este pas no executa PHP com a administrador.
 5. Crea un compte per persona a **Administració → Usuaris**. Deixa el panell del servidor obert.
 
+La finestra de treball de Compàs continua sent pròpia. En mode LAN pots tancar-la sense desconnectar els altres usuaris: mantín obert el panell del servidor. Per a parar el servei, usa **Atura** en eixe panell.
+
 ### Linux
+
+En l’ordinador servidor també pots usar **Inici → Configura la xarxa local**, amb un compte administrador o de gestió. S’obri l’assistent en un terminal.
 
 Executa **`compas --xarxa`**, o l’assistent **Compàs · Xarxa local HTTPS** si has fet la instal·lació d’usuari. Tria el nom i confirma els passos: permís per a obrir el port 443, confiança en el certificat i, si uses UFW actiu, regles només per a adreces privades. Pot demanar `sudo`. Necessita `libcap2-bin`, `ca-certificates` i `openssl` (Debian/Ubuntu). Torna a obrir Compàs després de configurar-lo.
 

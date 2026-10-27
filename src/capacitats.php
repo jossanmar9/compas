@@ -15,7 +15,7 @@ function totes_capacitats(): array
         'instruments.view', 'instruments.edit',
         'economia.view', 'economia.edit',
         'societat.view', 'societat.edit',
-        'copia.manage', 'dades.exporta',
+        'copia.manage', 'dades.exporta', 'xarxa.configura',
         // Només l'administrador
         'usuaris.manage', 'config.manage', 'auditoria.view', 'copia.restaura',
     ];
@@ -34,7 +34,7 @@ function rols_per_defecte(): array
 /** Crea els rols i n'actualitza les capacitats (també en bases de dades d'una versió anterior) */
 function sembra_rols(PDO $pdo): void
 {
-    $versio = 'rols-6';
+    $versio = 'rols-7';
     $st = $pdo->prepare('SELECT valor FROM config WHERE clau = ?');
     $st->execute(['versio_rols']);
     if ($st->fetchColumn() === $versio) {

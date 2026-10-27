@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory(prefix='compas-https-') as tmp:
     backend, public = port(), port()
     folder=Path(tmp)
     log=open(folder/'servidor.log','w')
-    php=subprocess.Popen(['php','-S',f'127.0.0.1:{backend}','-t',str(ROOT/'app'),str(ROOT/'app/index.php')],env=dict(os.environ,COMPAS_DADES=tmp,COMPAS_LAN='1',COMPAS_PROXY_TOKEN=SECRET,COMPAS_NOM_LAN=NAME),stdout=log,stderr=log)
+    php=subprocess.Popen(['php','-S',f'127.0.0.1:{backend}','-t',str(ROOT/'app'),str(ROOT/'app/index.php')],env=dict(os.environ,COMPAS_DADES=tmp,COMPAS_LAN='1',COMPAS_PROXY_TOKEN=SECRET,COMPAS_NOM_LAN=NAME,COMPAS_CONTROL_XARXA='1',COMPAS_TOKEN='control-proves-https-abcdefghijklmnopqrstuvwxyz',COMPAS_URL_XARXA=f'https://{NAME}:{public}/'),stdout=log,stderr=log)
     proxy=subprocess.Popen([str(HELPER),'-dades',str(folder/'https'),'-nom',NAME,'-port',str(public),'-backend',f'127.0.0.1:{backend}','-sense-mdns'],env=dict(os.environ,COMPAS_PROXY_TOKEN=SECRET),stdout=log,stderr=log)
     try:
         for _ in range(100):
@@ -65,6 +65,16 @@ with tempfile.TemporaryDirectory(prefix='compas-https-') as tmp:
         h=read(op,'?r=inici');token=csrf(h)
         ok('r=eixir' in h,'configuració i entrada per HTTPS')
         ok(all(c.secure and c.has_nonstandard_attr('HttpOnly') for c in jar),'galeta Secure i HttpOnly')
+        ok('r=xarxa_local' in h,'boto de xarxa visible al servidor per HTTPS')
+        read(op,'?r=xarxa_local',dict(_csrf=token))
+        control=folder/'control-xarxa.txt'
+        ok(control.exists(),'HTTPS local demana obrir l’assistent')
+        control.unlink()
+        cookies='; '.join(c.name+'='+c.value for c in jar)
+        remote=urllib.request.Request(f'http://127.0.0.1:{backend}/?r=xarxa_local',data=urllib.parse.urlencode(dict(_csrf=token)).encode(),headers={'Host':NAME,'Cookie':cookies,'X-Compas-Proxy-Token':SECRET,'X-Compas-Client':'192.168.250.100','X-Compas-Local':'0'})
+        try: direct.open(remote);raise AssertionError('control remot permes')
+        except urllib.error.HTTPError as e: ok(e.code==403 and not control.exists(),'un administrador remot no pot enviar ordres al servidor')
+
         read(op,'?r=usuaris&id=nou',dict(_csrf=token,usuari='consulta',rol='consultor',actiu='1',idioma='ca',contrasenya='compas-proves-2028!',contrasenya2='compas-proves-2028!'))
         other,otherjar=opener(); h=read(other);t=csrf(h)
         h=read(other,'?r=entrada',dict(_csrf=t,usuari='consulta',contrasenya='compas-proves-2028!'))
