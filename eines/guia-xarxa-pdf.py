@@ -25,7 +25,7 @@ pdfmetrics.registerFontFamily('Regular',normal='Regular',bold='Bold',italic='Ita
 W,H=A4; M=44; CW=W-2*M
 NAVY=colors.HexColor('#07345B'); BLUE=colors.HexColor('#087BBE'); LIGHT=colors.HexColor('#EDF5FB'); INK=colors.HexColor('#18344C'); GREY=colors.HexColor('#52697B'); ORANGE=colors.HexColor('#F0AD27'); LINE=colors.HexColor('#D8E5EF')
 c=canvas.Canvas(str(OUT),pagesize=A4,pageCompression=1)
-c.setTitle('Compàs en xarxa local - Guia pas a pas');c.setAuthor('Compàs');c.setSubject('Configuració senzilla del servidor i dels equips clients. Referència: Compàs 2.3.2.')
+c.setTitle('Compàs en xarxa local - Guia pas a pas');c.setAuthor('Compàs');c.setSubject('Configuració senzilla del servidor i dels equips clients. Referència: Compàs 2.3.3.')
 page=0;y=0
 
 def p(text,size=10.8,leading=15.6,space=9,color=INK,font='Regular',x=M,width=CW):
@@ -51,7 +51,7 @@ def start(kicker,title,subtitle=None):
     page+=1
     c.setFillColor(BLUE);c.setFont('Bold',9);c.drawString(M,H-31,'COMPÀS  /  XARXA LOCAL')
     c.setStrokeColor(LINE);c.line(M,H-41,W-M,H-41)
-    c.setFont('Regular',8.3);c.setFillColor(GREY);c.drawString(M,28,'Guia pràctica · Compàs 2.3.2 · Octubre de 2026')
+    c.setFont('Regular',8.3);c.setFillColor(GREY);c.drawString(M,28,'Guia pràctica · Compàs 2.3.3 · Octubre de 2026')
     c.drawRightString(W-M,28,f'{page} / 10')
     y=H-72
     p(kicker.upper(),9.2,12,8,BLUE,'Bold')
@@ -111,7 +111,7 @@ y=cy-52
 p('El servidor és l’ordinador que guarda les dades. Els altres equips les consulten o les modifiquen segons els permisos de cada persona.',12,17,19)
 box('La preparació inicial es fa al servidor i, una sola vegada, en cada equip client. Després, l’ús habitual és obrir la URL i entrar.','Què aconseguiràs amb esta guia')
 p('Amb captures de Windows, instruccions per a Linux i solucions als problemes més habituals.',10.5,15,9,GREY)
-p('Referència: versió 2.3.2. Les captures utilitzen una instal·lació de prova i dades inventades.',9.7,13.5,0,GREY,'Italic')
+p('Referència: versió 2.3.3. Les captures utilitzen una instal·lació de prova i dades inventades.',9.7,13.5,0,GREY,'Italic')
 
 # 2
 start('Abans de començar','Tria quin ordinador farà de servidor')
@@ -119,7 +119,7 @@ p('Pensa en el servidor com en l’ordinador de referència de l’associació: 
 sub('Què necessites')
 step(1,'Un servidor disponible','Tria un ordinador que puga quedar encés mentre treballe la resta. Si és un portàtil, connecta’l al corrent i evita que entre en suspensió durant eixe temps.')
 step(2,'La mateixa xarxa privada','El servidor i els clients han d’estar connectats a la xarxa de l’associació, per Wi-Fi o per cable. Una xarxa de convidats pot impedir que es troben entre ells.')
-step(3,'Compàs actualitzat i una còpia de seguretat','Utilitza la versió 2.3.2 o una de posterior. Abans d’activar la xarxa, comprova que pots entrar i fes una còpia de seguretat.')
+step(3,'Compàs actualitzat i una còpia de seguretat','Utilitza la versió 2.3.3 o una de posterior. Abans d’activar la xarxa, comprova que pots entrar i fes una còpia de seguretat.')
 sub('En Windows, comprova el perfil de xarxa')
 p('Obri la configuració de Windows, entra en <b>Xarxa i Internet</b> i busca les propietats de la connexió que utilitzes. El perfil ha d’estar marcat com a <b>Privada</b>. Els noms dels menús poden variar un poc segons la versió de Windows.')
 box('Fes-ho només en una xarxa que conegues i controles, com la de l’associació. No marques com a privada una Wi-Fi pública.','Xarxa de confiança')
@@ -153,24 +153,24 @@ step(2,'Tria què podrà fer eixa persona','<b>Administrador/a:</b> gestiona l�
 step(3,'Posa una contrasenya i desa','Comunica el nom i la contrasenya a la persona corresponent per un canal de confiança. No els inclogues en un missatge general de l’associació.')
 
 # 6
-start('Altres equips Windows · Pas 4','Prepara el paquet per als clients')
-p('Este pas encara es fa en el servidor. En el seu panell, prem <b>Preparar altres equips</b>. Compàs et mostrarà l’adreça i l’empremta del certificat i obrirà la carpeta del paquet.')
-box('<font size="17"><b>Client-Compas.zip</b></font><br/><br/>Este és el fitxer que has de passar als altres ordinadors. Pots utilitzar, per exemple, un USB.','El paquet que necessites')
-p('El ZIP porta el certificat públic i un assistent de connexió. No conté la base de dades de l’associació ni les claus privades del servidor.')
+start('Altres equips Windows · Pas 4','Un sol fitxer per a cada equip')
+p('Este pas encara es fa en el servidor. En el seu panell, prem <b>Preparar altres equips</b>. Compàs et mostrarà l’adreça i l’empremta del certificat i seleccionarà el fitxer que has de copiar.')
+box('<font size="17"><b>Connecta-Compas.exe</b></font><br/><br/>Este és el fitxer que has de passar als altres ordinadors. Pots utilitzar, per exemple, un USB.','El paquet que necessites')
+p('El fitxer incorpora l’adreça i el certificat públic del servidor. No conté la base de dades de l’associació ni les claus privades del servidor.')
 sub('Ara, en cada ordinador client')
-step(1,'Copia el ZIP a l’ordinador','Assegura’t que el paquet te l’ha donat la persona responsable del servidor.')
-step(2,'Descomprimeix-lo completament','Prem el ZIP amb el botó dret i tria <b>Extrau-ho tot</b> o l’opció equivalent. Obri la carpeta que s’ha creat.')
-step(3,'Obri Connecta-Compas.exe','Executa’l des de la carpeta descomprimida, junt amb els altres fitxers. No cal instal·lar Compàs complet en este ordinador.')
+step(1,'Copia Connecta-Compas.exe','Demana el fitxer al responsable del servidor i copia’l a l’ordinador client, per exemple amb un USB.')
+step(2,'Obri el fitxer','Fes doble clic en <b>Connecta-Compas.exe</b>. No cal descomprimir res, copiar certificats ni instal·lar Compàs complet.')
+step(3,'Confirma i entra','Comprova l’empremta amb el responsable i prem <b>Confia i obri Compàs</b>. Windows pot demanar també confirmar el certificat. Es crearà un accés directe a l’escriptori.')
 box('Si Windows mostra un avís sobre l’origen del programa, comprova amb el responsable que el paquet és el que ha preparat el servidor abans de continuar.','Si apareix un avís')
-p('No copies el fitxer de la base de dades ni compartisques la carpeta sencera de dades. Per a preparar el client, utilitza el ZIP que crea Compàs.',10.7,15.5)
+p('No copies el fitxer de la base de dades ni compartisques la carpeta sencera de dades. Per als clients Linux, conserva <b>Client-Compas.zip</b>: inclou el seu assistent.',10.7,15.5)
 
 # 7
 start('Altres equips Windows · Pas 5','Compara l’empremta i entra')
 p('L’assistent et mostra l’adreça del servidor i una empremta SHA-256. Compara-la amb la que apareix en <b>Preparar altres equips</b> del servidor: ha de coincidir <b>tota</b>.')
 box('<b>Servidor:</b> mostra la seua empremta.<br/><b>Equip client:</b> ha de mostrar exactament la mateixa.<br/><br/>Si no coincidixen, no confirmes. Demana al responsable que revise el paquet.','Una comprovació que només fas la primera vegada')
-p('Quan l’adreça i l’empremta siguen correctes, confirma que confies en el certificat. L’assistent obrirà el navegador. Escriu el teu usuari i la contrasenya i prem <b>Entra</b>.')
+p('Quan l’adreça i l’empremta siguen correctes, prem <b>Confia i obri Compàs</b>. L’assistent obrirà el navegador. Escriu el teu usuari i la contrasenya i prem <b>Entra</b>.')
 fig('07-entrada.png',width=350,crop_box=(300,490,680,470),caption='Detall real de l’entrada. El nom és un exemple: utilitza el teu compte.')
-p('A partir d’ara, obri <b>https://compas.local</b> o guarda-la com a favorita. Si heu triat un altre nom, utilitza eixa adreça. No cal executar l’assistent cada dia.',11,16)
+p('A partir d’ara, utilitza l’accés directe de l’escriptori o obri <b>https://compas.local</b>. Si heu triat un altre nom, utilitza eixa adreça. No cal executar l’assistent cada dia.',11,16)
 
 # 8
 start('Quan ja funciona','Treballar cada dia és molt senzill')
@@ -191,7 +191,7 @@ start('Si alguna cosa no va bé','Comença per estes comprovacions')
 step(1,'El navegador diu que no troba compas.local','Comprova que el servidor està encés i que el seu panell continua obert. Revisa que els dos equips estiguen en la mateixa xarxa i que has escrit l’adreça completa, començant per <b>https://</b>.')
 step(2,'Funciona al servidor, però no en els altres equips','Comprova el perfil <b>Privada</b> de Windows. Una Wi-Fi de convidats o una opció d’aïllament entre equips pot impedir la connexió. Demana al responsable de la xarxa que ho revise.')
 step(3,'El navegador mostra un avís de certificat','Torna a comprovar el paquet i l’empremta amb el responsable. No ignores l’avís. Si el servidor s’ha canviat o s’han perdut els certificats, pot caldre preparar de nou el client.')
-step(4,'L’assistent diu que falten fitxers','Descomprimeix <b>tot</b> el ZIP i executa <b>Connecta-Compas.exe</b> des d’eixa carpeta. El programa necessita els altres fitxers que l’acompanyen.')
+step(4,'L’assistent no pot connectar','Demana al responsable un <b>Connecta-Compas.exe</b> nou, des de <b>Preparar altres equips</b>. Ha de ser el del vostre servidor, generat amb Compàs 2.3.3 o posterior.')
 step(5,'El servidor HTTPS no arranca','Copia el missatge exacte i consulta’l amb la persona responsable. Pot haver-hi una altra aplicació utilitzant la mateixa connexió. No desactives el tallafoc ni òbrigues el router a Internet per a provar.')
 step(6,'Un usuari no veu economia o no pot editar','Revisa el seu rol a <b>Usuaris</b>. És normal si és un compte de consulta. Si no pot entrar, comprova el nom i demana a l’administrador que li prepare una contrasenya nova.')
 box('El nom local es troba amb un sistema anomenat mDNS. Algunes xarxes, VPN o equips Linux el poden bloquejar o no tindre’l preparat. En eixe cas cal revisar la xarxa, no canviar la base de dades.','Si el nom continua sense trobar-se')

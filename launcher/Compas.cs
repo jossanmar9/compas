@@ -310,9 +310,9 @@ namespace Compas
             var clients = new Button { Text = Textos.T("Preparar altres equips", "Preparar otros equipos"), Location = new Point(225, 170), Size = new Size(195, 30) };
             clients.Click += delegate {
                 string dir = Path.Combine(Dades, "https");
-                if (!File.Exists(Path.Combine(dir, "Client-Compas.zip"))) { MessageBox.Show(this, Textos.T("Activa primer la xarxa local.", "Activa primero la red local."), "Compàs"); return; }
-                MessageBox.Show(this, Textos.T("Passa Client-Compas.zip als altres equips (per exemple, amb USB). Cal confirmar l'empremta del servidor una sola vegada; després només han d'obrir la URL.\n\n", "Pasa Client-Compas.zip a los demás equipos (por ejemplo, con USB). Hay que confirmar la huella del servidor una sola vez; después solo tienen que abrir la URL.\n\n") + File.ReadAllText(Path.Combine(dir, "empremta.txt")), "Compàs HTTPS");
-                Process.Start(new ProcessStartInfo("explorer.exe", "/select,\"" + Path.Combine(dir, "Client-Compas.zip") + "\"") { UseShellExecute = true });
+                if (!config.Lan || !File.Exists(Path.Combine(dir, "Connecta-Compas.exe"))) { MessageBox.Show(this, Textos.T("Activa primer la xarxa local.", "Activa primero la red local."), "Compàs"); return; }
+                MessageBox.Show(this, Textos.T("1. Passa només Connecta-Compas.exe als altres equips Windows (per exemple, amb USB).\n2. Obriu-lo i comproveu esta empremta.\n3. Confirmeu «Confia i obri Compàs». Es crearà un accés directe a l'escriptori.\n\nPer a Linux, utilitza Client-Compas.zip.\n\n", "1. Pasa solo Connecta-Compas.exe a los demás equipos Windows (por ejemplo, con USB).\n2. Abridlo y comprobad esta huella.\n3. Confirmad «Confiar y abrir Compàs». Se creará un acceso directo en el escritorio.\n\nPara Linux, utiliza Client-Compas.zip.\n\n") + File.ReadAllText(Path.Combine(dir, "empremta.txt")), "Compàs HTTPS");
+                Process.Start(new ProcessStartInfo("explorer.exe", "/select,\"" + Path.Combine(dir, "Connecta-Compas.exe") + "\"") { UseShellExecute = true });
             }; Controls.Add(clients);
 
 

@@ -8,6 +8,13 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.3.3] - 2026-10-27
+
+- Connexió HTTPS més senzilla en Windows: el servidor prepara un únic `Connecta-Compas.exe` amb la URL i el certificat públic incorporats. Es pot copiar als clients sense ZIP ni fitxers addicionals.
+- Confirmació de confiança en una finestra clara, en l’idioma del sistema. Si el certificat ja és de confiança, s’obri Compàs directament.
+- Accés directe a Compàs a l’escriptori del client. Es mantenen la comprovació de l’empremta i la confirmació explícita de confiança.
+- Manual PDF i instruccions actualitzats. Linux conserva `Client-Compas.zip` amb el seu assistent.
+
 ## [2.3.2] - 2026-10-27
 
 - El servidor LAN conserva la finestra pròpia de Compàs. Tancar la finestra de treball deixa el servidor en marxa; per a aturar-lo cal usar el panell del servidor.

@@ -175,8 +175,18 @@ jobs:
             /r:dist\Compas\Microsoft.Web.WebView2.Core.dll /r:dist\Compas\Microsoft.Web.WebView2.WinForms.dll `
             launcher\Compas.cs launcher\Visor.cs $info
           if ($LASTEXITCODE -ne 0) { throw "Error compilant el llançador" }
-          & $csc /nologo /codepage:65001 /target:winexe /out:dist\Compas\Connecta-Compas.exe /r:System.Windows.Forms.dll launcher\Connecta.cs
+          & $csc /nologo /codepage:65001 /target:winexe /out:dist\Compas\Connecta-Compas.exe /r:System.Windows.Forms.dll /r:System.Drawing.dll launcher\Connecta.cs
           if ($LASTEXITCODE -ne 0) { throw "Error compilant l’assistent de clients" }
+
+          # Prova el fitxer únic amb dades públiques reals, sense confiar en cap certificat.
+          $client = Join-Path $env:RUNNER_TEMP "client-connexio"
+          & dist\Compas\compas-xarxa.exe -dades $client -nom compas-prova.local -prepara
+          if ($LASTEXITCODE -ne 0) { throw "Error preparant la connexió de prova" }
+          $testClient = Join-Path $env:RUNNER_TEMP "connecta-prova.exe"
+          & $csc /nologo /codepage:65001 /target:exe /main:ConnectaTests "/out:$testClient" /r:System.Windows.Forms.dll /r:System.Drawing.dll launcher\Connecta.cs tests\connecta-config.cs
+          if ($LASTEXITCODE -ne 0) { throw "Error compilant la prova de connexió" }
+          & $testClient $client
+          if ($LASTEXITCODE -ne 0) { throw "Error en la connexió simplificada" }
 
           # Comprova configuració local/LAN sense obrir finestres ni arrancar PHP.
           $test = Join-Path (Resolve-Path dist\Compas).Path "compas-prova-config.exe"

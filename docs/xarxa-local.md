@@ -28,11 +28,14 @@ L’assistent guarda les opcions a `~/.config/compas/compas.ini`. En una actuali
 
 ## Preparar cada equip client una vegada
 
-1. Al servidor Windows, prem **Preparar altres equips**. A Linux, el paquet està a `~/.local/share/compas/dades/https/Client-Compas.zip`.
-2. Passa el ZIP directament als equips de l’associació, per exemple amb un USB. No conté dades ni claus privades: només el certificat públic, la URL i l’assistent.
-3. Compara l’empremta SHA-256 amb la que mostra el servidor. **No confies en un certificat si no coneixes el servidor o l’empremta no coincidix.**
-4. Windows: descomprimeix-lo i obri **Connecta-Compas.exe**. Confirma la confiança per al teu usuari. Linux: executa **`bash connecta.sh`** i confirma la instal·lació del certificat. Els navegadors amb magatzem propi poden requerir importar `compas-ca.crt` com a autoritat de confiança.
-5. A partir d’ara, només cal obrir **https://compas.local/** i entrar amb el compte propi. No cal instal·lar l’aplicació completa en els clients.
+**Windows: un únic fitxer, una sola preparació.**
+
+1. Al servidor, prem **Preparar altres equips**. Se selecciona **Connecta-Compas.exe**.
+2. Copia només eixe fitxer als altres ordinadors Windows, per exemple amb un USB. Porta la URL i el certificat públic incorporats; no conté dades ni claus privades. No cal descomprimir res.
+3. Obri’l al client, comprova tota l’empremta amb la del servidor i prem **Confia i obri Compàs**. Windows pot demanar també confirmar el certificat. No confirmes si no coneixes el servidor o l’empremta no coincidix.
+4. A partir d’ara, usa l’accés directe de l’escriptori i entra amb el teu compte. Si tornes a obrir l’assistent i ja confies en el certificat, entrarà directament.
+
+**Linux:** passa `Client-Compas.zip`, descomprimeix-lo i executa **`bash connecta.sh`**. Comprova l’empremta i confirma la instal·lació del certificat. El paquet està a la carpeta de dades del servidor, dins de `https`. Els navegadors amb magatzem propi poden requerir importar `compas-ca.crt` com a autoritat de confiança.
 
 `.local` necessita que la xarxa permeta mDNS. En Linux, el client necessita Avahi/libnss-mdns o una configuració equivalent de systemd-resolved. Una xarxa de convidats, l’aïllament Wi-Fi, una VPN o una política que bloquege multicast poden impedir el descobriment. HTTPS no evita eixes restriccions; la persona responsable de la xarxa les ha de revisar. No es configura el router ni s’obrin ports cap a Internet.
 
@@ -72,7 +75,9 @@ El servidor guarda la aplicación y SQLite. Los demás equipos entran en **https
 
 **Servidor Linux x86-64:** ejecuta `compas --xarxa` o el asistente del menú y confirma los pasos. Puede pedir `sudo` para el puerto 443, el certificado y UFW. Necesita `libcap2-bin`, `ca-certificates` y `openssl`. Reinicia Compàs.
 
-**Clientes:** el servidor prepara `Client-Compas.zip` (botón **Preparar otros equipos** en Windows; carpeta de datos `https` en Linux). Pásalo directamente, compara la huella SHA-256 y abre `Connecta-Compas.exe` en Windows o `bash connecta.sh` en Linux. Solo hay que aceptar la confianza una vez. Después basta con abrir la URL. Los navegadores con almacén propio pueden requerir importar `compas-ca.crt`. Linux necesita resolución `.local` (Avahi/libnss-mdns o equivalente). Si se bloquea multicast, hay aislamiento Wi-Fi o red de invitados, el responsable de la red tendrá que revisarlo.
+**Clientes Windows:** en el servidor pulsa **Preparar otros equipos** y copia solo `Connecta-Compas.exe` a cada cliente. No hace falta descomprimir ni copiar certificados aparte. Ábrelo, compara toda la huella con la del servidor y pulsa **Confiar y abrir Compàs**. Windows puede pedir también confirmar el certificado. Se crea un acceso directo en el escritorio. Si ya confías en el certificado, el asistente abre Compàs directamente.
+
+**Clientes Linux:** pasa `Client-Compas.zip`, descomprímelo y ejecuta `bash connecta.sh`. Compara la huella y confirma el certificado una vez. El ZIP está en la carpeta de datos del servidor, dentro de `https`. Linux necesita resolución `.local`. Los navegadores con almacén propio pueden requerir importar `compas-ca.crt`.
 
 HTTPS cifra el tráfico; no configura acceso público a Internet. Cada instalación tiene una autoridad propia, con renovación automática del certificado del servidor. No compartas las claves de la carpeta `https`; los ZIP de clientes no las contienen. Las copias `.db` tampoco incluyen las claves: guarda una copia externa protegida si quieres conservar la confianza al recuperar el servidor. Si se pierden, los clientes deberán aceptar el nuevo certificado.
 

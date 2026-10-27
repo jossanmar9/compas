@@ -4,8 +4,8 @@ VALENCIÀ
 1. Obté este paquet directament del responsable de l'associació (per exemple, amb USB).
 2. Compara l'empremta SHA-256 amb la que mostra el servidor:
    @EMPREMTA@
-3. Windows: descomprimeix-lo i obri Connecta-Compas.exe. Linux: executa bash connecta.sh.
-4. Després només has d'obrir @URL@ i entrar amb el teu compte.
+3. Windows: obri Connecta-Compas.exe. Pots copiar només eixe fitxer, sense la resta del paquet. Linux: executa bash connecta.sh.
+4. Windows crea un accés directe a l’escriptori. Obri’l i entra amb el teu compte.
 
 El servidor ha d'estar encés, a la mateixa xarxa privada. No necessita IP fixa.
 La xarxa ha de permetre mDNS (UDP 5353) i HTTPS. En Linux, el sistema client necessita
@@ -16,7 +16,8 @@ Este paquet només conté el certificat PÚBLIC; no conté claus ni dades de l'a
 
 CASTELLANO
 Obtén este paquete del responsable, compara la huella anterior y abre Connecta-Compas.exe
-en Windows o bash connecta.sh en Linux. Después solo tienes que abrir @URL@.
+en Windows (puedes copiar solo ese archivo) o bash connecta.sh en Linux.
+Windows crea un acceso directo en el escritorio. Después solo tienes que abrir @URL@.
 El servidor debe estar encendido en la misma red privada; no necesita IP fija.
 Linux necesita resolución .local (Avahi/libnss-mdns o systemd-resolved). Si el
 navegador utiliza un almacén propio, importa compas-ca.crt como autoridad de confianza.
