@@ -215,8 +215,14 @@ $T = [
         'avis_mes' => 'Explicació pas a pas a la guia d\'instal·lació',
         'req_titol' => 'Què cal',
         'req' => ['Un ordinador amb Windows 10 o 11 de 64 bits, o amb Linux i PHP 8.1 o posterior', 'Uns 100 MB de disc', 'Un llapis USB o una carpeta al núvol per a les còpies (recomanat)'],
-        'docs_titol' => 'Manuals',
-        'docs' => [['guia-xarxa-local.pdf', 'Guia de xarxa local amb captures'], ['manual-usuari.pdf', 'Manual d\'usuari, pas a pas amb captures'], ['manual-administracio.pdf', 'Manual d\'administració: configuració, comptes, còpies i actualitzacions'], ['guia-installacio.pdf', 'Guia d\'instal·lació']],
+        'docs_titol' => 'Manuals i guies en PDF',
+        'docs' => [
+            ['manual-usuari.pdf', 'Manual d’usuari', 'Ús diari de Compàs: persones, socis, quotes, activitats i la resta de funcions, amb captures.'],
+            ['manual-administracio.pdf', 'Manual d’administració', 'Configuració de l’entitat, comptes, permisos, còpies de seguretat i actualitzacions.'],
+            ['guia-installacio.pdf', 'Guia d’instal·lació', 'Instal·lar i obrir Compàs en Windows o Linux per primera vegada.'],
+            ['guia-xarxa-local.pdf', 'Guia de xarxa local (LAN i HTTPS)', 'Preparar el servidor i connectar els altres ordinadors, pas a pas i amb captures.'],
+        ],
+        'lan_paquet' => 'Client-Compas.zip es genera en el vostre servidor en activar el servei LAN. Inclou la vostra adreça i el certificat públic de confiança, sense claus privades ni dades de l’associació. En Windows, prem «Preparar altres equips» al panell del servidor i passa el ZIP als altres ordinadors. En Linux el trobaràs a la carpeta de dades, dins de https. No hi ha un ZIP genèric descarregable d’esta web: cada instal·lació té el seu certificat.',
         'lliure_titol' => 'Programari lliure',
         'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s’oferisquen a través d’una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
         'autor' => 'Un projecte de José Vicente Sanjuan.',
@@ -425,8 +431,14 @@ $T = [
         'avis_mes' => 'Explicación paso a paso en la guía de instalación',
         'req_titol' => 'Qué hace falta',
         'req' => ['Un ordenador con Windows 10 u 11 de 64 bits, o con Linux y PHP 8.1 o posterior', 'Unos 100 MB de disco', 'Un lápiz USB o una carpeta en la nube para las copias (recomendado)'],
-        'docs_titol' => 'Manuales',
-        'docs' => [['guia-xarxa-local.pdf', 'Guía de red local con capturas (valenciano)'], ['manual-usuario.pdf', 'Manual de usuario, paso a paso con capturas'], ['manual-administracion.pdf', 'Manual de administración: configuración, cuentas, copias y actualizaciones'], ['guia-instalacion.pdf', 'Guía de instalación']],
+        'docs_titol' => 'Manuales y guías en PDF',
+        'docs' => [
+            ['manual-usuario.pdf', 'Manual de usuario', 'Uso diario de Compàs: personas, socios, cuotas, actividades y el resto de funciones, con capturas.'],
+            ['manual-administracion.pdf', 'Manual de administración', 'Configuración de la entidad, cuentas, permisos, copias de seguridad y actualizaciones.'],
+            ['guia-instalacion.pdf', 'Guía de instalación', 'Instalar y abrir Compàs en Windows o Linux por primera vez.'],
+            ['guia-xarxa-local.pdf', 'Guía de red local (LAN y HTTPS) · en valenciano', 'Preparar el servidor y conectar los demás ordenadores, paso a paso y con capturas.'],
+        ],
+        'lan_paquet' => 'Client-Compas.zip se genera en vuestro servidor al activar el servicio LAN. Incluye vuestra dirección y el certificado público de confianza, sin claves privadas ni datos de la asociación. En Windows, pulsa «Preparar otros equipos» en el panel del servidor y pasa el ZIP a los demás ordenadores. En Linux lo encontrarás en la carpeta de datos, dentro de https. No hay un ZIP genérico descargable de esta web: cada instalación tiene su certificado.',
         'lliure_titol' => 'Software libre',
         'lliure' => 'Compàs se distribuye bajo la licencia GNU AGPL v3 o posterior: puedes utilizarlo, estudiarlo, modificarlo y compartirlo. Las versiones modificadas que se ofrezcan a través de una red también deben poner su código fuente a disposición de los usuarios. El código es público en GitHub.',
         'autor' => 'Un proyecto de José Vicente Sanjuan.',
@@ -542,8 +554,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $guia = $repo . '/blob/main/docs/' . ($l === 'es' ? 'guia-instalacion.md#si-windows-no-te-deja-abrirlo' : 'guia-installacio.md#si-windows-no-et-deixa-obrir-lo');
     // Els PDF es generen en publicar la web (workflow web.yml); si no hi són, s'enllacen els de l'última versió de GitHub
     $pdf = fn(string $f) => is_file(dirname(__DIR__) . '/docs/pdf/' . $f) ? $base . 'pdf/' . $f : $repo . '/releases/latest/download/' . $f;
-    $docs = implode('', array_map(fn($d) => '<li><a href="' . e($pdf($d[0])) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span></li>', $t['docs']));
-    $manualPdf = e($pdf($t['docs'][0][0]));
+    $docs = implode('', array_map(fn($d) => '<li><a href="' . e($pdf($d[0])) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span><p>' . e($d[2]) . '</p></li>', $t['docs']));
+    $manualPdf = e($pdf($l === 'es' ? 'manual-usuario.pdf' : 'manual-usuari.pdf'));
+    $xarxaPdf = e($pdf('guia-xarxa-local.pdf'));
 
     $miniatures = '';
     $primera = 'web-inici';
@@ -632,7 +645,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <section id="xarxa" class="seccio xarxa">
   <div class="cap"><p class="etiqueta">HTTPS · LAN · Windows · Linux</p><h2>{$t['lan_titol']}</h2><p>{$t['lan_intro']}</p></div>
   <div class="arees"><article class="area"><h3>🖥️ ↔ 💻 💻</h3><p>{$t['lan_servidor']}</p><p>{$t['lan_clients']}</p></article><article class="area"><h3>🔑 {$t['nav_lan']}</h3><p>{$t['lan_rols']}</p><p>{$t['lan_avis']}</p></article></div>
-  <p><a class="boto" href="{$repo}/blob/main/docs/xarxa-local.md">{$t['lan_guia']}</a></p>
+  <p>{$t['lan_paquet']}</p>
+  <p><a class="boto" href="{$xarxaPdf}">{$t['lan_guia']}</a></p>
 </section>
 
 <section id="captures" class="seccio galeria">
@@ -677,7 +691,8 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <p><a class="boto" href="{$descarrega}">↓ {$t['latest']}</a></p>
   <p class="nota">{$versioText}</p>
   <p class="enllacos"><a href="{$manualPdf}">{$t['manual']}</a> · <a href="{$repo}">{$t['nav_codi']}</a> · <a href="{$repo}/blob/main/LICENSE">AGPL-3.0</a></p>
-  <details class="ajuda"><summary>{$t['help']}</summary><ol class="passos">{$passos}</ol><p><a href="{$guia}">{$t['avis_mes']}</a></p><ul class="punts">{$req}</ul><ul class="docs">{$docs}</ul></details>
+  <details class="ajuda"><summary>{$t['help']}</summary><ol class="passos">{$passos}</ol><p><a href="{$guia}">{$t['avis_mes']}</a></p><ul class="punts">{$req}</ul></details>
+  <h3>{$t['docs_titol']}</h3><ul class="docs">{$docs}</ul>
 </section>
 
 <section id="preguntes" class="seccio preguntes">
