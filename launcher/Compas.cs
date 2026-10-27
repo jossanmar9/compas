@@ -360,6 +360,7 @@ namespace Compas
 
         void CreaSafata()
         {
+            if (safata != null) return;
             var menu = new ContextMenuStrip();
             menu.Items.Add(Textos.T("Obri Compàs", "Abrir Compàs"), null, delegate { ObriFinestra(); });
             menu.Items.Add(Textos.T("Carpeta de dades", "Carpeta de datos"), null, delegate { ObriCarpeta(); });
@@ -413,6 +414,7 @@ namespace Compas
                 {
                     visor = CreaVisor();
                     visor.Show();
+                    CreaSafata();
                     return;
                 }
                 catch (Exception ex) { Log("Visor: " + ex.Message); visor = null; }
