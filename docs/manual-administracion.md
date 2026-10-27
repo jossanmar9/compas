@@ -37,7 +37,7 @@ Cómo se abre, se cierra y se entra en Compàs es igual para todas las cuentas: 
 La primera vez que se abre Compàs aparece la **Configuración inicial**:
 
 1. Escribe el **nombre de la entidad**.
-2. Elige el **tipo de entidad**: sociedad musical, club deportivo, colla, asociación cultural, AMPA, falla, gaiata, foguera, comparsa, peña o federación. Compàs adapta los nombres (socios, falleros y falleras, deportistas, equipos…), los apartados que activa, el mes en que empieza el ejercicio y las categorías de edad. Todo se puede cambiar después.
+2. Elige el **tipo de entidad**: sociedad musical, club deportivo, colla, muixeranga, colla castellera, asociación cultural, AMPA, falla, gaiata, foguera, comparsa, peña o federación. Compàs adapta los nombres (socios, falleros y falleras, deportistas, equipos…), los apartados que activa, el mes en que empieza el ejercicio y las categorías de edad. Todo se puede cambiar después.
 3. Elige el **idioma** por defecto.
 4. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
 5. Si quieres, crea también la cuenta de **usuario/a** (se puede hacer después).
@@ -51,7 +51,7 @@ A continuación, Compàs muestra el **código de recuperación**. Sirve para pon
 
 ![Código de recuperación](imatges/es/01b-codi-recuperacio.webp)
 
-> Para empezar a trabajar de verdad sin los datos de ejemplo, cierra Compàs, borra la carpeta `data` del programa y vuelve a abrirlo.
+> Para empezar sin los datos de ejemplo: entra como administrador/a en **Copias de seguridad → Vaciar los datos de gestión**, con LAN desactivado. Escribe `BUIDAR` y tu contraseña actual. Se guarda una copia manual antes de borrar **todos** los datos de gestión, incluidos los datos reales añadidos después. Se conservan configuración, logo, cuentas, permisos y catálogos de tipos y categorías; las tarifas se vacían. Las copias anteriores siguen disponibles. Después hay que volver a entrar.
 
 ## 2. Configuración de la entidad y logotipo
 

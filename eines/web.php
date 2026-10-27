@@ -28,12 +28,22 @@ $T = [
         'lema' => 'Gestió lliure per a associacions',
         'hero' => 'Tota l\'associació, en un sol programa.',
         'hero_text' => "Socis, quotes, activitats, escola, equips, junta i documents, en un ordinador de l'entitat. Per a societats musicals, clubs, colles, AMPA, falles, comparses i molt més. Sense núvol, sense Internet i sense recollir cap dada. Gratuït i en valencià i castellà.",
+        'nav_lan' => 'Xarxa local',
+        'lan_titol' => 'Treballa en equip, també en xarxa local',
+        'lan_intro' => 'Diverses persones poden utilitzar Compàs alhora des dels ordinadors de l’associació, amb el navegador i un compte propi.',
+        'lan_servidor' => 'Un ordinador servidor guarda la base de dades i ha d’estar encés.',
+        'lan_clients' => 'La resta d’ordinadors es connecten a la seua adreça local. No han de compartir ni copiar el fitxer SQLite.',
+        'lan_rols' => 'Comptes individuals: Administrador/a, Administratiu/iva i Consultor/a de consulta limitada. Noms únics i permisos segons el rol.',
+        'lan_avis' => 'Opcional des de la versió 2.2. Per defecte només funciona en un ordinador. El mode LAN usa HTTP sense xifrat: activa’l només en una xarxa privada de confiança, mai exposat a Internet.',
+        'lan_guia' => 'Com configurar la xarxa local →',
         'nav_tipus' => 'Per a qui',
         'tipus_titol' => 'Una sola aplicació per a cada tipus d\'entitat',
         'tipus_intro' => 'En instal·lar-lo tries el tipus d\'entitat i Compàs s\'hi adapta: els noms de les pantalles, els apartats que necessites i quan comença l\'exercici. Es pot canviar quan vulgues.',
         'tipus' => [
             ['🎺', 'Societats musicals', 'Escola de música amb notes i butlletins, banda i agrupacions, repertori i instruments.'],
             ['⚽', 'Clubs esportius', 'Equips, escola esportiva, llicències i revisions mèdiques, categories i temporada de setembre.'],
+            ['🤝', 'Muixerangues', 'Seccions, assajos, actuacions, material i roba.'],
+            ['🏰', 'Colles castelleres', 'Seccions, assajos, actuacions, material i roba.'],
             ['🥁', 'Colles', 'Seccions de dolçaina i tabal, gegants o muixeranga, escola, material i roba.'],
             ['🎭', 'Associacions culturals', 'Tallers i cursos, grups de teatre, dansa o cor, i activitats amb inscripció.'],
             ['🎒', 'AMPA i AFA', 'Famílies associades, activitats extraescolars amb rebuts per família i comissions.'],
@@ -228,12 +238,22 @@ $T = [
         'lema' => 'Gestión libre para asociaciones',
         'hero' => 'Toda la asociación, en un solo programa.',
         'hero_text' => 'Socios, cuotas, actividades, escuela, equipos, junta y documentos, en un ordenador de la entidad. Para sociedades musicales, clubes, collas, AMPA, fallas, comparsas y mucho más. Sin nube, sin Internet y sin recopilar ningún dato. Gratuito y en valenciano y castellano.',
+        'nav_lan' => 'Red local',
+        'lan_titol' => 'Trabaja en equipo, también en red local',
+        'lan_intro' => 'Varias personas pueden utilizar Compàs a la vez desde los ordenadores de la asociación, con el navegador y una cuenta propia.',
+        'lan_servidor' => 'Un ordenador servidor guarda la base de datos y debe permanecer encendido.',
+        'lan_clients' => 'Los demás ordenadores se conectan a su dirección local. No tienen que compartir ni copiar el archivo SQLite.',
+        'lan_rols' => 'Cuentas individuales: Administrador/a, Administrativo/a y Consultor/a de consulta limitada. Nombres únicos y permisos según el rol.',
+        'lan_avis' => 'Opcional desde la versión 2.2. Por defecto solo funciona en un ordenador. El modo LAN usa HTTP sin cifrado: actívalo solo en una red privada de confianza, nunca expuesto a Internet.',
+        'lan_guia' => 'Cómo configurar la red local →',
         'nav_tipus' => 'Para quién',
         'tipus_titol' => 'Una sola aplicación para cada tipo de entidad',
         'tipus_intro' => 'Al instalarlo eliges el tipo de entidad y Compàs se adapta: los nombres de las pantallas, los apartados que necesitas y cuándo empieza el ejercicio. Se puede cambiar cuando quieras.',
         'tipus' => [
             ['🎺', 'Sociedades musicales', 'Escuela de música con notas y boletines, banda y agrupaciones, repertorio e instrumentos.'],
             ['⚽', 'Clubes deportivos', 'Equipos, escuela deportiva, licencias y revisiones médicas, categorías y temporada de septiembre.'],
+            ['🤝', 'Muixerangues', 'Secciones, ensayos, actuaciones, material y ropa.'],
+            ['🏰', 'Collas castelleres', 'Secciones, ensayos, actuaciones, material y ropa.'],
             ['🥁', 'Collas', 'Secciones de dulzaina y tabal, gigantes o muixeranga, escuela, material y ropa.'],
             ['🎭', 'Asociaciones culturales', 'Talleres y cursos, grupos de teatro, danza o coro, y actividades con inscripción.'],
             ['🎒', 'AMPA y AFA', 'Familias asociadas, actividades extraescolares con recibos por familia y comisiones.'],
@@ -565,6 +585,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <nav aria-label="{$t['nav_menu']}">
     <a href="#entitats">{$t['nav_tipus']}</a>
     <a href="#que">{$t['nav_que']}</a>
+    <a href="#xarxa">{$t['nav_lan']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
     <a href="#qui">{$t['nav_qui']}</a>
     <a class="nav-baixa" href="#comencar">{$t['download']}</a>
@@ -606,6 +627,12 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   </div>
   <div class="arees">{$arees}</div>
   <details class="totes-funcions"><summary>{$t['all']} →</summary><dl class="moduls">{$moduls}</dl></details>
+</section>
+
+<section id="xarxa" class="seccio xarxa">
+  <div class="cap"><p class="etiqueta">LAN · Windows · Linux</p><h2>{$t['lan_titol']}</h2><p>{$t['lan_intro']}</p></div>
+  <div class="arees"><article class="area"><h3>🖥️ ↔ 💻 💻</h3><p>{$t['lan_servidor']}</p><p>{$t['lan_clients']}</p></article><article class="area"><h3>🔑 {$t['nav_lan']}</h3><p>{$t['lan_rols']}</p><p>{$t['lan_avis']}</p></article></div>
+  <p><a class="boto" href="{$repo}/blob/main/docs/xarxa-local.md">{$t['lan_guia']}</a></p>
 </section>
 
 <section id="captures" class="seccio galeria">

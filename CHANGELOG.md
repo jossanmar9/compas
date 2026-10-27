@@ -8,6 +8,12 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.2.1] - 2026-10-27
+
+- Nous tipus d’entitat: **Muixeranga** i **Colla castellera**, amb seccions, assajos, actuacions, material, roba i dades d’exemple pròpies.
+- Buidatge de dades de gestió des de Còpies de seguretat: conserva configuració, comptes, permisos i catàlegs; exigeix contrasenya i confirmació, amb còpia manual prèvia. Esborra també les dades reals afegides després de les d’exemple. Només amb LAN desactivat.
+- Web en valencià i castellà: secció visible de xarxa local, rols i guia de configuració, i els dos nous tipus d’entitat. Actualització automàtica dels enllaços de descàrrega després de publicar cada versió.
+
 ## [2.2.0] - 2026-10-27
 
 ### Afegit

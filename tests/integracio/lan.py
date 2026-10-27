@@ -5,6 +5,10 @@ import html as _html
 
 PW = 'compas-proves-2026!'
 
+persones_abans = n('select count(*) from persones')
+h = P('r=copia', dict(accio='buida', confirmacio='BUIDAR', contrasenya='contrasenya-llarga1'))
+ok(n('select count(*) from persones') == persones_abans and not err(h), 'LAN: ni l’administrador pot buidar dades mentre el servidor està compartit')
+
 def compte(nom, rol='consultor'):
     return P('r=usuaris&id=nou', dict(usuari=nom, rol=rol, actiu='1', idioma=L,
         contrasenya=PW, contrasenya2=PW))

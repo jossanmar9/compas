@@ -7,7 +7,7 @@
 import html as _html
 
 ES = L == 'es'
-TIPUS = ['societat_musical', 'club_esportiu', 'colla', 'associacio_cultural', 'ampa', 'falla', 'gaiata', 'foguera', 'comparsa', 'penya', 'federacio']
+TIPUS = ['societat_musical', 'club_esportiu', 'colla', 'muixeranga', 'colla_castellera', 'associacio_cultural', 'ampa', 'falla', 'gaiata', 'foguera', 'comparsa', 'penya', 'federacio']
 
 # Textos que ha de dur el menú de cada tipus (i que no ha de dur)
 MENU = {
@@ -15,6 +15,8 @@ MENU = {
     'club_esportiu': (['Esportistes' if not ES else 'Deportistas', 'Equips' if not ES else 'Equipos', 'Llicències' if not ES else 'Licencias', 'Equipacions' if not ES else 'Equipaciones'],
                       ['Repertori', 'Repertorio', 'Butlletins', 'Boletines']),
     'colla': (['Seccions' if not ES else 'Secciones', 'Membres de la colla' if not ES else 'Miembros de la colla'], ['Llicències', 'Licencias']),
+    'muixeranga': (['Seccions' if not ES else 'Secciones', 'Muixeranguers i muixerangueres' if not ES else 'Muixeranguers y muixerangueres'], ['Repertori', 'Repertorio']),
+    'colla_castellera': (['Seccions' if not ES else 'Secciones', 'Castellers i castelleres' if not ES else 'Castellers y castelleres'], ['Repertori', 'Repertorio']),
     'associacio_cultural': (['Tallers i cursos' if not ES else 'Talleres y cursos', 'Participants' if not ES else 'Participantes'], ['Repertori', 'Repertorio']),
     'ampa': (['Famílies associades' if not ES else 'Familias asociadas', 'Activitats extraescolars' if not ES else 'Actividades extraescolares'], ['Loteria', 'Lotería']),
     'falla': (['Fallers i falleres' if not ES else 'Falleros y falleras', 'Càrrecs de festa' if not ES else 'Cargos de fiesta'], ['Alumnat', 'Alumnado', 'Repertori', 'Repertorio']),

@@ -4,6 +4,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 return [
+    'buidar.titol' => 'Vaciar los datos de gestión',
+    'buidar.text' => 'Borra TODOS los datos de gestión, no solo los de ejemplo: personas, socios, escuela, actividades, economía, documentos e historial. Conserva la configuración de la entidad, el logo, las cuentas, los permisos y los catálogos de tipos y categorías. Las tarifas se vacían. Antes guarda una copia manual que se puede restaurar. Las copias anteriores se conservan. Hay que volver a entrar. Solo disponible con el modo LAN desactivado.',
+    'buidar.local' => 'Desactiva el modo LAN y vacía los datos desde el servidor.',
+    'buidar.confirmacio' => 'Escribe BUIDAR y confirma tu contraseña actual.',
+    'buidar.integritat' => 'No se puede completar el vaciado: los datos se conservan.',
+    'buidar.escriu' => 'Escribe BUIDAR para confirmar que quieres borrar todos los datos de gestión.',
+    'buidar.fet' => 'Datos de gestión vaciados. Configuración y cuentas conservadas. Copia: %s',
+
     'lema' => 'Gestión libre para asociaciones',
 
     'cercar' => 'Buscar…',

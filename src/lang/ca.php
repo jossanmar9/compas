@@ -4,6 +4,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 return [
+    'buidar.titol' => 'Buidar les dades de gestió',
+    'buidar.text' => 'Esborra TOTES les dades de gestió, no sols les d’exemple: persones, socis, escola, activitats, economia, documents i historial. Conserva la configuració de l’entitat, el logo, els comptes, els permisos i els catàlegs de tipus i categories. Les tarifes es buiden. Abans guarda una còpia manual que es pot restaurar. Les còpies anteriors es conserven. Cal tornar a entrar. Només disponible amb el mode LAN desactivat.',
+    'buidar.local' => 'Desactiva el mode LAN i fes el buidatge des del servidor.',
+    'buidar.confirmacio' => 'Escriu BUIDAR i confirma la teua contrasenya actual.',
+    'buidar.integritat' => 'No es pot completar el buidatge: les dades es conserven.',
+    'buidar.escriu' => 'Escriu BUIDAR per confirmar que vols esborrar totes les dades de gestió.',
+    'buidar.fet' => 'Dades de gestió buidades. Configuració i comptes conservats. Còpia: %s',
+
     'lema' => 'Gestió lliure per a associacions',
 
     // General

@@ -44,6 +44,7 @@ BATERIES = {
     'avis': (['avis.py'], False),
     'importacio': (['importacio.php'], True),
     'seguretat': (['seguretat.py'], True),
+    'buidar': (['buidar.py'], True),
     'lan': (['lan.py'], True),
     'subvencions': (['subvencions.py'], True),
     'tipus': (['tipus.py'], False),

@@ -86,6 +86,8 @@ function carrega_exemple_associacio(string $tipus): void
     // Grups (equips, seccions, esquadres, comissions…)
     $grups = [
         'club_esportiu' => [['Sènior A', 'equip'], ['Juvenil', 'equip'], ['Aleví', 'equip']],
+        'muixeranga' => [[$tr('Grup general', 'Grupo general'), 'seccio'], [$tr('Canalla', 'Canalla'), 'seccio']],
+        'colla_castellera' => [[$tr('Grup general', 'Grupo general'), 'seccio'], [$tr('Canalla', 'Canalla'), 'seccio']],
         'colla' => [[$tr('Dolçaina i tabal', 'Dulzaina y tabal'), 'seccio'], [$tr('Gegants i cabets', 'Gigantes y cabezudos'), 'seccio']],
         'associacio_cultural' => [[$tr('Grup de teatre', 'Grupo de teatro'), 'grup'], [$tr('Grup de dansa', 'Grupo de danza'), 'grup']],
         'ampa' => [[$tr('Comissió de festes', 'Comisión de fiestas'), 'comissio'], [$tr('Comissió de menjador', 'Comisión de comedor'), 'comissio']],
@@ -196,6 +198,12 @@ function carrega_exemple_associacio(string $tipus): void
         crea_rebuts(calcula_federades($any, $r), date('Y-m-d'));
     }
 
+    if (in_array($tipus, ['muixeranga', 'colla_castellera'], true)) {
+        foreach ([$tr('Assaig general', 'Ensayo general'), $tr('Actuació a la plaça', 'Actuación en la plaza')] as $k => $nom) {
+            q("INSERT INTO activitats(nom, tipus, data, hora, lloc, estat) VALUES(?, 'altra_activitat', ?, '19:00', ?, 'inscripcio_oberta')",
+                [$nom, date('Y-m-d', strtotime('+' . (7 + $k * 7) . ' days')), $tr('Plaça Major', 'Plaza Mayor')]);
+        }
+    }
     exemple_activitats($adults, $tipus === 'club_esportiu');
     q('INSERT INTO comunicats(data, destinataris, n_destinataris, assumpte) VALUES(?, ?, ?, ?)', [date('Y-m-d', strtotime('-3 days')), t('ent.socis'), count($adults),
         $tr('Inscripcions al sopar de germanor', 'Inscripciones a la cena de hermandad')]);

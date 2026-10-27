@@ -26,11 +26,27 @@ const TIPUS_ENTITAT = [
     ],
     'colla' => [
         'nom' => ['ca' => 'Colla', 'es' => 'Colla'],
-        'descripcio' => ['ca' => 'Gegants, dolçaina i tabal, muixeranga, castells…', 'es' => 'Gigantes, dulzaina y tabal, muixeranga, castells…'],
+        'descripcio' => ['ca' => 'Gegants, dolçaina i tabal…', 'es' => 'Gigantes, dulzaina y tabal…'],
         'moduls' => ['agrupacions', 'instruments', 'uniformes', 'economia', 'loteria', 'caixa', 'junta', 'documents', 'comunicats', 'subvencions', 'activitats'],
         'vocabulari' => ['escola' => 'colla', 'grups' => 'seccions', 'socis' => 'membres', 'material' => 'material', 'roba' => 'roba'],
         'mes_exercici' => 1, 'notes' => true,
         'nom_exemple' => ['ca' => 'Colla …', 'es' => 'Colla …'],
+    ],
+    'muixeranga' => [
+        'nom' => ['ca' => 'Muixeranga', 'es' => 'Muixeranga'],
+        'descripcio' => ['ca' => 'Muixeranguers i muixerangueres, seccions, assajos, actuacions, material i roba', 'es' => 'Muixeranguers y muixerangueres, secciones, ensayos, actuaciones, material y ropa'],
+        'moduls' => ['agrupacions', 'instruments', 'uniformes', 'economia', 'loteria', 'caixa', 'junta', 'documents', 'comunicats', 'subvencions', 'activitats'],
+        'vocabulari' => ['escola' => 'colla', 'grups' => 'seccions', 'socis' => 'muixeranguers', 'material' => 'material', 'roba' => 'roba'],
+        'mes_exercici' => 1, 'notes' => false,
+        'nom_exemple' => ['ca' => 'Muixeranga …', 'es' => 'Muixeranga …'],
+    ],
+    'colla_castellera' => [
+        'nom' => ['ca' => 'Colla castellera', 'es' => 'Colla castellera'],
+        'descripcio' => ['ca' => 'Castellers i castelleres, seccions, assajos, actuacions, material i roba', 'es' => 'Castellers y castelleres, secciones, ensayos, actuaciones, material y ropa'],
+        'moduls' => ['agrupacions', 'instruments', 'uniformes', 'economia', 'loteria', 'caixa', 'junta', 'documents', 'comunicats', 'subvencions', 'activitats'],
+        'vocabulari' => ['escola' => 'colla', 'grups' => 'seccions', 'socis' => 'castellers', 'material' => 'material', 'roba' => 'roba'],
+        'mes_exercici' => 1, 'notes' => false,
+        'nom_exemple' => ['ca' => 'Colla castellera …', 'es' => 'Colla castellera …'],
     ],
     'associacio_cultural' => [
         'nom' => ['ca' => 'Associació cultural', 'es' => 'Asociación cultural'],

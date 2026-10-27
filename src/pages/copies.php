@@ -224,6 +224,49 @@ function avis_copies(): string
     return '';
 }
 
+/** Buidatge explícit, només local: conserva comptes, permisos i catàlegs de configuració. */
+function buida_dades_gestio(): string
+{
+    requereix('config.manage');
+    requereix('copia.restaura');
+    if (mode_lan() || !peticio_del_servidor()) {
+        throw new RuntimeException(t('buidar.local'));
+    }
+    $u = usuari();
+    if (post('confirmacio') !== 'BUIDAR' || !password_verify((string)post('contrasenya'), $u['contrasenya'])) {
+        throw new RuntimeException(t('buidar.confirmacio'));
+    }
+    // La còpia ha d'haver acabat abans de tocar cap dada. No es roten les còpies manuals.
+    [$copia] = fes_copia('manual');
+    $conserva = ['config', 'usuaris', 'rols', 'rol_capacitats', 'usuari_rols',
+        'tipus_socis', 'tipus_obres', 'categories', 'organismes', 'requisits_justificacio', 'organisme_requisits'];
+    $pdo = db();
+    $pdo->exec('PRAGMA foreign_keys = OFF');
+    try {
+        $pdo->beginTransaction();
+        foreach ($pdo->query("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")->fetchAll(PDO::FETCH_COLUMN) as $taula) {
+            if (!in_array($taula, $conserva, true)) {
+                $pdo->exec('DELETE FROM "' . str_replace('"', '""', $taula) . '"');
+            }
+        }
+        if ($pdo->query('PRAGMA foreign_key_check')->fetch()) {
+            throw new RuntimeException(t('buidar.integritat'));
+        }
+        desa_config('dades_exemple', '0');
+        // L'auditoria comença de nou: la marca antiga no ha d'impedir les còpies següents.
+        desa_config('copia_ultim_canvi', '0');
+        audita('dades_buidades', null, null, $copia);
+        desa_config('sessions_versio', bin2hex(random_bytes(16)));
+        $pdo->commit();
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        throw $e;
+    } finally {
+        $pdo->exec('PRAGMA foreign_keys = ON');
+    }
+    return $copia;
+}
+
 function pagina_copia(): void
 {
     requereix('copia.manage');
@@ -236,6 +279,15 @@ function pagina_copia(): void
         }
         $nom = (string)post('nom');
         switch ($accio) {
+            case 'buida':
+                try {
+                    $copia = buida_dades_gestio();
+                    avis(t('buidar.fet', $copia));
+                    redirigeix('entrada');
+                } catch (RuntimeException $e) {
+                    avis($e->getMessage(), 'error');
+                }
+                break;
             case 'fes':
                 [$fet, $err] = fes_copia('manual');
                 avis(t('copia.feta', $fet));
@@ -425,6 +477,13 @@ function pagina_copia(): void
             . '<div class="camp"><label>' . h(t('copia.contrasenya_xifrat')) . '</label><input type="password" name="contrasenya" autocomplete="off"><small>' . h(t('copia.contrasenya_xifrat_ajuda')) . '</small></div>'
             . '<label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
             . '<button class="perill">' . h(t('copia.restaurar')) . '</button></form></section>';
+    }
+    if (pot('config.manage') && $restaura && peticio_del_servidor()) {
+        $html .= '<section class="fill perill-zona"><header><h2>' . h(t('buidar.titol')) . '</h2></header><p>' . h(t('buidar.text')) . '</p>'
+            . '<form method="post" class="formulari vertical estret">' . csrf_camp() . '<input type="hidden" name="accio" value="buida">'
+            . '<label>' . h(t('camp.contrasenya')) . '<input type="password" name="contrasenya" autocomplete="current-password" required></label>'
+            . '<label>' . h(t('buidar.escriu')) . '<input name="confirmacio" pattern="BUIDAR" required autocomplete="off"></label>'
+            . '<button class="perill">' . h(t('buidar.titol')) . '</button></form></section>';
     }
     $html = '<div class="avis atencio">⚠ ' . h(t('avis_resp.curt')) . '</div>' . $html;
     pagina(t('menu.copia'), $html);

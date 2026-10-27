@@ -64,6 +64,7 @@ function pagina_configuracio_inicial(): void
             }
             if (post('exemple') === '1') {
                 carrega_dades_exemple();
+                desa_config('dades_exemple', '1');
             }
             $codi = genera_codi_recuperacio();
             db()->commit();

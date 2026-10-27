@@ -39,7 +39,7 @@
 
 Compàs és una aplicació d'escriptori per a gestionar una associació des d'un ordinador amb **Windows o Linux**. Està pensada perquè qui porta la secretaria o l'administració d'una entitat puga utilitzar-la sense coneixements informàtics especials.
 
-Serveix per a **societats musicals, clubs esportius, colles, associacions culturals, AMPA/AFA, falles, gaiates, fogueres, comparses, penyes i federacions**. En instal·lar-lo, Compàs adapta el vocabulari, els apartats i l'exercici al tipus d'entitat.
+Serveix per a **societats musicals, clubs esportius, colles, muixerangues, colles castelleres, associacions culturals, AMPA/AFA, falles, gaiates, fogueres, comparses, penyes i federacions**. En instal·lar-lo, Compàs adapta el vocabulari, els apartats i l'exercici al tipus d'entitat.
 
 > 🔒 **Les dades són de l'associació.** Compàs no necessita cap servidor extern, no obliga a crear un compte, no té telemetria ni publicitat i no envia dades fora de l'ordinador. L'entitat controla les seues dades i les seues còpies de seguretat.
 
@@ -76,6 +76,8 @@ Un projecte de **José Vicente Sanjuan**.
 |---|---|---|---|
 | **Societat musical** | Socis, alumnat, agrupacions, músics | Escola de música amb notes i butlletins, agrupacions, repertori, instruments, uniformes, loteria | Gener |
 | **Club esportiu** | Socis, esportistes, entrenadors, equips, jugadors | Escola esportiva, equips, llicències i revisions mèdiques, categories (prebenjamí… veterà), material i equipacions | Setembre (temporada) |
+| **Muixeranga** | Membres, seccions | Assajos, actuacions, activitats, material i roba | Gener |
+| **Colla castellera** | Membres, seccions | Assajos, actuacions, activitats, material i roba | Gener |
 | **Colla** | Membres de la colla, seccions | Seccions (dolçaina i tabal, gegants…), escola de la colla, material, roba | Gener |
 | **Associació cultural** | Socis, participants, tallers, grups | Tallers i cursos, grups (teatre, dansa, cor…), material | Gener |
 | **AMPA / AFA** | Famílies associades, alumnat, monitors, comissions | Activitats extraescolars, comissions, roba | Setembre (curs) |

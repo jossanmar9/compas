@@ -322,6 +322,9 @@ jobs:
     needs: [windows, linux]
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
     steps:
       - uses: actions/checkout@v5
 
@@ -378,3 +381,8 @@ jobs:
             paquets/*.deb
             paquets/Compas/docs/pdf/*.pdf
           body_path: notes.md
+
+      - name: Actualitza la web amb la versió publicada
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run web.yml --ref main

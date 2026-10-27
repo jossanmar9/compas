@@ -37,7 +37,7 @@ Com s'obri, es tanca i s'entra a Compàs és igual per a tots els comptes: ho ex
 La primera vegada que s'obri Compàs apareix la **Configuració inicial**:
 
 1. Escriu el **nom de l'entitat**.
-2. Tria el **tipus d'entitat**: societat musical, club esportiu, colla, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació. Compàs hi adapta els noms (socis, fallers i falleres, esportistes, equips…), els apartats que activa, el mes en què comença l'exercici i les categories d'edat. Tot es pot canviar després.
+2. Tria el **tipus d'entitat**: societat musical, club esportiu, colla, muixeranga, colla castellera, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació. Compàs hi adapta els noms (socis, fallers i falleres, esportistes, equips…), els apartats que activa, el mes en què comença l'exercici i les categories d'edat. Tot es pot canviar després.
 3. Tria l'**idioma** per defecte.
 4. Crea l'**usuari administrador** i la seua contrasenya (almenys 8 caràcters). Apunta-la en un lloc segur.
 5. Si vols, crea també el compte d'**usuari/ària** (es pot fer després).
@@ -51,7 +51,7 @@ Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una 
 
 ![Codi de recuperació](imatges/ca/01b-codi-recuperacio.webp)
 
-> Per a començar a treballar de veres sense les dades d'exemple, tanca Compàs, esborra la carpeta `data` del programa i torna a obrir-lo.
+> Per a començar sense les dades d’exemple: entra com a administrador/a en **Còpies de seguretat → Buidar les dades de gestió**, amb LAN desactivat. Escriu `BUIDAR` i la contrasenya actual. Es guarda una còpia manual abans d’esborrar **totes** les dades de gestió, incloses les dades reals afegides després. Es conserven configuració, logo, comptes, permisos i catàlegs de tipus i categories; les tarifes es buiden. Les còpies anteriors continuen disponibles. Després cal tornar a entrar.
 
 ## 2. Configuració de l'entitat i logotip
 

@@ -276,6 +276,8 @@ function voc_socis(string $perfil, string $l): array
 {
     $p = [
         'ca' => [
+            'muixeranguers' => ['Socis' => 'Muixeranguers i muixerangueres', 'Soci' => 'Muixeranguer/a', 'soci_lc' => 'muixeranguer/a', 'de_soci' => 'de muixeranguer/a', 'dels_socis' => 'dels muixeranguers i muixerangueres', 'tots_socis' => 'tots els muixeranguers i muixerangueres', 'Tots_socis' => 'Tots els muixeranguers i muixerangueres'],
+            'castellers' => ['Socis' => 'Castellers i castelleres', 'Soci' => 'Casteller/a', 'soci_lc' => 'casteller/a', 'de_soci' => 'de casteller/a', 'dels_socis' => 'dels castellers i castelleres', 'tots_socis' => 'tots els castellers i castelleres', 'Tots_socis' => 'Tots els castellers i castelleres'],
             'fallers' => ['Socis' => 'Fallers i falleres', 'Soci' => 'Faller/a', 'soci_lc' => 'faller/a', 'de_soci' => 'de faller/a', 'dels_socis' => 'dels fallers i falleres',
                 'tots_socis' => 'tots els fallers i falleres', 'Tots_socis' => 'Tots els fallers i falleres'],
             'foguerers' => ['Socis' => 'Foguerers i foguereres', 'Soci' => 'Foguerer/a', 'soci_lc' => 'foguerer/a', 'de_soci' => 'de foguerer/a', 'dels_socis' => 'dels foguerers i foguereres',
@@ -290,6 +292,8 @@ function voc_socis(string $perfil, string $l): array
                 'dels_socis' => 'de les famílies associades', 'tots_socis' => 'totes les famílies associades', 'Tots_socis' => 'Totes les famílies associades'],
         ],
         'es' => [
+            'muixeranguers' => ['Socis' => 'Muixeranguers y muixerangueres', 'Soci' => 'Muixeranguer/a', 'soci_lc' => 'muixeranguer/a', 'de_soci' => 'de muixeranguer/a', 'dels_socis' => 'de los muixeranguers y muixerangueres', 'tots_socis' => 'todos los muixeranguers y muixerangueres', 'Tots_socis' => 'Todos los muixeranguers y muixerangueres'],
+            'castellers' => ['Socis' => 'Castellers y castelleres', 'Soci' => 'Casteller/a', 'soci_lc' => 'casteller/a', 'de_soci' => 'de casteller/a', 'dels_socis' => 'de los castellers y castelleres', 'tots_socis' => 'todos los castellers y castelleres', 'Tots_socis' => 'Todos los castellers y castelleres'],
             'fallers' => ['Socis' => 'Falleros y falleras', 'Soci' => 'Fallero/a', 'soci_lc' => 'fallero/a', 'de_soci' => 'de fallero/a', 'dels_socis' => 'de los falleros y falleras',
                 'tots_socis' => 'todos los falleros y falleras', 'Tots_socis' => 'Todos los falleros y falleras'],
             'foguerers' => ['Socis' => 'Foguerers y foguereras', 'Soci' => 'Foguerer/a', 'soci_lc' => 'foguerer/a', 'de_soci' => 'de foguerer/a', 'dels_socis' => 'de los foguerers y foguereras',
