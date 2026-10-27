@@ -201,12 +201,17 @@ func proxyHandler(backend *url.URL, name, authority, token string, root []byte) 
 		ip, _, _ := net.SplitHostPort(r.RemoteAddr)
 		original(r)
 		// No es confia en cap capçalera aportada pel navegador.
-		for _, h := range []string{"Forwarded", "X-Forwarded-For", "X-Forwarded-Host", "X-Forwarded-Proto", "X-Compas-Token", "X-Compas-Proxy-Token", "X-Compas-Client", "X-Compas-Local"} {
-			r.Header.Del(h)
+		for h := range r.Header {
+			// PHP normalitza també punts i guions baixos en les variables HTTP_*.
+			key := strings.NewReplacer("_", "-", ".", "-").Replace(strings.ToLower(h))
+			if key == "forwarded" || strings.HasPrefix(key, "x-forwarded-") || strings.HasPrefix(key, "x-compas-") {
+				delete(r.Header, h)
+			}
 		}
 		r.Host = authority
 		r.Header.Set("X-Compas-Proxy-Token", token)
 		r.Header.Set("X-Compas-Client", ip)
+		r.Header.Set("X-Compas-Local", "0")
 		if localAddresses()[ip] {
 			r.Header.Set("X-Compas-Local", "1")
 		}

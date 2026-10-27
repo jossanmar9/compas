@@ -8,6 +8,12 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.3.1] - 2026-10-27
+
+- Seguretat HTTPS: es descarten també les variants amb punts i guions baixos de les capçaleres internes que PHP normalitza. Un client remot no pot falsejar la seua identitat ni fer-se passar pel servidor amb eixes capçaleres.
+- Prova de regressió amb peticions remotes i variants de nom de capçalera.
+- La distribució 2.3.0 s’ha retirat abans de registrar cap descàrrega dels paquets. Utilitzeu la 2.3.1 o posterior per al mode LAN segur.
+
 ## [2.3.0] - 2026-10-27
 
 - LAN més fàcil: **https://compas.local/**, sense IP fixa ni reserva DHCP, amb descobriment mDNS i seguiment dels canvis de xarxa.

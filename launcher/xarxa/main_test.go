@@ -131,3 +131,40 @@ func TestProxyAndTLS(t *testing.T) {
 		}
 	}
 }
+
+func TestRemoteMetadataAliases(t *testing.T) {
+	token := strings.Repeat("b", 48)
+	ip := "10.254.254.254"
+	if localAddresses()[ip] {
+		ip = "192.168.254.254"
+	}
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("X-Compas-Client") != ip || r.Header.Get("X-Compas-Local") != "0" || r.Header.Get("X-Compas-Proxy-Token") != token {
+			t.Error("identitat remota falsejada", r.Header)
+		}
+		for key := range r.Header {
+			normal := strings.NewReplacer("_", "-", ".", "-").Replace(strings.ToLower(key))
+			if strings.HasPrefix(normal, "x-compas-") && key != "X-Compas-Client" && key != "X-Compas-Local" && key != "X-Compas-Proxy-Token" {
+				t.Error("alias reservat no eliminat", key)
+			}
+		}
+		io.WriteString(w, "correcte")
+	}))
+	defer backend.Close()
+	u, _ := url.Parse(backend.URL)
+	handler := proxyHandler(u, "compas.local", "compas.local", token, nil)
+	req := httptest.NewRequest("GET", "https://compas.local/", nil)
+	req.RemoteAddr = ip + ":12345"
+	req.Host = "compas.local"
+	for _, prefix := range []string{"X-Compas-", "X_Compas_", "X.Compas.", "X-Compas_"} {
+		req.Header.Set(prefix+"Local", "1")
+		req.Header.Set(prefix+"Client", "127.0.0.1")
+		req.Header.Set(prefix+"Proxy-Token", "fals")
+		req.Header.Set(prefix+"Token", "fals")
+	}
+	w := httptest.NewRecorder()
+	handler.ServeHTTP(w, req)
+	if w.Code != 200 || w.Body.String() != "correcte" {
+		t.Fatal("petició remota no processada correctament", w.Code, w.Body.String())
+	}
+}
