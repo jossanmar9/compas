@@ -98,7 +98,7 @@ function html_menu(): string
             $seccio = '<li class="seccio">' . h(t($etq)) . '</li>';
             continue;
         }
-        if (($cap && !pot($cap)) || !disponible($clau) || (in_array($clau, ['notes', 'butlleti'], true) && !te_notes())) {
+        if ((es_consultor() && !consultor_pot_ruta($clau)) || ($cap && !pot($cap)) || !disponible($clau) || (in_array($clau, ['notes', 'butlleti'], true) && !te_notes())) {
             continue;
         }
         if ($seccio) {

@@ -6,9 +6,9 @@ Al continuar la instalación, aceptáis este aviso.
 
 PRIVACIDAD DE COMPÀS
 
-En resumen: Compàs no recoge, no envía y no comparte ningún dato. Todo se queda en este ordenador.
+En resumen: los datos permanecen en el servidor de la entidad y no se envían a servicios externos. El modo LAN opcional los muestra a clientes autorizados de la red propia.
 
-- Compàs solo funciona en este ordenador: no se puede entrar desde la red ni desde Internet.
+- Por defecto, Compàs solo es accesible en este ordenador. Si activáis LAN, las cuentas autorizadas acceden desde la red privada. Este modo usa HTTP sin cifrar y requiere una red de confianza; no abráis puertos a Internet.
 - No se conecta a Internet para nada: no envía estadísticas, ni informes de errores, ni comprueba actualizaciones.
 - Los datos se guardan en la carpeta del programa (data\compas.db). Las copias de seguridad, en el ordenador y, si lo configuráis, en la carpeta externa que elijáis (USB o nube), cifradas con contraseña si queréis.
 - La entidad que usa Compàs es la responsable de los datos que introduce y debe cumplir el RGPD y la LOPDGDD. El desarrollador de Compàs no tiene acceso a ningún dato.

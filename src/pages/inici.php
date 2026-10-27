@@ -13,7 +13,8 @@ function pagina_inici(): void
 {
     $curs = curs_actual();
     $html = avis_responsabilitat_pendent() . avis_codi_recuperacio() . avis_copies() . '<div class="targetes">';
-    $es = fn(string $cap, string $modul) => pot($cap) && modul_actiu($modul);
+    $es = fn(string $cap, string $modul) => pot($cap) && modul_actiu($modul)
+        && (!es_consultor() || !in_array($modul, ['llicencies', 'entitats', 'certificat_delictes'], true));
     if (pot('persones.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM persones WHERE actiu = 1'), t('ent.persones'), url('llista', ['e' => 'persones']));
     }
@@ -52,7 +53,7 @@ function pagina_inici(): void
     if ($es('societat.view', 'documents') && avis_actiu('documents_caducitat') && ($n = (int)valor("SELECT COUNT(*) FROM documents WHERE data_caducitat IS NOT NULL AND data_caducitat <= date('now','localtime','+60 days')"))) {
         $html .= '<div class="avis atencio">⚠ ' . h(t('inici.documents_caduquen', $n)) . ' <a href="' . h(url('llista', ['e' => 'documents', 'filtre' => 'caduquen'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
     }
-    if ($es('escola.view', 'escola') && avis_actiu('certificat_delictes') && ($n = (int)valor("SELECT COUNT(*) FROM professors WHERE estat = 'actiu' AND certificat_delictes IS NULL"))) {
+    if (!es_consultor() && $es('escola.view', 'escola') && avis_actiu('certificat_delictes') && ($n = (int)valor("SELECT COUNT(*) FROM professors WHERE estat = 'actiu' AND certificat_delictes IS NULL"))) {
         $html .= '<div class="avis atencio">⚠ ' . h(t('inici.sense_certificat', $n)) . ' <a href="' . h(url('llista', ['e' => 'professors', 'filtre' => 'sense_certificat'])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
     }
 
@@ -63,7 +64,7 @@ function pagina_inici(): void
         $html .= avis_inici_llicencies();
     }
 
-    if ($es('escola.view', 'escola') && avis_actiu('curs_actual') && !$curs) {
+    if (pot('escola.edit') && $es('escola.view', 'escola') && avis_actiu('curs_actual') && !$curs) {
         $html .= '<div class="avis info">' . h(t('inici.sense_curs')) . ' <a href="' . h(url('edita', ['e' => 'cursos'])) . '">' . h(t('inici.crea_curs')) . '</a></div>';
     }
 

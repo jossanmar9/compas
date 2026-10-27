@@ -146,6 +146,15 @@ jobs:
             /r:dist\Compas\Microsoft.Web.WebView2.Core.dll /r:dist\Compas\Microsoft.Web.WebView2.WinForms.dll `
             launcher\Compas.cs launcher\Visor.cs $info
           if ($LASTEXITCODE -ne 0) { throw "Error compilant el llançador" }
+          # Comprova configuració local/LAN sense obrir finestres ni arrancar PHP.
+          $test = Join-Path $env:RUNNER_TEMP "compas-prova-config.exe"
+          & $csc /nologo /codepage:65001 /target:exe /main:LauncherConfigTests "/out:$test" `
+            /r:System.Windows.Forms.dll /r:System.Drawing.dll `
+            /r:dist\Compas\Microsoft.Web.WebView2.Core.dll /r:dist\Compas\Microsoft.Web.WebView2.WinForms.dll `
+            launcher\Compas.cs launcher\Visor.cs tests\launcher-config.cs
+          if ($LASTEXITCODE -ne 0) { throw "Error compilant les proves del llançador" }
+          & $test
+          if ($LASTEXITCODE -ne 0) { throw "Error en la configuració LAN del llançador" }
 
       - name: Copia el programa i la documentació
         shell: pwsh
@@ -153,7 +162,7 @@ jobs:
           $d = "dist\Compas"
           Copy-Item app, src -Destination $d -Recurse
           New-Item -ItemType Directory "$d\docs", "$d\data" -Force | Out-Null
-          Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\manual-administracio.md, docs\manual-administracion.md, docs\guia-installacio.md, docs\guia-instalacion.md "$d\docs"
+          Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\manual-administracio.md, docs\manual-administracion.md, docs\guia-installacio.md, docs\guia-instalacion.md, docs\xarxa-local.md "$d\docs"
           Copy-Item docs\imatges -Destination "$d\docs" -Recurse
           Copy-Item README.md, CHANGELOG.md, PRIVACITAT.md, LLICENCIA.md, LICENSE, compas.ini $d
           Set-Content "$d\data\LLEGIX-ME.txt" "Ací es guarden les dades de Compàs (compas.db) i les còpies automàtiques. No l'esborres."
@@ -250,7 +259,7 @@ jobs:
           d=dist/Compas
           mkdir -p "$d/docs"
           cp -a app src "$d/"
-          cp docs/manual-usuari.md docs/manual-usuario.md docs/manual-administracio.md docs/manual-administracion.md docs/guia-installacio.md docs/guia-instalacion.md "$d/docs/"
+          cp docs/manual-usuari.md docs/manual-usuario.md docs/manual-administracio.md docs/manual-administracion.md docs/guia-installacio.md docs/guia-instalacion.md docs/xarxa-local.md "$d/docs/"
           cp -a docs/imatges "$d/docs/"
           cp -a win/Compas/docs/pdf "$d/docs/"
           cp README.md CHANGELOG.md PRIVACITAT.md LLICENCIA.md LICENSE compas.ini "$d/"

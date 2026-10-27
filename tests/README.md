@@ -61,3 +61,10 @@ No s'executa en cada `push`, perquè és lenta.
 ## Com afegir proves
 
 Abans de canviar la lògica de rebuts, SEPA, còpies, migracions o permisos, afig una prova a `tests/run.php` que comprove el comportament actual. Així es veu de seguida si el canvi trenca alguna cosa.
+
+
+## Xarxa local (2.2)
+
+`python3 tests/integracio.py lan` comprova comptes ASCII i duplicats, migració dels noms antics, permisos del Consultor davant peticions directes, sis sessions independents, conflictes d’edició, còpies, límits d’entrada, sessions i validació d’Host i origen. En Linux arranca quatre processos del servidor integrat per a exercitar la concurrència real; a Windows les peticions HTTP s’atenen en sèrie. La bateria no configura el tallafoc ni substituïx una prova física amb dos equips de la mateixa LAN. La base de dades i les dades d’exemple són temporals.
+
+En Windows, si la bateria de subvencions no troba `Europe/Madrid`, instal·la `tzdata` en l’entorn de proves (`python -m pip install tzdata`).

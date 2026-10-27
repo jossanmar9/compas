@@ -5,7 +5,7 @@
 require dirname(__DIR__, 2) . '/src/bootstrap.php';
 require SRC_DIR . '/entitats.php'; require SRC_DIR . '/crud.php';
 foreach (glob(SRC_DIR . '/pages/*.php') as $f) require $f;
-session_id('prova'); @session_start(); $_SESSION['usuari_id'] = 1;
+inicia_sessio(); autentica_sessio(1);
 $ok = function ($c, $m) { echo ($c ? 'ok: ' : 'FALLA: ') . $m . "\n"; };
 // Assignació automàtica de columnes
 $ok(endevina_camp('IBAN', 'socis') === 'iban', 'IBAN → iban');

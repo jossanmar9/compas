@@ -8,6 +8,27 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.2.0] - 2026-10-27
+
+### Afegit
+- Mode LAN opcional per a una xarxa privada de confiança: un ordinador servidor amb les dades i diversos clients amb navegador. Activació explícita a `compas.ini`, mantenint el mode només local per defecte.
+- Rol **Consultor/a** de consulta limitada de persones, socis, escola, agrupacions i instruments, sense economia, camps bancaris, imports, exportacions, informes imprimibles, documents descarregables ni còpies. Protecció també de les peticions directes.
+- Detecció de formularis antics en editar fitxes generals en LAN, per a evitar sobreescriure els canvis d'una altra persona.
+- Proves de permisos, sessions simultànies, conflictes d'edició, noms de compte i origen de les peticions.
+
+### Seguretat i dades
+- Noms de compte ASCII de 3 a 40 caràcters, sense accents ni dièresi, únics també si només canvien les majúscules. Missatge específic per a duplicats i protecció a la base de dades.
+- Migració dels noms antics amb registre dels canvis i sufixos si calen, sense perdre comptes, rols ni contrasenyes; còpia prèvia a l'actualització.
+- Sessions estrictes, caducitat LAN de 30 minuts sense activitat i invalidació de les altres sessions en canviar la contrasenya.
+- Límits d'entrada per compte i IP en LAN, sense bloqueig global de tota l'entitat.
+- Configuració inicial, recuperació i petició de còpia en tancar restringides al servidor; el testimoni del llançador s'envia en una capçalera, no a l'adreça.
+- Restauració bloquejada en mode LAN; s'ha de fer al servidor en mode local. Sessions anteriors invalidades després de restaurar.
+
+### Còpies i documentació
+- Còpies automàtiques LAN amb canvis al rebre una petició després de 15 minuts, a més de les diàries i de tancament.
+- Còpies serialitzades, noms sense col·lisions i marca de canvis anterior a la instantània.
+- Manuals, web, privacitat i guia LAN en valencià i castellà actualitzats. El mode inclòs és HTTP en LAN controlada; no és un desplegament públic ni per a càrrega elevada.
+
 ## [2.1.0] - 2026-10-26
 
 ### Millorat

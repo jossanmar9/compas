@@ -726,3 +726,16 @@ CREATE INDEX IF NOT EXISTS idx_llicencies_persona ON llicencies(persona_id);
 CREATE INDEX IF NOT EXISTS idx_llicencies_caducitat ON llicencies(data_caducitat);
 CREATE INDEX IF NOT EXISTS idx_carrecs_festa_persona ON carrecs_festa(persona_id);
 CREATE INDEX IF NOT EXISTS idx_entitats_federades_persona ON entitats_federades(persona_id);
+
+-- 2.2: noms de compte ASCII; UNIQUE COLLATE NOCASE ja impedix duplicats i variants de majúscules.
+CREATE TRIGGER IF NOT EXISTS usuaris_nom_ascii_insert BEFORE INSERT ON usuaris
+WHEN length(NEW.usuari) NOT BETWEEN 3 AND 40 OR NEW.usuari GLOB '*[^a-zA-Z0-9._-]*'
+BEGIN SELECT RAISE(ABORT, 'usuaris.nom_ascii'); END;
+CREATE TRIGGER IF NOT EXISTS usuaris_nom_ascii_update BEFORE UPDATE OF usuari ON usuaris
+WHEN length(NEW.usuari) NOT BETWEEN 3 AND 40 OR NEW.usuari GLOB '*[^a-zA-Z0-9._-]*'
+BEGIN SELECT RAISE(ABORT, 'usuaris.nom_ascii'); END;
+CREATE TABLE IF NOT EXISTS entrada_intents (
+    clau TEXT PRIMARY KEY,
+    intents INTEGER NOT NULL DEFAULT 0,
+    darrer INTEGER NOT NULL DEFAULT 0
+);

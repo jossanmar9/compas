@@ -2,25 +2,25 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de l'entitat: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
+Compàs és el programa de gestió de l'entitat: persones, socis, escola de música, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta directiva i actes, documents, comunicats i còpies de seguretat. Funciona en Windows o Linux, sense Internet, amb mode local per defecte i LAN opcional, i té tres rols de compte. Esta taula resumeix què pot fer cadascun:
 
-| Què es pot fer | Administrador/a | Usuari/ària |
-|---|:---:|:---:|
-| Persones, socis i tipus de soci | ✔ | ✔ |
-| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
-| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
-| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
-| Llibre de caixa | ✔ | ✔ |
-| Junta, actes, documents i comunicats | ✔ | ✔ |
-| Llistats, certificats i importació des d'Excel | ✔ | ✔ |
-| Fer i baixar còpies de seguretat | ✔ | ✔ |
-| Canviar la pròpia contrasenya | ✔ | ✔ |
-| Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — |
-| Dades bancàries i descomptes de l'escola | ✔ | — |
-| Crear i gestionar els comptes | ✔ | — |
-| Registre d'activitat | ✔ | — |
-| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — |
-| Recuperar l'accés amb el codi de recuperació | ✔ | — |
+| Què es pot fer | Administrador/a | Usuari/ària | Consultor/a |
+|---|:---:|:---:|:---:|
+| Persones, socis i tipus de soci | ✔ | ✔ | Consulta parcial |
+| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ | Consulta parcial |
+| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ | Consulta parcial |
+| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ | — |
+| Llibre de caixa | ✔ | ✔ | — |
+| Junta, actes, documents i comunicats | ✔ | ✔ | — |
+| Llistats, certificats i importació des d'Excel | ✔ | ✔ | — |
+| Fer i baixar còpies de seguretat | ✔ | ✔ | — |
+| Canviar la pròpia contrasenya | ✔ | ✔ | ✔ |
+| Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — | — |
+| Dades bancàries i descomptes de l'escola | ✔ | — | — |
+| Crear i gestionar els comptes | ✔ | — | — |
+| Registre d'activitat | ✔ | — | — |
+| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — | — |
+| Recuperar l'accés amb el codi de recuperació | ✔ | — | — |
 
 Este manual és per a l'administrador/a de Compàs: la persona que el posa en marxa, el configura, gestiona els comptes i les còpies de seguretat i l'actualitza. Per a la gestió diària (persones, socis, escola, economia, junta…), vegeu el **Manual d'usuari**.
 
@@ -235,3 +235,7 @@ Què porta cada versió es pot vore a **Ajuda → Què canvia en cada versió**.
 **Com passe Compàs a un altre ordinador?** Instal·la Compàs a l'ordinador nou i, a **Còpies de seguretat → Restaura des d'un fitxer**, carrega l'última còpia.
 
 **On estan les dades?** A la carpeta `data` del programa (`data\compas.db`). La ruta exacta es veu a **Configuració**, a baix.
+
+## Xarxa local i consulta limitada (2.2)
+
+La [guia LAN](xarxa-local.md) explica com activar el servidor, crear comptes sense accents, usar el rol Consultor i gestionar les còpies. El consultor no té accés a economia, IBAN, imports, exportacions, informes imprimibles, fitxers ni còpies. La consulta parcial d’escola i agrupacions no inclou totes les operacions de gestió de la taula. En LAN, tancar el navegador només tanca el client; el servidor queda obert fins que la persona responsable l’atura. Si una fitxa ha canviat des que la vas obrir, recarrega-la abans de desar.

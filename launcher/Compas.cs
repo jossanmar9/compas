@@ -44,7 +44,9 @@ namespace Compas
             bool nou;
             using (var mutex = new Mutex(true, "Compas-GestioSocietatsMusicals", out nou))
             {
-                var config = Config.Llig();
+                Config config;
+                try { config = Config.Llig(); }
+                catch (Exception ex) { MessageBox.Show(ex.Message, "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
                 if (!nou)
                 {
                     // Ja està en marxa: es demana a la instància oberta que mostre la seua finestra
@@ -54,7 +56,7 @@ namespace Compas
                         return;
                     }
                     catch { }
-                    string url = "http://localhost:" + config.Port + "/";
+                    string url = config.Url;
                     if (!config.Finestra || AppNavegador.Obri(url) == null) Finestra.ObriNavegador(url);
                     return;
                 }
@@ -71,6 +73,18 @@ namespace Compas
         public bool Navegador = true;
         public bool Finestra = true;
         public string Arrel;
+        public bool Lan = false;
+        public string LanIp = "";
+        public string Host { get { return Lan ? LanIp : "127.0.0.1"; } }
+        public string Url { get { return "http://" + (Lan ? LanIp : "localhost") + ":" + Port + "/"; } }
+
+        public static bool IpPrivada(string text)
+        {
+            IPAddress ip;
+            if (!IPAddress.TryParse(text, out ip) || ip.AddressFamily != AddressFamily.InterNetwork || ip.ToString() != text) return false;
+            byte[] b = ip.GetAddressBytes();
+            return b[0] == 10 || (b[0] == 172 && b[1] >= 16 && b[1] <= 31) || (b[0] == 192 && b[1] == 168);
+        }
 
         static bool Si(string v)
         {
@@ -94,6 +108,18 @@ namespace Compas
                 if (clau == "port" && int.TryParse(valor, out n) && n > 1023 && n < 65536) c.Port = n;
                 if (clau == "navegador") c.Navegador = Si(valor);
                 if (clau == "finestra") c.Finestra = Si(valor);
+                if (clau == "lan") c.Lan = Si(valor);
+                if (clau == "adreca_lan") c.LanIp = valor;
+            }
+            if (c.Lan)
+            {
+                if (!IpPrivada(c.LanIp)) throw new Exception(Textos.T("Posa una IPv4 privada vàlida en adreca_lan de compas.ini.", "Pon una IPv4 privada válida en adreca_lan de compas.ini."));
+                bool propia = false;
+                foreach (var xarxa in NetworkInterface.GetAllNetworkInterfaces())
+                    foreach (var adreca in xarxa.GetIPProperties().UnicastAddresses)
+                        if (adreca.Address.ToString() == c.LanIp) propia = true;
+                if (!propia) throw new Exception(Textos.T("adreca_lan no pertany a este ordinador servidor.", "adreca_lan no pertenece a este ordenador servidor."));
+                c.Finestra = false; // El panell del servidor queda obert encara que es tanque el navegador.
             }
             return c;
         }
@@ -190,7 +216,7 @@ namespace Compas
 
         public const string NomAvis = @"Local\Compas-ObriFinestra";
 
-        string Url { get { return "http://localhost:" + config.Port + "/"; } }
+        string Url { get { return config.Url; } }
         string Dades
         {
             get
@@ -440,8 +466,8 @@ namespace Compas
             }
             catch { registre = null; }
 
-            // Només s'escolta en aquest ordinador
-            string host = "127.0.0.1";
+            // Local per defecte; IPv4 privada configurada en mode LAN
+            string host = config.Host;
             string phpDir = Path.Combine(config.Arrel, "php");
             var args = new StringBuilder();
             args.Append("-c \"").Append(Path.Combine(phpDir, "php.ini")).Append("\" ");
@@ -460,6 +486,8 @@ namespace Compas
             };
             psi.EnvironmentVariables["COMPAS_DADES"] = Dades;
             psi.EnvironmentVariables["COMPAS_TOKEN"] = token;
+            psi.EnvironmentVariables["COMPAS_LAN"] = config.Lan ? "1" : "0";
+            psi.EnvironmentVariables["COMPAS_LAN_IP"] = config.Lan ? config.LanIp : "";
             php = new Process { StartInfo = psi, EnableRaisingEvents = true };
             php.ErrorDataReceived += Registra;
             php.OutputDataReceived += Registra;
@@ -493,7 +521,7 @@ namespace Compas
                 if (Respon())
                 {
                     esperant.Stop();
-                    estat.Text = "✔ " + Textos.T("Compàs està en marxa en aquest ordinador:", "Compàs está en marcha en este ordenador:");
+                    estat.Text = "✔ " + (config.Lan ? Textos.T("Servidor LAN en marxa. Comparteix esta adreça:", "Servidor LAN en marcha. Comparte esta dirección:") : Textos.T("Compàs està en marxa en aquest ordinador:", "Compàs está en marcha en este ordenador:"));
                     estat.ForeColor = Color.FromArgb(30, 125, 79);
                     obri.Enabled = true;
                     if (config.Finestra) ObriFinestraPropia();
@@ -530,7 +558,7 @@ namespace Compas
             {
                 using (var c = new TcpClient())
                 {
-                    var r = c.BeginConnect(IPAddress.Loopback, config.Port, null, null);
+                    var r = c.BeginConnect(IPAddress.Parse(config.Host), config.Port, null, null);
                     bool ok = r.AsyncWaitHandle.WaitOne(200);
                     if (ok) c.EndConnect(r);
                     return ok && c.Connected;
@@ -560,8 +588,8 @@ namespace Compas
             if (php != null && !php.HasExited && e.CloseReason == CloseReason.UserClosing && !tancaSensePreguntar)
             {
                 var r = MessageBox.Show(this,
-                    Textos.T("Vols tancar Compàs? Si hi ha hagut canvis, abans es farà una còpia de seguretat.",
-                             "¿Quieres cerrar Compàs? Si ha habido cambios, antes se hará una copia de seguridad."),
+                    Textos.T(config.Lan ? "Vols aturar el servidor per a tots els usuaris? Abans es farà una còpia de seguretat." : "Vols tancar Compàs? Si hi ha hagut canvis, abans es farà una còpia de seguretat.",
+                             config.Lan ? "¿Quieres detener el servidor para todos los usuarios? Antes se hará una copia de seguridad." : "¿Quieres cerrar Compàs? Si ha habido cambios, antes se hará una copia de seguridad."),
                     "Compàs", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (r != DialogResult.Yes) { e.Cancel = true; return; }
             }
@@ -579,7 +607,8 @@ namespace Compas
                 Refresh();
                 try
                 {
-                    var peticio = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + config.Port + "/?r=copia_tancament&token=" + token);
+                    var peticio = (HttpWebRequest)WebRequest.Create(Url + "?r=copia_tancament");
+                    peticio.Headers["X-Compas-Token"] = token;
                     peticio.Proxy = null;
                     peticio.Timeout = 60000;
                     using (var resposta = (HttpWebResponse)peticio.GetResponse())

@@ -1228,5 +1228,14 @@ function entitat(string $nom): array
         http_response_code(404);
         exit(t('err.no_trobat'));
     }
-    return $e[$nom];
+    $def = $e[$nom];
+    if (es_consultor()) {
+        if (!in_array($nom, ENTITATS_CONSULTOR, true)) { requereix('__cap__'); }
+        $def['camps'] = array_filter($def['camps'], fn($d, $c) => $d['tipus'] !== 'iban'
+            && empty($d['euros']) && empty($d['pct'])
+            && !in_array($c, ['iban', 'bic', 'cost', 'fianca', 'quota', 'preu', 'import', 'pagador_id', 'descompte_pct', 'data_mandat', 'certificat_delictes'], true), ARRAY_FILTER_USE_BOTH);
+        $def['fills'] = array_values(array_filter($def['fills'], fn($x) => in_array($x[0], ENTITATS_CONSULTOR, true)));
+        unset($def['accions_fitxa'], $def['accions_llista']);
+    }
+    return $def;
 }

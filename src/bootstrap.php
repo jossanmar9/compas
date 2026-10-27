@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '2.1.0';
+const COMPAS_VERSIO = '2.2.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -18,7 +18,9 @@ mb_internal_encoding('UTF-8');
 require SRC_DIR . '/i18n.php';
 require SRC_DIR . '/tipus.php';
 require SRC_DIR . '/lang/vocabulari.php';
+require_once SRC_DIR . '/xarxa.php';
 require SRC_DIR . '/capacitats.php';
+require SRC_DIR . '/usuaris.php';
 require SRC_DIR . '/markdown.php';
 require SRC_DIR . '/xifrat.php';
 require SRC_DIR . '/sepa.php';
@@ -52,7 +54,8 @@ function db(): PDO
     // Restauració pendent: es fa ací, abans d'obrir la base de dades.
     // Abans de deixar-la preparada ja s'ha fet una còpia «abans-restaurar» de les dades actuals.
     $restaura = DADES_DIR . DIRECTORY_SEPARATOR . 'restaura.db';
-    if (is_file($restaura)) {
+    $restaurada = is_file($restaura);
+    if ($restaurada) {
         foreach (['', '-wal', '-shm'] as $s) {
             if (is_file($fitxer . $s)) {
                 unlink($fitxer . $s);
@@ -86,6 +89,9 @@ function db(): PDO
         }
         unlink($conservada);
     }
+    if ($restaurada) {
+        $pdo->prepare("INSERT INTO config(clau, valor) VALUES('sessions_versio', ?) ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor")->execute([bin2hex(random_bytes(16))]);
+    }
     return $pdo;
 }
 
@@ -114,6 +120,7 @@ function actualitza_esquema(PDO $pdo, string $esquema, int $versio): void
     try {
         $pdo->exec($esquema);
         migra_esquema($pdo);
+        migra_noms_usuaris($pdo);
         sembra_rols($pdo);
         $pdo->exec('PRAGMA user_version = ' . $versio);
         $pdo->commit();
@@ -325,9 +332,12 @@ function inicia_sessio(): void
     if (!is_dir($dir)) {
         mkdir($dir, 0770, true);
     }
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.use_trans_sid', '0');
     session_save_path($dir);
     session_name('compas');
-    session_set_cookie_params(['httponly' => true, 'samesite' => 'Strict', 'path' => '/']);
+    session_set_cookie_params(['httponly' => true, 'samesite' => 'Strict', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'path' => '/']);
     session_start();
     if (empty($_SESSION['csrf'])) {
         $_SESSION['csrf'] = bin2hex(random_bytes(16));
@@ -386,16 +396,24 @@ function get(string $clau, $defecte = '')
 
 /* ---------------- Usuari actual ---------------- */
 
-function usuari(): ?array
+function usuari(bool $refresca = false): ?array
 {
     static $u = false;
+    if ($refresca) { $u = false; }
     if ($u !== false) {
         return $u;
     }
     $u = null;
     if (!empty($_SESSION['usuari_id'])) {
         $u = fila('SELECT * FROM usuaris WHERE id = ? AND actiu = 1', [$_SESSION['usuari_id']]);
+        if ($u && ((!isset($_SESSION['sessio_contrasenya']) || !hash_equals($u['contrasenya'], (string)$_SESSION['sessio_contrasenya']))
+            || (mode_lan() && time() - (int)($_SESSION['activitat'] ?? 0) > 1800)
+            || !hash_equals((string)config('sessions_versio', ''), (string)($_SESSION['sessions_versio'] ?? '')))) {
+            unset($_SESSION['usuari_id'], $_SESSION['sessio_contrasenya']);
+            $u = null;
+        }
         if ($u) {
+            $_SESSION['activitat'] = time();
             $u['capacitats'] = array_column(q(
                 'SELECT DISTINCT rc.capacitat FROM usuari_rols ur JOIN rol_capacitats rc ON rc.rol_id = ur.rol_id WHERE ur.usuari_id = ?',
                 [$u['id']]

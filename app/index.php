@@ -4,6 +4,9 @@
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+require_once dirname(__DIR__) . '/src/xarxa.php';
+comprova_xarxa();
+
 if (PHP_SAPI === 'cli-server') {
     $ruta = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     if ($ruta !== '/' && is_file(__DIR__ . $ruta) && str_starts_with(realpath(__DIR__ . $ruta), __DIR__ . DIRECTORY_SEPARATOR . 'assets')) {
@@ -13,15 +16,6 @@ if (PHP_SAPI === 'cli-server') {
         http_response_code(404);
         exit('404');
     }
-}
-
-// Només es responen les peticions adreçades a este ordinador. Així una pàgina web maliciosa no pot fer-se passar
-// per Compàs canviant el seu DNS cap a 127.0.0.1 (DNS rebinding). Altres noms: variable COMPAS_HOSTS, separats per comes.
-$host = strtolower(preg_replace('/:\d+$/', '', (string)($_SERVER['HTTP_HOST'] ?? '')));
-$permesos = array_merge(['127.0.0.1', 'localhost', '[::1]'], array_filter(array_map('trim', explode(',', strtolower((string)getenv('COMPAS_HOSTS'))))));
-if (!in_array($host, $permesos, true)) {
-    http_response_code(421);
-    exit('421');
 }
 
 require dirname(__DIR__) . '/src/bootstrap.php';
@@ -69,11 +63,19 @@ try {
 
     // Primera execució: no hi ha cap usuari
     if ((int)valor('SELECT COUNT(*) FROM usuaris') === 0) {
+        if (!peticio_del_servidor()) {
+            http_response_code(403);
+            exit('Configura Compàs des de l’ordinador servidor.');
+        }
         pagina_configuracio_inicial();
         exit;
     }
 
     if ($r === 'recupera') {
+        if (mode_lan() && !peticio_del_servidor()) {
+            http_response_code(403);
+            exit('Recuperació disponible només al servidor.');
+        }
         if (usuari()) {
             redirigeix('inici');
         }
@@ -84,6 +86,9 @@ try {
     if (!usuari()) {
         pagina_entrada();
         exit;
+    }
+    if (es_consultor() && !consultor_pot_ruta($r, $post)) {
+        requereix('__cap__');
     }
     copia_automatica();
 
@@ -262,5 +267,5 @@ try {
     }
     error_log((string)$ex);
     http_response_code(500);
-    pagina(t('err.titol'), '<div class="avis error">' . h(t('err.inesperat')) . '</div><pre class="detall">' . h($ex->getMessage()) . '</pre>');
+    pagina(t('err.titol'), '<div class="avis error">' . h(t('err.inesperat')) . '</div><pre class="detall">' . h(pot('config.manage') && peticio_del_servidor() ? $ex->getMessage() : t('err.contacta_admin')) . '</pre>');
 }

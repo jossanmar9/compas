@@ -103,7 +103,7 @@ function pagina_recuperacio(): void
         if ($fallides >= RECUPERACIO_INTENTS && time() - $darrer < RECUPERACIO_ESPERA) {
             $error = t('recup.massa_intents', RECUPERACIO_ESPERA);
         } else {
-            $u = fila('SELECT * FROM usuaris WHERE usuari = ? AND actiu = 1', [post('usuari')]);
+            $u = nom_usuari_valid((string)post('usuari')) ? fila('SELECT * FROM usuaris WHERE usuari = ? AND actiu = 1', [post('usuari')]) : null;
             $esAdmin = $u && rol_usuari((int)$u['id']) === 'admin';
             $codiBo = !$fitxer && te_codi_recuperacio() && password_verify(normalitza_codi((string)post('codi')), config('codi_recuperacio'));
             if (!$esAdmin || !($fitxer || $codiBo)) {
@@ -123,8 +123,7 @@ function pagina_recuperacio(): void
                 if ($fitxer) {
                     @unlink($fitxer);
                 }
-                session_regenerate_id(true);
-                $_SESSION['usuari_id'] = $u['id'];
+                autentica_sessio((int)$u['id']);
                 $_SESSION['intents'] = 0;
                 if ($u['idioma']) {
                     $_SESSION['idioma'] = $u['idioma'];
@@ -149,7 +148,7 @@ function pagina_recuperacio(): void
         $html .= '<p>' . h(t('recup.amb_codi')) . '</p>';
     }
     $html .= '<form method="post" action="' . h(url('recupera')) . '" class="formulari vertical">' . csrf_camp()
-        . '<div class="camp"><label>' . h(t('recup.usuari_admin')) . '</label><input name="usuari" required autocomplete="username" value="' . h(post('usuari')) . '"></div>';
+        . '<div class="camp"><label>' . h(t('recup.usuari_admin')) . '</label><input name="usuari" pattern="[A-Za-z0-9._-]{3,40}" maxlength="40" autocapitalize="none" spellcheck="false" required autocomplete="username" value="' . h(post('usuari')) . '"></div>';
     if (!$fitxer) {
         $html .= '<div class="camp"><label>' . h(t('recup.codi')) . '</label><input name="codi" required autocomplete="off" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX" class="entrada-codi"></div>';
     }

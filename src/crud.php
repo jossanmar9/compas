@@ -248,6 +248,7 @@ function pagina_llista(string $nom): void
 
     [$ordre, $ordreCol, $ordreDesc] = ordre_llista($e, $nom);
     if (get('csv') === '1') {
+        requereix('dades.exporta');
         exporta_csv($e, $where, $params, $ordre);
     }
 
@@ -293,7 +294,9 @@ function pagina_llista(string $nom): void
     }
     $qs = $_GET;
     $qs['csv'] = '1';
-    echo '<a class="boto secundari" href="?' . h(http_build_query($qs)) . '">' . h(t('exporta_csv')) . '</a>';
+    if (pot('dades.exporta')) {
+        echo '<a class="boto secundari" href="?' . h(http_build_query($qs)) . '">' . h(t('exporta_csv')) . '</a>';
+    }
     if (pot($e['cap'] . '.edit') && empty($e['nomes_lectura'])) {
         $nou = ['e' => $nom];
         foreach ((array)($_GET['f'] ?? []) as $k => $v) {
@@ -619,6 +622,16 @@ function normalitza(array $d, $v)
     }
 }
 
+function revisio_registre(?array $fila, array $e): string
+{
+    if ($fila) {
+        foreach ($e['camps'] as $camp => $def) {
+            if (!empty($def['virtual'])) { $fila['#' . $camp] = valor_camp($def, $fila, $camp); }
+        }
+    }
+    return hash_hmac('sha256', json_encode($fila, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR), (string)($_SESSION['csrf'] ?? ''));
+}
+
 function pagina_edita(string $nom, ?int $id): void
 {
     $e = entitat($nom);
@@ -658,6 +671,13 @@ function pagina_edita(string $nom, ?int $id): void
             try {
                 db()->beginTransaction();
                 if ($id) {
+                    if (mode_lan()) {
+                        $actual = fila("SELECT * FROM {$e['taula']} WHERE id = ?", [$id]);
+                        $revisio = $_POST['_revisio'] ?? '';
+                        if (!$actual || !is_string($revisio) || !hash_equals(revisio_registre($actual, $e), $revisio)) {
+                            throw new DomainException(t('err.canviat'));
+                        }
+                    }
                     $sets = implode(', ', array_map(fn($c) => "$c = ?", array_keys($dades)));
                     if ($nom === 'persones') {
                         $sets .= ", modificat = datetime('now','localtime')";
@@ -686,6 +706,11 @@ function pagina_edita(string $nom, ?int $id): void
                     exit;
                 }
                 redirigeix('fitxa', ['e' => $nom, 'id' => $id]);
+            } catch (DomainException $ex) {
+                db()->rollBack();
+                http_response_code(409);
+                $dades = $completes;
+                $errors[] = $ex->getMessage();
             } catch (PDOException $ex) {
                 db()->rollBack();
                 $dades = $completes;
@@ -720,6 +745,9 @@ function pagina_edita(string $nom, ?int $id): void
     $accio = url('edita', array_filter(['e' => $nom, 'id' => $id, 'tornar' => $tornar]));
     $multipart = array_filter($e['camps'], fn($d) => $d['tipus'] === 'fitxer') ? ' enctype="multipart/form-data"' : '';
     echo '<form method="post" class="formulari" action="' . h($accio) . '"' . $multipart . '>' . csrf_camp() . '<div class="camps">';
+    if (mode_lan() && $id) {
+        echo '<input type="hidden" name="_revisio" value="' . h(post('_revisio', revisio_registre($f, $e))) . '">';
+    }
     foreach ($e['camps'] as $c => $d) {
         echo camp_formulari($c, $d, $dades[$c] ?? null);
     }

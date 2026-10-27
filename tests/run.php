@@ -242,5 +242,27 @@ prova('Rotació: amb 1 mes es guarden menys còpies', function (): void {
     cert(count(copies_a_mantindre($c, 1, $ara)) < count(copies_a_mantindre($c, 12, $ara)));
 });
 
+/* ---------- LAN i noms de compte ---------- */
+require_once __DIR__ . '/../src/xarxa.php';
+require_once __DIR__ . '/../src/usuaris.php';
+prova('Comptes: només ASCII, de 3 a 40 caràcters', function (): void {
+    foreach (['admin', 'ADMIN', 'jose.vicent', 'usuari_2', 'club-1'] as $nom) { cert(nom_usuari_valid($nom)); }
+    foreach (['àlex', 'Núria', 'raül', 'iñaki', 'franç', 'a', 'ab', 'nom amb espais', "admin\n", str_repeat('a', 41)] as $nom) { fals(nom_usuari_valid($nom), $nom); }
+});
+prova('LAN: admet només IPv4 privades vàlides', function (): void {
+    foreach (['10.0.0.1', '172.16.0.1', '172.31.255.254', '192.168.1.20'] as $ip) { cert(ip_privada($ip)); }
+    foreach (['0.0.0.0', '127.0.0.1', '8.8.8.8', '172.15.0.1', '172.32.0.1', '192.168.1.999', '::1', 'localhost', '192.168.1.1:80'] as $ip) { fals(ip_privada($ip)); }
+});
+prova('Comptes: SQLite rebutja duplicats i noms amb accents', function (): void {
+    $pdo = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $pdo->exec(file_get_contents(__DIR__ . '/../src/schema.sql'));
+    $pdo->exec("INSERT INTO usuaris(usuari, contrasenya) VALUES('admin', 'prova')");
+    foreach (['admin', 'Admin', 'ADMIN', 'àlex', 'raül', 'iñaki', 'ab'] as $nom) {
+        try { $pdo->prepare('INSERT INTO usuaris(usuari, contrasenya) VALUES(?, ?)')->execute([$nom, 'prova']); }
+        catch (PDOException $e) { continue; }
+        throw new RuntimeException('Ha acceptat ' . $nom);
+    }
+});
+
 echo "\n$proves proves executades; $fallades fallades.\n";
 exit($fallades === 0 ? 0 : 1);

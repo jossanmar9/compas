@@ -143,7 +143,7 @@ A més, el tipus d'entitat activa funcionalitats específiques com **repertori m
 | **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, membres per instrument o posició, persones per categoria, llicències per equip, càrrecs de festa, cens d'entitats federades, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula, d'agrupació i de càrrec de festa amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
 | **A la mida** | El tipus d'entitat posa els noms i els apartats; després, cada entitat activa o desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol vore. Les dades no s'esborren. |
-| **Administració** | Dos comptes (administrador/a i usuari/ària), configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
+| **Administració** | Comptes individuals amb rols d’administrador/a, usuari/ària de gestió i consultor/a, configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
 
@@ -210,33 +210,43 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 
 ## Usuaris i permisos
 
-| Què es pot fer | Administrador/a | Usuari/ària |
-|---|:---:|:---:|
-| Persones, socis i tipus de soci | ✔ | ✔ |
-| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
-| Agrupacions o equips, repertori, instruments i uniformes | ✔ | ✔ |
-| Activitats, llicències, càrrecs de festa i entitats federades | ✔ | ✔ |
-| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
-| Llibre de caixa | ✔ | ✔ |
-| Junta, actes, documents i comunicats | ✔ | ✔ |
-| Llistats, certificats i importació des d'Excel | ✔ | ✔ |
-| Fer i baixar còpies de seguretat | ✔ | ✔ |
-| Canviar la pròpia contrasenya | ✔ | ✔ |
-| Configuració de l'entitat, tipus, logotip, mòduls i avisos | ✔ | — |
-| Dades bancàries i descomptes de l'escola | ✔ | — |
-| Crear i gestionar els comptes | ✔ | — |
-| Registre d'activitat | ✔ | — |
-| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — |
-| Recuperar l'accés amb el codi de recuperació | ✔ | — |
+Hi ha tres rols: **administrador/a**, **usuari/ària de gestió** i **consultor/a**. El consultor té consulta limitada de persones, socis, escola, agrupacions i instruments, sense economia, imports ni IBAN, exportacions, documents descarregables ni còpies. Pot canviar la pròpia contrasenya i l'idioma.
 
-Les contrasenyes es guarden xifrades, hi ha un bloqueig temporal després de cinc intents fallits i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
+Els noms de compte són únics sense distingir majúscules: de 3 a 40 caràcters ASCII (a–z, números, punt, guió i guió baix), sense accents ni dièresi. En actualitzar, els noms antics incompatibles s'adapten i l'administrador veu els canvis a Usuaris. Les contrasenyes es conserven.
+
+| Què es pot fer | Administrador/a | Usuari/ària | Consultor/a |
+|---|:---:|:---:|:---:|
+| Persones, socis i tipus de soci | ✔ | ✔ | Consulta parcial |
+| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ | Consulta parcial |
+| Agrupacions o equips, repertori, instruments i uniformes | ✔ | ✔ | Consulta parcial |
+| Activitats, llicències, càrrecs de festa i entitats federades | ✔ | ✔ | — |
+| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ | — |
+| Llibre de caixa | ✔ | ✔ | — |
+| Junta, actes, documents i comunicats | ✔ | ✔ | — |
+| Llistats, certificats i importació des d'Excel | ✔ | ✔ | — |
+| Fer i baixar còpies de seguretat | ✔ | ✔ | — |
+| Canviar la pròpia contrasenya | ✔ | ✔ | ✔ |
+| Configuració de l'entitat, tipus, logotip, mòduls i avisos | ✔ | — | — |
+| Dades bancàries i descomptes de l'escola | ✔ | — | — |
+| Crear i gestionar els comptes | ✔ | — | — |
+| Registre d'activitat | ✔ | — | — |
+| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — | — |
+| Recuperar l'accés amb el codi de recuperació | ✔ | — | — |
+
+Les contrasenyes es guarden amb hash; en LAN hi ha un bloqueig temporal per compte després de cinc intents fallits i un límit addicional per IP i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
 
 Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'entrada amb el **codi de recuperació** que es mostra en la configuració inicial (i que es pot tornar a generar a **Usuaris**). Si s'ha perdut el codi, hi ha una alternativa amb un fitxer a la carpeta de dades, que només pot fer qui té accés a l'ordinador.
+
+## Xarxa local opcional (2.2)
+
+Un sol servidor guarda el programa i SQLite; els altres equips obrin la seua adreça al navegador, amb un compte per persona. A `compas.ini`: `lan = 1` i `adreca_lan = 192.168.1.20` (la IP privada fixa del servidor). Per defecte, `lan = 0`. Tancar el navegador no atura el servidor; tancar el panell o terminal del servidor desconnecta tots els clients.
+
+Consulta la [guia LAN en valencià i castellà](docs/xarxa-local.md) abans d'activar-lo: tallafoc restringit, HTTP sense xifrar en una xarxa de confiança, còpies i restauració fora del mode LAN. No compartisques `compas.db` per carpetes de xarxa. El servidor integrat està pensat per a grups menuts i processa les peticions en sèrie a Windows.
 
 ## Dades i còpies de seguretat
 
 - Totes les dades estan en un sol fitxer: `data\compas.db`, dins de la carpeta del programa.
-- Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora: ni estadístiques, ni informes d'errors, ni comprovacions d'actualitzacions. Vegeu la [declaració de privacitat](PRIVACITAT.md).
+- Per defecte, Compàs només escolta en el mateix ordinador (`127.0.0.1`). El **mode LAN opcional** permet clients amb navegador en una xarxa privada de confiança; les dades queden al servidor de l’entitat. No envia telemetria ni estadístiques a serveis externs. Vegeu la [guia de xarxa local](docs/xarxa-local.md) i la [declaració de privacitat](PRIVACITAT.md).
 - **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es guarden totes les dels últims 7 dies, una per setmana de l'últim mes i una per mes de l'últim any (configurable): unes vint còpies que arriben a un any arrere.
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
 - **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.

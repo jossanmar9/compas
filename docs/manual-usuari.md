@@ -2,25 +2,25 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de l'entitat: persones, socis, quotes i rebuts, activitats, loteria, llibre de caixa, subvencions, junta directiva i actes, documents, comunicats i còpies de seguretat i, segons el tipus d'entitat, l'escola, les agrupacions o els equips, el repertori, els instruments i uniformes, les llicències, els càrrecs de festa o les entitats federades. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té dos comptes. Esta taula resumeix què pot fer cadascun:
+Compàs és el programa de gestió de l'entitat: persones, socis, quotes i rebuts, activitats, loteria, llibre de caixa, subvencions, junta directiva i actes, documents, comunicats i còpies de seguretat i, segons el tipus d'entitat, l'escola, les agrupacions o els equips, el repertori, els instruments i uniformes, les llicències, els càrrecs de festa o les entitats federades. Funciona en Windows o Linux, sense Internet, amb mode local per defecte i LAN opcional, i té tres rols de compte. Esta taula resumeix què pot fer cadascun:
 
-| Què es pot fer | Administrador/a | Usuari/ària |
-|---|:---:|:---:|
-| Persones, socis i tipus de soci | ✔ | ✔ |
-| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ |
-| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ |
-| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ |
-| Llibre de caixa | ✔ | ✔ |
-| Junta, actes, documents i comunicats | ✔ | ✔ |
-| Llistats, certificats i importació des d'Excel | ✔ | ✔ |
-| Fer i baixar còpies de seguretat | ✔ | ✔ |
-| Canviar la pròpia contrasenya | ✔ | ✔ |
-| Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — |
-| Dades bancàries i descomptes de l'escola | ✔ | — |
-| Crear i gestionar els comptes | ✔ | — |
-| Registre d'activitat | ✔ | — |
-| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — |
-| Recuperar l'accés amb el codi de recuperació | ✔ | — |
+| Què es pot fer | Administrador/a | Usuari/ària | Consultor/a |
+|---|:---:|:---:|:---:|
+| Persones, socis i tipus de soci | ✔ | ✔ | Consulta parcial |
+| Escola: cursos, grups, matrícules, notes i butlletins | ✔ | ✔ | Consulta parcial |
+| Agrupacions, repertori, instruments i uniformes | ✔ | ✔ | Consulta parcial |
+| Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ | — |
+| Llibre de caixa | ✔ | ✔ | — |
+| Junta, actes, documents i comunicats | ✔ | ✔ | — |
+| Llistats, certificats i importació des d'Excel | ✔ | ✔ | — |
+| Fer i baixar còpies de seguretat | ✔ | ✔ | — |
+| Canviar la pròpia contrasenya | ✔ | ✔ | ✔ |
+| Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — | — |
+| Dades bancàries i descomptes de l'escola | ✔ | — | — |
+| Crear i gestionar els comptes | ✔ | — | — |
+| Registre d'activitat | ✔ | — | — |
+| Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — | — |
+| Recuperar l'accés amb el codi de recuperació | ✔ | — | — |
 
 Este manual és per a les persones que porten la gestió diària. La configuració inicial, les dades de l'entitat, els comptes, la restauració de còpies i les actualitzacions les fa l'administrador/a: són al **Manual d'administració**.
 
@@ -934,3 +934,7 @@ El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obri
 **On estan les dades?** A la carpeta `data` del programa (`data\compas.db`). La ruta exacta es veu a **Configuració**.
 
 **Com passe Compàs a un altre ordinador?** Instal·la Compàs a l'ordinador nou i, a **Còpies de seguretat → Restaura des d'un fitxer**, carrega l'última còpia.
+
+## Xarxa local i consulta limitada (2.2)
+
+La [guia LAN](xarxa-local.md) explica com activar el servidor, crear comptes sense accents, usar el rol Consultor i gestionar les còpies. El consultor no té accés a economia, IBAN, imports, exportacions, informes imprimibles, fitxers ni còpies. La consulta parcial d’escola i agrupacions no inclou totes les operacions de gestió de la taula. En LAN, tancar el navegador només tanca el client; el servidor queda obert fins que la persona responsable l’atura. Si una fitxa ha canviat des que la vas obrir, recarrega-la abans de desar.

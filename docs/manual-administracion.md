@@ -2,25 +2,25 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la entidad: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene dos cuentas. Esta tabla resume qué puede hacer cada una:
+Compàs es el programa de gestión de la entidad: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en Windows o Linux, sin Internet, con modo local por defecto y LAN opcional, y tiene tres roles de cuenta. Esta tabla resume qué puede hacer cada una:
 
-| Qué se puede hacer | Administrador/a | Usuario/a |
-|---|:---:|:---:|
-| Personas, socios y tipos de socio | ✔ | ✔ |
-| Escuela: cursos, grupos, matrículas, notas y boletines | ✔ | ✔ |
-| Agrupaciones, repertorio, instrumentos y uniformes | ✔ | ✔ |
-| Cuotas, recibos, domiciliaciones, remesas, lotería y subvenciones | ✔ | ✔ |
-| Libro de caja | ✔ | ✔ |
-| Junta, actas, documentos y comunicados | ✔ | ✔ |
-| Listados, certificados e importación desde Excel | ✔ | ✔ |
-| Hacer y descargar copias de seguridad | ✔ | ✔ |
-| Cambiar la propia contraseña | ✔ | ✔ |
-| Configuración de la entidad, logotipo, módulos y avisos | ✔ | — |
-| Datos bancarios y descuentos de la escuela | ✔ | — |
-| Crear y gestionar las cuentas | ✔ | — |
-| Registro de actividad | ✔ | — |
-| Restaurar y eliminar copias, carpeta externa y cifrado | ✔ | — |
-| Recuperar el acceso con el código de recuperación | ✔ | — |
+| Qué se puede hacer | Administrador/a | Usuario/a | Consultor/a |
+|---|:---:|:---:|:---:|
+| Personas, socios y tipos de socio | ✔ | ✔ | Consulta parcial |
+| Escuela: cursos, grupos, matrículas, notas y boletines | ✔ | ✔ | Consulta parcial |
+| Agrupaciones, repertorio, instrumentos y uniformes | ✔ | ✔ | Consulta parcial |
+| Cuotas, recibos, domiciliaciones, remesas, lotería y subvenciones | ✔ | ✔ | — |
+| Libro de caja | ✔ | ✔ | — |
+| Junta, actas, documentos y comunicados | ✔ | ✔ | — |
+| Listados, certificados e importación desde Excel | ✔ | ✔ | — |
+| Hacer y descargar copias de seguridad | ✔ | ✔ | — |
+| Cambiar la propia contraseña | ✔ | ✔ | ✔ |
+| Configuración de la entidad, logotipo, módulos y avisos | ✔ | — | — |
+| Datos bancarios y descuentos de la escuela | ✔ | — | — |
+| Crear y gestionar las cuentas | ✔ | — | — |
+| Registro de actividad | ✔ | — | — |
+| Restaurar y eliminar copias, carpeta externa y cifrado | ✔ | — | — |
+| Recuperar el acceso con el código de recuperación | ✔ | — | — |
 
 Este manual es para el administrador/a de Compàs: la persona que lo pone en marcha, lo configura, gestiona las cuentas y las copias de seguridad y lo actualiza. Para la gestión diaria (personas, socios, escuela, economía, junta…), ver el **Manual de usuario**.
 
@@ -233,3 +233,7 @@ Qué trae cada versión se puede ver en **Ayuda → Qué cambia en cada versión
 **¿Cómo paso Compàs a otro ordenador?** Instala Compàs en el ordenador nuevo y, en **Copias de seguridad → Restaurar desde un archivo**, carga la última copia.
 
 **¿Dónde están los datos?** En la carpeta `data` del programa (`data\compas.db`). La ruta exacta se ve en **Configuración**, abajo.
+
+## Red local y consulta limitada (2.2)
+
+La [guía LAN](xarxa-local.md#compàs-22-red-local-y-usuarios) explica cómo activar el servidor, crear cuentas sin acentos, usar el rol Consultor y gestionar las copias. El consultor no accede a economía, IBAN, importes, exportaciones, informes imprimibles, archivos ni copias. La consulta parcial de escuela y agrupaciones no incluye todas las operaciones de gestión de la tabla. En LAN, cerrar el navegador solo cierra el cliente; el servidor continúa hasta que lo detenga la persona responsable. Si una ficha ha cambiado desde que la abriste, recárgala antes de guardar.

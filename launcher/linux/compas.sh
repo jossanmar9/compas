@@ -3,7 +3,7 @@
 # Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
-# Arranca el servidor de PHP només a 127.0.0.1 i obri Compàs en la seua finestra (compas-visor.py, amb
+# Arranca PHP en localhost per defecte, o en la IPv4 privada explícita en mode LAN. El mode local usa
 # WebKitGTK). Quan es tanca la finestra, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
 # Si WebKitGTK no hi és, prova Chromium, Google Chrome, Microsoft Edge o Brave en mode aplicació i, si
 # tampoc, obri el navegador habitual i Compàs funciona mentre el terminal estiga obert (Ctrl+C per a tancar-lo).
@@ -19,6 +19,8 @@ PHP="${COMPAS_PHP:-php}"
 PORT=8740
 NAVEGADOR=1
 FINESTRA=1
+LAN=0
+LAN_IP=""
 
 # Missatges en valencià o castellà segons l'idioma del sistema
 case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
@@ -68,6 +70,8 @@ for INI in "$ARREL/compas.ini" "$CONFIG_USUARI"; do
         case "$clau" in
             port) [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 1023 ] && [ "$valor" -lt 65536 ] && PORT="$valor" ;;
             navegador) case "$valor" in 0|no|false) NAVEGADOR=0 ;; esac ;;
+            lan) case "$valor" in 1|si|true) LAN=1 ;; *) LAN=0 ;; esac ;;
+            adreca_lan) LAN_IP="$valor" ;;
             finestra) case "$valor" in 0|no|false) FINESTRA=0 ;; esac ;;
         esac
     done < <(grep -v '^[[:space:]]*[;#]' "$INI")
@@ -75,7 +79,17 @@ done
 PORT="${COMPAS_PORT:-$PORT}"
 NAVEGADOR="${COMPAS_NAVEGADOR:-$NAVEGADOR}"
 FINESTRA="${COMPAS_FINESTRA:-$FINESTRA}"
-URL="http://localhost:$PORT/"
+LAN="${COMPAS_LAN:-$LAN}"
+LAN_IP="${COMPAS_LAN_IP:-$LAN_IP}"
+HOST=127.0.0.1
+if [ "$LAN" = 1 ]; then
+    FINESTRA=0
+    # Valida IPv4 privada estrictament abans d'usar-la com a paràmetre.
+    [[ "$LAN_IP" =~ ^(10\.[0-9]+\.[0-9]+\.[0-9]+|172\.(1[6-9]|2[0-9]|3[01])\.[0-9]+\.[0-9]+|192\.168\.[0-9]+\.[0-9]+)$ ]] || error "adreca_lan: IPv4 privada del servidor (exemple: 192.168.1.20)"
+    HOST="$LAN_IP"
+fi
+export COMPAS_LAN="$LAN" COMPAS_LAN_IP="$LAN_IP"
+URL="http://$HOST:$PORT/"
 
 # Finestra pròpia de Compàs (WebKitGTK)
 VISOR=""
@@ -138,7 +152,10 @@ FALTEN="$("$PHP" -r 'foreach (["pdo_sqlite" => "php-sqlite3", "mbstring" => "php
 mkdir -p "$DADES" || error "$(t "No es pot crear la carpeta de dades: $DADES" "No se puede crear la carpeta de datos: $DADES")"
 
 # Fa una petició HTTP local amb el mateix PHP (així no cal curl ni wget)
-peticio() { "$PHP" -r '$c = stream_context_create(["http" => ["timeout" => (float)$argv[2], "ignore_errors" => true]]); $r = @file_get_contents($argv[1], false, $c); if ($r === false) exit(1); echo $r;' "$1" "${2:-2}"; }
+if [ "$LAN" = 1 ]; then
+    "$PHP" -r 'require $argv[1]; if (!ip_privada($argv[2])) exit(1); $s = @stream_socket_server("tcp://".$argv[2].":0", $e, $m, STREAM_SERVER_BIND); if (!$s) exit(1); fclose($s);' "$ARREL/src/xarxa.php" "$LAN_IP" || error "adreca_lan incorrecta"
+fi
+peticio() { "$PHP" -r '$c = stream_context_create(["http" => ["timeout" => (float)$argv[2], "ignore_errors" => true, "header" => isset($argv[3]) ? "X-Compas-Token: " . $argv[3] : ""]]); $r = @file_get_contents($argv[1], false, $c); if ($r === false) exit(1); echo $r;' "$1" "${2:-2}" "${3:-}"; }
 
 obri_navegador() {
     [ "$NAVEGADOR" = 1 ] || return 0
@@ -167,7 +184,7 @@ TOKEN="$(od -An -N24 -tx1 /dev/urandom | tr -d ' \n')"
 COMPAS_DADES="$DADES" COMPAS_TOKEN="$TOKEN" "$PHP" \
     -d display_errors=0 -d log_errors=1 -d error_log="$DADES/php-errors.log" \
     -d memory_limit=256M -d upload_max_filesize=64M -d post_max_size=64M -d max_execution_time=120 -d session.upload_progress.enabled=0 \
-    -S "127.0.0.1:$PORT" -t "$ARREL/app" "$ARREL/app/index.php" >>"$DADES/servidor.log" 2>&1 &
+    -S "$HOST:$PORT" -t "$ARREL/app" "$ARREL/app/index.php" >>"$DADES/servidor.log" 2>&1 &
 SERVIDOR=$!
 
 tanca() {
@@ -175,7 +192,7 @@ tanca() {
     trap - EXIT INT TERM HUP
     if kill -0 "$SERVIDOR" 2>/dev/null; then
         t "Fent la còpia de seguretat i tancant Compàs…" "Haciendo la copia de seguridad y cerrando Compàs…"
-        peticio "http://127.0.0.1:$PORT/?r=copia_tancament&token=$TOKEN" 60 >/dev/null || true
+        peticio "$URL?r=copia_tancament" 60 "$TOKEN" >/dev/null || true
         kill "$SERVIDOR" 2>/dev/null
         wait "$SERVIDOR" 2>/dev/null
     fi
@@ -195,6 +212,10 @@ done
 
 printf '\n  Compàs · %s\n\n' "$URL"
 t "  Les dades es guarden a: $DADES" "  Los datos se guardan en: $DADES"
+
+if [ "$LAN" = 1 ]; then
+    t "  Servidor LAN: mantín esta finestra oberta. Els altres equips poden obrir $URL" "  Servidor LAN: mantén esta ventana abierta. Los otros equipos pueden abrir $URL"
+fi
 
 if [ -n "$VISOR" ]; then
     t "  Compàs s'ha obert en la seua finestra. En tancar-la, es fa la còpia de seguretat i s'atura." \

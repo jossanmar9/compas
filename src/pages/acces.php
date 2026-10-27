@@ -25,12 +25,14 @@ function pagina_configuracio_inicial(): void
         $usuari = post('usuari');
         $l = post('idioma');
         $error = valida_contrasenya((string)post('contrasenya'), (string)post('contrasenya2'));
-        if (!$nom || !preg_match('/^[\p{L}\p{N}._-]{3,40}$/u', $usuari)) {
+        if (!$nom) {
             $error = t('err.dades_inicials');
+        } elseif (!nom_usuari_valid($usuari)) {
+            $error = t('err.nom_usuari');
         }
         $usuari2 = post('usuari2');
         if (!$error && $usuari2 !== '') {
-            if (!preg_match('/^[\p{L}\p{N}._-]{3,40}$/u', $usuari2) || mb_strtolower($usuari2) === mb_strtolower($usuari)) {
+            if (!nom_usuari_valid($usuari2) || strcasecmp($usuari2, $usuari) === 0) {
                 $error = t('err.nom_usuari');
             } else {
                 $error = valida_contrasenya((string)post('contrasenya_b'), (string)post('contrasenya_b2'));
@@ -41,6 +43,10 @@ function pagina_configuracio_inicial(): void
         }
         if (!$error) {
             db()->beginTransaction();
+            if ((int)valor('SELECT COUNT(*) FROM usuaris') !== 0) {
+                db()->rollBack();
+                redirigeix('inici');
+            }
             desa_config('societat_nom', $nom);
             desa_config('idioma', isset(IDIOMES[$l]) ? $l : 'ca');
             // El tipus d'entitat: mòduls, mes d'inici de l'exercici i categories d'edat (tot es pot canviar després)
@@ -61,8 +67,7 @@ function pagina_configuracio_inicial(): void
             }
             $codi = genera_codi_recuperacio();
             db()->commit();
-            session_regenerate_id(true);
-            $_SESSION['usuari_id'] = $id;
+            autentica_sessio($id);
             $_SESSION['idioma'] = $l;
             audita('instal·lacio', null, null, $nom);
             avis(t('benvinguda'));
@@ -83,11 +88,11 @@ function pagina_configuracio_inicial(): void
         $html .= '<option value="' . $k . '"' . ($k === idioma() ? ' selected' : '') . '>' . h($n) . '</option>';
     }
     $html .= '</select></div>'
-        . '<div class="camp"><label>' . h(t('setup.usuari_admin')) . '</label><input name="usuari" required autocomplete="username" value="' . h(post('usuari', 'admin')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('setup.usuari_admin')) . '</label><input name="usuari" pattern="[A-Za-z0-9._-]{3,40}" maxlength="40" autocapitalize="none" spellcheck="false" required autocomplete="username" value="' . h(post('usuari', 'admin')) . '"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya" required minlength="' . MIN_CONTRASENYA . '" autocomplete="new-password"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya2" required autocomplete="new-password"></div>'
         . '<fieldset class="camp"><legend>' . h(t('setup.administratiu')) . '</legend><small>' . h(t('setup.administratiu_ajuda')) . '</small>'
-        . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari2" autocomplete="off" value="' . h(post('usuari2')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari2" pattern="[A-Za-z0-9._-]{3,40}" maxlength="40" autocapitalize="none" spellcheck="false" autocomplete="off" value="' . h(post('usuari2')) . '"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya_b" autocomplete="new-password"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya_b2" autocomplete="new-password"></div></fieldset>'
         . '<div class="camp camp-check"><label><input type="checkbox" name="exemple" value="1"> ' . h(t('setup.exemple')) . '</label><small>' . h(t('setup.exemple_ajuda')) . '</small></div>'
@@ -125,14 +130,13 @@ function pagina_entrada(): void
         // Els intents fallits es compten per a tot el programa (no per sessió: sense galeta no es podrien comptar).
         // El servidor integrat de PHP atén una petició cada vegada: no fem sleep(), bloquegem un temps.
         $intents = (int)config('entrada_fallides');
-        if ($intents >= 5 && time() - (int)config('entrada_darrer') < 30) {
+        if (mode_lan() ? entrada_bloquejada() : ($intents >= 5 && time() - (int)config('entrada_darrer') < 30)) {
             pagina_simple(t('entra'), '<div class="avis error">' . h(t('err.massa_intents')) . '</div><p><a href="?">' . h(t('torna')) . '</a></p>');
             return;
         }
-        $u = fila('SELECT * FROM usuaris WHERE usuari = ? AND actiu = 1', [post('usuari')]);
+        $u = nom_usuari_valid((string)post('usuari')) ? fila('SELECT * FROM usuaris WHERE usuari = ? AND actiu = 1', [post('usuari')]) : null;
         if ($u && password_verify((string)post('contrasenya'), $u['contrasenya'])) {
-            session_regenerate_id(true);
-            $_SESSION['usuari_id'] = $u['id'];
+            if (mode_lan()) { registra_intent_entrada(true); }
             desa_config('entrada_fallides', null);
             if ($u['idioma']) {
                 $_SESSION['idioma'] = $u['idioma'];
@@ -140,12 +144,17 @@ function pagina_entrada(): void
             if (password_needs_rehash($u['contrasenya'], PASSWORD_DEFAULT)) {
                 q('UPDATE usuaris SET contrasenya = ? WHERE id = ?', [password_hash(post('contrasenya'), PASSWORD_DEFAULT), $u['id']]);
             }
+            autentica_sessio((int)$u['id']);
             q("UPDATE usuaris SET ultim_acces = datetime('now','localtime') WHERE id = ?", [$u['id']]);
             audita('entrada');
             redirigeix('inici');
         }
-        desa_config('entrada_fallides', (string)($intents >= 5 ? 1 : $intents + 1));
-        desa_config('entrada_darrer', (string)time());
+        if (mode_lan()) {
+            registra_intent_entrada(false);
+        } else {
+            desa_config('entrada_fallides', (string)($intents >= 5 ? 1 : $intents + 1));
+            desa_config('entrada_darrer', (string)time());
+        }
         q('INSERT INTO auditoria(accio, usuari, detall) VALUES(?, ?, ?)', ['entrada_fallida', mb_substr((string)post('usuari'), 0, 60), $_SERVER['REMOTE_ADDR'] ?? '']);
         $error = t('err.entrada');
     }
@@ -154,7 +163,7 @@ function pagina_entrada(): void
         $html .= '<div class="avis error">' . h($error) . '</div>';
     }
     $html .= '<form method="post" action="' . h(url('entrada')) . '" class="formulari vertical">' . csrf_camp()
-        . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari" required autofocus autocomplete="username" value="' . h(post('usuari')) . '"></div>'
+        . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari" pattern="[A-Za-z0-9._-]{3,40}" maxlength="40" autocapitalize="none" spellcheck="false" required autofocus autocomplete="username" value="' . h(post('usuari')) . '"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya" required autocomplete="current-password"></div>'
         . '<button>' . h(t('entra')) . '</button></form>'
         . '<p class="nota">' . h(t('entrada.oblit')) . ' <a href="' . h(url('recupera')) . '">' . h(t('entrada.oblit_admin')) . '</a></p>'
@@ -174,6 +183,7 @@ function pagina_perfil(): void
         }
         if (!$error) {
             q('UPDATE usuaris SET contrasenya = ? WHERE id = ?', [password_hash(post('contrasenya'), PASSWORD_DEFAULT), $u['id']]);
+            autentica_sessio((int)$u['id']);
             audita('canvi_contrasenya', 'usuaris', $u['id']);
             avis(t('contrasenya_canviada'));
             redirigeix('perfil');

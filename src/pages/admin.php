@@ -36,7 +36,13 @@ function pagina_usuaris(): void
         redirigeix('codi');
     }
     $files = q('SELECT * FROM usuaris ORDER BY usuari')->fetchAll();
+    $migrats = q("SELECT detall FROM auditoria WHERE accio = 'migra_usuari' ORDER BY id")->fetchAll();
     $html = '<div class="barra"><span class="espai"></span><a class="boto" href="' . h(url('usuaris', ['id' => 'nou'])) . '">+ ' . h(t('nou')) . '</a></div>';
+    if ($migrats) {
+        $html .= '<div class="avis info">' . h(t('usuaris.migrats')) . '<ul>';
+        foreach ($migrats as $m) { $html .= '<li>' . h($m['detall']) . '</li>'; }
+        $html .= '</ul></div>';
+    }
     $html .= '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . h(t('camp.usuari')) . '</th><th>' . h(t('camp.rol'))
         . '</th><th>' . h(t('camp.actiu')) . '</th><th>' . h(t('camp.ultim_acces')) . '</th></tr></thead><tbody>';
     foreach ($files as $f) {
@@ -79,8 +85,10 @@ function formulari_usuari(?int $id): void
             $l = isset(IDIOMES[$l]) ? $l : null;
             $rol = in_array(post('rol'), ROLS, true) ? post('rol') : 'administratiu';
             $c1 = (string)post('contrasenya');
-            if (!preg_match('/^[\p{L}\p{N}._-]{3,40}$/u', $nom)) {
+            if (!nom_usuari_valid($nom)) {
                 $error = t('err.nom_usuari');
+            } elseif (usuari_existeix($nom, $id)) {
+                $error = t('err.usuari_repetit');
             } elseif (!$id || $c1 !== '') {
                 $error = valida_contrasenya($c1, (string)post('contrasenya2'));
             }
@@ -106,7 +114,7 @@ function formulari_usuari(?int $id): void
                     redirigeix('usuaris');
                 } catch (PDOException $ex) {
                     db()->rollBack();
-                    $error = error_bd($ex);
+                    $error = str_contains($ex->getMessage(), 'usuaris.usuari') ? t('err.usuari_repetit') : error_bd($ex);
                 } catch (RuntimeException $ex) {
                     db()->rollBack();
                     $error = $ex->getMessage();
@@ -121,7 +129,7 @@ function formulari_usuari(?int $id): void
     $u = $u ?? ['usuari' => '', 'actiu' => 1, 'idioma' => null];
     $html = $error ? '<div class="avis error">' . h($error) . '</div>' : '';
     $html .= '<form method="post" class="formulari">' . csrf_camp() . '<div class="camps">'
-        . '<div class="camp"><label>' . h(t('camp.usuari')) . ' <span class="obl">*</span></label><input name="usuari" required value="' . h($u['usuari']) . '" autocomplete="off"></div>'
+        . '<div class="camp"><label>' . h(t('camp.usuari')) . ' <span class="obl">*</span></label><input name="usuari" required pattern="[A-Za-z0-9._-]{3,40}" maxlength="40" autocapitalize="none" spellcheck="false" value="' . h($u['usuari']) . '" autocomplete="off"></div>'
         . '<div class="camp"><label>' . h(t('camp.rol')) . '</label>' . select_simple('rol', array_combine(ROLS, array_map(fn($r) => t('rol.' . $r), ROLS)), $rol, false, '', false)
         . '<small>' . h(t('usuaris.rol_ajuda')) . '</small></div>'
         . '<div class="camp"><label>' . h(t('camp.idioma')) . '</label>' . select_simple('idioma', IDIOMES, $u['idioma'], true, t('usuaris.idioma_defecte'), false) . '</div>'
@@ -326,6 +334,13 @@ function serveix_pdf(): never
 
 function pagina_ajuda(): void
 {
+    if (get('doc') === 'xarxa') {
+        $fitxer = DOCS_DIR . '/xarxa-local.md';
+        $parts = preg_split('/^---\s*$/m', is_file($fitxer) ? (string)file_get_contents($fitxer) : '');
+        $md = $parts[idioma() === 'es' ? 1 : 0] ?? '';
+        pagina(t('lan.guia'), '<article class="manual">' . markdown_simple($md) . '</article>');
+        return;
+    }
     if (get('doc') === 'canvis') {
         pagina_canvis();
         return;
@@ -347,8 +362,9 @@ function pagina_ajuda(): void
     $md = is_file($fitxer) ? file_get_contents($fitxer) : t('ajuda.no_manual');
     $docs = [$nomManual['usuari'] => t('ajuda.pdf_manual')] + (pot('config.manage') ? [$nomManual['admin'] => t('ajuda.pdf_manual_admin')] : [])
         + [$es ? 'guia-instalacion' : 'guia-installacio' => t('ajuda.pdf_guia')];
-    $enllacos = '';
-    foreach ($docs as $doc => $text) {
+    $enllacos = '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'xarxa'])) . '">' . h(t('lan.guia')) . '</a>';
+    $md = preg_replace('/\(xarxa-local\.md(?:#[^)]*)?\)/', '(?r=ajuda&doc=xarxa)', $md);
+    foreach (es_consultor() ? [] : $docs as $doc => $text) {
         if (is_file(DOCS_DIR . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $doc . '.pdf')) {
             $enllacos .= '<a class="boto secundari" target="_blank" href="' . h(url('manual_pdf', ['doc' => $doc])) . '">📄 ' . h($text) . '</a>';
         }

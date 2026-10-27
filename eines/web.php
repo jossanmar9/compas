@@ -46,10 +46,10 @@ $T = [
         ],
         'nav_priv' => 'Privacitat',
         'priv_titol' => 'La privacitat, al centre',
-        'priv_intro' => 'Compàs està fet al revés que les plataformes en línia: les dades de les persones de l\'entitat (també les dels menors) no ixen mai de l\'ordinador de l\'entitat.',
+        'priv_intro' => 'Compàs està fet al revés que les plataformes en línia: les dades de les persones de l\'entitat (també les dels menors) es queden al servidor de l’entitat i als clients autoritzats de la seua LAN.',
         'priv_punts' => [
-            ['Sense núvol', 'No hi ha cap servidor. El programa i les dades estan en un ordinador de l\'entitat, i ningú no hi pot entrar des d\'Internet.'],
-            ['No recull cap dada', 'Sense comptes en cap plataforma, sense analítica, sense telemetria i sense publicitat. Ni el programa ni esta web envien res enlloc.'],
+            ['Sense núvol', 'El programa i les dades estan al servidor de l’entitat; els clients LAN autoritzats poden accedir-hi. No hi ha cap servidor extern de Compàs.'],
+            ['No recull cap dada', 'Sense comptes en cap plataforma, sense analítica, sense telemetria i sense publicitat. El programa no envia dades a serveis externs; en LAN, només respon als clients de la xarxa pròpia. Esta web no té analítica.'],
             ['Funciona sense Internet', 'No cal connexió per a res. Les remeses del banc i els correus es preparen ací i els envieu vosaltres.'],
             ['Les dades són vostres', 'Programari lliure i gratuït, sense quotes ni límit de membres. Si un dia el deixeu de fer servir, les dades continuen a la vostra carpeta.'],
         ],
@@ -83,8 +83,8 @@ $T = [
         'faq_titol' => 'Preguntes freqüents',
         'faq_intro' => 'El que més ens pregunten les entitats abans de provar-lo. Si teniu un altre dubte, escriviu-nos.',
         'comptes_titol' => 'Qui pot fer què',
-        'comptes_intro' => 'Compàs té dos comptes: el de l\'administrador/a (normalment, la presidència o qui porta l\'informàtica) i el d\'usuari/ària (la secretaria o la tresoreria). Els dos fan tota la feina del dia a dia; només l\'administrador/a pot tocar la configuració, els comptes i la restauració de còpies.',
-        'comptes_cols' => ['Què es pot fer', 'Administrador/a', 'Usuari/ària'],
+        'comptes_intro' => 'Compàs té tres rols i permet un compte per persona: administrador/a, usuari/ària de gestió i consultor/a de consulta limitada. Només l’administrador/a gestiona comptes, configuració i restauracions; el consultor no accedix a economia, IBAN, exportacions, documents ni còpies.',
+        'comptes_cols' => ['Què es pot fer', 'Administrador/a', 'Usuari/ària', 'Consultor/a'],
         'comptes' => [
             ['Persones, socis i tipus de soci', true],
             ['Escola: cursos, grups, matrícules, notes i butlletins', true],
@@ -107,9 +107,9 @@ $T = [
             ['Serveix per a la nostra entitat?', 'Compàs té tipus per a societats musicals, clubs esportius, colles, associacions culturals, AMPA, falles, gaiates, fogueres, comparses, penyes i federacions. Si la vostra no és cap d\'estes, trieu la que més s\'hi assemble i activeu o desactiveu els apartats que necessiteu.'],
             ['És gratis de veres?', 'Sí. És programari lliure: sense quotes, sense límit de membres i sense versió «de pagament». No hi ha res a contractar.'],
             ['Cal Internet?', 'No. Compàs funciona sense connexió. Els fitxers de remeses per al banc i els correus es preparen al programa i els envieu vosaltres des de la banca electrònica o el vostre correu.'],
-            ['Compàs envia les nostres dades a algun lloc?', 'No. Les dades es queden a l\'ordinador de l\'entitat i, si la configureu, a la carpeta externa de còpies (un USB o una carpeta al núvol que trieu vosaltres). Ni el programa ni esta web recullen res.'],
+            ['Compàs envia les nostres dades a algun lloc?', 'No. Les dades es queden al servidor de l’entitat i, en mode LAN, es mostren als clients autoritzats. Si la configureu, també es guarden a la carpeta externa de còpies (un USB o una carpeta al núvol que trieu vosaltres). Ni el programa ni esta web recullen res.'],
             ['Funciona en Windows i en Linux?', 'Sí. Per a Windows 10 o 11 de 64 bits hi ha un instal·lador i una versió portable; per a Linux, un paquet .deb i un .tar.gz. No hi ha versió per a Mac ni per al mòbil.'],
-            ['Es pot gastar des de diversos ordinadors alhora?', 'No: Compàs s\'instal·la en un ordinador de l\'entitat i s\'usa en eixe ordinador. Per a canviar d\'ordinador, n\'hi ha prou de restaurar l\'última còpia al nou.'],
+            ['Es pot gastar des de diversos ordinadors alhora?', 'Des de la 2.2, sí, amb el mode LAN opcional: un ordinador servidor guarda les dades i els altres hi entren amb navegador i compte propi. Només en una xarxa privada de confiança; el mode inclòs usa HTTP sense xifrat. Per defecte continua funcionant només en un ordinador.'],
             ['Puc provar-lo sense posar les dades de l\'entitat?', 'Sí. En instal·lar-lo, podeu demanar que es carreguen dades d\'exemple del vostre tipus d\'entitat: socis, activitats, rebuts… inventats. Quan el conegueu, comenceu de zero amb les dades de veres.'],
             ['Tenim els socis en un Excel. Cal escriure\'ls tots?', 'No. Importa dades llig fitxers .xlsx i .csv: trieu quina columna és cada dada, reviseu la vista prèvia i s\'importen. Les persones que ja hi ha no es dupliquen.'],
             ['Compàs fa factures?', 'No, fa rebuts. Les factures s\'han de fer amb un programa de facturació que complisca la normativa (Verifactu).'],
@@ -118,7 +118,7 @@ $T = [
         ],
         'anterior' => 'Captura anterior', 'seguent' => 'Captura següent',
         'contacte' => 'Contacte',
-        'xifres' => [['0 €', 'per sempre, sense límit de membres'], ['0', 'dades que isquen de l\'ordinador'], ['Sense Internet', 'funciona sense connexió'], ['VAL · ES', 'en valencià i en castellà']],
+        'xifres' => [['0 €', 'per sempre, sense límit de membres'], ['0', 'dades enviades a serveis externs'], ['Sense Internet', 'funciona sense connexió'], ['VAL · ES', 'en valencià i en castellà']],
         'blocs' => [
             ['Persones i socis', 'Una fitxa per persona i tota l\'entitat en un sol lloc, encara que una mateixa persona siga sòcia, jugadora i mare d\'alumnes.', 'web-socis', [0, 1, 28, 18, 16, 20]],
             ['Clubs, falles, comparses i molt més', 'Cada tipus d\'entitat té el que li cal: llicències i revisions mèdiques per als clubs, càrrecs de festa per a falles i comparses, entitats federades per a les federacions, i activitats amb inscripcions per a tothom.', 'web-club', [29, 24, 25, 26, 27]],
@@ -194,7 +194,7 @@ $T = [
         'dades' => [
             'Compàs funciona en un ordinador de l\'entitat i no envia res a Internet.',
             'Les dades de menors i socis no passen per cap servidor de fora.',
-            'Té dos comptes: administrador/a i usuari/ària, i un registre de qui ha fet cada canvi.',
+            'Té comptes individuals amb tres rols i un registre de qui ha fet cada canvi.',
             'Esta web tampoc no té galetes ni analítica, i les tipografies (lliures) se serveixen des d\'ací mateix.',
         ],
         'avis_titol' => 'Si Windows no et deixa obrir-lo',
@@ -246,10 +246,10 @@ $T = [
         ],
         'nav_priv' => 'Privacidad',
         'priv_titol' => 'La privacidad, en el centro',
-        'priv_intro' => 'Compàs está hecho al revés que las plataformas en línea: los datos de las personas de la entidad (también los de los menores) no salen nunca del ordenador de la entidad.',
+        'priv_intro' => 'Compàs está hecho al revés que las plataformas en línea: los datos de las personas de la entidad (también los de los menores) permanecen en el servidor de la entidad y sus clientes LAN autorizados.',
         'priv_punts' => [
-            ['Sin nube', 'No hay ningún servidor. El programa y los datos están en un ordenador de la entidad, y nadie puede entrar desde Internet.'],
-            ['No recopila ningún dato', 'Sin cuentas en ninguna plataforma, sin analítica, sin telemetría y sin publicidad. Ni el programa ni esta web envían nada a ningún sitio.'],
+            ['Sin nube', 'El programa y los datos están en el servidor de la entidad; los clientes LAN autorizados pueden acceder. No hay servidor externo de Compàs.'],
+            ['No recopila ningún dato', 'Sin cuentas en ninguna plataforma, sin analítica, sin telemetría y sin publicidad. El programa no envía datos a servicios externos; en LAN solo responde a clientes de la red propia. Esta web no tiene analítica.'],
             ['Funciona sin Internet', 'No hace falta conexión para nada. Las remesas del banco y los correos se preparan aquí y los enviáis vosotros.'],
             ['Los datos son vuestros', 'Software libre y gratuito, sin cuotas ni límite de miembros. Si un día lo dejáis de usar, los datos siguen en vuestra carpeta.'],
         ],
@@ -283,8 +283,8 @@ $T = [
         'faq_titol' => 'Preguntas frecuentes',
         'faq_intro' => 'Lo que más nos preguntan las entidades antes de probarlo. Si tenéis otra duda, escribidnos.',
         'comptes_titol' => 'Quién puede hacer qué',
-        'comptes_intro' => 'Compàs tiene dos cuentas: la del administrador/a (normalmente, la presidencia o quien lleva la informática) y la de usuario/a (la secretaría o la tesorería). Las dos hacen todo el trabajo del día a día; solo el administrador/a puede tocar la configuración, las cuentas y la restauración de copias.',
-        'comptes_cols' => ['Qué se puede hacer', 'Administrador/a', 'Usuario/a'],
+        'comptes_intro' => 'Compàs tiene tres roles y permite una cuenta por persona: administrador/a, usuario/a de gestión y consultor/a de consulta limitada. Solo el administrador/a gestiona cuentas, configuración y restauraciones; el consultor no accede a economía, IBAN, exportaciones, documentos ni copias.',
+        'comptes_cols' => ['Qué se puede hacer', 'Administrador/a', 'Usuario/a', 'Consultor/a'],
         'comptes' => [
             ['Personas, socios y tipos de socio', true],
             ['Escuela: cursos, grupos, matrículas, notas y boletines', true],
@@ -307,9 +307,9 @@ $T = [
             ['¿Sirve para nuestra entidad?', 'Compàs tiene tipos para sociedades musicales, clubes deportivos, collas, asociaciones culturales, AMPA, fallas, gaiatas, fogueres, comparsas, peñas y federaciones. Si la vuestra no es ninguna de estas, elegid la que más se parezca y activad o desactivad los apartados que necesitéis.'],
             ['¿Es gratis de verdad?', 'Sí. Es software libre: sin cuotas, sin límite de miembros y sin versión «de pago». No hay nada que contratar.'],
             ['¿Hace falta Internet?', 'No. Compàs funciona sin conexión. Los ficheros de remesas para el banco y los correos se preparan en el programa y los enviáis vosotros desde la banca electrónica o vuestro correo.'],
-            ['¿Compàs envía nuestros datos a algún sitio?', 'No. Los datos se quedan en el ordenador de la entidad y, si la configuráis, en la carpeta externa de copias (un USB o una carpeta en la nube que elegís vosotros). Ni el programa ni esta web recogen nada.'],
+            ['¿Compàs envía nuestros datos a algún sitio?', 'No. Los datos se quedan en el servidor de la entidad y, en modo LAN, se muestran a los clientes autorizados. Si la configuráis, también se guardan en la carpeta externa de copias (un USB o una carpeta en la nube que elegís vosotros). Ni el programa ni esta web recogen nada.'],
             ['¿Funciona en Windows y en Linux?', 'Sí. Para Windows 10 u 11 de 64 bits hay un instalador y una versión portable; para Linux, un paquete .deb y un .tar.gz. No hay versión para Mac ni para el móvil.'],
-            ['¿Se puede usar desde varios ordenadores a la vez?', 'No: Compàs se instala en un ordenador de la entidad y se usa en ese ordenador. Para cambiar de ordenador, basta con restaurar la última copia en el nuevo.'],
+            ['¿Se puede usar desde varios ordenadores a la vez?', 'Desde la 2.2, sí, con el modo LAN opcional: un servidor guarda los datos y los demás acceden por navegador con cuenta propia. Solo en una red privada de confianza; el modo incluido usa HTTP sin cifrado. Por defecto sigue funcionando en un ordenador.'],
             ['¿Puedo probarlo sin poner los datos de la entidad?', 'Sí. Al instalarlo, podéis pedir que se carguen datos de ejemplo de vuestro tipo de entidad: socios, actividades, recibos… inventados. Cuando lo conozcáis, empezad de cero con los datos reales.'],
             ['Tenemos los socios en un Excel. ¿Hay que escribirlos todos?', 'No. Importar datos lee ficheros .xlsx y .csv: elegís qué columna es cada dato, revisáis la vista previa y se importan. Las personas que ya están no se duplican.'],
             ['¿Compàs hace facturas?', 'No, hace recibos. Las facturas se tienen que hacer con un programa de facturación que cumpla la normativa (Verifactu).'],
@@ -318,7 +318,7 @@ $T = [
         ],
         'anterior' => 'Captura anterior', 'seguent' => 'Captura siguiente',
         'contacte' => 'Contacto',
-        'xifres' => [['0 €', 'para siempre, sin límite de miembros'], ['0', 'datos que salgan del ordenador'], ['Sin Internet', 'funciona sin conexión'], ['VAL · ES', 'en valenciano y en castellano']],
+        'xifres' => [['0 €', 'para siempre, sin límite de miembros'], ['0', 'datos enviados a servicios externos'], ['Sin Internet', 'funciona sin conexión'], ['VAL · ES', 'en valenciano y en castellano']],
         'blocs' => [
             ['Personas y socios', 'Una ficha por persona y toda la entidad en un solo lugar, aunque una misma persona sea socia, jugadora y madre de alumnos.', 'web-socis', [0, 1, 28, 18, 16, 20]],
             ['Clubes, fallas, comparsas y mucho más', 'Cada tipo de entidad tiene lo que necesita: licencias y revisiones médicas para los clubes, cargos de fiesta para fallas y comparsas, entidades federadas para las federaciones, y actividades con inscripciones para todos.', 'web-club', [29, 24, 25, 26, 27]],
@@ -394,7 +394,7 @@ $T = [
         'dades' => [
             'Compàs funciona en un ordenador de la entidad y no envía nada a Internet.',
             'Los datos de menores y socios no pasan por ningún servidor de fuera.',
-            'Tiene dos cuentas: administrador/a y usuario/a, y un registro de quién ha hecho cada cambio.',
+            'Tiene cuentas individuales con tres roles y un registro de quién ha hecho cada cambio.',
             'Esta web tampoco tiene cookies ni analítica, y las tipografías (libres) se sirven desde aquí mismo.',
         ],
         'avis_titol' => 'Si Windows no te deja abrirlo',
@@ -516,7 +516,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $dades = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['dades']));
     $req = implode('', array_map(fn($d) => '<li>' . e($d) . '</li>', $t['req']));
     $comptesCap = implode('', array_map(fn($c) => '<th>' . e($c) . '</th>', $t['comptes_cols']));
-    $comptes = implode('', array_map(fn($f) => '<tr><th>' . e($f[0]) . '</th><td class="permis">✔</td><td class="permis' . ($f[1] ? '">✔' : ' no">—') . '</td></tr>', $t['comptes']));
+    $comptes = implode('', array_map(fn($f, $i) => '<tr><th>' . e($f[0]) . '</th><td class="permis">✔</td><td class="permis' . ($f[1] ? '">✔' : ' no">—') . '</td><td>' . (in_array($i, [0, 1, 2], true) ? 'Consulta parcial' : ($i === 9 ? '✔' : '—')) . '</td></tr>', $t['comptes'], array_keys($t['comptes'])));
     $faq = implode('', array_map(fn($f) => '<details><summary>' . e($f[0]) . '</summary><p>' . e($f[1]) . '</p></details>', $t['faq']));
     $avisos = implode('', array_map(fn($a) => '<dt>' . e($a[0]) . '</dt><dd>' . e($a[1]) . '</dd>', $t['avis']));
     $guia = $repo . '/blob/main/docs/' . ($l === 'es' ? 'guia-instalacion.md#si-windows-no-te-deja-abrirlo' : 'guia-installacio.md#si-windows-no-et-deixa-obrir-lo');

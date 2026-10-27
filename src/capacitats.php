@@ -1,9 +1,9 @@
 <?php
-// Rols i capacitats. Compàs té dos rols fixos: administrador i administratiu.
+// Rols i capacitats. Compàs té tres rols: administrador, usuari de gestió i consultor.
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const ROLS = ['admin', 'administratiu'];
+const ROLS = ['admin', 'administratiu', 'consultor'];
 
 function totes_capacitats(): array
 {
@@ -15,7 +15,7 @@ function totes_capacitats(): array
         'instruments.view', 'instruments.edit',
         'economia.view', 'economia.edit',
         'societat.view', 'societat.edit',
-        'copia.manage',
+        'copia.manage', 'dades.exporta',
         // Només l'administrador
         'usuaris.manage', 'config.manage', 'auditoria.view', 'copia.restaura',
     ];
@@ -27,13 +27,14 @@ function rols_per_defecte(): array
     return [
         'admin' => totes_capacitats(),
         'administratiu' => array_values(array_diff(totes_capacitats(), $nomesAdmin)),
+        'consultor' => ['consulta.limitada', 'persones.view', 'socis.view', 'escola.view', 'agrupacions.view', 'instruments.view'],
     ];
 }
 
-/** Crea els dos rols i n'actualitza les capacitats (també en bases de dades d'una versió anterior) */
+/** Crea els rols i n'actualitza les capacitats (també en bases de dades d'una versió anterior) */
 function sembra_rols(PDO $pdo): void
 {
-    $versio = 'rols-5';
+    $versio = 'rols-6';
     $st = $pdo->prepare('SELECT valor FROM config WHERE clau = ?');
     $st->execute(['versio_rols']);
     if ($st->fetchColumn() === $versio) {
