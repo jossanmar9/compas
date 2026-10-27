@@ -19,7 +19,7 @@ mkdir -p "$P/usr/share/compas" "$P/usr/bin" "$P/usr/share/applications" "$P/usr/
 cp -a "$ORIGEN/." "$P/usr/share/compas/"
 rm -f "$P/usr/share/compas/installa.sh" "$P/usr/share/compas/desinstalla.sh"
 rm -rf "$P/usr/share/compas/data"
-chmod 755 "$P/usr/share/compas/compas.sh"
+chmod 755 "$P/usr/share/compas/compas.sh" "$P/usr/share/compas/compas-xarxa" "$P/usr/share/compas/configura-xarxa.sh"
 ln -s ../share/compas/compas.sh "$P/usr/bin/compas"
 
 cp "$ORIGEN/app/assets/icona.png" "$P/usr/share/icons/hicolor/256x256/apps/compas.png"
@@ -37,16 +37,27 @@ Terminal=false
 Categories=Office;Education;
 DESKTOP
 
+cat > "$P/usr/share/applications/compas-xarxa.desktop" <<DESKTOP
+[Desktop Entry]
+Type=Application
+Name=Compàs · Xarxa local HTTPS
+Name[es]=Compàs · Red local HTTPS
+Exec=/usr/share/compas/configura-xarxa.sh
+Icon=compas
+Terminal=true
+Categories=Office;
+DESKTOP
+
 cp "$ARREL/launcher/linux/deb/copyright" "$P/usr/share/doc/compas/copyright"
 gzip -9n -c "$ORIGEN/CHANGELOG.md" > "$P/usr/share/doc/compas/changelog.gz"
 
 # Permisos estàndard: directoris 755, fitxers 644, el llançador executable
 find "$P/usr" -type d -exec chmod 755 {} +
 find "$P/usr" -type f -exec chmod 644 {} +
-chmod 755 "$P/usr/share/compas/compas.sh"
+chmod 755 "$P/usr/share/compas/compas.sh" "$P/usr/share/compas/compas-xarxa" "$P/usr/share/compas/configura-xarxa.sh"
 
 MIDA="$(du -sk "$P/usr" | cut -f1)"
 sed -e "s/@VERSIO@/$VERSIO/" -e "s/@MIDA@/$MIDA/" "$ARREL/launcher/linux/deb/control" > "$P/DEBIAN/control"
 
 mkdir -p "$EIXIDA"
-dpkg-deb --root-owner-group -Zxz --build "$P" "$EIXIDA/compas_${VERSIO}_all.deb"
+dpkg-deb --root-owner-group -Zxz --build "$P" "$EIXIDA/compas_${VERSIO}_amd64.deb"

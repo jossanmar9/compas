@@ -25,3 +25,9 @@ License: AGPL-3.0-or-later
  GNU Affero General Public License for more details.
  .
  The full text of the license is in /usr/share/compas/LICENSE.
+
+Files: compas-xarxa
+Copyright: 2009 The Go Authors; The Pion community; José Vicente Sanjuan
+License: AGPL-3.0-or-later and BSD-3-Clause and MIT
+ The complete dependency notices are provided in
+ /usr/share/compas/docs/LLICENCIES-XARXA.txt.

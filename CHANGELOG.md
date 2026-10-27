@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.3.0] - 2026-10-27
+
+- LAN més fàcil: **https://compas.local/**, sense IP fixa ni reserva DHCP, amb descobriment mDNS i seguiment dels canvis de xarxa.
+- Servidor HTTPS propi amb TLS 1.2 o posterior, certificat per instal·lació, renovació automàtica i claus privades protegides. PHP només accessible en localhost a través del proxy autenticat; es descarten capçaleres falses.
+- Assistent Windows **Xarxa local / HTTPS…** per a activar/desactivar el servidor i permetre només la subxarxa privada en el tallafoc. Linux: `compas --xarxa`.
+- Paquet **Client-Compas.zip** amb certificat públic i assistents: confirmació explícita de l’empremta una vegada per equip, després només la URL. No inclou claus ni dades.
+- Linux: paquets de servidor x86-64 (`amd64`), amb dependències de configuració HTTPS. Guia i web actualitzades.
+- Proves de TLS real, permisos, galetes Secure, identitat del client i bloqueig d’accés directe a PHP.
+
 ## [2.2.1] - 2026-10-27
 
 - Nous tipus d’entitat: **Muixeranga** i **Colla castellera**, amb seccions, assajos, actuacions, material, roba i dades d’exemple pròpies.

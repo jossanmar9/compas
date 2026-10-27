@@ -26,21 +26,16 @@ class LauncherConfigTests
             File.WriteAllText(ini, "lan = 0\nport = 8740\nfinestra = 1\n");
             Config local = Config.Llig();
             Check(!local.Lan && local.Host == "127.0.0.1" && local.Finestra, "mode local per defecte");
-            File.WriteAllText(ini, "lan = 1\nadreca_lan = 8.8.8.8\n");
-            bool rejected = false;
-            try { Config.Llig(); } catch (Exception) { rejected = true; }
-            Check(rejected, "LAN no accepta una adreça pública");
-            foreach (NetworkInterface net in NetworkInterface.GetAllNetworkInterfaces())
-                foreach (UnicastIPAddressInformation address in net.GetIPProperties().UnicastAddresses)
-                {
-                    string ip = address.Address.ToString();
-                    if (!Config.IpPrivada(ip)) continue;
-                    File.WriteAllText(ini, "lan = 1\nadreca_lan = " + ip + "\nfinestra = 1\n");
-                    Config lan = Config.Llig();
-                    Check(lan.Lan && lan.Host == ip && !lan.Finestra && lan.Url == "http://" + ip + ":8740/", "LAN manté el panell del servidor i usa la IP pròpia");
-                    return 0;
-                }
-            Console.WriteLine("SKIP: no hi ha IPv4 privada local per a la prova LAN positiva");
+            File.WriteAllText(ini, "lan = 1\nnom_lan = compas.local\nfinestra = 1\n");
+            Config lan = Config.Llig();
+            Check(lan.Lan && lan.Host == "127.0.0.1" && !lan.Finestra && lan.Url == "https://compas.local/", "LAN HTTPS sense IP fixa i PHP només local");
+            File.WriteAllText(ini, "lan = 1\nnom_lan = entitat.local\nport_https = 8443\n");
+            Check(Config.Llig().Url == "https://entitat.local:8443/", "nom i port HTTPS configurables");
+            foreach (string nom in new[] { "compas.evil", "compàs.local", "-compas.local", "compas.local.evil", "../compas.local" }) {
+                File.WriteAllText(ini, "lan = 1\nnom_lan = " + nom + "\n");
+                bool rejected = false; try { Config.Llig(); } catch (Exception) { rejected = true; }
+                Check(rejected, "rebutja nom local invàlid " + nom);
+            }
             return 0;
         }
         catch (Exception e) { Console.Error.WriteLine(e); return 1; }

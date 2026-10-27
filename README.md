@@ -241,9 +241,11 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 
 ## Xarxa local opcional (2.2)
 
-Un sol servidor guarda el programa i SQLite; els altres equips obrin la seua adreça al navegador, amb un compte per persona. A `compas.ini`: `lan = 1` i `adreca_lan = 192.168.1.20` (la IP privada fixa del servidor). Per defecte, `lan = 0`. Tancar el navegador no atura el servidor; tancar el panell o terminal del servidor desconnecta tots els clients.
+Un sol servidor guarda el programa i SQLite. Els altres equips obrin **https://compas.local/** amb un compte per persona, sense IP fixa ni reserva al router. El nom s’anuncia automàticament amb mDNS.
 
-Consulta la [guia LAN en valencià i castellà](docs/xarxa-local.md) abans d'activar-lo: tallafoc restringit, HTTP sense xifrar en una xarxa de confiança, còpies i restauració fora del mode LAN. No compartisques `compas.db` per carpetes de xarxa. El servidor integrat està pensat per a grups menuts i processa les peticions en sèrie a Windows.
+Windows: **Xarxa local / HTTPS… → Compartir → Desa i reinicia**. Linux: **`compas --xarxa`**. L’assistent demana confirmació per al certificat i el tallafoc privat. El servidor prepara **Client-Compas.zip**: cada client compara l’empremta i confia en el certificat una sola vegada; després només necessita la URL. PHP queda accessible únicament des del servidor HTTPS intern. Els paquets de servidor són Windows x64 i Linux x86-64.
+
+Consulta la [guia LAN en valencià i castellà](docs/xarxa-local.md): confiança del certificat, mDNS, rols, còpies i restauració. No compartisques `compas.db` per carpetes de xarxa. El servidor és per a grups menuts en una xarxa privada; no és un allotjament públic i Windows processa les peticions PHP en sèrie.
 
 ## Dades i còpies de seguretat
 

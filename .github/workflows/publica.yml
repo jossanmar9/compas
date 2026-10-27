@@ -20,6 +20,17 @@ jobs:
           php-version: '8.3'
           extensions: pdo_sqlite, sqlite3, mbstring, dom, sodium
           coverage: none
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.27.x'
+          cache-dependency-path: launcher/xarxa/go.sum
+      - name: Proves del servidor HTTPS
+        run: |
+          go -C launcher/xarxa test ./...
+          mkdir -p dist
+          go -C launcher/xarxa build -trimpath -o ../../dist/compas-xarxa .
+          python3 tests/https.py dist/compas-xarxa
+
       - name: Revisa la sintaxi
         run: find . -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Proves automatitzades
@@ -39,6 +50,19 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.27.x'
+          cache-dependency-path: launcher/xarxa/go.sum
+      - name: Construeix el servidor HTTPS
+        shell: pwsh
+        run: |
+          go -C launcher/xarxa test ./...
+          if ($LASTEXITCODE -ne 0) { throw "Error en les proves HTTPS" }
+          New-Item -ItemType Directory dist\Compas -Force | Out-Null
+          go -C launcher/xarxa build -trimpath -ldflags="-s -w" -o ../../dist/Compas/compas-xarxa.exe .
+          if ($LASTEXITCODE -ne 0) { throw "Error compilant HTTPS" }
 
       - name: Versió
         id: versio
@@ -151,6 +175,9 @@ jobs:
             /r:dist\Compas\Microsoft.Web.WebView2.Core.dll /r:dist\Compas\Microsoft.Web.WebView2.WinForms.dll `
             launcher\Compas.cs launcher\Visor.cs $info
           if ($LASTEXITCODE -ne 0) { throw "Error compilant el llançador" }
+          & $csc /nologo /codepage:65001 /target:winexe /out:dist\Compas\Connecta-Compas.exe /r:System.Windows.Forms.dll launcher\Connecta.cs
+          if ($LASTEXITCODE -ne 0) { throw "Error compilant l’assistent de clients" }
+
           # Comprova configuració local/LAN sense obrir finestres ni arrancar PHP.
           $test = Join-Path $env:RUNNER_TEMP "compas-prova-config.exe"
           & $csc /nologo /codepage:65001 /target:exe /main:LauncherConfigTests "/out:$test" `
@@ -168,6 +195,7 @@ jobs:
           Copy-Item app, src -Destination $d -Recurse
           New-Item -ItemType Directory "$d\docs", "$d\data" -Force | Out-Null
           Copy-Item docs\manual-usuari.md, docs\manual-usuario.md, docs\manual-administracio.md, docs\manual-administracion.md, docs\guia-installacio.md, docs\guia-instalacion.md, docs\xarxa-local.md "$d\docs"
+          Copy-Item launcher\xarxa\THIRD_PARTY_NOTICES.txt "$d\docs\LLICENCIES-XARXA.txt"
           Copy-Item docs\imatges -Destination "$d\docs" -Recurse
           Copy-Item README.md, CHANGELOG.md, PRIVACITAT.md, LLICENCIA.md, LICENSE, compas.ini $d
           Set-Content "$d\data\LLEGIX-ME.txt" "Ací es guarden les dades de Compàs (compas.db) i les còpies automàtiques. No l'esborres."
@@ -252,6 +280,15 @@ jobs:
           php-version: '8.3'
           extensions: pdo_sqlite, mbstring, xml, sodium
 
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.27.x'
+          cache-dependency-path: launcher/xarxa/go.sum
+      - name: Construeix HTTPS per a Linux
+        run: |
+          mkdir -p dist/Compas
+          CGO_ENABLED=0 go -C launcher/xarxa build -trimpath -ldflags="-s -w" -o ../../dist/Compas/compas-xarxa .
+
       - name: Baixa els manuals en PDF (fets a Windows)
         uses: actions/download-artifact@v6
         with:
@@ -265,10 +302,12 @@ jobs:
           mkdir -p "$d/docs"
           cp -a app src "$d/"
           cp docs/manual-usuari.md docs/manual-usuario.md docs/manual-administracio.md docs/manual-administracion.md docs/guia-installacio.md docs/guia-instalacion.md docs/xarxa-local.md "$d/docs/"
+          cp launcher/xarxa/THIRD_PARTY_NOTICES.txt "$d/docs/LLICENCIES-XARXA.txt"
           cp -a docs/imatges "$d/docs/"
           cp -a win/Compas/docs/pdf "$d/docs/"
           cp README.md CHANGELOG.md PRIVACITAT.md LLICENCIA.md LICENSE compas.ini "$d/"
-          cp launcher/linux/compas.sh launcher/linux/compas-visor.py launcher/linux/installa.sh launcher/linux/desinstalla.sh "$d/"
+          cp launcher/linux/compas.sh launcher/linux/compas-visor.py launcher/linux/installa.sh launcher/linux/desinstalla.sh launcher/linux/configura-xarxa.sh "$d/"
+          cp win/Compas/Connecta-Compas.exe "$d/"
           chmod +x "$d"/*.sh
           tar -czf "dist/Compas-$v-linux.tar.gz" -C dist Compas
           bash eines/construeix-deb.sh dist/Compas "$v" dist
@@ -285,11 +324,12 @@ jobs:
           kill -TERM $LLANCADOR; wait $LLANCADOR || true
 
       - name: Prova la finestra de Compàs (WebKitGTK)
+        timeout-minutes: 6
         # Si l'ordinador de GitHub no pot obrir la finestra, només avisa: cal provar-ho a mà
         continue-on-error: true
         run: |
-          sudo apt-get update -q
-          sudo apt-get install -y -q python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1 xvfb
+          timeout 90 sudo apt-get -o Acquire::Retries=1 -o Acquire::http::Timeout=20 update -q
+          timeout 120 sudo apt-get install -y -q python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1 xvfb
           export COMPAS_DADES=$RUNNER_TEMP/dades-visor COMPAS_PORT=8744 COMPAS_PROVA_VISOR=$RUNNER_TEMP/visor.txt
           timeout 120 xvfb-run -a dist/Compas/compas.sh < /dev/null > visor.log 2>&1 || true
           cat visor.log
@@ -300,7 +340,7 @@ jobs:
 
       - name: Prova el paquet .deb
         run: |
-          sudo apt-get install -y --no-install-recommends ./dist/compas_*_all.deb
+          sudo apt-get install -y --no-install-recommends ./dist/compas_*_amd64.deb
           export COMPAS_DADES=$RUNNER_TEMP/dades-deb COMPAS_NAVEGADOR=0 COMPAS_PORT=8743
           compas > deb.log 2>&1 &
           LLANCADOR=$!
@@ -357,7 +397,7 @@ jobs:
               '| Fitxer | Per a |', '|---|---|',
               '| **Compas-…-installador.exe** | Windows 10/11 (64 bits). No necessita permisos d\'administrador. |',
               '| **Compas-…-portable.zip** | Windows, sense instal·lar: descomprimeix-lo i obri `Compas.exe`. |',
-              '| **compas_…_all.deb** | Debian, Ubuntu, Linux Mint…: `sudo apt install ./compas_…_all.deb` (instal·la també PHP). |',
+              '| **compas_…_amd64.deb** | Debian, Ubuntu, Linux Mint…: `sudo apt install ./compas_…_amd64.deb` (instal·la també PHP). |',
               '| **Compas-…-linux.tar.gz** | Altres Linux: descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior). |', '',
               '> El programa encara no està signat digitalment: Windows pot avisar o bloquejar-lo. '
               f'Com obrir-lo igualment: [guia d\'instal·lació]({repo}/blob/main/docs/guia-installacio.md).', '',
@@ -369,6 +409,24 @@ jobs:
           open(os.environ['GITHUB_OUTPUT'], 'a').write(f'versio={v}\n')
           PY
           cat notes.md
+
+      - name: Atura publicacions anteriors superades
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, subprocess
+          def versio(tag):
+              m = re.fullmatch(r'v(\d+)\.(\d+)\.(\d+)', tag or '')
+              return tuple(map(int, m.groups())) if m else None
+          actual = versio(os.environ['GITHUB_REF_NAME'])
+          # Només construccions actives de versions estables més antigues del mateix workflow.
+          runs = json.loads(subprocess.check_output(['gh', 'api', 'repos/' + os.environ['GITHUB_REPOSITORY'] + '/actions/workflows/publica.yml/runs?per_page=100']))
+          for run in runs['workflow_runs']:
+              anterior = versio(run['head_branch'])
+              if actual and anterior and anterior < actual and run['status'] in ('queued', 'in_progress'):
+                  subprocess.run(['gh', 'run', 'cancel', str(run['id'])], check=False)
+          PY
 
       - name: Publica la versió
         uses: softprops/action-gh-release@v2

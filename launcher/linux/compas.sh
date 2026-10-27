@@ -3,8 +3,8 @@
 # Copyright (C) 2026 José Vicente Sanjuan
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
-# Arranca PHP en localhost per defecte, o en la IPv4 privada explícita en mode LAN. El mode local usa
-# WebKitGTK). Quan es tanca la finestra, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
+# PHP queda sempre en localhost; en LAN es publica amb HTTPS i descobriment mDNS. El mode local usa
+# WebKitGTK. Quan es tanca la finestra, fa una còpia de seguretat si hi ha hagut canvis i s'atura.
 # Si WebKitGTK no hi és, prova Chromium, Google Chrome, Microsoft Edge o Brave en mode aplicació i, si
 # tampoc, obri el navegador habitual i Compàs funciona mentre el terminal estiga obert (Ctrl+C per a tancar-lo).
 #
@@ -20,7 +20,9 @@ PORT=8740
 NAVEGADOR=1
 FINESTRA=1
 LAN=0
-LAN_IP=""
+NOM_LAN="compas.local"
+PORT_HTTPS=443
+if [ "${1:-}" = --xarxa ]; then exec "$ARREL/configura-xarxa.sh"; fi
 
 # Missatges en valencià o castellà segons l'idioma del sistema
 case "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" in
@@ -71,7 +73,8 @@ for INI in "$ARREL/compas.ini" "$CONFIG_USUARI"; do
             port) [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 1023 ] && [ "$valor" -lt 65536 ] && PORT="$valor" ;;
             navegador) case "$valor" in 0|no|false) NAVEGADOR=0 ;; esac ;;
             lan) case "$valor" in 1|si|true) LAN=1 ;; *) LAN=0 ;; esac ;;
-            adreca_lan) LAN_IP="$valor" ;;
+            nom_lan) NOM_LAN="$valor" ;;
+            port_https) [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 0 ] && [ "$valor" -lt 65536 ] && PORT_HTTPS="$valor" ;;
             finestra) case "$valor" in 0|no|false) FINESTRA=0 ;; esac ;;
         esac
     done < <(grep -v '^[[:space:]]*[;#]' "$INI")
@@ -80,16 +83,19 @@ PORT="${COMPAS_PORT:-$PORT}"
 NAVEGADOR="${COMPAS_NAVEGADOR:-$NAVEGADOR}"
 FINESTRA="${COMPAS_FINESTRA:-$FINESTRA}"
 LAN="${COMPAS_LAN:-$LAN}"
-LAN_IP="${COMPAS_LAN_IP:-$LAN_IP}"
 HOST=127.0.0.1
 if [ "$LAN" = 1 ]; then
     FINESTRA=0
-    # Valida IPv4 privada estrictament abans d'usar-la com a paràmetre.
-    [[ "$LAN_IP" =~ ^(10\.[0-9]+\.[0-9]+\.[0-9]+|172\.(1[6-9]|2[0-9]|3[01])\.[0-9]+\.[0-9]+|192\.168\.[0-9]+\.[0-9]+)$ ]] || error "adreca_lan: IPv4 privada del servidor (exemple: 192.168.1.20)"
-    HOST="$LAN_IP"
+    [[ "$NOM_LAN" =~ ^[a-z0-9]([a-z0-9-]{0,60}[a-z0-9])?\.local$ ]] || error "nom_lan incorrecte (compas.local)"
 fi
-export COMPAS_LAN="$LAN" COMPAS_LAN_IP="$LAN_IP"
-URL="http://$HOST:$PORT/"
+export COMPAS_LAN="$LAN" COMPAS_LAN_IP=""
+unset COMPAS_PROXY_TOKEN COMPAS_NOM_LAN
+URL_INTERNA="http://127.0.0.1:$PORT/"
+URL="$URL_INTERNA"
+if [ "$LAN" = 1 ]; then
+    URL="https://$NOM_LAN/"
+    [ "$PORT_HTTPS" = 443 ] || URL="https://$NOM_LAN:$PORT_HTTPS/"
+fi
 
 # Finestra pròpia de Compàs (WebKitGTK)
 VISOR=""
@@ -152,10 +158,7 @@ FALTEN="$("$PHP" -r 'foreach (["pdo_sqlite" => "php-sqlite3", "mbstring" => "php
 mkdir -p "$DADES" || error "$(t "No es pot crear la carpeta de dades: $DADES" "No se puede crear la carpeta de datos: $DADES")"
 
 # Fa una petició HTTP local amb el mateix PHP (així no cal curl ni wget)
-if [ "$LAN" = 1 ]; then
-    "$PHP" -r 'require $argv[1]; if (!ip_privada($argv[2])) exit(1); $s = @stream_socket_server("tcp://".$argv[2].":0", $e, $m, STREAM_SERVER_BIND); if (!$s) exit(1); fclose($s);' "$ARREL/src/xarxa.php" "$LAN_IP" || error "adreca_lan incorrecta"
-fi
-peticio() { "$PHP" -r '$c = stream_context_create(["http" => ["timeout" => (float)$argv[2], "ignore_errors" => true, "header" => isset($argv[3]) ? "X-Compas-Token: " . $argv[3] : ""]]); $r = @file_get_contents($argv[1], false, $c); if ($r === false) exit(1); echo $r;' "$1" "${2:-2}" "${3:-}"; }
+peticio() { "$PHP" -r '$h = isset($argv[3]) ? "X-Compas-Token: " . $argv[3] . "\r\n" : ""; if ($secret = getenv("COMPAS_PROXY_TOKEN")) { $h .= "X-Compas-Proxy-Token: $secret\r\nX-Compas-Client: 127.0.0.1\r\nX-Compas-Local: 1\r\nHost: " . getenv("COMPAS_NOM_LAN") . "\r\n"; } $c = stream_context_create(["http" => ["timeout" => (float)$argv[2], "ignore_errors" => true, "header" => $h]]); $r = @file_get_contents($argv[1], false, $c); if ($r === false) exit(1); echo $r;' "$1" "${2:-2}" "${3:-}"; }
 
 obri_navegador() {
     [ "$NAVEGADOR" = 1 ] || return 0
@@ -169,7 +172,7 @@ obri_navegador() {
 }
 
 # Ja està obert? Només cal obrir el navegador.
-if RESPOSTA="$(peticio "$URL" 1)"; then
+if RESPOSTA="$(peticio "$URL_INTERNA" 1)"; then
     if printf '%s' "$RESPOSTA" | grep -q 'Compàs'; then
         t "Compàs ja està obert: $URL" "Compàs ya está abierto: $URL"
         obri_navegador
@@ -181,6 +184,11 @@ if RESPOSTA="$(peticio "$URL" 1)"; then
 fi
 
 TOKEN="$(od -An -N24 -tx1 /dev/urandom | tr -d ' \n')"
+HTTPS_PID=""
+if [ "$LAN" = 1 ]; then
+    [ -x "$ARREL/compas-xarxa" ] || error "Falta compas-xarxa; reinstal·la Compàs."
+    export COMPAS_PROXY_TOKEN="$TOKEN-proxy" COMPAS_NOM_LAN="$NOM_LAN"
+fi
 COMPAS_DADES="$DADES" COMPAS_TOKEN="$TOKEN" "$PHP" \
     -d display_errors=0 -d log_errors=1 -d error_log="$DADES/php-errors.log" \
     -d memory_limit=256M -d upload_max_filesize=64M -d post_max_size=64M -d max_execution_time=120 -d session.upload_progress.enabled=0 \
@@ -192,18 +200,26 @@ tanca() {
     trap - EXIT INT TERM HUP
     if kill -0 "$SERVIDOR" 2>/dev/null; then
         t "Fent la còpia de seguretat i tancant Compàs…" "Haciendo la copia de seguridad y cerrando Compàs…"
-        peticio "$URL?r=copia_tancament" 60 "$TOKEN" >/dev/null || true
+        peticio "$URL_INTERNA?r=copia_tancament" 60 "$TOKEN" >/dev/null || true
         kill "$SERVIDOR" 2>/dev/null
         wait "$SERVIDOR" 2>/dev/null
     fi
+    if [ -n "$HTTPS_PID" ]; then kill "$HTTPS_PID" 2>/dev/null || true; wait "$HTTPS_PID" 2>/dev/null || true; fi
     exit "$codi"
 }
 trap 'tanca $?' EXIT
 trap 'tanca 0' INT TERM HUP
 
+if [ "$LAN" = 1 ]; then
+    "$ARREL/compas-xarxa" -dades "$DADES/https" -nom "$NOM_LAN" -port "$PORT_HTTPS" -backend "127.0.0.1:$PORT" >>"$DADES/servidor.log" 2>&1 &
+    HTTPS_PID=$!
+    sleep 2
+    kill -0 "$HTTPS_PID" 2>/dev/null || error "HTTPS no ha arrancat. Executa configura-xarxa.sh i revisa $DADES/servidor.log"
+fi
+
 # Espera que el servidor responga
 for _ in $(seq 1 50); do
-    peticio "$URL" 1 >/dev/null && break
+    peticio "$URL_INTERNA" 1 >/dev/null && break
     kill -0 "$SERVIDOR" 2>/dev/null || error "$(t \
         "Compàs no ha pogut arrancar. Mira $DADES/servidor.log" \
         "Compàs no ha podido arrancar. Mira $DADES/servidor.log")"
@@ -250,4 +266,8 @@ t "  Deixa esta finestra oberta mentre utilitzes Compàs. Per a tancar-lo, prem 
   "  Deja esta ventana abierta mientras usas Compàs. Para cerrarlo, pulsa Ctrl+C o cierra la ventana."
 echo
 obri_navegador
-wait "$SERVIDOR"
+if [ -n "$HTTPS_PID" ]; then
+    while kill -0 "$SERVIDOR" 2>/dev/null && kill -0 "$HTTPS_PID" 2>/dev/null; do sleep 1; done
+else
+    wait "$SERVIDOR"
+fi

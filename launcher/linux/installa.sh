@@ -18,7 +18,7 @@ mkdir -p "$DESTI.nou"
 cp -a "$ORIGEN/." "$DESTI.nou/"
 rm -rf "$DESTI"
 mv "$DESTI.nou" "$DESTI"
-chmod +x "$DESTI/compas.sh" "$DESTI/installa.sh" "$DESTI/desinstalla.sh"
+chmod +x "$DESTI/compas-xarxa" "$DESTI/configura-xarxa.sh" "$DESTI/compas.sh" "$DESTI/installa.sh" "$DESTI/desinstalla.sh"
 
 # Ordre «compas»
 mkdir -p "$HOME/.local/bin"
@@ -53,3 +53,15 @@ command -v php >/dev/null 2>&1 || {
     t "Falta PHP. Instal·la'l amb: sudo apt install php-cli php-sqlite3 php-mbstring php-xml" \
       "Falta PHP. Instálalo con: sudo apt install php-cli php-sqlite3 php-mbstring php-xml"
 }
+
+# Accés separat a l’assistent de xarxa, amb terminal per a les confirmacions.
+cat > "$BASE/applications/compas-xarxa.desktop" <<DESKTOP
+[Desktop Entry]
+Type=Application
+Name=Compàs · Xarxa local HTTPS
+Name[es]=Compàs · Red local HTTPS
+Exec="$DESTI/configura-xarxa.sh"
+Icon=compas
+Terminal=true
+Categories=Office;
+DESKTOP

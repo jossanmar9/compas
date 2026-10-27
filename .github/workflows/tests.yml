@@ -2,7 +2,7 @@ name: Proves
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'codex/**']
   pull_request:
   workflow_dispatch:
 
@@ -20,6 +20,36 @@ jobs:
           php-version: '8.3'
           extensions: pdo_sqlite, sqlite3, mbstring, dom, sodium
           coverage: none
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.27.x'
+          cache-dependency-path: launcher/xarxa/go.sum
+      - name: Proves del servidor HTTPS
+        run: |
+          go -C launcher/xarxa test ./...
+          mkdir -p dist
+          go -C launcher/xarxa build -trimpath -o ../../dist/compas-xarxa .
+          python3 tests/https.py dist/compas-xarxa
+
+      - name: Prova l'arrancador Linux en mode HTTPS
+        run: |
+          d="$RUNNER_TEMP/programa-https"
+          mkdir -p "$d"
+          cp -a app src "$d/"
+          cp launcher/linux/compas.sh dist/compas-xarxa "$d/"
+          printf 'lan=1\nnom_lan=compas-prova.local\nport=18740\nport_https=18443\n' > "$d/compas.ini"
+          export COMPAS_DADES="$RUNNER_TEMP/dades-https" COMPAS_NAVEGADOR=0 XDG_CONFIG_HOME="$RUNNER_TEMP/config-prova"
+          bash "$d/compas.sh" > "$RUNNER_TEMP/llancador-https.log" 2>&1 &
+          servidor=$!
+          trap 'kill -TERM "$servidor" 2>/dev/null || true; wait "$servidor" || true' EXIT
+          for i in $(seq 1 30); do
+            if curl --noproxy '*' --cacert "$COMPAS_DADES/https/compas-ca.crt" --resolve compas-prova.local:18443:127.0.0.1 -fsS https://compas-prova.local:18443/ > "$RUNNER_TEMP/https.html"; then break; fi
+            sleep 1
+          done
+          cat "$RUNNER_TEMP/llancador-https.log"
+          grep -q 'Configuració inicial' "$RUNNER_TEMP/https.html"
+          test "$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' http://127.0.0.1:18740/)" = 403
 
       - name: Revisa la sintaxi PHP
         run: find app src eines tests -name '*.php' -print0 | xargs -0 -n1 php -l

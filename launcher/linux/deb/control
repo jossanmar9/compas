@@ -1,10 +1,10 @@
 Package: compas
 Version: @VERSIO@
-Architecture: all
+Architecture: amd64
 Maintainer: José Vicente Sanjuan <jossanmar9@users.noreply.github.com>
 Installed-Size: @MIDA@
-Depends: php-cli, php-sqlite3, php-mbstring
-Recommends: php-xml, xdg-utils, python3-gi, gir1.2-gtk-3.0, gir1.2-webkit2-4.1 | gir1.2-webkit2-4.0
+Depends: php-cli, php-sqlite3, php-mbstring, libcap2-bin
+Recommends: ca-certificates, openssl, libnss-mdns, libnss3-tools, php-xml, xdg-utils, python3-gi, gir1.2-gtk-3.0, gir1.2-webkit2-4.1 | gir1.2-webkit2-4.0
 Suggests: chromium | google-chrome-stable | microsoft-edge-stable, zenity
 Section: misc
 Priority: optional
@@ -12,8 +12,8 @@ Homepage: https://jossanmar9.github.io/compas/
 Description: Gestió lliure per a associacions
  Compàs porta en un sol lloc la gestió d'una associació: societats
  musicals, clubs esportius, colles, associacions culturals, AMPA, falles,
- gaiates, fogueres, comparses, penyes i federacions. Funciona sense Internet en un sol ordinador: només
- escolta a 127.0.0.1 i no envia cap dada fora. En valencià i castellà.
+ gaiates, fogueres, comparses, penyes i federacions. Funciona sense Internet en un ordinador o en xarxa privada
+ amb HTTPS i nom local, sense IP fixa ni serveis externs. En valencià i castellà.
  Es distribueix sense cap garantia: l'autor no es fa responsable de la
  pèrdua de dades. Feu còpies de seguretat externes.
  .

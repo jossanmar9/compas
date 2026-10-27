@@ -1,82 +1,75 @@
-# Compàs 2.2: xarxa local i usuaris
+# Compàs 2.3 · Xarxa local amb HTTPS
 
-## Un ordinador servidor, diversos navegadors
+## Una adreça per a tota l’associació
 
-Per defecte, Compàs continua funcionant només en un ordinador. El mode LAN és opcional: Compàs i `compas.db` es queden al servidor de l'entitat i les altres persones hi entren amb el navegador. **No compartisques el fitxer SQLite per una carpeta de xarxa, NAS o sincronització al núvol.**
+El servidor guarda Compàs i la base de dades. La resta entra en **https://compas.local/** amb el navegador i un compte propi. **No cal IP fixa, reserva DHCP ni compartir el fitxer SQLite.** El nom local s’anuncia amb mDNS i s’adapta als canvis de la xarxa. El servidor ha d’estar encés i a la mateixa xarxa privada.
 
-### Activar el mode LAN
+Per defecte, Compàs continua funcionant només en un ordinador. El mode compartit és opcional. Els paquets de servidor d’esta versió són per a Windows x64 i Linux x86-64.
 
-1. Actualitza el servidor i comprova en mode local que les dades i les còpies són correctes. Crea els comptes a **Administració → Usuaris**, un per persona.
-2. Assigna una IPv4 privada estable al servidor, preferiblement amb una reserva al router. Exemple: `192.168.1.20`.
-3. Tanca Compàs i edita `compas.ini`. A Windows està a la carpeta del programa. A Linux pots posar estes opcions a `~/.config/compas/compas.ini`:
+## Preparar el servidor una vegada
+
+### Windows
+
+1. Obri Compàs i prem **Xarxa local / HTTPS…** en el panell del servidor o en el menú de la icona de la safata.
+2. Marca **Compartir Compàs en la xarxa privada**. Deixa `compas.local` o tria un altre nom acabat en `.local` si ja hi ha un altre servidor a la xarxa.
+3. Prem **Desa i reinicia**. Confirma la regla del tallafoc; Windows demanarà permís d’administrador només per a preparar eixa regla. Es permeten HTTPS (TCP 443) i descobriment (UDP 5353) en el perfil **Privat**, des de la subxarxa local, només per al servidor de Compàs. La connexió de xarxa de Windows ha d’estar marcada com a privada.
+4. En arrancar, Compàs genera el seu certificat i et mostra l’empremta SHA-256. Confirma que vols confiar en el certificat del teu servidor per al teu usuari. Este pas no executa PHP com a administrador.
+5. Crea un compte per persona a **Administració → Usuaris**. Deixa el panell del servidor obert.
+
+### Linux
+
+Executa **`compas --xarxa`**, o l’assistent **Compàs · Xarxa local HTTPS** si has fet la instal·lació d’usuari. Tria el nom i confirma els passos: permís per a obrir el port 443, confiança en el certificat i, si uses UFW actiu, regles només per a adreces privades. Pot demanar `sudo`. Necessita `libcap2-bin`, `ca-certificates` i `openssl` (Debian/Ubuntu). Torna a obrir Compàs després de configurar-lo.
+
+L’assistent guarda les opcions a `~/.config/compas/compas.ini`. En una actualització del paquet `.tar.gz` pot caldre repetir l’assistent perquè el permís del nou executable no es conserva en substituir-lo.
+
+## Preparar cada equip client una vegada
+
+1. Al servidor Windows, prem **Preparar altres equips**. A Linux, el paquet està a `~/.local/share/compas/dades/https/Client-Compas.zip`.
+2. Passa el ZIP directament als equips de l’associació, per exemple amb un USB. No conté dades ni claus privades: només el certificat públic, la URL i l’assistent.
+3. Compara l’empremta SHA-256 amb la que mostra el servidor. **No confies en un certificat si no coneixes el servidor o l’empremta no coincidix.**
+4. Windows: descomprimeix-lo i obri **Connecta-Compas.exe**. Confirma la confiança per al teu usuari. Linux: executa **`bash connecta.sh`** i confirma la instal·lació del certificat. Els navegadors amb magatzem propi poden requerir importar `compas-ca.crt` com a autoritat de confiança.
+5. A partir d’ara, només cal obrir **https://compas.local/** i entrar amb el compte propi. No cal instal·lar l’aplicació completa en els clients.
+
+`.local` necessita que la xarxa permeta mDNS. En Linux, el client necessita Avahi/libnss-mdns o una configuració equivalent de systemd-resolved. Una xarxa de convidats, l’aïllament Wi-Fi, una VPN o una política que bloquege multicast poden impedir el descobriment. HTTPS no evita eixes restriccions; la persona responsable de la xarxa les ha de revisar. No es configura el router ni s’obrin ports cap a Internet.
+
+## Què fa HTTPS
+
+El trànsit entre navegador i servidor va xifrat. Cada instal·lació genera una autoritat local pròpia; no usa certificats compartits entre associacions ni serveis externs. El certificat del servidor es renova automàticament amb la mateixa autoritat. Les claus es guarden protegides a la carpeta `https` de les dades: **no les compartisques ni les puges a GitHub**. Conserva-les en una còpia externa protegida si vols recuperar la mateixa confiança després de perdre el servidor; les còpies `.db` no inclouen eixa carpeta. Si es perden o canvien les claus, cal confiar en el nou certificat en els clients.
+
+PHP només escolta en `127.0.0.1`. El servidor HTTPS li passa la identitat del client amb un secret intern, i descarta les capçaleres que el navegador intenta falsejar. Les galetes de sessió del mode compartit són Secure, HttpOnly i SameSite. El programa continua pensat per a una xarxa privada de confiança i grups menuts; no és un allotjament públic d’Internet. A Windows, PHP atén les peticions en sèrie: una operació llarga pot fer esperar altres usuaris.
+
+## Comptes, còpies i tancament
+
+- **Administrador/a:** gestió completa, comptes i configuració.
+- **Administratiu/iva:** gestió diària, sense administrar comptes ni restaurar.
+- **Consultor/a:** consulta limitada de persones, socis, escola, agrupacions i material; sense economia, IBAN, exports, documents descarregables ni còpies.
+- Noms de compte únics, de 3 a 40 caràcters ASCII (`a-z`, `A-Z`, números, punt, guió i guió baix), sense accents ni dièresi.
+- Tancar un navegador no atura el servidor. **Atura i tanca** o Ctrl+C desconnecta tots els clients i intenta fer una còpia abans de parar.
+- Hi ha còpia diària i, si hi ha canvis, periòdica en ús. Mantín també còpies externes.
+- Restaurar una còpia o buidar dades de gestió exigeix desactivar primer el mode compartit. A Windows, desmarca l’opció en l’assistent; a Linux, executa `compas --xarxa` i tria no compartir. Torna a obrir Compàs.
+
+Configuració manual equivalent:
 
 ```ini
-port = 8740
 lan = 1
-adreca_lan = 192.168.1.20
+nom_lan = compas.local
+port_https = 443
 ```
 
-4. Obri Compàs al servidor. El llançador escolta en **eixa adreça**, no en totes les interfícies. A Windows queda obert el panell del servidor; a Linux, el terminal. En Linux, una adreça que no pertany a l'equip farà fallar l'arrancada.
-5. Si el tallafoc bloqueja l'accés, la persona responsable de la xarxa ha de permetre el port TCP 8740 només des dels equips o la subxarxa privada autoritzada. Compàs no modifica el tallafoc automàticament. No òbrigues este port al router cap a Internet.
-6. En els altres equips, obri `http://192.168.1.20:8740` i entra amb el compte propi. No cal instal·lar Compàs en cada client. Tots els equips han d'arribar a la IP del servidor; si canvia, actualitza `adreca_lan` i les adreces dels clients.
-
-El mode inclòs utilitza HTTP: **no xifra el trànsit de la xarxa**. Utilitza'l només en una LAN de confiança i controlada, sense convidats o equips desconeguts. Per a ús des d'una xarxa no fiable, cal un desplegament HTTPS administrat i revisat específicament; no n'hi ha prou d'obrir ports o afegir un proxy sense revisar la identificació de les peticions locals. No està preparat per a publicar-lo directament a Internet.
-
-El servidor integrat atén les peticions en sèrie a Windows: hi pot haver diverses persones connectades, però una operació llarga pot fer esperar les altres. En esta versió, el mode LAN està pensat per a grups menuts en un entorn controlat; no és un servidor per a càrrega elevada. SQLite continua admetent una sola escriptura alhora i gestiona les esperes. Les proves en Linux també executen peticions amb diversos processos de PHP.
-
-Per a tornar al funcionament només local, posa `lan = 0` i reinicia Compàs. Si uses directament PHP en lloc dels llançadors, configura `COMPAS_LAN=1`, `COMPAS_LAN_IP=192.168.1.20` i fes-lo escoltar en eixa mateixa IP. `COMPAS_HOSTS` permet afegir noms de servidor explícits, separats per comes, sense eliminar la validació de l'origen. No es confia en `X-Forwarded-For` ni en altres capçaleres de proxy.
-
-### Obrir, tancar, copiar i restaurar
-
-- Tancar el navegador o eixir del compte només acaba la sessió del client; **no atura el servidor**.
-- Mantín encés el servidor i obert el seu panell o terminal mentre altres persones treballen. **Atura i tanca** (Windows) o Ctrl+C (Linux) desconnecta tots els clients i intenta fer una còpia abans de parar. Avisa primer les altres persones.
-- En LAN hi ha còpia automàtica diària i, si hi ha canvis, una altra quan arriba una petició després de 15 minuts des de l'última còpia automàtica. No és un temporitzador que treballe sense peticions: no farà una còpia mentre ningú use el programa. També es poden fer còpies manuals.
-- Les còpies es serialitzen per a evitar que coincidisquen i no se sobreescriuen encara que es facen en el mateix segon. La base de dades es copia amb una instantània consistent.
-- **La restauració està bloquejada en mode LAN.** Avisa els usuaris, atura el servidor, posa `lan = 0`, obri'l al servidor i restaura la còpia. Després, torna a activar LAN. Les sessions anteriors a la restauració deixen de ser vàlides.
-- La configuració inicial i la recuperació d'administrador només es poden fer des del mateix servidor. El testimoni de còpia en tancar també es restringix a peticions del servidor.
-
-## Comptes i permisos
-
-| Rol | Accés |
-|---|---|
-| Administrador/a | Gestió completa, comptes, configuració i còpies; restauració en mode local. |
-| Usuari/ària de gestió | Gestió diària i còpies, sense configurar el sistema ni gestionar comptes o restauracions. |
-| Consultor/a | Consulta de persones, socis, escola, agrupacions, instruments i préstecs, amb imports i camps bancaris amagats. Sense modificar dades, economia, IBAN, exportacions, informes imprimibles, documents descarregables ni còpies. |
-
-El consultor pot canviar la pròpia contrasenya i l'idioma. Els permisos es comproven al servidor també si s'escriu una URL o s'envia un formulari a mà. Els noms de compte són únics sense distingir majúscules i tenen de 3 a 40 caràcters: **a–z, números, punt, guió i guió baix; sense accents, dièresi, ñ, ç ni espais**. Els noms de les persones continuen admetent accents.
-
-En actualitzar, els noms de compte antics que no complixen la regla s'adapten, conservant l'identificador, el rol i la contrasenya. Si el resultat ja existix, s'afig `-2`, `-3`… L'administrador veu els canvis a **Usuaris** i al registre d'activitat; ha de comunicar el nom nou a cada persona. Abans de migrar, Compàs fa la còpia d'actualització habitual.
-
-Les sessions LAN caduquen després de 30 minuts sense activitat. Un canvi de contrasenya invalida les altres sessions d'eixe compte. Cinc intents fallits bloquegen temporalment el compte afectat; també hi ha un límit per IP per a frenar intents sobre molts comptes, sense un bloqueig global de tota l'entitat.
-
-Si dues persones editen una mateixa fitxa amb els formularis generals, un formulari antic rep un avís de conflicte. Recarrega la fitxa, revisa què ha canviat i torna a introduir els teus canvis. No premis repetidament «Desa»: no se sobreescriu el primer canvi sense revisar-lo. Esta comprovació és dels formularis generals; les operacions específiques de rebuts i talonaris mantenen les seues transaccions i proteccions de numeració.
+`adreca_lan` de la 2.2 ja no és necessària en els nous arrancadors. Si el port 443 està ocupat, pots triar-ne un altre, però la URL haurà d’incloure’l (per exemple `https://compas.local:8443/`) i cal ajustar la regla del tallafoc. No poses dos servidors amb el mateix nom a la mateixa xarxa.
 
 ---
 
-# Compàs 2.2: red local y usuarios
+# Compàs 2.3 · Red local con HTTPS
 
-Por defecto, Compàs sigue funcionando solo en el ordenador donde se instala. Para varios equipos, el programa y SQLite permanecen en **un servidor de la entidad** y los clientes acceden por navegador. No compartas `compas.db` por una carpeta de red, NAS o sincronización en la nube.
+El servidor guarda la aplicación y SQLite. Los demás equipos entran en **https://compas.local/** con navegador y cuenta propia, sin IP fija ni reserva en el router. El nombre se descubre mediante mDNS y el servidor debe estar encendido en la misma red privada.
 
-## Activar LAN
+**Servidor Windows:** abre **Red local / HTTPS…**, marca compartir, elige un nombre `.local` y pulsa **Guardar y reiniciar**. Confirma el permiso de cortafuegos solo para el perfil privado y subred local. Al arrancar, confirma el certificado de tu servidor; PHP no se ejecuta como administrador.
 
-1. Actualiza y comprueba las copias en modo local. Crea una cuenta por persona en **Administración → Usuarios**.
-2. Reserva una IPv4 privada fija del servidor, por ejemplo `192.168.1.20`.
-3. Cierra Compàs y configura `port = 8740`, `lan = 1` y `adreca_lan = 192.168.1.20` en `compas.ini`. En Linux puedes usar `~/.config/compas/compas.ini`.
-4. Abre Compàs en el servidor. Mantén abierto su panel (Windows) o terminal (Linux). Autoriza el puerto TCP 8740 en el cortafuegos solo para los equipos o la subred privada autorizada; el programa no cambia el cortafuegos.
-5. En cada cliente, abre `http://192.168.1.20:8740` e inicia sesión. No necesitas instalar Compàs en los clientes. Para desactivar LAN, cambia `lan = 0` y reinicia.
+**Servidor Linux x86-64:** ejecuta `compas --xarxa` o el asistente del menú y confirma los pasos. Puede pedir `sudo` para el puerto 443, el certificado y UFW. Necesita `libcap2-bin`, `ca-certificates` y `openssl`. Reinicia Compàs.
 
-El modo incluido utiliza HTTP, **sin cifrado del tráfico**. Está pensado para grupos pequeños en una LAN de confianza y controlada, sin invitados ni equipos desconocidos. No abras el puerto del router a Internet. Para redes no fiables hace falta un despliegue HTTPS administrado y revisado; añadir un proxy sin revisar las peticiones locales no es suficiente. El servidor integrado procesa las peticiones en serie en Windows: las operaciones largas pueden hacer esperar a las demás personas.
+**Clientes:** el servidor prepara `Client-Compas.zip` (botón **Preparar otros equipos** en Windows; carpeta de datos `https` en Linux). Pásalo directamente, compara la huella SHA-256 y abre `Connecta-Compas.exe` en Windows o `bash connecta.sh` en Linux. Solo hay que aceptar la confianza una vez. Después basta con abrir la URL. Los navegadores con almacén propio pueden requerir importar `compas-ca.crt`. Linux necesita resolución `.local` (Avahi/libnss-mdns o equivalente). Si se bloquea multicast, hay aislamiento Wi-Fi o red de invitados, el responsable de la red tendrá que revisarlo.
 
-Para ejecución directa con PHP, usa `COMPAS_LAN=1`, `COMPAS_LAN_IP=192.168.1.20` y la misma IP al iniciar el servidor. `COMPAS_HOSTS` añade nombres explícitos; no se confía en cabeceras de proxy como `X-Forwarded-For`.
+HTTPS cifra el tráfico; no configura acceso público a Internet. Cada instalación tiene una autoridad propia, con renovación automática del certificado del servidor. No compartas las claves de la carpeta `https`; los ZIP de clientes no las contienen. Las copias `.db` tampoco incluyen las claves: guarda una copia externa protegida si quieres conservar la confianza al recuperar el servidor. Si se pierden, los clientes deberán aceptar el nuevo certificado.
 
-## Sesiones, copias y permisos
-
-Cerrar el navegador o salir de la cuenta no detiene el servidor. **Detener y cerrar** en su panel, o Ctrl+C en Linux, desconecta a todos e intenta hacer una copia. Avisa antes a los usuarios.
-
-Además de la copia diaria, si hay cambios se hace una copia al recibir una petición después de 15 minutos desde la última copia automática. Sin peticiones no hay temporizador. Las copias manuales siguen disponibles. **Para restaurar, detén LAN y hazlo en modo local en el servidor**; después reactiva LAN. Las sesiones anteriores a la restauración caducan. La configuración inicial, la recuperación de administrador y la petición de copia al cerrar se restringen al servidor.
-
-Hay tres roles: **administrador/a** (todo), **usuario/a de gestión** (gestión diaria y copias, sin configuración ni cuentas) y **consultor/a** (consulta de personas, socios, escuela, agrupaciones, instrumentos y préstamos, sin importes ni campos bancarios). El consultor no puede modificar datos, acceder a economía, ver IBAN, exportar, generar informes imprimibles, descargar documentos ni obtener copias; sí puede cambiar su contraseña e idioma. Los permisos también se aplican a peticiones directas.
-
-Los nombres de usuario tienen de 3 a 40 caracteres ASCII: **a–z, números, punto, guion y guion bajo; sin acentos, diéresis, ñ, ç ni espacios**. No se pueden repetir aunque cambien las mayúsculas. Los nombres de personas admiten acentos. Al actualizar, los nombres de cuenta antiguos incompatibles se adaptan sin perder cuentas ni contraseñas; las colisiones reciben sufijos `-2`, `-3`… Los cambios aparecen en **Usuarios** y en el registro; comunica los nombres nuevos.
-
-Las sesiones LAN caducan tras 30 minutos sin actividad. Cambiar una contraseña invalida las otras sesiones de esa cuenta. Hay límites de intentos por cuenta y por IP, sin un bloqueo global. Si otra persona ha modificado una ficha, los formularios generales rechazan el envío antiguo: recarga y revisa los cambios antes de guardar. Los recibos y talonarios mantienen sus protecciones específicas de numeración.
+Los roles y límites son los mismos que en modo local: administración completa, gestión diaria y consulta limitada. Cerrar el navegador no detiene el servidor. Para restaurar o vaciar datos, desactiva antes el modo compartido en el asistente. No compartas el archivo SQLite mediante NAS, carpetas de red ni sincronización. El servidor está pensado para grupos pequeños en una red controlada; en Windows las peticiones PHP se atienden en serie.

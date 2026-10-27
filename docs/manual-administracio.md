@@ -236,6 +236,6 @@ Què porta cada versió es pot vore a **Ajuda → Què canvia en cada versió**.
 
 **On estan les dades?** A la carpeta `data` del programa (`data\compas.db`). La ruta exacta es veu a **Configuració**, a baix.
 
-## Xarxa local i consulta limitada (2.2)
+## Xarxa local i consulta limitada (2.3)
 
 La [guia LAN](xarxa-local.md) explica com activar el servidor, crear comptes sense accents, usar el rol Consultor i gestionar les còpies. El consultor no té accés a economia, IBAN, imports, exportacions, informes imprimibles, fitxers ni còpies. La consulta parcial d’escola i agrupacions no inclou totes les operacions de gestió de la taula. En LAN, tancar el navegador només tanca el client; el servidor queda obert fins que la persona responsable l’atura. Si una fitxa ha canviat des que la vas obrir, recarrega-la abans de desar.
