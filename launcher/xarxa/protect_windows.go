@@ -2,9 +2,10 @@
 package main
 
 import (
-	"os/exec"
+	"golang.org/x/sys/windows"
+	"os"
 	"os/user"
-	"syscall"
+	"path/filepath"
 )
 
 // Protegix les claus privades creades per Compàs; no instal·la cap certificat.
@@ -13,7 +14,29 @@ func protect(dir string) error {
 	if err != nil {
 		return err
 	}
-	cmd := exec.Command("icacls.exe", dir, "/inheritance:r", "/grant:r", "*"+u.Uid+":(OI)(CI)F", "*S-1-5-18:(OI)(CI)F")
-	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	return cmd.Run()
+	sd, err := windows.SecurityDescriptorFromString("D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;" + u.Uid + ")")
+	if err != nil {
+		return err
+	}
+	dacl, _, err := sd.DACL()
+	if err != nil {
+		return err
+	}
+	set := func(path string) error {
+		return windows.SetNamedSecurityInfo(path, windows.SE_FILE_OBJECT, windows.DACL_SECURITY_INFORMATION|windows.PROTECTED_DACL_SECURITY_INFORMATION, nil, nil, dacl, nil)
+	}
+	if err = set(dir); err != nil {
+		return err
+	}
+	for _, name := range []string{"compas-ca.key", "servidor.key", "compas-ca.key.nou", "servidor.key.nou"} {
+		path := filepath.Join(dir, name)
+		if _, e := os.Stat(path); e == nil {
+			if err = set(path); err != nil {
+				return err
+			}
+		} else if !os.IsNotExist(e) {
+			return e
+		}
+	}
+	return nil
 }

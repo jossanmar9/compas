@@ -46,6 +46,18 @@ Les proves d'integració creen instal·lacions temporals amb dades inventades i 
 
 Revisa la sintaxi dels PHP que hages modificat amb `php -l ruta/al/fitxer.php`. Si canvies la web, genera-la amb `php eines/web.php _site` i comprova les dues llengües i les pantalles menudes. La web i els PDF generats no es guarden a Git.
 
+### Servidor HTTPS i descobriment local
+
+El nucli continua en PHP; `launcher/xarxa` és un auxiliar en Go per a TLS i mDNS, inclòs ja compilat en els paquets. Per a modificar-lo cal Go 1.27 o posterior:
+
+```sh
+go -C launcher/xarxa test ./...
+go -C launcher/xarxa build -o ../../dist/compas-xarxa .
+python3 tests/https.py dist/compas-xarxa
+```
+
+A Windows, posa l’eixida a `../../dist/compas-xarxa.exe` i passa `dist/compas-xarxa.exe` a la prova. El test usa certificats i dades temporals: **no instal·la autoritats de confiança ni canvia el tallafoc del sistema**. GitHub també prova l’arrancador Linux real per HTTPS. Si canvies dependències, actualitza `go.mod`, `go.sum` i els avisos de llicència; executa `govulncheck`.
+
 ## Enviar una pull request
 
 Per a canvis grans, comenta primer la proposta en una incidència. Per a una correcció menuda pots enviar directament una PR.

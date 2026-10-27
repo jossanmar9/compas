@@ -68,3 +68,7 @@ Abans de canviar la lògica de rebuts, SEPA, còpies, migracions o permisos, afi
 `python3 tests/integracio.py lan` comprova comptes ASCII i duplicats, migració dels noms antics, permisos del Consultor davant peticions directes, sis sessions independents, conflictes d’edició, còpies, límits d’entrada, sessions i validació d’Host i origen. En Linux arranca quatre processos del servidor integrat per a exercitar la concurrència real; a Windows les peticions HTTP s’atenen en sèrie. La bateria no configura el tallafoc ni substituïx una prova física amb dos equips de la mateixa LAN. La base de dades i les dades d’exemple són temporals.
 
 En Windows, si la bateria de subvencions no troba `Europe/Madrid`, instal·la `tzdata` en l’entorn de proves (`python -m pip install tzdata`).
+
+## HTTPS i identitat dels clients
+
+`go -C launcher/xarxa test ./...` prova certificats, noms, confiança i filtratge de les capçaleres. Després de construir l’auxiliar, `python3 tests/https.py dist/compas-xarxa` (Windows: `dist/compas-xarxa.exe`) arranca PHP i TLS reals amb dades temporals: configuració inicial, dos comptes, rol Consultor, galetes Secure, bloqueig del PHP directe i paquet client sense claus. No instal·la certificats en el sistema ni modifica el tallafoc. GitHub prova també el llançador Linux amb `curl --cacert`, sense desactivar la verificació TLS.

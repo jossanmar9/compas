@@ -17,7 +17,17 @@ elif command -v update-ca-trust >/dev/null; then
 else
     echo 'Importa compas-ca.crt en el navegador com a autoritat de confiança / como autoridad de confianza.'
 fi
-if command -v certutil >/dev/null && [ -f "$HOME/.pki/nssdb/cert9.db" ]; then
-    certutil -A -d "sql:$HOME/.pki/nssdb" -n 'Compas-@ID@' -t 'C,,' -i compas-ca.crt
+if command -v certutil >/dev/null; then
+    # Chromium M146 usa el directori nou, però conserva l'antic si ja existia.
+    nss="$HOME/.local/share/pki/nssdb"
+    [ ! -f "$HOME/.pki/nssdb/cert9.db" ] || nss="$HOME/.pki/nssdb"
+    if [ ! -f "$nss/cert9.db" ]; then
+        mkdir -p "$nss"
+        certutil -N -d "sql:$nss" --empty-password
+    fi
+    certutil -A -d "sql:$nss" -n 'Compas-@ID@' -t 'C,,' -i compas-ca.crt
+else
+    echo 'Si el navegador encara avisa, importa compas-ca.crt en la seua configuració de certificats.'
+    echo 'Si el navegador todavía avisa, importa compas-ca.crt en su configuración de certificados.'
 fi
 if [ "${COMPAS_NO_OBRIR:-0}" != 1 ] && command -v xdg-open >/dev/null; then xdg-open '@URL@'; fi

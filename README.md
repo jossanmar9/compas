@@ -186,7 +186,7 @@ Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
 1. Baixa l'[última versió](../../releases/latest):
    - **`Compas-X.Y.Z-installador.exe`**: l'instal·lador recomanat per a Windows. No demana permisos d'administrador; s'instal·la a `%LOCALAPPDATA%\Programs\Compas` i crea l'accés al menú Inici i a l'escriptori.
    - **`Compas-X.Y.Z-portable.zip`**: la mateixa versió sense instal·lar. Descomprimeix-la on vulgues (també en un llapis USB) i obri `Compas.exe`.
-   - **`compas_X.Y.Z_all.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_all.deb`, que porta també PHP.
+   - **`compas_X.Y.Z_amd64.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_amd64.deb`, que porta també PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: per a altres Linux. Descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior amb `pdo_sqlite` i `mbstring`).
 2. Compàs **encara no disposa d'un certificat de signatura de codi**, per la qual cosa Windows SmartScreen pot mostrar un avís en obrir l'instal·lador: prem **Més informació → Executa igualment**. El codi font és públic i els paquets es construeixen automàticament amb GitHub Actions. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows pot bloquejar també la versió portable; consulta la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
 3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En tancar-la, fa una còpia de seguretat i s'atura.

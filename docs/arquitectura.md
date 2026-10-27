@@ -1,6 +1,6 @@
 # Arquitectura de Compàs
 
-Compàs és un programa de gestió per a una única associació (societat musical, club esportiu, colla, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació), en un sol ordinador amb Windows i amb dos comptes (administrador/a i usuari/ària). No té web pública ni accés per xarxa.
+Compàs gestiona una associació en Windows o Linux. Per defecte funciona en un ordinador; opcionalment un servidor compartix l’aplicació per HTTPS en una xarxa privada, amb un nom `.local` descobert automàticament i sense IP fixa. Hi ha comptes individuals amb tres rols: administració, gestió i consulta limitada. El nucli és PHP i SQLite; l’auxiliar Go només fa HTTPS i descobriment mDNS.
 
 ## Peces
 
@@ -98,3 +98,14 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 ## Notes
 
 - Economia (`src/pages/economia.php`): els rebuts generats porten una `clau` única (soci i període, o pagador, curs i període) perquè generar dues vegades el mateix període no duplique res. L'import d'un rebut amb línies és la suma de les línies (`recalcula_rebut`). Numeració correlativa per any (`2026/0001`). Una remesa preparada fixa el mandat de cada rebut; marcar-la com a cobrada posa els rebuts pagats i l'`ultim_us` dels mandats (el següent cobrament ja és RCUR). Compàs fa rebuts, no factures, per a no entrar en el reglament dels sistemes de facturació (Verifactu).
+
+## Mode LAN segur (2.3)
+
+```text
+Navegador → https://compas.local:443 → compas-xarxa (Go, TLS + mDNS)
+                                      → 127.0.0.1:8740 (PHP) → SQLite
+```
+
+Els llançadors deixen PHP en loopback i passen un secret aleatori als dos processos. El proxy valida la IP privada, Host i SNI, esborra les capçaleres aportades pel navegador i remet la identitat real amb el secret intern. `src/xarxa.php` comprova eixe secret abans de servir qualsevol ruta o recurs i conserva la distinció entre servidor i client remot. Només després marca HTTPS, perquè les galetes siguen Secure. El secret de còpia en tancar és diferent i no es permet introduir-lo pel proxy.
+
+Cada instal·lació té una CA pròpia i claus protegides; els clients accepten explícitament l’empremta una vegada. Els ZIP de clients contenen només material públic. El certificat del servidor es renova amb la mateixa CA. mDNS només usa interfícies privades IPv4, detecta conflictes inicials i torna a obrir la connexió si canvien les interfícies o les IP. No hi ha cap servei de descobriment extern ni configuració del router. El servidor no és per a Internet o càrrega elevada; PHP continua atenent les peticions en sèrie a Windows.

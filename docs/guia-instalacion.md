@@ -44,10 +44,10 @@ Compàs es software libre y todavía **no está firmado digitalmente** (un certi
 
 ### Debian, Ubuntu, Linux Mint y similares: paquete .deb (recomendado)
 
-1. Descarga `compas_X.Y.Z_all.deb`.
+1. Descarga `compas_X.Y.Z_amd64.deb`.
 2. Abre un terminal en la carpeta donde lo has descargado y escribe:
    ```
-   sudo apt install ./compas_X.Y.Z_all.deb
+   sudo apt install ./compas_X.Y.Z_amd64.deb
    ```
    Instala Compàs y, si faltan, PHP y las extensiones que necesita. También se puede abrir con doble clic desde el gestor de archivos (Centro de software o GDebi).
 3. Abre **Compàs** desde el menú de aplicaciones o escribiendo `compas` en un terminal.
