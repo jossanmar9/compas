@@ -8,6 +8,25 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.4.0] - 2026-11-20
+
+Compàs torna a funcionar només en **un ordinador**. S'ha llevat el mode de xarxa local (LAN i HTTPS amb `compas.local`): el programa és més senzill, més fàcil de mantindre i no obri cap port a la xarxa.
+
+**En actualitzar:** si teníeu activat el mode LAN, a partir d'ara Compàs només s'obri a l'ordinador on està instal·lat; els altres equips ja no hi poden entrar. Les dades, els comptes, els rols i les còpies es conserven. La línia `lan = 1` de `compas.ini` ja no fa res, i la carpeta `https` de les dades es pot esborrar. En Linux, el paquet torna a ser `compas_X.Y.Z_all.deb`.
+
+### Llevat
+- Mode LAN, servidor HTTPS amb certificat propi i descobriment `compas.local` (mDNS), assistent **Xarxa local / HTTPS…**, `compas --xarxa`, `Connecta-Compas.exe`, `Client-Compas.zip` i la guia de xarxa local.
+- El panell **Configura la xarxa local** de l'inici i el permís corresponent.
+- Les funcions que només calien en xarxa: detecció de formularis antics editats per una altra persona, caducitat de sessió per inactivitat, límits d'entrada per compte i IP, còpies cada 15 minuts i bloqueig de la restauració.
+
+### Es manté
+- Els tres rols (administrador/a, usuari/ària de gestió i consultor/a de consulta limitada) i un compte per persona en el mateix ordinador.
+- Els noms de compte sense accents, el buidatge de les dades de gestió i els tipus muixeranga i colla castellera.
+- Compàs només respon a peticions d'este ordinador, com abans de la 2.2.
+
+### Millorat
+- La sessió guarda només una empremta de la contrasenya per a tancar les altres sessions quan es canvia, no el resum de la contrasenya.
+
 ## [2.3.3] - 2026-10-27
 
 - Connexió HTTPS més senzilla en Windows: el servidor prepara un únic `Connecta-Compas.exe` amb la URL i el certificat públic incorporats. Es pot copiar als clients sense ZIP ni fitxers addicionals.

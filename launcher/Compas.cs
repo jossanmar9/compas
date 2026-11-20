@@ -38,27 +38,13 @@ namespace Compas
 
     static class Program
     {
-        public static bool Reinicia;
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
-            if (args.Length == 2 && args[0] == "--tallafoc") {
-                int port;
-                if (!int.TryParse(args[1], out port) || port < 1 || port > 65535) { Environment.ExitCode = 1; return; }
-                string helper = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "compas-xarxa.exe");
-                foreach (string regla in new[] { "name=\"Compas HTTPS\" protocol=TCP localport=" + port, "name=\"Compas descobriment local\" protocol=UDP localport=5353" }) {
-                    using (var p = Process.Start(new ProcessStartInfo("netsh.exe", "advfirewall firewall add rule " + regla + " dir=in action=allow profile=private remoteip=localsubnet program=\"" + helper + "\"") { UseShellExecute = false, CreateNoWindow = true })) {
-                        p.WaitForExit(); if (p.ExitCode != 0) { Environment.ExitCode = 1; return; }
-                    }
-                }
-                return;
-            }
             bool nou;
             using (var mutex = new Mutex(true, "Compas-GestioSocietatsMusicals", out nou))
             {
-                Config config;
-                try { config = Config.Llig(); }
-                catch (Exception ex) { MessageBox.Show(ex.Message, "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+                var config = Config.Llig();
                 if (!nou)
                 {
                     // Ja està en marxa: es demana a la instància oberta que mostre la seua finestra
@@ -68,7 +54,7 @@ namespace Compas
                         return;
                     }
                     catch { }
-                    string url = config.Url;
+                    string url = "http://localhost:" + config.Port + "/";
                     if (!config.Finestra || AppNavegador.Obri(url) == null) Finestra.ObriNavegador(url);
                     return;
                 }
@@ -76,7 +62,6 @@ namespace Compas
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Finestra(config));
             }
-            if (Reinicia) Process.Start(new ProcessStartInfo(Application.ExecutablePath) { UseShellExecute = true });
         }
     }
 
@@ -86,20 +71,6 @@ namespace Compas
         public bool Navegador = true;
         public bool Finestra = true;
         public string Arrel;
-        public bool Lan = false;
-        public string NomLan = "compas.local";
-        public int PortHttps = 443;
-        public string Host { get { return "127.0.0.1"; } }
-        public string Url { get { return Lan ? "https://" + NomLan + (PortHttps == 443 ? "" : ":" + PortHttps) + "/" : "http://localhost:" + Port + "/"; } }
-        public string UrlInterna { get { return "http://127.0.0.1:" + Port + "/"; } }
-
-        public static bool IpPrivada(string text)
-        {
-            IPAddress ip;
-            if (!IPAddress.TryParse(text, out ip) || ip.AddressFamily != AddressFamily.InterNetwork || ip.ToString() != text) return false;
-            byte[] b = ip.GetAddressBytes();
-            return b[0] == 10 || (b[0] == 172 && b[1] >= 16 && b[1] <= 31) || (b[0] == 192 && b[1] == 168);
-        }
 
         static bool Si(string v)
         {
@@ -123,43 +94,8 @@ namespace Compas
                 if (clau == "port" && int.TryParse(valor, out n) && n > 1023 && n < 65536) c.Port = n;
                 if (clau == "navegador") c.Navegador = Si(valor);
                 if (clau == "finestra") c.Finestra = Si(valor);
-                if (clau == "lan") c.Lan = Si(valor);
-                if (clau == "nom_lan") c.NomLan = valor.ToLowerInvariant();
-                if (clau == "port_https" && int.TryParse(valor, out n) && n > 0 && n < 65536) c.PortHttps = n;
-            }
-            if (c.Lan)
-            {
-                if (!System.Text.RegularExpressions.Regex.IsMatch(c.NomLan, @"^[a-z0-9](?:[a-z0-9-]{0,60}[a-z0-9])?\.local$"))
-                    throw new Exception(Textos.T("Nom local invàlid. Exemple: compas.local", "Nombre local no válido. Ejemplo: compas.local"));
-                // La finestra de treball i el servidor tenen vides independents en LAN.
             }
             return c;
-        }
-
-        public bool EsAdrecaInterna(string adreca)
-        {
-            Uri u;
-            if (!Uri.TryCreate(adreca, UriKind.Absolute, out u) || u.UserInfo != "") return false;
-            return Lan ? u.Scheme == "https" && u.Host == NomLan && u.Port == PortHttps
-                : u.Scheme == "http" && (u.Host == "localhost" || u.Host == "127.0.0.1") && u.Port == Port;
-        }
-
-        public static bool OrdreXarxaValida(string missatge, string secret, long ara)
-        {
-            if (secret.Length < 32) return false;
-            string[] linies = missatge.Trim().Split('\n');
-            if (linies.Length != 2) return false;
-            string ordre = linies[0].TrimEnd('\r');
-            var m = System.Text.RegularExpressions.Regex.Match(ordre, @"\Axarxa\|([0-9]{10})\|[a-f0-9]{32}\z");
-            long instant;
-            if (!m.Success || !long.TryParse(m.Groups[1].Value, out instant) || Math.Abs(ara - instant) > 30) return false;
-            string esperada;
-            using (var hmac = new System.Security.Cryptography.HMACSHA256(Encoding.UTF8.GetBytes(secret)))
-                esperada = BitConverter.ToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(ordre))).Replace("-", "").ToLowerInvariant();
-            string rebuda = linies[1].TrimEnd('\r');
-            if (rebuda.Length != esperada.Length) return false;
-            int diferent = 0; for (int i = 0; i < rebuda.Length; i++) diferent |= rebuda[i] ^ esperada[i];
-            return diferent == 0;
         }
     }
 
@@ -237,9 +173,6 @@ namespace Compas
     {
         readonly Config config;
         Process php;
-        Process https;
-        readonly System.Windows.Forms.Timer controlXarxa = new System.Windows.Forms.Timer { Interval = 500 };
-        bool configurantXarxa;
         readonly Label estat = new Label();
         readonly LinkLabel enllac = new LinkLabel();
         readonly string token = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
@@ -257,10 +190,7 @@ namespace Compas
 
         public const string NomAvis = @"Local\Compas-ObriFinestra";
 
-        string Url { get { return config.Url; } }
-        public bool ServidorCompartit { get { return config.Lan; } }
-        public bool EsAdrecaInterna(string adreca) { return config.EsAdrecaInterna(adreca); }
-        public void VisorTancat(Form finestra) { if (ReferenceEquals(visor, finestra)) visor = null; Mostra(); }
+        string Url { get { return "http://localhost:" + config.Port + "/"; } }
         string Dades
         {
             get
@@ -305,16 +235,6 @@ namespace Compas
             enllac.LinkClicked += delegate { ObriNavegador(Url); };
             Controls.Add(enllac);
 
-            var xarxa = new Button { Text = Textos.T("Xarxa local / HTTPS…", "Red local / HTTPS…"), Location = new Point(20, 170), Size = new Size(195, 30) };
-            xarxa.Click += delegate { DemanaConfiguracioXarxa(); }; Controls.Add(xarxa);
-            var clients = new Button { Text = Textos.T("Preparar altres equips", "Preparar otros equipos"), Location = new Point(225, 170), Size = new Size(195, 30) };
-            clients.Click += delegate {
-                string dir = Path.Combine(Dades, "https");
-                if (!config.Lan || !File.Exists(Path.Combine(dir, "Connecta-Compas.exe"))) { MessageBox.Show(this, Textos.T("Activa primer la xarxa local.", "Activa primero la red local."), "Compàs"); return; }
-                MessageBox.Show(this, Textos.T("1. Passa només Connecta-Compas.exe als altres equips Windows (per exemple, amb USB).\n2. Obriu-lo i comproveu esta empremta.\n3. Confirmeu «Confia i obri Compàs». Es crearà un accés directe a l'escriptori.\n\nPer a Linux, utilitza Client-Compas.zip.\n\n", "1. Pasa solo Connecta-Compas.exe a los demás equipos Windows (por ejemplo, con USB).\n2. Abridlo y comprobad esta huella.\n3. Confirmad «Confiar y abrir Compàs». Se creará un acceso directo en el escritorio.\n\nPara Linux, utiliza Client-Compas.zip.\n\n") + File.ReadAllText(Path.Combine(dir, "empremta.txt")), "Compàs HTTPS");
-                Process.Start(new ProcessStartInfo("explorer.exe", "/select,\"" + Path.Combine(dir, "Connecta-Compas.exe") + "\"") { UseShellExecute = true });
-            }; Controls.Add(clients);
-
 
             obri.Text = Textos.T("Obri Compàs", "Abrir Compàs");
             obri.Location = new Point(20, 212);
@@ -337,8 +257,7 @@ namespace Compas
                 Location = new Point(20, 262), AutoSize = true, ForeColor = Color.FromArgb(93, 103, 120), Font = new Font("Segoe UI", 8.5f)
             });
 
-            visible = config.Lan || !config.Finestra;
-            controlXarxa.Tick += delegate { ComprovaControlXarxa(); };
+            visible = !config.Finestra;
             FormClosing += Tancant;
             EscoltaAvisos();
         }
@@ -392,11 +311,9 @@ namespace Compas
 
         void CreaSafata()
         {
-            if (safata != null) return;
             var menu = new ContextMenuStrip();
             menu.Items.Add(Textos.T("Obri Compàs", "Abrir Compàs"), null, delegate { ObriFinestra(); });
             menu.Items.Add(Textos.T("Carpeta de dades", "Carpeta de datos"), null, delegate { ObriCarpeta(); });
-            menu.Items.Add(Textos.T("Xarxa local / HTTPS…", "Red local / HTTPS…"), null, delegate { DemanaConfiguracioXarxa(); });
             menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add(Textos.T("Atura i tanca", "Detener y cerrar"), null, delegate { Close(); });
             safata = new NotifyIcon
@@ -422,8 +339,7 @@ namespace Compas
         void ObriFinestra()
         {
             if (visor != null && !visor.IsDisposed) { PortaVisor(); return; }
-            if (config.Finestra) { ObriFinestraPropia(); return; }
-            ObriNavegador(Url);
+            if (!config.Finestra || AppNavegador.Obri(Url) == null) ObriNavegador(Url);
         }
 
         // Els tipus de WebView2 només es carreguen ací: si falten les biblioteques, el llançador continua igual
@@ -447,7 +363,6 @@ namespace Compas
                 {
                     visor = CreaVisor();
                     visor.Show();
-                    CreaSafata();
                     return;
                 }
                 catch (Exception ex) { Log("Visor: " + ex.Message); visor = null; }
@@ -491,7 +406,6 @@ namespace Compas
                     BeginInvoke((MethodInvoker)delegate
                     {
                         if (tancant) return;
-                        if (config.Lan) { app = null; Mostra(); return; }
                         // Si s'acaba de seguida, la finestra l'ha agafada un altre procés del mateix perfil i no
                         // sabrem quan es tanca: es mostra la finestra menuda perquè l'usuari puga aturar Compàs.
                         if ((DateTime.Now - appObertA).TotalSeconds < 5) { Mostra(); return; }
@@ -526,8 +440,8 @@ namespace Compas
             }
             catch { registre = null; }
 
-            // PHP queda sempre en loopback; el servidor HTTPS és l’únic punt d’entrada LAN.
-            string host = config.Host;
+            // Només s'escolta en aquest ordinador
+            string host = "127.0.0.1";
             string phpDir = Path.Combine(config.Arrel, "php");
             var args = new StringBuilder();
             args.Append("-c \"").Append(Path.Combine(phpDir, "php.ini")).Append("\" ");
@@ -546,16 +460,6 @@ namespace Compas
             };
             psi.EnvironmentVariables["COMPAS_DADES"] = Dades;
             psi.EnvironmentVariables["COMPAS_TOKEN"] = token;
-            psi.EnvironmentVariables["COMPAS_CONTROL_XARXA"] = "1";
-            psi.EnvironmentVariables["COMPAS_URL_XARXA"] = "https://" + config.NomLan + (config.PortHttps == 443 ? "" : ":" + config.PortHttps) + "/";
-            psi.EnvironmentVariables["COMPAS_LAN"] = config.Lan ? "1" : "0";
-            psi.EnvironmentVariables["COMPAS_LAN_IP"] = "";
-            psi.EnvironmentVariables["COMPAS_PROXY_TOKEN"] = "";
-            psi.EnvironmentVariables["COMPAS_NOM_LAN"] = "";
-            if (config.Lan) {
-                psi.EnvironmentVariables["COMPAS_PROXY_TOKEN"] = token + "-proxy";
-                psi.EnvironmentVariables["COMPAS_NOM_LAN"] = config.NomLan;
-            }
             php = new Process { StartInfo = psi, EnableRaisingEvents = true };
             php.ErrorDataReceived += Registra;
             php.OutputDataReceived += Registra;
@@ -573,7 +477,6 @@ namespace Compas
                 php.Start();
                 php.BeginErrorReadLine();
                 php.BeginOutputReadLine();
-                if (config.Lan) ArrancaHttps();
             }
             catch (Exception ex)
             {
@@ -586,11 +489,11 @@ namespace Compas
             esperant.Tick += delegate
             {
                 intents++;
-                if (php.HasExited || (config.Lan && (https == null || https.HasExited))) { esperant.Stop(); return; }
+                if (php.HasExited) { esperant.Stop(); return; }
                 if (Respon())
                 {
                     esperant.Stop();
-                    estat.Text = "✔ " + (config.Lan ? Textos.T("Servidor LAN en marxa. Comparteix esta adreça:", "Servidor LAN en marcha. Comparte esta dirección:") : Textos.T("Compàs està en marxa en aquest ordinador:", "Compàs está en marcha en este ordenador:"));
+                    estat.Text = "✔ " + Textos.T("Compàs està en marxa en aquest ordinador:", "Compàs está en marcha en este ordenador:");
                     estat.ForeColor = Color.FromArgb(30, 125, 79);
                     obri.Enabled = true;
                     if (config.Finestra) ObriFinestraPropia();
@@ -603,99 +506,6 @@ namespace Compas
                 }
             };
             esperant.Start();
-            controlXarxa.Start();
-        }
-
-        void ComprovaControlXarxa()
-        {
-            if (tancant || configurantXarxa) return;
-            string fitxer = Path.Combine(Dades, "control-xarxa.txt");
-            string llegint = fitxer + "." + Guid.NewGuid().ToString("N");
-            try {
-                if (!File.Exists(fitxer)) return;
-                File.Move(fitxer, llegint);
-                if (new FileInfo(llegint).Length > 256) return;
-                string ordre = File.ReadAllText(llegint, Encoding.UTF8);
-                long ara = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
-                if (!Config.OrdreXarxaValida(ordre, token, ara)) return;
-                Mostra(); Activate(); ConfiguraXarxa();
-            } catch (Exception e) { Log("Control xarxa: " + e.Message); }
-            finally { try { if (File.Exists(llegint)) File.Delete(llegint); } catch { } }
-        }
-
-        void DemanaConfiguracioXarxa()
-        {
-            string adreca = Url + "?r=xarxa_local";
-            if (config.Finestra) {
-                if (visor == null || visor.IsDisposed) ObriFinestraPropia();
-                if (visor != null && !visor.IsDisposed) {
-                    NavegaVisor(adreca); PortaVisor(); return;
-                }
-            }
-            ObriNavegador(adreca);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        void NavegaVisor(string adreca) { ((Visor)visor).Navega(adreca); }
-
-        void ConfiguraXarxa()
-        {
-            if (configurantXarxa) return;
-            configurantXarxa = true;
-            try {
-            using (var f = new Form { Text = "Compàs · HTTPS", ClientSize = new Size(470, 225), StartPosition = FormStartPosition.CenterParent, FormBorderStyle = FormBorderStyle.FixedDialog, MaximizeBox = false, MinimizeBox = false }) {
-                var activa = new CheckBox { Text = Textos.T("Compartir Compàs en la xarxa privada", "Compartir Compàs en la red privada"), Checked = config.Lan, Location = new Point(20, 18), AutoSize = true };
-                var nom = new TextBox { Text = config.NomLan, Location = new Point(20, 75), Width = 420 };
-                f.Controls.Add(activa); f.Controls.Add(nom);
-                f.Controls.Add(new Label { Text = Textos.T("Adreça estable, sense IP fixa:", "Dirección estable, sin IP fija:"), Location = new Point(20, 50), AutoSize = true });
-                f.Controls.Add(new Label { Text = Textos.T("HTTPS amb certificat local. Només xarxes privades.\nCada equip confirma el certificat una vegada.", "HTTPS con certificado local. Solo redes privadas.\nCada equipo confirma el certificado una vez."), Location = new Point(20, 108), Size = new Size(430, 48) });
-                var desa = new Button { Text = Textos.T("Desa i reinicia", "Guardar y reiniciar"), Location = new Point(270, 175), Size = new Size(175, 32) };
-                f.Controls.Add(desa);
-                desa.Click += delegate {
-                    string n = nom.Text.Trim().ToLowerInvariant();
-                    if (!System.Text.RegularExpressions.Regex.IsMatch(n, @"^[a-z0-9](?:[a-z0-9-]{0,60}[a-z0-9])?\.local$")) { MessageBox.Show(f, "Exemple: compas.local"); return; }
-                    try {
-                        if (activa.Checked) {
-                            if (MessageBox.Show(f, Textos.T("Vols permetre HTTPS i descobriment local de Compàs en el tallafoc, només per a la xarxa privada? Windows demanarà permisos d'administrador. No obri accés des d'Internet.", "¿Quieres permitir HTTPS y descubrimiento local de Compàs en el cortafuegos, solo para la red privada? Windows pedirá permisos de administrador. No abre acceso desde Internet."), "Compàs", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes) return;
-                            using (var p = Process.Start(new ProcessStartInfo(Application.ExecutablePath, "--tallafoc " + config.PortHttps) { UseShellExecute = true, Verb = "runas", WindowStyle = ProcessWindowStyle.Hidden })) {
-                                p.WaitForExit(); if (p.ExitCode != 0) throw new Exception(Textos.T("No s'ha pogut preparar el tallafoc.", "No se ha podido preparar el cortafuegos."));
-                            }
-                        }
-                        File.AppendAllText(Path.Combine(config.Arrel, "compas.ini"), "\r\nlan = " + (activa.Checked ? "1" : "0") + "\r\nnom_lan = " + n + "\r\n", Encoding.UTF8);
-                        Program.Reinicia = true; tancaSensePreguntar = true; f.Close(); Close();
-                    } catch (Exception e) { MessageBox.Show(f, e.Message, "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                };
-                f.ShowDialog(this);
-            }
-            } finally { configurantXarxa = false; }
-        }
-
-        void ArrancaHttps()
-        {
-            string exe = Path.Combine(config.Arrel, "compas-xarxa.exe");
-            string dir = Path.Combine(Dades, "https");
-            string args = "-dades \"" + dir + "\" -nom " + config.NomLan + " -port " + config.PortHttps;
-            if (!File.Exists(exe)) throw new Exception(Textos.T("Falta el servidor HTTPS. Reinstal·la Compàs.", "Falta el servidor HTTPS. Reinstala Compàs."));
-            using (var prepara = Process.Start(new ProcessStartInfo(exe, args + " -prepara") { UseShellExecute = false, CreateNoWindow = true })) {
-                if (!prepara.WaitForExit(15000)) { prepara.Kill(); throw new Exception("No es pot preparar HTTPS."); }
-                if (prepara.ExitCode != 0) throw new Exception(Textos.T("No es poden preparar els certificats HTTPS.", "No se pueden preparar los certificados HTTPS."));
-            }
-            var cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(Path.Combine(dir, "compas-ca.crt"));
-            using (var store = new System.Security.Cryptography.X509Certificates.X509Store("Root", System.Security.Cryptography.X509Certificates.StoreLocation.CurrentUser)) {
-                store.Open(System.Security.Cryptography.X509Certificates.OpenFlags.ReadWrite);
-                if (store.Certificates.Find(System.Security.Cryptography.X509Certificates.X509FindType.FindByThumbprint, cert.Thumbprint, false).Count == 0) {
-                    string pin = File.ReadAllText(Path.Combine(dir, "empremta.txt"));
-                    if (MessageBox.Show(this, Textos.T("Vols confiar en el certificat HTTPS d'este servidor per al teu usuari?\nEls altres equips han de confirmar la mateixa empremta una vegada.\n\n", "¿Quieres confiar en el certificado HTTPS de este servidor para tu usuario?\nLos demás equipos deben confirmar la misma huella una vez.\n\n") + pin, "Compàs HTTPS", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
-                        throw new Exception(Textos.T("No s'ha instal·lat el certificat. Pots tornar-ho a provar quan vulgues.", "No se ha instalado el certificado. Puedes volver a intentarlo cuando quieras."));
-                    store.Add(cert);
-                }
-            }
-            var psi = new ProcessStartInfo(exe, args + " -backend 127.0.0.1:" + config.Port) { UseShellExecute = false, CreateNoWindow = true, RedirectStandardError = true, RedirectStandardOutput = true, WorkingDirectory = config.Arrel };
-            psi.EnvironmentVariables["COMPAS_PROXY_TOKEN"] = token + "-proxy";
-            https = new Process { StartInfo = psi, EnableRaisingEvents = true };
-            https.ErrorDataReceived += Registra; https.OutputDataReceived += Registra;
-            https.Exited += delegate { if (!tancant) BeginInvoke((MethodInvoker)delegate { Error(Textos.T("El servidor HTTPS s'ha aturat. Revisa servidor.log (port, nom local o tallafoc).", "El servidor HTTPS se ha detenido. Revisa servidor.log (puerto, nombre local o cortafuegos).")); }); };
-            https.Start(); https.BeginErrorReadLine(); https.BeginOutputReadLine();
         }
 
         bool RotaRegistre()
@@ -720,18 +530,10 @@ namespace Compas
             {
                 using (var c = new TcpClient())
                 {
-                    var r = c.BeginConnect(IPAddress.Parse(config.Host), config.Port, null, null);
+                    var r = c.BeginConnect(IPAddress.Loopback, config.Port, null, null);
                     bool ok = r.AsyncWaitHandle.WaitOne(200);
                     if (ok) c.EndConnect(r);
-                    if (!ok || !c.Connected) return false;
-                    if (config.Lan) {
-                        using (var s = new TcpClient()) {
-                            var h = s.BeginConnect(IPAddress.Loopback, config.PortHttps, null, null);
-                            if (!h.AsyncWaitHandle.WaitOne(200)) return false;
-                            s.EndConnect(h); return s.Connected;
-                        }
-                    }
-                    return true;
+                    return ok && c.Connected;
                 }
             }
             catch { return false; }
@@ -758,13 +560,12 @@ namespace Compas
             if (php != null && !php.HasExited && e.CloseReason == CloseReason.UserClosing && !tancaSensePreguntar)
             {
                 var r = MessageBox.Show(this,
-                    Textos.T(config.Lan ? "Vols aturar el servidor per a tots els usuaris? Abans es farà una còpia de seguretat." : "Vols tancar Compàs? Si hi ha hagut canvis, abans es farà una còpia de seguretat.",
-                             config.Lan ? "¿Quieres detener el servidor para todos los usuarios? Antes se hará una copia de seguridad." : "¿Quieres cerrar Compàs? Si ha habido cambios, antes se hará una copia de seguridad."),
+                    Textos.T("Vols tancar Compàs? Si hi ha hagut canvis, abans es farà una còpia de seguretat.",
+                             "¿Quieres cerrar Compàs? Si ha habido cambios, antes se hará una copia de seguridad."),
                     "Compàs", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (r != DialogResult.Yes) { e.Cancel = true; return; }
             }
             tancant = true;
-            controlXarxa.Stop();
             // Si es tanca des de la finestra menuda o la safata, també es tanca la finestra de Compàs
             try { if (app != null && !app.HasExited) app.CloseMainWindow(); } catch { }
             try { if (avisObri != null) avisObri.Set(); } catch { }
@@ -778,14 +579,7 @@ namespace Compas
                 Refresh();
                 try
                 {
-                    var peticio = (HttpWebRequest)WebRequest.Create(config.UrlInterna + "?r=copia_tancament");
-                    peticio.Headers["X-Compas-Token"] = token;
-                    if (config.Lan) {
-                        peticio.Host = config.NomLan;
-                        peticio.Headers["X-Compas-Proxy-Token"] = token + "-proxy";
-                        peticio.Headers["X-Compas-Client"] = "127.0.0.1";
-                        peticio.Headers["X-Compas-Local"] = "1";
-                    }
+                    var peticio = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:" + config.Port + "/?r=copia_tancament&token=" + token);
                     peticio.Proxy = null;
                     peticio.Timeout = 60000;
                     using (var resposta = (HttpWebResponse)peticio.GetResponse())
@@ -805,7 +599,6 @@ namespace Compas
                 }
             }
             try { if (php != null && !php.HasExited) { php.Kill(); php.WaitForExit(3000); } } catch { }
-            try { if (https != null && !https.HasExited) { https.Kill(); https.WaitForExit(3000); } } catch { }
             if (registre != null) { try { registre.Dispose(); } catch { } }
             if (safata != null) { safata.Visible = false; safata.Dispose(); }
         }

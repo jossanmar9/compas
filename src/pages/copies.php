@@ -116,12 +116,9 @@ function copia_automatica(): void
     if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) { if ($lock) { fclose($lock); } return; }
     try {
         $avui = date('Y-m-d');
-        $diaria = config('copia_auto_dia') !== $avui;
-        $periodica = mode_lan() && time() - (int)config('copia_auto_marca', '0') >= 900 && hi_ha_canvis();
-        if (!$diaria && !$periodica) { return; }
+        if (config('copia_auto_dia') === $avui) { return; }
         fes_copia('auto');
         desa_config('copia_auto_dia', $avui);
-        desa_config('copia_auto_marca', (string)time());
     } catch (Throwable $e) {
         error_log('Còpia automàtica: ' . $e->getMessage());
     } finally { flock($lock, LOCK_UN); fclose($lock); }
@@ -132,7 +129,7 @@ function copia_en_tancar(): void
 {
     $token = getenv('COMPAS_TOKEN');
     header('Content-Type: text/plain; charset=UTF-8');
-    if (!peticio_del_servidor() || !$token || !hash_equals($token, (string)($_SERVER['HTTP_X_COMPAS_TOKEN'] ?? get('token')))) {
+    if (!$token || !hash_equals($token, (string)($_SERVER['HTTP_X_COMPAS_TOKEN'] ?? get('token')))) {
         http_response_code(403);
         exit('no');
     }
@@ -182,7 +179,6 @@ function es_bd_compas(string $fitxer): bool
 /** Deixa preparada una còpia per a restaurar-la en la pròxima petició */
 function prepara_restauracio(string $origen, bool $pujat): void
 {
-    if (mode_lan()) { throw new RuntimeException(t('lan.restaura')); }
     $conserva = [];
     // El codi de recuperació tampoc no torna arrere: un codi antic ja invalidat no ha de tornar a valdre
     foreach (['copia_externa', 'copia_mesos', 'copia_ultima_externa', 'copia_auto_dia', 'codi_recuperacio', 'codi_recuperacio_data',
@@ -229,9 +225,6 @@ function buida_dades_gestio(): string
 {
     requereix('config.manage');
     requereix('copia.restaura');
-    if (mode_lan() || !peticio_del_servidor()) {
-        throw new RuntimeException(t('buidar.local'));
-    }
     $u = usuari();
     if (post('confirmacio') !== 'BUIDAR' || !password_verify((string)post('contrasenya'), $u['contrasenya'])) {
         throw new RuntimeException(t('buidar.confirmacio'));
@@ -272,11 +265,6 @@ function pagina_copia(): void
     requereix('copia.manage');
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $accio = post('accio');
-        if (mode_lan() && in_array($accio, ['restaura_llista', 'restaura_fitxer'], true)) {
-            http_response_code(409);
-            pagina(t('menu.copia'), '<div class="avis info">' . h(t('lan.restaura')) . '</div>');
-            return;
-        }
         $nom = (string)post('nom');
         switch ($accio) {
             case 'buida':
@@ -406,8 +394,7 @@ function pagina_copia(): void
         redirigeix('copia');
     }
 
-    $restaura = pot('copia.restaura') && !mode_lan();
-    if (mode_lan() && pot('copia.restaura')) { avis(t('lan.restaura'), 'info'); }
+    $restaura = pot('copia.restaura');
     $ultima = config('copia_ultima');
     $ext = carpeta_externa();
     $html = '<div class="targetes">'
@@ -478,7 +465,7 @@ function pagina_copia(): void
             . '<label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
             . '<button class="perill">' . h(t('copia.restaurar')) . '</button></form></section>';
     }
-    if (pot('config.manage') && $restaura && peticio_del_servidor()) {
+    if (pot('config.manage') && $restaura) {
         $html .= '<section class="fill perill-zona"><header><h2>' . h(t('buidar.titol')) . '</h2></header><p>' . h(t('buidar.text')) . '</p>'
             . '<form method="post" class="formulari vertical estret">' . csrf_camp() . '<input type="hidden" name="accio" value="buida">'
             . '<label>' . h(t('camp.contrasenya')) . '<input type="password" name="contrasenya" autocomplete="current-password" required></label>'

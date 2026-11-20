@@ -294,7 +294,7 @@ function pagina_auditoria(): void
 /* ---------- Ajuda ---------- */
 
 /** Manuals i guies que es poden descarregar en PDF */
-const DOCUMENTS_PDF = ['manual-usuari', 'manual-usuario', 'manual-administracio', 'manual-administracion', 'guia-installacio', 'guia-instalacion', 'guia-xarxa-local'];
+const DOCUMENTS_PDF = ['manual-usuari', 'manual-usuario', 'manual-administracio', 'manual-administracion', 'guia-installacio', 'guia-instalacion'];
 
 /** URL d'una captura del manual (docs/imatges/…) per a mostrar-la dins del programa */
 function url_imatge_doc(string $ruta): ?string
@@ -334,15 +334,6 @@ function serveix_pdf(): never
 
 function pagina_ajuda(): void
 {
-    if (get('doc') === 'xarxa') {
-        $fitxer = DOCS_DIR . '/xarxa-local.md';
-        $parts = preg_split('/^---\s*$/m', is_file($fitxer) ? (string)file_get_contents($fitxer) : '');
-        $md = $parts[idioma() === 'es' ? 1 : 0] ?? '';
-        $pdf = pot('xarxa.configura') && is_file(DOCS_DIR . '/pdf/guia-xarxa-local.pdf')
-            ? '<p><a class="boto secundari" href="' . h(url('manual_pdf', ['doc' => 'guia-xarxa-local'])) . '">' . h(t('xarxa.pdf')) . '</a></p>' : '';
-        pagina(t('lan.guia'), $pdf . '<article class="manual">' . markdown_simple($md) . '</article>');
-        return;
-    }
     if (get('doc') === 'canvis') {
         pagina_canvis();
         return;
@@ -363,10 +354,8 @@ function pagina_ajuda(): void
     $fitxer = DOCS_DIR . '/' . $nomManual[$quin] . '.md';
     $md = is_file($fitxer) ? file_get_contents($fitxer) : t('ajuda.no_manual');
     $docs = [$nomManual['usuari'] => t('ajuda.pdf_manual')] + (pot('config.manage') ? [$nomManual['admin'] => t('ajuda.pdf_manual_admin')] : [])
-        + [$es ? 'guia-instalacion' : 'guia-installacio' => t('ajuda.pdf_guia')]
-        + (pot('xarxa.configura') ? ['guia-xarxa-local' => t('xarxa.pdf')] : []);
-    $enllacos = '<a class="boto secundari" href="' . h(url('ajuda', ['doc' => 'xarxa'])) . '">' . h(t('lan.guia')) . '</a>';
-    $md = preg_replace('/\(xarxa-local\.md(?:#[^)]*)?\)/', '(?r=ajuda&doc=xarxa)', $md);
+        + [$es ? 'guia-instalacion' : 'guia-installacio' => t('ajuda.pdf_guia')];
+    $enllacos = '';
     foreach (es_consultor() ? [] : $docs as $doc => $text) {
         if (is_file(DOCS_DIR . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $doc . '.pdf')) {
             $enllacos .= '<a class="boto secundari" target="_blank" href="' . h(url('manual_pdf', ['doc' => $doc])) . '">📄 ' . h($text) . '</a>';

@@ -186,10 +186,10 @@ Hi ha més de 60 captures, pas a pas, al [manual d'usuari](docs/manual-usuari.md
 1. Baixa l'[última versió](../../releases/latest):
    - **`Compas-X.Y.Z-installador.exe`**: l'instal·lador recomanat per a Windows. No demana permisos d'administrador; s'instal·la a `%LOCALAPPDATA%\Programs\Compas` i crea l'accés al menú Inici i a l'escriptori.
    - **`Compas-X.Y.Z-portable.zip`**: la mateixa versió sense instal·lar. Descomprimeix-la on vulgues (també en un llapis USB) i obri `Compas.exe`.
-   - **`compas_X.Y.Z_amd64.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_amd64.deb`, que porta també PHP.
+   - **`compas_X.Y.Z_all.deb`**: per a Debian, Ubuntu, Linux Mint i semblants. S'instal·la amb `sudo apt install ./compas_X.Y.Z_all.deb`, que porta també PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: per a altres Linux. Descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior amb `pdo_sqlite` i `mbstring`).
 2. Compàs **encara no disposa d'un certificat de signatura de codi**, per la qual cosa Windows SmartScreen pot mostrar un avís en obrir l'instal·lador: prem **Més informació → Executa igualment**. El codi font és públic i els paquets es construeixen automàticament amb GitHub Actions. En ordinadors amb el **Control intel·ligent d'aplicacions** de Windows 11 activat, Windows pot bloquejar també la versió portable; consulta la [guia d'instal·lació](docs/guia-installacio.md#si-windows-no-et-deixa-obrir-lo).
-3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En mode local, en tancar-la fa una còpia de seguretat i s’atura. En mode LAN, el panell del servidor continua obert perquè la resta puga treballar.
+3. Obri **Compàs**. S'obri en la seua pròpia finestra, sense cap navegador. En tancar-la, fa una còpia de seguretat i s'atura.
 
 **Actualitzar:** executa l'instal·lador de la versió nova amb Compàs tancat. Les dades i la configuració es conserven. En desinstal·lar, la carpeta de dades no s'esborra.
 
@@ -212,7 +212,7 @@ El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb c
 
 ## Usuaris i permisos
 
-Hi ha tres rols: **administrador/a**, **usuari/ària de gestió** i **consultor/a**. El consultor té consulta limitada de persones, socis, escola, agrupacions i instruments, sense economia, imports ni IBAN, exportacions, documents descarregables ni còpies. Pot canviar la pròpia contrasenya i l'idioma.
+Compàs funciona en un sol ordinador, però hi pot haver un compte per persona. Hi ha tres rols: **administrador/a**, **usuari/ària de gestió** i **consultor/a**. El consultor té consulta limitada de persones, socis, escola, agrupacions i instruments, sense economia, imports ni IBAN, exportacions, documents descarregables ni còpies. Pot canviar la pròpia contrasenya i l'idioma.
 
 Els noms de compte són únics sense distingir majúscules: de 3 a 40 caràcters ASCII (a–z, números, punt, guió i guió baix), sense accents ni dièresi. En actualitzar, els noms antics incompatibles s'adapten i l'administrador veu els canvis a Usuaris. Les contrasenyes es conserven.
 
@@ -235,22 +235,14 @@ Els noms de compte són únics sense distingir majúscules: de 3 a 40 caràcters
 | Restaurar i eliminar còpies, carpeta externa i xifrat | ✔ | — | — |
 | Recuperar l'accés amb el codi de recuperació | ✔ | — | — |
 
-Les contrasenyes es guarden amb hash; en LAN hi ha un bloqueig temporal per compte després de cinc intents fallits i un límit addicional per IP i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
+Les contrasenyes es guarden amb hash, hi ha un bloqueig temporal després de cinc intents fallits i el **registre d'activitat** anota qui ha creat, modificat o eliminat cada cosa.
 
 Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'entrada amb el **codi de recuperació** que es mostra en la configuració inicial (i que es pot tornar a generar a **Usuaris**). Si s'ha perdut el codi, hi ha una alternativa amb un fitxer a la carpeta de dades, que només pot fer qui té accés a l'ordinador.
-
-## Xarxa local opcional
-
-Un sol servidor guarda el programa i SQLite. Els altres equips obrin **https://compas.local/** amb un compte per persona, sense IP fixa ni reserva al router. El nom s’anuncia automàticament amb mDNS.
-
-Des de l’ordinador servidor: **Inici → Configura la xarxa local**, amb un compte administrador o de gestió; el consultor no pot activar-la. Windows: **Compartir → Desa i reinicia**. Linux: **`compas --xarxa`**. L’assistent demana confirmació per al certificat i el tallafoc privat. En Windows, **Preparar altres equips** genera un únic **Connecta-Compas.exe**: copia’l al client, obri’l, comprova l’empremta i confirma la confiança una vegada. Es crea un accés directe a l’escriptori. Linux conserva **Client-Compas.zip** amb el seu assistent. PHP queda accessible únicament des del servidor HTTPS intern. Els paquets de servidor són Windows x64 i Linux x86-64.
-
-Consulta la [guia LAN en valencià i castellà](docs/xarxa-local.md): confiança del certificat, mDNS, rols, còpies i restauració. No compartisques `compas.db` per carpetes de xarxa. El servidor és per a grups menuts en una xarxa privada; no és un allotjament públic i Windows processa les peticions PHP en sèrie.
 
 ## Dades i còpies de seguretat
 
 - Totes les dades estan en un sol fitxer: `data\compas.db`, dins de la carpeta del programa.
-- Per defecte, Compàs només escolta en el mateix ordinador (`127.0.0.1`). El **mode LAN opcional** permet clients amb navegador en una xarxa privada de confiança; les dades queden al servidor de l’entitat. No envia telemetria ni estadístiques a serveis externs. Vegeu la [guia de xarxa local](docs/xarxa-local.md) i la [declaració de privacitat](PRIVACITAT.md).
+- Compàs **només escolta en el mateix ordinador** (`127.0.0.1`): no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora: ni estadístiques, ni informes d'errors, ni comprovacions d'actualitzacions. Vegeu la [declaració de privacitat](PRIVACITAT.md).
 - **Còpies automàtiques:** la primera vegada que s'utilitza cada dia i en tancar el programa si hi ha hagut canvis. Es guarden totes les dels últims 7 dies, una per setmana de l'últim mes i una per mes de l'últim any (configurable): unes vint còpies que arriben a un any arrere.
 - **Carpeta externa:** cada còpia es guarda també en un USB o en una carpeta sincronitzada amb el núvol. L'inici avisa si no està configurada o si fa més de 7 dies que no s'hi guarda res.
 - **Còpies xifrades:** les de la carpeta externa es poden xifrar amb contrasenya, perquè un USB perdut no expose dades de menors.

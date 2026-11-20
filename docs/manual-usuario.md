@@ -2,7 +2,7 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la entidad: personas, socios, cuotas y recibos, actividades, lotería, libro de caja, subvenciones, junta directiva y actas, documentos, comunicados y copias de seguridad y, según el tipo de entidad, la escuela, las agrupaciones o los equipos, el repertorio, los instrumentos y uniformes, las licencias, los cargos de fiesta o las entidades federadas. Funciona en Windows o Linux, sin Internet, con modo local por defecto y LAN opcional, y tiene tres roles de cuenta. Esta tabla resume qué puede hacer cada una:
+Compàs es el programa de gestión de la entidad: personas, socios, cuotas y recibos, actividades, lotería, libro de caja, subvenciones, junta directiva y actas, documentos, comunicados y copias de seguridad y, según el tipo de entidad, la escuela, las agrupaciones o los equipos, el repertorio, los instrumentos y uniformes, las licencias, los cargos de fiesta o las entidades federadas. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene tres roles de cuenta. Esta tabla resume qué puede hacer cada una:
 
 | Qué se puede hacer | Administrador/a | Usuario/a | Consultor/a |
 |---|:---:|:---:|:---:|
@@ -935,6 +935,6 @@ El menú **Ayuda** muestra este manual dentro del programa. Los botones de arrib
 
 **¿Cómo paso Compàs a otro ordenador?** Instala Compàs en el ordenador nuevo y, en **Copias de seguridad → Restaurar desde un archivo**, carga la última copia.
 
-## Red local y consulta limitada (2.2)
+## Cuentas y consulta limitada
 
-La [guía LAN](xarxa-local.md#compàs-22-red-local-y-usuarios) explica cómo activar el servidor, crear cuentas sin acentos, usar el rol Consultor y gestionar las copias. El consultor no accede a economía, IBAN, importes, exportaciones, informes imprimibles, archivos ni copias. La consulta parcial de escuela y agrupaciones no incluye todas las operaciones de gestión de la tabla. En LAN, cerrar el navegador solo cierra el cliente; el servidor continúa hasta que lo detenga la persona responsable. Si una ficha ha cambiado desde que la abriste, recárgala antes de guardar.
+Cada persona que usa Compàs en este ordenador puede tener su cuenta. Los nombres de cuenta tienen de 3 a 40 caracteres sin acentos (letras, números, punto, guion y guion bajo). El rol **consultor/a** solo puede consultar personas, socios, escuela, agrupaciones e instrumentos: no accede a economía, IBAN, importes, exportaciones, informes imprimibles, archivos ni copias. La consulta parcial de escuela y agrupaciones no incluye todas las operaciones de gestión de la tabla.

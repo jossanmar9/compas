@@ -2,7 +2,7 @@
 
 ## 1. Abans de començar
 
-Compàs és el programa de gestió de l'entitat: persones, socis, quotes i rebuts, activitats, loteria, llibre de caixa, subvencions, junta directiva i actes, documents, comunicats i còpies de seguretat i, segons el tipus d'entitat, l'escola, les agrupacions o els equips, el repertori, els instruments i uniformes, les llicències, els càrrecs de festa o les entitats federades. Funciona en Windows o Linux, sense Internet, amb mode local per defecte i LAN opcional, i té tres rols de compte. Esta taula resumeix què pot fer cadascun:
+Compàs és el programa de gestió de l'entitat: persones, socis, quotes i rebuts, activitats, loteria, llibre de caixa, subvencions, junta directiva i actes, documents, comunicats i còpies de seguretat i, segons el tipus d'entitat, l'escola, les agrupacions o els equips, el repertori, els instruments i uniformes, les llicències, els càrrecs de festa o les entitats federades. Funciona en **un sol ordinador amb Windows o Linux**, sense Internet, i té tres rols de compte. Esta taula resumeix què pot fer cadascun:
 
 | Què es pot fer | Administrador/a | Usuari/ària | Consultor/a |
 |---|:---:|:---:|:---:|
@@ -935,6 +935,6 @@ El menú **Ajuda** mostra este manual dins del programa. Els botons de dalt obri
 
 **Com passe Compàs a un altre ordinador?** Instal·la Compàs a l'ordinador nou i, a **Còpies de seguretat → Restaura des d'un fitxer**, carrega l'última còpia.
 
-## Xarxa local i consulta limitada (2.2)
+## Comptes i consulta limitada
 
-La [guia LAN](xarxa-local.md) explica com activar el servidor, crear comptes sense accents, usar el rol Consultor i gestionar les còpies. El consultor no té accés a economia, IBAN, imports, exportacions, informes imprimibles, fitxers ni còpies. La consulta parcial d’escola i agrupacions no inclou totes les operacions de gestió de la taula. En LAN, tancar el navegador només tanca el client; el servidor queda obert fins que la persona responsable l’atura. Si una fitxa ha canviat des que la vas obrir, recarrega-la abans de desar.
+Cada persona que fa servir Compàs en este ordinador pot tindre el seu compte. Els noms de compte són de 3 a 40 caràcters sense accents (lletres, números, punt, guió i guió baix). El rol **consultor/a** només pot consultar persones, socis, escola, agrupacions i instruments: no té accés a economia, IBAN, imports, exportacions, informes imprimibles, fitxers ni còpies. La consulta parcial d'escola i agrupacions no inclou totes les operacions de gestió de la taula.

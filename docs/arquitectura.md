@@ -1,6 +1,6 @@
 # Arquitectura de Compàs
 
-Compàs gestiona una associació en Windows o Linux. Per defecte funciona en un ordinador; opcionalment un servidor compartix l’aplicació per HTTPS en una xarxa privada, amb un nom `.local` descobert automàticament i sense IP fixa. Hi ha comptes individuals amb tres rols: administració, gestió i consulta limitada. El nucli és PHP i SQLite; l’auxiliar Go només fa HTTPS i descobriment mDNS.
+Compàs és un programa de gestió per a una única associació (societat musical, club esportiu, colla, muixeranga, colla castellera, associació cultural, AMPA, falla, gaiata, foguera, comparsa, penya o federació), en un sol ordinador amb Windows o Linux i amb un compte per persona (administrador/a, usuari/ària de gestió o consultor/a). No té web pública ni accés per xarxa.
 
 ## Peces
 
@@ -64,7 +64,7 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 - Escola: `cursos` → `periodes`, `grups` (assignatura + curs + professor + aula) → `horaris`; `matricules` (alumne + curs) → `matricula_grups`; `qualificacions` (grup + alumne + període). Compàs no registra l'assistència: és un programa de gestió.
 - Inventari: `instruments` → `cessions`, `manteniments`.
 - Drets d'imatge: `persones.consentiment_imatge` (`pendent`, `autoritza`, `no_autoritza`) i `consentiment_data`.
-- Accés: `usuaris`, `rols` (dos fixos: `admin` i `administratiu`, que a la pantalla es diu «usuari/ària»), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols.
+- Accés: `usuaris` (noms ASCII de 3 a 40 caràcters, únics sense distingir majúscules; uns disparadors de SQLite ho asseguren), `rols` (tres fixos: `admin`, `administratiu`, que a la pantalla es diu «usuari/ària de gestió», i `consultor`, de consulta limitada), `rol_capacitats`, `usuari_rols`. Es comproven **capacitats**, no rols; el consultor, a més, només veu les entitats d'`ENTITATS_CONSULTOR` (`src/usuaris.php`), sense camps econòmics ni bancaris.
 - Economia: `tarifes`, `mandats`, `remeses`, `rebuts` → `rebut_linies`, `loteries` → `talonaris`, `moviments` (llibre de caixa: només els apunts manuals, amb el proveïdor i el NIF de les factures; rebuts, remeses, loteria i cobraments de subvencions s'hi sumen en llegir-lo).
 - Subvencions: `organismes` i `requisits_justificacio` (llistes que edita cada entitat; `organisme_requisits`: què demana normalment cada organisme), `subvencions` → `subvencio_requisits` (com es justifica i si està fet), `subvencio_cobraments` (entren sols a la caixa) i `subvencio_despeses` (moviments de caixa imputats; una despesa no es pot imputar per més del que val). `documents.subvencio_id` lliga els documents a la subvenció.
 - Societat: `carrecs` (persona + càrrec + dates; vigent si no té `data_fi`), `reunions` (convocatòria, acta i acords en text, un per línia), `comunicats`.
@@ -98,14 +98,3 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 ## Notes
 
 - Economia (`src/pages/economia.php`): els rebuts generats porten una `clau` única (soci i període, o pagador, curs i període) perquè generar dues vegades el mateix període no duplique res. L'import d'un rebut amb línies és la suma de les línies (`recalcula_rebut`). Numeració correlativa per any (`2026/0001`). Una remesa preparada fixa el mandat de cada rebut; marcar-la com a cobrada posa els rebuts pagats i l'`ultim_us` dels mandats (el següent cobrament ja és RCUR). Compàs fa rebuts, no factures, per a no entrar en el reglament dels sistemes de facturació (Verifactu).
-
-## Mode LAN segur (2.3)
-
-```text
-Navegador → https://compas.local:443 → compas-xarxa (Go, TLS + mDNS)
-                                      → 127.0.0.1:8740 (PHP) → SQLite
-```
-
-Els llançadors deixen PHP en loopback i passen un secret aleatori als dos processos. El proxy valida la IP privada, Host i SNI, esborra les capçaleres aportades pel navegador i remet la identitat real amb el secret intern. `src/xarxa.php` comprova eixe secret abans de servir qualsevol ruta o recurs i conserva la distinció entre servidor i client remot. Només després marca HTTPS, perquè les galetes siguen Secure. El secret de còpia en tancar és diferent i no es permet introduir-lo pel proxy.
-
-Cada instal·lació té una CA pròpia i claus protegides; els clients accepten explícitament l’empremta una vegada. Els ZIP de clients contenen només material públic. El certificat del servidor es renova amb la mateixa CA. mDNS només usa interfícies privades IPv4, detecta conflictes inicials i torna a obrir la connexió si canvien les interfícies o les IP. No hi ha cap servei de descobriment extern ni configuració del router. El servidor no és per a Internet o càrrega elevada; PHP continua atenent les peticions en sèrie a Windows.

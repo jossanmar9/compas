@@ -44,10 +44,10 @@ Compàs es software libre y todavía **no está firmado digitalmente** (un certi
 
 ### Debian, Ubuntu, Linux Mint y similares: paquete .deb (recomendado)
 
-1. Descarga `compas_X.Y.Z_amd64.deb`.
+1. Descarga `compas_X.Y.Z_all.deb`.
 2. Abre un terminal en la carpeta donde lo has descargado y escribe:
    ```
-   sudo apt install ./compas_X.Y.Z_amd64.deb
+   sudo apt install ./compas_X.Y.Z_all.deb
    ```
    Instala Compàs y, si faltan, PHP y las extensiones que necesita. También se puede abrir con doble clic desde el gestor de archivos (Centro de software o GDebi).
 3. Abre **Compàs** desde el menú de aplicaciones o escribiendo `compas` en un terminal.
@@ -96,7 +96,7 @@ En Windows, si falta WebView2, Compàs se abre con Microsoft Edge o Google Chrom
 
 Si no hay nada de esto (o si se pone `finestra = 0` en `compas.ini`), se abre el navegador habitual en `http://localhost:8740` y una ventana pequeña de Compàs. **Mientras la ventana pequeña esté abierta, Compàs funciona.**
 
-Por defecto, Compàs solo es accesible en este ordenador. Desde la 2.2 se puede activar el modo LAN para una red privada de confianza; no envía telemetría a servicios externos (véase la [declaración de privacidad](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md#privacidad-de-compàs)).
+Compàs solo se puede usar desde este ordenador: no es accesible desde la red ni desde Internet, y no envía ningún dato fuera (véase la [declaración de privacidad](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md#privacidad-de-compàs)).
 
 La primera vez pide el nombre de la entidad y crea la cuenta de administrador y, opcionalmente, la de usuario/a. Después muestra un **código de recuperación**: imprímelo o apúntalo, porque es lo que permite poner una contraseña nueva si el administrador/a la olvida.
 
@@ -147,7 +147,3 @@ php -S 127.0.0.1:8740 -t app app/index.php
 Los datos se guardan en `data/` (o en la carpeta que indique la variable de entorno `COMPAS_DADES`).
 
 Para publicar una versión, sube una etiqueta en minúscula (`v1.0.0`) y GitHub Actions construye el instalador y el zip para Windows y el paquete para Linux.
-
-## Red local opcional
-
-[Guia / Guía LAN: servidor, clients, comptes i còpies](xarxa-local.md).

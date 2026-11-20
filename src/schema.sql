@@ -734,8 +734,3 @@ BEGIN SELECT RAISE(ABORT, 'usuaris.nom_ascii'); END;
 CREATE TRIGGER IF NOT EXISTS usuaris_nom_ascii_update BEFORE UPDATE OF usuari ON usuaris
 WHEN length(NEW.usuari) NOT BETWEEN 3 AND 40 OR NEW.usuari GLOB '*[^a-zA-Z0-9._-]*'
 BEGIN SELECT RAISE(ABORT, 'usuaris.nom_ascii'); END;
-CREATE TABLE IF NOT EXISTS entrada_intents (
-    clau TEXT PRIMARY KEY,
-    intents INTEGER NOT NULL DEFAULT 0,
-    darrer INTEGER NOT NULL DEFAULT 0
-);

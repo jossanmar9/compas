@@ -44,10 +44,10 @@ Compàs és programari lliure i encara **no està signat digitalment** (un certi
 
 ### Debian, Ubuntu, Linux Mint i semblants: paquet .deb (recomanat)
 
-1. Baixa `compas_X.Y.Z_amd64.deb`.
+1. Baixa `compas_X.Y.Z_all.deb`.
 2. Obri un terminal a la carpeta on l'has baixat i escriu:
    ```
-   sudo apt install ./compas_X.Y.Z_amd64.deb
+   sudo apt install ./compas_X.Y.Z_all.deb
    ```
    Instal·la Compàs i, si falten, PHP i les extensions que necessita. També es pot obrir amb doble clic des del gestor de fitxers (Centre de programari o GDebi).
 3. Obri **Compàs** des del menú d'aplicacions o escrivint `compas` en un terminal.
@@ -96,7 +96,7 @@ A Windows, si falta WebView2, Compàs s'obri amb Microsoft Edge o Google Chrome 
 
 Si no hi ha res d'això (o si es posa `finestra = 0` a `compas.ini`), s'obri el navegador habitual a `http://localhost:8740` i una finestra menuda de Compàs. **Mentre la finestra menuda estiga oberta, Compàs funciona.**
 
-Per defecte, Compàs només és accessible en este ordinador. Des de la 2.2 es pot activar el mode LAN per a una xarxa privada de confiança; no envia telemetria a serveis externs (vegeu la [declaració de privacitat](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md)).
+Compàs només es pot utilitzar des d'este ordinador: no és accessible des de la xarxa ni des d'Internet, i no envia cap dada fora (vegeu la [declaració de privacitat](https://github.com/jossanmar9/compas/blob/main/PRIVACITAT.md)).
 
 La primera vegada demana el nom de l'entitat i crea el compte d'administrador i, opcionalment, el d'usuari/ària. Després mostra un **codi de recuperació**: imprimeix-lo o apunta'l, perquè és el que permet posar una contrasenya nova si l'administrador/a l'oblida.
 
@@ -147,7 +147,3 @@ php -S 127.0.0.1:8740 -t app app/index.php
 Les dades es guarden a `data/` (o a la carpeta que indique la variable d'entorn `COMPAS_DADES`).
 
 Per a publicar una versió, puja una etiqueta en minúscula (`v1.0.0`) i GitHub Actions construeix l'instal·lador i el zip per a Windows i el paquet per a Linux.
-
-## Xarxa local opcional
-
-[Guia / Guía LAN: servidor, clients, comptes i còpies](xarxa-local.md).

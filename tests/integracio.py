@@ -19,7 +19,6 @@ import io
 import os
 import re
 import shutil
-import signal
 import socket
 import sqlite3
 import subprocess
@@ -45,8 +44,7 @@ BATERIES = {
     'importacio': (['importacio.php'], True),
     'seguretat': (['seguretat.py'], True),
     'buidar': (['buidar.py'], True),
-    'xarxa': (['xarxa.py'], True),
-    'lan': (['lan.py'], True),
+    'comptes': (['comptes.py'], True),
     'subvencions': (['subvencions.py'], True),
     'tipus': (['tipus.py'], False),
 }
@@ -63,15 +61,14 @@ def port_lliure() -> int:
 class Compas:
     """Una instal·lació temporal de Compàs amb el servidor de PHP"""
 
-    def __init__(self, idioma: str, installa: bool, tipus: str | None = None, lan: bool = False, control: bool = False):
+    def __init__(self, idioma: str, installa: bool, tipus: str | None = None):
         self.idioma = idioma
         self.dades = tempfile.mkdtemp(prefix='compas-proves-')
         self.port = port_lliure()
         self.url = f'http://127.0.0.1:{self.port}/'
-        self.lan = lan
         self.registre = open(Path(self.dades) / 'servidor.log', 'w')
         self.srv = subprocess.Popen(['php', '-S', f'127.0.0.1:{self.port}', '-t', str(ARREL / 'app'), str(ARREL / 'app' / 'index.php')],
-                                    env=dict(os.environ, COMPAS_DADES=self.dades, COMPAS_LAN='1' if lan else '0', COMPAS_LAN_IP='192.168.1.20' if lan else '', **({'COMPAS_CONTROL_XARXA':'1','COMPAS_TOKEN':'control-proves-xarxa-abcdefghijklmnopqrstuvwxyz'} if control else {}), **({'PHP_CLI_SERVER_WORKERS':'4'} if lan and os.name != 'nt' else {})), stdout=subprocess.DEVNULL, stderr=self.registre, start_new_session=lan and os.name != 'nt')
+                                    env=dict(os.environ, COMPAS_DADES=self.dades), stdout=subprocess.DEVNULL, stderr=self.registre)
         for _ in range(100):
             try:
                 urllib.request.urlopen(self.url, timeout=1).read()
@@ -114,10 +111,7 @@ class Compas:
         return c
 
     def tanca(self):
-        if self.lan and os.name != 'nt':
-            os.killpg(self.srv.pid, signal.SIGTERM)
-        else:
-            self.srv.terminate()
+        self.srv.terminate()
         self.srv.wait()
         self.registre.close()
         shutil.rmtree(self.dades, ignore_errors=True)
@@ -171,7 +165,7 @@ class Compas:
 
 def executa(bateria: str, idioma: str) -> tuple[int, list[str]]:
     fitxers, installa = BATERIES[bateria]
-    c = Compas(idioma, installa, lan=bateria == 'lan', control=bateria == 'xarxa')
+    c = Compas(idioma, installa)
     try:
         for f in fitxers:
             ruta = DIR / f

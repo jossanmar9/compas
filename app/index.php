@@ -63,19 +63,11 @@ try {
 
     // Primera execució: no hi ha cap usuari
     if ((int)valor('SELECT COUNT(*) FROM usuaris') === 0) {
-        if (!peticio_del_servidor()) {
-            http_response_code(403);
-            exit('Configura Compàs des de l’ordinador servidor.');
-        }
         pagina_configuracio_inicial();
         exit;
     }
 
     if ($r === 'recupera') {
-        if (mode_lan() && !peticio_del_servidor()) {
-            http_response_code(403);
-            exit('Recuperació disponible només al servidor.');
-        }
         if (usuari()) {
             redirigeix('inici');
         }
@@ -100,9 +92,6 @@ try {
     }
 
     switch ($r) {
-        case 'xarxa_local':
-            pagina_xarxa_local();
-            break;
         case 'inici':
             pagina_inici();
             break;
@@ -270,5 +259,5 @@ try {
     }
     error_log((string)$ex);
     http_response_code(500);
-    pagina(t('err.titol'), '<div class="avis error">' . h(t('err.inesperat')) . '</div><pre class="detall">' . h(pot('config.manage') && peticio_del_servidor() ? $ex->getMessage() : t('err.contacta_admin')) . '</pre>');
+    pagina(t('err.titol'), '<div class="avis error">' . h(t('err.inesperat')) . '</div><pre class="detall">' . h(pot('config.manage') ? $ex->getMessage() : t('err.contacta_admin')) . '</pre>');
 }

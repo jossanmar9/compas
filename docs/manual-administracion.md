@@ -2,7 +2,7 @@
 
 ## 1. Antes de empezar
 
-Compàs es el programa de gestión de la entidad: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en Windows o Linux, sin Internet, con modo local por defecto y LAN opcional, y tiene tres roles de cuenta. Esta tabla resume qué puede hacer cada una:
+Compàs es el programa de gestión de la entidad: personas, socios, escuela de música, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta directiva y actas, documentos, comunicados y copias de seguridad. Funciona en **un solo ordenador con Windows o Linux**, sin Internet, y tiene tres roles de cuenta. Esta tabla resume qué puede hacer cada una:
 
 | Qué se puede hacer | Administrador/a | Usuario/a | Consultor/a |
 |---|:---:|:---:|:---:|
@@ -51,7 +51,7 @@ A continuación, Compàs muestra el **código de recuperación**. Sirve para pon
 
 ![Código de recuperación](imatges/es/01b-codi-recuperacio.webp)
 
-> Para empezar sin los datos de ejemplo: entra como administrador/a en **Copias de seguridad → Vaciar los datos de gestión**, con LAN desactivado. Escribe `BUIDAR` y tu contraseña actual. Se guarda una copia manual antes de borrar **todos** los datos de gestión, incluidos los datos reales añadidos después. Se conservan configuración, logo, cuentas, permisos y catálogos de tipos y categorías; las tarifas se vacían. Las copias anteriores siguen disponibles. Después hay que volver a entrar.
+> Para empezar sin los datos de ejemplo: entra como administrador/a en **Copias de seguridad → Vaciar los datos de gestión**. Escribe `BUIDAR` y tu contraseña actual. Se guarda una copia manual antes de borrar **todos** los datos de gestión, incluidos los datos reales añadidos después. Se conservan configuración, logo, cuentas, permisos y catálogos de tipos y categorías; las tarifas se vacían. Las copias anteriores siguen disponibles. Después hay que volver a entrar.
 
 ## 2. Configuración de la entidad y logotipo
 
@@ -234,6 +234,6 @@ Qué trae cada versión se puede ver en **Ayuda → Qué cambia en cada versión
 
 **¿Dónde están los datos?** En la carpeta `data` del programa (`data\compas.db`). La ruta exacta se ve en **Configuración**, abajo.
 
-## Red local y consulta limitada (2.3)
+## Cuentas y consulta limitada
 
-La [guía LAN](xarxa-local.md#compàs-22-red-local-y-usuarios) explica cómo activar el servidor, crear cuentas sin acentos, usar el rol Consultor y gestionar las copias. El consultor no accede a economía, IBAN, importes, exportaciones, informes imprimibles, archivos ni copias. La consulta parcial de escuela y agrupaciones no incluye todas las operaciones de gestión de la tabla. En LAN, cerrar el navegador solo cierra el cliente; el servidor continúa hasta que lo detenga la persona responsable. Si una ficha ha cambiado desde que la abriste, recárgala antes de guardar.
+Cada persona que usa Compàs en este ordenador puede tener su cuenta. Los nombres de cuenta tienen de 3 a 40 caracteres sin acentos (letras, números, punto, guion y guion bajo). El rol **consultor/a** solo puede consultar personas, socios, escuela, agrupaciones e instrumentos: no accede a economía, IBAN, importes, exportaciones, informes imprimibles, archivos ni copias. La consulta parcial de escuela y agrupaciones no incluye todas las operaciones de gestión de la tabla.

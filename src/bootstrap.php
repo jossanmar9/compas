@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '2.3.3';
+const COMPAS_VERSIO = '2.4.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -139,6 +139,8 @@ function actualitza_esquema(PDO $pdo, string $esquema, int $versio): void
  */
 function migra_esquema(PDO $pdo): void
 {
+    // 2.4: el mode de xarxa local s'ha llevat; el registre d'intents d'entrada per IP ja no cal
+    $pdo->exec('DROP TABLE IF EXISTS entrada_intents');
     $columnes = [
         'persones' => [
             'consentiment_imatge' => "TEXT NOT NULL DEFAULT 'pendent'",
@@ -337,7 +339,7 @@ function inicia_sessio(): void
     ini_set('session.use_trans_sid', '0');
     session_save_path($dir);
     session_name('compas');
-    session_set_cookie_params(['httponly' => true, 'samesite' => 'Strict', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', 'path' => '/']);
+    session_set_cookie_params(['httponly' => true, 'samesite' => 'Strict', 'path' => '/']);
     session_start();
     if (empty($_SESSION['csrf'])) {
         $_SESSION['csrf'] = bin2hex(random_bytes(16));
@@ -406,14 +408,12 @@ function usuari(bool $refresca = false): ?array
     $u = null;
     if (!empty($_SESSION['usuari_id'])) {
         $u = fila('SELECT * FROM usuaris WHERE id = ? AND actiu = 1', [$_SESSION['usuari_id']]);
-        if ($u && ((!isset($_SESSION['sessio_contrasenya']) || !hash_equals($u['contrasenya'], (string)$_SESSION['sessio_contrasenya']))
-            || (mode_lan() && time() - (int)($_SESSION['activitat'] ?? 0) > 1800)
+        if ($u && ((!isset($_SESSION['sessio_contrasenya']) || !hash_equals(hash('sha256', $u['contrasenya']), (string)$_SESSION['sessio_contrasenya']))
             || !hash_equals((string)config('sessions_versio', ''), (string)($_SESSION['sessions_versio'] ?? '')))) {
             unset($_SESSION['usuari_id'], $_SESSION['sessio_contrasenya']);
             $u = null;
         }
         if ($u) {
-            $_SESSION['activitat'] = time();
             $u['capacitats'] = array_column(q(
                 'SELECT DISTINCT rc.capacitat FROM usuari_rols ur JOIN rol_capacitats rc ON rc.rol_id = ur.rol_id WHERE ur.usuari_id = ?',
                 [$u['id']]

@@ -4,20 +4,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 return [
-    'xarxa.pdf' => 'Guia de xarxa local en PDF',
-    'xarxa.titol' => 'Xarxa local / HTTPS',
-    'xarxa.servidor' => 'La xarxa es configura des de l’ordinador servidor.',
-    'xarxa.sense_control' => 'Obri Compàs amb el llançador per a utilitzar l’assistent de xarxa.',
-    'xarxa.error' => 'No s’ha pogut obrir l’assistent. Torna-ho a provar.',
-    'xarxa.obert' => 'S’ha demanat obrir l’assistent al servidor. Si no apareix al davant, busca el panell de Compàs o el terminal del servidor. Els canvis només s’apliquen quan els confirmes en l’assistent.',
-    'xarxa.text' => 'Configura la xarxa privada des del servidor. Pots activar-la amb un compte d’administració o de gestió.',
-    'xarxa.obri' => 'Configura la xarxa local',
-    'xarxa.activa' => 'El servidor està compartit. Els altres equips poden entrar amb el navegador i el seu compte.',
-    'xarxa.local' => 'Ara Compàs funciona només en este ordinador. Activa compartir per a treballar des d’altres equips de la xarxa privada.',
 
     'buidar.titol' => 'Buidar les dades de gestió',
-    'buidar.text' => 'Esborra TOTES les dades de gestió, no sols les d’exemple: persones, socis, escola, activitats, economia, documents i historial. Conserva la configuració de l’entitat, el logo, els comptes, els permisos i els catàlegs de tipus i categories. Les tarifes es buiden. Abans guarda una còpia manual que es pot restaurar. Les còpies anteriors es conserven. Cal tornar a entrar. Només disponible amb el mode LAN desactivat.',
-    'buidar.local' => 'Desactiva el mode LAN i fes el buidatge des del servidor.',
+    'buidar.text' => 'Esborra TOTES les dades de gestió, no sols les d’exemple: persones, socis, escola, activitats, economia, documents i historial. Conserva la configuració de l’entitat, el logo, els comptes, els permisos i els catàlegs de tipus i categories. Les tarifes es buiden. Abans guarda una còpia manual que es pot restaurar. Les còpies anteriors es conserven. Cal tornar a entrar.',
     'buidar.confirmacio' => 'Escriu BUIDAR i confirma la teua contrasenya actual.',
     'buidar.integritat' => 'No es pot completar el buidatge: les dades es conserven.',
     'buidar.escriu' => 'Escriu BUIDAR per confirmar que vols esborrar totes les dades de gestió.',
@@ -1288,7 +1277,7 @@ return [
     'rgpd.instruments.destinataris' => 'Cap.',
     'rgpd.instruments.conservacio' => 'Mentre dure el préstec i, després, per a l\'historial de l\'instrument.',
     'rgpd.mesures' => 'Mesures de seguretat',
-    'rgpd.mes.local' => 'Les dades es guarden al servidor de l’entitat, amb Compàs. Per defecte només és accessible al mateix ordinador; el mode LAN opcional permet accés autenticat als equips de la xarxa privada autoritzada. No envia dades a serveis externs.',
+    'rgpd.mes.local' => 'Les dades es guarden en un sol ordinador de l\'entitat, amb el programa Compàs, que no s\'hi pot accedir des de la xarxa ni des d\'Internet i no envia dades enlloc.',
     'rgpd.mes.comptes' => 'Accés amb usuari i contrasenya personal (guardada xifrada) i dos perfils amb permisos diferents.',
     'rgpd.mes.registre' => 'Registre d\'activitat: qui ha creat, modificat, eliminat, imprimit o exportat dades, i quan.',
     'rgpd.mes.copies' => 'Còpies de seguretat automàtiques cada dia i en tancar el programa.',
@@ -1614,8 +1603,5 @@ return [
     'rol.consultor' => 'Consultor/a',
     'err.usuari_repetit' => 'Aquest nom d’usuari ja existeix. Tria’n un altre.',
     'usuaris.migrats' => 'S’han adaptat estos noms antics a la regla sense accents. Les contrasenyes es conserven. Comunica el nom nou a cada persona:',
-    'err.contacta_admin' => 'Consulta el registre del servidor o contacta amb l’administrador/a.',
-    'lan.restaura' => 'Per a restaurar una còpia, atura el mode LAN i fes-ho al servidor en mode local, sense altres usuaris connectats.',
-    'err.canviat' => 'Una altra persona ha canviat esta fitxa. Recarrega-la i revisa els canvis abans de desar; les teues dades encara no s’han guardat.',
-    'lan.guia' => 'Xarxa local i permisos',
+    'err.contacta_admin' => 'Consulta el registre d’errors o contacta amb l’administrador/a.',
 ];

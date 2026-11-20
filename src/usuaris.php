@@ -64,44 +64,12 @@ function consultor_pot_ruta(string $ruta, bool $post = false): bool
         || in_array($ruta, ENTITATS_CONSULTOR, true);
 }
 
-
 function autentica_sessio(int $id): void
 {
     session_regenerate_id(true);
     $_SESSION['usuari_id'] = $id;
-    $_SESSION['sessio_contrasenya'] = (string)valor('SELECT contrasenya FROM usuaris WHERE id = ?', [$id]);
-    $_SESSION['activitat'] = time();
+    // Només una empremta: servix per a tancar les altres sessions en canviar la contrasenya sense guardar-ne el resum
+    $_SESSION['sessio_contrasenya'] = hash('sha256', (string)valor('SELECT contrasenya FROM usuaris WHERE id = ?', [$id]));
     $_SESSION['sessions_versio'] = (string)config('sessions_versio', '');
     usuari(true);
-}
-
-/** Dos límits independents: compte (5) i IP (50), sense bloquejar la resta de la LAN. */
-function claus_intents_entrada(): array
-{
-    return [hash('sha256', 'usuari:' . strtolower((string)post('usuari'))) => 5,
-        hash('sha256', 'ip:' . (string)($_SERVER['REMOTE_ADDR'] ?? '')) => 50];
-}
-
-function entrada_bloquejada(): bool
-{
-    foreach (claus_intents_entrada() as $clau => $limit) {
-        $f = fila('SELECT intents, darrer FROM entrada_intents WHERE clau = ?', [$clau]);
-        if ($f && $f['intents'] >= $limit && time() - (int)$f['darrer'] < 30) { return true; }
-    }
-    return false;
-}
-
-function registra_intent_entrada(bool $correcte): void
-{
-    $claus = claus_intents_entrada();
-    if ($correcte) {
-        q('DELETE FROM entrada_intents WHERE clau = ?', [array_key_first($claus)]);
-        return;
-    }
-    q('DELETE FROM entrada_intents WHERE darrer < ?', [time() - 3600]);
-    foreach ($claus as $clau => $limit) {
-        q('INSERT INTO entrada_intents(clau, intents, darrer) VALUES(?, 1, ?)
-            ON CONFLICT(clau) DO UPDATE SET intents = CASE WHEN entrada_intents.darrer < ? THEN 1 ELSE entrada_intents.intents + 1 END, darrer = excluded.darrer',
-            [$clau, time(), time() - 30]);
-    }
 }

@@ -4,20 +4,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 return [
-    'xarxa.pdf' => 'Guía de red local en PDF (valenciano)',
-    'xarxa.titol' => 'Red local / HTTPS',
-    'xarxa.servidor' => 'La red se configura desde el ordenador servidor.',
-    'xarxa.sense_control' => 'Abre Compàs con el lanzador para utilizar el asistente de red.',
-    'xarxa.error' => 'No se ha podido abrir el asistente. Vuelve a intentarlo.',
-    'xarxa.obert' => 'Se ha solicitado abrir el asistente en el servidor. Si no aparece delante, busca el panel de Compàs o el terminal del servidor. Los cambios solo se aplican cuando los confirmas en el asistente.',
-    'xarxa.text' => 'Configura la red privada desde el servidor. Puedes activarla con una cuenta de administración o de gestión.',
-    'xarxa.obri' => 'Configurar la red local',
-    'xarxa.activa' => 'El servidor está compartido. Los demás equipos pueden entrar con el navegador y su cuenta.',
-    'xarxa.local' => 'Ahora Compàs funciona solo en este ordenador. Activa compartir para trabajar desde otros equipos de la red privada.',
 
     'buidar.titol' => 'Vaciar los datos de gestión',
-    'buidar.text' => 'Borra TODOS los datos de gestión, no solo los de ejemplo: personas, socios, escuela, actividades, economía, documentos e historial. Conserva la configuración de la entidad, el logo, las cuentas, los permisos y los catálogos de tipos y categorías. Las tarifas se vacían. Antes guarda una copia manual que se puede restaurar. Las copias anteriores se conservan. Hay que volver a entrar. Solo disponible con el modo LAN desactivado.',
-    'buidar.local' => 'Desactiva el modo LAN y vacía los datos desde el servidor.',
+    'buidar.text' => 'Borra TODOS los datos de gestión, no solo los de ejemplo: personas, socios, escuela, actividades, economía, documentos e historial. Conserva la configuración de la entidad, el logo, las cuentas, los permisos y los catálogos de tipos y categorías. Las tarifas se vacían. Antes guarda una copia manual que se puede restaurar. Las copias anteriores se conservan. Hay que volver a entrar.',
     'buidar.confirmacio' => 'Escribe BUIDAR y confirma tu contraseña actual.',
     'buidar.integritat' => 'No se puede completar el vaciado: los datos se conservan.',
     'buidar.escriu' => 'Escribe BUIDAR para confirmar que quieres borrar todos los datos de gestión.',
@@ -1268,7 +1257,7 @@ return [
     'rgpd.instruments.destinataris' => 'Ninguno.',
     'rgpd.instruments.conservacio' => 'Mientras dure el préstamo y, después, para el historial del instrumento.',
     'rgpd.mesures' => 'Medidas de seguridad',
-    'rgpd.mes.local' => 'Los datos se guardan en el servidor de la entidad, con Compàs. Por defecto solo es accesible en ese ordenador; el modo LAN opcional permite acceso autenticado a los equipos de la red privada autorizada. No envía datos a servicios externos.',
+    'rgpd.mes.local' => 'Los datos se guardan en un solo ordenador de la entidad, con el programa Compàs, al que no se puede acceder desde la red ni desde Internet y que no envía datos a ningún sitio.',
     'rgpd.mes.comptes' => 'Acceso con usuario y contraseña personal (guardada cifrada) y dos perfiles con permisos diferentes.',
     'rgpd.mes.registre' => 'Registro de actividad: quién ha creado, modificado, eliminado, impreso o exportado datos, y cuándo.',
     'rgpd.mes.copies' => 'Copias de seguridad automáticas cada día y al cerrar el programa.',
@@ -1594,8 +1583,5 @@ return [
     'rol.consultor' => 'Consultor/a',
     'err.usuari_repetit' => 'Este nombre de usuario ya existe. Elige otro.',
     'usuaris.migrats' => 'Se han adaptado estos nombres antiguos a la regla sin acentos. Las contraseñas se conservan. Comunica el nombre nuevo a cada persona:',
-    'err.contacta_admin' => 'Consulta el registro del servidor o contacta con el administrador/a.',
-    'lan.restaura' => 'Para restaurar una copia, detén el modo LAN y hazlo en el servidor en modo local, sin otros usuarios conectados.',
-    'err.canviat' => 'Otra persona ha cambiado esta ficha. Recárgala y revisa los cambios antes de guardar; tus datos todavía no se han guardado.',
-    'lan.guia' => 'Red local y permisos',
+    'err.contacta_admin' => 'Consulta el registro de errores o contacta con el administrador/a.',
 ];

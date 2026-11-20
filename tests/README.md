@@ -38,6 +38,9 @@ Arranquen Compàs de veres (el servidor de PHP amb dades d'exemple en una carpet
 | `avis` | `avis.py` | L'avís de responsabilitat en la configuració inicial i en les instal·lacions antigues. |
 | `importacio` | `importacio.php` | Importació de socis i alumnat amb IBAN (crida les funcions de PHP directament). |
 | `tipus` | `tipus.py` | Instal·la cada tipus d'entitat amb les seues dades d'exemple i en recorre totes les pantalles (llistats, fitxes, documents, formularis, CSV i informes); el vocabulari del menú, els mòduls i el mes de l'exercici de cada tipus, les categories, les llicències i els seus avisos, els càrrecs de festa amb el certificat, les entitats federades i les seues quotes, les activitats (places, imports i rebuts) i el canvi de tipus. |
+| `subvencions` | `subvencions.py` | Organismes i requisits editables, cobraments a la caixa, despeses imputades, relació per a la justificació i còpia per a l'any següent. |
+| `buidar` | `buidar.py` | Buidatge de les dades de gestió des de Còpies de seguretat: contrasenya i confirmació, còpia prèvia, només l'administrador. |
+| `comptes` | `comptes.py` | Comptes amb noms ASCII i únics (també davant SQLite i en migrar noms antics), permisos del consultor davant peticions directes, sessions que caduquen en canviar la contrasenya, galetes inventades i accés només des d'este ordinador. |
 | `seguretat` | `seguretat.py` | Només respon a este ordinador (DNS rebinding), capçaleres de seguretat, redireccions del canvi d'idioma, documents aïllats i límit d'intents d'entrada. |
 
 Cada fitxer rep de `tests/integracio.py` les funcions comunes: `G(consulta)` obri una pàgina, `P(consulta, dades)` envia un formulari, `n(sql)` consulta la base de dades, `ok(condició, missatge)` apunta el resultat, etc. Per a afegir proves d'una funció nova, crea un fitxer i posa'l en una bateria de `BATERIES`.
@@ -61,14 +64,3 @@ No s'executa en cada `push`, perquè és lenta.
 ## Com afegir proves
 
 Abans de canviar la lògica de rebuts, SEPA, còpies, migracions o permisos, afig una prova a `tests/run.php` que comprove el comportament actual. Així es veu de seguida si el canvi trenca alguna cosa.
-
-
-## Xarxa local (2.2)
-
-`python3 tests/integracio.py lan` comprova comptes ASCII i duplicats, migració dels noms antics, permisos del Consultor davant peticions directes, sis sessions independents, conflictes d’edició, còpies, límits d’entrada, sessions i validació d’Host i origen. En Linux arranca quatre processos del servidor integrat per a exercitar la concurrència real; a Windows les peticions HTTP s’atenen en sèrie. La bateria no configura el tallafoc ni substituïx una prova física amb dos equips de la mateixa LAN. La base de dades i les dades d’exemple són temporals.
-
-En Windows, si la bateria de subvencions no troba `Europe/Madrid`, instal·la `tzdata` en l’entorn de proves (`python -m pip install tzdata`).
-
-## HTTPS i identitat dels clients
-
-`go -C launcher/xarxa test ./...` prova certificats, noms, confiança i filtratge de les capçaleres. Després de construir l’auxiliar, `python3 tests/https.py dist/compas-xarxa` (Windows: `dist/compas-xarxa.exe`) arranca PHP i TLS reals amb dades temporals: configuració inicial, dos comptes, rol Consultor, galetes Secure, bloqueig del PHP directe i paquet client sense claus. No instal·la certificats en el sistema ni modifica el tallafoc. GitHub prova també el llançador Linux amb `curl --cacert`, sense desactivar la verificació TLS.

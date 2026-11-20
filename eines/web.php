@@ -28,14 +28,6 @@ $T = [
         'lema' => 'Gestió lliure per a associacions',
         'hero' => 'Tota l\'associació, en un sol programa.',
         'hero_text' => "Socis, quotes, activitats, escola, equips, junta i documents, en un ordinador de l'entitat. Per a societats musicals, clubs, colles, AMPA, falles, comparses i molt més. Sense núvol, sense Internet i sense recollir cap dada. Gratuït i en valencià i castellà.",
-        'nav_lan' => 'Xarxa local',
-        'lan_titol' => 'Treballa en equip amb https://compas.local',
-        'lan_intro' => 'Diverses persones poden utilitzar Compàs alhora des dels ordinadors de l’associació, amb el navegador i un compte propi.',
-        'lan_servidor' => 'Un ordinador servidor guarda la base de dades i ha d’estar encés.',
-        'lan_clients' => 'La resta només obri https://compas.local amb el navegador. Sense IP fixa ni copiar el fitxer SQLite.',
-        'lan_rols' => 'Comptes individuals: Administrador/a, Administratiu/iva i Consultor/a de consulta limitada. Noms únics i permisos segons el rol.',
-        'lan_avis' => 'HTTPS i descobriment automàtic des de la 2.3. Cada equip confirma una vegada el certificat de l’associació. Només en xarxes privades que permeten mDNS; el servidor ha d’estar encés. Per defecte continua en mode local.',
-        'lan_guia' => 'Com configurar la xarxa local →',
         'nav_tipus' => 'Per a qui',
         'tipus_titol' => 'Una sola aplicació per a cada tipus d\'entitat',
         'tipus_intro' => 'En instal·lar-lo tries el tipus d\'entitat i Compàs s\'hi adapta: els noms de les pantalles, els apartats que necessites i quan comença l\'exercici. Es pot canviar quan vulgues.',
@@ -56,10 +48,10 @@ $T = [
         ],
         'nav_priv' => 'Privacitat',
         'priv_titol' => 'La privacitat, al centre',
-        'priv_intro' => 'Compàs està fet al revés que les plataformes en línia: les dades de les persones de l\'entitat (també les dels menors) es queden al servidor de l’entitat i als clients autoritzats de la seua LAN.',
+        'priv_intro' => 'Compàs està fet al revés que les plataformes en línia: les dades de les persones de l\'entitat (també les dels menors) no ixen mai de l\'ordinador de l\'entitat.',
         'priv_punts' => [
-            ['Sense núvol', 'El programa i les dades estan al servidor de l’entitat; els clients LAN autoritzats poden accedir-hi. No hi ha cap servidor extern de Compàs.'],
-            ['No recull cap dada', 'Sense comptes en cap plataforma, sense analítica, sense telemetria i sense publicitat. El programa no envia dades a serveis externs; en LAN, només respon als clients de la xarxa pròpia. Esta web no té analítica.'],
+            ['Sense núvol', 'No hi ha cap servidor. El programa i les dades estan en un ordinador de l\'entitat, i ningú no hi pot entrar des d\'Internet.'],
+            ['No recull cap dada', 'Sense comptes en cap plataforma, sense analítica, sense telemetria i sense publicitat. Ni el programa ni esta web envien res enlloc.'],
             ['Funciona sense Internet', 'No cal connexió per a res. Les remeses del banc i els correus es preparen ací i els envieu vosaltres.'],
             ['Les dades són vostres', 'Programari lliure i gratuït, sense quotes ni límit de membres. Si un dia el deixeu de fer servir, les dades continuen a la vostra carpeta.'],
         ],
@@ -117,9 +109,9 @@ $T = [
             ['Serveix per a la nostra entitat?', 'Compàs té tipus per a societats musicals, clubs esportius, colles, associacions culturals, AMPA, falles, gaiates, fogueres, comparses, penyes i federacions. Si la vostra no és cap d\'estes, trieu la que més s\'hi assemble i activeu o desactiveu els apartats que necessiteu.'],
             ['És gratis de veres?', 'Sí. És programari lliure: sense quotes, sense límit de membres i sense versió «de pagament». No hi ha res a contractar.'],
             ['Cal Internet?', 'No. Compàs funciona sense connexió. Els fitxers de remeses per al banc i els correus es preparen al programa i els envieu vosaltres des de la banca electrònica o el vostre correu.'],
-            ['Compàs envia les nostres dades a algun lloc?', 'No. Les dades es queden al servidor de l’entitat i, en mode LAN, es mostren als clients autoritzats. Si la configureu, també es guarden a la carpeta externa de còpies (un USB o una carpeta al núvol que trieu vosaltres). Ni el programa ni esta web recullen res.'],
+            ['Compàs envia les nostres dades a algun lloc?', 'No. Les dades es queden a l\'ordinador de l\'entitat i, si la configureu, a la carpeta externa de còpies (un USB o una carpeta al núvol que trieu vosaltres). Ni el programa ni esta web recullen res.'],
             ['Funciona en Windows i en Linux?', 'Sí. Per a Windows 10 o 11 de 64 bits hi ha un instal·lador i una versió portable; per a Linux, un paquet .deb i un .tar.gz. No hi ha versió per a Mac ni per al mòbil.'],
-            ['Es pot gastar des de diversos ordinadors alhora?', 'Sí. Activa el mode compartit al servidor i entra des dels altres equips en https://compas.local, amb compte propi. Des de la 2.3 no cal IP fixa i la connexió és HTTPS. Cada equip ha de confirmar el certificat una vegada; la xarxa ha de permetre el descobriment local mDNS.'],
+            ['Es pot gastar des de diversos ordinadors alhora?', 'No: Compàs s\'instal·la en un ordinador de l\'entitat i s\'usa en eixe ordinador. Per a canviar d\'ordinador, n\'hi ha prou de restaurar l\'última còpia al nou.'],
             ['Puc provar-lo sense posar les dades de l\'entitat?', 'Sí. En instal·lar-lo, podeu demanar que es carreguen dades d\'exemple del vostre tipus d\'entitat: socis, activitats, rebuts… inventats. Quan el conegueu, comenceu de zero amb les dades de veres.'],
             ['Tenim els socis en un Excel. Cal escriure\'ls tots?', 'No. Importa dades llig fitxers .xlsx i .csv: trieu quina columna és cada dada, reviseu la vista prèvia i s\'importen. Les persones que ja hi ha no es dupliquen.'],
             ['Compàs fa factures?', 'No, fa rebuts. Les factures s\'han de fer amb un programa de facturació que complisca la normativa (Verifactu).'],
@@ -220,9 +212,7 @@ $T = [
             ['manual-usuari.pdf', 'Manual d’usuari', 'Ús diari de Compàs: persones, socis, quotes, activitats i la resta de funcions, amb captures.'],
             ['manual-administracio.pdf', 'Manual d’administració', 'Configuració de l’entitat, comptes, permisos, còpies de seguretat i actualitzacions.'],
             ['guia-installacio.pdf', 'Guia d’instal·lació', 'Instal·lar i obrir Compàs en Windows o Linux per primera vegada.'],
-            ['guia-xarxa-local.pdf', 'Guia de xarxa local (LAN i HTTPS)', 'Preparar el servidor i connectar els altres ordinadors, pas a pas i amb captures.'],
         ],
-        'lan_paquet' => 'Client-Compas.zip es genera en el vostre servidor en activar el servei LAN. Inclou la vostra adreça i el certificat públic de confiança, sense claus privades ni dades de l’associació. Des de la versió 2.3.3, en Windows prem «Preparar altres equips» i passa només Connecta-Compas.exe als clients: obrir, confirmar i entrar, amb accés directe a l’escriptori. El ZIP continua disponible per a Linux. En Linux el trobaràs a la carpeta de dades, dins de https. No hi ha un ZIP genèric descarregable d’esta web: cada instal·lació té el seu certificat.',
         'lliure_titol' => 'Programari lliure',
         'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s’oferisquen a través d’una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
         'autor' => 'Un projecte de José Vicente Sanjuan.',
@@ -244,14 +234,6 @@ $T = [
         'lema' => 'Gestión libre para asociaciones',
         'hero' => 'Toda la asociación, en un solo programa.',
         'hero_text' => 'Socios, cuotas, actividades, escuela, equipos, junta y documentos, en un ordenador de la entidad. Para sociedades musicales, clubes, collas, AMPA, fallas, comparsas y mucho más. Sin nube, sin Internet y sin recopilar ningún dato. Gratuito y en valenciano y castellano.',
-        'nav_lan' => 'Red local',
-        'lan_titol' => 'Trabaja en equipo con https://compas.local',
-        'lan_intro' => 'Varias personas pueden utilizar Compàs a la vez desde los ordenadores de la asociación, con el navegador y una cuenta propia.',
-        'lan_servidor' => 'Un ordenador servidor guarda la base de datos y debe permanecer encendido.',
-        'lan_clients' => 'Los demás solo abren https://compas.local con el navegador. Sin IP fija ni copiar el archivo SQLite.',
-        'lan_rols' => 'Cuentas individuales: Administrador/a, Administrativo/a y Consultor/a de consulta limitada. Nombres únicos y permisos según el rol.',
-        'lan_avis' => 'HTTPS y descubrimiento automático desde la 2.3. Cada equipo confirma una vez el certificado de la asociación. Solo en redes privadas que permitan mDNS; el servidor debe estar encendido. Por defecto sigue en modo local.',
-        'lan_guia' => 'Cómo configurar la red local →',
         'nav_tipus' => 'Para quién',
         'tipus_titol' => 'Una sola aplicación para cada tipo de entidad',
         'tipus_intro' => 'Al instalarlo eliges el tipo de entidad y Compàs se adapta: los nombres de las pantallas, los apartados que necesitas y cuándo empieza el ejercicio. Se puede cambiar cuando quieras.',
@@ -272,10 +254,10 @@ $T = [
         ],
         'nav_priv' => 'Privacidad',
         'priv_titol' => 'La privacidad, en el centro',
-        'priv_intro' => 'Compàs está hecho al revés que las plataformas en línea: los datos de las personas de la entidad (también los de los menores) permanecen en el servidor de la entidad y sus clientes LAN autorizados.',
+        'priv_intro' => 'Compàs está hecho al revés que las plataformas en línea: los datos de las personas de la entidad (también los de los menores) no salen nunca del ordenador de la entidad.',
         'priv_punts' => [
-            ['Sin nube', 'El programa y los datos están en el servidor de la entidad; los clientes LAN autorizados pueden acceder. No hay servidor externo de Compàs.'],
-            ['No recopila ningún dato', 'Sin cuentas en ninguna plataforma, sin analítica, sin telemetría y sin publicidad. El programa no envía datos a servicios externos; en LAN solo responde a clientes de la red propia. Esta web no tiene analítica.'],
+            ['Sin nube', 'No hay ningún servidor. El programa y los datos están en un ordenador de la entidad, y nadie puede entrar desde Internet.'],
+            ['No recopila ningún dato', 'Sin cuentas en ninguna plataforma, sin analítica, sin telemetría y sin publicidad. Ni el programa ni esta web envían nada a ningún sitio.'],
             ['Funciona sin Internet', 'No hace falta conexión para nada. Las remesas del banco y los correos se preparan aquí y los enviáis vosotros.'],
             ['Los datos son vuestros', 'Software libre y gratuito, sin cuotas ni límite de miembros. Si un día lo dejáis de usar, los datos siguen en vuestra carpeta.'],
         ],
@@ -333,9 +315,9 @@ $T = [
             ['¿Sirve para nuestra entidad?', 'Compàs tiene tipos para sociedades musicales, clubes deportivos, collas, asociaciones culturales, AMPA, fallas, gaiatas, fogueres, comparsas, peñas y federaciones. Si la vuestra no es ninguna de estas, elegid la que más se parezca y activad o desactivad los apartados que necesitéis.'],
             ['¿Es gratis de verdad?', 'Sí. Es software libre: sin cuotas, sin límite de miembros y sin versión «de pago». No hay nada que contratar.'],
             ['¿Hace falta Internet?', 'No. Compàs funciona sin conexión. Los ficheros de remesas para el banco y los correos se preparan en el programa y los enviáis vosotros desde la banca electrónica o vuestro correo.'],
-            ['¿Compàs envía nuestros datos a algún sitio?', 'No. Los datos se quedan en el servidor de la entidad y, en modo LAN, se muestran a los clientes autorizados. Si la configuráis, también se guardan en la carpeta externa de copias (un USB o una carpeta en la nube que elegís vosotros). Ni el programa ni esta web recogen nada.'],
+            ['¿Compàs envía nuestros datos a algún sitio?', 'No. Los datos se quedan en el ordenador de la entidad y, si la configuráis, en la carpeta externa de copias (un USB o una carpeta en la nube que elegís vosotros). Ni el programa ni esta web recogen nada.'],
             ['¿Funciona en Windows y en Linux?', 'Sí. Para Windows 10 u 11 de 64 bits hay un instalador y una versión portable; para Linux, un paquete .deb y un .tar.gz. No hay versión para Mac ni para el móvil.'],
-            ['¿Se puede usar desde varios ordenadores a la vez?', 'Sí. Activa el modo compartido en el servidor y entra desde los demás equipos en https://compas.local con cuenta propia. Desde la 2.3 no hace falta IP fija y la conexión es HTTPS. Cada equipo debe confirmar el certificado una vez; la red debe permitir el descubrimiento local mDNS.'],
+            ['¿Se puede usar desde varios ordenadores a la vez?', 'No: Compàs se instala en un ordenador de la entidad y se usa en ese ordenador. Para cambiar de ordenador, basta con restaurar la última copia en el nuevo.'],
             ['¿Puedo probarlo sin poner los datos de la entidad?', 'Sí. Al instalarlo, podéis pedir que se carguen datos de ejemplo de vuestro tipo de entidad: socios, actividades, recibos… inventados. Cuando lo conozcáis, empezad de cero con los datos reales.'],
             ['Tenemos los socios en un Excel. ¿Hay que escribirlos todos?', 'No. Importar datos lee ficheros .xlsx y .csv: elegís qué columna es cada dato, revisáis la vista previa y se importan. Las personas que ya están no se duplican.'],
             ['¿Compàs hace facturas?', 'No, hace recibos. Las facturas se tienen que hacer con un programa de facturación que cumpla la normativa (Verifactu).'],
@@ -436,9 +418,7 @@ $T = [
             ['manual-usuario.pdf', 'Manual de usuario', 'Uso diario de Compàs: personas, socios, cuotas, actividades y el resto de funciones, con capturas.'],
             ['manual-administracion.pdf', 'Manual de administración', 'Configuración de la entidad, cuentas, permisos, copias de seguridad y actualizaciones.'],
             ['guia-instalacion.pdf', 'Guía de instalación', 'Instalar y abrir Compàs en Windows o Linux por primera vez.'],
-            ['guia-xarxa-local.pdf', 'Guía de red local (LAN y HTTPS) · en valenciano', 'Preparar el servidor y conectar los demás ordenadores, paso a paso y con capturas.'],
         ],
-        'lan_paquet' => 'Client-Compas.zip se genera en vuestro servidor al activar el servicio LAN. Incluye vuestra dirección y el certificado público de confianza, sin claves privadas ni datos de la asociación. Desde la versión 2.3.3, en Windows pulsa «Preparar otros equipos» y pasa solo Connecta-Compas.exe a los clientes: abrir, confirmar y entrar, con acceso directo en el escritorio. El ZIP sigue disponible para Linux. En Linux lo encontrarás en la carpeta de datos, dentro de https. No hay un ZIP genérico descargable de esta web: cada instalación tiene su certificado.',
         'lliure_titol' => 'Software libre',
         'lliure' => 'Compàs se distribuye bajo la licencia GNU AGPL v3 o posterior: puedes utilizarlo, estudiarlo, modificarlo y compartirlo. Las versiones modificadas que se ofrezcan a través de una red también deben poner su código fuente a disposición de los usuarios. El código es público en GitHub.',
         'autor' => 'Un proyecto de José Vicente Sanjuan.',
@@ -538,7 +518,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $flux = implode('<span class="fletxa-flux" aria-hidden="true">→</span>', array_map(fn($x) => '<span>' . e($x) . '</span>', $t['flow']));
     $absents = implode('', array_map(fn($x) => '<li>✓ ' . e($x) . '</li>', $t['absent']));
     $downloads = '<article><span class="ic" aria-hidden="true">🪟</span><h3>Windows 10 / 11</h3><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-installador.exe">↓ ' . e($t['installer']) . '</a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-portable.zip">↓ ' . e($t['portable']) . '</a></article>'
-        . '<article><span class="ic" aria-hidden="true">🐧</span><h3>Linux</h3><a href="' . $descarrega . '/download/compas_' . e($versio) . (version_compare($versio, '2.3.0', '>=') ? '_amd64.deb' : '_all.deb') . '">↓ .deb <small>' . e($t['deb']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-linux.tar.gz">↓ .tar.gz <small>' . e($t['tar']) . '</small></a></article>';
+        . '<article><span class="ic" aria-hidden="true">🐧</span><h3>Linux</h3><a href="' . $descarrega . '/download/compas_' . e($versio) . (version_compare($versio, '2.3.0', '>=') && version_compare($versio, '2.4.0', '<') ? '_amd64.deb' : '_all.deb') . '">↓ .deb <small>' . e($t['deb']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-linux.tar.gz">↓ .tar.gz <small>' . e($t['tar']) . '</small></a></article>';
     $compartir = $web . ($l === 'es' ? 'img/es/' : 'img/ca/') . 'web-compartir.png';
     $urlPagina = $web . ($l === 'es' ? 'es/' : '');
     $passos = '';
@@ -556,7 +536,6 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $pdf = fn(string $f) => is_file(dirname(__DIR__) . '/docs/pdf/' . $f) ? $base . 'pdf/' . $f : $repo . '/releases/latest/download/' . $f;
     $docs = implode('', array_map(fn($d) => '<li><a href="' . e($pdf($d[0])) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span><p>' . e($d[2]) . '</p></li>', $t['docs']));
     $manualPdf = e($pdf($l === 'es' ? 'manual-usuario.pdf' : 'manual-usuari.pdf'));
-    $xarxaPdf = e($pdf('guia-xarxa-local.pdf'));
 
     $miniatures = '';
     $primera = 'web-inici';
@@ -598,7 +577,6 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <nav aria-label="{$t['nav_menu']}">
     <a href="#entitats">{$t['nav_tipus']}</a>
     <a href="#que">{$t['nav_que']}</a>
-    <a href="#xarxa">{$t['nav_lan']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
     <a href="#qui">{$t['nav_qui']}</a>
     <a class="nav-baixa" href="#comencar">{$t['download']}</a>
@@ -640,13 +618,6 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   </div>
   <div class="arees">{$arees}</div>
   <details class="totes-funcions"><summary>{$t['all']} →</summary><dl class="moduls">{$moduls}</dl></details>
-</section>
-
-<section id="xarxa" class="seccio xarxa">
-  <div class="cap"><p class="etiqueta">HTTPS · LAN · Windows · Linux</p><h2>{$t['lan_titol']}</h2><p>{$t['lan_intro']}</p></div>
-  <div class="arees"><article class="area"><h3>🖥️ ↔ 💻 💻</h3><p>{$t['lan_servidor']}</p><p>{$t['lan_clients']}</p></article><article class="area"><h3>🔑 {$t['nav_lan']}</h3><p>{$t['lan_rols']}</p><p>{$t['lan_avis']}</p></article></div>
-  <p>{$t['lan_paquet']}</p>
-  <p><a class="boto" href="{$xarxaPdf}">{$t['lan_guia']}</a></p>
 </section>
 
 <section id="captures" class="seccio galeria">
