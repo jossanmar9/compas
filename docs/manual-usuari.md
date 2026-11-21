@@ -742,7 +742,7 @@ Cada categoria té un nom i les edats (des de i fins a). L'edat que compta és l
 
 ## 20. Llicències i revisions mèdiques
 
-Menú **Llicències** (clubs esportius; en altres entitats s'activa a **Mòduls i avisos**). Cada llicència és d'una persona i d'una temporada:
+Menú **Llicències** (clubs esportius; en altres entitats s'activa a **Configuració → Mòduls i avisos**). Cada llicència és d'una persona i d'una temporada:
 
 1. Des de la fitxa de la persona (o des del llistat), prem **+ Afig** a **Llicències**.
 2. Tria l'**equip**, escriu la **federació** (Compàs suggerix les que ja s'han escrit), el **número de llicència** i la **temporada** (ja posa l'actual).

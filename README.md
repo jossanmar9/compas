@@ -172,7 +172,7 @@ Les plataformes en línia tenen avantatges reals (una app per al mòbil dels soc
 | | |
 |---|---|
 | ![Pantalla d'inici de Compàs](docs/imatges/ca/02-inici.webp) | ![Còpies de seguretat](docs/imatges/ca/34-copies.webp) |
-| **Inici:** visió general i accés als mòduls de l'entitat. | **Còpies de seguretat:** automàtiques, manuals i externes. |
+| **Inici:** «Què vols fer?» amb les tasques de cada dia, el cercador a dalt i els avisos. | **Còpies de seguretat:** automàtiques, manuals i externes. |
 | ![Fitxa d'un alumne](docs/imatges/ca/14-alumne-resum.webp) | ![Introduir les notes](docs/imatges/ca/27-qualificacions.webp) |
 | Exemple d'una fitxa amb informació relacionada. | Exemple d'un mòdul específic d'escola. |
 
@@ -203,11 +203,11 @@ La primera vegada, Compàs demana el nom i el **tipus d'entitat** i crea el comp
 Ordre recomanat per a començar:
 
 1. **Configuració**: dades de l'entitat i logotip (ix als rebuts, certificats i butlletins); comprova el mes en què comença l'exercici.
-2. **Mòduls i avisos**: activa o desactiva els apartats que faràs servir.
+2. **Mòduls i avisos** (des de Configuració): activa o desactiva els apartats que faràs servir.
 3. **Còpies de seguretat**: tria una carpeta externa (USB o núvol).
-4. **Tipus de soci**, **tarifes** i, si en feu servir, **categories** d'edat.
-5. **Persones** (o importa-les des d'Excel) i, des de la fitxa de cadascuna, les seues funcions: soci, membre d'un equip o secció, alumne…
-6. Si hi ha escola: el curs o la temporada, les assignatures o activitats, els grups amb l'horari i les matrícules o inscripcions.
+4. **Tipus de soci**, **tarifes** (des de Resum econòmic) i, si en feu servir, **categories** d'edat.
+5. **Persones** (o importa-les des d'Excel) i, des de la fitxa de cadascuna, les seues funcions amb els botons de dalt: fer-la sòcia, afegir-la a un equip o secció, donar-la d'alta com a alumne… L'alumnat nou, amb la família i els grups, es dona d'alta d'una vegada amb **Alta d'alumne**.
+6. Si hi ha escola: a **Grups**, el curs o la temporada, les assignatures o activitats i les aules; després, els grups amb l'horari i les matrícules o inscripcions.
 
 El [manual d'usuari](docs/manual-usuari.md) explica cada procés pas a pas amb captures: alta de socis, alumnes, membres i professorat, matrícules, activitats i inscripcions, llicències, càrrecs de festa, rebuts, baixes, notes, butlletins, préstecs i còpies.
 
@@ -284,10 +284,12 @@ Els manuals també es poden consultar dins del programa, al menú **Ajuda** (el 
 app/          punt d'entrada (index.php) i recursos web (CSS, JS, icones)
 src/          lògica: base de dades, permisos, entitats, pantalles i traduccions
   lang/       textos en valencià (ca.php) i castellà (es.php)
-  pages/      pantalles específiques (inici, escola, butlletins, activitats, còpies…)
+  pages/      pantalles específiques (inici, cercador, escola, butlletins, activitats, còpies…)
+  exemple/    dades d'exemple de l'entitat gran de cada tipus
 launcher/     llançador de Windows (Compas.cs), php.ini, script de l'instal·lador i, a linux/, el llançador i l'instal·lador per a Linux
 docs/         manuals, guies, captures (imatges/) i PDF (pdf/)
-eines/        generació de captures, PDF i web
+eines/        generació de captures, PDF, web i entitat gran de prova
+tests/        proves automàtiques, d'integració i de rendiment
 .github/      construcció de l'instal·lador (publica.yml) i de la web (web.yml)
 ```
 
@@ -311,16 +313,17 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 | `bash eines/pdf.sh` | Fa els manuals i les guies en PDF (`docs/pdf/`) amb Chrome o Chromium. No es guarden al repositori: els fa GitHub Actions en publicar cada versió i la web. |
 | `COMPAS_DADES=carpeta php eines/entitat-gran.php [data]` | Omple una instal·lació nova (configurada sense dades d'exemple) amb una entitat gran inventada del tipus triat, amb nom i adreça inventats (una societat musical té 341 socis, 278 alumnes, 5 agrupacions, 653 obres i uns 5.000 rebuts). Amb una data, les dades es fan com si hui fora eixe dia; les captures de la web hi fan servir el 22-10-2026. Des del programa es fa el mateix triant «Una entitat gran» en la configuració inicial. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
-| `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies). Vegeu [tests/README.md](tests/README.md). |
-| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà; la bateria `tipus` instal·la cada tipus d'entitat i en recorre totes les pantalles, i `entitat_gran` fa el mateix amb l'entitat gran de cada tipus i mira que cap pantalla tarde massa. |
+| `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies, noms de compte i apòstrofs). Vegeu [tests/README.md](tests/README.md). |
+| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà; la bateria `tipus` instal·la cada tipus d'entitat i en recorre totes les pantalles, `entitat_gran` fa el mateix amb l'entitat gran de cada tipus i mira que cap pantalla tarde massa, i `interficie` prova el menú, el cercador, l'inici, les fitxes i l'alta d'alumne. |
 | `php tests/performance.php` | Prova de rendiment de SQLite amb 100.000 rebuts. |
 
 ## Publicar una versió
 
 1. Actualitza `COMPAS_VERSIO` a `src/bootstrap.php`.
 2. Al [CHANGELOG](CHANGELOG.md), apunta els canvis en un apartat nou a dalt amb el número i la data de la versió, per exemple `## [1.2.2] - 2026-11-05`. Mentre treballes, el pots titular `## [Pendent de publicar]` i canviar-li el nom just abans de publicar.
-3. Puja els canvis i crea una etiqueta en minúscula:
+3. Puja els canvis i, **després** del commit que canvia el número, crea una etiqueta en minúscula (si l'etiqueta es fa abans, la versió publicada diu el número antic):
    ```
+   git pull
    git tag v1.2.2
    git push origin v1.2.2
    ```
@@ -333,7 +336,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correc
 ## Pròximes versions
 
 - Calendari d'assajos, entrenaments, partits i actes, amb els espais que cal demanar a l'ajuntament.
-- Assistència als assajos, entrenaments i activitats.
+- Passar llista dels assajos, entrenaments i activitats dins del programa (ara es fa amb els fulls d'assistència en Excel).
 - Repertori interpretat en cada concert, per a la declaració a la SGAE.
 - Cobrament per Bizum o TPV en el registre dels rebuts.
 

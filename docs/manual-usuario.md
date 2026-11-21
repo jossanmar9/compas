@@ -742,7 +742,7 @@ Cada categoría tiene un nombre y las edades (desde y hasta). La edad que cuenta
 
 ## 20. Licencias y revisiones médicas
 
-Menú **Licencias** (clubes deportivos; en otras entidades se activa en **Módulos y avisos**). Cada licencia es de una persona y de una temporada:
+Menú **Licencias** (clubes deportivos; en otras entidades se activa en **Configuración → Módulos y avisos**). Cada licencia es de una persona y de una temporada:
 
 1. Desde la ficha de la persona (o desde el listado), pulsa **+ Añadir** en **Licencias**.
 2. Elige el **equipo**, escribe la **federación** (Compàs sugiere las que ya se han escrito), el **número de licencia** y la **temporada** (ya pone la actual).
