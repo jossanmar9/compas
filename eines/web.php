@@ -16,7 +16,7 @@ $formulari = 'https://forms.gle/qFcmkXbef3sCvywT8'; // enllaç al formulari de c
 $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", file_get_contents($arrel . '/src/bootstrap.php'), $m) ? $m[1] : '');
 
 $web = 'https://jossanmar9.github.io/compas/'; // adreça pública de la web (per a la imatge que es veu en compartir l'enllaç)
-// Captures de la galeria (eines/captures.py web, amb la societat gran inventada d'eines/societat-gran.php, un club i una falla)
+// Captures de la galeria (eines/captures.py web, amb entitats grans inventades amb eines/entitat-gran.php: una societat musical, un club i una falla)
 $captures = ['web-inici', 'web-socis', 'web-alumne', 'web-horari', 'web-notes', 'web-butlleti', 'web-agrupacio', 'web-repertori', 'web-economia',
     'web-rebuts', 'web-remesa', 'web-loteria', 'web-junta', 'web-llistat', 'web-copies',
     'web-club-inici', 'web-club', 'web-club-equip', 'web-activitat', 'web-club-socis', 'web-club-horari',
@@ -194,7 +194,7 @@ $T = [
             'web-falla-carrecs' => 'Els càrrecs de festa de cada exercici (fallera major, president…) amb la data de proclamació.',
             'web-falla-socis' => 'Fallers i falleres, amb el número, el tipus i la data d\'alta.',
             'web-falla-loteria' => 'La loteria de Nadal de la falla: talonaris repartits, participacions venudes i diners per lliurar.',
-            'web-falla-activitat' => 'Un sopar de germanor amb les inscripcions, les places lliures i els rebuts.',
+            'web-falla-activitat' => 'La presentació de la Fallera Major, amb les inscripcions, les places lliures i els rebuts.',
             'web-falla-economia' => 'El resum econòmic de la falla: el que hi ha per cobrar, el cobrat i qui deu les quotes.',
         ],
         'com_titol' => 'Com començar',
@@ -409,7 +409,7 @@ $T = [
             'web-falla-carrecs' => 'Los cargos de fiesta de cada ejercicio (fallera mayor, presidente…) con la fecha de proclamación.',
             'web-falla-socis' => 'Falleros y falleras, con el número, el tipo y la fecha de alta.',
             'web-falla-loteria' => 'La lotería de Navidad de la falla: talonarios repartidos, participaciones vendidas y dinero por entregar.',
-            'web-falla-activitat' => 'Una cena de hermandad con las inscripciones, las plazas libres y los recibos.',
+            'web-falla-activitat' => 'La presentación de la Fallera Mayor, con las inscripciones, las plazas libres y los recibos.',
             'web-falla-economia' => 'El resumen económico de la falla: lo que hay por cobrar, lo cobrado y quién debe las cuotas.',
         ],
         'com_titol' => 'Cómo empezar',

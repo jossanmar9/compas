@@ -197,7 +197,7 @@ Més detalls i solució de problemes a la [guia d'instal·lació](docs/guia-inst
 
 ## Primers passos
 
-La primera vegada, Compàs demana el nom i el **tipus d'entitat** i crea el compte d'administrador (i, si vols, el d'usuari/ària). També pot carregar **dades d'exemple** per a provar-lo.
+La primera vegada, Compàs demana el nom i el **tipus d'entitat** i crea el compte d'administrador (i, si vols, el d'usuari/ària). També pot carregar **dades d'exemple** per a provar-lo: unes poques persones o una **entitat gran** del tipus triat, amb centenars de persones i milers de rebuts.
 
 Ordre recomanat per a començar:
 
@@ -306,12 +306,12 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 
 | Ordre | Què fa |
 |---|---|
-| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`, en WebP) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només fa estes. Una captura només es torna a desar si la pantalla ha canviat de veres (no per la data del dia), perquè el repositori no cresca a cada versió; `--totes` les desa igualment. Requereix Pillow i Playwright. |
+| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`, en WebP) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només fa estes. Una captura només es torna a desar si la pantalla ha canviat de veres (no per la data del dia), perquè el repositori no cresca a cada versió; `--totes` les desa igualment (cal fer-ho quan canvien les dades d'exemple o un text menut, que no arriben a la proporció de píxels que es considera un canvi). Requereix Pillow i Playwright. |
 | `bash eines/pdf.sh` | Fa els manuals i les guies en PDF (`docs/pdf/`) amb Chrome o Chromium. No es guarden al repositori: els fa GitHub Actions en publicar cada versió i la web. |
-| `COMPAS_DADES=carpeta php eines/societat-gran.php` | Omple una instal·lació nova (configurada sense dades d'exemple) amb una societat gran inventada: 341 socis, 278 alumnes, 5 agrupacions, 653 obres i uns 5.000 rebuts. Per a provar el programa amb moltes dades; també la fan servir les captures de la web. |
+| `COMPAS_DADES=carpeta php eines/entitat-gran.php [data]` | Omple una instal·lació nova (configurada sense dades d'exemple) amb una entitat gran inventada del tipus triat, amb nom i adreça inventats (una societat musical té 341 socis, 278 alumnes, 5 agrupacions, 653 obres i uns 5.000 rebuts). Amb una data, les dades es fan com si hui fora eixe dia; les captures de la web hi fan servir el 22-10-2026. Des del programa es fa el mateix triant «Una entitat gran» en la configuració inicial. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
 | `php tests/run.php` | Proves automàtiques (IBAN, SEPA, còpies xifrades, rotació de còpies). Vegeu [tests/README.md](tests/README.md). |
-| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà; la bateria `tipus` instal·la cada tipus d'entitat i en recorre totes les pantalles. |
+| `python3 tests/integracio.py` | Proves d'integració: arranquen Compàs amb dades d'exemple i recorren totes les funcions, en valencià i castellà; la bateria `tipus` instal·la cada tipus d'entitat i en recorre totes les pantalles, i `entitat_gran` fa el mateix amb l'entitat gran de cada tipus i mira que cap pantalla tarde massa. |
 | `php tests/performance.php` | Prova de rendiment de SQLite amb 100.000 rebuts. |
 
 ## Publicar una versió

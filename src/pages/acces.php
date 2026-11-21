@@ -68,6 +68,19 @@ function pagina_configuracio_inicial(): void
             }
             $codi = genera_codi_recuperacio();
             db()->commit();
+            // L'entitat gran va a part: fa les seues pròpies transaccions i tarda uns segons
+            if (post('exemple') === 'gran') {
+                try {
+                    carrega_exemple_gran();
+                    desa_config('dades_exemple', '1');
+                } catch (Throwable $e) {
+                    if (db()->inTransaction()) {
+                        db()->rollBack();
+                    }
+                    error_log('Compàs: dades d\'exemple grans: ' . $e->getMessage());
+                    avis(t('setup.gran_error'), 'error');
+                }
+            }
             autentica_sessio($id);
             $_SESSION['idioma'] = $l;
             audita('instal·lacio', null, null, $nom);
@@ -96,7 +109,7 @@ function pagina_configuracio_inicial(): void
         . '<div class="camp"><label>' . h(t('camp.usuari')) . '</label><input name="usuari2" pattern="[A-Za-z0-9._-]{3,40}" maxlength="40" autocapitalize="none" spellcheck="false" autocomplete="off" value="' . h(post('usuari2')) . '"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya')) . '</label><input type="password" name="contrasenya_b" autocomplete="new-password"></div>'
         . '<div class="camp"><label>' . h(t('camp.contrasenya2')) . '</label><input type="password" name="contrasenya_b2" autocomplete="new-password"></div></fieldset>'
-        . '<div class="camp camp-check"><label><input type="checkbox" name="exemple" value="1"> ' . h(t('setup.exemple')) . '</label><small>' . h(t('setup.exemple_ajuda')) . '</small></div>'
+        . selector_exemple((string)post('exemple'))
         . '<div class="avis-responsabilitat"><h2>⚠ ' . h(t('avis_resp.titol')) . '</h2><p>' . h(t('avis_resp.text')) . '</p>'
         . '<label class="check"><input type="checkbox" name="accepta_avis" value="1" required> <b>' . h(t('avis_resp.accepte')) . '</b></label></div>'
         . '<button>' . h(t('setup.comenca')) . '</button></form>';
@@ -111,6 +124,17 @@ function selector_tipus_entitat(string $actual): string
     foreach (TIPUS_ENTITAT as $k => $tp) {
         $html .= '<label><input type="radio" name="tipus_entitat" value="' . h($k) . '"' . ($k === $actual ? ' checked' : '') . ' required> <span><b>'
             . h($tp['nom'][idioma()]) . '</b><small>' . h($tp['descripcio'][idioma()]) . '</small></span></label>';
+    }
+    return $html . '</div></fieldset>';
+}
+
+/** Dades d'exemple: cap, unes poques per a fer-se una idea o una entitat gran amb centenars de persones */
+function selector_exemple(string $actual): string
+{
+    $html = '<fieldset class="camp exemple"><legend>' . h(t('setup.exemple')) . '</legend><small>' . h(t('setup.exemple_ajuda')) . '</small><div class="opcions-tipus">';
+    foreach (['' => 'cap', '1' => 'xicotetes', 'gran' => 'gran'] as $valor => $clau) {
+        $html .= '<label><input type="radio" name="exemple" value="' . h($valor) . '"' . ($valor === $actual ? ' checked' : '') . '> <span><b>'
+            . h(t('setup.exemple_' . $clau)) . '</b><small>' . h(t('setup.exemple_' . $clau . '_ajuda')) . '</small></span></label>';
     }
     return $html . '</div></fieldset>';
 }

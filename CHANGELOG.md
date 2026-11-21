@@ -8,6 +8,19 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent]
+
+### Nou
+- **Dades d'exemple d'una entitat gran.** En la configuració inicial, «Dades d'exemple» té tres opcions: cap, unes poques (com fins ara) o **una entitat gran** del tipus triat, com una entitat de veres: centenars de persones amb les seues famílies, socis, grups, escola o tallers, llicències, càrrecs de festa, loteria, activitats amb inscripcions, rebuts de dos exercicis amb remeses, junta, reunions, documents, caixa i subvencions. Hi ha una entitat gran per a cada tipus: una societat musical amb 341 socis, 278 alumnes i 653 obres, un club amb 13 equips i les llicències de tots, una falla amb 340 fallers i els càrrecs de set exercicis, una AMPA amb 500 alumnes en extraescolars, una federació amb 64 entitats… Les dates es calculen a partir del dia en què es carreguen. Es carrega en menys d'un segon. *Datos de ejemplo de una entidad grande.*
+- `eines/entitat-gran.php` (abans `eines/societat-gran.php`) fa el mateix des de la línia d'ordres per a qualsevol tipus, i amb una data fixa per a les captures.
+
+### Millorat
+- Les dades d'exemple xicotetes porten **noms de persones de veres** (inventats) en lloc de «Músic1 Exemple» o «Exemple A, Anna», i els germans comparteixen cognoms amb els pares.
+- Les captures de la web del club i de la falla es fan amb l'entitat gran, i les dels manuals amb els noms nous.
+
+### Proves
+- Bateria `entitat_gran`: instal·la l'entitat gran de cada tipus, comprova el volum, que cap data no quede en el futur i que no hi haja errors, i recorre totes les pantalles avisant si alguna tarda més de 3 segons.
+
 ## [2.5.1] - 2026-11-21
 
 ### Web

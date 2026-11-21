@@ -18,7 +18,7 @@ $files = [['Nom', 'Cognoms', 'Naixement', 'DNI', 'Telèfon', 'IBAN', 'Signatura'
     ['Soci', 'Banc2', '1971-01-01', '22222222J', '600', '21000418450200051332', ''],
     ['Soci', 'Jove', '2015-01-01', '', '', 'ES9121000418450200051332', ''],
     ['Soci', 'Dolent', '1972-01-01', '33333333P', '600', 'ES12 3456', ''],
-    ['Músic1', 'Exemple', '', '', '', 'DE89370400440532013000', '']];
+    ['Josep', 'Martínez Pastor', '', '', '', 'DE89370400440532013000', '']];
 $imp = ['tipus' => 'socis', 'nom_fitxer' => 'prova.csv', 'capcalera' => true, 'files' => $files,
     'assignacio' => ['nom', 'cognoms', 'data_naixement', 'document', 'telefon', 'iban', 'data_mandat']];
 $a = analitza_importacio($imp);
@@ -31,7 +31,7 @@ $ok(($m('Banc1')['data_signatura'] ?? '') === '2020-05-01', 'soci amb IBAN i dat
 $ok(($m('Banc2')['iban'] ?? '') === 'ES9121000418450200051332', 'soci amb CCC convertit');
 $ok($m('Jove') === null, 'menor sense domiciliació');
 $ok($m('Dolent') === null, 'IBAN incorrecte no s importa');
-$ok($fet['domiciliacions_diferents'] === 1, 'Músic1 ja tenia domiciliació diferent: no es canvia');
+$ok($fet['domiciliacions_diferents'] === 1, 'Josep ja tenia domiciliació diferent: no es canvia');
 // Alumnes amb el tutor
 $files = [['Alumne', 'Naix', 'Tutor', 'DNI tutor', 'IBAN'], ['Nen Prova', '2016-03-03', 'Mare Prova', '44444444A', 'ES9121000418450200051332']];
 $imp = ['tipus' => 'alumnes', 'nom_fitxer' => 'a.csv', 'capcalera' => true, 'files' => $files, 'assignacio' => ['nom_complet', 'data_naixement', 'tutor_nom_complet', 'tutor_document', 'iban']];

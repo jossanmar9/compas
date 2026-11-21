@@ -5,8 +5,8 @@
 
 # Junta i signants
 h=G('r=junta'); ok('Junta actual' in h and 'renovar' in h, 'pàgina de la junta amb avís de renovació')
-h=G('r=certificat&tipus=soci&id=1'); ok('Tutor1 Exemple' in h and 'Músic1 Exemple' in h, 'certificat signat per la secretaria i amb el vistiplau de la presidència de la junta')
-h=G('r=junta_doc'); ok('Vocal d' in h and 'Músic3' in h, 'certificat de composició de la junta')
+h=G('r=certificat&tipus=soci&id=1'); ok('Marta Peris Monfort' in h and 'Josep Martínez Pastor' in h, 'certificat signat per la secretaria i amb el vistiplau de la presidència de la junta')
+h=G('r=junta_doc'); ok('Vocal d' in h and 'Hèctor' in h, 'certificat de composició de la junta')
 # Configuració per damunt de la junta
 db.execute("insert into config(clau,valor) values('certificat_signant','Secretari Manual') on conflict(clau) do update set valor=excluded.valor"); db.commit()
 h=G('r=certificat&tipus=soci&id=1'); ok('Secretari Manual' in h, 'la configuració mana sobre la junta')
@@ -31,15 +31,15 @@ h=multipart(f'r=edita&e=documents&id={did}', dict(titol='Prova PDF 2', tipus='co
 ok(n('select fitxer_nom from documents where id=?',did)=='conveni.pdf' and n('select titol from documents where id=?',did)=='Prova PDF 2', 'editar sense fitxer no l esborra')
 P(f'r=elimina&e=documents&id={did}', {}); ok(n('select count(*) from document_fitxers where document_id=?',did)==0, 'eliminar el document esborra el fitxer')
 h=G('r=inici'); ok(('caduquen' in h and 'certificat de delictes' in h) or ('caducan' in h and 'certificado de delitos' in h), 'avisos a l inici: documents i certificat')
-h=G('r=llista&e=professors&filtre=sense_certificat'); ok('Professora2' in h and 'Professora1' not in h, 'filtre de professorat sense certificat')
+h=G('r=llista&e=professors&filtre=sense_certificat'); ok('Empar' in h and 'Rosa' not in h, 'filtre de professorat sense certificat')
 # Còpia de seguretat inclou documents
 # Full d'alta
 h=G('r=full_alta'); ok('15,00 €' in h and 'caixeta' in h, 'full d alta amb quotes i IBAN')
 # Comunicats
-h=G('r=comunicats&a=socis'); m=re.search(r'<textarea id="adreces"[^>]*>([^<]*)</textarea>', h); ok(m and 'music1@exemple.org' in m.group(1), 'llista de correus dels socis')
-ok('Músic5' in h, 'mostra qui no té correu')
+h=G('r=comunicats&a=socis'); m=re.search(r'<textarea id="adreces"[^>]*>([^<]*)</textarea>', h); ok(m and 'josep.martinez@exemple.org' in m.group(1), 'llista de correus dels socis')
+ok('Aitana' in h, 'mostra qui no té correu')
 nab=n('select count(*) from comunicats'); P('r=comunicats&a=socis', dict(assumpte='Prova', data='2026-10-21', cos='Hola')); ok(n('select count(*) from comunicats')==nab+1, 'comunicat registrat')
-h=G('r=comunicats&a=families'); ok('tutor1@exemple.org' in h, 'famílies de l escola')
+h=G('r=comunicats&a=families'); ok('marta.peris@exemple.org' in h, 'famílies de l escola')
 # RGPD
 h=G('r=rgpd'); ok((('Gestió de socis' in h and 'Mesures de seguretat' in h) or ('Gestión de socios' in h and 'Medidas de seguridad' in h)) and 'IBAN' in h, 'registre d activitats de tractament')
 # Caixa

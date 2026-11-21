@@ -14,12 +14,13 @@ Requisits: PHP 8.1+ (pdo_sqlite, mbstring), Python 3, Pillow i Playwright:
     python3 eines/captures.py es web        només les de la web, en castellà
     python3 eines/captures.py --totes       les torna a desar encara que no hagen canviat
 
-Les captures de la web («web-…») es fan a part, amb una societat gran inventada (eines/societat-gran.php):
+Les captures de la web («web-…») es fan a part, amb entitats grans inventades (eines/entitat-gran.php):
 341 socis, 278 alumnes, cinc agrupacions i 653 obres. També fan la imatge per a compartir l'enllaç (web-compartir.png).
 
 Per a no fer créixer el repositori, una captura només es torna a desar si la pantalla ha canviat
 de veres: si la diferència amb la que ja hi ha és només la data del dia o un número (menys del 0,4 %
-dels píxels), es deixa la que hi havia i git no veu cap canvi. Amb --totes es tornen a desar totes.
+dels píxels), es deixa la que hi havia i git no veu cap canvi. Amb --totes es tornen a desar totes: cal fer-ho
+quan canvien les dades d'exemple o un text menut (un nom, una etiqueta), que per àrea no es distingixen d'una data.
 Les captures que ja no es fan s'esborren (només quan es fan totes, sense filtre).
 
 © 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,15 +52,17 @@ RESSALT = '3px solid #ff6a00'
 TEXTOS = {
     'ca': dict(societat="Societat Musical d'Exemple", carpeta='E:\\Copies Compàs', poble="Poble d'Exemple",
                grups=['Llenguatge musical · 1r A', 'Clarinet · Individual'], percussio='Percussió', clarinet='Clarinet',
-               provincia='Castelló', adreca='Carrer Major, 7', bo='Bo', signant='Secretària Exemple', carrec='secretària',
-               president='President Exemple'),
+               provincia='Castelló', adreca='Carrer Major, 7', bo='Bo', signant='Marta Peris Monfort', carrec='secretària',
+               president='Josep Martínez Pastor'),
     'es': dict(societat='Sociedad Musical de Ejemplo', carpeta='E:\\Copias Compàs', poble='Pueblo de Ejemplo',
                grups=['Lenguaje musical · 1.º A', 'Clarinete · Individual'], percussio='Percusión', clarinet='Clarinete',
-               provincia='Castellón', adreca='Calle Mayor, 7', bo='Bueno', signant='Secretaria Ejemplo', carrec='secretaria',
-               president='Presidente Ejemplo'),
+               provincia='Castellón', adreca='Calle Mayor, 7', bo='Bueno', signant='Marta Peris Monfort', carrec='secretaria',
+               president='Josep Martínez Pastor'),
 }
 
 
+# Les entitats grans de les captures de la web es fan com si hui fora este dia: així ixen sempre iguals
+DATA_GRAN = '2026-10-22'
 # Captures desades en esta execució (per a esborrar després les que ja no es fan)
 FETES: set[Path] = set()
 # Proporció de píxels que poden canviar sense que la captura es torne a desar (les dates del dia, un número…)
@@ -175,6 +178,9 @@ class Captures:
         for nom, valor in camps.items():
             el = self.p.locator(f'[name="{nom}"]').last
             tipus = await el.evaluate('e => e.tagName + ":" + (e.type || "")')
+            if tipus.endswith('radio'):
+                await self.p.locator(f'[name="{nom}"][value="{valor}"]').check()
+                continue
             if tipus.startswith('SELECT'):
                 valors = await el.evaluate('e => [...e.options].map(o => o.value)')
                 if str(valor) in valors:
@@ -227,7 +233,7 @@ async def fes_captures(l: str):
             await c.ves(f'?r=idioma&l={l}&tornar=/')
             await c.omple({'societat_nom': t['societat'], 'usuari': 'admin', 'contrasenya': 'contrasenya1',
                            'contrasenya2': 'contrasenya1', 'usuari2': 'secretaria', 'contrasenya_b': 'contrasenya2',
-                           'contrasenya_b2': 'contrasenya2', 'exemple': True, 'accepta_avis': True})
+                           'contrasenya_b2': 'contrasenya2', 'exemple': '1', 'accepta_avis': True})
             await c.foto('01-configuracio-inicial', 'input[name="accepta_avis"]', 'button', zona='.caixa', alt_max=2700)
             await c.desa()
 
@@ -252,7 +258,7 @@ async def fes_captures(l: str):
             await c.ves('?r=llista&e=persones&filtre=incomplets')
             await c.foto('04b-persones-avis', zona=None)
             await c.ves('?r=edita&e=persones')
-            await c.omple({'nom': 'Alumne7', 'cognoms': 'Exemple Prova', 'data_naixement': '2016-03-14', 'document': '',
+            await c.omple({'nom': 'Martina', 'cognoms': 'Sanchis Peris', 'data_naixement': '2016-03-14', 'document': '',
                            'telefon': '600 000 007', 'email': 'familia7@exemple.org', 'adreca': t['adreca'],
                            'codi_postal': '12000', 'poblacio': t['poble'], 'provincia': t['provincia']})
             await c.foto('05-persona-nova', 'form .accions button')
@@ -270,7 +276,7 @@ async def fes_captures(l: str):
             # Tutor legal
             await p.locator(await c.boto_afig('tutories')).first.click()
             await p.wait_for_load_state('networkidle')
-            await c.omple({'tutor_id': 'Exemple, Tutor1', 'tipus_relacio': 'mare', 'principal': True})
+            await c.omple({'tutor_id': 'Peris Monfort, Marta', 'tipus_relacio': 'mare', 'principal': True})
             await c.foto('09-tutor-nou', 'select[name="tutor_id"]')
             await c.desa()
 
@@ -323,7 +329,7 @@ async def fes_captures(l: str):
 
             # --- Professorat ---
             await c.ves('?r=edita&e=persones')
-            await c.omple({'nom': 'Professor3', 'cognoms': 'Exemple', 'data_naixement': '1982-02-02', 'document': '00000103X', 'telefon': '600 000 103'})
+            await c.omple({'nom': 'Ferran', 'cognoms': 'Bort Querol', 'data_naixement': '1982-02-02', 'document': '00000103X', 'telefon': '600 000 103'})
             await c.desa()
             await p.locator(await c.boto_afig('professors')).first.click()
             await p.wait_for_load_state('networkidle')
@@ -335,7 +341,7 @@ async def fes_captures(l: str):
             await c.foto('21-curs-fitxa', await c.boto_afig('periodes'), alt_max=1000)
             await c.ves('?r=edita&e=grups')
             assig = await p.locator('select[name="assignatura_id"] option').filter(has_text=t['percussio']).first.get_attribute('value')
-            prof = await p.locator('select[name="professor_id"] option').filter(has_text='Professor3').first.get_attribute('value')
+            prof = await p.locator('select[name="professor_id"] option').filter(has_text='Ferran').first.get_attribute('value')
             await c.omple({'assignatura_id': assig, 'nom': 'Individual', 'professor_id': prof, 'aula_id': '2'})
             await c.foto('22-grup-nou', 'form .accions button')
             await c.desa()
@@ -370,7 +376,7 @@ async def fes_captures(l: str):
             await c.desa()
             await p.locator(await c.boto_afig('cessions')).first.click()
             await p.wait_for_load_state('networkidle')
-            per = await p.locator('select[name="persona_id"] option').filter(has_text='Alumne7').first.get_attribute('value')
+            per = await p.locator('select[name="persona_id"] option').filter(has_text='Martina').first.get_attribute('value')
             await c.omple({'persona_id': per, 'data_prevista': f'{date.today().year + 1}-06-30', 'estat_entrega': t['bo'], 'fianca': '50'})
             await c.foto('31-cessio-nova', 'select[name="persona_id"]', 'input[name="data_prevista"]')
             await c.desa()
@@ -445,11 +451,11 @@ async def fes_captures(l: str):
             ws = wb.active
             ws.append(['Núm. soci', 'Nom i cognoms', 'DNI', 'Data naixement', 'Telèfon', 'Adreça', 'Població'] if l == 'ca'
                       else ['Nº socio', 'Nombre y apellidos', 'DNI', 'Fecha nacimiento', 'Teléfono', 'Dirección', 'Población'])
-            ws.append(['301', 'Exemple, Soci7', '00000301X', d(1975, 4, 2), '600 000 301', t['adreca'], t['poble']])
-            ws.append(['302', 'Exemple, Soci8', '00000302X', d(1982, 11, 20), '600 000 302', t['adreca'], t['poble']])
-            ws.append(['102', 'Músic2 Exemple', '00000013X', d(1989, 12, 2), None, None, None])
-            ws.append(['303', 'Tutor2 Exemple', None, None, '600 000 004', None, None])
-            ws.append(['304', 'Exemple, Soci9', None, '31/02/1990', None, None, t['poble']])
+            ws.append(['301', 'Puig Ramos, Teresa', '00000301X', d(1975, 4, 2), '600 000 301', t['adreca'], t['poble']])
+            ws.append(['302', 'Fuster Lluch, Enric', '00000302X', d(1982, 11, 20), '600 000 302', t['adreca'], t['poble']])
+            ws.append(['102', 'Carla Navarro Esteve', '00000013X', d(1989, 12, 2), None, None, None])
+            ws.append(['303', 'Vicent Garcia Bosch', None, None, '600 000 004', None, None])
+            ws.append(['304', 'Safont Orts, Rosa', None, '31/02/1990', None, None, t['poble']])
             fitxer = Path(tempfile.gettempdir()) / f'socis-{l}.xlsx'
             wb.save(fitxer)
             await c.ves('?r=importa')
@@ -584,7 +590,7 @@ def logo_societat_gran(desti: Path) -> None:
 
 
 async def fes_captures_web(l: str):
-    """Captures de la web: amb una societat gran inventada (eines/societat-gran.php), de finestra sencera i en format 16:10"""
+    """Captures de la web: amb una societat gran inventada (eines/entitat-gran.php), de finestra sencera i en format 16:10"""
     import sqlite3
     import urllib.parse
     import urllib.request
@@ -606,7 +612,7 @@ async def fes_captures_web(l: str):
         op.open(url, urllib.parse.urlencode(dict(_csrf=csrf, societat_nom='Compàs', idioma=l, usuari='admin', contrasenya='contrasenya1',
                                                  contrasenya2='contrasenya1', usuari2='secretaria', contrasenya_b='contrasenya2',
                                                  contrasenya_b2='contrasenya2', accepta_avis='1')).encode()).read()
-        subprocess.run(['php', str(ARREL / 'eines' / 'societat-gran.php')], env=entorn, check=True, stdout=subprocess.DEVNULL)
+        subprocess.run(['php', str(ARREL / 'eines' / 'entitat-gran.php'), DATA_GRAN], env=entorn, check=True, stdout=subprocess.DEVNULL)
         logo_societat_gran(dades / 'logo.png')
         externa = dades / 'usb'
         externa.mkdir()
@@ -715,19 +721,19 @@ NOMS_TIPUS = {'club_esportiu': ('Club Esportiu La Plana', 'Club Deportivo La Pla
 
 
 async def fes_captures_tipus(l: str):
-    """Instal·la un club esportiu, una falla i una federació amb les dades d'exemple i en fa les captures"""
+    """Instal·la un club esportiu, una falla i una federació grans (eines/entitat-gran.php) i en fa les captures"""
     import urllib.parse
     import urllib.request
     import http.cookiejar
     plans = {
         'club_esportiu': [('96-llicencies', '?r=llista&e=llicencies', 'main'), ('97-categories', '?r=llista&e=categories', 'main'),
                           ('98-activitat', '?r=fitxa&e=activitats&id=1', 'main'), ('web-club-inici', '?r=inici', None),
-                          ('web-club', '?r=llista&e=llicencies', None), ('web-club-equip', '?r=fitxa&e=agrupacions&id=1', None),
+                          ('web-club', '?r=llista&e=llicencies', None), ('web-club-equip', '?r=fitxa&e=agrupacions&id=10', None),
                           ('web-activitat', '?r=fitxa&e=activitats&id=1', None), ('web-club-socis', '?r=llista&e=socis', None),
                           ('web-club-horari', '?r=horari', None)],
         'falla': [('99-carrecs-festa', '?r=llista&e=carrecs_festa', 'main'), ('web-falla', '?r=inici', None),
                   ('web-falla-carrecs', '?r=llista&e=carrecs_festa', None), ('web-falla-socis', '?r=llista&e=socis', None),
-                  ('web-falla-loteria', '?r=loteria&id=1', None), ('web-falla-activitat', '?r=fitxa&e=activitats&id=1', None),
+                  ('web-falla-loteria', '?r=loteria&id=2', None), ('web-falla-activitat', '?r=fitxa&e=activitats&id=1', None),
                   ('web-falla-economia', '?r=economia', None)],
         'federacio': [('100-entitats-federades', '?r=llista&e=entitats_federades', 'main')],
     }
@@ -746,7 +752,8 @@ async def fes_captures_tipus(l: str):
             h = op.open(url).read().decode()
             csrf = re.search(r'name="_csrf" value="([^"]+)"', h).group(1)
             op.open(url, urllib.parse.urlencode(dict(_csrf=csrf, societat_nom=NOMS_TIPUS[tipus][l == 'es'], tipus_entitat=tipus, idioma=l, usuari='admin',
-                                                     contrasenya='contrasenya1', contrasenya2='contrasenya1', exemple='1', accepta_avis='1')).encode()).read()
+                                                     contrasenya='contrasenya1', contrasenya2='contrasenya1', exemple='', accepta_avis='1')).encode()).read()
+            subprocess.run(['php', str(ARREL / 'eines' / 'entitat-gran.php'), DATA_GRAN], env=entorn, check=True, stdout=subprocess.DEVNULL)
             async with async_playwright() as pw:
                 nav = await pw.chromium.launch()
                 ctx = await nav.new_context(viewport={'width': AMPLE, 'height': ALT}, device_scale_factor=ESCALA, locale='es-ES' if l == 'es' else 'ca-ES')

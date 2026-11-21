@@ -40,6 +40,7 @@ BATERIES = {
     'uniformes': (['uniformes_moduls.py'], True),
     'repertori': (['repertori.py', 'assistencia.py'], True),
     'gran': (['gran.py'], True),
+    'entitat_gran': (['entitat_gran.py'], False),
     'avis': (['avis.py'], False),
     'importacio': (['importacio.php'], True),
     'seguretat': (['seguretat.py'], True),
@@ -61,7 +62,7 @@ def port_lliure() -> int:
 class Compas:
     """Una instal·lació temporal de Compàs amb el servidor de PHP"""
 
-    def __init__(self, idioma: str, installa: bool, tipus: str | None = None):
+    def __init__(self, idioma: str, installa: bool, tipus: str | None = None, exemple: str = '1'):
         self.idioma = idioma
         self.dades = tempfile.mkdtemp(prefix='compas-proves-')
         self.port = port_lliure()
@@ -82,7 +83,7 @@ class Compas:
         if installa:
             self.envia('', dict(societat_nom='Societat Prova', idioma=idioma, usuari='admin', contrasenya='contrasenya-llarga1',
                                 contrasenya2='contrasenya-llarga1', usuari2='secre', contrasenya_b='contrasenya-llarga2',
-                                contrasenya_b2='contrasenya-llarga2', exemple='1', accepta_avis='1', **({'tipus_entitat': tipus} if tipus else {})))
+                                contrasenya_b2='contrasenya-llarga2', exemple=exemple, accepta_avis='1', **({'tipus_entitat': tipus} if tipus else {})))
             self.csrf = self.token(self.obri('r=inici'))
 
     @staticmethod

@@ -41,7 +41,9 @@ La primera vez que se abre Compàs aparece la **Configuración inicial**:
 3. Elige el **idioma** por defecto.
 4. Crea el **usuario administrador** y su contraseña (al menos 8 caracteres). Apúntala en un lugar seguro.
 5. Si quieres, crea también la cuenta de **usuario/a** (se puede hacer después).
-6. Marca **Cargar datos de ejemplo** solo si quieres probar el programa con datos inventados.
+6. En **Datos de ejemplo**, elige si quieres empezar con la entidad vacía (**Ninguno**) o probar el programa con personas y datos inventados:
+   - **Unos pocos**: una veintena de personas, para hacerse una idea de cada apartado.
+   - **Una entidad grande**: cientos de personas con sus familias, grupos, escuela o talleres, recibos de dos ejercicios, remesas, lotería, actividades, junta y caja, como una entidad de verdad del tipo que has elegido. Va bien para ver cómo se trabaja con mucho volumen. Tarda unos segundos.
 7. Lee el **aviso de responsabilidad** y marca que lo aceptas.
 8. Pulsa **Empezar**.
 

@@ -1,5 +1,5 @@
 <?php
-// Dades d'exemple per als tipus d'entitat que no són una societat musical. Noms genèrics i inventats.
+// Dades d'exemple per als tipus d'entitat que no són una societat musical: una vintena de persones inventades.
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -29,12 +29,15 @@ function carrega_exemple_associacio(string $tipus): void
 
     // Adults i menors, tots socis (o famílies associades, fallers, comparsistes…)
     $adults = $menors = [];
+    $cognoms = ['Ferrer Pastor', 'Soler Bosch', 'Navarro Gil', 'Vidal Ribes', 'Peris Monfort', 'Climent Roig', 'Llorens Mas', 'Tormo Esteve',
+        'Sanchis Puig', 'Moliner Font', 'Bellver Grau', 'Domènech Sales'];
     $noms = ['Anna', 'Jordi', 'Marta', 'Pau', 'Laura', 'Vicent', 'Clara', 'Toni', 'Sara', 'Miquel', 'Elena', 'Raül'];
     foreach ($noms as $i => $nom) {
-        $adults[] = $persona($nom, $tr('Exemple', 'Ejemplo') . ' ' . chr(65 + $i), $edat(25 + $i * 4, $i), $i !== 11);
+        $adults[] = $persona($nom, $cognoms[$i], $edat(25 + $i * 4, $i), $i !== 11);
     }
+    // Els menors són fills de les sis primeres persones adultes (comparteixen el primer cognom)
     foreach (['Nil', 'Aina', 'Joan', 'Martina', 'Biel', 'Lluna', 'Hugo', 'Noa'] as $i => $nom) {
-        $menors[] = $persona($nom, $tr('Exemple', 'Ejemplo') . ' ' . chr(65 + $i % 6), $edat(6 + $i, $i + 3));
+        $menors[] = $persona($nom, explode(' ', $cognoms[$i % 6])[0] . ' ' . ['Sorribes', 'Querol', 'Agost', 'Usó', 'Ivars', 'Tena'][$i % 6], $edat(6 + $i, $i + 3));
     }
     $num = 0;
     foreach ($adults as $i => $p) {

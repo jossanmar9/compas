@@ -1,5 +1,5 @@
 <?php
-// Dades d'exemple (opcionals) per a provar el programa. Noms genèrics.
+// Dades d'exemple (opcionals) per a provar el programa: una vintena de persones inventades.
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -49,8 +49,8 @@ function carrega_dades_exemple(): void
     }
 
     $profs = [];
-    foreach ([1, 2] as $n) {
-        $p = $persona('Professora' . $n, 'Exemple', (1975 + $n * 4) . '-05-1' . $n);
+    foreach ([1 => ['Rosa', 'Ferrer Climent'], 2 => ['Empar', 'Soler Vidal']] as $n => [$nom, $cognoms]) {
+        $p = $persona($nom, $cognoms, (1975 + $n * 4) . '-05-1' . $n);
         q('INSERT INTO professors(persona_id, data_alta) VALUES(?, ?)', [$p, "$any-09-01"]);
         $profs[] = $id();
     }
@@ -72,12 +72,15 @@ function carrega_dades_exemple(): void
     }
 
     $tutors = [];
-    foreach ([1, 2, 3] as $n) {
-        $tutors[] = $persona('Tutor' . $n, 'Exemple', (1978 + $n * 3) . '-0' . ($n + 2) . '-2' . $n);
+    foreach ([1 => ['Marta', 'Peris Monfort'], 2 => ['Vicent', 'Garcia Bosch'], 3 => ['Neus', 'Llorens Gil']] as $n => [$nom, $cognoms]) {
+        $tutors[] = $persona($nom, $cognoms, (1978 + $n * 3) . '-0' . ($n + 2) . '-2' . $n);
     }
+    // Germans de dos en dos: els fills de Marta, de Vicent i de Neus (que n'és la tutora legal)
+    $nomsAlumnes = [1 => ['Pau', 'Sanchis Peris'], 2 => ['Laia', 'Garcia Ribes'], 3 => ['Arnau', 'Tormo Llorens'],
+        4 => ['Júlia', 'Sanchis Peris'], 5 => ['Nil', 'Garcia Ribes'], 6 => ['Clara', 'Tormo Llorens']];
     $alumnesPersona = [];
     foreach (range(1, 6) as $n) {
-        $p = $persona('Alumne' . $n, 'Exemple', ($any - 8 - $n) . '-0' . (($n % 9) + 1) . '-1' . $n);
+        $p = $persona($nomsAlumnes[$n][0], $nomsAlumnes[$n][1], ($any - 8 - $n) . '-0' . (($n % 9) + 1) . '-1' . $n);
         $alumnesPersona[] = $p;
         q('INSERT INTO alumnes(persona_id, data_alta) VALUES(?, ?)', [$p, "$any-09-10"]);
         $al = $id();
@@ -103,8 +106,9 @@ function carrega_dades_exemple(): void
     $musics = [];
     // Anys d'antiguitat de cada músic (n'hi ha un que en fa 25 i un altre 50 este any, per a la llista d'insígnies)
     $anys = [25, 12, 8, 50, 3];
+    $nomsMusics = [1 => ['Josep', 'Martínez Pastor'], 2 => ['Carla', 'Navarro Esteve'], 3 => ['Hèctor', 'Domènech Roig'], 4 => ['Salvador', 'Moliner Castelló'], 5 => ['Aitana', 'Bellver Gimeno']];
     foreach (range(1, 5) as $n) {
-        $p = $persona('Músic' . $n, 'Exemple', [1980, 1989, 1991, 1960, 1995][$n - 1] . '-1' . ($n % 3) . '-0' . $n, $n !== 5);
+        $p = $persona($nomsMusics[$n][0], $nomsMusics[$n][1], [1980, 1989, 1991, 1960, 1995][$n - 1] . '-1' . ($n % 3) . '-0' . $n, $n !== 5);
         $musics[] = $p;
         $alta = ((int)date('Y') - $anys[$n - 1]) . '-0' . $n . '-15';
         q('INSERT INTO socis(persona_id, numero, tipus, data_alta) VALUES(?, ?, ?, ?)', [$p, (string)(100 + $n), $tipusSoci('ordinari'), $alta]);
@@ -190,7 +194,10 @@ function carrega_dades_exemple(): void
     }
     desa_config('junta_anys_mandat', '4');
     // Correus d'exemple per a les llistes de comunicats (un adult sense correu, per a veure-ho)
-    q("UPDATE persones SET email = replace(lower(nom), 'ú', 'u') || '@exemple.org' WHERE data_naixement <= date('now','localtime','-18 years') AND nom <> 'Músic5'");
+    foreach (q("SELECT id, nom, cognoms FROM persones WHERE data_naixement <= date('now','localtime','-18 years') AND id <> ?", [$musics[4]])->fetchAll() as $pe) {
+        $correu = strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $pe['nom'] . '.' . explode(' ', $pe['cognoms'])[0]));
+        q('UPDATE persones SET email = ? WHERE id = ?', [preg_replace('/[^a-z.]/', '', $correu) . '@exemple.org', $pe['id']]);
+    }
     $lloc = $tr('Local social', 'Local social');
     q('INSERT INTO reunions(tipus, data, hora, hora_segona, lloc, data_convocatoria, ordre_del_dia, assistents, desenvolupament, acords, hora_fi, estat) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', [
         'assemblea_ordinaria', ((int)date('Y')) . '-03-20', '19:30', '20:00', $lloc, ((int)date('Y')) . '-03-05',

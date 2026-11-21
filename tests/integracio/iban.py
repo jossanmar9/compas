@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # L'executa tests/integracio.py, que hi posa les funcions comunes (G, P, ok, n, db…).
 
-# Persona adulta sense domiciliació: Músic4
-pid=n("select id from persones where nom='Músic4'")
+# Persona adulta sense domiciliació: Salvador (un músic)
+pid=n("select id from persones where nom='Salvador'")
 h,f=form(f'r=edita&e=persones&id={pid}'); ok('name="iban"' in h, 'camp IBAN a la fitxa de persona')
 f['iban']='2100 0418 4502 0005 1332'   # CCC de 20 xifres
 h=envia(f'r=edita&e=persones&id={pid}', f)
@@ -19,7 +19,7 @@ ok(n("select count(*) from mandats where persona_id=?",pid)==2, 'desar sense can
 f['iban']=''; envia(f'r=edita&e=persones&id={pid}', f)
 ok(n("select count(*) from mandats where persona_id=? and estat='actiu'",pid)==0, 'esborrar l IBAN dona de baixa')
 # Menor
-mid=n("select id from persones where nom='Alumne1'")
+mid=n("select id from persones where nom='Pau'")
 h,f=form(f'r=edita&e=persones&id={mid}'); f['iban']='ES9121000418450200051332'; h=envia(f'r=edita&e=persones&id={mid}', f)
 ok('class="avis error"' in h and n("select count(*) from mandats where persona_id=?",mid)==0, 'menor: error i sense domiciliació')
 # IBAN incorrecte

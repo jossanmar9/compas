@@ -1,57 +1,30 @@
 <?php
-// Omple una instal·lació nova de Compàs amb una societat musical gran i inventada (per a provar i per a les captures de la web):
-// 278 alumnes, 5 agrupacions (banda 78, coral 27, banda jove 34, orquestra 43, tabal i dolçaina 23), 341 socis, 653 obres,
-// dos cursos amb notes i horaris, uns 5.000 rebuts, remeses, instruments, uniformes, loteria, junta, documents i caixa.
-//
-// Ús: primer, configura una instal·lació nova des del programa (sense dades d'exemple); després
-//     COMPAS_DADES=carpeta-de-dades php eines/societat-gran.php
-// Les dades estan ancorades al curs 2026/2027 i són sempre les mateixes (llavor fixa). En l'idioma de la instal·lació.
+// Una societat musical gran i inventada, per a provar Compàs amb un volum realista (i per a les captures de la web):
+// unes 280 persones a l'escola, 5 agrupacions, uns 340 socis, 650 obres, dos cursos amb notes i horaris, uns 5.000 rebuts,
+// remeses, instruments, uniformes, loteria, junta, documents i caixa.
+// L'executa carrega_exemple_gran() dins d'una funció: hi arriben $AVUI (la data de «hui» de les dades) i $configura
+// (si cal posar també el nom, el CIF i l'adreça de la societat inventada). Les dates es calculen a partir de $AVUI.
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
-declare(strict_types=1);
-
-require dirname(__DIR__) . '/src/bootstrap.php';
-require SRC_DIR . '/entitats.php';
-require SRC_DIR . '/crud.php';
-foreach (glob(SRC_DIR . '/pages/*.php') as $f) {
-    require_once $f;
-}
-if ((int)valor('SELECT COUNT(*) FROM persones') > 0) {
-    fwrite(STDERR, "La base de dades ja té persones: cal una instal·lació nova.\n");
-    exit(1);
-}
-session_id('societat-gran');
-@session_start();
-$_SESSION['usuari_id'] = (int)valor('SELECT MIN(id) FROM usuaris');
-mt_srand(2026);
 
 $ES = config('idioma') === 'es';
 $tr = fn(string $ca, string $es) => $ES ? $es : $ca;
-$AVUI = '2026-10-22';
+// $A: any en què comença el curs de l'escola en què cau $AVUI; $C: any natural de $AVUI
+$A = (int)date('n', strtotime($AVUI)) >= 9 ? (int)substr($AVUI, 0, 4) : (int)substr($AVUI, 0, 4) - 1;
+$C = (int)substr($AVUI, 0, 4);
+$MES = substr($AVUI, 0, 7);
 $rnd = fn(int $a, int $b) => mt_rand($a, $b);
 $tria = fn(array $a) => $a[array_rand($a)];
 $prob = fn(float $p) => mt_rand() / mt_getrandmax() < $p;
 $id = fn() => (int)db()->lastInsertId();
-$data = fn(string $ini, string $fi) => date('Y-m-d', mt_rand(strtotime($ini), strtotime($fi)));
+// Una data a l'atzar entre dues, mai després de «hui»
+$data = fn(string $ini, string $fi) => date('Y-m-d', mt_rand(strtotime($ini), max(strtotime($ini), min(strtotime($fi), strtotime($AVUI)))));
 $suma = fn(string $d, int $dies) => date('Y-m-d', strtotime("$d +$dies days"));
+$abans = fn(int $dies) => date('Y-m-d', strtotime("$AVUI -$dies days"));
+$despres = fn(int $dies) => date('Y-m-d', strtotime("$AVUI +$dies days"));
 
 // ---------- Noms (inventats) ----------
-$nomsH = ['Pau', 'Vicent', 'Joan', 'Josep', 'Pere', 'Jordi', 'Àlex', 'Marc', 'Hèctor', 'Andreu', 'Toni', 'Xavier', 'Salvador', 'Rafael', 'Enric', 'Lluís', 'Miquel',
-    'Ferran', 'Biel', 'Nil', 'Arnau', 'Pol', 'Iker', 'Hugo', 'Leo', 'Martí', 'Adrià', 'Òscar', 'Carles', 'David', 'Sergi', 'Raül', 'Gerard', 'Ximo', 'Batiste',
-    'Quique', 'Manel', 'Àngel', 'Ricard', 'Roger', 'Eloi', 'Aleix', 'Bernat', 'Guillem', 'Jaume', 'Nacho', 'Daniel', 'Mateu', 'Lucas', 'Izan', 'Bruno'];
-$nomsD = ['Maria', 'Laia', 'Júlia', 'Marta', 'Anna', 'Clara', 'Paula', 'Carla', 'Neus', 'Amparo', 'Empar', 'Rosa', 'Teresa', 'Vicenta', 'Mireia', 'Aitana', 'Noa',
-    'Lucía', 'Martina', 'Sara', 'Irene', 'Elena', 'Alba', 'Aina', 'Nerea', 'Carmen', 'Pilar', 'Isabel', 'Sílvia', 'Núria', 'Montse', 'Eva', 'Lorena', 'Inma',
-    'Cristina', 'Raquel', 'Patrícia', 'Ainhoa', 'Valèria', 'Èlia', 'Maialen', 'Berta', 'Gemma', 'Lidia', 'Andrea', 'Sofia', 'Vega', 'Ona', 'Abril', 'Mar', 'Lola'];
-$cognomsL = ['Garcia', 'Martínez', 'Ferrer', 'Sanchis', 'Soler', 'Navarro', 'Peris', 'Vidal', 'Climent', 'Monfort', 'Ribes', 'Pastor', 'Bosch', 'Llorens', 'Gil',
-    'Domènech', 'Moliner', 'Tormo', 'Castelló', 'Planells', 'Esteve', 'Mompó', 'Bellver', 'Gimeno', 'Roig', 'Segarra', 'Albiol', 'Arnau', 'Cabedo', 'Beltran',
-    'Vicent', 'Marqués', 'Cervera', 'Puig', 'Salvador', 'Folch', 'Fabregat', 'Agost', 'Pitarch', 'Carda', 'Nebot', 'Bort', 'Museros', 'Alcaide', 'Huguet',
-    'Badenes', 'Escrig', 'Font', 'Grau', 'Ivars', 'Juan', 'López', 'Mas', 'Orts', 'Pérez', 'Querol', 'Ramos', 'Sorribes', 'Torres', 'Usó', 'Vilar', 'Sales',
-    'Mezquita', 'Porcar', 'Ripollés', 'Safont', 'Tena', 'Aparici', 'Bou', 'Castell', 'Fuster', 'Guinot', 'Lluch', 'Martí', 'Ortells', 'Ros'];
-$carrers = $ES
-    ? ['Calle Mayor', 'Calle de San Vicente', 'Plaza de la Música', 'Avenida del País Valenciano', 'Calle del Mar', 'Calle de los Músicos', 'Calle Nueva',
-        'Calle de la Iglesia', 'Calle del Sol', 'Avenida de la Constitución', 'Calle de las Eras', 'Calle del Arrabal', 'Calle de San José', 'Calle de la Fuente']
-    : ['Carrer Major', 'Carrer de Sant Vicent', 'Plaça de la Música', 'Avinguda del País Valencià', 'Carrer de la Mar', 'Carrer dels Músics', 'Carrer Nou',
-        'Carrer de l\'Església', 'Carrer del Sol', 'Avinguda de la Constitució', 'Carrer de les Eres', 'Carrer del Raval', 'Carrer de Sant Josep', 'Carrer de la Font'];
+['h' => $nomsH, 'd' => $nomsD, 'cognoms' => $cognomsL, 'carrers' => $carrers] = noms_exemple($ES);
 $pobles = [['Vilanova de la Música', '12999', 0.78], ['Benicompàs', '12998', 0.12], ['L\'Alqueria del Pentagrama', '12997', 0.10]];
 
 $dniN = 40000000;
@@ -95,7 +68,10 @@ foreach ([
     'descompte_soci' => '10', 'descompte_germans' => '5', 'junta_anys_mandat' => '4',
     'rebut_peu' => $tr('Gràcies per fer possible la música al poble.', 'Gracias por hacer posible la música en el pueblo.'),
 ] as $c => $v) {
-    desa_config($c, $v);
+    // En una instal·lació de veres es manté el nom i les dades que s'han posat; només s'omple el que falta
+    if ($configura || (!str_starts_with($c, 'societat_') && (string)config($c) === '')) {
+        desa_config($c, $c === 'sepa_nom' && !$configura ? (config('societat_nom') ?: $v) : $v);
+    }
 }
 $ibanN = 0;
 $iban = function () use (&$ibanN) {
@@ -103,11 +79,14 @@ $iban = function () use (&$ibanN) {
     $ccc = ['2100', '0049', '3058', '2038', '0182'][$ibanN % 5] . sprintf('%04d', 1000 + $ibanN % 900) . sprintf('%02d', $ibanN % 97) . sprintf('%010d', 3000000 + $ibanN * 7);
     return 'ES' . sprintf('%02d', 98 - mod97($ccc . '142800')) . $ccc;
 };
-desa_config('sepa_iban', $iban());
+$ibanSocietat = $iban();
+if ($configura || (string)config('sepa_iban') === '') {
+    desa_config('sepa_iban', $ibanSocietat);
+}
 
 // ---------- Escola: cursos, períodes, assignatures, aules ----------
 $cursos = [];
-foreach ([['2025/2026', '2025-09-15', '2026-06-19', 'tancat', 0], ['2026/2027', '2026-09-14', '2027-06-18', 'actiu', 1]] as [$n, $di, $df, $e, $act]) {
+foreach ([[(($A - 1) . '/' . $A), (($A - 1) . '-09-15'), ($A . '-06-19'), 'tancat', 0], [($A . '/' . ($A + 1)), ($A . '-09-14'), (($A + 1) . '-06-18'), 'actiu', 1]] as [$n, $di, $df, $e, $act]) {
     q('INSERT INTO cursos(nom, data_inici, data_fi, estat, actual) VALUES(?,?,?,?,?)', [$n, $di, $df, $e, $act]);
     $c = $id();
     $per = [];
@@ -158,7 +137,7 @@ $profPersona = [];
 foreach ($especialitats as $i => [$esp, $sx]) {
     $p = $persona($sx, $naixEdat(26, 58));
     q('INSERT INTO professors(persona_id, data_alta, certificat_delictes, observacions) VALUES(?,?,?,?)',
-        [$p, $data('2008-09-01', '2025-09-01'), $i === 7 ? null : ($i === 12 ? '2020-09-02' : $data('2024-06-01', '2026-09-10')),
+        [$p, $data((($A - 18) . '-09-01'), (($A - 1) . '-09-01')), $i === 7 ? null : ($i === 12 ? (($A - 6) . '-09-02') : $data((($A - 2) . '-06-01'), ($A . '-09-10'))),
             $tr('Especialitat: ', 'Especialidad: ') . implode('/', array_map(fn($e) => $nomL(['Direcció' => $tr('Direcció', 'Dirección'), 'Conjunts' => $tr('Conjunts', 'Conjuntos'), 'Cor' => $tr('Cor', 'Coro')][$e] ?? $e), explode('/', $esp)))]);
     $pr = $id();
     foreach (explode('/', $esp) as $e) {
@@ -212,7 +191,7 @@ while ($i < count($plans)) {
     foreach ($grupFam as [$p, $pla]) {
         $edat = (int)((strtotime($AVUI) - strtotime($persones[$p][2])) / (365.25 * 86400));
         $antic = $edat >= 8 ? $prob(.82) : ($edat >= 6 ? $prob(.5) : false);
-        $alta = $antic ? $data('2019-09-01', '2025-09-15') : $data('2026-09-01', '2026-09-20');
+        $alta = $antic ? $data((($A - 7) . '-09-01'), (($A - 1) . '-09-15')) : $data(($A . '-09-01'), ($A . '-09-20'));
         $instr = $edat >= 7 && $bossaInstr ? array_pop($bossaInstr) : null;
         q('INSERT INTO alumnes(persona_id, data_alta, descompte_pct, observacions) VALUES(?,?,?,?)',
             [$p, $alta, $prob(.02) ? 50 : null, $prob(.04) ? $tr('Beca de l\'ajuntament', 'Beca del ayuntamiento') : null]);
@@ -225,7 +204,7 @@ while ($i < count($plans)) {
 }
 for ($k = 0; $k < 14; $k++) {
     $p = $persona($sexe(), $naixEdat(12, 20));
-    q("INSERT INTO alumnes(persona_id, data_alta, data_baixa, estat) VALUES(?,?,?, 'baixa')", [$p, $data('2016-09-01', '2022-09-01'), $data('2023-06-01', '2025-06-30')]);
+    q("INSERT INTO alumnes(persona_id, data_alta, data_baixa, estat) VALUES(?,?,?, 'baixa')", [$p, $data((($A - 10) . '-09-01'), (($A - 4) . '-09-01')), $data((($A - 3) . '-06-01'), (($A - 1) . '-06-30'))]);
 }
 
 // ---------- Grups i horaris (un joc per curs), sense que cap aula ni cap professor estiga en dos llocs alhora ----------
@@ -254,7 +233,7 @@ $aulesInstr = ['vent' => ['Aula 6', 'Aula 7', 'Aula 8'], 'metall' => ['Aula 7', 
 $tornProf = [];
 foreach ($cursos as $nomCurs => $c) {
     $cid = $c['id'];
-    $dif = 2026 - (int)substr($nomCurs, 0, 4);
+    $dif = $A - (int)substr($nomCurs, 0, 4);
     $mat = [];
     foreach ($alumnes as $al => $a) {
         if ($a['alta'] <= date('Y-m-d', strtotime($c['inici'] . ' +10 days'))) {
@@ -372,7 +351,7 @@ foreach ($cursos as $nomCurs => $c) {
                 foreach ($als as $al) {
                     q('INSERT INTO qualificacions(grup_id, alumne_id, periode_id, professor_id, nota, observacions, modificat) VALUES(?,?,?,?,?,?,?)', [
                         $g, $al, $per, $prof, (string)max(3, min(10, $base[$al] + $rnd(-2, 2) + ($k === 2 ? 1 : 0))), $prob(.12) ? $tria($observacions) : null,
-                        ['2025-12-18', '2026-03-27', '2026-06-17'][$k] . ' 19:30:00',
+                        [(($A - 1) . '-12-18'), ($A . '-03-27'), ($A . '-06-17')][$k] . ' 19:30:00',
                     ]);
                 }
             }
@@ -396,9 +375,9 @@ foreach ($alumnes as $al => $a) {
         $alumnesPer[$a['instr']][] = $al;
     }
 }
-$membre = function (int $p, string $ag, ?string $instr, ?string $alta = null, string $funcio = 'membre') use ($agr, $data, $nomL) {
+$membre = function (int $p, string $ag, ?string $instr, ?string $alta = null, string $funcio = 'membre') use ($agr, $data, $nomL, $A) {
     q('INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, funcio, data_alta) VALUES(?,?,?,?,?)',
-        [$p, $agr[$ag], $instr === null ? null : $nomL($instr), $funcio, $alta ?? $data('1975-06-01', '2026-09-30')]);
+        [$p, $agr[$ag], $instr === null ? null : $nomL($instr), $funcio, $alta ?? $data('1975-06-01', ($A . '-09-30'))]);
 };
 $escolaDe = fn(string $f) => match (true) {
     str_starts_with($f, 'Saxo') => 'Saxòfon', $f === 'Requint' => 'Clarinet', str_starts_with($f, 'Violí') => 'Violí', default => $f,
@@ -450,18 +429,18 @@ foreach ($plantilles as $ag => $pl) {
                 $p = $persona($sexe(), $naixEdat(12, 17));
             }
             $usats[$ag][$p] = true;
-            $alta = $ag === 'Banda Simfònica' && isset($adultsNous[$p]) ? $data(date('Y-m-d', strtotime($persones[$p][2] . ' +14 years')), '2025-09-01') : null;
+            $alta = $ag === 'Banda Simfònica' && isset($adultsNous[$p]) ? $data(date('Y-m-d', strtotime($persones[$p][2] . ' +14 years')), (($A - 1) . '-09-01')) : null;
             $membre($p, $ag, $faristol, $alta);
         }
     }
 }
 foreach (['Banda Simfònica' => 'Conjunts', 'Banda Jove' => 'Clarinet', 'Orquestra' => 'Violí', 'Coral Polifònica' => 'Cor', 'Colla de Tabal i Dolçaina' => 'Dolçaina'] as $ag => $esp) {
-    $membre($profPersona[$profs[$esp][0]], $ag, null, $data('2012-09-01', '2022-09-01'), 'director_titular');
+    $membre($profPersona[$profs[$esp][0]], $ag, null, $data((($A - 14) . '-09-01'), (($A - 4) . '-09-01')), 'director_titular');
 }
-$membre($profPersona[$profs['Saxòfon'][0]], 'Banda Simfònica', null, '2023-01-10', 'director_assistent');
+$membre($profPersona[$profs['Saxòfon'][0]], 'Banda Simfònica', null, (($A - 3) . '-01-10'), 'director_assistent');
 for ($k = 0; $k < 9; $k++) {
     q("INSERT INTO membres(persona_id, agrupacio_id, instrument_veu, data_alta, data_baixa, estat) VALUES(?,?,?,?,?, 'baixa')",
-        [$persona($sexe(), $naixEdat(25, 80)), $agr['Banda Simfònica'], $nomL($tria(['Clarinet', 'Trompeta', 'Flauta', 'Percussió', 'Trombó'])), $data('1970-01-01', '2010-01-01'), $data('2015-01-01', '2026-06-30')]);
+        [$persona($sexe(), $naixEdat(25, 80)), $agr['Banda Simfònica'], $nomL($tria(['Clarinet', 'Trompeta', 'Flauta', 'Percussió', 'Trombó'])), $data('1970-01-01', (($A - 16) . '-01-01')), $data((($A - 11) . '-01-01'), ($A . '-06-30'))]);
 }
 
 // ---------- Socis (341 actius) ----------
@@ -479,27 +458,27 @@ $fesSoci = function (int $p, string $codi, string $alta) use (&$socis, $tipusSoc
 };
 foreach (array_keys($musicsAdults) as $p) {
     if ($prob(.92)) {
-        $fesSoci($p, 'ordinari', date('Y-m-d', max(strtotime($persones[$p][2] . ' +16 years'), strtotime($data('1985-01-01', '2026-06-01')))));
+        $fesSoci($p, 'ordinari', date('Y-m-d', max(strtotime($persones[$p][2] . ' +16 years'), strtotime($data('1985-01-01', ($A . '-06-01'))))));
     }
 }
 foreach ($alumnes as $a) {
     if ($a['edat'] >= 14 && $a['edat'] < 18 && $prob(.35)) {
-        $fesSoci($a['persona'], 'juvenil', $data('2022-01-01', '2026-09-30'));
+        $fesSoci($a['persona'], 'juvenil', $data((($A - 4) . '-01-01'), ($A . '-09-30')));
     }
 }
 foreach ($families as $fam) {
     if ($prob(.55)) {
-        $fesSoci($fam[0][0], $prob(.85) ? 'ordinari' : 'protector', $data('2005-01-01', '2026-09-30'));
+        $fesSoci($fam[0][0], $prob(.85) ? 'ordinari' : 'protector', $data((($A - 21) . '-01-01'), ($A . '-09-30')));
     }
 }
 foreach ($profPersona as $p) {
     if ($prob(.3)) {
-        $fesSoci($p, 'ordinari', $data('2010-01-01', '2025-01-01'));
+        $fesSoci($p, 'ordinari', $data((($A - 16) . '-01-01'), (($A - 1) . '-01-01')));
     }
 }
 while (count($socis) < 341) {
     $x = mt_rand(1, 100);
-    $fesSoci($persona($sexe(), $naixEdat(30, 92)), $x <= 70 ? 'ordinari' : ($x <= 95 ? 'protector' : 'honorari'), $data('1960-01-01', '2026-09-30'));
+    $fesSoci($persona($sexe(), $naixEdat(30, 92)), $x <= 70 ? 'ordinari' : ($x <= 95 ? 'protector' : 'honorari'), $data('1960-01-01', ($A . '-09-30')));
 }
 $k = 0;
 foreach (q('SELECT id FROM socis ORDER BY data_alta, id')->fetchAll(PDO::FETCH_COLUMN) as $s) {
@@ -508,7 +487,7 @@ foreach (q('SELECT id FROM socis ORDER BY data_alta, id')->fetchAll(PDO::FETCH_C
 $motiusBaixa = $ES ? ['Defunción', 'Cambio de residencia', 'Lo ha pedido', null] : ['Defunció', 'Canvi de residència', 'Ho ha demanat', null];
 for ($k = 0; $k < 25; $k++) {
     q("INSERT INTO socis(persona_id, numero, tipus, data_alta, data_baixa, estat, observacions) VALUES(?,?,?,?,?, 'baixa', ?)",
-        [$persona($sexe(), $naixEdat(30, 90)), (string)(900 + $k), $tipusSoci['ordinari'], $data('1980-01-01', '2015-01-01'), $data('2018-01-01', '2026-07-31'), $tria($motiusBaixa)]);
+        [$persona($sexe(), $naixEdat(30, 90)), (string)(900 + $k), $tipusSoci['ordinari'], $data('1980-01-01', (($A - 11) . '-01-01')), $data((($A - 8) . '-01-01'), ($A . '-07-31')), $tria($motiusBaixa)]);
 }
 
 // ---------- Instruments, cessions i manteniments ----------
@@ -531,7 +510,7 @@ foreach ($tipusInv as $tp => [$q, $marca, $model]) {
         $ubi = $tp === 'Piano de cua' ? $tr('Auditori', 'Auditorio') : ($tp === 'Piano vertical' ? 'Aula 5 (piano)' : $tria([$magatzem, $magatzem, $tr('Sala d\'assajos', 'Sala de ensayos'), $tr('Aula 9 (percussió)', 'Aula 9 (percusión)')]));
         q('INSERT INTO instruments(inventari, tipus, marca, model, num_serie, estat, ubicacio, data_adquisicio, observacions) VALUES(?,?,?,?,?,?,?,?,?)', [
             sprintf('INV-%03d', $n), $ES ? ($nomInv[$tp] ?? $nomL($tp)) : $tp, $marca, $model, $marca ? strtoupper(substr($marca, 0, 2)) . $rnd(100000, 999999) : null, $estat, $ubi,
-            $data('1995-01-01', '2026-06-01'), $estat === 'reparacio' ? $tr('Al taller', 'En el taller') : null,
+            $data('1995-01-01', ($A . '-06-01')), $estat === 'reparacio' ? $tr('Al taller', 'En el taller') : null,
         ]);
         $instrs[] = [$id(), $tp];
     }
@@ -556,13 +535,13 @@ foreach ($instrs as [$ins, $tp]) {
     $cedits[$al] = true;
     $p = $alumnes[$al]['persona'];
     if ($prob(.25)) {
-        $e = $data('2022-09-15', '2024-10-01');
+        $e = $data((($A - 4) . '-09-15'), (($A - 2) . '-10-01'));
         q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, data_retorn, estat_entrega, estat_retorn, fianca) VALUES(?,?,?,?,?,?,?,?)',
             [$ins, $p, $e, $suma($e, 280), $suma($e, $rnd(250, 600)), $bo, $tria([$bo, $bo, 'Regular']), 50]);
         continue;
     }
     q('INSERT INTO cessions(instrument_id, persona_id, data_entrega, data_prevista, estat_entrega, fianca, observacions) VALUES(?,?,?,?,?,?,?)', [
-        $ins, $p, $data('2025-09-10', '2026-10-15'), $prob(.12) ? $data('2026-06-30', '2026-10-15') : '2027-06-30', $bo, $tria([50, 50, 30, null]),
+        $ins, $p, $data((($A - 1) . '-09-10'), ($A . '-10-15')), $prob(.12) ? $data(($A . '-06-30'), ($A . '-10-15')) : (($A + 1) . '-06-30'), $bo, $tria([50, 50, 30, null]),
         $prob(.1) ? $tr('Inclou estoig i faristol', 'Incluye estuche y atril') : null,
     ]);
 }
@@ -570,7 +549,7 @@ $tasques = $ES
     ? ['Revisión general', 'Cambio de zapatillas', 'Limpieza y engrase de pistones', 'Cambio de cuerdas', 'Ajuste de mecanismo', 'Afinación', 'Cambio de parche', 'Reparación de soldadura', 'Cambio de corchos']
     : ['Revisió general', 'Canvi de zapatilles', 'Neteja i greixat de pistons', 'Canvi de cordes', 'Ajust de mecanisme', 'Afinació', 'Canvi de pell', 'Reparació de soldadura', 'Canvi de suros'];
 for ($k = 0; $k < 45; $k++) {
-    q('INSERT INTO manteniments(instrument_id, data, descripcio, cost) VALUES(?,?,?,?)', [$tria($instrs)[0], $data('2023-01-01', '2026-10-15'), $tria($tasques), $rnd(15, 380)]);
+    q('INSERT INTO manteniments(instrument_id, data, descripcio, cost) VALUES(?,?,?,?)', [$tria($instrs)[0], $data((($A - 3) . '-01-01'), ($A . '-10-15')), $tria($tasques), $rnd(15, 380)]);
 }
 
 // ---------- Economia ----------
@@ -604,7 +583,7 @@ foreach (array_keys($socis) as $p) {
 }
 foreach (array_keys($pagadors) as $p) {
     if ($prob(.7)) {
-        q('INSERT INTO mandats(persona_id, iban, data_signatura) VALUES(?,?,?)', [$p, $iban(), $data('2012-01-01', '2026-09-20')]);
+        q('INSERT INTO mandats(persona_id, iban, data_signatura) VALUES(?,?,?)', [$p, $iban(), $data((($A - 14) . '-01-01'), ($A . '-09-20'))]);
         $m = $id();
         q('UPDATE mandats SET referencia = ? WHERE id = ?', [referencia_mandat($m), $m]);
     }
@@ -613,51 +592,55 @@ db()->commit();
 
 // Rebuts: quotes de 2025 i 2026 i escola dels dos cursos fins a octubre (amb el càlcul del programa: descomptes, germans, domiciliació…)
 $res = [];
-foreach ([2025, 2026] as $any) {
+foreach ([$C - 1, $C] as $any) {
     foreach (['T1', 'T2', 'T3', 'T4'] as $t) {
-        crea_rebuts(calcula_quotes($any, $t, $res), sprintf('%d-%02d-05', $any, ((int)$t[1] - 1) * 3 + 1));
+        $emissio = sprintf('%d-%02d-05', $any, ((int)$t[1] - 1) * 3 + 1);
+        if ($emissio <= $AVUI) {
+            crea_rebuts(calcula_quotes($any, $t, $res), $emissio);
+        }
     }
 }
 foreach ($cursos as $c) {
     $cf = fila('SELECT * FROM cursos WHERE id = ?', [$c['id']]);
-    crea_rebuts(calcula_escola($cf, 'MAT', $res), date('Y-m-d', strtotime($c['inici'] . ' -5 days')));
+    crea_rebuts(calcula_escola($cf, 'MAT', $res), min($AVUI, date('Y-m-d', strtotime($c['inici'] . ' -5 days'))));
     foreach (array_keys(periodes_escola($cf)) as $codi) {
-        if ($codi[0] === 'M' && $codi !== 'MAT' && substr($codi, 1) <= '2026-10') {
+        if ($codi[0] === 'M' && $codi !== 'MAT' && substr($codi, 1) <= $MES && substr($codi, 1) . '-03' <= $AVUI) {
             crea_rebuts(calcula_escola($cf, $codi, $res), substr($codi, 1) . '-03');
         }
     }
 }
 db()->beginTransaction();
-q("UPDATE rebuts SET estat = 'pagat', data_pagament = date(data_emissio, '+' || (abs(random()) % 20 + 2) || ' days') WHERE data_emissio < '2026-10-01'");
+q("UPDATE rebuts SET estat = 'pagat', data_pagament = date(data_emissio, '+' || (abs(random()) % 20 + 2) || ' days') WHERE data_emissio < ?", ["$MES-01"]);
 // Llavor fixa també per als que es retornen o queden pendents
-foreach (array_slice(q("SELECT id FROM rebuts WHERE data_emissio < '2026-10-01' AND forma_pagament = 'domiciliacio' ORDER BY id")->fetchAll(PDO::FETCH_COLUMN), 0) as $k => $r) {
+foreach (array_slice(q("SELECT id FROM rebuts WHERE data_emissio < ? AND forma_pagament = 'domiciliacio' ORDER BY id", ["$MES-01"])->fetchAll(PDO::FETCH_COLUMN), 0) as $k => $r) {
     if ($k % 157 === 40) {
         q("UPDATE rebuts SET estat = 'retornat', data_pagament = NULL, observacions = ? WHERE id = ?", [$tr('Retornat pel banc', 'Devuelto por el banco'), $r]);
     }
 }
-foreach (q("SELECT id FROM rebuts WHERE data_emissio BETWEEN '2026-04-01' AND '2026-09-30' AND forma_pagament = 'efectiu' ORDER BY id")->fetchAll(PDO::FETCH_COLUMN) as $k => $r) {
+foreach (q("SELECT id FROM rebuts WHERE data_emissio BETWEEN ? AND ? AND forma_pagament = 'efectiu' ORDER BY id", [date('Y-m-01', strtotime("$MES-01 -6 months")), date('Y-m-d', strtotime("$MES-01 -1 day"))])->fetchAll(PDO::FETCH_COLUMN) as $k => $r) {
     if ($k % 13 === 5) {
         q("UPDATE rebuts SET estat = 'per_cobrar', data_pagament = NULL WHERE id = ?", [$r]);
     }
 }
 q("UPDATE rebuts SET forma_pagament = 'transferencia' WHERE forma_pagament = 'efectiu' AND id % 9 = 0");
 foreach (q("SELECT DISTINCT substr(data_emissio, 1, 7) FROM rebuts WHERE forma_pagament = 'domiciliacio' ORDER BY 1")->fetchAll(PDO::FETCH_COLUMN) as $mes) {
-    $preparada = $mes === '2026-10';
-    q('INSERT INTO remeses(referencia, data_creacio, data_cobrament, estat) VALUES(?,?,?,?)', ['tmp-' . $mes, $mes . '-06 10:00:00', $preparada ? '2026-10-30' : $mes . '-10', $preparada ? 'preparada' : 'cobrada']);
+    $preparada = $mes === $MES;
+    q('INSERT INTO remeses(referencia, data_creacio, data_cobrament, estat) VALUES(?,?,?,?)', ['tmp-' . $mes, $mes . '-06 10:00:00', $preparada ? $despres(8) : $mes . '-10', $preparada ? 'preparada' : 'cobrada']);
     $rid = $id();
     q('UPDATE remeses SET referencia = ? WHERE id = ?', [sprintf('REM-%s06-%03d', str_replace('-', '', $mes), $rid), $rid]);
     q("UPDATE rebuts SET remesa_id = ? WHERE forma_pagament = 'domiciliacio' AND substr(data_emissio, 1, 7) = ?", [$rid, $mes]);
 }
-q("UPDATE mandats SET ultim_us = (SELECT MAX(r.data_emissio) FROM rebuts r WHERE r.mandat_id = mandats.id AND r.data_emissio < '2026-10-01')");
+q("UPDATE mandats SET ultim_us = (SELECT MAX(r.data_emissio) FROM rebuts r WHERE r.mandat_id = mandats.id AND r.data_emissio < ?)", ["$MES-01"]);
 $conceptes = $ES ? ['Donativo', 'Alquiler de traje de concierto', 'Libro del centenario', 'Cena de Santa Cecilia'] : ['Donatiu', 'Lloguer de vestit de concert', 'Llibre del centenari', 'Sopar de Santa Cecília'];
 for ($k = 0; $k < 12; $k++) {
-    $d = $data('2025-11-01', '2026-10-20');
+    $d = $data($abans(355), $abans(2));
     q("INSERT INTO rebuts(numero, persona_id, concepte, tipus, data_emissio, import, forma_pagament, estat, data_pagament) VALUES(?,?,?, 'altres', ?, ?, 'efectiu', 'pagat', ?)",
         [numero_rebut_nou($d), $tria(array_keys($socis)), $tria($conceptes), $d, $tria([10, 20, 25, 30, 50, 100]), $d]);
 }
 
 // ---------- Loteria de Nadal ----------
-foreach ([[2025, 'tancat', '04512, 61207'], [2026, 'actiu', '18326, 70954']] as [$any, $est, $nums]) {
+$L = (int)date('n', strtotime($AVUI)) >= 10 ? $C : $C - 1; // la loteria de Nadal es reparteix a l'octubre
+foreach ([[$L - 1, 'tancat', '04512, 61207'], [$L, 'actiu', '18326, 70954']] as [$any, $est, $nums]) {
     q('INSERT INTO loteries(nom, data_sorteig, numeros, preu, juga, participacions_talonari, estat, peu) VALUES(?,?,?,?,?,?,?,?)', [
         $tr('Loteria de Nadal ', 'Lotería de Navidad ') . $any, "$any-12-22", $nums, 5, 4, 50, $est,
         $tr('La societat juga 4 € de cada participació. Caduca als tres mesos del sorteig.', 'La sociedad juega 4 € de cada participación. Caduca a los tres meses del sorteo.'),
@@ -668,10 +651,10 @@ foreach ([[2025, 'tancat', '04512, 61207'], [2026, 'actiu', '18326, 70954']] as 
     $musics = array_slice($musics, 0, 70);
     foreach ($musics as $k => $p) {
         $entrega = "$any-10-" . sprintf('%02d', $rnd(3, 18));
-        if ($any === 2025 || $prob(.15)) {
+        if ($any === $L - 1 || $prob(.15)) {
             $v = $rnd(30, 50);
             q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes, tornades, import_liquidat, data_liquidacio) VALUES(?,?,?,?,?,?,?,?)',
-                [$lo, $k + 1, $p, $entrega, $v, 50 - $v, $v * 5, $any === 2025 ? "$any-12-" . sprintf('%02d', $rnd(1, 19)) : '2026-10-20']);
+                [$lo, $k + 1, $p, $entrega, $v, 50 - $v, $v * 5, $any === $L - 1 ? "$any-12-" . sprintf('%02d', $rnd(1, 19)) : max($entrega, $abans(2))]);
         } else {
             q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega) VALUES(?,?,?,?)', [$lo, $k + 1, $p, $entrega]);
         }
@@ -688,10 +671,10 @@ $vocal = fn(string $ca, string $es) => $tr('Vocal ', 'Vocal ') . $tr($ca, $es);
 foreach ([['presidencia', null], ['vicepresidencia', null], ['secretaria', null], ['tresoreria', null], ['vocal', $vocal('d\'escola', 'de escuela')],
              ['vocal', $vocal('de la banda', 'de la banda')], ['vocal', $vocal('de material i arxiu', 'de material y archivo')], ['vocal', $vocal('de festes', 'de fiestas')],
              ['vocal', $vocal('de la coral', 'de la coral')]] as $k => [$c, $desc]) {
-    q('INSERT INTO carrecs(persona_id, carrec, descripcio, data_inici) VALUES(?,?,?,?)', [$juntaAdults[$k], $c, $desc, '2024-06-14']);
+    q('INSERT INTO carrecs(persona_id, carrec, descripcio, data_inici) VALUES(?,?,?,?)', [$juntaAdults[$k], $c, $desc, ($C - 2) . '-06-14']);
 }
 foreach ([['presidencia', null], ['secretaria', null], ['tresoreria', null], ['vocal', $vocal('d\'escola', 'de escuela')]] as $k => [$c, $desc]) {
-    q('INSERT INTO carrecs(persona_id, carrec, descripcio, data_inici, data_fi) VALUES(?,?,?,?,?)', [$juntaAdults[10 + $k], $c, $desc, '2020-06-12', '2024-06-14']);
+    q('INSERT INTO carrecs(persona_id, carrec, descripcio, data_inici, data_fi) VALUES(?,?,?,?,?)', [$juntaAdults[10 + $k], $c, $desc, ($C - 6) . '-06-12', ($C - 2) . '-06-14']);
 }
 $nomP = fn(int $p) => $persones[$p][0] . ' ' . $persones[$p][1];
 desa_config('certificat_signant', $nomP($juntaAdults[2]));
@@ -705,7 +688,12 @@ $acords = $ES
     ? ['Aprobar el presupuesto del concierto.', 'Encargar 40 polos nuevos.', 'Comprar una tuba y dos clarinetes.', 'Convocar la asamblea general.']
     : ['Aprovar el pressupost del concert.', 'Encarregar 40 polos nous.', 'Comprar una tuba i dos clarinets.', 'Convocar l\'assemblea general.'];
 $local = $tr('Local social', 'Local social');
-foreach (['2025-01-22', '2025-03-19', '2025-05-21', '2025-07-09', '2025-09-17', '2025-11-12', '2026-01-21', '2026-03-18', '2026-05-20', '2026-07-08', '2026-09-16'] as $k => $d) {
+$juntes = [];
+for ($k = 10; $k >= 0; $k--) {
+    $d = strtotime("$AVUI -" . (36 + $k * 56) . ' days');
+    $juntes[] = date('Y-m-d', strtotime('wednesday', $d)); // les juntes, en dimecres
+}
+foreach ($juntes as $k => $d) {
     q("INSERT INTO reunions(tipus, data, hora, lloc, data_convocatoria, ordre_del_dia, assistents, desenvolupament, acords, hora_fi, estat) VALUES('junta',?,?,?,?,?,?,?,?,?, 'celebrada')", [
         $d, '20:30', $local, $suma($d, -7), $acta . $ordres[$k % 4] . $precs, $tr('Assistixen ', 'Asisten ') . $rnd(6, 9) . $tr(' membres de la junta.', ' miembros de la junta.'),
         $tr('Es tracten els punts de l\'ordre del dia. La presidència informa de les activitats previstes i s\'obri un torn de paraula.',
@@ -713,7 +701,8 @@ foreach (['2025-01-22', '2025-03-19', '2025-05-21', '2025-07-09', '2025-09-17', 
         $tr("Aprovar l'acta anterior.\n", "Aprobar el acta anterior.\n") . $acords[$k % 4], '22:15',
     ]);
 }
-foreach (['2025-03-28', '2026-03-27'] as $d) {
+$anyAssemblea = (int)date('n', strtotime($AVUI)) >= 4 ? $C : $C - 1;
+foreach ([($anyAssemblea - 1) . '-03-28', $anyAssemblea . '-03-27'] as $d) {
     q("INSERT INTO reunions(tipus, data, hora, hora_segona, lloc, data_convocatoria, ordre_del_dia, assistents, desenvolupament, acords, hora_fi, estat) VALUES('assemblea_ordinaria',?,?,?,?,?,?,?,?,?,?, 'celebrada')", [
         $d, '19:30', '20:00', $tr('Auditori', 'Auditorio'), $suma($d, -15),
         $acta . $tr("Memòria d'activitats\nEstat de comptes de l'exercici anterior\nPressupost de l'exercici\n", "Memoria de actividades\nEstado de cuentas del ejercicio anterior\nPresupuesto del ejercicio\n") . $precs,
@@ -722,16 +711,16 @@ foreach (['2025-03-28', '2026-03-27'] as $d) {
         $tr("Aprovar l'acta anterior.\nAprovar els comptes de l'exercici anterior.\nAprovar el pressupost de l'exercici.", "Aprobar el acta anterior.\nAprobar las cuentas del ejercicio anterior.\nAprobar el presupuesto del ejercicio."), '21:40',
     ]);
 }
-q("INSERT INTO reunions(tipus, data, hora, lloc, data_convocatoria, ordre_del_dia, estat) VALUES('junta', '2026-10-28', '20:30', ?, '2026-10-21', ?, 'convocada')", [$local, $acta . $ordres[0] . $precs]);
+q("INSERT INTO reunions(tipus, data, hora, lloc, data_convocatoria, ordre_del_dia, estat) VALUES('junta', ?, '20:30', ?, ?, ?, 'convocada')", [$despres(6), $local, $abans(1), $acta . $ordres[0] . $precs]);
 foreach ([
-    [$tr('Estatuts de la societat', 'Estatutos de la sociedad'), 'estatuts', '2012-04-20', null], [$tr('Reglament de règim intern', 'Reglamento de régimen interno'), 'reglament', '2019-03-15', null],
+    [$tr('Estatuts de la societat', 'Estatutos de la sociedad'), 'estatuts', (($A - 14) . '-04-20'), null], [$tr('Reglament de règim intern', 'Reglamento de régimen interno'), 'reglament', (($A - 7) . '-03-15'), null],
     [$tr('Inscripció al Registre d\'Associacions', 'Inscripción en el Registro de Asociaciones'), 'registre', '1983-06-10', null],
-    [$tr('Assegurança de responsabilitat civil', 'Seguro de responsabilidad civil'), 'asseguranca', '2025-11-15', '2026-11-15'],
-    [$tr('Assegurança d\'instruments', 'Seguro de instrumentos'), 'asseguranca', '2026-01-10', '2027-01-10'],
-    [$tr('Conveni amb l\'ajuntament', 'Convenio con el ayuntamiento'), 'conveni', '2026-01-15', '2026-12-31'],
-    [$tr('Subvenció de la Diputació 2026', 'Subvención de la Diputación 2026'), 'subvencio', '2026-05-04', null], [$tr('Llicència SGAE', 'Licencia SGAE'), 'llicencia', '2026-01-01', '2026-12-31'],
-    [$tr('Model 182 (donatius) 2025', 'Modelo 182 (donativos) 2025'), 'fiscal', '2026-01-28', null],
-    [$tr('Certificat de la Federació de Societats Musicals', 'Certificado de la Federación de Sociedades Musicales'), 'altre_document', '2026-02-11', null],
+    [$tr('Assegurança de responsabilitat civil', 'Seguro de responsabilidad civil'), 'asseguranca', $abans(341), $despres(24)],
+    [$tr('Assegurança d\'instruments', 'Seguro de instrumentos'), 'asseguranca', $abans(285), $despres(80)],
+    [$tr('Conveni amb l\'ajuntament', 'Convenio con el ayuntamiento'), 'conveni', ($C . '-01-15'), ($C . '-12-31')],
+    [$tr('Subvenció de la Diputació ' . ($C - 1), 'Subvención de la Diputación ' . ($C - 1)), 'subvencio', ($C - 1) . '-05-04', null], [$tr('Llicència SGAE', 'Licencia SGAE'), 'llicencia', ($C . '-01-01'), ($C . '-12-31')],
+    [$tr('Model 182 (donatius) ' . ($C - 2), 'Modelo 182 (donativos) ' . ($C - 2)), 'fiscal', ($C - 1) . '-01-28', null],
+    [$tr('Certificat de la Federació de Societats Musicals', 'Certificado de la Federación de Sociedades Musicales'), 'altre_document', $abans(250), null],
 ] as [$t, $tp, $d, $cad]) {
     q('INSERT INTO documents(titol, tipus, data_document, data_caducitat) VALUES(?,?,?,?)', [$t, $tp, $d, $cad]);
     $doc = $id();
@@ -740,26 +729,26 @@ foreach ([
     q("UPDATE documents SET fitxer_nom = ?, fitxer_tipus = 'text/plain', fitxer_mida = ? WHERE id = ?", [strtolower(preg_replace('/\W+/', '-', iconv('UTF-8', 'ASCII//TRANSLIT', $t))) . '.txt', strlen($text), $doc]);
 }
 foreach ($profPersona as $p) {
-    q("INSERT INTO documents(titol, tipus, persona_id, data_document, data_caducitat) VALUES(?, 'contracte', ?, '2026-09-01', '2027-06-30')", [$tr('Contracte de ', 'Contrato de ') . $nomP($p), $p]);
+    q("INSERT INTO documents(titol, tipus, persona_id, data_document, data_caducitat) VALUES(?, 'contracte', ?, ?, ?)", [$tr('Contracte de ', 'Contrato de ') . $nomP($p), $p, "$A-09-01", ($A + 1) . '-06-30']);
 }
 foreach ($ES
-    ? [['2025-11-10', 'Socios y socias', 341, 'Concierto de Santa Cecilia'], ['2025-12-01', 'Músicos de la Banda Sinfónica', 78, 'Ensayo extra para el concierto de Navidad'],
-        ['2026-01-08', 'Familias de la escuela', 170, 'Inicio del 2.º trimestre'], ['2026-03-10', 'Socios y socias', 341, 'Convocatoria de la asamblea general'],
-        ['2026-04-02', 'Músicos de la Banda Joven', 34, 'Viaje al certamen'], ['2026-06-01', 'Familias de la escuela', 170, 'Matrícula del curso 2026/2027'],
-        ['2026-06-20', 'Coralistas', 27, 'Cena de final de temporada'], ['2026-09-01', 'Familias de la escuela', 170, 'Horarios del curso 2026/2027'],
-        ['2026-10-05', 'Colla de Tabal y Dulzaina', 23, 'Pasacalles de las fiestas'], ['2026-10-19', 'Músicos de la Orquesta', 43, 'Calendario de ensayos']]
-    : [['2025-11-10', 'Socis i sòcies', 341, 'Concert de Santa Cecília'], ['2025-12-01', 'Músics de la Banda Simfònica', 78, 'Assaig extra per al concert de Nadal'],
-        ['2026-01-08', 'Famílies de l\'escola', 170, 'Inici del 2n trimestre'], ['2026-03-10', 'Socis i sòcies', 341, 'Convocatòria de l\'assemblea general'],
-        ['2026-04-02', 'Músics de la Banda Jove', 34, 'Viatge al certamen'], ['2026-06-01', 'Famílies de l\'escola', 170, 'Matrícula del curs 2026/2027'],
-        ['2026-06-20', 'Coralistes', 27, 'Sopar de final de temporada'], ['2026-09-01', 'Famílies de l\'escola', 170, 'Horaris del curs 2026/2027'],
-        ['2026-10-05', 'Colla de Tabal i Dolçaina', 23, 'Cercavila de les festes'], ['2026-10-19', 'Músics de l\'Orquestra', 43, 'Calendari d\'assajos']] as [$d, $dest, $nd, $as]) {
-    q('INSERT INTO comunicats(data, destinataris, n_destinataris, assumpte, usuari) VALUES(?,?,?,?,?)', [$d, $dest, $nd, $as, 'admin']);
+    ? [[346, 'Socios y socias', 341, 'Concierto de Santa Cecilia'], [325, 'Músicos de la Banda Sinfónica', 78, 'Ensayo extra para el concierto de Navidad'],
+        [287, 'Familias de la escuela', 170, 'Inicio del trimestre'], [226, 'Socios y socias', 341, 'Convocatoria de la asamblea general'],
+        [203, 'Músicos de la Banda Joven', 34, 'Viaje al certamen'], [143, 'Familias de la escuela', 170, 'Matrícula del curso próximo'],
+        [124, 'Coralistas', 27, 'Cena de final de temporada'], [51, 'Familias de la escuela', 170, 'Horarios del curso'],
+        [17, 'Colla de Tabal y Dulzaina', 23, 'Pasacalles de las fiestas'], [3, 'Músicos de la Orquesta', 43, 'Calendario de ensayos']]
+    : [[346, 'Socis i sòcies', 341, 'Concert de Santa Cecília'], [325, 'Músics de la Banda Simfònica', 78, 'Assaig extra per al concert de Nadal'],
+        [287, 'Famílies de l\'escola', 170, 'Inici del trimestre'], [226, 'Socis i sòcies', 341, 'Convocatòria de l\'assemblea general'],
+        [203, 'Músics de la Banda Jove', 34, 'Viatge al certamen'], [143, 'Famílies de l\'escola', 170, 'Matrícula del curs vinent'],
+        [124, 'Coralistes', 27, 'Sopar de final de temporada'], [51, 'Famílies de l\'escola', 170, 'Horaris del curs'],
+        [17, 'Colla de Tabal i Dolçaina', 23, 'Cercavila de les festes'], [3, 'Músics de l\'Orquestra', 43, 'Calendari d\'assajos']] as [$d, $dest, $nd, $as]) {
+    q('INSERT INTO comunicats(data, destinataris, n_destinataris, assumpte, usuari) VALUES(?,?,?,?,?)', [$abans($d), $dest, $nd, $as, 'admin']);
 }
 
 // ---------- Llibre de caixa ----------
-foreach ([2025, 2026] as $any) {
+foreach ([$C - 1, $C] as $any) {
     $movs = [];
-    for ($m = 1; $m <= ($any === 2026 ? 10 : 12); $m++) {
+    for ($m = 1; $m <= ($any === $C ? (int)date('n', strtotime($AVUI)) : 12); $m++) {
         if ($m < 7 || $m > 8) {
             $movs[] = [sprintf('%d-%02d-28', $any, $m), 'despesa', 'banc', 'personal', $tr('Nòmines del professorat', 'Nóminas del profesorado'), 9800];
         }
@@ -804,12 +793,12 @@ foreach (q("SELECT id, categoria FROM moviments WHERE tipus = 'despesa' ORDER BY
 $org = fn(int $ordre) => (int)valor('SELECT id FROM organismes WHERE ordre = ?', [$ordre]);
 $despesesDe = fn(string $categoria, string $ini, string $fi) => q("SELECT id, import FROM moviments WHERE tipus = 'despesa' AND categoria = ? AND data BETWEEN ? AND ? ORDER BY data",
     [$categoria, $ini, $fi])->fetchAll();
-$subvencio = function (array $c, int $fets, array $cobraments, array $despeses) use ($id): int {
+$subvencio = function (array $c, int $fets, array $cobraments, array $despeses) use ($id, $abans): int {
     q('INSERT INTO subvencions(' . implode(', ', array_keys($c)) . ') VALUES(' . implode(', ', array_fill(0, count($c), '?')) . ')', array_values($c));
     $sid = $id();
     q('INSERT INTO subvencio_requisits(subvencio_id, requisit_id) SELECT ?, requisit_id FROM organisme_requisits WHERE organisme_id = ?', [$sid, $c['organisme_id']]);
     foreach (array_slice(q('SELECT requisit_id FROM subvencio_requisits WHERE subvencio_id = ? ORDER BY requisit_id', [$sid])->fetchAll(PDO::FETCH_COLUMN), 0, $fets) as $r) {
-        q('UPDATE subvencio_requisits SET fet = 1, data_fet = ? WHERE subvencio_id = ? AND requisit_id = ?', [$c['data_justificacio'] ?? '2026-10-15', $sid, $r]);
+        q('UPDATE subvencio_requisits SET fet = 1, data_fet = ? WHERE subvencio_id = ? AND requisit_id = ?', [$c['data_justificacio'] ?? $abans(7), $sid, $r]);
     }
     foreach ($cobraments as [$data, $import, $concepte]) {
         q("INSERT INTO subvencio_cobraments(subvencio_id, data, import, compte, concepte) VALUES(?, ?, ?, 'banc', ?)", [$sid, $data, $import, $concepte]);
@@ -821,8 +810,8 @@ $subvencio = function (array $c, int $fets, array $cobraments, array $despeses) 
 };
 $bestreta = $tr('Bestreta', 'Anticipo');
 $final = $tr('Pagament final', 'Pago final');
-foreach ([2025, 2026] as $any) {
-    $tancat = $any === 2025;
+foreach ([$C - 1, $C] as $any) {
+    $tancat = $any === $C - 1;
     // Conveni amb l'ajuntament: nòmines del professorat
     $nomines = array_map(fn($m) => [$m['id'], 1800.0], array_slice($despesesDe('personal', "$any-01-01", "$any-12-31"), 0, 12));
     $subvencio(['nom' => $tr('Conveni de l\'escola de música', 'Convenio de la escuela de música'), 'organisme_id' => $org(30), 'exercici' => $any, 'expedient' => "CONV-$any-07",
@@ -834,7 +823,7 @@ foreach ([2025, 2026] as $any) {
     $autobusos = $despesesDe('desplacaments', "$any-01-01", "$any-12-31");
     $subvencio(['nom' => $tr('Ajudes a societats musicals', 'Ayudas a sociedades musicales'), 'organisme_id' => $org(20), 'exercici' => $any, 'expedient' => "SUBV/$any/0412",
         'objecte' => $tr('Instruments i certamen', 'Instrumentos y certamen'), 'estat' => $tancat ? 'tancada' : 'concedida', 'data_sollicitud' => "$any-02-20", 'data_resolucio' => "$any-06-02",
-        'data_limit_justificacio' => $tancat ? "$any-11-30" : '2026-11-16', 'data_justificacio' => $tancat ? "$any-11-20" : null,
+        'data_limit_justificacio' => $tancat ? "$any-11-30" : $despres(25), 'data_justificacio' => $tancat ? "$any-11-20" : null,
         'import_pressupost' => 9000, 'import_sollicitat' => 6000, 'import_concedit' => 4500, 'import_justificar' => 6000],
         $tancat ? 8 : 5, [["$any-07-15", 2250, $bestreta]] + ($tancat ? [1 => ["$any-12-20", 2250, $final]] : []),
         array_merge(array_map(fn($m) => [$m['id'], (float)$m['import']], $instruments), array_map(fn($m) => [$m['id'], (float)$m['import']], $autobusos)));
@@ -844,17 +833,17 @@ foreach ([2025, 2026] as $any) {
         2, $tancat ? [["$any-12-10", 1200, $final]] : [], []);
 }
 // Generalitat: concedida, per a justificar; i la de l'any vinent, per demanar
-$subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => 2026, 'expedient' => 'IVC-SM-2026-1187',
-    'objecte' => $tr('Temporada de concerts', 'Temporada de conciertos'), 'estat' => 'concedida', 'data_sollicitud' => '2026-03-14', 'data_resolucio' => '2026-07-21',
-    'data_limit_justificacio' => '2026-12-01', 'import_pressupost' => 14000, 'import_sollicitat' => 7000, 'import_concedit' => 5200, 'import_justificar' => 10400],
-    3, [], array_map(fn($m) => [$m['id'], (float)$m['import']], array_merge($despesesDe('material', '2026-01-01', '2026-12-31'), $despesesDe('subministraments', '2026-01-01', '2026-06-30'))));
-$subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => 2027,
-    'objecte' => $tr('Temporada de concerts', 'Temporada de conciertos'), 'estat' => 'prevista', 'data_limit_sollicitud' => '2026-11-05', 'import_pressupost' => 15000, 'import_sollicitat' => 7500], 0, [], []);
+$subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => $C, 'expedient' => 'IVC-SM-' . $C . '-1187',
+    'objecte' => $tr('Temporada de concerts', 'Temporada de conciertos'), 'estat' => 'concedida', 'data_sollicitud' => $abans(222), 'data_resolucio' => $abans(93),
+    'data_limit_justificacio' => $despres(40), 'import_pressupost' => 14000, 'import_sollicitat' => 7000, 'import_concedit' => 5200, 'import_justificar' => 10400],
+    3, [], array_map(fn($m) => [$m['id'], (float)$m['import']], array_merge($despesesDe('material', ($C . '-01-01'), ($C . '-12-31')), $despesesDe('subministraments', ($C . '-01-01'), ($C . '-06-30')))));
+$subvencio(['nom' => $tr('Ajudes de l\'Institut Valencià de Cultura', 'Ayudas del Instituto Valenciano de Cultura'), 'organisme_id' => $org(10), 'exercici' => $C + 1,
+    'objecte' => $tr('Temporada de concerts', 'Temporada de conciertos'), 'estat' => 'prevista', 'data_limit_sollicitud' => $despres(14), 'import_pressupost' => 15000, 'import_sollicitat' => 7500], 0, [], []);
 
-desa_config('caixa_saldo_2025_banc', '14250');
-desa_config('caixa_saldo_2025_caixa', '640');
-desa_config('caixa_saldo_2026_banc', '17980.35');
-desa_config('caixa_saldo_2026_caixa', '512.20');
+desa_config('caixa_saldo_' . ($C - 1) . '_banc', '14250');
+desa_config('caixa_saldo_' . ($C - 1) . '_caixa', '640');
+desa_config('caixa_saldo_' . $C . '_banc', '17980.35');
+desa_config('caixa_saldo_' . $C . '_caixa', '512.20');
 
 // ---------- Uniformes ----------
 $unif = [];
@@ -866,7 +855,7 @@ foreach ([[$tr('Polo de la banda', 'Polo de la banda'), 'polo', 'XS, S, M, L, XL
     $unif[$k] = [$id(), $t ? array_map('trim', explode(',', $t)) : [null], $preu];
 }
 foreach ($unif as [$u, $talles, $preu]) {
-    foreach (['2025-09-05', '2026-09-03'] as $d) {
+    foreach ([(($A - 1) . '-09-05'), ($A . '-09-03')] as $d) {
         foreach ($talles as $t) {
             q('INSERT INTO uniforme_compres(uniforme_id, data, talla, quantitat, preu_unitat, proveidor) VALUES(?,?,?,?,?,?)',
                 [$u, $d, $t, $t === null ? $rnd(30, 60) : $rnd(4, 18), round($preu * .55, 2), $tria([$tr('Brodats La Plana', 'Bordados La Plana'), $tr('Tèxtil Maestrat', 'Textil Maestrazgo')])]);
@@ -875,23 +864,23 @@ foreach ($unif as [$u, $talles, $preu]) {
 }
 foreach (q("SELECT DISTINCT persona_id FROM membres WHERE agrupacio_id IN (?, ?) AND estat = 'actiu' AND funcio = 'membre' ORDER BY persona_id", [$agr['Banda Simfònica'], $agr['Orquestra']])->fetchAll(PDO::FETCH_COLUMN) as $p) {
     if ($prob(.6)) {
-        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus, import) VALUES(?,?,?,?, 'venda', 18)", [$unif[0][0], $p, $tria(['S', 'M', 'M', 'L', 'L', 'XL']), $data('2025-09-10', '2026-10-15')]);
+        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus, import) VALUES(?,?,?,?, 'venda', 18)", [$unif[0][0], $p, $tria(['S', 'M', 'M', 'L', 'L', 'XL']), $data((($A - 1) . '-09-10'), ($A . '-10-15'))]);
     }
     if ($prob(.25)) {
-        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus) VALUES(?,?,?,?, 'prestec')", [$unif[2][0], $p, $tria(['M', 'L', 'XL']), $data('2025-11-01', '2026-10-15')]);
+        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus) VALUES(?,?,?,?, 'prestec')", [$unif[2][0], $p, $tria(['M', 'L', 'XL']), $data((($A - 1) . '-11-01'), ($A . '-10-15'))]);
     }
 }
 foreach ($alumnes as $a) {
     if ($a['edat'] < 15 && $prob(.4)) {
         $t = $a['edat'] <= 6 ? '6' : ($a['edat'] <= 8 ? '8' : ($a['edat'] <= 10 ? '10' : ($a['edat'] <= 12 ? '12' : '14')));
-        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus, import) VALUES(?,?,?,?, 'venda', 9)", [$unif[4][0], $a['persona'], $t, $data('2025-09-15', '2026-10-15')]);
+        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus, import) VALUES(?,?,?,?, 'venda', 9)", [$unif[4][0], $a['persona'], $t, $data((($A - 1) . '-09-15'), ($A . '-10-15'))]);
     }
     if ($a['edat'] < 15 && $prob(.2)) {
-        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, data, tipus, import) VALUES(?,?,?, 'venda', 14)", [$unif[6][0], $a['persona'], $data('2025-09-15', '2026-10-15')]);
+        q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, data, tipus, import) VALUES(?,?,?, 'venda', 14)", [$unif[6][0], $a['persona'], $data((($A - 1) . '-09-15'), ($A . '-10-15'))]);
     }
 }
 foreach (q("SELECT persona_id FROM membres WHERE agrupacio_id = ? AND estat = 'actiu' AND funcio = 'membre'", [$agr['Colla de Tabal i Dolçaina']])->fetchAll(PDO::FETCH_COLUMN) as $p) {
-    q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus) VALUES(?,?,?,?, 'gratuit')", [$unif[5][0], $p, $tria(['S', 'M', 'L', 'XL']), '2026-04-10']);
+    q("INSERT INTO uniforme_lliuraments(uniforme_id, persona_id, talla, data, tipus) VALUES(?,?,?,?, 'gratuit')", [$unif[5][0], $p, $tria(['S', 'M', 'L', 'XL']), ($A . '-04-10')]);
 }
 db()->commit();
 
@@ -1009,5 +998,43 @@ foreach ($obres as [$t, $tp, $comp, $arr, $ags]) {
 }
 db()->commit();
 
-printf("%s: %d persones, %d socis actius, %d alumnes actius, %d obres, %d rebuts.\n", $nomSocietat, valor('SELECT COUNT(*) FROM persones'),
-    valor("SELECT COUNT(*) FROM socis WHERE estat = 'actiu'"), valor("SELECT COUNT(*) FROM alumnes WHERE estat = 'actiu'"), valor('SELECT COUNT(*) FROM obres'), valor('SELECT COUNT(*) FROM rebuts'));
+
+// ---------- Activitats amb inscripcions ----------
+$possibles = array_keys($socis);
+$cobrar = [];
+foreach ([
+    [$tr('Concert de Santa Cecília', 'Concierto de Santa Cecilia'), 'acte', 3, '19:00', null, null, .3, 'Banda Simfònica'],
+    [$tr('Sopar de Santa Cecília', 'Cena de Santa Cecilia'), 'apat', 4, '21:30', 28, 220, .4, null],
+    [$tr('Viatge al certamen provincial', 'Viaje al certamen provincial'), 'viatge', -170, '07:30', 15, 110, .25, 'Banda Jove'],
+    [$tr('Campament musical d\'estiu', 'Campamento musical de verano'), 'curs_taller', -110, '09:00', 140, 60, .12, null],
+    [$tr('Cercavila de les festes', 'Pasacalles de las fiestas'), 'acte', -55, '19:00', null, null, .2, 'Colla de Tabal i Dolçaina'],
+    [$tr('Xarrada: la història de la societat', 'Charla: la historia de la sociedad'), 'reunio_oberta', 16, '19:30', null, 90, .1, null],
+] as [$nom, $tp, $dies, $hora, $preu, $places, $prop, $ag]) {
+    $d = $dies < 0 ? $abans(-$dies) : $despres($dies);
+    q('INSERT INTO activitats(nom, tipus, data, hora, lloc, preu, places, data_limit, estat, agrupacio_id) VALUES(?,?,?,?,?,?,?,?,?,?)', [$nom, $tp, $d, $hora,
+        $tr('Auditori', 'Auditorio'), $preu, $places, $preu ? date('Y-m-d', strtotime("$d -5 days")) : null,
+        $d < $AVUI ? 'realitzada' : ($preu && $dies < 5 ? 'inscripcio_tancada' : 'inscripcio_oberta'), $ag ? $agr[$ag] : null]);
+    $a = $id();
+    shuffle($possibles);
+    $ocupades = 0;
+    foreach (array_slice($possibles, 0, (int)(count($possibles) * $prop)) as $p) {
+        $pl = $tp === 'apat' && $prob(.35) ? $rnd(2, 4) : 1;
+        if ($places && $ocupades + $pl > $places) {
+            break;
+        }
+        $ocupades += $pl;
+        q('INSERT INTO activitat_inscripcions(activitat_id, persona_id, places, import, data) VALUES(?,?,?,?,?)', [$a, $p, $pl, $preu ? $preu * $pl : null, date('Y-m-d', strtotime("$d -" . $rnd(6, 40) . ' days'))]);
+    }
+    if ($preu) {
+        $cobrar[] = [$a, $d < $AVUI, $d];
+    }
+}
+foreach ($cobrar as [$a, $passada, $d]) {
+    $r = [];
+    $rebuts = calcula_activitat(fila('SELECT * FROM activitats WHERE id = ?', [$a]), $r);
+    crea_rebuts($passada ? $rebuts : array_slice($rebuts, 0, (int)(count($rebuts) * .6)), min($AVUI, date('Y-m-d', strtotime("$d -7 days"))));
+    enllaca_rebuts_activitat($a);
+    if ($passada) {
+        q("UPDATE rebuts SET estat = 'pagat', data_pagament = data_emissio WHERE id IN (SELECT rebut_id FROM activitat_inscripcions WHERE activitat_id = ?)", [$a]);
+    }
+}
