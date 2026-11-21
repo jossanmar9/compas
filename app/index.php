@@ -227,6 +227,9 @@ try {
         case 'activitat_llista':
             pagina_activitat_llista();
             break;
+        case 'assistencia':
+            pagina_assistencia();
+            break;
         case 'usuaris':
             pagina_usuaris();
             break;

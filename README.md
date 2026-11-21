@@ -128,7 +128,7 @@ A més, el tipus d'entitat activa funcionalitats específiques com **repertori m
 | **Qualificacions** | Administració introdueix les notes que passa el professorat, per grup i avaluació, amb observacions acadèmiques. |
 | **Butlletins** | (Societats musicals i colles.) Butlletins de notes en A4 amb el logotip i les dades de l'entitat: de tot l'alumnat, d'un grup o d'un alumne. S'imprimeixen o es guarden en PDF. |
 | **Horari** | L'horari de tota l'escola per dies, filtrable per professor o per aula. |
-| **Agrupacions, equips o seccions** | Banda i coral, equips, seccions de la colla, esquadres de la comparsa o comissions de l'AMPA, amb els membres, l'instrument, la posició o la tasca, i qui en té la direcció. |
+| **Agrupacions, equips o seccions** | Banda i coral, equips, seccions de la colla, esquadres de la comparsa o comissions de l'AMPA, amb els membres, l'instrument, la posició o la tasca, i qui en té la direcció. Fulls d'assistència en Excel per agrupació, amb una fila per a les dates i caselles per a marcar X. |
 | **Repertori** | (Societats musicals.) Catàleg de l'arxiu musical: títol, tipus d'obra (els de cada societat), compositor, arranjador, agrupacions que la poden interpretar, número d'arxiu, ubicació física, material, estat i si està digitalitzada. Cerca, filtres, ordenació, impressió, CSV i importació des d'Excel. No guarda partitures: només el catàleg. |
 | **Instruments i material** | Inventari, manteniments i cessions (préstecs) amb avís de devolucions vençudes. |
 | **Uniformes, equipacions o vestits** | Polos, equipacions, vestits de l'esquadra, dessuadores, motxilles… per talla: compres, vendes, préstecs i el que queda de cada talla. |

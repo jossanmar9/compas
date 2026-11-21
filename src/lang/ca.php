@@ -1604,4 +1604,10 @@ return [
     'err.usuari_repetit' => 'Aquest nom d’usuari ja existeix. Tria’n un altre.',
     'usuaris.migrats' => 'S’han adaptat estos noms antics a la regla sense accents. Les contrasenyes es conserven. Comunica el nom nou a cada persona:',
     'err.contacta_admin' => 'Consulta el registre d’errors o contacta amb l’administrador/a.',
+    // Fulls d'assistència
+    'assist.titol' => 'Full d\'assistència', 'assist.boto' => 'Full d\'assistència (Excel)', 'assist.boto_totes' => 'Fulls d\'assistència (Excel)',
+    'assist.exercici' => 'Exercici %s', 'assist.instruccions' => 'Escriu la data dalt de cada columna i marca amb X qui ha vingut',
+    'assist.data' => 'Data', 'assist.num' => 'Núm.', 'assist.total' => 'Total', 'assist.assistents' => 'Assistents',
+    'assist.error' => 'Escriu X si ha vingut o deixa la casella buida.', 'assist.entrada' => 'X = ha vingut',
+    'assist.sense' => 'No hi ha cap agrupació d\'alta.',
 ];

@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-const COMPAS_VERSIO = '2.4.0';
+const COMPAS_VERSIO = '2.5.0';
 const SRC_DIR = __DIR__;
 
 define('ARREL_DIR', dirname(__DIR__));
@@ -24,6 +24,7 @@ require SRC_DIR . '/usuaris.php';
 require SRC_DIR . '/markdown.php';
 require SRC_DIR . '/xifrat.php';
 require SRC_DIR . '/sepa.php';
+require SRC_DIR . '/xlsx.php';
 
 /* ---------------- Base de dades ---------------- */
 

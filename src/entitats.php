@@ -59,7 +59,7 @@ function opcions_agrupacio(): array
 const MODULS = [
     'escola' => ['alumnes', 'professors', 'matricules', 'grups', 'horari', 'notes', 'butlleti', 'cursos', 'assignatures', 'aules', 'periodes', 'horaris',
         'matricula_grups', 'tutories', 'passa_curs'],
-    'agrupacions' => ['agrupacions', 'membres'],
+    'agrupacions' => ['agrupacions', 'membres', 'assistencia'],
     'repertori' => ['repertori', 'obres', 'tipus_obres'],
     'instruments' => ['instruments', 'cessions', 'manteniments'],
     'uniformes' => ['uniformes', 'uniforme_compres', 'uniforme_lliuraments'],
@@ -291,6 +291,8 @@ function entitats(): array
                 'data_creacio' => ['tipus' => 'date'],
             ],
             'seccio_fitxa' => 'seccio_repertori_agrupacio',
+            'accions_llista' => fn() => boto_assistencia(),
+            'accions_fitxa' => fn(array $f) => boto_assistencia((int)$f['id']),
             'fills' => [['membres', 'agrupacio_id'], ['llicencies', 'agrupacio_id'], ['activitats', 'agrupacio_id']],
         ],
         'membres' => [

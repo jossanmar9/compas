@@ -388,6 +388,18 @@ Menú **Agrupacions** → obri l'agrupació. Mostra tots els seus membres amb l'
 
 Per a crear una agrupació nova: menú **Agrupacions → + Nou**.
 
+### Fulls d'assistència en Excel
+
+A la fitxa de l'agrupació, el botó **📊 Full d'assistència (Excel)** descarrega un full de càlcul per a passar llista als assajos. Al llistat d'agrupacions, **📊 Fulls d'assistència (Excel)** fa un sol fitxer amb un full (pestanya) per cada agrupació d'alta: Banda, Coral, Banda juvenil…
+
+- Ixen els **membres d'alta** de l'agrupació, ordenats per instrument o veu i per cognoms, i tres files en blanc per a qui s'incorpore després.
+- **Dalt de cada columna** hi ha una casella groga per a escriure la **data** de l'assaig (per exemple, `6/11`). Hi ha espai per a 20 assajos.
+- A les caselles es marca **X** quan algú ha vingut i es deixa en blanc quan no. Si fas clic en una casella, apareix una llista amb la X; qualsevol altra cosa no s'accepta.
+- Al final de cada fila es compta el **total** d'assistències i el **percentatge** sobre els assajos que tenen data, i a baix, quants han vingut a cada assaig.
+- S'obri amb Excel, LibreOffice Calc o Google Fulls de càlcul, i s'imprimix apaïsat en A4 amb la capçalera a totes les pàgines, per si preferiu passar llista en paper.
+
+Compàs no llig el fitxer de tornada: les assistències es queden al full de càlcul. Si canvien els membres, torna a descarregar-lo.
+
 ### Repertori: el catàleg de l'arxiu musical
 
 Menú **Repertori**. És el catàleg de les obres que té l'entitat: de quin tipus són, per a quines agrupacions servixen, en quin estat estan i on és el material. Compàs no guarda partitures ni fitxers, només el catàleg.

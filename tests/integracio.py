@@ -38,7 +38,7 @@ DIR = ARREL / 'tests' / 'integracio'
 BATERIES = {
     'economia': (['economia.py', 'iban.py', 'societat.py', 'repas.py', 'actualitzacio.py'], True),
     'uniformes': (['uniformes_moduls.py'], True),
-    'repertori': (['repertori.py'], True),
+    'repertori': (['repertori.py', 'assistencia.py'], True),
     'gran': (['gran.py'], True),
     'avis': (['avis.py'], False),
     'importacio': (['importacio.php'], True),

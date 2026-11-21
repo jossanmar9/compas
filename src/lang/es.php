@@ -1584,4 +1584,10 @@ return [
     'err.usuari_repetit' => 'Este nombre de usuario ya existe. Elige otro.',
     'usuaris.migrats' => 'Se han adaptado estos nombres antiguos a la regla sin acentos. Las contraseñas se conservan. Comunica el nombre nuevo a cada persona:',
     'err.contacta_admin' => 'Consulta el registro de errores o contacta con el administrador/a.',
+    // Hojas de asistencia
+    'assist.titol' => 'Hoja de asistencia', 'assist.boto' => 'Hoja de asistencia (Excel)', 'assist.boto_totes' => 'Hojas de asistencia (Excel)',
+    'assist.exercici' => 'Ejercicio %s', 'assist.instruccions' => 'Escribe la fecha arriba de cada columna y marca con X quién ha venido',
+    'assist.data' => 'Fecha', 'assist.num' => 'N.º', 'assist.total' => 'Total', 'assist.assistents' => 'Asistentes',
+    'assist.error' => 'Escribe X si ha venido o deja la casilla vacía.', 'assist.entrada' => 'X = ha venido',
+    'assist.sense' => 'No hay ninguna agrupación de alta.',
 ];

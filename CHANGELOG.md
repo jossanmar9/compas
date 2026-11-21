@@ -8,6 +8,12 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [2.5.0] - 2026-11-21
+
+### Nou
+- **Fulls d'assistència en Excel** per agrupació (banda, coral, banda juvenil, equip…): a la fitxa de l'agrupació, o al llistat per a totes alhora (un full per agrupació en el mateix fitxer). Porten els membres d'alta per instrument o veu, una fila dalt per a escriure la data de cada assaig i caselles on només es pot posar **X**. Compten el total i el percentatge de cada persona i quants han vingut a cada assaig, i s'imprimixen apaïsats en A4. Es fan sense cap extensió nova de PHP. *Hojas de asistencia en Excel por agrupación.*
+- Els pot descarregar qui pot exportar dades (administració i gestió), no el consultor.
+
 ## [2.4.0] - 2026-11-20
 
 Compàs torna a funcionar només en **un ordinador**. S'ha llevat el mode de xarxa local (LAN i HTTPS amb `compas.local`): el programa és més senzill, més fàcil de mantindre i no obri cap port a la xarxa.

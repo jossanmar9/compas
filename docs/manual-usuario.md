@@ -388,6 +388,18 @@ Menú **Agrupaciones** → abre la agrupación. Muestra todos sus miembros con e
 
 Para crear una agrupación nueva: menú **Agrupaciones → + Nuevo**.
 
+### Hojas de asistencia en Excel
+
+En la ficha de la agrupación, el botón **📊 Hoja de asistencia (Excel)** descarga una hoja de cálculo para pasar lista en los ensayos. En el listado de agrupaciones, **📊 Hojas de asistencia (Excel)** genera un solo archivo con una hoja (pestaña) por cada agrupación de alta: Banda, Coral, Banda juvenil…
+
+- Salen los **miembros de alta** de la agrupación, ordenados por instrumento o voz y por apellidos, y tres filas en blanco para quien se incorpore después.
+- **Encima de cada columna** hay una casilla amarilla para escribir la **fecha** del ensayo (por ejemplo, `6/11`). Hay espacio para 20 ensayos.
+- En las casillas se marca **X** cuando alguien ha venido y se deja en blanco cuando no. Al hacer clic en una casilla aparece una lista con la X; cualquier otra cosa no se acepta.
+- Al final de cada fila se cuenta el **total** de asistencias y el **porcentaje** sobre los ensayos que tienen fecha, y abajo, cuántos han venido a cada ensayo.
+- Se abre con Excel, LibreOffice Calc u Hojas de cálculo de Google, y se imprime en horizontal en A4 con la cabecera en todas las páginas, por si preferís pasar lista en papel.
+
+Compàs no lee el archivo de vuelta: las asistencias se quedan en la hoja de cálculo. Si cambian los miembros, vuelve a descargarla.
+
 ### Repertorio: el catálogo del archivo musical
 
 Menú **Repertorio**. Es el catálogo de las obras que tiene la entidad: de qué tipo son, para qué agrupaciones sirven, en qué estado están y dónde está el material. Compàs no guarda partituras ni archivos, solo el catálogo.
