@@ -8,6 +8,18 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent]
+
+### Web
+- Galeria amb una pestanya per tipus d'entitat (**societat musical**, **club esportiu** i **falla**), cadascuna amb sis pantalles pròpies.
+- L'esquema de privacitat explica on estan les dades (a l'ordinador, en un sol fitxer i amb còpia on vulgueu), la targeta de Windows diu què és l'instal·lador i què la portable, i s'ha llevat la línia buida de les preguntes.
+- La imatge per a compartir l'enllaç parla d'associacions, no només de societats musicals.
+
+### Millorat
+- Si `compas.ini` té un valor que no s'entén (un port fora de rang, una opció que no existix, una línia sense `=`…), el llançador ho diu en obrir-se, a Windows i a Linux, i continua amb el valor per defecte. Abans es descartava sense avisar. Les línies `lan` i `adreca_lan` de la 2.2–2.3 no fan res i no avisen.
+- Tots els apòstrofs dels textos són `'` (abans se'n barrejaven dos tipus), i una prova ho vigila.
+- `eines/captures.py` només torna a desar una captura si la pantalla ha canviat de veres, i no esborra les que no han canviat: el repositori ja no creix a cada versió per les imatges.
+
 ## [2.5.0] - 2026-11-21
 
 ### Nou
@@ -36,37 +48,37 @@ Compàs torna a funcionar només en **un ordinador**. S'ha llevat el mode de xar
 ## [2.3.3] - 2026-10-27
 
 - Connexió HTTPS més senzilla en Windows: el servidor prepara un únic `Connecta-Compas.exe` amb la URL i el certificat públic incorporats. Es pot copiar als clients sense ZIP ni fitxers addicionals.
-- Confirmació de confiança en una finestra clara, en l’idioma del sistema. Si el certificat ja és de confiança, s’obri Compàs directament.
-- Accés directe a Compàs a l’escriptori del client. Es mantenen la comprovació de l’empremta i la confirmació explícita de confiança.
+- Confirmació de confiança en una finestra clara, en l'idioma del sistema. Si el certificat ja és de confiança, s'obri Compàs directament.
+- Accés directe a Compàs a l'escriptori del client. Es mantenen la comprovació de l'empremta i la confirmació explícita de confiança.
 - Manual PDF i instruccions actualitzats. Linux conserva `Client-Compas.zip` amb el seu assistent.
 
 ## [2.3.2] - 2026-10-27
 
 - El servidor LAN conserva la finestra pròpia de Compàs. Tancar la finestra de treball deixa el servidor en marxa; per a aturar-lo cal usar el panell del servidor.
-- Botó **Configura la xarxa local** al panell d’Inici de l’ordinador servidor, disponible per a administrador i usuari de gestió. El consultor no hi té accés. Els accessos del panell i la safata passen també pel control de permisos de l’aplicació.
-- Guia PDF de xarxa local amb captures i passos senzills, inclosa en l’ajuda, les descàrregues i la web.
+- Botó **Configura la xarxa local** al panell d'Inici de l'ordinador servidor, disponible per a administrador i usuari de gestió. El consultor no hi té accés. Els accessos del panell i la safata passen també pel control de permisos de l'aplicació.
+- Guia PDF de xarxa local amb captures i passos senzills, inclosa en l'ajuda, les descàrregues i la web.
 - Proves de permisos, peticions locals autenticades i continuïtat del servidor després de tancar la finestra.
 
 ## [2.3.1] - 2026-10-27
 
 - Seguretat HTTPS: es descarten també les variants amb punts i guions baixos de les capçaleres internes que PHP normalitza. Un client remot no pot falsejar la seua identitat ni fer-se passar pel servidor amb eixes capçaleres.
 - Prova de regressió amb peticions remotes i variants de nom de capçalera.
-- La distribució 2.3.0 s’ha retirat abans de registrar cap descàrrega dels paquets. Utilitzeu la 2.3.1 o posterior per al mode LAN segur.
+- La distribució 2.3.0 s'ha retirat abans de registrar cap descàrrega dels paquets. Utilitzeu la 2.3.1 o posterior per al mode LAN segur.
 
 ## [2.3.0] - 2026-10-27
 
 - LAN més fàcil: **https://compas.local/**, sense IP fixa ni reserva DHCP, amb descobriment mDNS i seguiment dels canvis de xarxa.
 - Servidor HTTPS propi amb TLS 1.2 o posterior, certificat per instal·lació, renovació automàtica i claus privades protegides. PHP només accessible en localhost a través del proxy autenticat; es descarten capçaleres falses.
 - Assistent Windows **Xarxa local / HTTPS…** per a activar/desactivar el servidor i permetre només la subxarxa privada en el tallafoc. Linux: `compas --xarxa`.
-- Paquet **Client-Compas.zip** amb certificat públic i assistents: confirmació explícita de l’empremta una vegada per equip, després només la URL. No inclou claus ni dades.
+- Paquet **Client-Compas.zip** amb certificat públic i assistents: confirmació explícita de l'empremta una vegada per equip, després només la URL. No inclou claus ni dades.
 - Linux: paquets de servidor x86-64 (`amd64`), amb dependències de configuració HTTPS. Guia i web actualitzades.
-- Proves de TLS real, permisos, galetes Secure, identitat del client i bloqueig d’accés directe a PHP.
+- Proves de TLS real, permisos, galetes Secure, identitat del client i bloqueig d'accés directe a PHP.
 
 ## [2.2.1] - 2026-10-27
 
-- Nous tipus d’entitat: **Muixeranga** i **Colla castellera**, amb seccions, assajos, actuacions, material, roba i dades d’exemple pròpies.
-- Buidatge de dades de gestió des de Còpies de seguretat: conserva configuració, comptes, permisos i catàlegs; exigeix contrasenya i confirmació, amb còpia manual prèvia. Esborra també les dades reals afegides després de les d’exemple. Només amb LAN desactivat.
-- Web en valencià i castellà: secció visible de xarxa local, rols i guia de configuració, i els dos nous tipus d’entitat. Actualització automàtica dels enllaços de descàrrega després de publicar cada versió.
+- Nous tipus d'entitat: **Muixeranga** i **Colla castellera**, amb seccions, assajos, actuacions, material, roba i dades d'exemple pròpies.
+- Buidatge de dades de gestió des de Còpies de seguretat: conserva configuració, comptes, permisos i catàlegs; exigeix contrasenya i confirmació, amb còpia manual prèvia. Esborra també les dades reals afegides després de les d'exemple. Només amb LAN desactivat.
+- Web en valencià i castellà: secció visible de xarxa local, rols i guia de configuració, i els dos nous tipus d'entitat. Actualització automàtica dels enllaços de descàrrega després de publicar cada versió.
 
 ## [2.2.0] - 2026-10-27
 
@@ -93,34 +105,34 @@ Compàs torna a funcionar només en **un ordinador**. S'ha llevat el mode de xar
 
 ### Millorat
 - Preparada la capa de dades de Compàs per a treballar amb diversos usuaris simultanis, com a base del futur accés compartit en xarxa local.
-- La generació de lots de rebuts reserva de manera segura la numeració correlativa i calcula l’últim número una sola vegada per lot.
+- La generació de lots de rebuts reserva de manera segura la numeració correlativa i calcula l'últim número una sola vegada per lot.
 - Millorada la concurrència en la generació de talonaris de loteria per evitar col·lisions de numeració.
 - Reforçada la consistència de les operacions amb remeses SEPA quan coincidixen diverses operacions.
-- Afegides proteccions de base de dades per evitar més d’un mandat SEPA actiu per persona i més d’una cessió activa del mateix instrument.
-- Millorada la gestió dels bloquejos temporals de SQLite amb missatges comprensibles per a l’usuari.
+- Afegides proteccions de base de dades per evitar més d'un mandat SEPA actiu per persona i més d'una cessió activa del mateix instrument.
+- Millorada la gestió dels bloquejos temporals de SQLite amb missatges comprensibles per a l'usuari.
 
 ### Rendiment
-- Eliminades consultes repetitives en la numeració de lots de rebuts, reduint el temps durant el qual es manté una transacció d’escriptura.
+- Eliminades consultes repetitives en la numeració de lots de rebuts, reduint el temps durant el qual es manté una transacció d'escriptura.
 - Es manté SQLite en mode WAL, amb `busy_timeout` i claus foranes, sense afegir cap servidor de base de dades extern.
 
 ### Proves
-- Auditades les operacions sensibles a concurrència i les transaccions d’escriptura.
+- Auditades les operacions sensibles a concurrència i les transaccions d'escriptura.
 - Validada la generació concurrent de rebuts i talonaris sense duplicats en proves de càrrega amb múltiples escriptors.
 - Validada la integritat de la base de dades després de les proves de concurrència.
 
 ### Notes
-- Esta versió prepara internament Compàs per a l’ús multiusuari. L’accés des de diversos ordinadors de la mateixa xarxa local encara no forma part d’esta versió.
+- Esta versió prepara internament Compàs per a l'ús multiusuari. L'accés des de diversos ordinadors de la mateixa xarxa local encara no forma part d'esta versió.
 
 ## [2.0.2] - 2026-10-24
 
 ### Canviat
-- La icona de l’instal·lador de Windows mostra només el símbol de Compàs, sense el nom ni el lema, amb fons transparent i diverses resolucions.
+- La icona de l'instal·lador de Windows mostra només el símbol de Compàs, sense el nom ni el lema, amb fons transparent i diverses resolucions.
 
 ## [2.0.1] - 2026-10-24
 
 ### Canviat
-- Nou logotip de Compàs a la pantalla d’entrada i de configuració inicial, al llançador i a les portades dels manuals.
-- Nova icona de l’aplicació, del navegador i dels paquets de Windows i Linux, a partir del mateix logotip.
+- Nou logotip de Compàs a la pantalla d'entrada i de configuració inicial, al llançador i a les portades dels manuals.
+- Nova icona de l'aplicació, del navegador i dels paquets de Windows i Linux, a partir del mateix logotip.
 
 ## [2.0.0] - 2026-10-23
 

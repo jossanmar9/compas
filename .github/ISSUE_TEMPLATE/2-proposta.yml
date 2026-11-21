@@ -48,4 +48,4 @@ body:
     id: tipus_entitat
     attributes:
       label: "Tipus d'entitat (opcional) / Tipo de entidad (opcional)"
-      description: "Club, AMPA, falla… No cal el nom de l’entitat. / No hace falta el nombre de la entidad."
+      description: "Club, AMPA, falla… No cal el nom de l'entitat. / No hace falta el nombre de la entidad."

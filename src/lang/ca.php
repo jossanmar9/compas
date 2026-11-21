@@ -6,7 +6,7 @@
 return [
 
     'buidar.titol' => 'Buidar les dades de gestió',
-    'buidar.text' => 'Esborra TOTES les dades de gestió, no sols les d’exemple: persones, socis, escola, activitats, economia, documents i historial. Conserva la configuració de l’entitat, el logo, els comptes, els permisos i els catàlegs de tipus i categories. Les tarifes es buiden. Abans guarda una còpia manual que es pot restaurar. Les còpies anteriors es conserven. Cal tornar a entrar.',
+    'buidar.text' => 'Esborra TOTES les dades de gestió, no sols les d\'exemple: persones, socis, escola, activitats, economia, documents i historial. Conserva la configuració de l\'entitat, el logo, els comptes, els permisos i els catàlegs de tipus i categories. Les tarifes es buiden. Abans guarda una còpia manual que es pot restaurar. Les còpies anteriors es conserven. Cal tornar a entrar.',
     'buidar.confirmacio' => 'Escriu BUIDAR i confirma la teua contrasenya actual.',
     'buidar.integritat' => 'No es pot completar el buidatge: les dades es conserven.',
     'buidar.escriu' => 'Escriu BUIDAR per confirmar que vols esborrar totes les dades de gestió.',
@@ -286,7 +286,7 @@ return [
     'err.contrasenyes' => 'Les contrasenyes no coincideixen.',
     'err.contrasenya_actual' => 'La contrasenya actual no és correcta.',
     'err.dades_inicials' => 'Indica el nom de l\'entitat i un usuari de 3 a 40 caràcters (lletres, números, punt, guió).',
-    'err.nom_usuari' => 'El nom d’usuari ha de tindre de 3 a 40 caràcters: lletres a–z sense accents ni dièresi, números, punt, guió o guió baix.',
+    'err.nom_usuari' => 'El nom d\'usuari ha de tindre de 3 a 40 caràcters: lletres a–z sense accents ni dièresi, números, punt, guió o guió baix.',
     'err.ultim_admin' => 'Ha de quedar almenys un usuari actiu que puga gestionar usuaris.',
     'err.eliminar_propi' => 'No pots eliminar el teu propi compte.',
 
@@ -1601,9 +1601,9 @@ return [
     'festa.exercici' => 'Exercici %s',
     'cert.carrec_festa_actual' => 'és %s de l\'exercici %s', 'cert.carrec_festa' => 'va ser %s de l\'exercici %s', 'cert.proclamacio' => ', proclamat/da el %s',
     'rol.consultor' => 'Consultor/a',
-    'err.usuari_repetit' => 'Aquest nom d’usuari ja existeix. Tria’n un altre.',
-    'usuaris.migrats' => 'S’han adaptat estos noms antics a la regla sense accents. Les contrasenyes es conserven. Comunica el nom nou a cada persona:',
-    'err.contacta_admin' => 'Consulta el registre d’errors o contacta amb l’administrador/a.',
+    'err.usuari_repetit' => 'Aquest nom d\'usuari ja existeix. Tria\'n un altre.',
+    'usuaris.migrats' => 'S\'han adaptat estos noms antics a la regla sense accents. Les contrasenyes es conserven. Comunica el nom nou a cada persona:',
+    'err.contacta_admin' => 'Consulta el registre d\'errors o contacta amb l\'administrador/a.',
     // Fulls d'assistència
     'assist.titol' => 'Full d\'assistència', 'assist.boto' => 'Full d\'assistència (Excel)', 'assist.boto_totes' => 'Fulls d\'assistència (Excel)',
     'assist.exercici' => 'Exercici %s', 'assist.instruccions' => 'Escriu la data dalt de cada columna i marca amb X qui ha vingut',

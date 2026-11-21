@@ -82,6 +82,7 @@ summary { cursor:pointer; font-weight:700; color:var(--blau); padding:.8rem 0; }
 .fletxa { position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border:1px solid var(--linia); background:white; border-radius:50%; cursor:pointer; color:var(--mari); font-size:1.8rem; box-shadow:0 2px 12px #17324f20; }
 .fletxa.ant { left:1rem; }.fletxa.seg { right:1rem; }
 .miniatures { list-style:none; padding:0 0 .5rem; margin:0; display:flex; gap:1rem; overflow-x:auto; position:relative; }
+.miniatures[hidden] { display:none; }
 .miniatures li { flex:1 0 130px; }
 .miniatures button { width:100%; padding:5px; background:var(--blanc); border:2px solid var(--linia); border-radius:10px; cursor:pointer; color:var(--tinta); }
 .miniatures button img { aspect-ratio:16/10; object-fit:cover; object-position:top left; border-radius:5px; opacity:.75; }
@@ -90,9 +91,17 @@ summary { cursor:pointer; font-weight:700; color:var(--blau); padding:.8rem 0; }
 .miniatures button[aria-current="true"] img,.miniatures button:hover img { opacity:1; }
 .privacitat { border-radius:24px; background:var(--paper); margin-block:1rem; }
 .etiqueta { text-transform:uppercase; font-weight:700; letter-spacing:.15em; font-size:.85rem!important; color:var(--blau)!important; margin-bottom:1rem; }
-.flux { display:flex; align-items:center; gap:1.2rem; margin:2.5rem 0 2rem; }
-.flux > span:not(.fletxa-flux) { background:white; border:1px solid var(--linia); padding:1.4rem; border-radius:12px; font-weight:700; flex:1; text-align:center; }
-.fletxa-flux { color:var(--blau); font-size:1.7rem; }
+.flux { list-style:none; padding:0; margin:2.5rem 0 2rem; display:grid; grid-template-columns:repeat(3, 1fr); gap:1.2rem; counter-reset:flux; }
+.flux li { position:relative; background:white; border:1px solid var(--linia); padding:1.4rem 1.4rem 1.2rem; border-radius:12px; }
+.flux li + li::before { content:"→"; position:absolute; left:-1.05rem; top:50%; transform:translate(-50%, -50%); color:var(--blau); font-size:1.4rem; font-weight:700; }
+.flux .ic { font-size:1.8rem; line-height:1; }
+.flux h3 { margin:.6rem 0 .3rem; color:var(--mari); font-size:1.08rem; }
+.flux p { margin:0; color:var(--suau); font-size:.95rem; }
+.pestanyes { display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1rem; }
+.pestanyes button { font:inherit; font-weight:700; color:var(--mari); background:var(--blanc); border:2px solid var(--linia); border-radius:999px; padding:.45rem 1.1rem; cursor:pointer; }
+.pestanyes button:hover { border-color:var(--blau); }
+.pestanyes button[aria-selected="true"] { background:var(--mari); border-color:var(--mari); color:white; }
+.pestanyes button:focus-visible { outline:3px solid var(--blau); outline-offset:2px; }
 .absents { display:flex; flex-wrap:wrap; gap:.6rem 1.5rem; list-style:none; padding:0; color:var(--suau); }
 .comp-titol { margin:2.8rem 0 1.2rem; }
 .taula-comp-wrap { overflow:auto; }
@@ -118,6 +127,7 @@ summary { cursor:pointer; font-weight:700; color:var(--blau); padding:.8rem 0; }
 .passos { padding-left:1.2rem; }.passos li { margin:1.5rem 0; }.passos p { font-size:1rem; }
 .docs,.punts { padding-left:1.2rem; }.docs li,.punts li { margin:.5rem 0; }.pes { font-size:.8rem; opacity:.7; margin-left:.5rem; }
 .faq details { border-bottom:1px solid var(--linia); padding:.6rem 0; }
+.faq + .ajuda { margin-top:0; border-top:0; }
 .faq summary { color:var(--mari); font-size:1.12rem; }
 .faq p { color:var(--suau); padding:0 1.25rem 1rem; max-width:60rem; }
 .lliure { border-top:1px solid var(--linia); padding-top:3rem; padding-bottom:3rem; }
@@ -129,5 +139,5 @@ summary { cursor:pointer; font-weight:700; color:var(--blau); padding:.8rem 0; }
 .baixa-fixa { display:none; }
 @media (max-width:1000px) { .hero { gap:2rem; grid-template-columns:1fr 1fr; }.hero-marca { gap:.8rem; }.hero-marca img { width:96px;height:96px; }.nom { font-size:2.8rem; }.barra nav { gap:.6rem .9rem; }.hero h1 { font-size:2.6rem; }.avantatges li { padding:1.2rem; } }
 @media (max-width:800px) { .hero { grid-template-columns:1fr; padding-top:2rem; gap:3rem; }.hero h1 { max-width:22ch; }.hero-text { max-width:600px; }.ordinador { width:100%;max-width:650px;margin:0 auto; }.avantatges { grid-template-columns:1fr 1fr; }.arees,.moduls { grid-template-columns:1fr 1fr; }.barra { align-items:flex-start; }.barra nav { font-size:.88rem; }.barra nav a[href="#qui"],.barra nav a[href="#preguntes"] { display:none; }.seccio { padding-block:3.5rem; }.avantatges { padding-top:0; }.descarregues,.privacitat { border-radius:0; }.paquets { gap:1rem; } }
-@media (max-width:500px) { .barra { padding:.6rem 1rem; gap:1rem; }.marca { font-size:1.1rem; }.marca img { width:40px;height:40px; }.barra nav { gap:.4rem .7rem; }.barra nav a[href="#entitats"],.barra nav a[href="#que"] { display:none; }.hero { padding-inline:1.25rem; }.hero-marca img { width:105px;height:105px; }.hero h1 { font-size:2.4rem; }.nom { font-size:2.7rem; }.lema { font-size:.95rem; }.entrada { font-size:1.08rem; }.accions { flex-direction:column; }.confianca { font-size:.82rem; }.avantatges { gap:.7rem; }.avantatges li { padding:1rem; }.avantatges p { font-size:.92rem; }.arees,.moduls,.paquets { grid-template-columns:1fr; }.area { padding:1.4rem; }.tipus-entitats { gap:.55rem; }.tipus-entitats li { padding:.65rem .8rem; }.tipus-entitats h3 { font-size:.92rem; }.flux { flex-direction:column; gap:.6rem; }.flux > span:not(.fletxa-flux) { width:100%; }.fletxa-flux { transform:rotate(90deg); }.taula-comp { font-size:.85rem; }.taula-comp th,.taula-comp td { padding:.65rem; }.taula-comp { min-width:520px; }.miniatures li { flex:0 0 110px; }.baixa-fixa { display:block; position:fixed; bottom:0; left:0; right:0; padding:.6rem 1rem; background:#fffffff5; border-top:1px solid var(--linia); transform:translateY(110%); transition:transform .2s; z-index:30; }.baixa-fixa.visible { transform:translateY(0); }.baixa-fixa .boto { width:100%; }.peu { padding-bottom:6rem; } }
+@media (max-width:500px) { .barra { padding:.6rem 1rem; gap:1rem; }.marca { font-size:1.1rem; }.marca img { width:40px;height:40px; }.barra nav { gap:.4rem .7rem; }.barra nav a[href="#entitats"],.barra nav a[href="#que"] { display:none; }.hero { padding-inline:1.25rem; }.hero-marca img { width:105px;height:105px; }.hero h1 { font-size:2.4rem; }.nom { font-size:2.7rem; }.lema { font-size:.95rem; }.entrada { font-size:1.08rem; }.accions { flex-direction:column; }.confianca { font-size:.82rem; }.avantatges { gap:.7rem; }.avantatges li { padding:1rem; }.avantatges p { font-size:.92rem; }.arees,.moduls,.paquets { grid-template-columns:1fr; }.area { padding:1.4rem; }.tipus-entitats { gap:.55rem; }.tipus-entitats li { padding:.65rem .8rem; }.tipus-entitats h3 { font-size:.92rem; }.flux { grid-template-columns:1fr; gap:.6rem; }.flux li + li::before { content:none; }.pestanyes button { padding:.4rem .85rem; font-size:.92rem; }.taula-comp { font-size:.85rem; }.taula-comp th,.taula-comp td { padding:.65rem; }.taula-comp { min-width:520px; }.miniatures li { flex:0 0 110px; }.baixa-fixa { display:block; position:fixed; bottom:0; left:0; right:0; padding:.6rem 1rem; background:#fffffff5; border-top:1px solid var(--linia); transform:translateY(110%); transition:transform .2s; z-index:30; }.baixa-fixa.visible { transform:translateY(0); }.baixa-fixa .boto { width:100%; }.peu { padding-bottom:6rem; } }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; }.baixa-fixa { transition:none; } }

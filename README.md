@@ -145,7 +145,7 @@ A més, el tipus d'entitat activa funcionalitats específiques com **repertori m
 | **Llistats i certificats** | Alumnes d'un grup amb els telèfons dels tutors, socis per número, membres per instrument o posició, persones per categoria, llicències per equip, càrrecs de festa, cens d'entitats federades, dades per a la memòria anual i les subvencions. Certificats de soci, de matrícula, d'agrupació i de càrrec de festa amb el logotip. Tot s'imprimeix, es guarda en PDF o s'exporta a CSV. |
 | **Importació** | Porta des d'Excel o CSV les persones, els socis i l'alumnat (amb els tutors), amb revisió prèvia i sense duplicar qui ja hi és. |
 | **A la mida** | El tipus d'entitat posa els noms i els apartats; després, cada entitat activa o desactiva els mòduls que no fa servir (escola, loteria, caixa…) i els avisos de l'inici que no vol vore. Les dades no s'esborren. |
-| **Administració** | Comptes individuals amb rols d’administrador/a, usuari/ària de gestió i consultor/a, configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
+| **Administració** | Comptes individuals amb rols d'administrador/a, usuari/ària de gestió i consultor/a, configuració i logotip, registre d'activitat i còpies de seguretat (les externes, xifrades amb contrasenya si es vol). |
 
 Tot el programa està en **valencià i castellà**, i cada usuari pot triar el seu idioma.
 
@@ -306,7 +306,7 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 
 | Ordre | Què fa |
 |---|---|
-| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`, en WebP) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només desa estes: en una versió nova només es refan les pantalles que han canviat, perquè el repositori no cresca. Requereix Pillow i Playwright. |
+| `python3 eines/captures.py [números]` | Torna a fer les captures dels manuals (`docs/imatges/ca` i `es`, en WebP) recorrent cada procés amb dades d'exemple. Amb números (`78 81-82`, `web`) només fa estes. Una captura només es torna a desar si la pantalla ha canviat de veres (no per la data del dia), perquè el repositori no cresca a cada versió; `--totes` les desa igualment. Requereix Pillow i Playwright. |
 | `bash eines/pdf.sh` | Fa els manuals i les guies en PDF (`docs/pdf/`) amb Chrome o Chromium. No es guarden al repositori: els fa GitHub Actions en publicar cada versió i la web. |
 | `COMPAS_DADES=carpeta php eines/societat-gran.php` | Omple una instal·lació nova (configurada sense dades d'exemple) amb una societat gran inventada: 341 socis, 278 alumnes, 5 agrupacions, 653 obres i uns 5.000 rebuts. Per a provar el programa amb moltes dades; també la fan servir les captures de la web. |
 | `php eines/web.php _site` | Genera la web de presentació en valencià i castellà. |
@@ -346,7 +346,7 @@ Si utilitzes Compàs, t'interessa la idea o vols donar suport al programari lliu
 
 ### 🐛 Errors i propostes
 
-Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada**, **Tinc una proposta** o **Nou tipus d’entitat**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de cada tipus d'entitat són especialment benvingudes.
+Has trobat una errada o tens una proposta? Obri una [incidència](../../issues/new/choose) i tria **He trobat una errada**, **Tinc una proposta** o **Nou tipus d'entitat**: un formulari et guia pas a pas. No poses dades reals de persones en el text ni en les captures. Les propostes de millora per a la gestió real de cada tipus d'entitat són especialment benvingudes.
 
 ### 🧪 Qualitat i rendiment
 

@@ -60,18 +60,50 @@ error() {
 # Configuració (mateix compas.ini que a Windows). Si l'usuari en té un a ~/.config/compas, mana el seu
 # (amb el paquet .deb el programa és a /usr/share/compas i no s'hi pot escriure).
 CONFIG_USUARI="${XDG_CONFIG_HOME:-$HOME/.config}/compas/compas.ini"
+# El que no s'entén es diu (abans es descartava sense avisar) i es queda el valor per defecte.
+AVISOS=""
+si_no() {  # $1 clau, $2 valor, $3 variable, $4 línia
+    case "$(printf '%s' "$2" | tr '[:upper:]' '[:lower:]')" in
+        1|si|sí|yes|true) printf -v "$3" 1 ;;
+        0|no|false) printf -v "$3" 0 ;;
+        *) AVISOS+="• $INI, $(t "línia $4: «$1» ha de ser 1 o 0 (ara «$2»)." "línea $4: «$1» debe ser 1 o 0 (ahora «$2»).")"$'\n' ;;
+    esac
+}
 for INI in "$ARREL/compas.ini" "$CONFIG_USUARI"; do
     [ -f "$INI" ] || continue
-    while IFS='=' read -r clau valor; do
-        clau="$(printf '%s' "$clau" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"
-        valor="$(printf '%s' "${valor:-}" | tr -d '[:space:]\r')"
+    if [ ! -r "$INI" ]; then
+        AVISOS+="• $(t "No es pot llegir $INI." "No se puede leer $INI.")"$'\n'
+        continue
+    fi
+    num=0
+    while IFS= read -r linia || [ -n "$linia" ]; do
+        num=$((num + 1))
+        linia="$(printf '%s' "$linia" | tr -d '\r')"
+        [[ "$linia" =~ ^[[:space:]]*([;#]|$) ]] && continue
+        if [[ "$linia" != *=* ]]; then
+            AVISOS+="• $INI, $(t "línia $num: falta el signe =." "línea $num: falta el signo =.")"$'\n'
+            continue
+        fi
+        clau="$(printf '%s' "${linia%%=*}" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"
+        valor="$(printf '%s' "${linia#*=}" | tr -d '[:space:]')"
         case "$clau" in
-            port) [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 1023 ] && [ "$valor" -lt 65536 ] && PORT="$valor" ;;
-            navegador) case "$valor" in 0|no|false) NAVEGADOR=0 ;; esac ;;
-            finestra) case "$valor" in 0|no|false) FINESTRA=0 ;; esac ;;
+            port)
+                if [[ "$valor" =~ ^[0-9]+$ ]] && [ "$valor" -gt 1023 ] && [ "$valor" -lt 65536 ]; then PORT="$valor"
+                else AVISOS+="• $INI, $(t "línia $num: el port ha de ser un número del 1024 al 65535 (ara «$valor»)." "línea $num: el puerto debe ser un número del 1024 al 65535 (ahora «$valor»).")"$'\n'
+                fi ;;
+            navegador) si_no "$clau" "$valor" NAVEGADOR "$num" ;;
+            finestra) si_no "$clau" "$valor" FINESTRA "$num" ;;
+            lan|adreca_lan) ;;  # del mode de xarxa local (2.2–2.3), que ja no existix
+            *) AVISOS+="• $INI, $(t "línia $num: «$clau» no és cap opció de Compàs." "línea $num: «$clau» no es ninguna opción de Compàs.")"$'\n' ;;
         esac
-    done < <(grep -v '^[[:space:]]*[;#]' "$INI")
+    done < "$INI"
 done
+if [ -n "$AVISOS" ]; then
+    MISSATGE="$(t "Hi ha coses de compas.ini que no s'entenen. Compàs s'obrirà amb els valors per defecte en eixos punts:" \
+                  "Hay cosas de compas.ini que no se entienden. Compàs se abrirá con los valores por defecto en esos puntos:")"$'\n\n'"$AVISOS"
+    printf '\n%s\n' "$MISSATGE" >&2
+    [ "$EN_TERMINAL" = 1 ] || avis_grafic warning "$MISSATGE" || true
+fi
 PORT="${COMPAS_PORT:-$PORT}"
 NAVEGADOR="${COMPAS_NAVEGADOR:-$NAVEGADOR}"
 FINESTRA="${COMPAS_FINESTRA:-$FINESTRA}"

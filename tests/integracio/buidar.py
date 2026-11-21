@@ -44,9 +44,9 @@ ok(n("select valor from config where clau='societat_nom'") == nom, 'conserva con
 ok([tuple(x) for x in db.execute('select * from tipus_socis order by id')] == cataleg, 'conserva catàlegs')
 ok(not list(db.execute('pragma foreign_key_check')), 'integritat referencial correcta')
 ok(n("select count(*) from auditoria where accio='dades_buidades'") == 1, 'registra el buidatge')
-ok(n("select valor from config where clau='copia_ultim_canvi'") == '0', 'reinicia la marca de còpies després de buidar l’auditoria')
+ok(n("select valor from config where clau='copia_ultim_canvi'") == '0', 'reinicia la marca de còpies després de buidar l\'auditoria')
 copies = list((Path(D) / 'copies').glob('*-manual.db'))
-ok(len(copies) == 2, 'crea còpia prèvia i conserva també la de l’intent fallit')
+ok(len(copies) == 2, 'crea còpia prèvia i conserva també la de l\'intent fallit')
 with sqlite3.connect(copies[0]) as copia:
     ok(copia.execute('select count(*) from persones').fetchone()[0] == abans, 'la còpia conserva les dades esborrades')
 token = re.search(r'name="_csrf" value="([^"]+)"', h).group(1)

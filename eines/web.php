@@ -17,8 +17,10 @@ $versio = getenv('COMPAS_VERSIO') ?: (preg_match("/COMPAS_VERSIO = '([^']+)'/", 
 
 $web = 'https://jossanmar9.github.io/compas/'; // adreça pública de la web (per a la imatge que es veu en compartir l'enllaç)
 // Captures de la galeria (eines/captures.py web, amb la societat gran inventada d'eines/societat-gran.php, un club i una falla)
-$captures = ['web-inici', 'web-club', 'web-activitat', 'web-falla', 'web-socis', 'web-alumne', 'web-horari', 'web-notes', 'web-butlleti', 'web-agrupacio', 'web-repertori', 'web-economia',
-    'web-rebuts', 'web-remesa', 'web-loteria', 'web-junta', 'web-llistat', 'web-copies'];
+$captures = ['web-inici', 'web-socis', 'web-alumne', 'web-horari', 'web-notes', 'web-butlleti', 'web-agrupacio', 'web-repertori', 'web-economia',
+    'web-rebuts', 'web-remesa', 'web-loteria', 'web-junta', 'web-llistat', 'web-copies',
+    'web-club-inici', 'web-club', 'web-club-equip', 'web-activitat', 'web-club-socis', 'web-club-horari',
+    'web-falla', 'web-falla-carrecs', 'web-falla-socis', 'web-falla-loteria', 'web-falla-activitat', 'web-falla-economia'];
 
 $T = [
     'ca' => [
@@ -85,7 +87,7 @@ $T = [
         'faq_titol' => 'Preguntes freqüents',
         'faq_intro' => 'El que més ens pregunten les entitats abans de provar-lo. Si teniu un altre dubte, escriviu-nos.',
         'comptes_titol' => 'Qui pot fer què',
-        'comptes_intro' => 'Compàs té tres rols i permet un compte per persona: administrador/a, usuari/ària de gestió i consultor/a de consulta limitada. Només l’administrador/a gestiona comptes, configuració i restauracions; el consultor no accedix a economia, IBAN, exportacions, documents ni còpies.',
+        'comptes_intro' => 'Compàs té tres rols i permet un compte per persona: administrador/a, usuari/ària de gestió i consultor/a de consulta limitada. Només l\'administrador/a gestiona comptes, configuració i restauracions; el consultor no accedix a economia, IBAN, exportacions, documents ni còpies.',
         'comptes_cols' => ['Què es pot fer', 'Administrador/a', 'Usuari/ària', 'Consultor/a'],
         'comptes' => [
             ['Persones, socis i tipus de soci', true],
@@ -185,6 +187,15 @@ $T = [
             'web-agrupacio' => 'Els membres d\'una agrupació, amb l\'instrument i la funció de cadascú.',
             'web-llistat' => 'Els alumnes d\'un grup amb els telèfons de les famílies, per al professorat.',
             'web-copies' => 'Les còpies de seguretat: automàtiques, manuals i en una carpeta externa.',
+            'web-club-inici' => 'L\'inici d\'un club esportiu: llicències, inscrits, els entrenaments de hui i els avisos de revisions mèdiques.',
+            'web-club-equip' => 'Un equip amb els jugadors, la posició de cadascú, l\'entrenador i les llicències.',
+            'web-club-socis' => 'Els socis del club, amb el número, el tipus i la data d\'alta.',
+            'web-club-horari' => 'L\'horari d\'entrenaments, que es pot filtrar per entrenador o per instal·lació.',
+            'web-falla-carrecs' => 'Els càrrecs de festa de cada exercici (fallera major, president…) amb la data de proclamació.',
+            'web-falla-socis' => 'Fallers i falleres, amb el número, el tipus i la data d\'alta.',
+            'web-falla-loteria' => 'La loteria de Nadal de la falla: talonaris repartits, participacions venudes i diners per lliurar.',
+            'web-falla-activitat' => 'Un sopar de germanor amb les inscripcions, les places lliures i els rebuts.',
+            'web-falla-economia' => 'El resum econòmic de la falla: el que hi ha per cobrar, el cobrat i qui deu les quotes.',
         ],
         'com_titol' => 'Com començar',
         'passos' => [
@@ -209,12 +220,12 @@ $T = [
         'req' => ['Un ordinador amb Windows 10 o 11 de 64 bits, o amb Linux i PHP 8.1 o posterior', 'Uns 100 MB de disc', 'Un llapis USB o una carpeta al núvol per a les còpies (recomanat)'],
         'docs_titol' => 'Manuals i guies en PDF',
         'docs' => [
-            ['manual-usuari.pdf', 'Manual d’usuari', 'Ús diari de Compàs: persones, socis, quotes, activitats i la resta de funcions, amb captures.'],
-            ['manual-administracio.pdf', 'Manual d’administració', 'Configuració de l’entitat, comptes, permisos, còpies de seguretat i actualitzacions.'],
-            ['guia-installacio.pdf', 'Guia d’instal·lació', 'Instal·lar i obrir Compàs en Windows o Linux per primera vegada.'],
+            ['manual-usuari.pdf', 'Manual d\'usuari', 'Ús diari de Compàs: persones, socis, quotes, activitats i la resta de funcions, amb captures.'],
+            ['manual-administracio.pdf', 'Manual d\'administració', 'Configuració de l\'entitat, comptes, permisos, còpies de seguretat i actualitzacions.'],
+            ['guia-installacio.pdf', 'Guia d\'instal·lació', 'Instal·lar i obrir Compàs en Windows o Linux per primera vegada.'],
         ],
         'lliure_titol' => 'Programari lliure',
-        'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s’oferisquen a través d’una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
+        'lliure' => 'Compàs es distribueix sota la llicència GNU AGPL v3 o posterior: el pots utilitzar, estudiar, modificar i compartir. Les versions modificades que s\'oferisquen a través d\'una xarxa també han de posar el seu codi font a disposició dels usuaris. El codi és públic a GitHub.',
         'autor' => 'Un projecte de José Vicente Sanjuan.',
         'ia' => 'S\'ha desenvolupat amb l\'ajuda d\'una intel·ligència artificial (Claude, d\'Anthropic).',
         'codi' => 'Codi a GitHub',
@@ -391,6 +402,15 @@ $T = [
             'web-agrupacio' => 'Los miembros de una agrupación, con el instrumento y la función de cada uno.',
             'web-llistat' => 'Los alumnos de un grupo con los teléfonos de las familias, para el profesorado.',
             'web-copies' => 'Las copias de seguridad: automáticas, manuales y en una carpeta externa.',
+            'web-club-inici' => 'El inicio de un club deportivo: licencias, inscritos, los entrenamientos de hoy y los avisos de revisiones médicas.',
+            'web-club-equip' => 'Un equipo con los jugadores, la posición de cada uno, el entrenador y las licencias.',
+            'web-club-socis' => 'Los socios del club, con el número, el tipo y la fecha de alta.',
+            'web-club-horari' => 'El horario de entrenamientos, que se puede filtrar por entrenador o por instalación.',
+            'web-falla-carrecs' => 'Los cargos de fiesta de cada ejercicio (fallera mayor, presidente…) con la fecha de proclamación.',
+            'web-falla-socis' => 'Falleros y falleras, con el número, el tipo y la fecha de alta.',
+            'web-falla-loteria' => 'La lotería de Navidad de la falla: talonarios repartidos, participaciones vendidas y dinero por entregar.',
+            'web-falla-activitat' => 'Una cena de hermandad con las inscripciones, las plazas libres y los recibos.',
+            'web-falla-economia' => 'El resumen económico de la falla: lo que hay por cobrar, lo cobrado y quién debe las cuotas.',
         ],
         'com_titol' => 'Cómo empezar',
         'passos' => [
@@ -442,27 +462,34 @@ $portada = [
     'download' => 'Descarrega Compàs',
     'trust' => '✓ Windows i Linux · ✓ Gratuït · ✓ Sense núvol · ✓ Programari lliure',
     'benefits' => [['🖥️', 'Local', 'Les dades estan al teu ordinador.'], ['🔒', 'Privat', 'Sense telemetria ni comptes externs.'], ['💶', 'Gratuït', 'Sense quotes ni límit de socis.'], ['🐧', 'Lliure', 'Windows i Linux. Codi obert.']],
-    'areas' => [['👥', 'Persones i socis', 'Fitxes, tipus de soci i importació des d’Excel.'], ['💳', 'Quotes i rebuts', 'Domiciliacions, SEPA i remeses bancàries.'], ['💰', 'Economia', 'Llibre de caixa, loteria i subvencions.'], ['📅', 'Activitats', 'Inscripcions, agrupacions i equips.'], ['📄', 'Gestió', 'Junta, actes, documents i certificats.'], ['🎓', 'Escola', 'Cursos, grups i matrícules. Notes i butlletins per a societats musicals i colles.']],
+    'areas' => [['👥', 'Persones i socis', 'Fitxes, tipus de soci i importació des d\'Excel.'], ['💳', 'Quotes i rebuts', 'Domiciliacions, SEPA i remeses bancàries.'], ['💰', 'Economia', 'Llibre de caixa, loteria i subvencions.'], ['📅', 'Activitats', 'Inscripcions, agrupacions i equips.'], ['📄', 'Gestió', 'Junta, actes, documents i certificats.'], ['🎓', 'Escola', 'Cursos, grups i matrícules. Notes i butlletins per a societats musicals i colles.']],
     'all' => 'Veure totes les funcions',
-    'tipus_titol' => 'Compàs s’adapta a la teua associació',
-    'tipus_intro' => 'En la primera configuració tries el tipus d’entitat i Compàs adapta els mòduls i la terminologia.',
+    'tipus_titol' => 'Compàs s\'adapta a la teua associació',
+    'tipus_intro' => 'En la primera configuració tries el tipus d\'entitat i Compàs adapta els mòduls i la terminologia.',
     'veure_titol' => 'Mira Compàs en funcionament',
     'veure_intro' => 'Pantalles reals del programa amb dades inventades. Tria què vols vore.',
     'priv_titol' => 'Les dades de la teua associació són de la teua associació.',
-    'flow' => ['Associació', 'Ordinador', 'Base de dades SQLite'],
+    'flow' => [['💻', 'Al vostre ordinador', 'Compàs s\'instal·la i funciona sense Internet.'], ['🗄️', 'En un sol fitxer', 'Totes les dades, en una base de dades dins de l\'ordinador.'], ['💾', 'Amb còpia on vulgueu', 'Automàtiques i en un llapis USB o la carpeta que trieu.']],
     'absent' => ['Sense servidor de Compàs', 'Sense compte extern de Compàs', 'Sense telemetria', 'Sense publicitat', 'Sense subscripció'],
-    'qui_titol' => 'Fet des de l’experiència d’una associació',
-    'qui' => ['Durant sis anys vaig ser president de la Societat Musical de Massalfassar i vaig trobar a faltar una eina fàcil, útil i gratuïta per gestionar-la.', 'Soc José Vicente Sanjuan. Compàs va començar amb les necessitats de la meua societat i ha crescut per a servir també altres associacions. L’he desenvolupat amb l’ajuda d’intel·ligència artificial (Claude, d’Anthropic), a partir de les necessitats i les revisions del projecte.', 'Proveu-lo amb dades d’exemple i, si vos és útil, compartiu-lo amb altres entitats. Els dubtes i les propostes ajuden a millorar-lo.'],
+    'qui_titol' => 'Fet des de l\'experiència d\'una associació',
+    'qui' => ['Durant sis anys vaig ser president de la Societat Musical de Massalfassar i vaig trobar a faltar una eina fàcil, útil i gratuïta per a gestionar-la.', 'Soc José Vicente Sanjuan. Compàs va començar amb les necessitats de la meua societat i ha crescut per a servir també altres associacions. L\'he desenvolupat amb l\'ajuda d\'intel·ligència artificial (Claude, d\'Anthropic), a partir de les necessitats i les revisions del projecte.', 'Proveu-lo amb dades d\'exemple i, si vos és útil, compartiu-lo amb altres entitats. Els dubtes i les propostes ajuden a millorar-lo.'],
     'com_titol' => 'Comença amb Compàs',
     'free' => 'Compàs és gratuït. Sense registre. Sense subscripció.',
-    'latest' => 'Descarrega l’última versió',
+    'latest' => 'Descarrega l\'última versió',
     'installer' => 'Instal·lador',
     'portable' => 'Portable',
     'deb' => 'Debian, Ubuntu i Linux Mint',
     'tar' => 'Altres distribucions Linux',
     'help' => 'Instal·lació i ajuda',
     'accounts' => 'Comptes i permisos',
-    'gallery' => ['Inici', 'Socis', 'Economia', 'Rebuts', 'Escola', 'Junta'],
+    'installer_nota' => 'Recomanat. No demana permisos d\'administrador.',
+    'portable_nota' => 'Sense instal·lar: es descomprimix i s\'obri.',
+    'galeries' => [
+        ['🎼', 'Societat musical', [['web-inici', 'Inici'], ['web-socis', 'Socis'], ['web-horari', 'Escola'], ['web-agrupacio', 'Agrupació'], ['web-repertori', 'Repertori'], ['web-rebuts', 'Rebuts']]],
+        ['⚽', 'Club esportiu', [['web-club-inici', 'Inici'], ['web-club', 'Llicències'], ['web-club-equip', 'Equip'], ['web-club-horari', 'Entrenaments'], ['web-activitat', 'Activitat'], ['web-club-socis', 'Socis']]],
+        ['🔥', 'Falla', [['web-falla', 'Inici'], ['web-falla-carrecs', 'Càrrecs de festa'], ['web-falla-socis', 'Fallers'], ['web-falla-loteria', 'Loteria'], ['web-falla-activitat', 'Activitat'], ['web-falla-economia', 'Economia']]],
+    ],
+    'galeries_nom' => 'Tipus d\'entitat',
 ],
     'es' => [
     'hero_text' => 'Gestiona personas, socios, cuotas, recibos, actividades, economía, junta y documentación desde tu ordenador.',
@@ -477,7 +504,7 @@ $portada = [
     'veure_titol' => 'Mira Compàs en funcionamiento',
     'veure_intro' => 'Pantallas reales del programa con datos inventados. Elige qué quieres ver.',
     'priv_titol' => 'Los datos de tu asociación son de tu asociación.',
-    'flow' => ['Asociación', 'Ordenador', 'Base de datos SQLite'],
+    'flow' => [['💻', 'En vuestro ordenador', 'Compàs se instala y funciona sin Internet.'], ['🗄️', 'En un solo archivo', 'Todos los datos, en una base de datos dentro del ordenador.'], ['💾', 'Con copia donde queráis', 'Automáticas y en un lápiz USB o la carpeta que elijáis.']],
     'absent' => ['Sin servidor de Compàs', 'Sin cuenta externa de Compàs', 'Sin telemetría', 'Sin publicidad', 'Sin suscripción'],
     'qui_titol' => 'Hecho desde la experiencia de una asociación',
     'qui' => ['Durante seis años fui presidente de la Societat Musical de Massalfassar y eché en falta una herramienta fácil, útil y gratuita para gestionarla.', 'Soy José Vicente Sanjuan. Compàs empezó con las necesidades de mi sociedad y ha crecido para servir también a otras asociaciones. Lo he desarrollado con ayuda de inteligencia artificial (Claude, de Anthropic), a partir de las necesidades y las revisiones del proyecto.', 'Probadlo con datos de ejemplo y, si os resulta útil, compartidlo con otras entidades. Las dudas y las propuestas ayudan a mejorarlo.'],
@@ -490,7 +517,14 @@ $portada = [
     'tar' => 'Otras distribuciones Linux',
     'help' => 'Instalación y ayuda',
     'accounts' => 'Cuentas y permisos',
-    'gallery' => ['Inicio', 'Socios', 'Economía', 'Recibos', 'Escuela', 'Junta'],
+    'installer_nota' => 'Recomendado. No pide permisos de administrador.',
+    'portable_nota' => 'Sin instalar: se descomprime y se abre.',
+    'galeries' => [
+        ['🎼', 'Sociedad musical', [['web-inici', 'Inicio'], ['web-socis', 'Socios'], ['web-horari', 'Escuela'], ['web-agrupacio', 'Agrupación'], ['web-repertori', 'Repertorio'], ['web-rebuts', 'Recibos']]],
+        ['⚽', 'Club deportivo', [['web-club-inici', 'Inicio'], ['web-club', 'Licencias'], ['web-club-equip', 'Equipo'], ['web-club-horari', 'Entrenamientos'], ['web-activitat', 'Actividad'], ['web-club-socis', 'Socios']]],
+        ['🔥', 'Falla', [['web-falla', 'Inicio'], ['web-falla-carrecs', 'Cargos de fiesta'], ['web-falla-socis', 'Falleros'], ['web-falla-loteria', 'Lotería'], ['web-falla-activitat', 'Actividad'], ['web-falla-economia', 'Economía']]],
+    ],
+    'galeries_nom' => 'Tipo de entidad',
 ],
 ];
 foreach ($portada as $idioma => $textos) {
@@ -515,9 +549,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $avantatges = implode('', array_map(fn($x) => '<li><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h2>' . e($x[1]) . '</h2><p>' . e($x[2]) . '</p></li>', $t['benefits']));
     $arees = implode('', array_map(fn($x) => '<article class="area"><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3><p>' . e($x[2]) . '</p></article>', $t['areas']));
     $moduls = implode('', array_map(fn($x) => '<div class="modul"><dt>' . e($x[0]) . '</dt><dd>' . e($x[1]) . '</dd></div>', $t['moduls']));
-    $flux = implode('<span class="fletxa-flux" aria-hidden="true">→</span>', array_map(fn($x) => '<span>' . e($x) . '</span>', $t['flow']));
+    $flux = implode('', array_map(fn($x) => '<li><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3><p>' . e($x[2]) . '</p></li>', $t['flow']));
     $absents = implode('', array_map(fn($x) => '<li>✓ ' . e($x) . '</li>', $t['absent']));
-    $downloads = '<article><span class="ic" aria-hidden="true">🪟</span><h3>Windows 10 / 11</h3><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-installador.exe">↓ ' . e($t['installer']) . '</a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-portable.zip">↓ ' . e($t['portable']) . '</a></article>'
+    $downloads = '<article><span class="ic" aria-hidden="true">🪟</span><h3>Windows 10 / 11</h3><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-installador.exe">↓ ' . e($t['installer']) . ' <small>' . e($t['installer_nota']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-portable.zip">↓ ' . e($t['portable']) . ' <small>' . e($t['portable_nota']) . '</small></a></article>'
         . '<article><span class="ic" aria-hidden="true">🐧</span><h3>Linux</h3><a href="' . $descarrega . '/download/compas_' . e($versio) . (version_compare($versio, '2.3.0', '>=') && version_compare($versio, '2.4.0', '<') ? '_amd64.deb' : '_all.deb') . '">↓ .deb <small>' . e($t['deb']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-linux.tar.gz">↓ .tar.gz <small>' . e($t['tar']) . '</small></a></article>';
     $compartir = $web . ($l === 'es' ? 'img/es/' : 'img/ca/') . 'web-compartir.png';
     $urlPagina = $web . ($l === 'es' ? 'es/' : '');
@@ -537,13 +571,20 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     $docs = implode('', array_map(fn($d) => '<li><a href="' . e($pdf($d[0])) . '">' . e($d[1]) . '</a> <span class="pes">PDF</span><p>' . e($d[2]) . '</p></li>', $t['docs']));
     $manualPdf = e($pdf($l === 'es' ? 'manual-usuario.pdf' : 'manual-usuari.pdf'));
 
+    // Galeria: una pestanya per tipus d'entitat, cadascuna amb les seues miniatures
+    $pestanyes = '';
     $miniatures = '';
-    $primera = 'web-inici';
-    $galeria = ['web-inici', 'web-socis', 'web-economia', 'web-rebuts', 'web-horari', 'web-junta'];
-    foreach ($galeria as $i => $c) {
-        $src = $base . 'img/' . $l . '/' . $c . '.webp';
-        $miniatures .= '<li><button type="button" data-src="' . e($src) . '" data-peu="' . e($t['captures'][$c]) . '"' . ($i === 0 ? ' aria-current="true"' : '')
-            . ' aria-label="' . e($t['captures'][$c]) . '"><img src="' . e($src) . '" alt="" loading="lazy"><span>' . e($t['gallery'][$i]) . '</span></button></li>';
+    $primera = $t['galeries'][0][2][0][0];
+    foreach ($t['galeries'] as $g => [$icona, $nomTipus, $fotos]) {
+        $pestanyes .= '<button type="button" role="tab" id="pest-' . $g . '" aria-controls="mini-' . $g . '" aria-selected="' . ($g === 0 ? 'true' : 'false') . '"'
+            . ($g === 0 ? '' : ' tabindex="-1"') . '><span aria-hidden="true">' . e($icona) . '</span> ' . e($nomTipus) . '</button>';
+        $miniatures .= '<ul class="miniatures" role="tabpanel" id="mini-' . $g . '" aria-labelledby="pest-' . $g . '"' . ($g === 0 ? '' : ' hidden') . '>';
+        foreach ($fotos as $i => [$c, $etiqueta]) {
+            $src = $base . 'img/' . $l . '/' . $c . '.webp';
+            $miniatures .= '<li><button type="button" data-src="' . e($src) . '" data-peu="' . e($t['captures'][$c]) . '"' . ($g === 0 && $i === 0 ? ' aria-current="true"' : '')
+                . ' aria-label="' . e($etiqueta . ': ' . $t['captures'][$c]) . '"><img src="' . e($src) . '" alt="" loading="lazy"><span>' . e($etiqueta) . '</span></button></li>';
+        }
+        $miniatures .= '</ul>';
     }
     $versioText = $versio ? sprintf($t['versio'], $versio) : '';
     $any = date('Y');
@@ -625,6 +666,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <h2>{$t['veure_titol']}</h2>
     <p>{$t['veure_intro']}</p>
   </div>
+  <div class="pestanyes" role="tablist" aria-label="{$t['galeries_nom']}">{$pestanyes}</div>
   <figure class="principal">
     <div class="visor">
       <img id="captura" src="{$base}img/{$l}/{$primera}.webp" alt="{$t['captures'][$primera]}">
@@ -633,12 +675,12 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     </div>
     <figcaption id="peu" aria-live="polite">{$t['captures'][$primera]}</figcaption>
   </figure>
-  <ul class="miniatures" aria-label="{$t['veure_titol']}">{$miniatures}</ul>
+  {$miniatures}
 </section>
 
 <section id="privacitat" class="seccio privacitat">
   <div class="cap"><p class="etiqueta">{$t['nav_priv']}</p><h2>{$t['priv_titol']}</h2></div>
-  <div class="flux" aria-label="Compàs">{$flux}</div>
+  <ol class="flux">{$flux}</ol>
   <ul class="absents">{$absents}</ul>
   <p class="nota">{$t['dades'][0]}</p>
   <h3 class="comp-titol">{$t['comp_titol']}</h3>
@@ -704,8 +746,9 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   new IntersectionObserver(([e]) => fixa.classList.toggle('visible', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(dalt);
 })();
 (() => {
-  const botons = [...document.querySelectorAll('.miniatures button')];
   const img = document.getElementById('captura');
+  const pestanyes = [...document.querySelectorAll('.pestanyes [role="tab"]')];
+  let botons = [...document.querySelector('.miniatures:not([hidden])').querySelectorAll('button')];
   let actual = 0;
   const mostra = i => {
     actual = (i + botons.length) % botons.length;
@@ -717,13 +760,33 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     const llista = b.closest('.miniatures');
     llista.scrollLeft = b.parentElement.offsetLeft - llista.offsetLeft;
   };
-  botons.forEach((b, i) => b.addEventListener('click', () => mostra(i)));
+  document.querySelectorAll('.miniatures').forEach(llista => llista.querySelectorAll('button').forEach((b, i) => b.addEventListener('click', () => mostra(i))));
+  // Pestanyes: canvien les miniatures i mostren la primera captura del tipus d'entitat
+  const tria = (p, focus) => {
+    pestanyes.forEach(x => {
+      const sel = x === p;
+      x.setAttribute('aria-selected', sel ? 'true' : 'false');
+      x.tabIndex = sel ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !sel;
+    });
+    botons = [...document.getElementById(p.getAttribute('aria-controls')).querySelectorAll('button')];
+    mostra(0);
+    if (focus) p.focus();
+  };
+  pestanyes.forEach((p, i) => {
+    p.addEventListener('click', () => tria(p));
+    p.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault(); e.stopPropagation();
+      tria(pestanyes[(i + (e.key === 'ArrowRight' ? 1 : -1) + pestanyes.length) % pestanyes.length], true);
+    });
+  });
   document.querySelector('.fletxa.ant').addEventListener('click', () => mostra(actual - 1));
   document.querySelector('.fletxa.seg').addEventListener('click', () => mostra(actual + 1));
   // Tecles ← → quan la galeria està a la vista
   const galeria = document.getElementById('captures');
   document.addEventListener('keydown', e => {
-    if (e.target.closest('input, textarea, select, summary, [contenteditable]')) return;
+    if (e.target.closest('input, textarea, select, summary, [contenteditable], [role="tab"]')) return;
     const r = galeria.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return;
     if (e.key === 'ArrowLeft') { e.preventDefault(); mostra(actual - 1); }

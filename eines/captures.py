@@ -12,12 +12,15 @@ Requisits: PHP 8.1+ (pdo_sqlite, mbstring), Python 3, Pillow i Playwright:
     python3 eines/captures.py               totes les captures, en valencià i castellà
     python3 eines/captures.py 78 81-82      només estes (les altres no es toquen)
     python3 eines/captures.py es web        només les de la web, en castellà
+    python3 eines/captures.py --totes       les torna a desar encara que no hagen canviat
 
 Les captures de la web («web-…») es fan a part, amb una societat gran inventada (eines/societat-gran.php):
 341 socis, 278 alumnes, cinc agrupacions i 653 obres. També fan la imatge per a compartir l'enllaç (web-compartir.png).
 
-Per a no fer créixer el repositori, en una versió nova només es tornen a fer les captures de les
-pantalles que han canviat: totes porten la data del dia i canviarien encara que la pantalla fora igual.
+Per a no fer créixer el repositori, una captura només es torna a desar si la pantalla ha canviat
+de veres: si la diferència amb la que ja hi ha és només la data del dia o un número (menys del 0,4 %
+dels píxels), es deixa la que hi havia i git no veu cap canvi. Amb --totes es tornen a desar totes.
+Les captures que ja no es fan s'esborren (només quan es fan totes, sense filtre).
 
 © 2026 José Vicente Sanjuan · SPDX-License-Identifier: AGPL-3.0-or-later
 """
@@ -55,6 +58,35 @@ TEXTOS = {
                provincia='Castellón', adreca='Calle Mayor, 7', bo='Bueno', signant='Secretaria Ejemplo', carrec='secretaria',
                president='Presidente Ejemplo'),
 }
+
+
+# Captures desades en esta execució (per a esborrar després les que ja no es fan)
+FETES: set[Path] = set()
+# Proporció de píxels que poden canviar sense que la captura es torne a desar (les dates del dia, un número…)
+LLINDAR = 0.004
+
+
+def desa(im: Image.Image, desti: Path, **opcions) -> bool:
+    """Guarda la captura només si ha canviat de veres respecte de la que ja hi ha al repositori.
+    Les pantalles porten la data del dia: sense esta comprovació, cada versió tornaria a pujar
+    totes les imatges senceres i el repositori creixeria sense que haja canviat res."""
+    FETES.add(desti)
+    if desti.exists() and '--totes' not in sys.argv:
+        try:
+            abans = Image.open(desti).convert('RGB')
+            if abans.size == im.size:
+                dif = ImageChops.difference(abans, im).convert('L').point(lambda v: 255 if v > 40 else 0)
+                canviats = dif.histogram()[255]
+                if canviats <= LLINDAR * im.width * im.height:
+                    return False
+        except OSError:
+            pass
+    desti.parent.mkdir(parents=True, exist_ok=True)
+    if desti.suffix == '.png':
+        im.save(desti, optimize=True, **opcions)
+    else:
+        im.save(desti, 'WEBP', quality=QUALITAT, method=6, **opcions)
+    return True
 
 
 def port_lliure() -> int:
@@ -135,9 +167,9 @@ class Captures:
         if not cal_desar(nom):
             await self.lleva_ressalt()
             return
-        im.save(self.dir / f'{nom}.webp', 'WEBP', quality=QUALITAT, method=6)
+        nova = desa(im, self.dir / f'{nom}.webp')
         await self.lleva_ressalt()
-        print(f'  {self.l}/{nom}.webp  {im.size[0]}x{im.size[1]}')
+        print(f'  {self.l}/{nom}.webp  {im.size[0]}x{im.size[1]}' + ('' if nova else '  (igual, no es toca)'))
 
     async def omple(self, camps: dict):
         for nom, valor in camps.items():
@@ -362,14 +394,14 @@ async def fes_captures(l: str):
             caixa = await p.locator('section.fill:has(input[name="copia_externa"])').bounding_box()
             png = await p.screenshot(clip=caixa)
             if cal_desar('35-copies-carpeta'):
-                retalla_buit(Image.open(io.BytesIO(png)).convert('RGB')).save(c.dir / '35-copies-carpeta.webp', 'WEBP', quality=QUALITAT, method=6)
+                desa(retalla_buit(Image.open(io.BytesIO(png)).convert('RGB')), c.dir / '35-copies-carpeta.webp')
                 print(f'  {l}/35-copies-carpeta.webp')
             await c.lleva_ressalt()
             caixa = await p.locator('table.taula').first.bounding_box()
             png = await p.screenshot(clip=caixa)
             await p.set_viewport_size({'width': AMPLE, 'height': ALT})
             if cal_desar('36-copies-llista'):
-                Image.open(io.BytesIO(png)).convert('RGB').save(c.dir / '36-copies-llista.webp', 'WEBP', quality=QUALITAT, method=6)
+                desa(Image.open(io.BytesIO(png)).convert('RGB'), c.dir / '36-copies-llista.webp')
                 print(f'  {l}/36-copies-llista.webp')
 
             # --- Usuaris i compte ---
@@ -632,8 +664,8 @@ async def fes_captures_web(l: str):
                     document.querySelectorAll('input').forEach(i => { if (i.value.includes(dades)) i.value = canvia(i.value); });
                 }""", [str(dades), 'C:\\Users\\Secretaria\\AppData\\Local\\Programs\\Compas\\data'])
                 png = await p.screenshot()
-                Image.open(io.BytesIO(png)).convert('RGB').save(dir_ / f'{nom}.webp', 'WEBP', quality=QUALITAT, method=6)
-                print(f'  {l}/{nom}.webp')
+                nova = desa(Image.open(io.BytesIO(png)).convert('RGB'), dir_ / f'{nom}.webp')
+                print(f'  {l}/{nom}.webp' + ('' if nova else '  (igual, no es toca)'))
             await nav.close()
         if cal_desar('web-compartir'):
             imatge_compartir(l)
@@ -661,22 +693,23 @@ def imatge_compartir(l: str) -> None:
     icona = Image.open(ARREL / 'app' / 'assets' / 'icona.png').convert('RGBA').resize((64, 64), Image.LANCZOS)
     im.paste(icona, (60, 60), icona)
     d.text((140, 92), 'Compàs', font=marca, fill='#ffffff', anchor='lm')
-    linies = ['Tota la societat', 'musical, en un', 'sol programa.'] if l == 'ca' else ['Toda la sociedad', 'musical, en un', 'solo programa.']
+    linies = ['Tota l\'associació', 'en un sol', 'programa.'] if l == 'ca' else ['Toda la asociación', 'en un solo', 'programa.']
     for i, li in enumerate(linies):
         d.text((60, 190 + i * 82), li, font=titol, fill='#ffffff')
     sub = ('Gratuït · Sense núvol', 'Sense recollir cap dada', 'Valencià i castellà · Windows i Linux') if l == 'ca' else \
           ('Gratuito · Sin nube', 'Sin recoger ningún dato', 'Valenciano y castellano · Windows y Linux')
     for i, li in enumerate(sub):
         d.text((60, 455 + i * 38), li, font=text, fill='#e8a33d' if i < 2 else '#c9d3e3')
-    im.save(EIXIDA / l / 'web-compartir.png', optimize=True)
-    print(f'  {l}/web-compartir.png')
+    nova = desa(im, EIXIDA / l / 'web-compartir.png')
+    print(f'  {l}/web-compartir.png' + ('' if nova else '  (igual, no es toca)'))
 
 
 FILTRE: list[str] = []
 
 
 # Altres tipus d'entitat: per als capítols nous del manual i per a la web
-TIPUS_WEB = ['web-club', 'web-activitat', 'web-falla']
+TIPUS_WEB = ['web-club-inici', 'web-club', 'web-club-equip', 'web-activitat', 'web-club-socis', 'web-club-horari',
+             'web-falla', 'web-falla-carrecs', 'web-falla-socis', 'web-falla-loteria', 'web-falla-activitat', 'web-falla-economia']
 NOMS_TIPUS = {'club_esportiu': ('Club Esportiu La Plana', 'Club Deportivo La Plana'), 'falla': ('Falla Plaça Major', 'Falla Plaza Mayor'),
               'federacio': ('Federació d\'Entitats d\'Exemple', 'Federación de Entidades de Ejemplo')}
 
@@ -688,9 +721,14 @@ async def fes_captures_tipus(l: str):
     import http.cookiejar
     plans = {
         'club_esportiu': [('96-llicencies', '?r=llista&e=llicencies', 'main'), ('97-categories', '?r=llista&e=categories', 'main'),
-                          ('98-activitat', '?r=fitxa&e=activitats&id=1', 'main'), ('web-club', '?r=llista&e=llicencies', None),
-                          ('web-activitat', '?r=fitxa&e=activitats&id=1', None)],
-        'falla': [('99-carrecs-festa', '?r=llista&e=carrecs_festa', 'main'), ('web-falla', '?r=inici', None)],
+                          ('98-activitat', '?r=fitxa&e=activitats&id=1', 'main'), ('web-club-inici', '?r=inici', None),
+                          ('web-club', '?r=llista&e=llicencies', None), ('web-club-equip', '?r=fitxa&e=agrupacions&id=1', None),
+                          ('web-activitat', '?r=fitxa&e=activitats&id=1', None), ('web-club-socis', '?r=llista&e=socis', None),
+                          ('web-club-horari', '?r=horari', None)],
+        'falla': [('99-carrecs-festa', '?r=llista&e=carrecs_festa', 'main'), ('web-falla', '?r=inici', None),
+                  ('web-falla-carrecs', '?r=llista&e=carrecs_festa', None), ('web-falla-socis', '?r=llista&e=socis', None),
+                  ('web-falla-loteria', '?r=loteria&id=1', None), ('web-falla-activitat', '?r=fitxa&e=activitats&id=1', None),
+                  ('web-falla-economia', '?r=economia', None)],
         'federacio': [('100-entitats-federades', '?r=llista&e=entitats_federades', 'main')],
     }
     for tipus, fotos in plans.items():
@@ -727,8 +765,8 @@ async def fes_captures_tipus(l: str):
                         await c.foto(nom, zona=zona)
                     else:
                         png = await p.screenshot()
-                        Image.open(io.BytesIO(png)).convert('RGB').save(EIXIDA / l / f'{nom}.webp', 'WEBP', quality=QUALITAT, method=6)
-                        print(f'  {l}/{nom}.webp')
+                        nova = desa(Image.open(io.BytesIO(png)).convert('RGB'), EIXIDA / l / f'{nom}.webp')
+                        print(f'  {l}/{nom}.webp' + ('' if nova else '  (igual, no es toca)'))
                 await nav.close()
         finally:
             srv.terminate()
@@ -755,15 +793,19 @@ def cal_desar(nom: str) -> bool:
 
 async def main():
     idiomes = [a for a in sys.argv[1:] if a in ('ca', 'es')] or ['ca', 'es']
-    FILTRE.extend(a for a in sys.argv[1:] if a not in ('ca', 'es'))
+    FILTRE.extend(a for a in sys.argv[1:] if a not in ('ca', 'es') and not a.startswith('--'))
     for l in idiomes:
         print(f'Captures en «{l}»' + (f' (només {", ".join(FILTRE)})' if FILTRE else '') + ':')
-        if not FILTRE:
-            shutil.rmtree(EIXIDA / l, ignore_errors=True)
         if not FILTRE or any(f != 'web' for f in FILTRE):
             await fes_captures(l)
         await fes_captures_web(l)
         await fes_captures_tipus(l)
+        if not FILTRE:
+            # Les captures que ja no es fan (d'una pantalla que s'ha llevat del manual)
+            for f in sorted((EIXIDA / l).glob('*')):
+                if f.suffix in ('.webp', '.png') and f not in FETES:
+                    f.unlink()
+                    print(f'  {l}/{f.name}  (esborrada: ja no es fa)')
 
 
 if __name__ == '__main__':

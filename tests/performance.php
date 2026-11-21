@@ -111,13 +111,13 @@ try {
 
     $proves = [
         [
-            'nom' => 'Rebuts d’una persona',
+            'nom' => 'Rebuts d\'una persona',
             'sql' => 'SELECT * FROM rebuts WHERE persona_id = ? ORDER BY data_emissio DESC LIMIT 50',
             'params' => [123],
             'index' => 'idx_rebuts_persona',
         ],
         [
-            'nom' => 'Línies d’un rebut',
+            'nom' => 'Línies d\'un rebut',
             'sql' => 'SELECT SUM(import) FROM rebut_linies WHERE rebut_id = ?',
             'params' => [50000],
             'index' => 'idx_linies_rebut',

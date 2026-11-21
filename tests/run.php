@@ -260,5 +260,14 @@ prova('Comptes: SQLite rebutja duplicats i noms amb accents', function (): void 
     }
 });
 
+/* ---------- Textos ---------- */
+prova('Textos: un sol tipus d\'apòstrof (\')', function (): void {
+    $arrel = dirname(__DIR__);
+    $fitxers = array_merge(glob("$arrel/src/lang/*.php"), glob("$arrel/src/pages/*.php"), glob("$arrel/docs/*.md"),
+        glob("$arrel/*.md"), ["$arrel/eines/web.php"]);
+    $amb = array_filter($fitxers, fn($f) => str_contains(file_get_contents($f), "\u{2019}"));
+    cert(!$amb, 'apòstrof tipogràfic a: ' . implode(', ', array_map('basename', $amb)));
+});
+
 echo "\n$proves proves executades; $fallades fallades.\n";
 exit($fallades === 0 ? 0 : 1);

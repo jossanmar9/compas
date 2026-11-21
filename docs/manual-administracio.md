@@ -51,7 +51,7 @@ Tot seguit, Compàs mostra el **codi de recuperació**. Serveix per a posar una 
 
 ![Codi de recuperació](imatges/ca/01b-codi-recuperacio.webp)
 
-> Per a començar sense les dades d’exemple: entra com a administrador/a en **Còpies de seguretat → Buidar les dades de gestió**. Escriu `BUIDAR` i la contrasenya actual. Es guarda una còpia manual abans d’esborrar **totes** les dades de gestió, incloses les dades reals afegides després. Es conserven configuració, logo, comptes, permisos i catàlegs de tipus i categories; les tarifes es buiden. Les còpies anteriors continuen disponibles. Després cal tornar a entrar.
+> Per a començar sense les dades d'exemple: entra com a administrador/a en **Còpies de seguretat → Buidar les dades de gestió**. Escriu `BUIDAR` i la contrasenya actual. Es guarda una còpia manual abans d'esborrar **totes** les dades de gestió, incloses les dades reals afegides després. Es conserven configuració, logo, comptes, permisos i catàlegs de tipus i categories; les tarifes es buiden. Les còpies anteriors continuen disponibles. Després cal tornar a entrar.
 
 ## 2. Configuració de l'entitat i logotip
 

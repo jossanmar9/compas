@@ -45,6 +45,12 @@ namespace Compas
             using (var mutex = new Mutex(true, "Compas-GestioSocietatsMusicals", out nou))
             {
                 var config = Config.Llig();
+                // Si compas.ini té alguna cosa que no s'entén, es diu (abans es descartava sense avisar)
+                if (config.Avisos.Count > 0 && nou)
+                    MessageBox.Show(Textos.T("Hi ha coses de compas.ini que no s'entenen. Compàs s'obrirà amb els valors per defecte en eixos punts:",
+                                             "Hay cosas de compas.ini que no se entienden. Compàs se abrirá con los valores por defecto en esos puntos:")
+                        + "\n\n• " + string.Join("\n• ", config.Avisos.ToArray()) + "\n\n" + config.Fitxer,
+                        "Compàs", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (!nou)
                 {
                     // Ja està en marxa: es demana a la instància oberta que mostre la seua finestra
@@ -71,29 +77,62 @@ namespace Compas
         public bool Navegador = true;
         public bool Finestra = true;
         public string Arrel;
+        public string Fitxer;
+        public readonly System.Collections.Generic.List<string> Avisos = new System.Collections.Generic.List<string>();
 
-        static bool Si(string v)
+        /// <summary>1/0, sí/no, true/false. Si no s'entén, es queda el valor per defecte i s'avisa.</summary>
+        bool Si(string clau, string v, bool perDefecte, int num)
         {
-            v = v.ToLowerInvariant();
-            return !(v == "0" || v == "no" || v == "false");
+            switch (v.ToLowerInvariant())
+            {
+                case "1": case "si": case "sí": case "yes": case "true": return true;
+                case "0": case "no": case "false": return false;
+            }
+            Avisos.Add(string.Format(Textos.T("Línia {0}: «{1}» ha de ser 1 o 0 (ara «{2}»).", "Línea {0}: «{1}» debe ser 1 o 0 (ahora «{2}»)."), num, clau, v));
+            return perDefecte;
         }
 
         public static Config Llig()
         {
             var c = new Config();
             c.Arrel = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
-            string fitxer = Path.Combine(c.Arrel, "compas.ini");
-            if (!File.Exists(fitxer)) return c;
-            foreach (string linia in File.ReadAllLines(fitxer))
+            c.Fitxer = Path.Combine(c.Arrel, "compas.ini");
+            if (!File.Exists(c.Fitxer)) return c;
+            string[] linies;
+            try { linies = File.ReadAllLines(c.Fitxer); }
+            catch (Exception ex)
             {
-                string l = linia.Trim();
-                if (l.Length == 0 || l.StartsWith(";") || l.StartsWith("#") || !l.Contains("=")) continue;
+                c.Avisos.Add(Textos.T("No s'ha pogut llegir el fitxer: ", "No se ha podido leer el archivo: ") + ex.Message);
+                return c;
+            }
+            for (int i = 0; i < linies.Length; i++)
+            {
+                string l = linies[i].Trim();
+                int num = i + 1;
+                if (l.Length == 0 || l.StartsWith(";") || l.StartsWith("#")) continue;
+                if (!l.Contains("="))
+                {
+                    c.Avisos.Add(string.Format(Textos.T("Línia {0}: falta el signe = («{1}»).", "Línea {0}: falta el signo = («{1}»)."), num, l));
+                    continue;
+                }
                 string clau = l.Substring(0, l.IndexOf('=')).Trim().ToLowerInvariant();
                 string valor = l.Substring(l.IndexOf('=') + 1).Trim();
                 int n;
-                if (clau == "port" && int.TryParse(valor, out n) && n > 1023 && n < 65536) c.Port = n;
-                if (clau == "navegador") c.Navegador = Si(valor);
-                if (clau == "finestra") c.Finestra = Si(valor);
+                switch (clau)
+                {
+                    case "port":
+                        if (int.TryParse(valor, out n) && n > 1023 && n < 65536) c.Port = n;
+                        else c.Avisos.Add(string.Format(Textos.T("Línia {0}: el port ha de ser un número del 1024 al 65535 (ara «{1}»). S'usa el {2}.",
+                                                                 "Línea {0}: el puerto debe ser un número del 1024 al 65535 (ahora «{1}»). Se usa el {2}."), num, valor, c.Port));
+                        break;
+                    case "navegador": c.Navegador = c.Si(clau, valor, c.Navegador, num); break;
+                    case "finestra": c.Finestra = c.Si(clau, valor, c.Finestra, num); break;
+                    // Del mode de xarxa local (2.2–2.3), que ja no existix: no fan res, però no són errors
+                    case "lan": case "adreca_lan": break;
+                    default:
+                        c.Avisos.Add(string.Format(Textos.T("Línia {0}: «{1}» no és cap opció de Compàs.", "Línea {0}: «{1}» no es ninguna opción de Compàs."), num, clau));
+                        break;
+                }
             }
             return c;
         }
