@@ -57,10 +57,13 @@ La primera vez que se abre Compàs, el administrador/a hace la **configuración 
 
 ![Pantalla de inicio](imatges/es/02-inici.webp)
 
-- **Menú lateral** (izquierda): todas las secciones, agrupadas en Escuela de música, Agrupaciones, Instrumentos, Documentos y datos (listados, informes e importación) y Administración.
+- **Menú lateral** (izquierda): lo que se usa cada día, agrupado en Escuela de música, Agrupaciones, Instrumentos, Economía, Entidad, Documentos y datos y Administración. Haz clic en el título de una sección para plegarla o desplegarla; Compàs lo recuerda. Lo que solo se configura de vez en cuando está dentro de la pantalla donde se usa: los cursos, las asignaturas y las aulas, en **Grupos**; las tarifas y las domiciliaciones, en **Resumen económico**; los módulos y el registro de actividad, en **Configuración** y en **Usuarios**.
+- **Buscador** (arriba, en el centro): escribe un nombre, unos apellidos, un DNI, un teléfono, un correo o un número de socio y, mientras escribes, sale quién es cada persona (socio n.º 12, alumna, banda…). No hace falta poner tildes. Haz clic en un resultado para abrir la ficha, o pulsa Intro para verlos todos. También encuentra agrupaciones, actividades, obras y material. Desde cualquier pantalla, la tecla **/** lleva al buscador.
+- **?** al lado del título: abre el apartado de este manual que explica la pantalla en la que estás.
 - **Arriba a la derecha**: cambio de idioma (`VAL` / `ES`), tu nombre de usuario (para cambiar la contraseña) y **Salir**.
+- **¿Qué quieres hacer?**: en el inicio, botones para las tareas de cada día: nueva persona, alta de socio, alta de alumno, generar recibos, la remesa del banco, una actividad nueva, las hojas de asistencia y los comunicados. Solo salen los que puedes hacer y los de los apartados que tiene activados la entidad.
 - **Inicio**: un resumen con el número de personas, socios, matriculados, grupos, músicos e instrumentos cedidos. Haz clic en cualquier cifra para ir a la lista.
-- **Avisos**: las cesiones de instrumentos con la devolución vencida, las clases de hoy y los avisos de copias de seguridad.
+- **Avisos**: todos juntos en un bloque que se puede plegar (documentos que caducan, subvenciones, cesiones vencidas, copias de seguridad…). Debajo, las próximas actividades y las clases de hoy.
 
 ## 3. Cómo se trabaja con Compàs
 
@@ -85,11 +88,14 @@ La ficha muestra todos los datos de un elemento y todo lo que está relacionado 
 
 - **Editar**: cambia los datos.
 - **Eliminar**: solo se puede si no tiene nada relacionado (ver «Bajas» más abajo).
-- **+ Añadir** de cada apartado: crea un elemento **ya vinculado** a esta ficha. Es la forma más rápida de trabajar.
+- **Pestañas**: cuando una ficha tiene muchas cosas relacionadas, salen en pestañas (**Datos**, **Socios**, **Recibos**…) con el número de cada una.
+- **+ Añadir** de cada apartado: crea un elemento **ya vinculado** a esta ficha. Es la forma más rápida de trabajar. Lo que todavía no tiene (por ejemplo, si no es socia) sale abajo, en **Añadir:**, como un botón.
+- **Desde aquí** (ficha de una persona): botones para hacerla socia, darla de alta como alumno (o hacerle una matrícula nueva si ya lo es), añadirla a un grupo o inscribirla en una actividad, de un clic.
 
 ### Formularios
 
 - Los campos con asterisco (*) son obligatorios.
+- Los campos que casi nunca hay que rellenar (observaciones, provincia, fecha de baja…) están plegados en **Más datos**. Al editar, se abre solo si ya hay algo escrito.
 - En los desplegables largos (personas, grupos…) hay una **lupa** encima: escribe en ella para filtrar las opciones.
 - Pulsa **Guardar** para guardar o **Cancelar** para volver sin guardar.
 
@@ -133,7 +139,7 @@ Antes de matricular hay que tener el curso preparado. Orden recomendado: **curso
 
 ### 5.1 Curso y periodos de evaluación
 
-1. Menú **Cursos académicos → + Nuevo**.
+1. Menú **Grupos → 📅 Cursos académicos → + Nuevo**.
 2. Nombre (por ejemplo `2026/2027`), fecha de inicio y de finalización.
 3. Marca **Curso actual**. Solo puede haber uno; es el que se usa en las notas y los boletines.
 4. Pulsa **Guardar**. Se abre la ficha del curso.
@@ -143,8 +149,8 @@ Antes de matricular hay que tener el curso preparado. Orden recomendado: **curso
 
 ### 5.2 Asignaturas y aulas
 
-- Menú **Asignaturas → + Nuevo**: nombre (Lenguaje musical, Trompeta, Clarinete…) y tipo.
-- Menú **Aulas → + Nuevo**: nombre y capacidad.
+- Menú **Grupos → ♪ Asignaturas → + Nuevo**: nombre (Lenguaje musical, Trompeta, Clarinete…) y tipo.
+- Menú **Grupos → 🚪 Aulas → + Nuevo**: nombre y capacidad.
 
 Solo hay que crearlas una vez: se reutilizan cada curso.
 
@@ -188,7 +194,7 @@ El menú **Horario** muestra todas las clases de la semana. Puedes filtrar por p
 
 Cuando se acerca el curso nuevo no hace falta crearlo todo desde cero:
 
-1. Menú **Cursos académicos**, abre el curso que termina y pulsa **⏭ Pasa al curso siguiente**.
+1. Menú **Grupos → 📅 Cursos académicos**, abre el curso que termina y pulsa **⏭ Pasa al curso siguiente**.
 2. Comprueba el **nombre** y las **fechas** del curso nuevo (Compàs los propone: 2027/2028, un año más).
 3. Elige qué se copia: los **periodos de evaluación**, los **grupos** con el profesor/a y el aula, y el **horario**. Si quieres, también puedes **matricular ya a los alumnos que continúan** (sin grupos).
 4. Deja marcado **Marca el curso nuevo como curso actual** y, si quieres, **Cierra** el curso anterior.
@@ -252,7 +258,21 @@ Para repartirlas a principio de curso, en **Listados e informes → Derechos de 
 
 ## 7. Alta de un alumno (paso a paso)
 
-Ejemplo completo: un niño nuevo que se apunta a Lenguaje musical y Clarinete. El tutor legal (la madre o el padre) también tiene que estar dado de alta como persona.
+### En una sola pantalla
+
+La forma más rápida: en el inicio, **¿Qué quieres hacer? → Alta de alumno** (o, desde la ficha de una persona que ya está en Compàs, **Alta de alumno**). En la misma pantalla:
+
+1. **Quién se apunta**: nombre, apellidos, fecha de nacimiento y el resto de datos. Si es mayor de edad, hacen falta el DNI y el teléfono.
+2. **La familia**: si es menor, la madre, el padre o el tutor/a legal. Si ya está en Compàs (por ejemplo, porque tiene otro hijo en la escuela), elige **Ya está en Compàs** y búscala; si no, **Es una persona nueva** y escribe sus datos. **Vive en la misma dirección** le copia la dirección. Si es mayor de edad, la familia es opcional.
+3. **Grupos**: marca los grupos del curso actual en los que se apunta (con el horario y cuántos hay en cada uno).
+
+![Alta de alumno en una pantalla](imatges/es/07a-alta-alumne.webp)
+
+Pulsa **Da de alta**: Compàs crea la persona, la ficha de alumno, el tutor/a y la matrícula con los grupos, y abre la ficha. Si ya hay una persona con el mismo nombre y la misma fecha de nacimiento, avisa y propone usar la que ya está.
+
+### Paso a paso
+
+También se puede hacer paso a paso, que es lo que hace la pantalla anterior por dentro. Ejemplo completo: un niño nuevo que se apunta a Lenguaje musical y Clarinete. El tutor legal (la madre o el padre) también tiene que estar dado de alta como persona.
 
 ### Paso 1. La persona
 
@@ -516,7 +536,7 @@ El apartado **Economía** del menú lleva el dinero de la entidad: las cuotas de
 
 ### 13.1 Tarifas: el precio de cada cosa
 
-Menú **Economía → Tarifas**. Cada tarifa tiene un nombre (el que aparecerá en el recibo), un tipo, una periodicidad y un importe:
+Menú **Resumen económico → 🏷 Tarifas**. Cada tarifa tiene un nombre (el que aparecerá en el recibo), un tipo, una periodicidad y un importe:
 
 - **Cuota de socio**: anual, semestral, trimestral o mensual. Se puede hacer una para cada **tipo de socio** (los del apartado 8). Si se deja una sin tipo, vale para los tipos que no tengan una propia. Los socios de un tipo sin tarifa (por ejemplo, los honorarios) no pagan.
 - **Matrícula**: una sola vez por curso y alumno.
@@ -543,7 +563,7 @@ Los recibos de quien tiene una **domiciliación** activa se cobrarán por el ban
 
 ### 13.4 Domiciliaciones bancarias
 
-Para cobrar un recibo por el banco, quien paga debe haber firmado la **orden de domiciliación** (el mandato SEPA). La manera más sencilla es escribir el **IBAN en la ficha de la persona o del socio**: al guardar, Compàs crea la domiciliación con la fecha de hoy. Si después se cambia el IBAN, la anterior se da de baja y se crea una nueva (hay que volver a firmarla); si se borra, se da de baja. También se puede hacer desde **Economía → Domiciliaciones → + Nuevo**, donde se puede poner la fecha de firma y un titular de la cuenta diferente. Compàs comprueba que el IBAN es correcto y le pone una referencia. Solo se puede domiciliar a nombre de un mayor de edad. En los listados, el IBAN solo se ve en parte.
+Para cobrar un recibo por el banco, quien paga debe haber firmado la **orden de domiciliación** (el mandato SEPA). La manera más sencilla es escribir el **IBAN en la ficha de la persona o del socio**: al guardar, Compàs crea la domiciliación con la fecha de hoy. Si después se cambia el IBAN, la anterior se da de baja y se crea una nueva (hay que volver a firmarla); si se borra, se da de baja. También se puede hacer desde **Resumen económico → ✍ Domiciliaciones → + Nuevo**, donde se puede poner la fecha de firma y un titular de la cuenta diferente. Compàs comprueba que el IBAN es correcto y le pone una referencia. Solo se puede domiciliar a nombre de un mayor de edad. En los listados, el IBAN solo se ve en parte.
 
 ![Domiciliaciones](imatges/es/59-domiciliacions.webp)
 
@@ -898,7 +918,7 @@ Elegir la carpeta externa (USB o nube), cifrar las copias, decidir cuánto tiemp
 
 Cada usuario puede cambiar la suya cuando quiera:
 
-1. En el menú, abajo del todo, pulsa **Cuenta y contraseña** (o haz clic en tu nombre de usuario, arriba a la derecha).
+1. Haz clic en tu nombre de usuario, arriba a la derecha.
 2. Escribe la **contraseña actual**.
 3. Escribe la **contraseña nueva** dos veces (al menos 8 caracteres).
 4. Pulsa **Guardar**.

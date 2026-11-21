@@ -74,7 +74,7 @@ El **mes en que empieza el ejercicio** decide cómo se llaman y cómo se cuentan
 
 ### Módulos y avisos
 
-El tipo de entidad activa unos apartados para empezar, pero cada entidad los elige: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En el menú **Administración → Módulos y avisos** se puede activar o desactivar cada apartado: escuela, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos, comunicados, subvenciones, actividades, licencias, entidades federadas y cargos de fiesta.
+El tipo de entidad activa unos apartados para empezar, pero cada entidad los elige: hay algunas que no tienen escuela, que no venden lotería o que llevan la contabilidad en otro sitio. En **Administración → Configuración → 🧩 Módulos y avisos** se puede activar o desactivar cada apartado: escuela, agrupaciones, repertorio, instrumentos, uniformes, cuotas y recibos, lotería, libro de caja, junta y actas, documentos, comunicados, subvenciones, actividades, licencias, entidades federadas y cargos de fiesta.
 
 Un módulo desactivado desaparece del menú, del inicio, de los listados y de las fichas de las personas, pero **no se borra ningún dato**: si se vuelve a activar, todo está como estaba. Personas, socios, listados, importación y administración siempre están activos.
 
@@ -172,7 +172,7 @@ A partir de ahora, las copias de la carpeta externa terminan en `.xifrat`. Las d
 
 Cada usuario puede cambiar la suya cuando quiera:
 
-1. En el menú, abajo del todo, pulsa **Cuenta y contraseña** (o haz clic en tu nombre de usuario, arriba a la derecha).
+1. Haz clic en tu nombre de usuario, arriba a la derecha.
 2. Escribe la **contraseña actual**.
 3. Escribe la **contraseña nueva** dos veces (al menos 8 caracteres).
 4. Pulsa **Guardar**.
@@ -218,7 +218,7 @@ Todas las recuperaciones, también las que fallan, quedan en el **Registro de ac
 
 ### Registro de actividad
 
-Menú **Administración → Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
+**Administración → Usuarios → 📜 Registro de actividad** (solo el administrador/a): quién ha creado, modificado o eliminado cada cosa, las entradas al programa, los boletines impresos y las copias.
 
 ## 6. Actualizar Compàs
 

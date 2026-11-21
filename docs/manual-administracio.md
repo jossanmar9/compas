@@ -74,7 +74,7 @@ El **mes en què comença l'exercici** decideix com es diuen i com es compten el
 
 ### Mòduls i avisos
 
-El tipus d'entitat activa uns apartats per a començar, però cada entitat els tria: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. Al menú **Administració → Mòduls i avisos** es pot activar o desactivar cada apartat: escola, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents, comunicats, subvencions, activitats, llicències, entitats federades i càrrecs de festa.
+El tipus d'entitat activa uns apartats per a començar, però cada entitat els tria: n'hi ha que no tenen escola, que no venen loteria o que porten la comptabilitat en un altre lloc. A **Administració → Configuració → 🧩 Mòduls i avisos** es pot activar o desactivar cada apartat: escola, agrupacions, repertori, instruments, uniformes, quotes i rebuts, loteria, llibre de caixa, junta i actes, documents, comunicats, subvencions, activitats, llicències, entitats federades i càrrecs de festa.
 
 Un mòdul desactivat desapareix del menú, de l'inici, dels llistats i de les fitxes de les persones, però **no s'esborra cap dada**: si es torna a activar, tot està com estava. Persones, socis, llistats, importació i administració sempre estan actius.
 
@@ -172,7 +172,7 @@ A partir d'ara, les còpies de la carpeta externa acaben en `.xifrat`. Les de l'
 
 Cada usuari pot canviar la seua quan vulga:
 
-1. Al menú, a baix de tot, prem **Compte i contrasenya** (o fes clic en el teu nom d'usuari, dalt a la dreta).
+1. Fes clic en el teu nom d'usuari, dalt a la dreta.
 2. Escriu la **contrasenya actual**.
 3. Escriu la **contrasenya nova** dues vegades (almenys 8 caràcters).
 4. Prem **Desa**.
@@ -218,7 +218,7 @@ Totes les recuperacions, també les que fallen, queden al **Registre d'activitat
 
 ### Registre d'activitat
 
-Menú **Administració → Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
+**Administració → Usuaris → 📜 Registre d'activitat** (només l'administrador/a): qui ha creat, modificat o eliminat cada cosa, les entrades al programa, els butlletins impresos i les còpies.
 
 ## 6. Actualitzar Compàs
 

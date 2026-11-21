@@ -42,6 +42,10 @@ def recorre(c, ok, tipus):
     for x in no:
         ok(x not in menu, f'{tipus}: el menú no diu «{x}»')
     enllacos = sorted(set(_html.unescape(x) for x in re.findall(r'href="\?(r=[^"#]+)"', nav)))
+    # El que ja no és al menú (es configura des de la seua pantalla) també es recorre
+    enllacos += [x for x in ['r=llista&e=tarifes', 'r=llista&e=mandats', 'r=llista&e=cursos', 'r=llista&e=assignatures', 'r=llista&e=aules',
+                             'r=moduls', 'r=auditoria', 'r=perfil', 'r=alta_alumne', 'r=cerca&q=a']
+                 if x not in enllacos and ('e=alumnes' in nav or not any(k in x for k in ['cursos', 'assignatures', 'aules', 'alta_alumne']))]
     vistes = 0
     for q in enllacos:
         if 'r=eixir' in q or 'r=manual_pdf' in q:

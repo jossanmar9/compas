@@ -37,7 +37,8 @@ function pagina_usuaris(): void
     }
     $files = q('SELECT * FROM usuaris ORDER BY usuari')->fetchAll();
     $migrats = q("SELECT detall FROM auditoria WHERE accio = 'migra_usuari' ORDER BY id")->fetchAll();
-    $html = '<div class="barra"><span class="espai"></span><a class="boto" href="' . h(url('usuaris', ['id' => 'nou'])) . '">+ ' . h(t('nou')) . '</a></div>';
+    $html = '<div class="barra">' . (pot('auditoria.view') ? '<a class="boto secundari" href="' . h(url('auditoria')) . '">📜 ' . h(t('menu.auditoria')) . '</a>' : '')
+        . '<span class="espai"></span><a class="boto" href="' . h(url('usuaris', ['id' => 'nou'])) . '">+ ' . h(t('nou')) . '</a></div>';
     if ($migrats) {
         $html .= '<div class="avis info">' . h(t('usuaris.migrats')) . '<ul>';
         foreach ($migrats as $m) { $html .= '<li>' . h($m['detall']) . '</li>'; }
@@ -183,7 +184,7 @@ function pagina_configuracio(): void
         avis(t('desat'));
         redirigeix('configuracio');
     }
-    $html = '<form method="post" class="formulari" enctype="multipart/form-data">' . csrf_camp() . '<div class="camps">';
+    $html = '<div class="accions">' . menu_relacionat('admin') . '</div><form method="post" class="formulari" enctype="multipart/form-data">' . csrf_camp() . '<div class="camps">';
     foreach ($camps as $c) {
         $html .= '<div class="camp"><label>' . h(t('camp.' . $c)) . '</label><input name="' . $c . '" value="' . h(config($c)) . '"' . ($c === 'societat_nom' ? ' required' : '') . '></div>';
     }

@@ -46,6 +46,8 @@ a:hover { text-decoration: underline; }
 h1, h2, h3 { line-height: 1.2; margin: 0; }
 code { background: var(--blau-clar); padding: 1px 5px; border-radius: 4px; font-size: .92em; word-break: break-all; }
 
+[hidden] { display: none !important; }
+
 /* Estructura */
 .app { display: flex; min-height: 100vh; }
 .lateral {
@@ -65,6 +67,15 @@ code { background: var(--blau-clar); padding: 1px 5px; border-radius: 4px; font-
 .lateral li a.actiu { background: var(--or); color: #1b1407; font-weight: 600; }
 .lateral .ic { width: 20px; text-align: center; opacity: .9; }
 .lateral .seccio { margin: 14px 10px 4px; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: #8ea0c2; }
+/* Seccions del menú que es pleguen (app.js recorda quines) */
+.grup-menu > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin: 10px 8px 2px; padding: 4px 10px;
+    border-radius: 6px; font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: #8ea0c2; user-select: none; }
+.grup-menu > summary::-webkit-details-marker { display: none; }
+.grup-menu > summary::after { content: "▾"; font-size: .9rem; transition: transform .15s; }
+.grup-menu:not([open]) > summary::after { transform: rotate(-90deg); }
+.grup-menu > summary:hover { color: #dfe7f5; background: rgba(255,255,255,.06); }
+.grup-menu > ul { padding-top: 0; padding-bottom: 4px; }
+@media (prefers-reduced-motion: reduce) { .grup-menu > summary::after { transition: none; } }
 main { flex: 1; min-width: 0; }
 .superior {
     display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
@@ -73,6 +84,22 @@ main { flex: 1; min-width: 0; }
 .superior h1 { font-size: 1.45rem; color: var(--text); }
 .superior .sub { color: var(--suau); font-size: .82rem; }
 .usuari { display: flex; gap: 14px; align-items: center; font-size: .9rem; }
+.titol-pagina { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ajuda-pagina { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--vora); color: var(--suau); font-weight: 700; font-size: .95rem; }
+.ajuda-pagina:hover { border-color: var(--blau); color: var(--blau); text-decoration: none; }
+/* Cercador de dalt */
+.cerca-global { position: relative; flex: 1 1 260px; max-width: 420px; margin: 0; }
+.cerca-global input[type=search] { padding-left: 34px; border-radius: 999px; background: var(--fons) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7c93' stroke-width='2'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 4 4'/%3E%3C/svg%3E") no-repeat 12px center; }
+.propostes-cerca { position: absolute; z-index: 40; top: calc(100% + 4px); left: 0; right: 0; list-style: none; margin: 0; padding: 6px; max-height: 70vh; overflow-y: auto;
+    background: var(--superficie); border: 1px solid var(--vora); border-radius: 10px; box-shadow: 0 12px 30px rgba(16,30,60,.18); }
+.propostes-cerca .grup { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--suau); padding: 8px 10px 2px; }
+.propostes-cerca .buit { padding: 10px; color: var(--suau); }
+.propostes-cerca a, .resultats-cerca a { display: flex; flex-direction: column; padding: 7px 10px; border-radius: 7px; color: var(--text); }
+.propostes-cerca a:hover, .propostes-cerca a.actiu, .resultats-cerca a:hover { background: var(--blau-clar); text-decoration: none; }
+.propostes-cerca span, .resultats-cerca span { font-size: .82rem; color: var(--suau); }
+.resultats-cerca { list-style: none; margin: 0; padding: 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px 10px; }
+.cerca-gran input[type=search] { font-size: 1.05rem; max-width: 520px; }
 .usuari form { margin: 0; }
 .idiomes { display: flex; gap: 6px; font-size: .8rem; }
 .idiomes strong { color: var(--or); }
@@ -406,3 +433,54 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .opcions-tipus b { display: block; font-size: .95rem; }
 .opcions-tipus small { display: block; color: var(--suau); font-size: .8rem; line-height: 1.35; margin-top: 2px; }
 .resum-activitat { margin: 12px 0 4px; }
+
+/* Inici: «Què vols fer?» i els avisos junts */
+.que-fer { margin: 0 0 22px; }
+.que-fer h2 { font-size: 1rem; color: var(--suau); font-weight: 600; margin: 0 0 10px; }
+.accions-inici { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.accio-inici { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: center; padding: 12px 14px; background: var(--superficie);
+    border: 1px solid var(--vora); border-radius: 10px; color: var(--text); }
+.accio-inici:hover { border-color: var(--blau); text-decoration: none; box-shadow: 0 2px 10px rgba(16,30,60,.08); }
+.accio-inici .ic { grid-row: span 2; font-size: 1.5rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--blau-clar); border-radius: 9px; }
+.accio-inici b { font-size: .95rem; line-height: 1.25; }
+.accio-inici small { color: var(--suau); font-size: .78rem; line-height: 1.3; }
+.avisos-inici { margin: 18px 0; border: 1px solid var(--vora); border-radius: 10px; background: var(--superficie); padding: 0 14px; }
+.avisos-inici > summary { cursor: pointer; padding: 12px 0; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
+.avisos-inici > summary::-webkit-details-marker { display: none; }
+.avisos-inici > summary::after { content: "▾"; margin-left: auto; color: var(--suau); }
+.avisos-inici:not([open]) > summary::after { content: "▸"; }
+.avisos-inici[open] { padding-bottom: 6px; }
+.avisos-inici > .avis, .avisos-inici > section.fill { margin: 0 0 10px; }
+
+/* Fitxa: el que es pot fer amb una persona, pestanyes i subapartats buits */
+.accions-persona { margin-top: -6px; padding: 10px 12px; background: var(--blau-clar); border-radius: 10px; }
+.accions-persona .etiq { font-size: .85rem; color: var(--suau); font-weight: 600; margin-right: 4px; }
+.accions-persona .boto { background: var(--superficie); }
+.pestanyes-fitxa { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 2px solid var(--vora); margin: 8px 0 16px; }
+.pestanyes-fitxa button { background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -2px; border-radius: 0; color: var(--suau); padding: 8px 12px; font-weight: 600; }
+.pestanyes-fitxa button:hover { color: var(--text); filter: none; }
+.pestanyes-fitxa button[aria-selected="true"] { color: var(--blau); border-bottom-color: var(--blau); }
+.pestanyes-fitxa .compte { margin-left: 6px; }
+.amb-pestanyes > .panell-fitxa.fill { margin-top: 0; }
+.afegir-fills { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 18px 0 0; padding-top: 12px; border-top: 1px dashed var(--vora); }
+.afegir-fills > span { font-size: .85rem; color: var(--suau); margin-right: 4px; }
+/* Alta d'alumne en una pantalla */
+.formulari.alta .intro, p.intro { color: var(--suau); margin: 0 0 14px; max-width: 70ch; }
+.bloc-alta { border: 1px solid var(--vora); border-radius: 12px; padding: 14px 18px 18px; margin: 0 0 16px; background: var(--superficie); }
+.bloc-alta legend { font-weight: 700; font-size: 1.05rem; padding: 0 6px; display: flex; align-items: center; gap: 8px; }
+.bloc-alta .pas { display: inline-flex; width: 26px; height: 26px; border-radius: 50%; background: var(--blau); color: #fff; align-items: center; justify-content: center; font-size: .85rem; }
+.bloc-alta > small { display: block; color: var(--suau); margin-bottom: 10px; }
+.opcions-mode { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 4px 0 12px; }
+.opcions-mode label { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+.mode-tutor { margin-top: 12px; }
+.persona-triada { font-size: 1.05rem; margin: 4px 0; }
+.grups-alta { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px 20px; margin: 8px 0 14px; }
+.grups-alta > div { display: flex; flex-direction: column; gap: 4px; }
+.grups-alta label { display: flex; gap: 8px; align-items: baseline; font-weight: 400; }
+.grups-alta small { color: var(--suau); font-size: .78rem; }
+
+/* Formularis: «Més dades» plegat */
+.mes-dades { margin: 16px 0 0; border-top: 1px solid var(--vora); padding-top: 6px; }
+.mes-dades > summary { cursor: pointer; font-weight: 600; color: var(--blau); padding: 8px 0; }
+.mes-dades > summary small { font-weight: 400; color: var(--suau); margin-left: 6px; }
+.mes-dades[open] > .camps { margin-top: 8px; }

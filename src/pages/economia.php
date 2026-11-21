@@ -1012,7 +1012,9 @@ function pagina_economia(): void
     if (pot('economia.edit')) {
         $html .= '<div class="accions"><a class="boto" href="' . h(url('genera_rebuts')) . '">🧾 ' . h(t('genera.titol')) . '</a><a class="boto secundari" href="' . h(url('remeses')) . '">🏦 ' . h(t('menu.remeses')) . '</a>'
             . '<a class="boto secundari" target="_blank" href="' . h(url('rebut_doc')) . '">🖨 ' . h(t('economia.imprimeix_efectiu')) . '</a>'
-            . (pot('config.manage') ? '<a class="boto secundari" href="' . h(url('economia_config')) . '">⚙ ' . h(t('economia.config')) . '</a>' : '') . '</div>';
+            . (pot('config.manage') ? '<a class="boto secundari" href="' . h(url('economia_config')) . '">⚙ ' . h(t('economia.config')) . '</a>' : '') . menu_relacionat('economia') . '</div>';
+    } else {
+        $html .= '<div class="accions">' . menu_relacionat('economia') . '</div>';
     }
 
     // Per període

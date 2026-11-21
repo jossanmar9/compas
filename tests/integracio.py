@@ -48,6 +48,7 @@ BATERIES = {
     'comptes': (['comptes.py'], True),
     'subvencions': (['subvencions.py'], True),
     'tipus': (['tipus.py'], False),
+    'interficie': (['interficie.py'], True),
 }
 
 ERR_PHP = ['Fatal error', 'Warning:', 'Notice:', 'Deprecated:', 'Uncaught']

@@ -57,7 +57,7 @@ function opcions_agrupacio(): array
  * Persones, socis, llistats, importació i administració no es poden desactivar.
  */
 const MODULS = [
-    'escola' => ['alumnes', 'professors', 'matricules', 'grups', 'horari', 'notes', 'butlleti', 'cursos', 'assignatures', 'aules', 'periodes', 'horaris',
+    'escola' => ['alumnes', 'alta_alumne', 'professors', 'matricules', 'grups', 'horari', 'notes', 'butlleti', 'cursos', 'assignatures', 'aules', 'periodes', 'horaris',
         'matricula_grups', 'tutories', 'passa_curs'],
     'agrupacions' => ['agrupacions', 'membres', 'assistencia'],
     'repertori' => ['repertori', 'obres', 'tipus_obres'],
@@ -205,10 +205,10 @@ function entitats(): array
                 'adreca' => ['tipus' => 'text'],
                 'codi_postal' => ['tipus' => 'text'],
                 'poblacio' => ['tipus' => 'text', 'llista' => 1],
-                'provincia' => ['tipus' => 'text'],
+                'provincia' => ['tipus' => 'text', 'secundari' => 1],
                 'observacions' => $obs,
                 'consentiment_imatge' => ['tipus' => 'select', 'opcions' => ['pendent', 'autoritza', 'no_autoritza'], 'ajuda' => t('ajuda.consentiment')],
-                'consentiment_data' => ['tipus' => 'date'],
+                'consentiment_data' => ['tipus' => 'date', 'secundari' => 1],
                 'actiu' => ['tipus' => 'bool', 'llista' => 1, 'defecte' => 1],
             ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['id'] ?? null) + ['nomes_major' => 1]] : [])
               + ['categoria' => ['tipus' => 'text', 'virtual' => 1, 'nomes_fitxa' => 1, 'carrega' => fn(array $f) => categoria_edat($f['data_naixement'] ?? null)]],
@@ -244,8 +244,8 @@ function entitats(): array
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
-                'pagador_id' => ['tipus' => 'ref', 'ref' => 'persones', 'ajuda' => t('ajuda.pagador')],
-                'descompte_pct' => ['tipus' => 'decimal', 'pct' => 1, 'ajuda' => t('ajuda.descompte_pct')],
+                'pagador_id' => ['tipus' => 'ref', 'ref' => 'persones', 'ajuda' => t('ajuda.pagador'), 'secundari' => 1],
+                'descompte_pct' => ['tipus' => 'decimal', 'pct' => 1, 'ajuda' => t('ajuda.descompte_pct'), 'secundari' => 1],
                 'observacions' => $obs,
             ],
             'fills' => [['tutories', 'alumne_id'], ['matricules', 'alumne_id']],
@@ -363,6 +363,7 @@ function entitats(): array
         ],
         'grups' => [
             'cap' => 'escola',
+            'accions_llista' => fn() => menu_relacionat('escola'),
             'from' => 'grups t JOIN assignatures a ON a.id = t.assignatura_id JOIN cursos c ON c.id = t.curs_id',
             'cerca' => ['t.nom', 'a.nom'],
             'ordre' => 'c.data_inici DESC, a.nom, t.nom',

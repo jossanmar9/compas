@@ -57,10 +57,13 @@ La primera vegada que s'obri Compàs, l'administrador/a fa la **configuració in
 
 ![Pantalla d'inici](imatges/ca/02-inici.webp)
 
-- **Menú lateral** (esquerra): totes les seccions, agrupades per Escola de música, Agrupacions, Instruments, Documents i dades (llistats, informes i importació) i Administració.
+- **Menú lateral** (esquerra): el que es fa servir cada dia, agrupat per Escola de música, Agrupacions, Instruments, Economia, Entitat, Documents i dades i Administració. Fes clic en el títol d'una secció per a plegar-la o desplegar-la; Compàs ho recorda. El que només es configura de tant en tant està dins de la pantalla on es fa servir: els cursos, les assignatures i les aules, a **Grups**; les tarifes i les domiciliacions, a **Resum econòmic**; els mòduls i el registre d'activitat, a **Configuració** i a **Usuaris**.
+- **Cercador** (dalt, al mig): escriu un nom, uns cognoms, un DNI, un telèfon, un correu o un número de soci i, mentre escrius, ix qui és cada persona (soci núm. 12, alumna, banda…). No cal posar accents. Fes clic en un resultat per a obrir la fitxa, o prem Retorn per a vore'ls tots. També troba agrupacions, activitats, obres i material. Des de qualsevol pantalla, la tecla **/** porta al cercador.
+- **?** al costat del títol: obri l'apartat d'este manual que explica la pantalla on estàs.
 - **Dalt a la dreta**: canvi d'idioma (`VAL` / `ES`), el teu nom d'usuari (per a canviar la contrasenya) i **Ix** per a eixir.
+- **Què vols fer?**: a l'inici, botons per a les tasques de cada dia: nova persona, alta de soci, alta d'alumne, generar rebuts, la remesa del banc, una activitat nova, els fulls d'assistència i els comunicats. Només ixen els que pots fer i els dels apartats que té activats l'entitat.
 - **Inici**: un resum amb el nombre de persones, socis, matriculats, grups, músics i instruments cedits. Fes clic en qualsevol xifra per a anar a la llista.
-- **Avisos**: les cessions d'instruments amb la devolució vençuda, les classes de hui i els avisos de còpies de seguretat.
+- **Avisos**: tots junts en un bloc que es pot plegar (documents que caduquen, subvencions, cessions vençudes, còpies de seguretat…). Davall, les pròximes activitats i les classes de hui.
 
 ## 3. Com es treballa amb Compàs
 
@@ -85,11 +88,14 @@ La fitxa mostra totes les dades d'un element i tot el que hi està relacionat. P
 
 - **Edita**: canvia les dades.
 - **Elimina**: només es pot si no té res relacionat (vegeu «Baixes» més avall).
-- **+ Afig** de cada apartat: crea un element **ja vinculat** a esta fitxa. És la manera més ràpida de treballar.
+- **Pestanyes**: quan una fitxa té moltes coses relacionades, ixen en pestanyes (**Dades**, **Socis**, **Rebuts**…) amb el nombre de cada una.
+- **+ Afig** de cada apartat: crea un element **ja vinculat** a esta fitxa. És la manera més ràpida de treballar. El que encara no té (per exemple, si no és sòcia) ix a baix, a **Afig:**, com un botó.
+- **Des d'ací** (fitxa d'una persona): botons per a fer-la sòcia, donar-la d'alta com a alumne (o fer-li una matrícula nova si ja ho és), afegir-la a un grup o inscriure-la en una activitat, d'un clic.
 
 ### Formularis
 
 - Els camps amb asterisc (*) són obligatoris.
+- Els camps que quasi mai cal omplir (observacions, província, data de baixa…) estan plegats a **Més dades**. En editar, s'obri sol si ja hi ha alguna cosa escrita.
 - En els desplegables llargs (persones, grups…) hi ha una **lupa** damunt: escriu-hi per a filtrar les opcions.
 - Prem **Desa** per a guardar o **Cancel·la** per a tornar sense guardar.
 
@@ -133,7 +139,7 @@ Abans de matricular cal tindre el curs preparat. Ordre recomanat: **curs → per
 
 ### 5.1 Curs i períodes d'avaluació
 
-1. Menú **Cursos acadèmics → + Nou**.
+1. Menú **Grups → 📅 Cursos acadèmics → + Nou**.
 2. Nom (per exemple `2026/2027`), data d'inici i de finalització.
 3. Marca **Curs actual**. Només n'hi pot haver un; és el que s'utilitza en les notes i els butlletins.
 4. Prem **Desa**. S'obri la fitxa del curs.
@@ -143,8 +149,8 @@ Abans de matricular cal tindre el curs preparat. Ordre recomanat: **curs → per
 
 ### 5.2 Assignatures i aules
 
-- Menú **Assignatures → + Nou**: nom (Llenguatge musical, Trompeta, Clarinet…) i tipus.
-- Menú **Aules → + Nou**: nom i capacitat.
+- Menú **Grups → ♪ Assignatures → + Nou**: nom (Llenguatge musical, Trompeta, Clarinet…) i tipus.
+- Menú **Grups → 🚪 Aules → + Nou**: nom i capacitat.
 
 Només cal crear-les una vegada: es reutilitzen cada curs.
 
@@ -188,7 +194,7 @@ El menú **Horari** mostra totes les classes de la setmana. Pots filtrar per pro
 
 Quan s'acosta el curs nou no cal crear-ho tot des de zero:
 
-1. Menú **Cursos acadèmics**, obri el curs que acaba i prem **⏭ Passa al curs següent**.
+1. Menú **Grups → 📅 Cursos acadèmics**, obri el curs que acaba i prem **⏭ Passa al curs següent**.
 2. Comprova el **nom** i les **dates** del curs nou (Compàs els proposa: 2027/2028, un any més).
 3. Tria què es copia: els **períodes d'avaluació**, els **grups** amb el professor/a i l'aula, i l'**horari**. Si vols, també pots **matricular ja els alumnes que continuen** (sense grups).
 4. Deixa marcat **Marca el curs nou com a curs actual** i, si vols, **Tanca** el curs anterior.
@@ -252,7 +258,21 @@ Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatg
 
 ## 7. Alta d'un alumne (pas a pas)
 
-Exemple complet: un xiquet nou que s'apunta a Llenguatge musical i Clarinet. El tutor legal (la mare o el pare) també ha d'estar donat d'alta com a persona.
+### En una sola pantalla
+
+La manera més ràpida: a l'inici, **Què vols fer? → Alta d'alumne** (o, des de la fitxa d'una persona que ja està a Compàs, **Alta d'alumne**). En la mateixa pantalla:
+
+1. **Qui s'apunta**: nom, cognoms, data de naixement i la resta de dades. Si és major d'edat, cal el DNI i el telèfon.
+2. **La família**: si és menor, la mare, el pare o el tutor/a legal. Si ja està a Compàs (per exemple, perquè té un altre fill a l'escola), tria **Ja està a Compàs** i busca-la; si no, **És una persona nova** i escriu-ne les dades. **Viu a la mateixa adreça** li copia l'adreça. Si és major d'edat, la família és opcional.
+3. **Grups**: marca els grups del curs actual on s'apunta (amb l'horari i quants n'hi ha a cada un).
+
+![Alta d'alumne en una pantalla](imatges/ca/07a-alta-alumne.webp)
+
+Prem **Dona d'alta**: Compàs crea la persona, la fitxa d'alumne, el tutor/a i la matrícula amb els grups, i obri la fitxa. Si ja hi ha una persona amb el mateix nom i la mateixa data de naixement, avisa i proposa fer servir la que ja hi és.
+
+### Pas a pas
+
+També es pot fer pas a pas, que és el que fa la pantalla anterior per dins. Exemple complet: un xiquet nou que s'apunta a Llenguatge musical i Clarinet. El tutor legal (la mare o el pare) també ha d'estar donat d'alta com a persona.
 
 ### Pas 1. La persona
 
@@ -516,7 +536,7 @@ L'apartat **Economia** del menú porta els diners de l'entitat: les quotes dels 
 
 ### 13.1 Tarifes: el preu de cada cosa
 
-Menú **Economia → Tarifes**. Cada tarifa té un nom (el que apareixerà al rebut), un tipus, una periodicitat i un import:
+Menú **Resum econòmic → 🏷 Tarifes**. Cada tarifa té un nom (el que apareixerà al rebut), un tipus, una periodicitat i un import:
 
 - **Quota de soci**: anual, semestral, trimestral o mensual. Es pot fer una per a cada **tipus de soci** (els de l'apartat 8). Si se'n deixa una sense tipus, val per als tipus que no en tinguen una de pròpia. Els socis d'un tipus sense tarifa (per exemple, els honoraris) no paguen.
 - **Matrícula**: una sola vegada per curs i alumne.
@@ -543,7 +563,7 @@ Els rebuts de qui té una **domiciliació** activa es cobraran pel banc; els alt
 
 ### 13.4 Domiciliacions bancàries
 
-Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data de hui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Economia → Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
+Per a cobrar un rebut pel banc, qui paga ha d'haver signat l'**ordre de domiciliació** (el mandat SEPA). La manera més senzilla és escriure l'**IBAN a la fitxa de la persona o del soci**: en desar, Compàs crea la domiciliació amb la data de hui. Si després es canvia l'IBAN, l'anterior es dona de baixa i se'n crea una de nova (s'ha de tornar a signar); si s'esborra, es dona de baixa. També es pot fer des de **Resum econòmic → ✍ Domiciliacions → + Nou**, on es pot posar la data de signatura i un titular del compte diferent. Compàs comprova que l'IBAN és correcte i li posa una referència. Només es pot domiciliar a nom d'un major d'edat. Als llistats, l'IBAN només es veu en part.
 
 ![Domiciliacions](imatges/ca/59-domiciliacions.webp)
 
@@ -898,7 +918,7 @@ Triar la carpeta externa (USB o núvol), xifrar les còpies, decidir quant de te
 
 Cada usuari pot canviar la seua quan vulga:
 
-1. Al menú, a baix de tot, prem **Compte i contrasenya** (o fes clic en el teu nom d'usuari, dalt a la dreta).
+1. Fes clic en el teu nom d'usuari, dalt a la dreta.
 2. Escriu la **contrasenya actual**.
 3. Escriu la **contrasenya nova** dues vegades (almenys 8 caràcters).
 4. Prem **Desa**.

@@ -98,6 +98,42 @@ document.addEventListener('DOMContentLoaded', () => {
         actualitza();
     }
 
+    // Alta d'alumne en una pantalla: el DNI i el telèfon de cada persona segons la seua edat, i la família només si és menor
+    const esMajor = v => { if (!v) return false; const d = new Date(v + 'T00:00:00'), l = new Date(); l.setFullYear(l.getFullYear() - 18); return d <= l; };
+    const formAlta = document.querySelector('form.alta');
+    if (formAlta) {
+        const naixDe = g => g.querySelector('[data-naixement], input[name$="data_naixement"]');
+        const tutor = formAlta.querySelector('[data-tutor]');
+        const modes = [...formAlta.querySelectorAll('input[name="t_mode"]')];
+        const refresca = () => {
+            formAlta.querySelectorAll('[data-persona]').forEach(g => {
+                const major = esMajor(naixDe(g)?.value);
+                g.querySelectorAll('input[data-major]').forEach(i => {
+                    i.required = major && !i.disabled;
+                    const m = i.closest('.camp')?.querySelector('.obl-major');
+                    if (m) m.hidden = !major;
+                });
+            });
+            const alumneMajor = esMajor(naixDe(formAlta.querySelector('[data-persona="a"]'))?.value);
+            tutor.querySelectorAll('.si-major').forEach(x => { x.hidden = !alumneMajor; });
+            if (!alumneMajor && modes.find(m => m.checked)?.value === 'cap') modes[0].checked = true;
+            const mode = modes.find(m => m.checked)?.value;
+            tutor.querySelectorAll('.mode-tutor').forEach(b => {
+                const visible = b.dataset.mode === mode;
+                b.hidden = !visible;
+                b.querySelectorAll('input, select').forEach(i => { i.disabled = !visible; });
+            });
+            tutor.querySelector('select[name="t_relacio"]').disabled = mode === 'cap';
+            // Després d'activar o desactivar, torna a posar els obligatoris de la persona nova
+            formAlta.querySelectorAll('[data-persona="t"] input[data-major]').forEach(i => {
+                i.required = !i.disabled && esMajor(naixDe(formAlta.querySelector('[data-persona="t"]'))?.value);
+            });
+        };
+        formAlta.addEventListener('input', refresca);
+        formAlta.addEventListener('change', refresca);
+        refresca();
+    }
+
     // Uniformes: la llista de talles segueix l'article triat
     document.querySelectorAll('input[data-talles]').forEach(inp => {
         const talles = JSON.parse(inp.dataset.talles || '{}');
@@ -135,6 +171,110 @@ document.addEventListener('DOMContentLoaded', () => {
             caixa.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = marcar.includes(c.value); });
         });
     });
+
+    // Seccions del menú plegades: es recorden en este navegador (la de la pantalla actual sempre s'obri)
+    const llegeix = (clau, defecte) => { try { return JSON.parse(localStorage.getItem(clau)) ?? defecte; } catch (e) { return defecte; } };
+    const desa = (clau, v) => { try { localStorage.setItem(clau, JSON.stringify(v)); } catch (e) { /* sense emmagatzematge: no es recorda */ } };
+    const plegats = llegeix('compas-menu-plegat', {});
+    document.querySelectorAll('details.grup-menu').forEach(d => {
+        const g = d.dataset.grup;
+        if (g in plegats && !d.dataset.actual) d.open = !plegats[g];
+        d.addEventListener('toggle', () => { plegats[g] = !d.open; desa('compas-menu-plegat', plegats); });
+    });
+
+    // Fitxes amb molts subapartats: en pestanyes (Dades, Socis, Rebuts…). Sense JavaScript es veu tot seguit.
+    document.querySelectorAll('.fitxa-contingut').forEach(cont => {
+        const panells = [...cont.querySelectorAll(':scope > .panell-fitxa')];
+        if (panells.length < 3) return;
+        const barra = document.createElement('div');
+        barra.className = 'pestanyes-fitxa';
+        barra.setAttribute('role', 'tablist');
+        const botons = panells.map(p => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('role', 'tab');
+            b.setAttribute('aria-controls', p.id);
+            b.textContent = p.dataset.titol;
+            if (p.dataset.compte) b.append(Object.assign(document.createElement('span'), { className: 'compte', textContent: p.dataset.compte }));
+            p.setAttribute('role', 'tabpanel');
+            barra.append(b);
+            return b;
+        });
+        const mostra = (i, focus) => {
+            panells.forEach((p, j) => { p.hidden = j !== i; });
+            botons.forEach((b, j) => { b.setAttribute('aria-selected', j === i ? 'true' : 'false'); b.tabIndex = j === i ? 0 : -1; });
+            if (focus) botons[i].focus();
+            history.replaceState(null, '', i ? '#' + panells[i].id : location.pathname + location.search);
+        };
+        botons.forEach((b, i) => {
+            b.addEventListener('click', () => mostra(i));
+            b.addEventListener('keydown', e => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); mostra((i + (e.key === 'ArrowRight' ? 1 : -1) + botons.length) % botons.length, true); }
+            });
+        });
+        cont.classList.add('amb-pestanyes');
+        cont.prepend(barra);
+        const inicial = panells.findIndex(p => '#' + p.id === location.hash);
+        mostra(Math.max(0, inicial));
+    });
+
+    // Blocs plegables que es recorden (els avisos de l'inici)
+    document.querySelectorAll('details[data-recorda]').forEach(d => {
+        const clau = 'compas-plegat-' + d.dataset.recorda;
+        if (llegeix(clau, false)) d.open = false;
+        d.addEventListener('toggle', () => desa(clau, !d.open));
+    });
+
+    // Cercador de dalt: propostes mentre s'escriu; «/» hi porta des de qualsevol pantalla
+    const cercador = document.querySelector('.cerca-global');
+    if (cercador) {
+        const inp = cercador.querySelector('input[type="search"]'), llista = cercador.querySelector('.propostes-cerca');
+        let temps = null, actiu = -1, ultima = '';
+        const tanca = () => { llista.hidden = true; actiu = -1; };
+        const marca = i => {
+            const els = llista.querySelectorAll('a');
+            if (!els.length) return;
+            actiu = (i + els.length) % els.length;
+            els.forEach((a, j) => a.classList.toggle('actiu', j === actiu));
+        };
+        inp.addEventListener('input', () => {
+            clearTimeout(temps);
+            const q = inp.value.trim();
+            if (q.length < 2) { tanca(); return; }
+            temps = setTimeout(async () => {
+                ultima = q;
+                const r = await fetch('?r=cerca&json=1&q=' + encodeURIComponent(q));
+                const dades = r.ok ? await r.json() : [];
+                if (q !== ultima) return;
+                let grup = '';
+                const els = [];
+                dades.forEach(d => {
+                    if (d.grup !== grup) { grup = d.grup; els.push(Object.assign(document.createElement('li'), { className: 'grup', textContent: grup })); }
+                    const li = document.createElement('li'), a = document.createElement('a');
+                    a.href = d.url;
+                    a.append(Object.assign(document.createElement('b'), { textContent: d.text }));
+                    if (d.sub) a.append(Object.assign(document.createElement('span'), { textContent: d.sub }));
+                    li.append(a);
+                    els.push(li);
+                });
+                if (!dades.length) els.push(Object.assign(document.createElement('li'), { className: 'buit', textContent: cercador.dataset.res || '—' }));
+                llista.replaceChildren(...els);
+                llista.hidden = false;
+                actiu = -1;
+            }, 180);
+        });
+        inp.addEventListener('keydown', e => {
+            if (llista.hidden) return;
+            if (e.key === 'ArrowDown') { e.preventDefault(); marca(actiu + 1); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); marca(actiu - 1); }
+            else if (e.key === 'Enter' && actiu >= 0) { e.preventDefault(); llista.querySelectorAll('a')[actiu].click(); }
+            else if (e.key === 'Escape') tanca();
+        });
+        inp.addEventListener('blur', () => setTimeout(tanca, 150));
+        document.addEventListener('keydown', e => {
+            if (e.key === '/' && !e.target.closest('input, textarea, select, [contenteditable]')) { e.preventDefault(); inp.focus(); inp.select(); }
+        });
+    }
 
     // Menú en pantalles menudes
     const boto = document.querySelector('.obre-menu');

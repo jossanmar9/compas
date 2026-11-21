@@ -12,10 +12,12 @@ function targeta(string $xifra, string $text, ?string $enllac = null): string
 function pagina_inici(): void
 {
     $curs = curs_actual();
-    $html = avis_responsabilitat_pendent() . avis_codi_recuperacio() . avis_copies();
-    $html .= '<div class="targetes">';
     $es = fn(string $cap, string $modul) => pot($cap) && modul_actiu($modul)
         && (!es_consultor() || !in_array($modul, ['llicencies', 'entitats', 'certificat_delictes'], true));
+    // Els avisos que demanen fer alguna cosa ara (acceptar l'avís, el codi de recuperació) van dalt de tot
+    $html = avis_responsabilitat_pendent() . avis_codi_recuperacio();
+    $html .= accions_inici($es);
+    $html .= '<div class="targetes">';
     if (pot('persones.view')) {
         $html .= targeta((string)valor('SELECT COUNT(*) FROM persones WHERE actiu = 1'), t('ent.persones'), url('llista', ['e' => 'persones']));
     }
@@ -45,6 +47,8 @@ function pagina_inici(): void
         $html .= targeta(euros((float)valor("SELECT SUM(import) FROM rebuts WHERE estat IN ('per_cobrar', 'retornat')")), t('economia.per_cobrar', $n), url('economia'));
     }
     $html .= '</div>';
+    $principal = $html;
+    $html = avis_copies();
 
     // Avisos de la societat: renovació de la junta, documents que caduquen i professorat sense certificat
     if ($es('societat.view', 'junta') && avis_actiu('junta_renovacio') && ($r = renovacio_junta()) && $r['dies'] <= 120) {
@@ -82,6 +86,11 @@ function pagina_inici(): void
         }
     }
 
+    // Tots els avisos junts, en un bloc que es pot plegar (app.js recorda si s'ha plegat)
+    $nAvisos = preg_match_all('/class="avis |<section class="fill"/', $html);
+    $html = $principal . ($nAvisos ? '<details class="avisos-inici" open data-recorda="avisos-inici"><summary>⚠ ' . h(t('inici.avisos')) . ' <span class="compte">' . $nAvisos . '</span></summary>'
+        . $html . '</details>' : '');
+
     if ($es('societat.view', 'activitats') && avis_actiu('activitats_properes')) {
         $html .= avis_inici_activitats();
     }
@@ -109,6 +118,29 @@ function pagina_inici(): void
     }
 
     pagina(t('menu.inici'), $html, config('societat_nom'));
+}
+
+/** «Què vols fer?»: les tasques de cada dia, segons els apartats actius i el que pot fer cada compte */
+function accions_inici(callable $es): string
+{
+    $accions = [];
+    $afig = function (bool $si, string $icona, string $text, string $enllac, string $ajuda) use (&$accions) {
+        if ($si) {
+            $accions[] = '<a class="accio-inici" href="' . h($enllac) . '"><span class="ic" aria-hidden="true">' . $icona . '</span><b>' . h($text) . '</b><small>' . h($ajuda) . '</small></a>';
+        }
+    };
+    $afig(pot('persones.edit'), '👤', t('inici.accio_persona'), url('edita', ['e' => 'persones']), t('inici.accio_persona_ajuda'));
+    $afig(pot('socis.edit'), '★', t('inici.accio_soci', de_nom(mb_strtolower(t('ent1.socis')))), url('edita', ['e' => 'socis']), t('inici.accio_soci_ajuda'));
+    $afig(pot('escola.edit') && $es('escola.view', 'escola'), '🎓', t('inici.accio_alumne', de_nom(mb_strtolower(t('ent1.alumnes')))), url('alta_alumne'), t('inici.accio_alumne_ajuda'));
+    $afig(pot('economia.edit') && $es('economia.view', 'economia'), '🧾', t('genera.titol'), url('genera_rebuts'), t('inici.accio_rebuts_ajuda'));
+    $afig(pot('economia.edit') && $es('economia.view', 'economia'), '🏦', t('inici.accio_remesa'), url('remeses'), t('inici.accio_remesa_ajuda'));
+    $afig(pot('societat.edit') && $es('societat.view', 'activitats'), '🗓', t('inici.accio_activitat'), url('edita', ['e' => 'activitats']), t('inici.accio_activitat_ajuda'));
+    $afig(pot('dades.exporta') && $es('agrupacions.view', 'agrupacions'), '📊', t('assist.boto_totes'), url('assistencia'), t('inici.accio_assistencia_ajuda'));
+    $afig(pot('societat.view') && $es('societat.view', 'comunicats'), '✉', t('inici.accio_comunicat'), url('comunicats'), t('inici.accio_comunicat_ajuda'));
+    if (!$accions) {
+        return '';
+    }
+    return '<section class="que-fer" aria-labelledby="que-fer"><h2 id="que-fer">' . h(t('inici.que_fer')) . '</h2><div class="accions-inici">' . implode('', $accions) . '</div></section>';
 }
 
 /** Resum acadèmic d'un alumne per a un curs: grups, horari i notes */

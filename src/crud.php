@@ -420,8 +420,13 @@ function pagina_fitxa(string $nom, int $id): void
         echo '<span class="espai"></span>' . $e['accions_fitxa']($f);
     }
     echo '</div>';
+    if ($nom === 'persones') {
+        echo accions_persona($f);
+    }
+    echo '<div class="fitxa-contingut">';
 
-    echo '<dl class="fitxa">';
+    // Dades i subapartats: amb molts subapartats, en pestanyes (app.js); els buits, només com a enllaços per a afegir-ne
+    echo '<div class="panell-fitxa" id="p-dades" data-titol="' . h(t('fitxa.dades')) . '"><dl class="fitxa">';
     foreach ($e['camps'] as $c => $d) {
         if (!empty($d['amaga_fitxa'])) {
             continue; // es mostra d'una altra manera (per exemple, la llista de requisits amb caselles)
@@ -451,23 +456,35 @@ function pagina_fitxa(string $nom, int $id): void
             . h(url('butlleti', ['imprimir' => 1, 'curs' => $curs['id'], 'ambit' => 'alumne', 'alumne' => $id, 'periode' => valor('SELECT id FROM periodes WHERE curs_id = ? ORDER BY ordre DESC LIMIT 1', [$curs['id']])]))
             . '">🖨 ' . h(t('butlleti.imprimeix')) . '</a></header>' . resum_alumne($id, $curs) . '</section>';
     }
+    echo '</div>';
 
     $tornar = url('fitxa', ['e' => $nom, 'id' => $id]);
+    $plens = [];
+    $buits = [];
     foreach ($e['fills'] as [$fill, $fk]) {
         $ef = entitat($fill);
         if (!pot($ef['cap'] . '.view') || !disponible($fill)) {
             continue;
         }
         $files = q("SELECT t.* FROM {$ef['from']} WHERE t.$fk = ? ORDER BY {$ef['ordre']}", [$id])->fetchAll();
-        $cols = array_filter($ef['camps'], fn($d, $c) => !empty($d['llista']) && $c !== $fk, ARRAY_FILTER_USE_BOTH);
-        echo '<section class="fill"><header><h2>' . h(t('ent.' . $fill)) . ' <span class="compte">' . count($files) . '</span></h2>';
-        if (pot($ef['cap'] . '.edit') && empty($ef['nomes_lectura']) && empty($e['nomes_lectura'])) {
-            echo '<a class="boto petit" href="' . h(url('edita', ['e' => $fill, "f[$fk]" => $id, 'tornar' => $tornar])) . '">+ ' . h(t('afegeix')) . '</a>';
+        $nou = pot($ef['cap'] . '.edit') && empty($ef['nomes_lectura']) && empty($e['nomes_lectura'])
+            ? url('edita', ['e' => $fill, "f[$fk]" => $id, 'tornar' => $tornar]) : null;
+        if (!$files) {
+            if ($nou) {
+                $buits[] = '<a class="boto petit secundari" href="' . h($nou) . '">+ ' . h(t('ent1.' . $fill)) . '</a>';
+            }
+            continue;
         }
-        echo '</header>';
-        echo $files ? taula_files($ef, $files, $cols) : '<p class="buit petit">' . h(t('cap_element')) . '</p>';
-        echo '</section>';
+        $cols = array_filter($ef['camps'], fn($d, $c) => !empty($d['llista']) && $c !== $fk, ARRAY_FILTER_USE_BOTH);
+        $plens[] = '<section class="fill panell-fitxa" id="p-' . h($fill) . '" data-titol="' . h(t('ent.' . $fill)) . '" data-compte="' . count($files) . '"><header><h2>' . h(t('ent.' . $fill))
+            . ' <span class="compte">' . count($files) . '</span></h2>' . ($nou ? '<a class="boto petit" href="' . h($nou) . '">+ ' . h(t('afegeix')) . '</a>' : '') . '</header>'
+            . taula_files($ef, $files, $cols) . '</section>';
     }
+    echo implode('', $plens);
+    if ($buits) {
+        echo '<p class="afegir-fills"><span>' . h(t('fitxa.afegir')) . '</span> ' . implode(' ', $buits) . '</p>';
+    }
+    echo '</div>';
     pagina($titol, ob_get_clean(), t('ent1.' . $nom));
 }
 
@@ -723,14 +740,42 @@ function pagina_edita(string $nom, ?int $id): void
     $accio = url('edita', array_filter(['e' => $nom, 'id' => $id, 'tornar' => $tornar]));
     $multipart = array_filter($e['camps'], fn($d) => $d['tipus'] === 'fitxer') ? ' enctype="multipart/form-data"' : '';
     echo '<form method="post" class="formulari" action="' . h($accio) . '"' . $multipart . '>' . csrf_camp() . '<div class="camps">';
+    // Primer el que cal; la resta (observacions, baixa, província…) a «Més dades», obert si ja hi ha alguna cosa
+    $secundaris = [];
+    $obrir = (bool)$errors;
     foreach ($e['camps'] as $c => $d) {
+        if (camp_secundari($c, $d, !$id)) {
+            $secundaris[$c] = $d;
+            $v = $dades[$c] ?? null;
+            $obrir = $obrir || ($id && $v !== null && $v !== '' && !($c === 'estat' && $v === 'actiu') && !($c === 'actiu' && (int)$v === 1)
+                && !($d['tipus'] === 'bool' && !$v) && !($c === 'consentiment_imatge' && $v === 'pendent'));
+            continue;
+        }
         echo camp_formulari($c, $d, $dades[$c] ?? null);
     }
-    echo '</div><div class="accions"><button>' . h(t('desa')) . '</button>';
+    echo '</div>';
+    if ($secundaris) {
+        echo '<details class="mes-dades"' . ($obrir ? ' open' : '') . '><summary>' . h(t('form.mes_dades')) . ' <small>'
+            . h(implode(', ', array_map(fn($c, $d) => mb_strtolower(etiqueta_camp($c, $d)), array_keys($secundaris), $secundaris))) . '</small></summary><div class="camps">';
+        foreach ($secundaris as $c => $d) {
+            echo camp_formulari($c, $d, $dades[$c] ?? null);
+        }
+        echo '</div></details>';
+    }
+    echo '<div class="accions"><button>' . h(t('desa')) . '</button>';
     $cancel = $tornar ?: ($id ? url('fitxa', ['e' => $nom, 'id' => $id]) : url('llista', ['e' => $nom]));
     echo '<a class="boto secundari" href="' . h($cancel) . '">' . h(t('cancel·la')) . '</a></div></form>';
     $titol = $f ? t('edita_x', titol_element($e, $f)) : t('nou_x', t('ent1.' . $nom));
     pagina($titol, ob_get_clean());
+}
+
+/** Els camps que no cal omplir quasi mai van plegats a «Més dades» (mai un d'obligatori) */
+function camp_secundari(string $c, array $d, bool $nou): bool
+{
+    if (!empty($d['req']) || !empty($d['major'])) {
+        return false;
+    }
+    return !empty($d['secundari']) || in_array($c, ['observacions', 'data_baixa'], true) || ($nou && in_array($c, ['estat', 'actiu'], true));
 }
 
 function error_bd(PDOException $ex): string

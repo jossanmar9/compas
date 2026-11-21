@@ -3,6 +3,11 @@
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+/**
+ * El menú lateral: només el que es fa servir cada dia. El que es configura una vegada (cursos, assignatures i aules;
+ * tarifes i domiciliacions; mòduls i registre d'activitat; el compte propi) està dins de la pantalla on es fa servir
+ * (vegeu menu_relacionat()), i cada secció es pot plegar.
+ */
 function menu(): array
 {
     return [
@@ -19,9 +24,6 @@ function menu(): array
         ['horari', 'menu.horari', 'escola.view', '🕑'],
         ['notes', 'menu.notes', 'escola.notes', '✎'],
         ['butlleti', 'menu.butlletins', 'escola.view', '🖨'],
-        ['cursos', 'ent.cursos', 'escola.view', '📅'],
-        ['assignatures', 'ent.assignatures', 'escola.view', '♪'],
-        ['aules', 'ent.aules', 'escola.view', '🚪'],
         ['_agrup', 'menu.agrupacions', null, null],
         ['agrupacions', 'ent.agrupacions', 'agrupacions.view', '🎺'],
         ['membres', 'ent.membres', 'agrupacions.view', '🎶'],
@@ -35,8 +37,6 @@ function menu(): array
         ['rebuts', 'ent.rebuts', 'economia.view', '🧾'],
         ['genera_rebuts', 'genera.titol', 'economia.edit', '＋'],
         ['remeses', 'menu.remeses', 'economia.view', '🏦'],
-        ['mandats', 'ent.mandats', 'economia.view', '✍'],
-        ['tarifes', 'ent.tarifes', 'economia.view', '🏷'],
         ['loteries', 'ent.loteries', 'economia.view', '🎟'],
         ['subvencions', 'ent.subvencions', 'economia.view', '🤝'],
         ['caixa', 'menu.caixa', 'economia.view', '📒'],
@@ -53,12 +53,62 @@ function menu(): array
         ['_admin', 'menu.administracio', null, null],
         ['usuaris', 'menu.usuaris', 'usuaris.manage', '🔑'],
         ['configuracio', 'menu.configuracio', 'config.manage', '⚙'],
-        ['moduls', 'menu.moduls', 'config.manage', '🧩'],
-        ['auditoria', 'menu.auditoria', 'auditoria.view', '📜'],
         ['copia', 'menu.copia', 'copia.manage', '💾'],
-        ['perfil', 'menu.compte', null, '🔒'],
         ['ajuda', 'menu.ajuda', null, '?'],
     ];
+}
+
+/**
+ * L'apartat del manual que explica la pantalla actual (per al botó «?» de dalt).
+ * Es busca pel número de l'apartat, que és el mateix en valencià i en castellà; el que és d'administració va al manual d'administració.
+ */
+function enllac_ajuda(): ?string
+{
+    $r = get('r', 'inici');
+    $clau = in_array($r, ['llista', 'fitxa', 'edita'], true) ? get('e') : $r;
+    $usuari = [
+        'inici' => '2', 'cerca' => '2', 'persones' => '6', 'socis' => '8', 'tipus_socis' => '8', 'full_alta' => '8', 'alumnes' => '7', 'alta_alumne' => '7', 'tutories' => '7',
+        'matricules' => '7', 'cursos' => '5.1', 'periodes' => '5.1', 'assignatures' => '5.2', 'aules' => '5.2', 'professors' => '5.3', 'grups' => '5.4', 'horaris' => '5.4',
+        'horari' => '5.5', 'passa_curs' => '5.6', 'notes' => '10', 'butlleti' => '11', 'agrupacions' => '9', 'membres' => '9', 'assistencia' => '9', 'repertori' => '9',
+        'obres' => '9', 'instruments' => '12', 'cessions' => '12', 'manteniments' => '12', 'uniformes' => '12', 'uniforme_compres' => '12', 'uniforme_lliuraments' => '12',
+        'economia' => '13', 'tarifes' => '13.1', 'genera_rebuts' => '13.3', 'mandats' => '13.4', 'remeses' => '13.5', 'remesa' => '13.5', 'rebuts' => '13.6',
+        'caixa' => '13.7', 'moviments' => '13.7', 'subvencions' => '13.8', 'loteries' => '14', 'loteria' => '14', 'talonaris' => '14', 'junta' => '15.1', 'carrecs' => '15.1',
+        'reunions' => '15.2', 'documents' => '16', 'rgpd' => '16', 'comunicats' => '17', 'activitats' => '18', 'activitat_inscripcions' => '18', 'categories' => '19',
+        'llicencies' => '20', 'carrecs_festa' => '21', 'entitats_federades' => '22', 'llistats' => '23', 'certificat' => '23', 'importa' => '24', 'perfil' => '26',
+    ];
+    $admin = ['configuracio' => '2', 'moduls' => '2', 'economia_config' => '3', 'copia' => '4', 'usuaris' => '5', 'auditoria' => '5'];
+    $manual = isset($admin[$clau]) && pot('config.manage') ? 'admin' : 'usuari';
+    $num = $manual === 'admin' ? $admin[$clau] : ($usuari[$clau] ?? null);
+    if ($num === null || $r === 'ajuda') {
+        return null;
+    }
+    $es = idioma() === 'es';
+    $fitxer = DOCS_DIR . '/' . ($manual === 'admin' ? ($es ? 'manual-administracion' : 'manual-administracio') : ($es ? 'manual-usuario' : 'manual-usuari')) . '.md';
+    $md = is_file($fitxer) ? (string)file_get_contents($fitxer) : '';
+    $nivell = str_contains($num, '.') ? '###' : '##';
+    if (!preg_match('/^' . $nivell . ' ' . preg_quote($num, '/') . '\.? (.+)$/m', $md, $m)) {
+        return url('ajuda', $manual === 'admin' ? ['manual' => 'admin'] : []);
+    }
+    // El mateix identificador que posa markdown_simple() als títols
+    $id = trim(preg_replace('/[^\p{L}\p{N}]+/u', '-', mb_strtolower($num . ($nivell === '##' ? '. ' : ' ') . $m[1])), '-');
+    return url('ajuda', $manual === 'admin' ? ['manual' => 'admin'] : []) . '#' . $id;
+}
+
+/** Botons a les pantalles que fan servir les coses que ja no estan al menú (on es configuren) */
+function menu_relacionat(string $quin): string
+{
+    $grups = [
+        'escola' => [['cursos', 'ent.cursos', 'escola.view', '📅'], ['assignatures', 'ent.assignatures', 'escola.view', '♪'], ['aules', 'ent.aules', 'escola.view', '🚪']],
+        'economia' => [['tarifes', 'ent.tarifes', 'economia.view', '🏷'], ['mandats', 'ent.mandats', 'economia.view', '✍']],
+        'admin' => [['moduls', 'menu.moduls', 'config.manage', '🧩'], ['auditoria', 'menu.auditoria', 'auditoria.view', '📜']],
+    ];
+    $html = '';
+    foreach ($grups[$quin] ?? [] as [$clau, $etq, $cap, $icona]) {
+        if (pot($cap) && disponible($clau) && (!es_consultor() || consultor_pot_ruta($clau))) {
+            $html .= '<a class="boto secundari" href="' . h(enllac_menu($clau)) . '">' . icona_menu($clau, $icona) . ' ' . h(t($etq)) . '</a>';
+        }
+    }
+    return $html;
 }
 
 /** Les icones de música només per a les entitats musicals */
@@ -90,25 +140,36 @@ function html_menu(): string
         'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents',
         'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis', 'obres' => 'repertori', 'tipus_obres' => 'repertori',
         'organismes' => 'subvencions', 'requisits_justificacio' => 'subvencions', 'subvencio_cobraments' => 'subvencions', 'subvencio_despeses' => 'subvencions',
-        'activitat_inscripcions' => 'activitats', 'categories' => 'socis'][$actual] ?? $actual;
-    $items = [];
-    $seccio = null;
+        'activitat_inscripcions' => 'activitats', 'categories' => 'socis',
+        'cursos' => 'grups', 'periodes' => 'grups', 'assignatures' => 'grups', 'aules' => 'grups', 'passa_curs' => 'grups', 'alta_alumne' => 'alumnes',
+        'mandats' => 'economia', 'tarifes' => 'economia', 'economia_config' => 'economia', 'moduls' => 'configuracio', 'auditoria' => 'usuaris'][$actual] ?? $actual;
+    // Seccions plegables (app.js recorda quines s'han plegat); la de la pantalla actual sempre està oberta
+    $seccions = [['', '', []]];
     foreach (menu() as [$clau, $etq, $cap, $icona]) {
         if ($clau[0] === '_') {
-            $seccio = '<li class="seccio">' . h(t($etq)) . '</li>';
+            $seccions[] = [$clau, t($etq), []];
             continue;
         }
         if ((es_consultor() && !consultor_pot_ruta($clau)) || ($cap && !pot($cap)) || !disponible($clau) || (in_array($clau, ['notes', 'butlleti'], true) && !te_notes())) {
             continue;
         }
-        if ($seccio) {
-            $items[] = $seccio;
-            $seccio = null;
-        }
-        $items[] = '<li><a href="' . h(enllac_menu($clau)) . '"' . ($clau === $actual ? ' class="actiu"' : '') . '><span class="ic">'
+        $seccions[array_key_last($seccions)][2][] = '<li><a href="' . h(enllac_menu($clau)) . '"' . ($clau === $actual ? ' class="actiu" aria-current="page"' : '') . '><span class="ic">'
             . h(icona_menu($clau, $icona)) . '</span>' . h(t($etq)) . '</a></li>';
     }
-    return '<ul>' . implode('', $items) . '</ul>';
+    $html = '';
+    foreach ($seccions as [$clau, $nom, $items]) {
+        if (!$items) {
+            continue;
+        }
+        if ($clau === '') {
+            $html .= '<ul>' . implode('', $items) . '</ul>';
+            continue;
+        }
+        $obert = str_contains(implode('', $items), 'class="actiu"');
+        $html .= '<details class="grup-menu" data-grup="' . h(substr($clau, 1)) . '"' . ($obert || $clau !== '_admin' ? ' open' : '') . ($obert ? ' data-actual="1"' : '')
+            . '><summary>' . h($nom) . '</summary><ul>' . implode('', $items) . '</ul></details>';
+    }
+    return $html;
 }
 
 function html_avisos(): string
@@ -149,7 +210,14 @@ function pagina(string $titol, string $cos, ?string $subtitol = null): void
     $logo = url_logo();
     echo '<aside class="lateral"><a class="marca" href="?"><img src="' . h($logo ?? 'assets/icona.png') . '" alt="" class="' . ($logo ? 'logo-societat' : '') . '"><span><b>' . h($societat)
         . '</b><small>Compàs</small></span></a><button class="obre-menu" type="button" aria-label="Menú">☰</button><nav>' . html_menu() . '</nav></aside>';
-    echo '<main><header class="superior"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>';
+    $ajuda = enllac_ajuda();
+    echo '<main><header class="superior"><div class="titol-pagina"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>'
+        . ($ajuda ? '<a class="ajuda-pagina" href="' . h($ajuda) . '" title="' . h(t('ajuda.pagina')) . '" aria-label="' . h(t('ajuda.pagina')) . '">?</a>' : '') . '</div>';
+    if (pot_cercar()) {
+        echo '<form class="cerca-global" method="get" role="search" data-res="' . h(t('cerca.cap')) . '"><input type="hidden" name="r" value="cerca"><input type="search" name="q" autocomplete="off" value="'
+            . h(get('r') === 'cerca' ? get('q') : '') . '" placeholder="' . h(t('cerca.placeholder_curt')) . '" aria-label="' . h(t('cerca.titol')) . '" title="' . h(t('cerca.drecera'))
+            . '"><ul class="propostes-cerca" hidden></ul></form>';
+    }
     echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.compte')) . '">👤 '
         . h($u['usuari']) . '</a><form method="post" action="' . h(url('eixir')) . '">' . csrf_camp() . '<button class="enllac">' . h(t('eixir')) . '</button></form></div></header>';
     echo '<div class="contingut">' . html_avisos() . $cos . '</div><footer class="peu-app no-imprimir">Compàs ' . COMPAS_VERSIO . ' · ' . h(t('avis_resp.curt'))

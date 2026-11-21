@@ -8,6 +8,20 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent]
+
+### Més fàcil d'usar
+- **Menú més curt i plegable.** Al menú només hi ha el que es fa servir cada dia, i cada secció es plega amb un clic (Compàs recorda com l'has deixada). El que es configura de tant en tant està dins de la pantalla on es fa servir: cursos, assignatures i aules a **Grups**; tarifes i domiciliacions a **Resum econòmic**; mòduls i registre d'activitat a **Configuració** i **Usuaris**; el compte propi, al nom d'usuari de dalt.
+- **Cercador a dalt de tot.** Una persona pel nom, els cognoms (sense accents), el DNI, el telèfon, el correu o el número de soci, amb el que és a l'entitat (soci núm. 12, alumna, banda…) mentre s'escriu. També troba agrupacions, activitats, obres, material i entitats federades. La tecla **/** hi porta des de qualsevol pantalla.
+- **«Què vols fer?» a l'inici**: botons per a les tasques de cada dia (nova persona, alta de soci, alta d'alumne, generar rebuts, remesa, activitat, fulls d'assistència, comunicat), segons els apartats actius i el que pot fer cada compte. Els avisos van tots junts en un bloc que es pot plegar.
+- **Alta d'alumne en una sola pantalla**: les dades, la mare, el pare o el tutor/a (nou o que ja està a Compàs, per als germans) i els grups del curs, d'una vegada. Avisa si la persona ja hi és.
+- **Fitxa de persona**: botons per a fer-la sòcia, donar-la d'alta com a alumne o fer-li la matrícula, afegir-la a un grup o inscriure-la en una activitat. Les fitxes amb moltes coses relacionades van en pestanyes, i el que encara no té ix com a «Afig: + Soci, + Alumne…» en lloc d'apartats buits.
+- **Formularis més curts**: les observacions, la província, la data de baixa i la resta de camps que quasi mai cal omplir van plegats a «Més dades».
+- **Ajuda de cada pantalla**: el botó **?** al costat del títol obri l'apartat del manual que l'explica.
+
+### Proves
+- Bateria `interficie` (menú, cercador, inici, ajuda, fitxes, formularis i alta d'alumne), i la bateria `tipus` també recorre el que ha eixit del menú.
+
 ## [2.6.0] - 2026-11-21
 
 ### Nou

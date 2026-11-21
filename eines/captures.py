@@ -177,6 +177,8 @@ class Captures:
     async def omple(self, camps: dict):
         for nom, valor in camps.items():
             el = self.p.locator(f'[name="{nom}"]').last
+            # Si el camp és a «Més dades» (plegat), s'obri
+            await el.evaluate('e => { const d = e.closest("details"); if (d) d.open = true; }')
             tipus = await el.evaluate('e => e.tagName + ":" + (e.type || "")')
             if tipus.endswith('radio'):
                 await self.p.locator(f'[name="{nom}"][value="{valor}"]').check()
@@ -203,8 +205,11 @@ class Captures:
         return re.search(r'[?&]id=(\d+)', self.p.url).group(1)
 
     async def boto_afig(self, entitat: str):
-        """Selector del botó «+ Afig» d'un apartat de la fitxa"""
-        return f'section.fill a.boto[href*="e={entitat}"]'
+        """Selector del botó «+ Afig» d'un apartat de la fitxa (si l'apartat és en una pestanya, l'obri; si està buit, és a «Afig:»)"""
+        pestanya = self.p.locator(f'.pestanyes-fitxa button[aria-controls="p-{entitat}"]')
+        if await pestanya.count():
+            await pestanya.click()
+        return f'section.fill a.boto[href*="e={entitat}"], .afegir-fills a.boto[href*="e={entitat}"]'
 
 
 async def fes_captures(l: str):
@@ -264,7 +269,11 @@ async def fes_captures(l: str):
             await c.foto('05-persona-nova', 'form .accions button')
             await c.desa()
             persona = c.id_actual()
-            await c.foto('06-persona-fitxa', await c.boto_afig('alumnes'), alt_max=1300)
+            await c.foto('06-persona-fitxa', '.accions-persona', alt_max=1300)
+            # Alta d'alumne en una sola pantalla
+            await c.ves('?r=alta_alumne')
+            await c.foto('07a-alta-alumne', 'form.alta .accions button', alt_max=2400)
+            await c.ves(f'?r=fitxa&e=persones&id={persona}')
 
             # --- Alta d'alumne ---
             await p.locator(await c.boto_afig('alumnes')).first.click()

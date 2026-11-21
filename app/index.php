@@ -245,6 +245,12 @@ try {
         case 'ajuda':
             pagina_ajuda();
             break;
+        case 'cerca':
+            pagina_cerca();
+            break;
+        case 'alta_alumne':
+            pagina_alta_alumne();
+            break;
         case 'manual_pdf':
             serveix_pdf();
         case 'doc_img':

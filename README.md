@@ -116,6 +116,7 @@ A més, el tipus d'entitat activa funcionalitats específiques com **repertori m
 
 | Mòdul | Què fa |
 |---|---|
+| **Fàcil d'usar** | A l'inici, «Què vols fer?» amb les tasques de cada dia. Cercador a dalt de tot (nom, DNI, telèfon o número de soci). Alta d'alumne amb la família i els grups en una sola pantalla. Botó **?** a cada pantalla que obri l'apartat del manual. Menú curt i plegable, fitxes en pestanyes i formularis amb «Més dades» plegat. |
 | **Persones** | Registre únic: cada persona s'introdueix una sola vegada i pot ser sòcia, membre d'un grup, alumna, monitora i tutora alhora sense duplicar dades. Nom, cognoms i data de naixement són obligatoris; DNI i telèfon, només per als majors d'edat. Quan un menor fa 18 anys sense eixes dades, la seua fila es marca en groc. |
 | **Drets d'imatge** | Si cada persona autoritza fotos i vídeos, amb la data de la signatura. Fulls de consentiment per a imprimir amb les dades de l'alumne i del tutor/a, i llistat de qui pot eixir en les fotos. |
 | **Socis** | Número, tipus de soci (els defineix cada entitat segons els seus estatuts), altes i baixes. Llistat per número, etiquetes per a les circulars i antiguitat per a les insígnies de 25 i 50 anys. |
