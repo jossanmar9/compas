@@ -8,7 +8,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
-## [Pendent]
+## [2.7.0] - 2026-11-21
 
 ### Més fàcil d'usar
 - **Menú més curt i plegable.** Al menú només hi ha el que es fa servir cada dia, i cada secció es plega amb un clic (Compàs recorda com l'has deixada). El que es configura de tant en tant està dins de la pantalla on es fa servir: cursos, assignatures i aules a **Grups**; tarifes i domiciliacions a **Resum econòmic**; mòduls i registre d'activitat a **Configuració** i **Usuaris**; el compte propi, al nom d'usuari de dalt.
