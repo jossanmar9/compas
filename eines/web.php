@@ -114,7 +114,7 @@ $T = [
             ['Compàs envia les nostres dades a algun lloc?', 'No. Les dades es queden a l\'ordinador de l\'entitat i, si la configureu, a la carpeta externa de còpies (un USB o una carpeta al núvol que trieu vosaltres). Ni el programa ni esta web recullen res.'],
             ['Funciona en Windows i en Linux?', 'Sí. Per a Windows 10 o 11 de 64 bits hi ha un instal·lador i una versió portable; per a Linux, un paquet .deb i un .tar.gz. No hi ha versió per a Mac ni per al mòbil.'],
             ['Es pot gastar des de diversos ordinadors alhora?', 'No: Compàs s\'instal·la en un ordinador de l\'entitat i s\'usa en eixe ordinador. Per a canviar d\'ordinador, n\'hi ha prou de restaurar l\'última còpia al nou.'],
-            ['Puc provar-lo sense posar les dades de l\'entitat?', 'Sí. En instal·lar-lo, podeu demanar que es carreguen dades d\'exemple del vostre tipus d\'entitat: socis, activitats, rebuts… inventats. Quan el conegueu, comenceu de zero amb les dades de veres.'],
+            ['Puc provar-lo sense posar les dades de l\'entitat?', 'Sí. En instal·lar-lo podeu carregar dades d\'exemple del vostre tipus d\'entitat: unes poques persones o una entitat gran, amb centenars de socis, rebuts i activitats inventats, per a vore com va amb molt de volum. Quan el conegueu, comenceu de zero amb les dades de veres.'],
             ['Tenim els socis en un Excel. Cal escriure\'ls tots?', 'No. Importa dades llig fitxers .xlsx i .csv: trieu quina columna és cada dada, reviseu la vista prèvia i s\'importen. Les persones que ja hi ha no es dupliquen.'],
             ['Compàs fa factures?', 'No, fa rebuts. Les factures s\'han de fer amb un programa de facturació que complisca la normativa (Verifactu).'],
             ['I si s\'espatlla l\'ordinador?', 'Per això hi ha les còpies de seguretat. Compàs en fa una cada vegada que es tanca, i convé configurar una carpeta externa perquè també es guarden fora de l\'ordinador. Amb l\'última còpia, ho recupereu tot en un altre ordinador.'],
@@ -132,6 +132,7 @@ $T = [
             ['Junta, documents i còpies', 'La part institucional de l\'entitat en ordre, i les dades sempre amb còpia.', 'web-junta', [14, 15, 21, 22]],
         ],
         'nav_menu' => 'Menú',
+        'salta' => 'Ves al contingut',
         'que_titol' => 'Què pots fer amb Compàs',
         'que_intro' => 'Pensat per a qui porta la secretaria d\'una entitat, encara que no siga informàtic.',
         'moduls' => [
@@ -329,7 +330,7 @@ $T = [
             ['¿Compàs envía nuestros datos a algún sitio?', 'No. Los datos se quedan en el ordenador de la entidad y, si la configuráis, en la carpeta externa de copias (un USB o una carpeta en la nube que elegís vosotros). Ni el programa ni esta web recogen nada.'],
             ['¿Funciona en Windows y en Linux?', 'Sí. Para Windows 10 u 11 de 64 bits hay un instalador y una versión portable; para Linux, un paquete .deb y un .tar.gz. No hay versión para Mac ni para el móvil.'],
             ['¿Se puede usar desde varios ordenadores a la vez?', 'No: Compàs se instala en un ordenador de la entidad y se usa en ese ordenador. Para cambiar de ordenador, basta con restaurar la última copia en el nuevo.'],
-            ['¿Puedo probarlo sin poner los datos de la entidad?', 'Sí. Al instalarlo, podéis pedir que se carguen datos de ejemplo de vuestro tipo de entidad: socios, actividades, recibos… inventados. Cuando lo conozcáis, empezad de cero con los datos reales.'],
+            ['¿Puedo probarlo sin poner los datos de la entidad?', 'Sí. Al instalarlo podéis cargar datos de ejemplo de vuestro tipo de entidad: unas pocas personas o una entidad grande, con cientos de socios, recibos y actividades inventados, para ver cómo va con mucho volumen. Cuando lo conozcáis, empezad de cero con los datos reales.'],
             ['Tenemos los socios en un Excel. ¿Hay que escribirlos todos?', 'No. Importar datos lee ficheros .xlsx y .csv: elegís qué columna es cada dato, revisáis la vista previa y se importan. Las personas que ya están no se duplican.'],
             ['¿Compàs hace facturas?', 'No, hace recibos. Las facturas se tienen que hacer con un programa de facturación que cumpla la normativa (Verifactu).'],
             ['¿Y si se estropea el ordenador?', 'Para eso están las copias de seguridad. Compàs hace una cada vez que se cierra, y conviene configurar una carpeta externa para que también se guarden fuera del ordenador. Con la última copia, lo recuperáis todo en otro ordenador.'],
@@ -347,6 +348,7 @@ $T = [
             ['Junta, documentos y copias', 'La parte institucional de la entidad en orden, y los datos siempre con copia.', 'web-junta', [14, 15, 21, 22]],
         ],
         'nav_menu' => 'Menú',
+        'salta' => 'Ir al contenido',
         'que_titol' => 'Qué puedes hacer con Compàs',
         'que_intro' => 'Pensado para quien lleva la secretaría de una entidad, aunque no sea informático.',
         'moduls' => [
@@ -457,10 +459,26 @@ $T = [
 
 $portada = [
     'ca' => [
-    'hero_text' => 'Gestiona persones, socis, quotes, rebuts, activitats, economia, junta i documentació des del teu ordinador.',
-    'demo' => 'Veure com funciona',
+    'hero' => 'La gestió de l\'associació, a casa i de franc.',
+    'hero_text' => 'Socis, quotes i rebuts, activitats, escola, equips, junta i documents, en un programa que s\'instal·la en un ordinador de l\'entitat. Funciona sense Internet, no recull cap dada i no costa res: és programari lliure.',
+    'demo' => 'Mira com és',
+    'versio_hero' => 'Versió %s per a Windows i Linux.',
+    'nav_filo' => 'Filosofia',
+    'tipus_frase' => 'Per a',
+    'tipus_peu' => 'En instal·lar-lo tries el tipus d\'entitat i Compàs s\'hi adapta: els noms de cada pantalla, els apartats que necessites i quan comença l\'exercici.',
+    'filo_titol' => 'Com és Compàs, i per què',
+    'filo_intro' => 'Compàs naix en una societat musical que no podia pagar un programa de gestió. D\'ací ve la manera de fer-lo:',
+    'filo' => [
+        ['Les dades no ixen de l\'entitat.', 'No hi ha cap servidor ni cap núvol de Compàs. El programa i les dades estan en un ordinador de l\'entitat, i les dades dels socis i dels menors no passen per cap empresa.'],
+        ['Gratuït, ara i sempre.', 'Sense quotes, sense límit de membres i sense versió de pagament. Compàs no és un negoci: no té publicitat, no ven res i no hi ha res a contractar.'],
+        ['Lliure: el codi és de tothom.', 'Amb la llicència AGPL, qualsevol el pot usar, estudiar, modificar i compartir, i les millores han de continuar sent lliures. El codi és públic a GitHub.'],
+        ['Funciona sense Internet.', 'No cal connexió per a res. Les remeses del banc i els correus es preparen al programa i els envieu vosaltres.'],
+        ['Si Compàs desapareix, les dades no.', 'Les dades estan en una carpeta vostra, amb còpies automàtiques en un USB o on vulgueu. Ningú no vos pot tancar el servei ni pujar el preu.'],
+        ['Fet des de dins d\'una associació.', 'L\'ha fet l\'expresident d\'una banda pensant en qui porta la secretaria sense ser informàtic. En valencià i en castellà.'],
+    ],
+    'filo_codi' => 'Mira el codi a GitHub',
     'download' => 'Descarrega Compàs',
-    'trust' => '✓ Windows i Linux · ✓ Gratuït · ✓ Sense núvol · ✓ Programari lliure',
+
     'benefits' => [['🖥️', 'Local', 'Les dades estan al teu ordinador.'], ['🔒', 'Privat', 'Sense telemetria ni comptes externs.'], ['💶', 'Gratuït', 'Sense quotes ni límit de socis.'], ['🐧', 'Lliure', 'Windows i Linux. Codi obert.']],
     'areas' => [['👥', 'Persones i socis', 'Fitxes, tipus de soci i importació des d\'Excel.'], ['💳', 'Quotes i rebuts', 'Domiciliacions, SEPA i remeses bancàries.'], ['💰', 'Economia', 'Llibre de caixa, loteria i subvencions.'], ['📅', 'Activitats', 'Inscripcions, agrupacions i equips.'], ['📄', 'Gestió', 'Junta, actes, documents i certificats.'], ['🎓', 'Escola', 'Cursos, grups i matrícules. Notes i butlletins per a societats musicals i colles.']],
     'all' => 'Veure totes les funcions',
@@ -468,13 +486,12 @@ $portada = [
     'tipus_intro' => 'En la primera configuració tries el tipus d\'entitat i Compàs adapta els mòduls i la terminologia.',
     'veure_titol' => 'Mira Compàs en funcionament',
     'veure_intro' => 'Pantalles reals del programa amb dades inventades. Tria què vols vore.',
-    'priv_titol' => 'Les dades de la teua associació són de la teua associació.',
+
     'flow' => [['💻', 'Al vostre ordinador', 'Compàs s\'instal·la i funciona sense Internet.'], ['🗄️', 'En un sol fitxer', 'Totes les dades, en una base de dades dins de l\'ordinador.'], ['💾', 'Amb còpia on vulgueu', 'Automàtiques i en un llapis USB o la carpeta que trieu.']],
     'absent' => ['Sense servidor de Compàs', 'Sense compte extern de Compàs', 'Sense telemetria', 'Sense publicitat', 'Sense subscripció'],
-    'qui_titol' => 'Fet des de l\'experiència d\'una associació',
-    'qui' => ['Durant sis anys vaig ser president de la Societat Musical de Massalfassar i vaig trobar a faltar una eina fàcil, útil i gratuïta per a gestionar-la.', 'Soc José Vicente Sanjuan. Compàs va començar amb les necessitats de la meua societat i ha crescut per a servir també altres associacions. L\'he desenvolupat amb l\'ajuda d\'intel·ligència artificial (Claude, d\'Anthropic), a partir de les necessitats i les revisions del projecte.', 'Proveu-lo amb dades d\'exemple i, si vos és útil, compartiu-lo amb altres entitats. Els dubtes i les propostes ajuden a millorar-lo.'],
+    'qui_titol' => 'Qui el fa',
     'com_titol' => 'Comença amb Compàs',
-    'free' => 'Compàs és gratuït. Sense registre. Sense subscripció.',
+    'free' => 'Descarrega\'l, instal·la\'l i comença. Sense registre i sense res a pagar.',
     'latest' => 'Descarrega l\'última versió',
     'installer' => 'Instal·lador',
     'portable' => 'Portable',
@@ -492,10 +509,26 @@ $portada = [
     'galeries_nom' => 'Tipus d\'entitat',
 ],
     'es' => [
-    'hero_text' => 'Gestiona personas, socios, cuotas, recibos, actividades, economía, junta y documentación desde tu ordenador.',
-    'demo' => 'Ver cómo funciona',
+    'hero' => 'La gestión de la asociación, en casa y gratis.',
+    'hero_text' => 'Socios, cuotas y recibos, actividades, escuela, equipos, junta y documentos, en un programa que se instala en un ordenador de la entidad. Funciona sin Internet, no recoge ningún dato y no cuesta nada: es software libre.',
+    'demo' => 'Mira cómo es',
+    'versio_hero' => 'Versión %s para Windows y Linux.',
+    'nav_filo' => 'Filosofía',
+    'tipus_frase' => 'Para',
+    'tipus_peu' => 'Al instalarlo eliges el tipo de entidad y Compàs se adapta: los nombres de cada pantalla, los apartados que necesitas y cuándo empieza el ejercicio.',
+    'filo_titol' => 'Cómo es Compàs, y por qué',
+    'filo_intro' => 'Compàs nace en una sociedad musical que no podía pagar un programa de gestión. De ahí viene la manera de hacerlo:',
+    'filo' => [
+        ['Los datos no salen de la entidad.', 'No hay ningún servidor ni ninguna nube de Compàs. El programa y los datos están en un ordenador de la entidad, y los datos de los socios y de los menores no pasan por ninguna empresa.'],
+        ['Gratuito, ahora y siempre.', 'Sin cuotas, sin límite de miembros y sin versión de pago. Compàs no es un negocio: no tiene publicidad, no vende nada y no hay nada que contratar.'],
+        ['Libre: el código es de todos.', 'Con la licencia AGPL, cualquiera puede usarlo, estudiarlo, modificarlo y compartirlo, y las mejoras tienen que seguir siendo libres. El código es público en GitHub.'],
+        ['Funciona sin Internet.', 'No hace falta conexión para nada. Las remesas del banco y los correos se preparan en el programa y los enviáis vosotros.'],
+        ['Si Compàs desaparece, los datos no.', 'Los datos están en una carpeta vuestra, con copias automáticas en un USB o donde queráis. Nadie os puede cerrar el servicio ni subir el precio.'],
+        ['Hecho desde dentro de una asociación.', 'Lo ha hecho el expresidente de una banda pensando en quien lleva la secretaría sin ser informático. En valenciano y en castellano.'],
+    ],
+    'filo_codi' => 'Mira el código en GitHub',
     'download' => 'Descarga Compàs',
-    'trust' => '✓ Windows y Linux · ✓ Gratuito · ✓ Sin nube · ✓ Software libre',
+
     'benefits' => [['🖥️', 'Local', 'Los datos están en tu ordenador.'], ['🔒', 'Privado', 'Sin telemetría ni cuentas externas.'], ['💶', 'Gratuito', 'Sin cuotas ni límite de socios.'], ['🐧', 'Libre', 'Windows y Linux. Código abierto.']],
     'areas' => [['👥', 'Personas y socios', 'Fichas, tipos de socio e importación desde Excel.'], ['💳', 'Cuotas y recibos', 'Domiciliaciones, SEPA y remesas bancarias.'], ['💰', 'Economía', 'Libro de caja, lotería y subvenciones.'], ['📅', 'Actividades', 'Inscripciones, agrupaciones y equipos.'], ['📄', 'Gestión', 'Junta, actas, documentos y certificados.'], ['🎓', 'Escuela', 'Cursos, grupos y matrículas. Notas y boletines para sociedades musicales y collas.']],
     'all' => 'Ver todas las funciones',
@@ -503,13 +536,12 @@ $portada = [
     'tipus_intro' => 'En la primera configuración eliges el tipo de entidad y Compàs adapta los módulos y la terminología.',
     'veure_titol' => 'Mira Compàs en funcionamiento',
     'veure_intro' => 'Pantallas reales del programa con datos inventados. Elige qué quieres ver.',
-    'priv_titol' => 'Los datos de tu asociación son de tu asociación.',
+
     'flow' => [['💻', 'En vuestro ordenador', 'Compàs se instala y funciona sin Internet.'], ['🗄️', 'En un solo archivo', 'Todos los datos, en una base de datos dentro del ordenador.'], ['💾', 'Con copia donde queráis', 'Automáticas y en un lápiz USB o la carpeta que elijáis.']],
     'absent' => ['Sin servidor de Compàs', 'Sin cuenta externa de Compàs', 'Sin telemetría', 'Sin publicidad', 'Sin suscripción'],
-    'qui_titol' => 'Hecho desde la experiencia de una asociación',
-    'qui' => ['Durante seis años fui presidente de la Societat Musical de Massalfassar y eché en falta una herramienta fácil, útil y gratuita para gestionarla.', 'Soy José Vicente Sanjuan. Compàs empezó con las necesidades de mi sociedad y ha crecido para servir también a otras asociaciones. Lo he desarrollado con ayuda de inteligencia artificial (Claude, de Anthropic), a partir de las necesidades y las revisiones del proyecto.', 'Probadlo con datos de ejemplo y, si os resulta útil, compartidlo con otras entidades. Las dudas y las propuestas ayudan a mejorarlo.'],
+    'qui_titol' => 'Quién lo hace',
     'com_titol' => 'Empieza con Compàs',
-    'free' => 'Compàs es gratuito. Sin registro. Sin suscripción.',
+    'free' => 'Descárgalo, instálalo y empieza. Sin registro y sin nada que pagar.',
     'latest' => 'Descarga la última versión',
     'installer' => 'Instalador',
     'portable' => 'Portable',
@@ -545,14 +577,12 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
         . ($formulari !== '' ? ' <a href="' . e($formulari) . '">' . e($t['qui_formulari']) . '</a>' : '');
     $compCap = implode('', array_map(fn($c) => '<th scope="col">' . e($c) . '</th>', $t['comp_cols']));
     $compFiles = implode('', array_map(fn($f) => '<tr><th scope="row">' . e($f[0]) . '</th><td class="si">' . e($f[1]) . '</td><td>' . e($f[2]) . '</td></tr>', $t['comp']));
-    $tipus = implode('', array_map(fn($x) => '<li><span aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3></li>', $t['tipus']));
-    $avantatges = implode('', array_map(fn($x) => '<li><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h2>' . e($x[1]) . '</h2><p>' . e($x[2]) . '</p></li>', $t['benefits']));
+    $tipus = implode('', array_map(fn($x) => '<li title="' . e($x[2]) . '">' . e(preg_match('/^\p{Lu}\p{Ll}/u', $x[1]) ? mb_strtolower(mb_substr($x[1], 0, 1)) . mb_substr($x[1], 1) : $x[1]) . '</li>', $t['tipus']));
+    $filo = implode('', array_map(fn($x) => '<li><h3>' . e($x[0]) . '</h3><p>' . e($x[1]) . '</p></li>', $t['filo']));
     $arees = implode('', array_map(fn($x) => '<article class="area"><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3><p>' . e($x[2]) . '</p></article>', $t['areas']));
     $moduls = implode('', array_map(fn($x) => '<div class="modul"><dt>' . e($x[0]) . '</dt><dd>' . e($x[1]) . '</dd></div>', $t['moduls']));
-    $flux = implode('', array_map(fn($x) => '<li><span class="ic" aria-hidden="true">' . e($x[0]) . '</span><h3>' . e($x[1]) . '</h3><p>' . e($x[2]) . '</p></li>', $t['flow']));
-    $absents = implode('', array_map(fn($x) => '<li>✓ ' . e($x) . '</li>', $t['absent']));
-    $downloads = '<article><span class="ic" aria-hidden="true">🪟</span><h3>Windows 10 / 11</h3><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-installador.exe">↓ ' . e($t['installer']) . ' <small>' . e($t['installer_nota']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-portable.zip">↓ ' . e($t['portable']) . ' <small>' . e($t['portable_nota']) . '</small></a></article>'
-        . '<article><span class="ic" aria-hidden="true">🐧</span><h3>Linux</h3><a href="' . $descarrega . '/download/compas_' . e($versio) . (version_compare($versio, '2.3.0', '>=') && version_compare($versio, '2.4.0', '<') ? '_amd64.deb' : '_all.deb') . '">↓ .deb <small>' . e($t['deb']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-linux.tar.gz">↓ .tar.gz <small>' . e($t['tar']) . '</small></a></article>';
+    $downloads = '<article><span class="ic" aria-hidden="true">🪟</span><h3>Windows 10 / 11</h3><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-installador.exe">' . e($t['installer']) . ' <small>' . e($t['installer_nota']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-portable.zip">' . e($t['portable']) . ' <small>' . e($t['portable_nota']) . '</small></a></article>'
+        . '<article><span class="ic" aria-hidden="true">🐧</span><h3>Linux</h3><a href="' . $descarrega . '/download/compas_' . e($versio) . (version_compare($versio, '2.3.0', '>=') && version_compare($versio, '2.4.0', '<') ? '_amd64.deb' : '_all.deb') . '">.deb <small>' . e($t['deb']) . '</small></a><a href="' . $descarrega . '/download/Compas-' . e($versio) . '-linux.tar.gz">.tar.gz <small>' . e($t['tar']) . '</small></a></article>';
     $compartir = $web . ($l === 'es' ? 'img/es/' : 'img/ca/') . 'web-compartir.png';
     $urlPagina = $web . ($l === 'es' ? 'es/' : '');
     $passos = '';
@@ -587,6 +617,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
         $miniatures .= '</ul>';
     }
     $versioText = $versio ? sprintf($t['versio'], $versio) : '';
+    $versioHero = $versio ? sprintf($t['versio_hero'], $versio) : '';
     $any = date('Y');
 
     return <<<HTML
@@ -613,43 +644,52 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
 <link rel="stylesheet" href="{$base}estil.css">
 </head>
 <body>
+<a class="salta" href="#principal">{$t['salta']}</a>
 <header class="cap-web"><div class="barra">
   <a class="marca" href="./"><img src="{$base}img/simbol.png" alt="" width="64" height="64"><span>Compàs</span></a>
   <nav aria-label="{$t['nav_menu']}">
     <a href="#entitats">{$t['nav_tipus']}</a>
+    <a href="#filosofia">{$t['nav_filo']}</a>
     <a href="#que">{$t['nav_que']}</a>
     <a href="#captures">{$t['nav_veure']}</a>
-    <a href="#qui">{$t['nav_qui']}</a>
-    <a class="nav-baixa" href="#comencar">{$t['download']}</a>
     <a href="#preguntes">{$t['nav_faq']}</a>
     <a class="idioma" href="{$t['altre_url']}" hreflang="{$t['altre']}" lang="{$t['altre']}">{$t['altre_nom']}</a>
+    <a class="nav-baixa" href="#comencar">{$t['download']}</a>
   </nav>
 </div></header>
 
-<main>
+<main id="principal">
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-marca"><img src="{$base}img/simbol.png" alt="" width="160" height="160"><div><p class="nom">Compàs</p><p class="lema">{$t['lema']}</p></div></div>
+    <p class="hero-marca"><img src="{$base}img/simbol.png" alt="" width="160" height="160"><span><b>Compàs</b> {$t['lema']}</span></p>
     <h1>{$t['hero']}</h1>
     <p class="entrada">{$t['hero_text']}</p>
     <div class="accions">
-      <a class="boto" href="#comencar">↓ {$t['download']}</a>
-      <a class="boto secundari" href="#captures">{$t['demo']} →</a>
+      <a class="boto" href="#comencar">{$t['download']}</a>
+      <a class="boto secundari" href="#captures">{$t['demo']}</a>
     </div>
-    <p class="versio">{$versioText}</p>
-    <p class="confianca">{$t['trust']}</p>
+    <p class="versio">{$versioHero}</p>
   </div>
   <figure class="ordinador"><div class="pantalla"><div class="camera" aria-hidden="true"></div><img src="{$base}img/{$l}/web-inici.webp" alt="{$t['captures']['web-inici']}" width="1920" height="1200" fetchpriority="high"></div><div class="peu-ordinador" aria-hidden="true"></div></figure>
 </section>
 
-<ul class="avantatges seccio">{$avantatges}</ul>
-
-<section id="entitats" class="seccio entitats">
-  <div class="cap">
-    <h2>{$t['tipus_titol']}</h2>
-    <p>{$t['tipus_intro']}</p>
+<section id="entitats" class="entitats" aria-labelledby="entitats-titol">
+  <div class="dins">
+    <h2 id="entitats-titol" class="per-a">{$t['tipus_frase']}</h2>
+    <ul class="tipus-entitats">{$tipus}</ul>
+    <p>{$t['tipus_peu']}</p>
   </div>
-  <ul class="tipus-entitats">{$tipus}</ul>
+</section>
+
+<section id="filosofia" class="filosofia" aria-labelledby="filo-titol">
+  <div class="dins">
+    <div class="filo-cap">
+      <h2 id="filo-titol">{$t['filo_titol']}</h2>
+      <p>{$t['filo_intro']}</p>
+      <p><a class="boto clar" href="{$repo}">{$t['filo_codi']}</a></p>
+    </div>
+    <ul class="principis">{$filo}</ul>
+  </div>
 </section>
 
 <section id="que" class="seccio">
@@ -658,7 +698,7 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
     <p>{$t['que_intro']}</p>
   </div>
   <div class="arees">{$arees}</div>
-  <details class="totes-funcions"><summary>{$t['all']} →</summary><dl class="moduls">{$moduls}</dl></details>
+  <details class="totes-funcions"><summary>{$t['all']}</summary><dl class="moduls">{$moduls}</dl></details>
 </section>
 
 <section id="captures" class="seccio galeria">
@@ -678,34 +718,28 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   {$miniatures}
 </section>
 
-<section id="privacitat" class="seccio privacitat">
-  <div class="cap"><p class="etiqueta">{$t['nav_priv']}</p><h2>{$t['priv_titol']}</h2></div>
-  <ol class="flux">{$flux}</ol>
-  <ul class="absents">{$absents}</ul>
-  <p class="nota">{$t['dades'][0]}</p>
-  <h3 class="comp-titol">{$t['comp_titol']}</h3>
+<section id="privacitat" class="seccio comparacio">
+  <div class="cap"><h2>{$t['comp_titol']}</h2><p>{$t['priv_intro']}</p></div>
   <div class="taula-comp-wrap"><table class="taula-comp"><thead><tr>{$compCap}</tr></thead><tbody>{$compFiles}</tbody></table></div>
 </section>
-
-<div class="separador" aria-hidden="true"></div>
 
 <section id="qui" class="seccio qui">
   <h2>{$t['qui_titol']}</h2>
   <blockquote>{$qui}
-    <footer>— {$t['qui_signa']}</footer>
+    <footer>{$t['qui_signa']}</footer>
   </blockquote>
   <p class="contacte">{$contacte}</p>
   <p class="nota"><a href="{$repo}/issues/new/choose">{$t['qui_errades']}</a></p>
 </section>
 
-<section id="comencar" class="seccio descarregues">
-  <div class="cap"><h2>{$t['com_titol']}</h2><p>{$t['free']}</p></div>
-  <div class="paquets">{$downloads}</div>
-  <p><a class="boto" href="{$descarrega}">↓ {$t['latest']}</a></p>
-  <p class="nota">{$versioText}</p>
-  <p class="enllacos"><a href="{$manualPdf}">{$t['manual']}</a> · <a href="{$repo}">{$t['nav_codi']}</a> · <a href="{$repo}/blob/main/LICENSE">AGPL-3.0</a></p>
-  <details class="ajuda"><summary>{$t['help']}</summary><ol class="passos">{$passos}</ol><p><a href="{$guia}">{$t['avis_mes']}</a></p><ul class="punts">{$req}</ul></details>
-  <h3>{$t['docs_titol']}</h3><ul class="docs">{$docs}</ul>
+<section id="comencar" class="descarregues">
+  <div class="dins">
+    <div class="cap"><h2>{$t['com_titol']}</h2><p>{$t['free']}</p></div>
+    <div class="paquets">{$downloads}</div>
+    <p class="nota">{$versioText} <a href="{$descarrega}">{$t['latest']}</a></p>
+    <details class="ajuda"><summary>{$t['help']}</summary><ol class="passos">{$passos}</ol><p><a href="{$guia}">{$t['avis_mes']}</a></p><ul class="punts">{$req}</ul></details>
+    <h3>{$t['docs_titol']}</h3><ul class="docs">{$docs}</ul>
+  </div>
 </section>
 
 <section id="preguntes" class="seccio preguntes">
@@ -718,22 +752,24 @@ function pagina(array $t, string $l, string $base, string $repo, string $versio,
   <p class="comptes-intro">{$t['comptes_intro']}</p>
   <div class="taula-comp-wrap"><table class="taula-comp taula-comptes"><thead><tr>{$comptesCap}</tr></thead><tbody>{$comptes}</tbody></table></div></details>
 </section>
-
-<section class="seccio lliure">
-  <h2>{$t['lliure_titol']}</h2>
-  <p>{$t['lliure']}</p>
-  <p class="nota">{$t['ia']}</p>
-  <p><a class="boto secundari" href="{$repo}">{$t['codi']}</a></p>
-  <p class="nota"><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a> · <a href="{$repo}/issues/new/choose">{$t['errades']}</a></p>
-</section>
 </main>
 
-<div class="baixa-fixa" hidden><a class="boto" href="#comencar">↓ {$t['download']}</a></div>
+<div class="baixa-fixa" hidden><a class="boto" href="#comencar">{$t['download']}</a></div>
 
 <footer class="peu">
-  <div class="doble-barra" aria-hidden="true"></div>
-  <p><img src="{$base}img/simbol.png" alt="" width="28" height="28"> <span>Compàs · © {$any} José Vicente Sanjuan. {$t['fi']}</span> <a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a> <a href="{$repo}/blob/main/LLICENCIA.md">{$t['llicencia']}</a> <a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a> <a href="mailto:{$correu}">{$t['contacte']}: {$correu}</a></p>
-  <p class="peu-resp">{$t['resp']}</p>
+  <div class="peu-dins">
+    <p class="peu-marca"><img src="{$base}img/simbol.png" alt="" width="40" height="40"> <span><b>Compàs</b> {$t['fi']}</span></p>
+    <p>{$t['lliure']} {$t['ia']}</p>
+    <ul class="peu-enllacos">
+      <li><a href="{$repo}">{$t['codi']}</a></li>
+      <li><a href="{$repo}/blob/main/CHANGELOG.md">{$t['novetats']}</a></li>
+      <li><a href="{$repo}/blob/main/LICENSE">AGPL-3.0-or-later</a></li>
+      <li><a href="{$repo}/blob/main/LLICENCIA.md">{$t['llicencia']}</a></li>
+      <li><a href="{$repo}/blob/main/PRIVACITAT.md">{$t['privacitat']}</a></li>
+      <li><a href="mailto:{$correu}">{$correu}</a></li>
+    </ul>
+    <p class="peu-resp">© {$any} José Vicente Sanjuan. {$t['resp']}</p>
+  </div>
 </footer>
 
 <script>
