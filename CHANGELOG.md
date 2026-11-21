@@ -8,7 +8,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
-## [Pendent]
+## [2.5.1] - 2026-11-21
 
 ### Web
 - Galeria amb una pestanya per tipus d'entitat (**societat musical**, **club esportiu** i **falla**), cadascuna amb sis pantalles pròpies.
