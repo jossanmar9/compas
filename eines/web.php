@@ -459,7 +459,7 @@ $T = [
 
 $portada = [
     'ca' => [
-    'hero' => 'La gestió de l\'associació, a casa i de franc.',
+    'hero' => 'La gestió de l\'associació, a casa i debades.',
     'hero_text' => 'Socis, quotes i rebuts, activitats, escola, equips, junta i documents, en un programa que s\'instal·la en un ordinador de l\'entitat. Funciona sense Internet, no recull cap dada i no costa res: és programari lliure.',
     'demo' => 'Mira com és',
     'versio_hero' => 'Versió %s per a Windows i Linux.',
