@@ -8,7 +8,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
-## [Pendent]
+## [2.6.0] - 2026-11-21
 
 ### Nou
 - **Dades d'exemple d'una entitat gran.** En la configuració inicial, «Dades d'exemple» té tres opcions: cap, unes poques (com fins ara) o **una entitat gran** del tipus triat, com una entitat de veres: centenars de persones amb les seues famílies, socis, grups, escola o tallers, llicències, càrrecs de festa, loteria, activitats amb inscripcions, rebuts de dos exercicis amb remeses, junta, reunions, documents, caixa i subvencions. Hi ha una entitat gran per a cada tipus: una societat musical amb 341 socis, 278 alumnes i 653 obres, un club amb 13 equips i les llicències de tots, una falla amb 340 fallers i els càrrecs de set exercicis, una AMPA amb 500 alumnes en extraescolars, una federació amb 64 entitats… Les dates es calculen a partir del dia en què es carreguen. Es carrega en menys d'un segon. *Datos de ejemplo de una entidad grande.*
