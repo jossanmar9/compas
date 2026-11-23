@@ -57,7 +57,7 @@ La primera vez que se abre Compàs, el administrador/a hace la **configuración 
 
 ![Pantalla de inicio](imatges/es/02-inici.webp)
 
-- **Menú lateral** (izquierda): lo que se usa cada día, agrupado en Escuela de música, Agrupaciones, Instrumentos, Economía, Entidad, Documentos y datos y Administración. Haz clic en el título de una sección para plegarla o desplegarla; Compàs lo recuerda. Lo que solo se configura de vez en cuando está dentro de la pantalla donde se usa: los cursos, las asignaturas y las aulas, en **Grupos**; las tarifas y las domiciliaciones, en **Resumen económico**; los módulos y el registro de actividad, en **Configuración** y en **Usuarios**.
+- **Menú lateral** (izquierda): lo que se usa cada día, agrupado en Escuela de música, Agrupaciones, Instrumentos y uniformes, Economía, Entidad, Documentos y datos y Administración. Haz clic en el título de una sección para plegarla o desplegarla; Compàs lo recuerda. Lo que solo se configura de vez en cuando está dentro de la pantalla donde se usa: los cursos, las asignaturas y las aulas, en **Grupos**; las tarifas y las domiciliaciones, en **Resumen económico**; los módulos y el registro de actividad, en **Configuración** y en **Usuarios**.
 - **Buscador** (arriba, en el centro): escribe un nombre, unos apellidos, un DNI, un teléfono, un correo o un número de socio y, mientras escribes, sale quién es cada persona (socio n.º 12, alumna, banda…). No hace falta poner tildes. Haz clic en un resultado para abrir la ficha, o pulsa Intro para verlos todos. También encuentra agrupaciones, actividades, obras y material. Desde cualquier pantalla, la tecla **/** lleva al buscador.
 - **?** al lado del título: abre el apartado de este manual que explica la pantalla en la que estás.
 - **Arriba a la derecha**: cambio de idioma (`VAL` / `ES`), tu nombre de usuario (para cambiar la contraseña) y **Salir**.
@@ -657,7 +657,7 @@ Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones h
 
 ### 15.1 La junta
 
-Menú **Sociedad → Junta directiva**. Muestra la junta actual y las anteriores. Para poner un cargo, pulsa **+ Añade un cargo**: elige la persona, el cargo (presidente/a, vicepresidente/a, secretario/a, tesorero/a, vocal…) y la fecha de inicio. La fecha de fin se deja vacía mientras el cargo está vigente.
+Menú **Entidad → Junta directiva**. Muestra la junta actual y las anteriores. Para poner un cargo, pulsa **+ Añade un cargo**: elige la persona, el cargo (presidente/a, vicepresidente/a, secretario/a, tesorero/a, vocal…) y la fecha de inicio. La fecha de fin se deja vacía mientras el cargo está vigente.
 
 ![Junta directiva](imatges/es/68-junta.webp)
 
@@ -669,7 +669,7 @@ Los **certificados** (de socio, de matrícula, de agrupación y de la junta) y l
 
 ### 15.2 Reuniones y actas
 
-Menú **Sociedad → Reuniones y actas → + Nuevo**. Elige si es una reunión de la **junta** o una **asamblea** (ordinaria o extraordinaria), y pon la fecha, la hora (en las asambleas, también la de segunda convocatoria), el lugar y el **orden del día**, un punto por línea.
+Menú **Entidad → Reuniones y actas → + Nuevo**. Elige si es una reunión de la **junta** o una **asamblea** (ordinaria o extraordinaria), y pon la fecha, la hora (en las asambleas, también la de segunda convocatoria), el lugar y el **orden del día**, un punto por línea.
 
 En la ficha de la reunión hay tres documentos para imprimir:
 
@@ -683,7 +683,7 @@ En la ficha de la reunión hay tres documentos para imprimir:
 
 ## 16. Documentos de la entidad
 
-Menú **Sociedad → Documentos**. Aquí se guardan los estatutos, el reglamento de régimen interno, las actas firmadas, la inscripción en el registro, el CIF, las pólizas de seguro, los contratos del profesorado y de la dirección, los convenios…
+Menú **Entidad → Documentos**. Aquí se guardan los estatutos, el reglamento de régimen interno, las actas firmadas, la inscripción en el registro, el CIF, las pólizas de seguro, los contratos del profesorado y de la dirección, los convenios…
 
 ![Documentos](imatges/es/71-documents.webp)
 
@@ -701,7 +701,7 @@ Desde el listado de documentos, **Registro de actividades de tratamiento (RGPD)*
 
 ## 17. Comunicados
 
-Menú **Sociedad → Comunicados**. Compàs no envía correos ni se conecta a Internet: prepara las direcciones para que enviéis el comunicado desde el correo de la entidad.
+Menú **Entidad → Comunicados**. Compàs no envía correos ni se conecta a Internet: prepara las direcciones para que enviéis el comunicado desde el correo de la entidad.
 
 1. Elige **a quién**: los socios, la junta, el profesorado, las familias de la escuela o de un grupo, los miembros de una agrupación o todo el mundo.
 2. Pulsa **Copia las direcciones** y pégalas en el campo **CCO** (copia oculta) del correo, para que nadie vea las direcciones de los demás. Si son pocas, **Abre el correo con las direcciones en CCO** lo hace directamente.
@@ -736,7 +736,7 @@ En los clubes deportivos, fallas, gaiatas, fogueres y comparsas, las personas se
 Cada categoría tiene un nombre y las edades (desde y hasta). La edad que cuenta es la que la persona **cumple durante el año en que empieza el ejercicio**: en una temporada 2026-2027, quien nace en 2014 tiene 12 años, aunque todavía no los haya cumplido. Así se hace en las federaciones deportivas y en las comisiones falleras.
 
 - La **ficha de cada persona** dice su categoría.
-- **Listados → Personas por categoría** hace la lista de cada categoría, de los socios, de los alumnos, de los miembros de los grupos o de todas las personas, para imprimir o en CSV.
+- **Listados e informes → Personas por categoría** hace la lista de cada categoría, de los socios, de los alumnos, de los miembros de los grupos o de todas las personas, para imprimir o en CSV.
 - La **memoria anual** cuenta los socios de cada categoría.
 
 ![Las categorías de edad de un club](imatges/es/97-categories.webp)
@@ -750,7 +750,7 @@ Menú **Licencias** (clubes deportivos; en otras entidades se activa en **Config
 3. Pon la **fecha de caducidad** de la licencia, si caduca antes del final de la temporada, y hasta cuándo es válida la **revisión médica**.
 4. El estado es **En trámite** mientras la federación no la da por buena, y **Activo** después.
 
-Las licencias que han caducado o que caducan en 30 días, y las revisiones médicas en la misma situación, se marcan en amarillo y salen en un aviso en el inicio. El filtro **Caducadas o que caducan en 30 días** del listado las muestra todas. **Listados → Licencias por equipo** las imprime agrupadas por equipo, con la categoría de cada jugador.
+Las licencias que han caducado o que caducan en 30 días, y las revisiones médicas en la misma situación, se marcan en amarillo y salen en un aviso en el inicio. El filtro **Caducadas o que caducan en 30 días** del listado las muestra todas. **Listados e informes → Licencias por equipo** las imprime agrupadas por equipo, con la categoría de cada jugador.
 
 Al empezar una temporada nueva, añade las licencias nuevas; las de la temporada anterior se quedan como historial (o ponlas de baja).
 
@@ -764,7 +764,7 @@ Menú **Entidad → Cargos de fiesta** (fallas, gaiatas, fogueres y comparsas). 
 2. Escribe el **cargo** o elígelo de la lista: Compàs sugiere los del tipo de entidad y los que ya se han usado.
 3. Elige la persona y, si quieres, la fecha de la proclamación.
 
-Cada cargo tiene un **certificado** para imprimir («es Fallera Mayor del ejercicio…» o «fue…»), con las firmas, y **Listados → Cargos de fiesta por ejercicio** hace el historial de la entidad. Los cargos también salen en la ficha de cada persona.
+Cada cargo tiene un **certificado** para imprimir («es Fallera Mayor del ejercicio…» o «fue…»), con las firmas, y **Listados e informes → Cargos de fiesta por ejercicio** hace el historial de la entidad. Los cargos también salen en la ficha de cada persona.
 
 Los cargos de la junta directiva (presidencia, secretaría, tesorería…) no van aquí, sino en **Junta directiva**.
 
@@ -775,7 +775,7 @@ Los cargos de la junta directiva (presidencia, secretaría, tesorería…) no va
 Menú **Entidades federadas** (federaciones). Cada entidad asociada a la federación tiene el número, el tipo, el CIF, la dirección, el contacto, la fecha de alta y la **cuota anual**, y una **persona representante**: la de contacto, a nombre de quien se hacen los recibos.
 
 - **Economía → Generar recibos → Cuotas de las entidades federadas**: elige el ejercicio y Compàs hace un recibo para cada entidad de alta con cuota. Las que no tienen representante se indican aparte para que les pongas uno.
-- **Listados → Censo de entidades federadas**: las entidades de alta con el representante, el teléfono, el correo y la cuota, para imprimir o en CSV.
+- **Listados e informes → Censo de entidades federadas**: las entidades de alta con el representante, el teléfono, el correo y la cuota, para imprimir o en CSV.
 - Cuando una entidad deja la federación, ponle la fecha de baja y el estado **Baja**.
 
 ![Las entidades de una federación](imatges/es/100-entitats-federades.webp)

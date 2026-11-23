@@ -95,8 +95,7 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 
 ## Pendent (pròximes versions)
 
-- Calendari d'assajos, entrenaments, partits i actes (amb els espais municipals); assistència.
-- Repertori de cada concert (SGAE).
+La llista està al [README](../README.md#pròximes-versions).
 
 ## Notes
 

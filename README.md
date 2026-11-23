@@ -65,8 +65,8 @@ Un projecte de **José Vicente Sanjuan**.
 - [Per a desenvolupar](#per-a-desenvolupar)
 - [Publicar una versió](#publicar-una-versió)
 - [Pròximes versions](#pròximes-versions)
-- [Col·laborar](#col·laborar)
-- [Autoria i ús d'intel·ligència artificial](#autoria-i-ús-dintel·ligència-artificial)
+- [Col·laborar](#collaborar)
+- [Autoria i ús d'intel·ligència artificial](#autoria-i-ús-dintelligència-artificial)
 - [Avís de responsabilitat](#avís-de-responsabilitat)
 - [Llicència](#llicència)
 

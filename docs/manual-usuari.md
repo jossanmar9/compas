@@ -57,7 +57,7 @@ La primera vegada que s'obri Compàs, l'administrador/a fa la **configuració in
 
 ![Pantalla d'inici](imatges/ca/02-inici.webp)
 
-- **Menú lateral** (esquerra): el que es fa servir cada dia, agrupat per Escola de música, Agrupacions, Instruments, Economia, Entitat, Documents i dades i Administració. Fes clic en el títol d'una secció per a plegar-la o desplegar-la; Compàs ho recorda. El que només es configura de tant en tant està dins de la pantalla on es fa servir: els cursos, les assignatures i les aules, a **Grups**; les tarifes i les domiciliacions, a **Resum econòmic**; els mòduls i el registre d'activitat, a **Configuració** i a **Usuaris**.
+- **Menú lateral** (esquerra): el que es fa servir cada dia, agrupat per Escola de música, Agrupacions, Instruments i uniformes, Economia, Entitat, Documents i dades i Administració. Fes clic en el títol d'una secció per a plegar-la o desplegar-la; Compàs ho recorda. El que només es configura de tant en tant està dins de la pantalla on es fa servir: els cursos, les assignatures i les aules, a **Grups**; les tarifes i les domiciliacions, a **Resum econòmic**; els mòduls i el registre d'activitat, a **Configuració** i a **Usuaris**.
 - **Cercador** (dalt, al mig): escriu un nom, uns cognoms, un DNI, un telèfon, un correu o un número de soci i, mentre escrius, ix qui és cada persona (soci núm. 12, alumna, banda…). No cal posar accents. Fes clic en un resultat per a obrir la fitxa, o prem Retorn per a vore'ls tots. També troba agrupacions, activitats, obres i material. Des de qualsevol pantalla, la tecla **/** porta al cercador.
 - **?** al costat del títol: obri l'apartat d'este manual que explica la pantalla on estàs.
 - **Dalt a la dreta**: canvi d'idioma (`VAL` / `ES`), el teu nom d'usuari (per a canviar la contrasenya) i **Ix** per a eixir.
@@ -657,7 +657,7 @@ Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut*
 
 ### 15.1 La junta
 
-Menú **Societat → Junta directiva**. Mostra la junta actual i les anteriors. Per a posar un càrrec, prem **+ Afig un càrrec**: tria la persona, el càrrec (president/a, vicepresident/a, secretari/ària, tresorer/a, vocal…) i la data d'inici. La data de fi es deixa buida mentre el càrrec està vigent.
+Menú **Entitat → Junta directiva**. Mostra la junta actual i les anteriors. Per a posar un càrrec, prem **+ Afig un càrrec**: tria la persona, el càrrec (president/a, vicepresident/a, secretari/ària, tresorer/a, vocal…) i la data d'inici. La data de fi es deixa buida mentre el càrrec està vigent.
 
 ![Junta directiva](imatges/ca/68-junta.webp)
 
@@ -669,7 +669,7 @@ Els **certificats** (de soci, de matrícula, d'agrupació i de la junta) i les *
 
 ### 15.2 Reunions i actes
 
-Menú **Societat → Reunions i actes → + Nou**. Tria si és una reunió de la **junta** o una **assemblea** (ordinària o extraordinària), i posa la data, l'hora (en les assemblees, també la de segona convocatòria), el lloc i l'**ordre del dia**, un punt per línia.
+Menú **Entitat → Reunions i actes → + Nou**. Tria si és una reunió de la **junta** o una **assemblea** (ordinària o extraordinària), i posa la data, l'hora (en les assemblees, també la de segona convocatòria), el lloc i l'**ordre del dia**, un punt per línia.
 
 A la fitxa de la reunió hi ha tres documents per a imprimir:
 
@@ -683,7 +683,7 @@ A la fitxa de la reunió hi ha tres documents per a imprimir:
 
 ## 16. Documents de l'entitat
 
-Menú **Societat → Documents**. Ací es guarden els estatuts, el reglament de règim intern, les actes signades, la inscripció al registre, el CIF, les pòlisses d'assegurança, els contractes del professorat i de la direcció, els convenis…
+Menú **Entitat → Documents**. Ací es guarden els estatuts, el reglament de règim intern, les actes signades, la inscripció al registre, el CIF, les pòlisses d'assegurança, els contractes del professorat i de la direcció, els convenis…
 
 ![Documents](imatges/ca/71-documents.webp)
 
@@ -701,7 +701,7 @@ Des del llistat de documents, **Registre d'activitats de tractament (RGPD)** fa 
 
 ## 17. Comunicats
 
-Menú **Societat → Comunicats**. Compàs no envia correus ni es connecta a Internet: prepara les adreces perquè envieu el comunicat des del correu de l'entitat.
+Menú **Entitat → Comunicats**. Compàs no envia correus ni es connecta a Internet: prepara les adreces perquè envieu el comunicat des del correu de l'entitat.
 
 1. Tria **a qui**: els socis, la junta, el professorat, les famílies de l'escola o d'un grup, els membres d'una agrupació o tothom.
 2. Prem **Copia les adreces** i apega-les al camp **CCO** (còpia oculta) del correu, perquè ningú no veja les adreces dels altres. Si són poques, **Obri el correu amb les adreces en CCO** ho fa directament.
@@ -736,7 +736,7 @@ Als clubs esportius, falles, gaiates, fogueres i comparses, les persones es clas
 Cada categoria té un nom i les edats (des de i fins a). L'edat que compta és la que la persona **fa durant l'any en què comença l'exercici**: en una temporada 2026-2027, qui naix el 2014 té 12 anys, encara que encara no els haja complit. Així es fa en les federacions esportives i en les comissions falleres.
 
 - La **fitxa de cada persona** diu la seua categoria.
-- **Llistats → Persones per categoria** fa la llista de cada categoria, dels socis, dels alumnes, dels membres dels grups o de totes les persones, per a imprimir o en CSV.
+- **Llistats i informes → Persones per categoria** fa la llista de cada categoria, dels socis, dels alumnes, dels membres dels grups o de totes les persones, per a imprimir o en CSV.
 - La **memòria anual** compta els socis de cada categoria.
 
 ![Les categories d'edat d'un club](imatges/ca/97-categories.webp)
@@ -750,7 +750,7 @@ Menú **Llicències** (clubs esportius; en altres entitats s'activa a **Configur
 3. Posa la **data de caducitat** de la llicència, si caduca abans de la fi de la temporada, i fins quan és vàlida la **revisió mèdica**.
 4. L'estat és **En tràmit** mentre la federació no la dona per bona, i **Actiu** després.
 
-Les llicències que han caducat o que caduquen en 30 dies, i les revisions mèdiques en la mateixa situació, es marquen en groc i surten en un avís a l'inici. El filtre **Caducades o que caduquen en 30 dies** del llistat les mostra totes. **Llistats → Llicències per equip** les imprimeix agrupades per equip, amb la categoria de cada jugador.
+Les llicències que han caducat o que caduquen en 30 dies, i les revisions mèdiques en la mateixa situació, es marquen en groc i surten en un avís a l'inici. El filtre **Caducades o que caduquen en 30 dies** del llistat les mostra totes. **Llistats i informes → Llicències per equip** les imprimeix agrupades per equip, amb la categoria de cada jugador.
 
 En començar una temporada nova, afig les llicències noves; les de la temporada anterior es queden com a historial (o posa-les de baixa).
 
@@ -764,7 +764,7 @@ Menú **Entitat → Càrrecs de festa** (falles, gaiates, fogueres i comparses).
 2. Escriu el **càrrec** o tria'l de la llista: Compàs suggerix els del tipus d'entitat i els que ja s'han fet servir.
 3. Tria la persona i, si vols, la data de la proclamació.
 
-Cada càrrec té un **certificat** per a imprimir («és Fallera Major de l'exercici…» o «va ser…»), amb les signatures, i **Llistats → Càrrecs de festa per exercici** fa l'historial de l'entitat. Els càrrecs també surten a la fitxa de cada persona.
+Cada càrrec té un **certificat** per a imprimir («és Fallera Major de l'exercici…» o «va ser…»), amb les signatures, i **Llistats i informes → Càrrecs de festa per exercici** fa l'historial de l'entitat. Els càrrecs també surten a la fitxa de cada persona.
 
 Els càrrecs de la junta directiva (presidència, secretaria, tresoreria…) no van ací, sinó a **Junta directiva**.
 
@@ -775,7 +775,7 @@ Els càrrecs de la junta directiva (presidència, secretaria, tresoreria…) no 
 Menú **Entitats federades** (federacions). Cada entitat associada a la federació té el número, el tipus, el CIF, l'adreça, el contacte, la data d'alta i la **quota anual**, i una **persona representant**: la de contacte, a nom de qui es fan els rebuts.
 
 - **Economia → Genera rebuts → Quotes de les entitats federades**: tria l'exercici i Compàs fa un rebut per a cada entitat d'alta amb quota. Les que no tenen representant s'indiquen a part perquè els en poses un.
-- **Llistats → Cens d'entitats federades**: les entitats d'alta amb el representant, el telèfon, el correu i la quota, per a imprimir o en CSV.
+- **Llistats i informes → Cens d'entitats federades**: les entitats d'alta amb el representant, el telèfon, el correu i la quota, per a imprimir o en CSV.
 - Quan una entitat deixa la federació, posa-li la data de baixa i l'estat **Baixa**.
 
 ![Les entitats d'una federació](imatges/ca/100-entitats-federades.webp)
