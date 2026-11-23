@@ -142,7 +142,7 @@ function pagina_cerca(): void
         header('Location: ' . reset($grups)['items'][0][2]);
         exit;
     }
-    $html = '<form class="barra cerca-gran" method="get" role="search"><input type="hidden" name="r" value="cerca"><input type="search" name="q" value="' . h($q)
+    $html = '<form class="barra cerca-gran" method="get" role="search"><input type="hidden" name="r" value="cerca"><input type="search" name="q" aria-label="' . h(t('cerca.titol')) . '" value="' . h($q)
         . '" placeholder="' . h(t('cerca.placeholder')) . '" autofocus><button>' . h(t('cerca.boto')) . '</button></form>';
     if ($q === '') {
         $html .= '<p class="buit">' . h(t('cerca.explica')) . '</p>';

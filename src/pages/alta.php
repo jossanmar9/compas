@@ -200,8 +200,8 @@ function pagina_alta_alumne(): void
     foreach (['nova' => t('altaal.tutor_nou'), 'existent' => t('altaal.tutor_existent'), 'cap' => t('altaal.tutor_cap')] as $k => $text) {
         $html .= '<label class="' . ($k === 'cap' ? 'si-major' : '') . '"' . ($k === 'cap' ? ' hidden' : '') . '><input type="radio" name="t_mode" value="' . $k . '"' . ($modeT === $k ? ' checked' : '') . '> ' . h($text) . '</label>';
     }
-    $html .= '</div><div class="camps"><div class="camp"><label for="c_t_relacio">' . h(t('camp.tipus_relacio')) . '</label>' . select_simple('t_relacio',
-        ['mare' => t('opt.mare'), 'pare' => t('opt.pare'), 'tutor_legal' => t('opt.tutor_legal'), 'altre' => t('opt.altre')], $v('t_relacio', 'mare'), false, '', false) . '</div></div>';
+    $html .= '</div><div class="camps"><div class="camp"><label for="c_t_relacio">' . h(t('camp.tipus_relacio')) . '</label>' . str_replace('<select ', '<select id="c_t_relacio" ', select_simple('t_relacio',
+        ['mare' => t('opt.mare'), 'pare' => t('opt.pare'), 'tutor_legal' => t('opt.tutor_legal'), 'altre' => t('opt.altre')], $v('t_relacio', 'mare'), false, '', false)) . '</div></div>';
     $html .= '<div class="mode-tutor" data-mode="existent"><div class="camps">'
         . camp_formulari('t_persona', ['tipus' => 'ref', 'ref' => 'persones', 'etiqueta' => 'altaal.tria_persona', 'req' => 1], $v('t_persona')) . '</div></div>';
     $html .= '<div class="mode-tutor" data-mode="nova" data-persona="t"><div class="camps">';

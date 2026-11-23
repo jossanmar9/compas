@@ -97,8 +97,8 @@ function pagina_caixa(): void
     foreach (['banc', 'caixa'] as $c) {
         $comptes .= '<option value="' . $c . '"' . ($c === $compte ? ' selected' : '') . '>' . h(t('opt.' . $c)) . '</option>';
     }
-    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="caixa"><select name="any" onchange="this.form.submit()">' . $anys . '</select>'
-        . '<select name="compte" onchange="this.form.submit()">' . $comptes . '</select><span class="espai"></span>'
+    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="caixa"><select name="any" aria-label="' . h(t('camp.exercici')) . '" onchange="this.form.submit()">' . $anys . '</select>'
+        . '<select name="compte" aria-label="' . h(t('camp.compte')) . '" onchange="this.form.submit()">' . $comptes . '</select><span class="espai"></span>'
         . '<a class="boto secundari" href="' . h(url('caixa', ['any' => $any, 'compte' => $compte, 'csv' => 1])) . '">' . h(t('exporta_csv')) . '</a>'
         . '<button type="button" class="secundari" onclick="window.print()">🖨 ' . h(t('llist.imprimeix')) . '</button>'
         . (pot('economia.edit') ? '<a class="boto" href="' . h(url('edita', ['e' => 'moviments', 'tornar' => url('caixa', ['any' => $any])])) . '">+ ' . h(t('caixa.nou')) . '</a>' : '') . '</form>';

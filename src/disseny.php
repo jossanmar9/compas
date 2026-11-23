@@ -182,6 +182,35 @@ function html_avisos(): string
     return $html;
 }
 
+/**
+ * Accessibilitat del contingut de cada pantalla, en un sol lloc:
+ * - cada <label> sense «for» queda unit al camp que el seguix (els lectors de pantalla diuen el nom del camp
+ *   i un clic en l'etiqueta hi porta);
+ * - els errors s'anuncien de seguida (role="alert") i els avisos de «fet» quan es pot (role="status").
+ */
+function accessible(string $html): string
+{
+    static $n = 0;
+    $html = preg_replace_callback(
+        '~<label>((?:(?!</label>).)*)</label>((?:(?!<label|</div>|</td>|<(?:input|select|textarea)\b).)*)<(input|select|textarea)\b([^>]*)>~s',
+        function (array $m) use (&$n): string {
+            [$tot, $text, $mig, $tag, $attrs] = $m;
+            if (preg_match('/\btype="(hidden|radio|checkbox|submit|button)"/', $attrs)) {
+                return $tot;
+            }
+            if (preg_match('/\bid="([^"]+)"/', $attrs, $id)) {
+                $id = $id[1];
+            } else {
+                $id = 'camp-' . ++$n;
+                $attrs = ' id="' . $id . '"' . $attrs;
+            }
+            return '<label for="' . $id . '">' . $text . '</label>' . $mig . '<' . $tag . $attrs . '>';
+        },
+        $html
+    ) ?? $html;
+    return str_replace(['<div class="avis error">', '<div class="avis ok">'], ['<div class="avis error" role="alert">', '<div class="avis ok" role="status">'], $html);
+}
+
 function capcalera_html(string $titol): string
 {
     $societat = config('societat_nom') ?: 'Compàs';
@@ -206,27 +235,31 @@ function pagina(string $titol, string $cos, ?string $subtitol = null): void
             : '<a href="' . h(url('idioma', ['l' => $k, 'tornar' => $_SERVER['REQUEST_URI'] ?? ''])) . '" title="' . h($n) . '">' . IDIOMES_CURT[$k] . '</a>';
     }
     echo capcalera_html($titol);
-    echo '<body><div class="app">';
+    echo '<body><a class="salta" href="#contingut">' . h(t('salta_contingut')) . '</a><div class="app">';
     $logo = url_logo();
     echo '<aside class="lateral"><a class="marca" href="?"><img src="' . h($logo ?? 'assets/icona.png') . '" alt="" class="' . ($logo ? 'logo-societat' : '') . '"><span><b>' . h($societat)
-        . '</b><small>Compàs</small></span></a><button class="obre-menu" type="button" aria-label="Menú">☰</button><nav>' . html_menu() . '</nav></aside>';
+        . '</b><small>Compàs</small></span></a><button class="obre-menu" type="button" aria-label="' . h(t('menu.obri')) . '" aria-expanded="false" aria-controls="menu-principal">☰</button>'
+        . '<nav id="menu-principal" aria-label="' . h(t('menu.principal')) . '">' . html_menu() . '</nav></aside>';
     $ajuda = enllac_ajuda();
     echo '<main><header class="superior"><div class="titol-pagina"><div>' . ($subtitol ? '<small class="sub">' . h($subtitol) . '</small>' : '') . '<h1>' . h($titol) . '</h1></div>'
         . ($ajuda ? '<a class="ajuda-pagina" href="' . h($ajuda) . '" title="' . h(t('ajuda.pagina')) . '" aria-label="' . h(t('ajuda.pagina')) . '">?</a>' : '') . '</div>';
     if (pot_cercar()) {
-        echo '<form class="cerca-global" method="get" role="search" data-res="' . h(t('cerca.cap')) . '"><input type="hidden" name="r" value="cerca"><input type="search" name="q" autocomplete="off" value="'
+        echo '<form class="cerca-global" method="get" role="search" data-res="' . h(t('cerca.cap')) . '" data-n="' . h(t('a11y.resultats')) . '"><input type="hidden" name="r" value="cerca"><input type="search" name="q" autocomplete="off"'
+            . ' role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="propostes-cerca" value="'
             . h(get('r') === 'cerca' ? get('q') : '') . '" placeholder="' . h(t('cerca.placeholder_curt')) . '" aria-label="' . h(t('cerca.titol')) . '" title="' . h(t('cerca.drecera'))
-            . '"><ul class="propostes-cerca" hidden></ul></form>';
+            . '"><ul class="propostes-cerca" id="propostes-cerca" role="listbox" aria-label="' . h(t('cerca.titol')) . '" hidden></ul>'
+            . '<span class="per-a-lectors" role="status" aria-live="polite"></span></form>';
     }
     echo '<div class="usuari"><span class="idiomes">' . $idiomes . '</span><a href="' . h(url('perfil')) . '" title="' . h(t('menu.compte')) . '">👤 '
         . h($u['usuari']) . '</a><form method="post" action="' . h(url('eixir')) . '">' . csrf_camp() . '<button class="enllac">' . h(t('eixir')) . '</button></form></div></header>';
-    echo '<div class="contingut">' . html_avisos() . $cos . '</div><footer class="peu-app no-imprimir">Compàs ' . COMPAS_VERSIO . ' · ' . h(t('avis_resp.curt'))
+    echo '<div class="contingut" id="contingut" tabindex="-1">' . accessible(html_avisos() . $cos) . '</div><footer class="peu-app no-imprimir">Compàs ' . COMPAS_VERSIO . ' · ' . h(t('avis_resp.curt'))
         . ' <a href="' . h(url('ajuda')) . '">' . h(t('avis_resp.titol')) . '</a></footer></main></div></body></html>';
 }
 
 function pagina_simple(string $titol, string $cos): void
 {
     echo capcalera_html($titol);
-    echo '<body class="simple"><div class="caixa"><img class="logo" src="assets/logo.png" alt="Compàs: ' . h(t('lema')) . '">'
-        . html_avisos() . $cos . '</div><p class="versio">Compàs ' . COMPAS_VERSIO . ' · © José Vicente Sanjuan · AGPL-3.0-or-later<br>' . h(t('avis_resp.curt')) . '</p></body></html>';
+    echo '<body class="simple"><main class="caixa"><img class="logo" src="assets/logo.png" alt="Compàs: ' . h(t('lema')) . '">'
+        . (str_contains($cos, '<h1') ? '' : '<h1 class="per-a-lectors">' . h($titol) . '</h1>')
+        . accessible(html_avisos() . $cos) . '</main><p class="versio">Compàs ' . COMPAS_VERSIO . ' · © José Vicente Sanjuan · AGPL-3.0-or-later<br>' . h(t('avis_resp.curt')) . '</p></body></html>';
 }

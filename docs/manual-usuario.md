@@ -64,6 +64,7 @@ La primera vez que se abre Compàs, el administrador/a hace la **configuración 
 - **¿Qué quieres hacer?**: en el inicio, botones para las tareas de cada día: nueva persona, alta de socio, alta de alumno, generar recibos, la remesa del banco, una actividad nueva, las hojas de asistencia y los comunicados. Solo salen los que puedes hacer y los de los apartados que tiene activados la entidad.
 - **Inicio**: un resumen con el número de personas, socios, matriculados, grupos, músicos e instrumentos cedidos. Haz clic en cualquier cifra para ir a la lista.
 - **Avisos**: todos juntos en un bloque que se puede plegar (documentos que caducan, subvenciones, cesiones vencidas, copias de seguridad…). Debajo, las próximas actividades y las clases de hoy.
+- **Con el teclado**: la tecla **Tab** pasa de un botón o de un campo al siguiente, y la primera vez aparece **Ir al contenido**, que salta el menú. En el buscador, las flechas eligen una propuesta e **Intro** la abre. Compàs funciona con lectores de pantalla (NVDA, Narrador u Orca): cada campo dice su nombre y los errores se anuncian solos.
 
 ## 3. Cómo se trabaja con Compàs
 

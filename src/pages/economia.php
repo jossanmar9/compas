@@ -722,10 +722,10 @@ function pagina_remeses(): void
         $html .= '<p class="buit petit">' . h(t('remesa.cap_pendent')) . '</p>';
     } else {
         $html .= '<form method="post" class="formulari">' . csrf_camp()
-            . '<div class="taula-wrap"><table class="taula"><thead><tr><th><input type="checkbox" checked onclick="for (const c of this.closest(\'table\').querySelectorAll(\'tbody input\')) c.checked = this.checked"></th><th>'
+            . '<div class="taula-wrap"><table class="taula"><thead><tr><th><input type="checkbox" checked aria-label="' . h(t('a11y.tots')) . '" onclick="for (const c of this.closest(\'table\').querySelectorAll(\'tbody input\')) c.checked = this.checked"></th><th>'
             . h(t('camp.numero')) . '</th><th>' . h(t('genera.pagador')) . '</th><th>' . h(t('camp.concepte')) . '</th><th class="num">' . h(t('camp.import')) . '</th><th>' . h(t('ent1.mandats')) . '</th></tr></thead><tbody>';
         foreach ($amb as $r) {
-            $html .= '<tr><td><input type="checkbox" name="rebut[]" value="' . (int)$r['id'] . '" checked></td><td><a href="' . h(url('fitxa', ['e' => 'rebuts', 'id' => $r['id']])) . '">' . h($r['numero']) . '</a>'
+            $html .= '<tr><td><input type="checkbox" name="rebut[]" value="' . (int)$r['id'] . '" checked aria-label="' . h($r['numero']) . '"></td><td><a href="' . h(url('fitxa', ['e' => 'rebuts', 'id' => $r['id']])) . '">' . h($r['numero']) . '</a>'
                 . ($r['estat'] === 'retornat' ? ' <span class="etiqueta">' . h(t('opt.retornat')) . '</span>' : '') . '</td><td>' . h($r['pagador']) . '</td><td>' . h($r['concepte'])
                 . '</td><td class="num">' . h(euros($r['import'])) . '</td><td>' . h(iban_amagat($r['mandat']['iban'])) . (empty($r['mandat']['ultim_us']) ? ' <span class="etiqueta">' . h(t('remesa.primer')) . '</span>' : '') . '</td></tr>';
         }

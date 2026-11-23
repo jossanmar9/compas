@@ -187,9 +187,9 @@ function pagina_horari(): void
     $prof = (int)get('professor', '0');
     $aula = (int)get('aula', '0');
 
-    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="horari">' . select_simple('curs', $cursos, $cursId, false)
-        . select_simple('professor', opcions_ref('professors'), $prof, true, t('filtre.tot_professorat'))
-        . select_simple('aula', opcions_ref('aules'), $aula, true, t('filtre.totes_aules')) . '<button>' . h(t('filtrar')) . '</button></form>';
+    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="horari">' . select_simple('curs', $cursos, $cursId, false, '—', true, t('camp.curs_id'))
+        . select_simple('professor', opcions_ref('professors'), $prof, true, t('filtre.tot_professorat'), true, t('ent1.professors'))
+        . select_simple('aula', opcions_ref('aules'), $aula, true, t('filtre.totes_aules'), true, t('ent1.aules')) . '<button>' . h(t('filtrar')) . '</button></form>';
 
     $params = [$cursId];
     $where = "g.curs_id = ? AND g.estat = 'actiu'";
@@ -212,7 +212,7 @@ function pagina_horari(): void
     $ultim = max(5, $dies ? max(array_keys($dies)) : 5);
     $html .= '<div class="horari">';
     for ($d = 1; $d <= $ultim; $d++) {
-        $html .= '<div class="dia"><h3>' . h(t('dia.' . $d)) . '</h3>';
+        $html .= '<div class="dia"><h2>' . h(t('dia.' . $d)) . '</h2>';
         foreach ($dies[$d] ?? [] as $f) {
             $html .= '<a class="sessio" href="' . h(url('fitxa', ['e' => 'grups', 'id' => $f['grup_id']])) . '"><b>' . h($f['hora_inici'] . '–' . $f['hora_fi']) . '</b>'
                 . h($f['assignatura'] . ' · ' . $f['grup']) . '<small>' . h(trim(($f['professor'] ?? '') . ($f['aula'] ? ' · ' . $f['aula'] : ''), ' ·')) . '</small></a>';
@@ -226,9 +226,9 @@ function pagina_horari(): void
     pagina(t('menu.horari'), $html);
 }
 
-function select_simple(string $nom, array $ops, $actual, bool $buit = true, string $textBuit = '—', bool $auto = true): string
+function select_simple(string $nom, array $ops, $actual, bool $buit = true, string $textBuit = '—', bool $auto = true, ?string $etiqueta = null): string
 {
-    $s = '<select name="' . h($nom) . '"' . ($auto ? ' onchange="this.form.submit()"' : '') . '>';
+    $s = '<select name="' . h($nom) . '"' . ($etiqueta !== null ? ' aria-label="' . h($etiqueta) . '"' : '') . ($auto ? ' onchange="this.form.submit()"' : '') . '>';
     if ($buit) {
         $s .= '<option value="">' . h($textBuit) . '</option>';
     }

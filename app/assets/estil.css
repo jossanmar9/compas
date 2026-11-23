@@ -48,6 +48,18 @@ code { background: var(--blau-clar); padding: 1px 5px; border-radius: 4px; font-
 
 [hidden] { display: none !important; }
 
+/* Accessibilitat: el focus del teclat sempre es veu, i textos només per als lectors de pantalla */
+:focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
+.lateral :focus-visible { outline-color: var(--or); }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline-offset: -1px; }
+::placeholder { color: var(--suau); opacity: 1; }
+.per-a-lectors { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.salta { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--superficie); color: var(--blau); padding: 10px 16px; border-radius: var(--radi);
+    border: 2px solid var(--blau); font-weight: 600; }
+.salta:focus { top: 12px; }
+.contingut:focus { outline: none; }
+@media (forced-colors: active) { .lateral li a.actiu { outline: 2px solid CanvasText; } .ajuda-pagina, .pas { border: 1px solid CanvasText; } }
+
 /* Estructura */
 .app { display: flex; min-height: 100vh; }
 .lateral {
@@ -102,7 +114,7 @@ main { flex: 1; min-width: 0; }
 .cerca-gran input[type=search] { font-size: 1.05rem; max-width: 520px; }
 .usuari form { margin: 0; }
 .idiomes { display: flex; gap: 6px; font-size: .8rem; }
-.idiomes strong { color: var(--or); }
+.idiomes strong { color: var(--text); border-bottom: 2px solid var(--or); }
 .contingut { padding: 24px 28px 48px; max-width: 1280px; }
 
 /* Botons i formularis */
@@ -114,6 +126,7 @@ button, .boto {
 button:hover, .boto:hover { filter: brightness(1.08); text-decoration: none; }
 .secundari { background: transparent; color: var(--blau); }
 .perill { background: var(--error); border-color: var(--error); color: #fff; }
+@media (prefers-color-scheme: dark) { .perill { color: #0c1830; } }
 .petit { padding: 3px 9px; font-size: .82rem; }
 .enllac { background: none; border: 0; color: var(--blau); padding: 0; }
 input, select, textarea {
@@ -188,7 +201,7 @@ fieldset.camp { border: 1px solid var(--vora); border-radius: var(--radi); paddi
 .avis.atencio a { font-weight: 600; }
 .taula tbody tr.fila-avis { background: #fff6cc; }
 .taula tbody tr.fila-avis:hover { background: #ffefa8; }
-.icona-avis { color: #b8860b; cursor: help; }
+.icona-avis { color: #8a6100; cursor: help; }
 @media (prefers-color-scheme: dark) {
     .avis.atencio { background: #3d3410; color: #f3dc85; border-color: #7a6520; }
     .taula tbody tr.fila-avis { background: #3a3212; }
@@ -218,7 +231,7 @@ pre.detall { white-space: pre-wrap; font-size: .8rem; color: var(--suau); }
 /* Horari */
 .horari { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
 .dia { background: var(--superficie); border: 1px solid var(--vora); border-radius: var(--radi); padding: 10px; min-height: 120px; }
-.dia h3 { font-size: .9rem; color: var(--suau); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+.dia h2 { font-size: .9rem; color: var(--suau); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
 .sessio { display: block; padding: 7px 9px; border-radius: 6px; background: var(--blau-clar); margin-bottom: 7px; color: var(--text); font-size: .85rem; border-left: 3px solid var(--blau); }
 .sessio:hover { text-decoration: none; filter: brightness(.97); }
 .sessio b { display: block; color: var(--blau); }
@@ -355,7 +368,7 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .taula.repertori small.arranjador { display: block; color: var(--suau); }
 .estat-obra { display: inline-block; font-size: .78rem; padding: 1px 8px; border-radius: 10px; background: var(--ok-fons); color: var(--ok); white-space: nowrap; }
 .estat-obra.incomplet, .estat-obra.en_revisio { background: var(--info-fons); color: #8a5a00; }
-.estat-obra.retirat { background: var(--vora); color: var(--suau); }
+.estat-obra.retirat { background: var(--vora); color: var(--text); }
 @media (prefers-color-scheme: dark) { .estat-obra.incomplet, .estat-obra.en_revisio { color: #f3c16b; } }
 .nomes-imprimir { display: none; }
 @media print {
@@ -468,7 +481,7 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .formulari.alta .intro, p.intro { color: var(--suau); margin: 0 0 14px; max-width: 70ch; }
 .bloc-alta { border: 1px solid var(--vora); border-radius: 12px; padding: 14px 18px 18px; margin: 0 0 16px; background: var(--superficie); }
 .bloc-alta legend { font-weight: 700; font-size: 1.05rem; padding: 0 6px; display: flex; align-items: center; gap: 8px; }
-.bloc-alta .pas { display: inline-flex; width: 26px; height: 26px; border-radius: 50%; background: var(--blau); color: #fff; align-items: center; justify-content: center; font-size: .85rem; }
+.bloc-alta .pas { display: inline-flex; width: 26px; height: 26px; border-radius: 50%; background: var(--blau); color: var(--superficie); align-items: center; justify-content: center; font-size: .85rem; }
 .bloc-alta > small { display: block; color: var(--suau); margin-bottom: 10px; }
 .opcions-mode { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 4px 0 12px; }
 .opcions-mode label { display: flex; align-items: center; gap: 6px; font-weight: 500; }

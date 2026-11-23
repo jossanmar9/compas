@@ -449,7 +449,7 @@ function pagina_comunicats(): void
     $html .= '<div class="targetes">' . targeta((string)count($adreces), t('com.adreces')) . targeta((string)count($sense), t('com.sense_correu')) . '</div>';
     if ($adreces) {
         $html .= '<section class="fill"><header><h2>' . h(t('com.llista')) . '</h2></header><p>' . h(t('com.llista_ajuda')) . '</p>'
-            . '<textarea id="adreces" class="adreces" rows="4" readonly>' . h($llista) . '</textarea>'
+            . '<textarea id="adreces" class="adreces" rows="4" readonly aria-label="' . h(t('a11y.adreces')) . '">' . h($llista) . '</textarea>'
             . '<div class="accions"><button type="button" onclick="const a=document.getElementById(\'adreces\');a.select();navigator.clipboard&&navigator.clipboard.writeText(a.value);this.textContent=\'✔ ' . h(t('com.copiat')) . '\'">📋 ' . h(t('com.copia')) . '</button>'
             . (strlen($llista) < 1800 ? '<a class="boto secundari" href="mailto:?bcc=' . h(rawurlencode(implode(',', $adreces))) . '">✉ ' . h(t('com.obri_correu')) . '</a>' : '')
             . '</div></section>';

@@ -460,7 +460,7 @@ function pagina_copia(): void
     if ($restaura) {
         $html .= '<section class="fill perill-zona"><header><h2>' . h(t('copia.restaurar')) . '</h2></header><p>' . h(t('copia.restaurar_text')) . '</p>'
             . '<form method="post" enctype="multipart/form-data" class="formulari vertical estret">' . csrf_camp() . '<input type="hidden" name="accio" value="restaura_fitxer">'
-            . '<input type="file" name="fitxer" accept=".db,.xifrat" required>'
+            . '<input type="file" name="fitxer" accept=".db,.xifrat" required aria-label="' . h(t('copia.restaurar')) . '">'
             . '<div class="camp"><label>' . h(t('copia.contrasenya_xifrat')) . '</label><input type="password" name="contrasenya" autocomplete="off"><small>' . h(t('copia.contrasenya_xifrat_ajuda')) . '</small></div>'
             . '<label class="check"><input type="checkbox" name="confirma" value="1" required> ' . h(t('copia.entenc')) . '</label>'
             . '<button class="perill">' . h(t('copia.restaurar')) . '</button></form></section>';

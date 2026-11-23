@@ -64,6 +64,7 @@ La primera vegada que s'obri Compàs, l'administrador/a fa la **configuració in
 - **Què vols fer?**: a l'inici, botons per a les tasques de cada dia: nova persona, alta de soci, alta d'alumne, generar rebuts, la remesa del banc, una activitat nova, els fulls d'assistència i els comunicats. Només ixen els que pots fer i els dels apartats que té activats l'entitat.
 - **Inici**: un resum amb el nombre de persones, socis, matriculats, grups, músics i instruments cedits. Fes clic en qualsevol xifra per a anar a la llista.
 - **Avisos**: tots junts en un bloc que es pot plegar (documents que caduquen, subvencions, cessions vençudes, còpies de seguretat…). Davall, les pròximes activitats i les classes de hui.
+- **Amb el teclat**: la tecla **Tab** passa d'un botó o d'un camp al següent, i la primera vegada ix **Ves al contingut**, que salta el menú. Al cercador, les fletxes trien una proposta i **Retorn** l'obri. Compàs funciona amb els lectors de pantalla (NVDA, Narrador o Orca): cada camp diu el seu nom i els errors s'anuncien sols.
 
 ## 3. Com es treballa amb Compàs
 

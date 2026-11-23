@@ -62,6 +62,9 @@ return [
     'menu.ajuda' => 'Ayuda',
     'menu.perfil' => 'Mi cuenta',
     'menu.compte' => 'Cuenta y contraseña',
+    'menu.obri' => 'Abre o cierra el menú', 'menu.principal' => 'Menú principal', 'salta_contingut' => 'Ir al contenido',
+    'a11y.cerca_llistat' => 'Buscar en el listado', 'a11y.filtre' => 'Mostrar', 'a11y.adreces' => 'Direcciones de correo para copiar',
+    'a11y.resultats' => '%s resultados', 'a11y.tots' => 'Marca o desmarca todos',
 
     'ent.persones' => 'Personas', 'ent1.persones' => 'Persona',
     'ent.socis' => 'Socios', 'ent1.socis' => 'Socio',

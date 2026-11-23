@@ -64,6 +64,9 @@ return [
     'menu.ajuda' => 'Ajuda',
     'menu.perfil' => 'El meu compte',
     'menu.compte' => 'Compte i contrasenya',
+    'menu.obri' => 'Obri o tanca el menú', 'menu.principal' => 'Menú principal', 'salta_contingut' => 'Ves al contingut',
+    'a11y.cerca_llistat' => 'Cerca en el llistat', 'a11y.filtre' => 'Mostra', 'a11y.adreces' => 'Adreces de correu per a copiar',
+    'a11y.resultats' => '%s resultats', 'a11y.tots' => 'Marca o desmarca tots',
 
     // Entitats (plural i singular)
     'ent.persones' => 'Persones', 'ent1.persones' => 'Persona',

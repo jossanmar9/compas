@@ -273,7 +273,7 @@ function pagina_auditoria(): void
         array_push($params, "%$qq%", "%$qq%", "%$qq%", "%$qq%");
     }
     $files = q("SELECT * FROM auditoria WHERE $where ORDER BY id DESC LIMIT 300", $params)->fetchAll();
-    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="auditoria"><input type="search" name="q" value="' . h(get('q')) . '" placeholder="' . h(t('cercar')) . '"><button>' . h(t('filtrar')) . '</button></form>';
+    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="auditoria"><input type="search" name="q" value="' . h(get('q')) . '" placeholder="' . h(t('cercar')) . '" aria-label="' . h(t('a11y.cerca_llistat')) . '"><button>' . h(t('filtrar')) . '</button></form>';
     $html .= '<div class="taula-wrap"><table class="taula compacta"><thead><tr><th>' . h(t('camp.data')) . '</th><th>' . h(t('camp.usuari')) . '</th><th>' . h(t('audit.accio'))
         . '</th><th>' . h(t('audit.element')) . '</th><th>' . h(t('audit.detall')) . '</th></tr></thead><tbody>';
     foreach ($files as $f) {

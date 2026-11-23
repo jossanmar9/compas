@@ -274,10 +274,10 @@ function pagina_llista(string $nom): void
         echo '<input type="hidden" name="f[' . h($k) . ']" value="' . h($v) . '">';
     }
     if ($e['cerca']) {
-        echo '<input type="search" name="q" value="' . h(get('q')) . '" placeholder="' . h(t('cercar')) . '" autofocus>';
+        echo '<input type="search" name="q" value="' . h(get('q')) . '" placeholder="' . h(t('cercar')) . '" aria-label="' . h(t('a11y.cerca_llistat')) . '" autofocus>';
     }
     if (!empty($e['filtres'])) {
-        echo '<select name="filtre" onchange="this.form.submit()"><option value="">' . h(t('filtre.tots')) . '</option>';
+        echo '<select name="filtre" aria-label="' . h(t('a11y.filtre')) . '" onchange="this.form.submit()"><option value="">' . h(t('filtre.tots')) . '</option>';
         foreach ($e['filtres'] as $k => $_) {
             echo '<option value="' . h($k) . '"' . (get('filtre') === $k ? ' selected' : '') . '>' . h(t('filtre.' . $k)) . '</option>';
         }

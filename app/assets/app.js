@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cerca.type = 'search';
         cerca.className = 'filtre-select';
         cerca.placeholder = '🔍';
+        const es = document.documentElement.lang.startsWith('es');
+        const nomSel = sel.labels && sel.labels.length ? sel.labels[0].textContent.replace('*', '').trim() : '';
+        cerca.setAttribute('aria-label', (es ? 'Filtrar las opciones' : 'Filtra les opcions') + (nomSel ? ': ' + nomSel : ''));
         sel.parentNode.insertBefore(cerca, sel);
         const normal = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
         cerca.addEventListener('input', () => {
@@ -229,13 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const cercador = document.querySelector('.cerca-global');
     if (cercador) {
         const inp = cercador.querySelector('input[type="search"]'), llista = cercador.querySelector('.propostes-cerca');
+        const estat = cercador.querySelector('[role="status"]');
         let temps = null, actiu = -1, ultima = '';
-        const tanca = () => { llista.hidden = true; actiu = -1; };
+        const tanca = () => { llista.hidden = true; actiu = -1; inp.setAttribute('aria-expanded', 'false'); inp.removeAttribute('aria-activedescendant'); };
         const marca = i => {
-            const els = llista.querySelectorAll('a');
+            const els = llista.querySelectorAll('[role="option"]');
             if (!els.length) return;
             actiu = (i + els.length) % els.length;
-            els.forEach((a, j) => a.classList.toggle('actiu', j === actiu));
+            els.forEach((o, j) => { o.querySelector('a').classList.toggle('actiu', j === actiu); o.setAttribute('aria-selected', j === actiu ? 'true' : 'false'); });
+            inp.setAttribute('aria-activedescendant', els[actiu].id);
+            els[actiu].scrollIntoView({ block: 'nearest' });
         };
         inp.addEventListener('input', () => {
             clearTimeout(temps);
@@ -249,25 +255,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 let grup = '';
                 const els = [];
                 dades.forEach(d => {
-                    if (d.grup !== grup) { grup = d.grup; els.push(Object.assign(document.createElement('li'), { className: 'grup', textContent: grup })); }
+                    if (d.grup !== grup) { grup = d.grup; const g = Object.assign(document.createElement('li'), { className: 'grup', textContent: grup }); g.setAttribute('role', 'presentation'); els.push(g); }
                     const li = document.createElement('li'), a = document.createElement('a');
+                    li.setAttribute('role', 'option');
+                    li.id = 'proposta-' + els.length;
+                    a.tabIndex = -1;
                     a.href = d.url;
                     a.append(Object.assign(document.createElement('b'), { textContent: d.text }));
                     if (d.sub) a.append(Object.assign(document.createElement('span'), { textContent: d.sub }));
                     li.append(a);
                     els.push(li);
                 });
-                if (!dades.length) els.push(Object.assign(document.createElement('li'), { className: 'buit', textContent: cercador.dataset.res || '—' }));
+                if (!dades.length) { const b = Object.assign(document.createElement('li'), { className: 'buit', textContent: cercador.dataset.res || '—' }); b.setAttribute('role', 'presentation'); els.push(b); }
                 llista.replaceChildren(...els);
                 llista.hidden = false;
+                inp.setAttribute('aria-expanded', 'true');
+                inp.removeAttribute('aria-activedescendant');
                 actiu = -1;
+                if (estat) estat.textContent = dades.length ? (cercador.dataset.n || '%s').replace('%s', dades.length) : (cercador.dataset.res || '');
             }, 180);
         });
         inp.addEventListener('keydown', e => {
             if (llista.hidden) return;
             if (e.key === 'ArrowDown') { e.preventDefault(); marca(actiu + 1); }
             else if (e.key === 'ArrowUp') { e.preventDefault(); marca(actiu - 1); }
-            else if (e.key === 'Enter' && actiu >= 0) { e.preventDefault(); llista.querySelectorAll('a')[actiu].click(); }
+            else if (e.key === 'Enter' && actiu >= 0) { e.preventDefault(); llista.querySelectorAll('[role="option"] a')[actiu].click(); }
             else if (e.key === 'Escape') tanca();
         });
         inp.addEventListener('blur', () => setTimeout(tanca, 150));
@@ -278,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Menú en pantalles menudes
     const boto = document.querySelector('.obre-menu');
-    if (boto) boto.addEventListener('click', () => boto.closest('.lateral').classList.toggle('obert'));
+    if (boto) boto.addEventListener('click', () => boto.setAttribute('aria-expanded', boto.closest('.lateral').classList.toggle('obert') ? 'true' : 'false'));
 
     // Avís si s'abandona un formulari modificat
     document.querySelectorAll('form.formulari').forEach(f => {

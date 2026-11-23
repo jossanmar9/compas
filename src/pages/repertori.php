@@ -138,11 +138,11 @@ function pagina_repertori(): void
     $filtrat = $filtre['q'] !== '' || $filtre['tipus'] !== '' || $filtre['agrupacio'] !== '' || $filtre['estat'] !== '' || $filtre['dig'] !== '';
 
     $html = '<form class="barra filtres-repertori no-imprimir" method="get"><input type="hidden" name="r" value="repertori">'
-        . '<input type="search" name="q" value="' . h($filtre['q']) . '" placeholder="' . h(t('rep.cerca')) . '" autofocus>'
-        . select_simple('tipus', $tipus, $filtre['tipus'], true, t('rep.tots_tipus'))
-        . select_simple('agrupacio', $agrupacions, $filtre['agrupacio'], true, t('rep.totes_agrupacions'))
-        . select_simple('estat', $estats, $filtre['estat'], true, t('rep.tots_estats'))
-        . select_simple('dig', ['1' => t('rep.digitalitzades'), '0' => t('rep.no_digitalitzades')], $filtre['dig'], true, t('rep.digitalitzades_totes'))
+        . '<input type="search" name="q" value="' . h($filtre['q']) . '" placeholder="' . h(t('rep.cerca')) . '" aria-label="' . h(t('rep.cerca')) . '" autofocus>'
+        . select_simple('tipus', $tipus, $filtre['tipus'], true, t('rep.tots_tipus'), true, t('rep.tots_tipus'))
+        . select_simple('agrupacio', $agrupacions, $filtre['agrupacio'], true, t('rep.totes_agrupacions'), true, t('rep.totes_agrupacions'))
+        . select_simple('estat', $estats, $filtre['estat'], true, t('rep.tots_estats'), true, t('rep.tots_estats'))
+        . select_simple('dig', ['1' => t('rep.digitalitzades'), '0' => t('rep.no_digitalitzades')], $filtre['dig'], true, t('rep.digitalitzades_totes'), true, t('rep.digitalitzades_totes'))
         . '<label class="ordre">' . h(t('rep.ordena')) . ' ' . select_simple('ordre', $ordres, $filtre['ordre'], false) . '</label>'
         . '<button>' . h(t('filtrar')) . '</button>' . ($filtrat ? '<a class="boto secundari" href="' . h(url('repertori')) . '">' . h(t('rep.neteja')) . '</a>' : '') . '</form>';
 

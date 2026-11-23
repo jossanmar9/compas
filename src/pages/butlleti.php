@@ -75,7 +75,7 @@ function pagina_butlleti(): void
     $alumnes = array_column(q("SELECT al.id, " . NOM_PERSONA_SQL . " AS e FROM matricules m JOIN alumnes al ON al.id = m.alumne_id JOIN persones p ON p.id = al.persona_id
         WHERE m.curs_id = ? AND m.estat = 'actiu' ORDER BY e", [$curs])->fetchAll(), 'e', 'id');
 
-    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="butlleti">' . select_simple('curs', opcions_ref('cursos'), $curs, false) . '</form>';
+    $html = '<form class="barra" method="get"><input type="hidden" name="r" value="butlleti">' . select_simple('curs', opcions_ref('cursos'), $curs, false, '—', true, t('camp.curs_id')) . '</form>';
     if (!$alumnes) {
         pagina(t('menu.butlletins'), $html . '<div class="buit">' . h(t('butlleti.sense_alumnes')) . '</div>');
         return;

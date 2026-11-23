@@ -29,7 +29,7 @@ function alumnes_grup(int $grupId): array
 function selector_grup(string $ruta, array $grups, int $actual, array $extra = []): string
 {
     $html = '<form class="barra" method="get"><input type="hidden" name="r" value="' . h($ruta) . '">'
-        . select_simple('grup', $grups, $actual, true, t('tria_grup'));
+        . select_simple('grup', $grups, $actual, true, t('tria_grup'), true, t('camp.grup_id'));
     foreach ($extra as $k => $v) {
         $html .= $v;
     }
@@ -92,7 +92,7 @@ function pagina_notes(): void
         redirigeix('notes', ['grup' => $grup, 'periode' => $periode]);
     }
 
-    $html = selector_grup('notes', $grups, $grup, $periodes ? [select_simple('periode', $periodes, $periode, false)] : []);
+    $html = selector_grup('notes', $grups, $grup, $periodes ? [select_simple('periode', $periodes, $periode, false, '—', true, t('butlleti.periode'))] : []);
     if (!$grup) {
         pagina(t('menu.notes'), $html . '<p class="buit petit">' . h(t('tria_grup')) . '</p>');
         return;
@@ -110,8 +110,8 @@ function pagina_notes(): void
         $html .= '<form method="post">' . csrf_camp() . '<div class="taula-wrap"><table class="taula"><thead><tr><th>' . h(t('ent1.alumnes')) . '</th><th>' . h(t('camp.nota'))
             . '</th><th>' . h(t('notes.observacions')) . '</th></tr></thead><tbody>';
         foreach ($alumnes as $al) {
-            $html .= '<tr><td>' . h($al['nom']) . '</td><td><input class="nota" name="nota[' . (int)$al['id'] . ']" maxlength="20" value="' . h($fet[$al['id']]['nota'] ?? '') . '"></td>'
-                . '<td><textarea rows="1" name="obs[' . (int)$al['id'] . ']">' . h($fet[$al['id']]['observacions'] ?? '') . '</textarea></td></tr>';
+            $html .= '<tr><td>' . h($al['nom']) . '</td><td><input class="nota" name="nota[' . (int)$al['id'] . ']" aria-label="' . h(t('camp.nota') . ': ' . $al['nom']) . '" maxlength="20" value="' . h($fet[$al['id']]['nota'] ?? '') . '"></td>'
+                . '<td><textarea rows="1" name="obs[' . (int)$al['id'] . ']" aria-label="' . h(t('camp.observacions') . ': ' . $al['nom']) . '">' . h($fet[$al['id']]['observacions'] ?? '') . '</textarea></td></tr>';
         }
         $html .= '</tbody></table></div><p class="peu-taula">' . h(t('notes.ajuda')) . '</p><div class="accions"><button>' . h(t('desa')) . '</button>'
             . '<a class="boto secundari" href="' . h(url('butlleti', ['curs' => $cursId, 'grup' => $grup])) . '">🖨 ' . h(t('menu.butlletins')) . '</a></div></form>';

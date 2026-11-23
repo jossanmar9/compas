@@ -8,6 +8,18 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent de publicar]
+
+### Accessibilitat
+- **Lectors de pantalla.** Cada camp dels formularis diu el seu nom (abans, molts només en tenien un de visual), també els filtres dels llistats, les notes de cada alumne i les caselles de les remeses. Els errors s'anuncien de seguida i el cercador diu quants resultats ha trobat i quin està triat.
+- **Teclat.** «Ves al contingut» per a saltar el menú, i el focus del teclat es veu sempre, també en el menú lateral.
+- **Contrast.** Més contrast en el text d'exemple dels camps, el botó d'eliminar en mode fosc, l'idioma triat, els números de pas de l'alta d'alumne i alguns indicadors. Amb els colors de contrast alt de Windows, l'apartat actual del menú es distingix.
+- Les pantalles d'entrada tenen un títol per als lectors de pantalla, i l'horari té els dies com a apartats.
+- *Accesibilidad: lectores de pantalla, teclado y contraste.*
+
+### Proves
+- La bateria `interficie` comprova que cap camp de les pantalles principals es queda sense nom, el salt al contingut, el cercador i que els errors s'anuncien.
+
 ## [2.7.0] - 2026-11-21
 
 ### Més fàcil d'usar

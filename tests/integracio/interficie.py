@@ -8,13 +8,13 @@ import html as _html
 
 ES = L == 'es'
 h = G('r=inici')
-nav = re.search(r'<nav>.*?</nav>', h, re.S).group(0)
+nav = re.search(r'<nav[^>]*>.*?</nav>', h, re.S).group(0)
 # Menú: el que es configura una vegada ja no hi és, però es troba a la seua pantalla
 for e in ['tarifes', 'mandats', 'cursos', 'assignatures', 'aules']:
     ok(f'e={e}"' not in nav, f'menú: {e} no és al menú')
 ok('r=moduls' not in nav and 'r=auditoria' not in nav and 'r=perfil' not in nav, 'menú: mòduls, registre i compte propi fora del menú')
 ok(nav.count('<details class="grup-menu"') >= 5, 'menú: seccions plegables')
-ok('data-actual="1"' in re.search(r'<nav>.*?</nav>', G('r=llista&e=rebuts'), re.S).group(0), 'menú: la secció de la pantalla actual queda marcada')
+ok('data-actual="1"' in re.search(r'<nav[^>]*>.*?</nav>', G('r=llista&e=rebuts'), re.S).group(0), 'menú: la secció de la pantalla actual queda marcada')
 hg = G('r=llista&e=grups')
 ok('e=cursos' in hg and 'e=assignatures' in hg and 'e=aules' in hg, 'grups: enllaços a cursos, assignatures i aules')
 he = G('r=economia')
@@ -22,7 +22,7 @@ ok('e=tarifes' in he and 'e=mandats' in he, 'economia: enllaços a tarifes i dom
 hc = G('r=configuracio')
 ok('r=moduls' in hc and 'r=auditoria' in hc, 'configuració: enllaços a mòduls i registre')
 ok('r=auditoria' in G('r=usuaris'), 'usuaris: enllaç al registre d activitat')
-ok('class="actiu"' in re.search(r'<nav>.*?</nav>', G('r=llista&e=tarifes'), re.S).group(0), 'tarifes: el menú marca Economia')
+ok('class="actiu"' in re.search(r'<nav[^>]*>.*?</nav>', G('r=llista&e=tarifes'), re.S).group(0), 'tarifes: el menú marca Economia')
 
 # Inici: «Què vols fer?» i els avisos junts
 ok('class="que-fer"' in h and 'r=alta_alumne' in h and 'r=genera_rebuts' in h, 'inici: accions de cada dia')
@@ -110,3 +110,40 @@ ok(n('select count(*) from alumnes where persona_id = ?', josep) == 1, 'alta: pe
 hj = G(f'r=alta_alumne&persona={josep}')
 ok('r=fitxa' in hj or 'class="fitxa"' in hj, 'alta: si ja és alumne, porta a la seua fitxa')
 ok(not err(G('r=alta_alumne')), 'alta: formulari sense errors')
+
+# Accessibilitat: cada camp té un nom per als lectors de pantalla, salt al contingut, errors anunciats i cercador com a combobox
+from html.parser import HTMLParser as _HP
+
+class _Camps(_HP):
+    def __init__(self):
+        super().__init__()
+        self.dins_label = 0
+        self.fors = set()
+        self.camps = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == 'label':
+            self.dins_label += 1
+            if a.get('for'):
+                self.fors.add(a['for'])
+        elif tag in ('input', 'select', 'textarea') and a.get('type') not in ('hidden', 'submit', 'button'):
+            self.camps.append((a, self.dins_label > 0))
+
+    def handle_endtag(self, tag):
+        if tag == 'label' and self.dins_label:
+            self.dins_label -= 1
+
+def sense_nom(q):
+    p = _Camps()
+    p.feed(G(q))
+    return [a.get('name') or a.get('id') or '?' for a, dins in p.camps if not dins and not a.get('aria-label') and a.get('id') not in p.fors]
+
+grup = n('select id from grups where curs_id = ? order by id limit 1', curs)
+for q in ['r=inici', 'r=configuracio', 'r=copia', 'r=comunicats', 'r=caixa', 'r=edita&e=persones', 'r=edita&e=socis', 'r=alta_alumne', 'r=perfil',
+          'r=usuaris', 'r=horari', 'r=repertori', 'r=llista&e=persones', 'r=remeses', 'r=genera_rebuts', f'r=notes&grup={grup}', 'r=llistats', 'r=importa']:
+    ok(sense_nom(q) == [], f'accessibilitat: camps amb nom a {q} {sense_nom(q)}')
+ok('class="salta" href="#contingut"' in h and 'id="contingut"' in h, 'accessibilitat: salt al contingut')
+ok('role="combobox"' in h and 'aria-controls="propostes-cerca"' in h and 'role="listbox"' in h, 'accessibilitat: el cercador és un combobox')
+ok('aria-expanded="false" aria-controls="menu-principal"' in h, 'accessibilitat: botó del menú')
+ok('class="avis error" role="alert"' in hm, 'accessibilitat: els errors s anuncien')
