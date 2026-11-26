@@ -57,6 +57,7 @@ ok(n("select valor from config where clau='copia_externa'") == str(ext), 'carpet
 ok(any(ext.glob('compas-*.db')), 'la còpia es guarda també a Documents/Compàs')
 h = G('r=copia')
 ok(('Documents/Compàs' in h) and not err(h), 'la pàgina de còpies parla del mòbil')
+ok(('Baixa una còpia al mòbil' in h or 'Descargar una copia al móvil' in h) and 'còpia a l&#039;ordinador' not in h, 'textos del mòbil en lloc de l ordinador')
 
 # Recuperar l'accés sense codi: des de la mateixa app
 nou = opener_app()

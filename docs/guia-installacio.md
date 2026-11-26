@@ -4,7 +4,7 @@
 
 ## Requisits
 
-- **Windows** 10 o 11 de 64 bits, o **Linux** amb PHP 8.1 o posterior.
+- **Windows** 10 o 11 de 64 bits, **Linux** amb PHP 8.1 o posterior, o **Android** 10 o posterior.
 - Uns 100 MB de disc.
 - No cal Internet ni servidor. A Windows tampoc no cal instal·lar PHP ni bases de dades: tot va dins.
 
@@ -87,6 +87,26 @@ Si WebKitGTK no hi és, Compàs prova Chromium, Google Chrome, Microsoft Edge o 
 Si tampoc no n'hi ha cap, s'obri el navegador habitual i una finestra de terminal. **Mentre la finestra del terminal estiga oberta, Compàs funciona.** Per a tancar-lo, prem **Ctrl+C** o tanca la finestra.
 
 Les dades es guarden a `~/.local/share/compas/dades` (o a la carpeta que indique la variable `COMPAS_DADES`).
+
+## Android
+
+Compàs també funciona en mòbils i tauletes amb **Android 10 o posterior**. És el mateix programa que a l'ordinador, amb les mateixes pantalles, i les dades es guarden **només en el mòbil**: no es connecta a Internet ni a l'ordinador.
+
+### Instal·lar
+
+1. Obri en el mòbil la pàgina de [descàrregues](https://github.com/jossanmar9/compas/releases/latest) i baixa **`Compas-X.Y.Z-android.apk`**.
+2. Obri el fitxer baixat. Android demanarà permís per a instal·lar apps d'eixe lloc (el navegador o l'app de Fitxers): accepta-ho i prem **Instal·la**. Si Google Play Protect avisa que no coneix l'app, prem **Més detalls → Instal·la igualment**: el codi és públic i l'APK el construeix GitHub Actions.
+3. Per a actualitzar, baixa l'APK de la versió nova i instal·la'l damunt: les dades es conserven.
+
+### Com funciona a Android
+
+- La primera vegada tarda uns segons a obrir-se, mentre prepara el programa.
+- Les **baixades** (CSV, còpies, remeses, PDF) es guarden a la carpeta **Baixades/Compàs** del mòbil.
+- **Imprimir** obri el diàleg d'Android: es pot triar una impressora o **Desa com a PDF**.
+- Cada **còpia de seguretat** es guarda dins de l'app i també a **Documents/Compàs**, que no s'esborra si desinstal·les l'app. Es fa una còpia cada dia i quan deixes l'app (si hi ha hagut canvis).
+- **Passar les dades de l'ordinador al mòbil** (o a l'inrevés): a l'ordinador, **Còpies de seguretat → Baixa una còpia**; passa el fitxer al mòbil (cable, correu, núvol…) i, al mòbil, **Còpies de seguretat → Restaura des d'un fitxer**. No es poden apuntar coses als dos alhora: es treballa en un i es passa la còpia a l'altre.
+- Si l'administrador/a oblida la contrasenya i no té el codi, a **He oblidat la contrasenya** pot posar-ne una de nova des del mateix mòbil.
+- Desinstal·lar l'app esborra les dades de dins: abans, fes una còpia i guarda-la fora del mòbil.
 
 ## Com funciona
 

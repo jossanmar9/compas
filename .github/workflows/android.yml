@@ -53,7 +53,7 @@ jobs:
           chmod +x spc
           ./spc --version
           ./spc doctor --auto-fix
-          ./spc download --with-php=$PHP_VERSIO --for-extensions="$PHP_EXT" --prefer-pre-built --retry=3
+          ./spc download --with-php=$PHP_VERSIO --for-extensions="$PHP_EXT" --retry=3
           ./spc build "$PHP_EXT" --build-cli
           cp buildroot/bin/php ../php-${{ matrix.arq }}
       - name: Comprova el PHP
@@ -113,11 +113,22 @@ jobs:
           fi
           gradle -p android assembleRelease --stacktrace
           ls -la android/app/build/outputs/apk/*/
+          # Per a publicar: només si està signat
+          if [ -n "$ANDROID_KEYSTORE_B64" ] && [ -n "$COMPAS_VERSIO" ]; then
+            mkdir -p paquet
+            cp android/app/build/outputs/apk/release/app-release.apk "paquet/Compas-${COMPAS_VERSIO#v}-android.apk"
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: apk
           path: android/app/build/outputs/apk/*/*.apk
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('paquet/*.apk') != ''
+        with:
+          name: paquet-android
+          path: paquet/*.apk
+          retention-days: 7
 
   emulador:
     name: Prova en l'emulador (Android ${{ matrix.api }})

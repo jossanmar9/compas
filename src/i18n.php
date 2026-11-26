@@ -42,6 +42,10 @@ function t(string $clau, ...$args): string
         // Els noms que canvien segons el tipus d'entitat (fallers, esportistes, equips…)
         $textos[$l] = vocabulari(tipus_entitat(), $idioma) + $textos[$l];
     }
+    // A Android, alguns textos parlen del mòbil en lloc de l'ordinador (clau@android)
+    if (isset($textos[$l][$clau . '@android']) && function_exists('es_android') && es_android()) {
+        $clau .= '@android';
+    }
     $s = $textos[$l][$clau] ?? $clau;
     return $args ? vsprintf($s, $args) : $s;
 }

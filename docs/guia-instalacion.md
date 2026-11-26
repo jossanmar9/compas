@@ -4,7 +4,7 @@
 
 ## Requisitos
 
-- **Windows** 10 u 11 de 64 bits, o **Linux** con PHP 8.1 o posterior.
+- **Windows** 10 u 11 de 64 bits, **Linux** con PHP 8.1 o posterior, o **Android** 10 o posterior.
 - Unos 100 MB de disco.
 - No hace falta Internet ni servidor. En Windows tampoco hace falta instalar PHP ni bases de datos: todo va dentro.
 
@@ -87,6 +87,26 @@ Si WebKitGTK no está, Compàs prueba Chromium, Google Chrome, Microsoft Edge o 
 Si tampoco hay ninguno, se abre el navegador habitual y una ventana de terminal. **Mientras la ventana del terminal esté abierta, Compàs funciona.** Para cerrarlo, pulsa **Ctrl+C** o cierra la ventana.
 
 Los datos se guardan en `~/.local/share/compas/dades` (o en la carpeta que indique la variable `COMPAS_DADES`).
+
+## Android
+
+Compàs también funciona en móviles y tabletas con **Android 10 o posterior**. Es el mismo programa que en el ordenador, con las mismas pantallas, y los datos se guardan **solo en el móvil**: no se conecta a Internet ni al ordenador.
+
+### Instalar
+
+1. Abre en el móvil la página de [descargas](https://github.com/jossanmar9/compas/releases/latest) y descarga **`Compas-X.Y.Z-android.apk`**.
+2. Abre el archivo descargado. Android pedirá permiso para instalar apps de ese lugar (el navegador o la app de Archivos): acéptalo y pulsa **Instalar**. Si Google Play Protect avisa de que no conoce la app, pulsa **Más detalles → Instalar de todas formas**: el código es público y el APK lo construye GitHub Actions.
+3. Para actualizar, descarga el APK de la versión nueva e instálalo encima: los datos se conservan.
+
+### Cómo funciona en Android
+
+- La primera vez tarda unos segundos en abrirse, mientras prepara el programa.
+- Las **descargas** (CSV, copias, remesas, PDF) se guardan en la carpeta **Descargas/Compàs** del móvil.
+- **Imprimir** abre el diálogo de Android: se puede elegir una impresora o **Guardar como PDF**.
+- Cada **copia de seguridad** se guarda dentro de la app y también en **Documents/Compàs**, que no se borra si desinstalas la app. Se hace una copia cada día y cuando dejas la app (si ha habido cambios).
+- **Pasar los datos del ordenador al móvil** (o al revés): en el ordenador, **Copias de seguridad → Descarga una copia**; pasa el archivo al móvil (cable, correo, nube…) y, en el móvil, **Copias de seguridad → Restaura desde un archivo**. No se pueden apuntar cosas en los dos a la vez: se trabaja en uno y se pasa la copia al otro.
+- Si el administrador o la administradora olvida la contraseña y no tiene el código, en **He olvidado la contraseña** puede poner una nueva desde el mismo móvil.
+- Desinstalar la app borra los datos de dentro: antes, haz una copia y guárdala fuera del móvil.
 
 ## Cómo funciona
 

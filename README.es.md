@@ -17,6 +17,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/licencia-AGPL--3.0--or--later-14284b" alt="Licencia AGPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-e8a33d" alt="Windows 10 y 11">
   <img src="https://img.shields.io/badge/Linux-.deb%20%7C%20.tar.gz-e8a33d" alt="Linux">
+  <img src="https://img.shields.io/badge/Android-10%2B-e8a33d" alt="Android 10 o posterior">
   <img src="https://img.shields.io/badge/PHP-8.1%2B-777BB4" alt="PHP 8.1+">
   <img src="https://img.shields.io/badge/SQLite-local-003B57" alt="SQLite">
 </p>
@@ -24,7 +25,7 @@
 <p align="center"><a href="README.md">Valencià</a> · <strong>Castellano</strong></p>
 
 <p align="center">
-  <strong>🖥️ Windows y Linux · 🔒 Datos locales · 🌐 Sin Internet · 💶 Sin suscripciones · 🆓 Software libre</strong>
+  <strong>🖥️ Windows, Linux y Android · 🔒 Datos locales · 🌐 Sin Internet · 💶 Sin suscripciones · 🆓 Software libre</strong>
 </p>
 
 <p align="center">
@@ -39,7 +40,7 @@
 
 ![Compàs: gestión libre para asociaciones](docs/imatges/banner-compas.png)
 
-Compàs es una aplicación de escritorio para gestionar una asociación desde un ordenador con **Windows o Linux**. Está pensada para que quien lleva la secretaría o la administración de una entidad pueda utilizarla sin conocimientos informáticos especiales.
+Compàs es una aplicación para gestionar una asociación desde un ordenador con **Windows o Linux**, o desde un móvil o tableta **Android**. Está pensada para que quien lleva la secretaría o la administración de una entidad pueda utilizarla sin conocimientos informáticos especiales.
 
 Sirve para **sociedades musicales, clubes deportivos, collas, muixerangues, collas castelleras, asociaciones culturales, AMPA/AFA, fallas, gaiatas, hogueras, comparsas, peñas y federaciones**. Al instalarlo, Compàs adapta el vocabulario, los apartados y el ejercicio al tipo de entidad.
 
@@ -181,13 +182,14 @@ Hay más de 60 capturas, paso a paso, en el [manual de usuario](docs/manual-usua
 
 ## Instalación
 
-**Requisitos:** Windows 10 u 11 de 64 bits, o Linux con PHP 8.1 o posterior, y unos 100 MB de disco. No hace falta Internet ni servidor. En Windows tampoco hace falta instalar PHP ni bases de datos: todo va dentro.
+**Requisitos:** Windows 10 u 11 de 64 bits, Linux con PHP 8.1 o posterior, o Android 10 o posterior, y unos 100 MB de espacio. No hace falta Internet ni servidor. En Windows tampoco hace falta instalar PHP ni bases de datos: todo va dentro.
 
 1. Descarga la [última versión](../../releases/latest):
    - **`Compas-X.Y.Z-installador.exe`**: el instalador recomendado para Windows. No pide permisos de administrador; se instala en `%LOCALAPPDATA%\Programs\Compas` y crea el acceso en el menú Inicio y en el escritorio.
    - **`Compas-X.Y.Z-portable.zip`**: la misma versión sin instalar. Descomprímela donde quieras (también en un lápiz USB) y abre `Compas.exe`.
    - **`compas_X.Y.Z_all.deb`**: para Debian, Ubuntu, Linux Mint y similares. Se instala con `sudo apt install ./compas_X.Y.Z_all.deb`, que trae también PHP.
    - **`Compas-X.Y.Z-linux.tar.gz`**: para otros Linux. Descomprímelo y ejecuta `./installa.sh` (hace falta PHP 8.1 o posterior con `pdo_sqlite` y `mbstring`).
+   - **`Compas-X.Y.Z-android.apk`**: para móviles y tabletas Android 10 o posterior. Ábrelo en el móvil e instálalo; los datos se quedan en el móvil y se pasan al ordenador (o al revés) con una copia de seguridad. Consulta la [guía de instalación](docs/guia-instalacion.md#android).
 2. Compàs **todavía no tiene un certificado de firma de código**, por lo que Windows SmartScreen puede mostrar un aviso al abrir el instalador: pulsa **Más información → Ejecutar de todas formas**. El código fuente es público y los paquetes se construyen automáticamente con GitHub Actions. En ordenadores con el **Control inteligente de aplicaciones** de Windows 11 activado, Windows también puede bloquear la versión portable; consulta la [guía de instalación](docs/guia-instalacion.md#si-windows-no-te-deja-abrirlo).
 3. Abre **Compàs**. Se abre en su propia ventana, sin ningún navegador. Al cerrarla, hace una copia de seguridad y se detiene.
 
@@ -277,6 +279,7 @@ Los manuales también se pueden consultar dentro del programa, en el menú **Ayu
 - **Lanzador para Windows** en C# (.NET Framework 4, incluido en Windows), con la ventana de Compàs hecha con el componente **WebView2** de Windows (`launcher/Visor.cs`).
 - **Lanzador para Linux** en Bash, con la ventana de Compàs hecha con **WebKitGTK** (`launcher/linux/compas-visor.py`).
 - **Instalador** con Inno Setup; **PHP portable** descargado de windows.php.net en cada construcción.
+- **App de Android** en Java (`android/`): lleva PHP compilado estáticamente para Android (con [static-php-cli](https://github.com/crazywhalecc/static-php-cli)) y el mismo programa, y lo muestra en un WebView. Solo responde a la misma app, gracias a una cookie secreta que cambia en cada arranque (`src/xarxa.php`); las diferencias de funcionamiento están en `src/android.php`.
 
 ### Estructura
 
@@ -286,6 +289,7 @@ src/          lógica: base de datos, permisos, entidades, pantallas y traduccio
   lang/       textos en valenciano (ca.php) y castellano (es.php)
   pages/      pantallas específicas (inicio, buscador, escuela, boletines, actividades, copias…)
   exemple/    datos de ejemplo de la entidad grande de cada tipo
+android/      app de Android (Java), que arranca el PHP estático y muestra Compàs en un WebView
 launcher/     lanzador de Windows (Compas.cs), php.ini, script del instalador y, en linux/, el lanzador y el instalador para Linux
 docs/         manuales, guías y capturas (imatges/); los PDF se hacen al publicar cada versión
 eines/        generación de capturas, PDF, web y entidad grande de prueba
@@ -327,7 +331,7 @@ y abre `http://127.0.0.1:8740`. Los datos se guardan en `data/` o en la carpeta 
    git tag v1.2.2
    git push origin v1.2.2
    ```
-4. GitHub Actions (`publica.yml`) comprueba el código, descarga PHP portable, compila el lanzador, genera los manuales en PDF, construye el instalador y el zip portable para Windows y los paquetes .deb y .tar.gz para Linux, los prueba, y lo publica todo en una *release*. Las notas de la *release* se toman del apartado de esa versión en el CHANGELOG.
+4. GitHub Actions (`publica.yml`) comprueba el código, descarga PHP portable, compila el lanzador, genera los manuales en PDF, construye el instalador y el zip portable para Windows y los paquetes .deb y .tar.gz para Linux y el APK de Android (`android.yml`, que también lo prueba en un emulador), los prueba, y lo publica todo en una *release*. Las notas de la *release* se toman del apartado de esa versión en el CHANGELOG.
 
 La web se vuelve a publicar sola con cada cambio en `main` (`web.yml`).
 
@@ -371,4 +375,4 @@ El texto válido de la licencia es el original en inglés ([LICENSE](LICENSE)). 
 
 Si se modifica Compàs y se ofrece a los usuarios a través de una red, la licencia AGPL exige que esos usuarios tengan acceso al código fuente de la versión modificada.
 
-Las versiones para Windows incluyen [PHP](https://www.php.net/license/), distribuido bajo la PHP License, [SQLite](https://www.sqlite.org/copyright.html), de dominio público, y las bibliotecas del [SDK de Microsoft WebView2](https://www.nuget.org/packages/Microsoft.Web.WebView2), distribuidas bajo la licencia BSD (`WebView2-LICENSE.txt`).
+Las versiones para Windows incluyen [PHP](https://www.php.net/license/), distribuido bajo la PHP License, [SQLite](https://www.sqlite.org/copyright.html), de dominio público, y las bibliotecas del [SDK de Microsoft WebView2](https://www.nuget.org/packages/Microsoft.Web.WebView2), distribuidas bajo la licencia BSD (`WebView2-LICENSE.txt`). La versión para Android incluye PHP compilado estáticamente con las bibliotecas [SQLite](https://www.sqlite.org/copyright.html), [libxml2](https://gitlab.gnome.org/GNOME/libxml2) (MIT), [libsodium](https://libsodium.org) (ISC), [Oniguruma](https://github.com/kkos/oniguruma) (BSD), [zlib](https://zlib.net/zlib_license.html), [libiconv](https://www.gnu.org/software/libiconv/) (LGPL) y [musl](https://musl.libc.org) (MIT).

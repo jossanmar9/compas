@@ -3,7 +3,7 @@ plugins {
 }
 
 // La versió ve de l'etiqueta (COMPAS_VERSIO=2.7.3); versionCode 2.7.3 → 20703
-def versio = System.getenv('COMPAS_VERSIO') ?: '0.0.1'
+def versio = (System.getenv('COMPAS_VERSIO') ?: '0.0.1').replaceFirst(/^v/, '')
 def xifres = (versio.tokenize('.-') + ['0', '0', '0']).take(3).collect { (it.replaceAll(/\D.*/, '') ?: '0') as int }
 def clau = System.getenv('ANDROID_KEYSTORE')
 

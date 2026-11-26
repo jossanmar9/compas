@@ -309,8 +309,15 @@ jobs:
             dist/*.tar.gz
             dist/*.deb
 
+  android:
+    needs: proves
+    uses: ./.github/workflows/android.yml
+    with:
+      versio: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+    secrets: inherit
+
   publica:
-    needs: [windows, linux]
+    needs: [windows, linux, android]
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     permissions:
@@ -349,7 +356,8 @@ jobs:
               '| **Compas-…-installador.exe** | Windows 10/11 (64 bits). No necessita permisos d\'administrador. |',
               '| **Compas-…-portable.zip** | Windows, sense instal·lar: descomprimeix-lo i obri `Compas.exe`. |',
               '| **compas_…_all.deb** | Debian, Ubuntu, Linux Mint…: `sudo apt install ./compas_…_all.deb` (instal·la també PHP). |',
-              '| **Compas-…-linux.tar.gz** | Altres Linux: descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior). |', '',
+              '| **Compas-…-linux.tar.gz** | Altres Linux: descomprimeix-lo i executa `./installa.sh` (cal PHP 8.1 o posterior). |',
+              '| **Compas-…-android.apk** | Mòbils i tauletes Android 10 o posterior: obri\'l en el mòbil i instal·la\'l (cal permetre «fonts desconegudes»). |', '',
               '> El programa encara no està signat digitalment: Windows pot avisar o bloquejar-lo. '
               f'Com obrir-lo igualment: [guia d\'instal·lació]({repo}/blob/main/docs/guia-installacio.md).', '',
               'Manuals i guies en PDF (valencià i castellà) adjunts a esta versió i dins del programa (Ajuda). '
@@ -370,6 +378,7 @@ jobs:
             paquets/*.exe
             paquets/*.tar.gz
             paquets/*.deb
+            paquets/*.apk
             paquets/Compas/docs/pdf/*.pdf
           body_path: notes.md
 
