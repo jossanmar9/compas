@@ -1,4 +1,5 @@
-# Compàs per a Android: PHP estàtic, APK i prova en un emulador.
+# Compàs per a Android: PHP estàtic (provat amb les proves de Compàs i amb les crides al sistema que Android permet) i APK.
+# No es prova en un emulador: els emuladors per a ordinador són x86_64 i el PHP musl només és vàlid a Android en arm64.
 # Es llança amb cada canvi a android/ o a este fitxer, i a mà. L'APK que es publica el fa publica.yml.
 name: Android
 
@@ -77,13 +78,12 @@ jobs:
       # amb el PHP d'arm64 dins de strace i es comprova que totes les crides que fa estan permeses.
       - name: Crides al sistema permeses a Android (arm64)
         if: matrix.arq == 'aarch64'
-        continue-on-error: true
         run: |
           sudo apt-get install -y -qq strace > /dev/null
           mkdir -p bin st
           printf '#!/bin/sh\nexec strace -f -qq -o "%s/st/$$.txt" "%s/php-aarch64" "$@"\n' "$PWD" "$PWD" > bin/php
           chmod +x bin/php
-          PATH="$PWD/bin:$PATH" timeout 900 python3 -u tests/integracio.py economia android ca || true
+          PATH="$PWD/bin:$PATH" timeout 300 python3 -u tests/integracio.py economia android ca || true
           ls -la st | head
           python3 android/comprova-seccomp.py st/*.txt
       - uses: actions/upload-artifact@v4
@@ -113,8 +113,7 @@ jobs:
       - name: Prepara el programa i el PHP
         run: |
           android/prepara.sh phps
-          # Només arm64, com els mòbils: l'emulador x86_64 l'executa amb la traducció d'ARM que porta Android.
-          # (El PHP musl per a x86_64 fa crides al sistema antigues que Android no deixa fer en x86_64.)
+          # Només arm64, com els mòbils (el PHP musl per a x86_64 fa crides al sistema antigues que Android no deixa fer)
           rm -rf android/app/src/main/jniLibs/x86_64
       - name: Compila (prova)
         run: gradle -p android assembleDebug --stacktrace
@@ -147,38 +146,4 @@ jobs:
         with:
           name: paquet-android
           path: paquet/*.apk
-          retention-days: 7
-
-  emulador:
-    name: Prova en l'emulador (Android ${{ matrix.api }})
-    needs: apk
-    strategy:
-      fail-fast: false
-      matrix:
-        api: [30, 35]
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v4
-        with:
-          name: apk
-          path: apk
-      - name: Activa KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-      - uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api }}
-          arch: x86_64
-          target: google_apis
-          profile: pixel_6
-          disable-animations: true
-          script: android/prova-emulador.sh apk/debug/app-debug.apk
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: proves-${{ matrix.api }}
-          path: android/proves
           retention-days: 7

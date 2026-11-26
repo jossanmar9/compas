@@ -331,7 +331,7 @@ y abre `http://127.0.0.1:8740`. Los datos se guardan en `data/` o en la carpeta 
    git tag v1.2.2
    git push origin v1.2.2
    ```
-4. GitHub Actions (`publica.yml`) comprueba el código, descarga PHP portable, compila el lanzador, genera los manuales en PDF, construye el instalador y el zip portable para Windows y los paquetes .deb y .tar.gz para Linux y el APK de Android (`android.yml`, que también lo prueba en un emulador), los prueba, y lo publica todo en una *release*. Las notas de la *release* se toman del apartado de esa versión en el CHANGELOG.
+4. GitHub Actions (`publica.yml`) comprueba el código, descarga PHP portable, compila el lanzador, genera los manuales en PDF, construye el instalador y el zip portable para Windows y los paquetes .deb y .tar.gz para Linux y el APK de Android (`android.yml`, que también prueba el PHP de Android con las pruebas de Compàs y comprueba que solo hace llamadas al sistema que Android permite), los prueba, y lo publica todo en una *release*. Las notas de la *release* se toman del apartado de esa versión en el CHANGELOG.
 
 La web se vuelve a publicar sola con cada cambio en `main` (`web.yml`).
 

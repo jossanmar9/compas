@@ -16,6 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import base64
 import re
 import sys
+import urllib.error
 import urllib.request
 
 ETIQUETA = 'android10-release'
@@ -31,6 +32,12 @@ def llista(nom: str) -> set[str]:
         try:
             text = base64.b64decode(urllib.request.urlopen(BASE + nom + '?format=TEXT', timeout=30).read()).decode()
             break
+        except urllib.error.HTTPError as e:
+            if e.code == 404 and nom != 'SYSCALLS.TXT':
+                print(f'(no hi ha {nom} a {ETIQUETA})')
+                return set()
+            if intent == 3:
+                raise
         except Exception:
             if intent == 3:
                 raise
