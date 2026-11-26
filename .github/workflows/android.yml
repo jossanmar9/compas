@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@v5
       - name: Clau de la memòria cau (versió i extensions)
         id: clau
-        run: echo "clau=php-android-v2-${{ matrix.arq }}-$PHP_VERSIO-$(echo "$PHP_EXT" | sha256sum | cut -c1-16)" >> "$GITHUB_OUTPUT"
+        run: echo "clau=php-android-v3-${{ matrix.arq }}-$PHP_VERSIO-$(echo "$PHP_EXT" | sha256sum | cut -c1-16)" >> "$GITHUB_OUTPUT"
       - name: Memòria cau del PHP compilat
         id: cau
         uses: actions/cache@v4
@@ -58,11 +58,12 @@ jobs:
           ./spc --version
           ./spc doctor --auto-fix
           ./spc download --with-php=$PHP_VERSIO --for-extensions="$PHP_EXT" --retry=3
-          # Android (bionic) només deixa fer accept4, no accept: el servidor de PHP moriria en la primera connexió
+          # Android (bionic) només deixa fer accept4, no accept: el servidor de PHP moriria en la primera connexió.
+          # Amb un indicador (SOCK_CLOEXEC), perquè musl fa accept si no n'hi ha cap.
           ./spc extract php-src
           f=source/php-src/main/network.c
           grep -c 'accept(srvsock' "$f"
-          sed -i 's/= accept(srvsock, \(.*\));/= accept4(srvsock, \1, 0);/' "$f"
+          sed -i 's/= accept(srvsock, \(.*\));/= accept4(srvsock, \1, SOCK_CLOEXEC);/' "$f"
           grep -n 'accept4(srvsock' "$f"
           ! grep -n '[^4]accept(srvsock' "$f"
           ./spc build "$PHP_EXT" --build-cli
