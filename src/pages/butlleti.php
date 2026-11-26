@@ -128,7 +128,7 @@ function imprimeix_butlletins(): void
         desa_config('butlleti_peu', $peu ?: null);
     }
 
-    $sql = "SELECT al.id, p.nom, p.cognoms, p.data_naixement, m.id AS matricula FROM matricules m JOIN alumnes al ON al.id = m.alumne_id
+    $sql = "SELECT al.id, al.nia, p.nom, p.cognoms, p.data_naixement, m.id AS matricula FROM matricules m JOIN alumnes al ON al.id = m.alumne_id
         JOIN persones p ON p.id = al.persona_id WHERE m.curs_id = ? AND m.estat = 'actiu'";
     $params = [$curs['id']];
     if (get('ambit') === 'grup' && get('grup') !== '') {
@@ -165,7 +165,8 @@ function imprimeix_butlletins(): void
         echo '<div><h1>' . h($societat) . '</h1>' . ($dades ? '<p>' . h(implode(' · ', $dades)) . '</p>' : '') . '</div></header>';
         echo '<h2>' . h(t('butlleti.titol')) . '</h2><p class="curs">' . h(t('camp.curs_id') . ' ' . $curs['nom'] . ($nomPeriode ? ' · ' . $nomPeriode : '')) . '</p>';
         echo '<table class="dades"><tr><th>' . h(t('ent1.alumnes')) . '</th><td><b>' . h(trim($al['nom'] . ' ' . $al['cognoms'])) . '</b></td>'
-            . ($al['data_naixement'] ? '<th>' . h(t('camp.data_naixement')) . '</th><td>' . h(data_llegible($al['data_naixement'])) . '</td>' : '') . '</tr></table>';
+            . ($al['data_naixement'] ? '<th>' . h(t('camp.data_naixement')) . '</th><td>' . h(data_llegible($al['data_naixement'])) . '</td>' : '')
+            . ($al['nia'] ? '<th>' . h(t('camp.nia')) . '</th><td>' . h($al['nia']) . '</td>' : '') . '</tr></table>';
 
         echo '<table class="notes"><thead><tr><th>' . h(t('camp.assignatura_id')) . '</th><th>' . h(t('camp.professor_id')) . '</th>';
         foreach ($periodes as $pe) {

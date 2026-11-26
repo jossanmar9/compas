@@ -127,6 +127,9 @@ function cert_persona(array $p): string
     if ($p['data_naixement']) {
         $s .= t('cert.nascut', data_llegible($p['data_naixement']));
     }
+    if (!empty($p['nia'])) {
+        $s .= t('cert.amb_nia', $p['nia']);
+    }
     return $s . ',';
 }
 
@@ -168,7 +171,7 @@ function pagina_certificat(): void
             break;
         case 'matricula':
             requereix('escola.view');
-            $m = fila('SELECT m.*, c.nom AS curs, p.nom, p.cognoms, p.document, p.data_naixement FROM matricules m JOIN cursos c ON c.id = m.curs_id
+            $m = fila('SELECT m.*, c.nom AS curs, al.nia, p.nom, p.cognoms, p.document, p.data_naixement FROM matricules m JOIN cursos c ON c.id = m.curs_id
                 JOIN alumnes al ON al.id = m.alumne_id JOIN persones p ON p.id = al.persona_id WHERE m.id = ?', [$id]);
             if (!$m) {
                 break;
@@ -228,4 +231,75 @@ function pagina_certificat(): void
 function o_text(?string $v): string
 {
     return $v !== null && $v !== '' ? $v : '________';
+}
+
+/* ---------- Contracte de cessió d'un instrument (o préstec de material) ---------- */
+
+/** Files amb les dades d'una persona per al contracte: nom, DNI, adreça i contacte */
+function files_persona_contracte(array $p, bool $ambNaixement): string
+{
+    $adreca = trim(implode(', ', array_filter([$p['adreca'] ?? null, trim(($p['codi_postal'] ?? '') . ' ' . ($p['poblacio'] ?? ''))])));
+    return '<tr><th>' . h(t('consent.nom_complet')) . '</th><td colspan="3"><b>' . o_linia(trim(($p['nom'] ?? '') . ' ' . ($p['cognoms'] ?? ''))) . '</b></td></tr>'
+        . '<tr><th>' . h(t('camp.document')) . '</th><td>' . o_linia($p['document'] ?? null) . '</td>'
+        . ($ambNaixement ? '<th>' . h(t('camp.data_naixement')) . '</th><td>' . o_linia(data_llegible($p['data_naixement'] ?? null)) . '</td>'
+            : '<th>' . h(t('camp.tipus_relacio')) . '</th><td>' . o_linia(!empty($p['tipus_relacio']) ? t('opt.' . $p['tipus_relacio']) : null) . '</td>') . '</tr>'
+        . '<tr><th>' . h(t('camp.adreca')) . '</th><td colspan="3">' . o_linia($adreca) . '</td></tr>'
+        . '<tr><th>' . h(t('camp.telefon')) . '</th><td>' . o_linia($p['telefon'] ?? null) . '</td><th>' . h(t('camp.email')) . '</th><td>' . o_linia($p['email'] ?? null) . '</td></tr>';
+}
+
+/**
+ * Contracte de cessió: qui cedix (l'entitat), qui rep l'instrument i, si és menor el dia de l'entrega, les dades
+ * dels seus pares o tutors legals (els de l'escola; si no n'hi ha, línies per a omplir a mà), l'instrument,
+ * les condicions (es poden canviar a Configuració), les signatures i un requadre per a quan es torne.
+ */
+function pagina_contracte_cessio(): void
+{
+    requereix('instruments.view');
+    $c = fila('SELECT c.*, i.inventari, i.tipus AS instrument, i.marca, i.model, i.num_serie FROM cessions c JOIN instruments i ON i.id = c.instrument_id WHERE c.id = ?', [(int)get('id')]);
+    if (!$c) {
+        avis(t('err.no_trobat'), 'error');
+        redirigeix('llista', ['e' => 'cessions']);
+    }
+    $p = fila('SELECT * FROM persones WHERE id = ?', [$c['persona_id']]);
+    audita('contracte_cessio', 'cessions', (int)$c['id']);
+    $menor = $p['data_naixement'] ? !es_major_edat($p['data_naixement'], $c['data_entrega']) : false;
+    $tutors = $menor ? tutors_persona((int)$p['id']) : [];
+    $societat = config('societat_nom') ?: 'Compàs';
+    [$signant, , $president] = signants_certificat();
+    $perEntitat = $president ?: $signant;
+    $nomPersona = trim($p['nom'] . ' ' . $p['cognoms']);
+
+    document_inici(t('cessio.titol') . ' · ' . $nomPersona, $nomPersona . ' · ' . $c['inventari'], t('cessio.consell'));
+    echo '<section class="full document contracte">' . capcalera_societat();
+    echo '<h2 class="centrat">' . h(t('cessio.titol')) . '</h2>';
+    echo '<p class="justificat">' . h(t('cessio.entitat', '')) . ($perEntitat ? '<b>' . h($perEntitat) . '</b>' : '<span class="linia llarga"></span>')
+        . h(t('cessio.entitat_en_nom', $societat . (config('societat_cif') ? ' (CIF ' . config('societat_cif') . ')' : ''))) . '</p>';
+    echo '<p>' . h(t($menor ? 'cessio.cessionari_menor' : 'cessio.cessionari')) . '</p><table class="formulari-paper">' . files_persona_contracte($p, true) . '</table>';
+    if ($menor) {
+        echo '<p>' . h(t('cessio.tutors')) . '</p>';
+        foreach ($tutors ?: [[]] as $tu) {
+            echo '<table class="formulari-paper">' . files_persona_contracte($tu, false) . '</table>';
+        }
+    }
+    echo '<h3>' . h(t('cessio.objecte')) . '</h3><table class="formulari-paper">'
+        . '<tr><th>' . h(t('camp.tipus')) . '</th><td><b>' . h($c['instrument']) . '</b></td><th>' . h(t('camp.inventari')) . '</th><td>' . h($c['inventari']) . '</td></tr>'
+        . '<tr><th>' . h(t('camp.marca')) . '</th><td>' . o_linia($c['marca']) . '</td><th>' . h(t('camp.model')) . '</th><td>' . o_linia($c['model']) . '</td></tr>'
+        . '<tr><th>' . h(t('camp.num_serie')) . '</th><td>' . o_linia($c['num_serie']) . '</td><th>' . h(t('camp.fianca')) . '</th><td>' . ($c['fianca'] !== null ? h(euros((float)$c['fianca'])) : '—') . '</td></tr>'
+        . '<tr><th>' . h(t('camp.data_entrega')) . '</th><td>' . h(data_llegible($c['data_entrega'])) . '</td><th>' . h(t('camp.data_prevista')) . '</th><td>' . o_linia(data_llegible($c['data_prevista'])) . '</td></tr>'
+        . '<tr><th>' . h(t('camp.estat_entrega')) . '</th><td colspan="3">' . o_linia($c['estat_entrega']) . '</td></tr></table>';
+    $condicions = config('cessio_condicions') ?: t('cessio.condicions_defecte', $societat);
+    echo '<h3>' . h(t('cessio.condicions')) . '</h3><ol class="clausules">';
+    foreach (array_filter(array_map('trim', explode("\n", $condicions))) as $linia) {
+        echo '<li>' . h(preg_replace('/^\d+[.)]\s*/', '', $linia)) . '</li>';
+    }
+    echo '</ol><p class="justificat">' . h(t('cessio.duplicat')) . '</p>';
+    $poblacio = config('societat_poblacio');
+    echo '<p class="lloc-data">' . h($poblacio ? t('cessio.lloc_data', $poblacio, data_llarga($c['data_entrega'])) : t('consent.lloc_data')) . '</p>';
+    echo '<footer><div class="signatures"><div><span class="rol-signa">' . h(t('cessio.signa_entitat')) . '</span>' . h($perEntitat ?: '') . '</div>'
+        . '<div><span class="rol-signa">' . h(t($menor ? 'cessio.signa_tutor' : 'cessio.signa_cessionari')) . '</span>'
+        . h($menor ? ($tutors ? trim($tutors[0]['nom'] . ' ' . $tutors[0]['cognoms']) : '') : $nomPersona) . '</div></div>';
+    echo '<div class="devolucio"><b>' . h(t('cessio.devolucio')) . '</b><span>' . h(t('cessio.devolucio_data')) . ' <span class="linia"></span></span>'
+        . '<span>' . h(t('cessio.devolucio_estat')) . ' <span class="linia llarga"></span></span><span>' . h(t('cessio.devolucio_signa')) . ' <span class="linia"></span></span></div>';
+    echo '</footer></section>';
+    document_fi();
 }

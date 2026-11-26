@@ -30,6 +30,20 @@
 .certificat .signatures div { border-top: 1px solid #1d2433; padding-top: 6px; font-size: 10pt; color: #1d2433; line-height: 1.4; }
 .rol-signa { display: block; font-size: 8.5pt; color: #5d6778; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
 
+/* Contracte de cessió: ha de cabre en un full (dos si hi ha dos tutors) */
+.contracte { font-size: 10pt; line-height: 1.45; }
+.contracte h2.centrat { margin: 14px 0 10px; }
+.contracte h3 { margin: 10px 0 4px; font-size: 10.5pt; }
+.contracte p { margin: 5px 0; }
+.contracte .formulari-paper th, .contracte .formulari-paper td { height: 7mm; padding: 3px 7px; }
+.clausules { margin: 2px 0 6px 5mm; padding-left: 3mm; text-align: justify; }
+.clausules li { margin: 2px 0; }
+.contracte .lloc-data { margin: 8px 0 18mm; }
+.contracte .signatures { justify-content: space-between; gap: 14mm; }
+.contracte .signatures div { flex: 1 1 0; border-top: 1px solid #1d2433; padding-top: 5px; font-size: 9.5pt; line-height: 1.4; }
+.devolucio { margin-top: 9mm; border: 1px solid #bfc8d6; padding: 6px 9px; display: flex; flex-wrap: wrap; gap: 5px 14px; font-size: 9pt; align-items: baseline; }
+.devolucio b { flex: 0 0 100%; font-size: 9.5pt; }
+
 /* Llistats */
 .full.llistat { min-height: 0; }
 .llistat h2 { margin-top: 14px; }

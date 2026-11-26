@@ -263,7 +263,7 @@ Per a repartir-los a principi de curs, a **Llistats i informes → Drets d'imatg
 
 La manera més ràpida: a l'inici, **Què vols fer? → Alta d'alumne** (o, des de la fitxa d'una persona que ja està a Compàs, **Alta d'alumne**). En la mateixa pantalla:
 
-1. **Qui s'apunta**: nom, cognoms, data de naixement i la resta de dades. Si és major d'edat, cal el DNI i el telèfon.
+1. **Qui s'apunta**: nom, cognoms, data de naixement i la resta de dades. Si és major d'edat, cal el DNI i el telèfon. Si ja té **NIA** (el número d'identificació de l'alumne que dona la Conselleria d'Educació), escriu-lo: cada alumne té el seu i Compàs no deixa repetir-lo. Al llistat d'alumnat, el filtre **Alumnat en actiu sense NIA** mostra a qui li falta.
 2. **La família**: si és menor, la mare, el pare o el tutor/a legal. Si ja està a Compàs (per exemple, perquè té un altre fill a l'escola), tria **Ja està a Compàs** i busca-la; si no, **És una persona nova** i escriu-ne les dades. **Viu a la mateixa adreça** li copia l'adreça. Si és major d'edat, la família és opcional.
 3. **Grups**: marca els grups del curs actual on s'apunta (amb l'horari i quants n'hi ha a cada un).
 
@@ -362,11 +362,13 @@ Un tipus que ja tenen alguns socis o que té tarifa no es pot eliminar: es posa 
 
 1. Busca o dona d'alta la **persona** (apartat 6).
 2. A la seua fitxa, en l'apartat **Socis**, prem **+ Afig**.
-3. Escriu el **número de soci**, tria el **tipus** (els que tinga l'entitat) i comprova la **data d'alta**.
+3. El **número de soci** ja ve posat: és el següent al més alt que s'ha donat mai. Tria el **tipus** (els que tinga l'entitat) i comprova la **data d'alta**.
 4. Si les quotes es cobraran pel banc, escriu l'**IBAN** (si encara no el té a la seua fitxa de persona).
 5. Prem **Desa**.
 
 ![Alta d'un soci](imatges/ca/15-soci-nou.webp)
+
+**El número de soci és únic.** Dos socis no poden tindre el mateix número, i el número de qui es dona de baixa no es torna a donar a ningú (si un dia torna, recupera el seu). Si l'entitat ja tenia els seus números, els pots canviar a mà o portar-los en la importació (apartat 24). Si una base de dades d'una versió anterior té números repetits, l'inici avisa de quins són per a arreglar-los.
 
 ### Llistat de socis
 
@@ -494,6 +496,14 @@ A la fitxa de l'instrument hi ha l'historial de **cessions** i de **manteniments
 ![Nova cessió](imatges/ca/31-cessio-nova.webp)
 
 Un instrument no es pot deixar a dues persones alhora.
+
+### Contracte de cessió
+
+A la fitxa de la cessió, el botó **Contracte de cessió** prepara el document per a imprimir i signar: les dades de l'entitat i de qui el representa (la presidència), de la persona que rep l'instrument, de l'instrument (tipus, marca, model, número de sèrie, inventari, fiança, dates i estat) i les condicions. Si la persona és **menor d'edat** el dia de l'entrega, hi ixen també les dades de la mare, el pare o el tutor/a legal (els de la seua fitxa d'alumne), i signa ell o ella; si no en té cap, queden línies per a omplir a mà. Baix hi ha un requadre per a quan es torne l'instrument. Imprimeix-lo dues vegades: una còpia per a cada part.
+
+![Contracte de cessió d'un instrument a una alumna menor](imatges/ca/32a-contracte-cessio.webp)
+
+Les condicions es poden canviar a **Configuració** (Manual d'administració).
 
 ### Quan el tornen
 
@@ -836,14 +846,16 @@ A la fitxa d'un **soci**, d'una **matrícula** o d'un **músic** (a **Músics i 
 
 Qui signa els certificats (normalment el secretari/ària) i el vistiplau del president/a s'agafen sols de la junta directiva (apartat 15). Si cal, l'administrador/a ho pot canviar a la configuració.
 
-## 24. Importar dades des d'Excel
+## 24. Importar dades des d'Excel o LibreOffice
 
 Si l'entitat ja té els socis o l'alumnat en un Excel, no cal tornar-los a escriure. Menú **Documents i dades → Importa dades**.
 
 ### Pas 1. El fitxer
 
-1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta; el tipus es busca pel nom) **Alumnat** (amb el pare, la mare o el tutor/a, si el full els porta) o el **Repertori** (vegeu més avall).
-2. Tria el fitxer: Excel (**.xlsx**) o **CSV**. Si és un .xls antic, obri'l amb Excel i guarda'l com a .xlsx.
+1. Tria què vols importar: **Persones**, **Socis** (amb el número, el tipus i la data d'alta; el tipus es busca pel nom), **Alumnat** (amb el NIA i el pare, la mare o el tutor/a, si el full els porta) o el **Repertori** (vegeu més avall).
+
+   Els socis sense número, o amb un número que ja té una altra persona, reben el següent lliure. En l'alumnat que ja està a Compàs, la importació completa el NIA si encara no en tenia: així es poden portar els NIA de tota l'escola d'una vegada.
+2. Tria el fitxer: Excel (**.xlsx**), LibreOffice (**.ods**) o **CSV**. Si és un .xls antic, obri'l amb Excel o LibreOffice i guarda'l com a .xlsx o .ods.
 3. Deixa marcat **La primera fila té els títols de les columnes** si és el cas, i prem **Següent**.
 
 ![Importar: triar el fitxer](imatges/ca/51-importa.webp)

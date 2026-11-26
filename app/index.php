@@ -140,6 +140,9 @@ try {
         case 'certificat':
             pagina_certificat();
             break;
+        case 'contracte_cessio':
+            pagina_contracte_cessio();
+            break;
         case 'passa_curs':
             pagina_passa_curs();
             break;

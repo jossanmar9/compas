@@ -48,7 +48,7 @@ prohibides = ['r=llista&e=mandats','r=llista&e=rebuts','r=llista&e=entitats_fede
     'r=cerca_ref&e=mandats&q=1','r=economia','r=caixa','r=copia','r=usuaris','r=configuracio',
     'r=llista&e=persones&csv=1','r=butlleti','r=consentiment&persona=1','r=certificat&tipus=soci&id=1',
     'r=llistats','r=document_fitxer&id=1','r=manual_pdf','r=edita&e=persones&id=1',
-    'r=activitat_llista&id=1','r=rgpd','r=full_alta','r=comunicats','r=assistencia','r=assistencia&agrupacio=1','r=cerca&q=a','r=alta_alumne']
+    'r=activitat_llista&id=1','r=rgpd','r=full_alta','r=comunicats','r=assistencia','r=assistencia&agrupacio=1','r=cerca&q=a','r=alta_alumne','r=contracte_cessio&id=1']
 for q in prohibides:
     ok(req(consultor, q)[0] == 403, 'consultor: prohibida també per URL ' + q)
 nom_abans = n('select nom from persones where id=1')

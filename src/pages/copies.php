@@ -246,6 +246,7 @@ function buida_dades_gestio(): string
             throw new RuntimeException(t('buidar.integritat'));
         }
         desa_config('dades_exemple', '0');
+        desa_config('ultim_numero_soci', null); // els socis tornen a començar per l'1
         // L'auditoria comença de nou: la marca antiga no ha d'impedir les còpies següents.
         desa_config('copia_ultim_canvi', '0');
         audita('dades_buidades', null, null, $copia);

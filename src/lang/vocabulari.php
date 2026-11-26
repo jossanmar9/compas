@@ -368,6 +368,11 @@ function voc_material(string $perfil, string $l): array
         'rgpd.instruments.interessats' => 'Personas a quienes se presta material.', 'rgpd.instruments.dades' => 'Nombre, material, fechas de entrega y devolución, estado y fianza.',
         'rgpd.instruments.conservacio' => 'Mientras dure el préstamo y, después, para el historial del material.', 'opt.instruments' => 'Material y reparaciones',
         'camp.tipus_instrument' => 'Tipo de material', 'opt.instrument' => 'Material',
+        'cessio.titol' => 'Contrato de préstamo de material', 'cessio.boto' => 'Contrato de préstamo', 'audit.contracte_cessio' => 'Contrato de préstamo',
+        'cessio.consell' => 'Imprímelo dos veces: una copia para la entidad y otra para quien se lleva el material.',
+        'cessio.entitat_en_nom' => ', en nombre y representación de %s, como entidad que presta el material.', 'cessio.objecte' => 'Material que se presta',
+        'cessio.condicions_defecte' => "El material se presta para que la persona que lo recibe lo utilice en las actividades de %s. No lo puede prestar, alquilar ni vender.\nDebe cuidarlo y guardarlo en buen estado.\nLas reparaciones por mal uso o descuido, y la pérdida o el robo, corren a su cargo.\nDebe devolverlo en la fecha prevista o cuando la entidad lo pida, en el mismo estado en que lo ha recibido, salvo el desgaste normal.\nSi hay fianza, se devuelve cuando se devuelve el material en buen estado.",
+        'camp.cessio_condicions' => 'Condiciones del contrato de préstamo',
     ] : [
         'menu.instruments' => $nom, 'modul.instruments' => $nom, 'ent1.instruments' => 'Article de l\'inventari', 'camp.instrument_id' => 'Material',
         'modul_ajuda.instruments' => 'Inventari, manteniments i préstecs de material.', 'inici.cedits' => 'Material deixat',
@@ -376,6 +381,11 @@ function voc_material(string $perfil, string $l): array
         'rgpd.instruments.interessats' => 'Persones a qui es deixa material.', 'rgpd.instruments.dades' => 'Nom, material, dates d\'entrega i devolució, estat i fiança.',
         'rgpd.instruments.conservacio' => 'Mentre dure el préstec i, després, per a l\'historial del material.', 'opt.instruments' => 'Material i reparacions',
         'camp.tipus_instrument' => 'Tipus de material', 'opt.instrument' => 'Material',
+        'cessio.titol' => 'Contracte de préstec de material', 'cessio.boto' => 'Contracte de préstec', 'audit.contracte_cessio' => 'Contracte de préstec',
+        'cessio.consell' => 'Imprimeix-lo dues vegades: una còpia per a l\'entitat i una altra per a qui s\'emporta el material.',
+        'cessio.entitat_en_nom' => ', en nom i representació de %s, com a entitat que deixa el material.', 'cessio.objecte' => 'Material que es deixa',
+        'cessio.condicions_defecte' => "El material es deixa perquè la persona que el rep l'utilitze en les activitats de %s. No el pot deixar a altres, llogar ni vendre.\nN'ha de tindre cura i guardar-lo en bon estat.\nLes reparacions per mal ús o descuit, i la pèrdua o el robatori, van a càrrec seu.\nL'ha de tornar en la data prevista o quan l'entitat el demane, en el mateix estat en què l'ha rebut, llevat del desgast normal.\nSi hi ha fiança, es torna quan es retorna el material en bon estat.",
+        'camp.cessio_condicions' => 'Condicions del contracte de préstec',
     ];
 }
 

@@ -147,3 +147,39 @@ ok('class="salta" href="#contingut"' in h and 'id="contingut"' in h, 'accessibil
 ok('role="combobox"' in h and 'aria-controls="propostes-cerca"' in h and 'role="listbox"' in h, 'accessibilitat: el cercador és un combobox')
 ok('aria-expanded="false" aria-controls="menu-principal"' in h, 'accessibilitat: botó del menú')
 ok('class="avis error" role="alert"' in hm, 'accessibilitat: els errors s anuncien')
+
+# 2.8 · Número de soci: el següent lliure, únic, i els de baixa no es tornen a donar
+seg = int(n("select max(cast(numero as integer)) from socis where numero not glob '*[^0-9]*'")) + 1
+ok(f'name="numero" value="{seg}"' in G('r=edita&e=socis'), 'soci nou: proposa el següent número')
+sense = n("select id from persones where id not in (select persona_id from socis) and data_naixement < '2000-01-01' order by id limit 1")
+P('r=edita&e=socis', dict(persona_id=sense, numero='', tipus='', data_alta='2026-01-01', data_baixa='', estat='actiu', observacions=''))
+ok(n('select numero from socis where persona_id = ?', sense) == str(seg), 'soci sense número: rep el següent')
+altra = n("select id from persones where id not in (select persona_id from socis) and data_naixement < '2000-01-01' order by id limit 1")
+hr = P('r=edita&e=socis', dict(persona_id=altra, numero=str(seg), tipus='', data_alta='2026-01-01', data_baixa='', estat='actiu', observacions=''))
+ok('class="avis error"' in hr and n('select count(*) from socis where persona_id = ?', altra) == 0, 'no es pot repetir un número de soci')
+db.execute("update socis set estat = 'baixa', data_baixa = '2026-02-01' where persona_id = ?", (sense,)); db.commit()
+ok(f'name="numero" value="{seg + 1}"' in G('r=edita&e=socis'), 'el número d un soci de baixa no queda lliure')
+
+# 2.8 · NIA: a l'alta d'alumne, únic, i el cercador el troba
+nia = n("select nia from alumnes where nia is not null limit 1")
+nomNia = n("select p.cognoms || ', ' || p.nom from alumnes a join persones p on p.id = a.persona_id where a.nia = ?", nia)
+hs = G(f'r=cerca&q={nia}')
+ok(nia and 'class="fitxa"' in hs and _html.escape(nomNia, quote=False) in hs, 'cerca: pel NIA va directament a la fitxa')
+ok('name="a_nia"' in G('r=alta_alumne'), 'alta: camp NIA')
+hn = P('r=alta_alumne', dict(base, a_nom='Duna', a_data_naixement='1995-01-01', a_document='11223344B', a_telefon='600 555 666', t_mode='cap', a_nia=nia))
+ok('class="avis error"' in hn and n("select count(*) from persones where nom = 'Duna'") == 0, 'alta: el NIA no es pot repetir')
+P('r=alta_alumne', dict(base, a_nom='Duna', a_data_naixement='1995-01-01', a_document='11223344B', a_telefon='600 555 666', t_mode='cap', a_nia='19999999'))
+ok(n("select a.nia from alumnes a join persones p on p.id = a.persona_id where p.nom = 'Duna'") == '19999999', 'alta: es guarda el NIA')
+
+# 2.8 · Contracte de cessió: amb el tutor si és menor
+ces = n("select c.id from cessions c join persones p on p.id = c.persona_id join alumnes a on a.persona_id = p.id join tutories t on t.alumne_id = a.id limit 1")
+tutor = n("select p.nom from cessions c join alumnes a on a.persona_id = c.persona_id join tutories t on t.alumne_id = a.id join persones p on p.id = t.tutor_id where c.id = ? order by t.principal desc", ces)
+hc = G(f'r=contracte_cessio&id={ces}')
+ok('class="full document contracte"' in hc and tutor in hc and 'class="clausules"' in hc and 'class="devolucio"' in hc, 'contracte: menor amb les dades del tutor')
+ok('r=contracte_cessio&amp;id=%d' % ces in G(f'r=fitxa&e=cessions&id={ces}'), 'contracte: botó a la fitxa de la cessió')
+P('r=configuracio', dict(societat_nom=n("select valor from config where clau='societat_nom'"), idioma=L, tipus_entitat=n("select valor from config where clau='tipus_entitat'"),
+                         cessio_condicions='Primera condició de prova\nSegona condició'))
+hc = G(f'r=contracte_cessio&id={ces}')
+ok(hc.count('<li>') == 2 and 'Primera condició de prova' in hc, 'contracte: condicions de la configuració')
+hl = G('r=llista&e=alumnes&filtre=sense_nia')
+ok('value="sense_nia"' in hl and not err(hl), 'alumnat: filtre sense NIA')

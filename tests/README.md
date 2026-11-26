@@ -39,7 +39,7 @@ Arranquen Compàs de veres (el servidor de PHP amb dades d'exemple en una carpet
 | `gran` | `gran.py` | Societats grans: el camp de persona amb cerca quan n'hi ha centenars, el repertori per pàgines i els llistats llargs. |
 | `entitat_gran` | `entitat_gran.py` | Carrega l'entitat gran de cada tipus i comprova el volum de dades, que no hi ha dates futures ni errors de PHP i que cap pantalla tarda més de 3 segons. |
 | `avis` | `avis.py` | L'avís de responsabilitat en la configuració inicial i en les instal·lacions antigues. |
-| `importacio` | `importacio.php` | Importació de socis i alumnat amb IBAN (crida les funcions de PHP directament). |
+| `importacio` | `importacio.php` | Importació de socis i alumnat amb IBAN, números de soci (el següent lliure, sense repetir ni tornar a donar els de baixa), NIA i un full de LibreOffice de veres (`tests/fitxers/alumnes.ods`). Crida les funcions de PHP directament. |
 | `tipus` | `tipus.py` | Instal·la cada tipus d'entitat amb les seues dades d'exemple i en recorre totes les pantalles (llistats, fitxes, documents, formularis, CSV i informes); el vocabulari del menú, els mòduls i el mes de l'exercici de cada tipus, les categories, les llicències i els seus avisos, els càrrecs de festa amb el certificat, les entitats federades i les seues quotes, les activitats (places, imports i rebuts) i el canvi de tipus. |
 | `subvencions` | `subvencions.py` | Organismes i requisits editables, cobraments a la caixa, despeses imputades, relació per a la justificació i còpia per a l'any següent. |
 | `buidar` | `buidar.py` | Buidatge de les dades de gestió des de Còpies de seguretat: contrasenya i confirmació, còpia prèvia, només l'administrador. |

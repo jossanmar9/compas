@@ -193,8 +193,9 @@ while ($i < count($plans)) {
         $antic = $edat >= 8 ? $prob(.82) : ($edat >= 6 ? $prob(.5) : false);
         $alta = $antic ? $data((($A - 7) . '-09-01'), (($A - 1) . '-09-15')) : $data(($A . '-09-01'), ($A . '-09-20'));
         $instr = $edat >= 7 && $bossaInstr ? array_pop($bossaInstr) : null;
-        q('INSERT INTO alumnes(persona_id, data_alta, descompte_pct, observacions) VALUES(?,?,?,?)',
-            [$p, $alta, $prob(.02) ? 50 : null, $prob(.04) ? $tr('Beca de l\'ajuntament', 'Beca del ayuntamiento') : null]);
+        // NIA: el que té l'alumnat de l'escola de música (n'hi ha algun que encara no l'ha portat)
+        q('INSERT INTO alumnes(persona_id, nia, data_alta, descompte_pct, observacions) VALUES(?,?,?,?,?)',
+            [$p, count($alumnes) % 13 !== 5 ? (string)(10380000 + 23 * count($alumnes)) : null, $alta, $prob(.02) ? 50 : null, $prob(.04) ? $tr('Beca de l\'ajuntament', 'Beca del ayuntamiento') : null]);
         $al = $id();
         foreach ($tutors as $k => [$t, $rel]) {
             q('INSERT INTO tutories(alumne_id, tutor_id, tipus_relacio, principal, rep_comunicacions) VALUES(?,?,?,?,?)', [$al, $t, $rel, $k === 0 ? 1 : 0, $k === 0 || $prob(.6) ? 1 : 0]);
@@ -480,14 +481,15 @@ while (count($socis) < 341) {
     $x = mt_rand(1, 100);
     $fesSoci($persona($sexe(), $naixEdat(30, 92)), $x <= 70 ? 'ordinari' : ($x <= 95 ? 'protector' : 'honorari'), $data('1960-01-01', ($A . '-09-30')));
 }
-$k = 0;
-foreach (q('SELECT id FROM socis ORDER BY data_alta, id')->fetchAll(PDO::FETCH_COLUMN) as $s) {
-    q('UPDATE socis SET numero = ? WHERE id = ?', [(string)(++$k), $s]);
-}
 $motiusBaixa = $ES ? ['Defunción', 'Cambio de residencia', 'Lo ha pedido', null] : ['Defunció', 'Canvi de residència', 'Ho ha demanat', null];
 for ($k = 0; $k < 25; $k++) {
     q("INSERT INTO socis(persona_id, numero, tipus, data_alta, data_baixa, estat, observacions) VALUES(?,?,?,?,?, 'baixa', ?)",
-        [$persona($sexe(), $naixEdat(30, 90)), (string)(900 + $k), $tipusSoci['ordinari'], $data('1980-01-01', (($A - 11) . '-01-01')), $data((($A - 8) . '-01-01'), ($A . '-07-31')), $tria($motiusBaixa)]);
+        [$persona($sexe(), $naixEdat(30, 90)), null, $tipusSoci['ordinari'], $data('1980-01-01', (($A - 11) . '-01-01')), $data((($A - 8) . '-01-01'), ($A . '-07-31')), $tria($motiusBaixa)]);
+}
+// Números per ordre d'alta, també els dels qui ja s'han donat de baixa (no es tornen a donar)
+$k = 0;
+foreach (q('SELECT id FROM socis ORDER BY data_alta, id')->fetchAll(PDO::FETCH_COLUMN) as $s) {
+    q('UPDATE socis SET numero = ? WHERE id = ?', [(string)(++$k), $s]);
 }
 
 // ---------- Instruments, cessions i manteniments ----------

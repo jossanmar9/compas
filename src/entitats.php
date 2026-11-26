@@ -134,9 +134,27 @@ const MAJORIA_EDAT = 18;
 const PERSONA_INCOMPLETA_SQL = "(COALESCE(t.cognoms, '') = '' OR t.data_naixement IS NULL
     OR (date(t.data_naixement, '+18 years') <= date('now', 'localtime') AND (COALESCE(t.document, '') = '' OR COALESCE(t.telefon, '') = '')))";
 
-function es_major_edat(?string $naixement): bool
+function es_major_edat(?string $naixement, ?string $enData = null): bool
 {
-    return $naixement !== null && $naixement !== '' && $naixement <= date('Y-m-d', strtotime('-' . MAJORIA_EDAT . ' years'));
+    return $naixement !== null && $naixement !== '' && $naixement <= date('Y-m-d', strtotime(($enData ?: date('Y-m-d')) . ' -' . MAJORIA_EDAT . ' years'));
+}
+
+/**
+ * Número per a un soci nou: un més que el més alt que s'ha donat mai. Els números dels socis de baixa
+ * (i dels que s'han esborrat) no es tornen a donar: config «ultim_numero_soci» recorda el més alt.
+ */
+function seguent_numero_soci(): string
+{
+    $max = (int)valor("SELECT MAX(CAST(numero AS INTEGER)) FROM socis WHERE numero <> '' AND numero NOT GLOB '*[^0-9]*'");
+    return (string)(max($max, (int)config('ultim_numero_soci')) + 1);
+}
+
+/** Recorda el número més alt donat, perquè no es torne a donar encara que s'esborre el soci */
+function recorda_numero_soci(?string $numero): void
+{
+    if ($numero !== null && $numero !== '' && ctype_digit($numero) && (int)$numero > (int)config('ultim_numero_soci')) {
+        desa_config('ultim_numero_soci', (string)(int)$numero);
+    }
 }
 
 /** Retorna què li falta a una persona (buit si està completa) */
@@ -227,20 +245,31 @@ function entitats(): array
             'cerca' => ['p.nom', 'p.cognoms', 't.numero'],
             'camps' => [
                 'persona_id' => $persona,
-                'numero' => ['tipus' => 'text', 'llista' => 1],
+                'numero' => ['tipus' => 'text', 'llista' => 1, 'defecte' => fn() => seguent_numero_soci(), 'ajuda' => t('ajuda.numero_soci')],
                 'tipus' => ['tipus' => 'ref', 'ref' => 'tipus_socis', 'llista' => 1, 'ajuda' => t('ajuda.tipus_soci')],
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
                 'observacions' => $obs,
             ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['persona_id'] ?? null)] : []),
-            'valida' => fn(array $d) => valida_iban_persona($d['iban'] ?? null, (int)$d['persona_id']),
+            'valida' => fn(array $d, ?int $id) => $d['numero'] !== null && valor('SELECT id FROM socis WHERE numero = ? AND id IS NOT ?', [$d['numero'], $id])
+                ? t('err.numero_soci', $d['numero'], (string)valor('SELECT ' . NOM_PERSONA_SQL . ' FROM socis s JOIN persones p ON p.id = s.persona_id WHERE s.numero = ?', [$d['numero']]))
+                : valida_iban_persona($d['iban'] ?? null, (int)$d['persona_id']),
+            // Sense número (s'ha deixat buit): el següent lliure
+            'despres' => function (int $id, array $d): void {
+                if ($d['numero'] === null) {
+                    q('UPDATE socis SET numero = ? WHERE id = ?', [seguent_numero_soci(), $id]);
+                }
+                recorda_numero_soci((string)valor('SELECT numero FROM socis WHERE id = ?', [$id]));
+            },
         ],
-        'alumnes' => $perfil('alumnes') + [
+        'alumnes' => ['cerca' => ['p.nom', 'p.cognoms', 't.nia']] + $perfil('alumnes') + [
             'cap' => 'escola',
+            'filtres' => ['sense_nia' => "t.nia IS NULL AND t.estat = 'actiu'"],
             'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['persona_id']]), t('consent.full')),
             'camps' => [
                 'persona_id' => $persona,
+                'nia' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.nia')],
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
@@ -248,6 +277,8 @@ function entitats(): array
                 'descompte_pct' => ['tipus' => 'decimal', 'pct' => 1, 'ajuda' => t('ajuda.descompte_pct'), 'secundari' => 1],
                 'observacions' => $obs,
             ],
+            'valida' => fn(array $d, ?int $id) => $d['nia'] !== null && valor('SELECT id FROM alumnes WHERE nia = ? AND id IS NOT ?', [$d['nia'], $id])
+                ? t('err.nia', $d['nia'], (string)valor('SELECT ' . NOM_PERSONA_SQL . ' FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE a.nia = ?', [$d['nia']])) : null,
             'fills' => [['tutories', 'alumne_id'], ['matricules', 'alumne_id']],
         ],
         'professors' => $perfil('professors') + [
@@ -453,6 +484,7 @@ function entitats(): array
             'cerca' => ['i.inventari', 'i.tipus', 'p.nom', 'p.cognoms'],
             'ordre' => '(t.data_retorn IS NOT NULL), t.data_entrega DESC',
             'filtres' => ['actives' => 't.data_retorn IS NULL', 'vencudes' => "t.data_retorn IS NULL AND t.data_prevista < date('now','localtime')"],
+            'accions_fitxa' => fn(array $f) => boto_document(url('contracte_cessio', ['id' => $f['id']]), t('cessio.boto')),
             'camps' => [
                 'instrument_id' => ['tipus' => 'ref', 'ref' => 'instruments', 'req' => 1, 'llista' => 1],
                 'persona_id' => $persona,

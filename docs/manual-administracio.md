@@ -88,6 +88,8 @@ La primera vegada, a **Configuració → Certificats i fulls de consentiment**, 
 
 ![Dades dels certificats a la configuració](imatges/ca/40-config-documents.webp)
 
+En el mateix apartat hi ha les **condicions del contracte de cessió** d'instruments (o de préstec de material): una condició per línia. Si ho deixes buit, el contracte porta les que es veuen en gris. El contracte el signa per l'entitat el president/a que poses ací o, si no en poses cap, el de la junta actual.
+
 ## 3. Dades del banc i descomptes
 
 

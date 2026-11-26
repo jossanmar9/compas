@@ -38,3 +38,43 @@ $imp = ['tipus' => 'alumnes', 'nom_fitxer' => 'a.csv', 'capcalera' => true, 'fil
 $a = analitza_importacio($imp); echo '   ', implode(' | ', $a[0]['avisos']), "\n";
 $fet = executa_importacio($imp, $a, [0]);
 $ok(($m('Prova')['persona_id'] ?? 0) == valor("SELECT id FROM persones WHERE nom = 'Mare'"), 'alumne: domiciliació per al tutor/a');
+
+// 2.8 · Números de soci: cada soci importat sense número en rep un, i cap no es repeteix
+$nums = array_column(q("SELECT s.numero FROM socis s JOIN persones p ON p.id = s.persona_id WHERE p.nom = 'Soci'")->fetchAll(), 'numero');
+$ok(count($nums) === 4 && count(array_unique($nums)) === 4 && !in_array(null, $nums, true), 'socis importats sense número: en reben un cadascun ' . implode(',', $nums));
+$ok((int)valor('SELECT COUNT(*) FROM (SELECT numero FROM socis WHERE numero IS NOT NULL GROUP BY numero HAVING COUNT(*) > 1)') === 0, 'cap número de soci repetit');
+// Els números dels socis de baixa i dels esborrats no es tornen a donar
+$seg = (int)seguent_numero_soci();
+q("UPDATE socis SET estat = 'baixa', data_baixa = '2026-01-01' WHERE numero = ?", [(string)($seg - 1)]);
+$ok((int)seguent_numero_soci() === $seg, 'el número d un soci de baixa no queda lliure');
+q('DELETE FROM socis WHERE numero = ?', [(string)($seg - 1)]);
+$ok((int)seguent_numero_soci() === $seg, 'ni el d un soci esborrat');
+// Un número del full que ja té algú: se li dona el següent lliure, després dels que en porten
+$ja = (string)valor("SELECT numero FROM socis WHERE numero IS NOT NULL ORDER BY id LIMIT 1");
+$files = [['Nom', 'Cognoms', 'Número'], ['Numerat', 'Repetit', $ja], ['Numerat', 'Lliure', (string)($seg + 5)], ['Numerat', 'Sense', '']];
+$imp = ['tipus' => 'socis', 'nom_fitxer' => 'n.csv', 'capcalera' => true, 'files' => $files, 'assignacio' => ['nom', 'cognoms', 'numero']];
+$a = analitza_importacio($imp);
+$ok(str_contains(implode(' ', $a[0]['avisos']), $ja), 'avisa del número repetit');
+executa_importacio($imp, $a, [0, 0, 0]);
+$num = fn($c) => valor("SELECT s.numero FROM socis s JOIN persones p ON p.id = s.persona_id WHERE p.cognoms = ?", [$c]);
+$ok($num('Lliure') === (string)($seg + 5), 'el número lliure del full es respecta');
+$ok($num('Repetit') !== $ja && (int)$num('Repetit') > $seg + 5 && (int)$num('Sense') > $seg + 5 && $num('Repetit') !== $num('Sense'), 'el repetit i el que no en porta reben els següents lliures');
+
+// 2.8 · Fitxers de LibreOffice (.ods) i NIA
+$files = llig_full(dirname(__DIR__) . '/fitxers/alumnes.ods', 'alumnes.ods');
+$ok(count($files) === 4 && $files[1][1] === 'Ferrer  Vidal' && $files[1][2] === '2016-03-04' && $files[1][4] === '600123456' && $files[2][1] === 'Sorribes & Fills', '.ods: dates, números, & i files buides');
+$ok(endevina_camp('NIA', 'alumnes') === 'nia' && endevina_camp('NIA', 'socis') === null, 'columna NIA reconeguda per a l alumnat');
+$imp = ['tipus' => 'alumnes', 'nom_fitxer' => 'alumnes.ods', 'capcalera' => true, 'files' => $files, 'assignacio' => array_map(fn($c) => endevina_camp($c, 'alumnes'), $files[0])];
+$a = analitza_importacio($imp);
+executa_importacio($imp, $a, array_fill(0, count($a), 0));
+$nia = fn($nom) => valor("SELECT a.nia FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE p.nom = ?", [$nom]);
+$ok($nia('Pau') === '10999001' && $nia('Àngela') === '10999002' && $nia('Noa') === null, '.ods importat amb el NIA');
+// Tornar a importar completa el NIA dels que no en tenien, i no el posa si ja és d'un altre
+q("UPDATE alumnes SET nia = NULL WHERE persona_id = (SELECT id FROM persones WHERE nom = 'Àngela')");
+$files[3][3] = '10999001';
+$a = analitza_importacio(['files' => $files] + $imp);
+$mateixa = []; foreach ($a as $i => $r) $mateixa[$i] = $r['persona_id'] ? 1 : 0;
+$ok(str_contains(implode(' ', $a[2]['avisos']), '10999001'), 'avisa del NIA que ja té un altre alumne');
+executa_importacio(['files' => $files] + $imp, $a, $mateixa);
+$ok($nia('Àngela') === '10999002', 'completa el NIA d un alumne que ja hi era');
+$ok($nia('Noa') === null, 'no posa un NIA que ja és d un altre');

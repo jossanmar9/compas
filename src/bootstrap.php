@@ -153,6 +153,7 @@ function migra_esquema(PDO $pdo): void
         'alumnes' => [
             'pagador_id' => 'INTEGER REFERENCES persones(id) ON DELETE SET NULL',
             'descompte_pct' => 'REAL',
+            'nia' => 'TEXT', // 2.8: número d'identificació de l'alumne
         ],
         // 1.16: dades de la factura (per a justificar subvencions) i document lligat a una subvenció
         'moviments' => [
@@ -170,6 +171,16 @@ function migra_esquema(PDO $pdo): void
                 $pdo->exec("ALTER TABLE $taula ADD COLUMN $col $tipus");
             }
         }
+    }
+    // 2.8: números de soci i NIA únics. Si una base de dades antiga ja en té de repetits, no es crea l'índex
+    // (Compàs igualment no deixa repetir-ne cap de nou) i l'inici avisa de quins són per a arreglar-los.
+    $pdo->exec("UPDATE socis SET numero = NULL WHERE TRIM(numero) = ''");
+    $pdo->exec("UPDATE alumnes SET nia = NULL WHERE TRIM(nia) = ''");
+    if (!$pdo->query('SELECT numero FROM socis WHERE numero IS NOT NULL GROUP BY numero HAVING COUNT(*) > 1 LIMIT 1')->fetchColumn()) {
+        $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS socis_numero ON socis(numero)');
+    }
+    if (!$pdo->query('SELECT nia FROM alumnes WHERE nia IS NOT NULL GROUP BY nia HAVING COUNT(*) > 1 LIMIT 1')->fetchColumn()) {
+        $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS alumnes_nia ON alumnes(nia)');
     }
     // Les bases de dades d'abans de la 1.11 tenien quatre tipus de soci fixos: ara són files de tipus_socis.
     // En una instal·lació nova es creen en la configuració inicial, quan ja se sap l'idioma.

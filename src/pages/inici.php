@@ -49,6 +49,15 @@ function pagina_inici(): void
     $html .= '</div>';
     $principal = $html;
     $html = avis_copies();
+    // Números repetits d'abans de la 2.8 (ara ja no es poden repetir): cal arreglar-los a mà
+    if (pot('socis.edit') && ($rep = q('SELECT numero FROM socis WHERE numero IS NOT NULL GROUP BY numero HAVING COUNT(*) > 1 ORDER BY CAST(numero AS INTEGER), numero')->fetchAll(PDO::FETCH_COLUMN))) {
+        $html .= '<div class="avis atencio">⚠ ' . h(t('inici.numeros_repetits', t('ent.socis'), implode(', ', array_slice($rep, 0, 10)) . (count($rep) > 10 ? '…' : ''))) . ' <a href="'
+            . h(url('llista', ['e' => 'socis', 'q' => $rep[0]])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
+    }
+    if (pot('escola.edit') && $es('escola.view', 'escola') && ($rep = q('SELECT nia FROM alumnes WHERE nia IS NOT NULL GROUP BY nia HAVING COUNT(*) > 1 ORDER BY nia')->fetchAll(PDO::FETCH_COLUMN))) {
+        $html .= '<div class="avis atencio">⚠ ' . h(t('inici.nia_repetits', implode(', ', array_slice($rep, 0, 10)))) . ' <a href="'
+            . h(url('llista', ['e' => 'alumnes', 'q' => $rep[0]])) . '">' . h(t('avis_llista.veure')) . '</a></div>';
+    }
 
     // Avisos de la societat: renovació de la junta, documents que caduquen i professorat sense certificat
     if ($es('societat.view', 'junta') && avis_actiu('junta_renovacio') && ($r = renovacio_junta()) && $r['dies'] <= 120) {

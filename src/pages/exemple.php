@@ -82,7 +82,7 @@ function carrega_dades_exemple(): void
     foreach (range(1, 6) as $n) {
         $p = $persona($nomsAlumnes[$n][0], $nomsAlumnes[$n][1], ($any - 8 - $n) . '-0' . (($n % 9) + 1) . '-1' . $n);
         $alumnesPersona[] = $p;
-        q('INSERT INTO alumnes(persona_id, data_alta) VALUES(?, ?)', [$p, "$any-09-10"]);
+        q('INSERT INTO alumnes(persona_id, nia, data_alta) VALUES(?, ?, ?)', [$p, (string)(10452300 + 17 * $n), "$any-09-10"]);
         $al = $id();
         q('INSERT INTO tutories(alumne_id, tutor_id, tipus_relacio, principal) VALUES(?, ?, ?, 1)', [$al, $tutors[($n - 1) % 3], ['mare', 'pare', 'tutor_legal'][($n - 1) % 3]]);
         q('INSERT INTO matricules(alumne_id, curs_id, data) VALUES(?, ?, ?)', [$al, $curs, "$any-09-10"]);

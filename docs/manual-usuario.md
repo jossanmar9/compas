@@ -263,7 +263,7 @@ Para repartirlas a principio de curso, en **Listados e informes → Derechos de 
 
 La forma más rápida: en el inicio, **¿Qué quieres hacer? → Alta de alumno** (o, desde la ficha de una persona que ya está en Compàs, **Alta de alumno**). En la misma pantalla:
 
-1. **Quién se apunta**: nombre, apellidos, fecha de nacimiento y el resto de datos. Si es mayor de edad, hacen falta el DNI y el teléfono.
+1. **Quién se apunta**: nombre, apellidos, fecha de nacimiento y el resto de datos. Si es mayor de edad, hacen falta el DNI y el teléfono. Si ya tiene **NIA** (el número de identificación del alumno que da la Conselleria de Educación), escríbelo: cada alumno tiene el suyo y Compàs no deja repetirlo. En el listado de alumnado, el filtro **Alumnado en activo sin NIA** muestra a quién le falta.
 2. **La familia**: si es menor, la madre, el padre o el tutor/a legal. Si ya está en Compàs (por ejemplo, porque tiene otro hijo en la escuela), elige **Ya está en Compàs** y búscala; si no, **Es una persona nueva** y escribe sus datos. **Vive en la misma dirección** le copia la dirección. Si es mayor de edad, la familia es opcional.
 3. **Grupos**: marca los grupos del curso actual en los que se apunta (con el horario y cuántos hay en cada uno).
 
@@ -362,11 +362,13 @@ Un tipo que ya tienen algunos socios o que tiene tarifa no se puede eliminar: se
 
 1. Busca o da de alta a la **persona** (apartado 6).
 2. En su ficha, en el apartado **Socios**, pulsa **+ Añadir**.
-3. Escribe el **número de socio**, elige el **tipo** (los que tenga la entidad) y comprueba la **fecha de alta**.
+3. El **número de socio** ya viene puesto: es el siguiente al más alto que se ha dado nunca. Elige el **tipo** (los que tenga la entidad) y comprueba la **fecha de alta**.
 4. Si las cuotas se cobrarán por el banco, escribe el **IBAN** (si todavía no lo tiene en su ficha de persona).
 5. Pulsa **Guardar**.
 
 ![Alta de un socio](imatges/es/15-soci-nou.webp)
+
+**El número de socio es único.** Dos socios no pueden tener el mismo número, y el número de quien se da de baja no se vuelve a dar a nadie (si un día vuelve, recupera el suyo). Si la entidad ya tenía sus números, puedes cambiarlos a mano o traerlos en la importación (apartado 24). Si una base de datos de una versión anterior tiene números repetidos, el inicio avisa de cuáles son para arreglarlos.
 
 ### Listado de socios
 
@@ -494,6 +496,14 @@ En la ficha del instrumento está el historial de **cesiones** y de **mantenimie
 ![Nueva cesión](imatges/es/31-cessio-nova.webp)
 
 Un instrumento no se puede prestar a dos personas a la vez.
+
+### Contrato de cesión
+
+En la ficha de la cesión, el botón **Contrato de cesión** prepara el documento para imprimir y firmar: los datos de la entidad y de quien la representa (la presidencia), de la persona que recibe el instrumento, del instrumento (tipo, marca, modelo, número de serie, inventario, fianza, fechas y estado) y las condiciones. Si la persona es **menor de edad** el día de la entrega, aparecen también los datos de la madre, el padre o el tutor/a legal (los de su ficha de alumno), y firma él o ella; si no tiene ninguno, quedan líneas para rellenar a mano. Abajo hay un recuadro para cuando se devuelva el instrumento. Imprímelo dos veces: una copia para cada parte.
+
+![Contrato de cesión de un instrumento a una alumna menor](imatges/es/32a-contracte-cessio.webp)
+
+Las condiciones se pueden cambiar en **Configuración** (Manual de administración).
 
 ### Cuando lo devuelven
 
@@ -836,14 +846,16 @@ En la ficha de un **socio**, de una **matrícula** o de un **músico** (en **Mú
 
 Quién firma los certificados (normalmente el secretario/a) y el visto bueno del presidente/a se toman solos de la junta directiva (apartado 15). Si hace falta, el administrador/a lo puede cambiar en la configuración.
 
-## 24. Importar datos desde Excel
+## 24. Importar datos desde Excel o LibreOffice
 
 Si la entidad ya tiene los socios o el alumnado en un Excel, no hace falta volver a escribirlos. Menú **Documentos y datos → Importar datos**.
 
 ### Paso 1. El archivo
 
-1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta; el tipo se busca por el nombre) **Alumnado** (con el padre, la madre o el tutor/a, si la hoja los lleva) o el **Repertorio** (ver más abajo).
-2. Elige el archivo: Excel (**.xlsx**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel y guárdalo como .xlsx.
+1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta; el tipo se busca por el nombre), **Alumnado** (con el NIA y el padre, la madre o el tutor/a, si la hoja los lleva) o el **Repertorio** (ver más abajo).
+
+   Los socios sin número, o con un número que ya tiene otra persona, reciben el siguiente libre. En el alumnado que ya está en Compàs, la importación completa el NIA si todavía no tenía: así se pueden traer los NIA de toda la escuela de una vez.
+2. Elige el archivo: Excel (**.xlsx**), LibreOffice (**.ods**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel o LibreOffice y guárdalo como .xlsx u .ods.
 3. Deja marcado **La primera fila tiene los títulos de las columnas** si es el caso, y pulsa **Siguiente**.
 
 ![Importar: elegir el archivo](imatges/es/51-importa.webp)

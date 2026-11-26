@@ -1,9 +1,9 @@
 <?php
-// Lectura de fulls de càlcul per a la importació: CSV i Excel (.xlsx)
+// Lectura de fulls de càlcul per a la importació: CSV, Excel (.xlsx) i LibreOffice (.ods)
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
-// L'.xlsx és un zip amb XML. Com que el PHP portable de Compàs no porta l'extensió zip,
+// L'.xlsx i l'.ods són zips amb XML. Com que el PHP portable de Compàs no porta l'extensió zip,
 // es llig el directori central del zip a mà i es descomprimeix amb zlib (gzinflate).
 
 const MAX_FILES_IMPORTACIO = 5000;
@@ -13,9 +13,11 @@ function llig_full(string $fitxer, string $nomOriginal): array
 {
     $ext = strtolower(pathinfo($nomOriginal, PATHINFO_EXTENSION));
     $inici = (string)file_get_contents($fitxer, false, null, 0, 8);
-    if ($ext === 'xlsx' || str_starts_with($inici, "PK\x03\x04")) {
+    if ($ext === 'ods' || ($ext !== 'xlsx' && str_starts_with($inici, "PK\x03\x04") && es_ods($fitxer))) {
+        $files = llig_ods($fitxer);
+    } elseif ($ext === 'xlsx' || str_starts_with($inici, "PK\x03\x04")) {
         $files = llig_xlsx($fitxer);
-    } elseif (in_array($ext, ['xls', 'ods'], true) || str_starts_with($inici, "\xD0\xCF\x11\xE0")) {
+    } elseif ($ext === 'xls' || str_starts_with($inici, "\xD0\xCF\x11\xE0")) {
         throw new RuntimeException(t('imp.err_format_antic'));
     } else {
         $files = llig_csv($fitxer);
@@ -106,7 +108,8 @@ function xml_segur(string $xml): ?SimpleXMLElement
         return null; // sense DTD: evita entitats externes
     }
     $x = @simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NONET | LIBXML_COMPACT);
-    return $x ?: null;
+    // Ull: un element que només té fills amb prefix (com el de l'.ods) val «false» en un if; per això === false
+    return $x === false ? null : $x;
 }
 
 /** Primer full d'un .xlsx com a files de cadenes */
@@ -117,7 +120,7 @@ function llig_xlsx(string $fitxer): array
     // El primer full del llibre (pot no ser sheet1.xml)
     $wb = isset($base['xl/workbook.xml']) ? xml_segur($base['xl/workbook.xml']) : null;
     $rels = isset($base['xl/_rels/workbook.xml.rels']) ? xml_segur($base['xl/_rels/workbook.xml.rels']) : null;
-    if ($wb && $rels && isset($wb->sheets->sheet[0])) {
+    if ($wb !== null && $rels !== null && isset($wb->sheets->sheet[0])) {
         $rid = (string)$wb->sheets->sheet[0]->attributes('http://schemas.openxmlformats.org/officeDocument/2006/relationships')['id'];
         foreach ($rels->Relationship as $r) {
             if ((string)$r['Id'] === $rid) {
@@ -127,14 +130,14 @@ function llig_xlsx(string $fitxer): array
         }
     }
     $compartides = [];
-    if (isset($base['xl/sharedStrings.xml']) && ($ss = xml_segur($base['xl/sharedStrings.xml']))) {
+    if (isset($base['xl/sharedStrings.xml']) && ($ss = xml_segur($base['xl/sharedStrings.xml'])) !== null) {
         foreach ($ss->si as $si) {
             $compartides[] = isset($si->t) ? (string)$si->t : implode('', array_map('strval', $si->xpath('.//*[local-name()="t"]') ?: []));
         }
     }
     $xml = llig_zip($fitxer, [$full])[$full] ?? null;
     $sh = $xml ? xml_segur($xml) : null;
-    if (!$sh) {
+    if ($sh === null) {
         throw new RuntimeException(t('imp.err_llegir'));
     }
     $files = [];
@@ -161,6 +164,86 @@ function llig_xlsx(string $fitxer): array
         if ($fila) {
             $max = max(array_keys($fila));
             $files[] = array_map(fn($i) => $fila[$i] ?? '', range(0, $max));
+        }
+        if (count($files) > MAX_FILES_IMPORTACIO + 1) {
+            break;
+        }
+    }
+    return $files;
+}
+
+/** Un zip que és un full de LibreOffice (OpenDocument) */
+function es_ods(string $fitxer): bool
+{
+    try {
+        $m = llig_zip($fitxer, ['mimetype'])['mimetype'] ?? '';
+    } catch (RuntimeException) {
+        return false;
+    }
+    return str_starts_with(trim($m), 'application/vnd.oasis.opendocument.spreadsheet');
+}
+
+/**
+ * Primer full d'un .ods com a files de cadenes. Les cel·les repetides (number-columns-repeated,
+ * number-rows-repeated) es despleguen, però no les buides del final: LibreOffice en guarda milers.
+ */
+function llig_ods(string $fitxer): array
+{
+    $xml = llig_zip($fitxer, ['content.xml'])['content.xml'] ?? null;
+    $doc = $xml ? xml_segur($xml) : null;
+    if ($doc === null) {
+        throw new RuntimeException(t('imp.err_llegir'));
+    }
+    $ns = ['table' => 'urn:oasis:names:tc:opendocument:xmlns:table:1.0', 'office' => 'urn:oasis:names:tc:opendocument:xmlns:office:1.0',
+        'text' => 'urn:oasis:names:tc:opendocument:xmlns:text:1.0'];
+    $doc->registerXPathNamespace('table', $ns['table']);
+    $taula = ($doc->xpath('//table:table') ?: [null])[0];
+    if ($taula === null) {
+        throw new RuntimeException(t('imp.err_llegir'));
+    }
+    $files = [];
+    $taula->registerXPathNamespace('table', $ns['table']);
+    foreach ($taula->xpath('.//table:table-row') ?: [] as $row) {
+        $fila = [];
+        foreach ($row->children($ns['table']) as $nom => $cela) {
+            if ($nom !== 'table-cell' && $nom !== 'covered-table-cell') {
+                continue;
+            }
+            $a = $cela->attributes($ns['table']);
+            $o = $cela->attributes($ns['office']);
+            $tipus = (string)($o['value-type'] ?? '');
+            if ($tipus === 'date') {
+                $v = substr((string)$o['date-value'], 0, 10);
+            } elseif (in_array($tipus, ['float', 'percentage', 'currency'], true)) {
+                $v = (string)$o['value'];
+                if (is_numeric($v) && (float)$v == floor((float)$v) && abs((float)$v) < 1e15) {
+                    $v = number_format((float)$v, 0, '', ''); // «600123456», no «6.00123456E+8»
+                }
+            } elseif ($tipus === 'boolean') {
+                $v = (string)$o['boolean-value'] === 'true' ? '1' : '0';
+            } else {
+                $paragrafs = [];
+                foreach ($cela->children($ns['text']) as $p) {
+                    // Els espais seguits es guarden com <text:s/>; la resta del text pot anar en <text:span>
+                    $paragrafs[] = html_entity_decode(strip_tags(preg_replace('#<text:s(?: text:c="(\d+)")?/>#', ' ', $p->asXML())), ENT_QUOTES | ENT_XML1, 'UTF-8');
+                }
+                $v = implode("\n", $paragrafs);
+            }
+            $rep = max(1, min((int)($a['number-columns-repeated'] ?? 1), 1000));
+            for ($k = 0; $k < $rep; $k++) {
+                $fila[] = trim($v);
+            }
+        }
+        while ($fila && end($fila) === '') {
+            array_pop($fila);
+        }
+        $repFiles = (int)($row->attributes($ns['table'])['number-rows-repeated'] ?? 1);
+        if (!$fila) {
+            $files[] = []; // les files buides es lleven després
+            continue;
+        }
+        for ($k = 0; $k < max(1, min($repFiles, MAX_FILES_IMPORTACIO + 2)); $k++) {
+            $files[] = $fila;
         }
         if (count($files) > MAX_FILES_IMPORTACIO + 1) {
             break;

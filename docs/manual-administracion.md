@@ -88,6 +88,8 @@ La primera vez, en **Configuración → Certificados y hojas de consentimiento**
 
 ![Datos de los certificados en la configuración](imatges/es/40-config-documents.webp)
 
+En el mismo apartado están las **condiciones del contrato de cesión** de instrumentos (o de préstamo de material): una condición por línea. Si lo dejas vacío, el contrato lleva las que se ven en gris. El contrato lo firma por la entidad el presidente/a que pongas aquí o, si no pones ninguno, el de la junta actual.
+
 ## 3. Datos del banco y descuentos
 
 

@@ -1,5 +1,5 @@
 <?php
-// Cercador de dalt de tot: una persona pel nom, els cognoms, el DNI, el telèfon, el correu o el número de soci,
+// Cercador de dalt de tot: una persona pel nom, els cognoms, el DNI, el telèfon, el correu, el número de soci o el NIA,
 // i també agrupacions, activitats, obres i material. Mentre s'escriu, proposa resultats (JSON per a app.js).
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
@@ -44,6 +44,10 @@ function resultats_cerca(string $q): array
     // Persones: també pel número de soci (exacte) i pel telèfon sense espais
     $perNumero = ctype_digit(trim($q)) && pot('socis.view')
         ? q('SELECT persona_id FROM socis WHERE numero = ?', [trim($q)])->fetchAll(PDO::FETCH_COLUMN) : [];
+    // i l'alumnat pel NIA (exacte)
+    if (pot('escola.view') && modul_actiu('escola')) {
+        $perNumero = array_merge($perNumero, q('SELECT persona_id FROM alumnes WHERE nia = ?', [trim($q)])->fetchAll(PDO::FETCH_COLUMN));
+    }
     $trobades = [];
     foreach (q('SELECT id, nom, cognoms, document, telefon, email, actiu FROM persones ORDER BY actiu DESC, cognoms COLLATE ALFA, nom COLLATE ALFA')->fetchAll() as $p) {
         $text = $p['nom'] . ' ' . $p['cognoms'] . ' ' . $p['document'] . ' ' . $p['email'];

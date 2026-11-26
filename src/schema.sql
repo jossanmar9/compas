@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS alumnes (
     estat         TEXT NOT NULL DEFAULT 'actiu',
     pagador_id    INTEGER REFERENCES persones(id) ON DELETE SET NULL,
     descompte_pct REAL,
+    nia           TEXT,
     observacions  TEXT
 );
 

@@ -130,6 +130,10 @@ function pagina_alta_alumne(): void
                 $dupId = (int)$dup;
             }
         }
+        $nia = trim((string)post('a_nia')) ?: null;
+        if ($nia !== null && ($ja = valor('SELECT ' . NOM_PERSONA_SQL . ' FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE a.nia = ?', [$nia]))) {
+            $errors[] = t('err.nia', $nia, (string)$ja);
+        }
         $grups = array_values(array_unique(array_filter(array_map('intval', (array)($_POST['grups'] ?? [])))));
         if (!$errors) {
             db()->beginTransaction();
@@ -143,7 +147,7 @@ function pagina_alta_alumne(): void
                     }
                     $tutorId = insereix_persona_alta($t);
                 }
-                q('INSERT INTO alumnes(persona_id, data_alta) VALUES(?, ?)', [$pid, post('data_alta') ?: date('Y-m-d')]);
+                q('INSERT INTO alumnes(persona_id, nia, data_alta) VALUES(?, ?, ?)', [$pid, $nia, post('data_alta') ?: date('Y-m-d')]);
                 $alumne = (int)db()->lastInsertId();
                 audita('crea', 'alumnes', $alumne);
                 if ($tutorId) {
@@ -192,6 +196,7 @@ function pagina_alta_alumne(): void
         }
         $html .= '</div>';
     }
+    $html .= '<div class="camps">' . camp_formulari('a_nia', ['tipus' => 'text', 'etiqueta' => 'camp.nia', 'ajuda' => t('ajuda.nia')], $v('a_nia')) . '</div>';
     $html .= '</fieldset>';
     // 2. La família
     $modeT = $v('t_mode', 'nova');

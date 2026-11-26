@@ -1,5 +1,5 @@
 <?php
-// Importació de persones, socis i alumnes des d'un full de càlcul (Excel o CSV)
+// Importació de persones, socis i alumnes des d'un full de càlcul (Excel, LibreOffice o CSV)
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
@@ -26,7 +26,7 @@ function camps_importacio(string $tipus): array
     return match ($tipus) {
         'obres' => CAMPS_OBRA,
         'socis' => array_merge($persona, ['numero', 'tipus_soci', 'data_alta']),
-        'alumnes' => array_merge($persona, ['data_alta', 'tutor_nom', 'tutor_cognoms', 'tutor_nom_complet', 'tutor_document', 'tutor_telefon', 'tutor_email', 'tutor_relacio']),
+        'alumnes' => array_merge($persona, ['nia', 'data_alta', 'tutor_nom', 'tutor_cognoms', 'tutor_nom_complet', 'tutor_document', 'tutor_telefon', 'tutor_email', 'tutor_relacio']),
         default => $persona,
     };
 }
@@ -59,6 +59,7 @@ function endevina_camp(string $capcalera, string $tipus): ?string
             'n compte', 'n cuenta', 'domiciliacio', 'domiciliacion', 'compte corrent', 'cuenta corriente', 'iban del compte', 'iban de la cuenta'],
         'data_mandat' => ['data mandat', 'fecha mandato', 'data signatura', 'fecha firma', 'data domiciliacio', 'fecha domiciliacion', 'data de signatura', 'fecha de firma', 'data del mandat', 'fecha del mandato'],
         'numero' => ['numero', 'num', 'n', 'n soci', 'num soci', 'numero soci', 'numero de soci', 'n socio', 'num socio', 'numero socio', 'numero de socio', 'nº'],
+        'nia' => ['nia', 'n i a', 'numero identificacio alumne', 'numero d identificacio de l alumne', 'numero de identificacion del alumno', 'numero identificacion alumno', 'num alumne', 'numero alumne', 'num alumno', 'numero alumno'],
         'tipus_soci' => ['tipus', 'tipo', 'tipus soci', 'tipus de soci', 'tipo socio', 'tipo de socio', 'categoria', 'modalitat', 'modalidad'],
         'data_alta' => ['alta', 'data alta', 'fecha alta', 'data d alta', 'fecha de alta', 'antiguitat', 'antiguedad', 'data inscripcio', 'fecha inscripcion'],
         'tutor_relacio' => ['relacio', 'relacion', 'parentiu', 'parentesco'],
@@ -275,6 +276,7 @@ function analitza_importacio(array $imp): array
     $socis = array_flip(array_column(q('SELECT persona_id FROM socis')->fetchAll(), 'persona_id'));
     $alumnes = array_flip(array_column(q('SELECT persona_id FROM alumnes')->fetchAll(), 'persona_id'));
     $numeros = array_flip(array_filter(array_column(q('SELECT numero FROM socis')->fetchAll(), 'numero')));
+    $nies = array_column(q('SELECT nia, persona_id FROM alumnes WHERE nia IS NOT NULL')->fetchAll(), 'persona_id', 'nia');
     $vistos = [];
     $resultat = [];
 
@@ -380,9 +382,17 @@ function analitza_importacio(array $imp): array
                 $numeros[$num] = true;
             }
         } elseif ($tipus === 'alumnes') {
-            $r['extra'] = ['data_alta' => data_importada($v('data_alta'))];
+            $nia = trim($v('nia'));
+            $r['extra'] = ['data_alta' => data_importada($v('data_alta')), 'nia' => $nia];
             if ($r['persona_id'] && isset($alumnes[$r['persona_id']])) {
                 $r['avisos'][] = t('imp.av_ja_alumne');
+            }
+            // Un NIA que ja té un altre alumne (o una altra fila del full) no es posa
+            if ($nia !== '' && isset($nies[$nia]) && $nies[$nia] !== $r['persona_id']) {
+                $r['avisos'][] = t('imp.av_nia', $nia);
+                $r['extra']['nia'] = '';
+            } elseif ($nia !== '') {
+                $nies[$nia] = $r['persona_id'] ?? -($i + 1);
             }
             $tn = $v('tutor_nom');
             $tc = $v('tutor_cognoms');
@@ -458,6 +468,7 @@ function busca_tutor(array $tu): ?int
 function executa_importacio(array $imp, array $analisi, array $mateixa): array
 {
     $fet = ['noves' => 0, 'actualitzades' => 0, 'rols' => 0, 'tutors' => 0, 'saltades' => 0, 'domiciliacions' => 0, 'domiciliacions_diferents' => 0];
+    $senseNumero = [];
     fes_copia('abans-importar'); // per a poder tornar arrere si la importació no era el que s'esperava
     db()->beginTransaction();
     foreach ($analisi as $i => $r) {
@@ -471,15 +482,26 @@ function executa_importacio(array $imp, array $analisi, array $mateixa): array
         $fet[$existent ? 'actualitzades' : 'noves']++;
         $avui = date('Y-m-d');
         if ($imp['tipus'] === 'socis' && !valor('SELECT id FROM socis WHERE persona_id = ?', [$id])) {
+            // El número del full, si encara és lliure; si no en porta o ja el té algú, el següent lliure (al final)
+            $num = trim((string)($r['extra']['numero'] ?? ''));
+            $num = $num !== '' && !valor('SELECT id FROM socis WHERE numero = ?', [$num]) ? $num : null;
             q("INSERT INTO socis(persona_id, numero, tipus, data_alta, estat) VALUES(?, ?, ?, ?, 'actiu')",
-                [$id, $r['extra']['numero'] ?: null, $r['extra']['tipus'], $r['extra']['data_alta'] ?: $avui]);
+                [$id, $num, $r['extra']['tipus'], $r['extra']['data_alta'] ?: $avui]);
+            if ($num === null) {
+                $senseNumero[] = (int)db()->lastInsertId();
+            }
+            recorda_numero_soci($num);
             $fet['rols']++;
         } elseif ($imp['tipus'] === 'alumnes') {
             $alumne = valor('SELECT id FROM alumnes WHERE persona_id = ?', [$id]);
+            $nia = ($r['extra']['nia'] ?? '') !== '' && !valor('SELECT id FROM alumnes WHERE nia = ? AND persona_id <> ?', [$r['extra']['nia'], $id]) ? $r['extra']['nia'] : null;
             if (!$alumne) {
-                q("INSERT INTO alumnes(persona_id, data_alta, estat) VALUES(?, ?, 'actiu')", [$id, $r['extra']['data_alta'] ?: $avui]);
+                q("INSERT INTO alumnes(persona_id, nia, data_alta, estat) VALUES(?, ?, ?, 'actiu')", [$id, $nia, $r['extra']['data_alta'] ?: $avui]);
                 $alumne = (int)db()->lastInsertId();
                 $fet['rols']++;
+            } elseif ($nia !== null) {
+                // L'alumne que ja hi era: es completa el NIA si no en tenia
+                q("UPDATE alumnes SET nia = ? WHERE id = ? AND nia IS NULL", [$nia, $alumne]);
             }
             if ($r['tutor']) {
                 $tid = busca_tutor($r['tutor']);
@@ -507,6 +529,12 @@ function executa_importacio(array $imp, array $analisi, array $mateixa): array
                 $fet['domiciliacions_diferents']++;
             }
         }
+    }
+    // Els socis sense número, després dels que en portaven, perquè no els xafen
+    foreach ($senseNumero as $sid) {
+        $n = seguent_numero_soci();
+        q('UPDATE socis SET numero = ? WHERE id = ?', [$n, $sid]);
+        recorda_numero_soci($n);
     }
     audita('importacio', $imp['tipus'], null, $imp['nom_fitxer'] . ' · ' . json_encode($fet));
     db()->commit();
@@ -730,7 +758,7 @@ function pagina_importa(): void
         $html .= '<label><input type="radio" name="tipus" value="' . $tp . '"' . ($i === 0 ? ' checked' : '') . '> <b>' . h(t('ent.' . $tp)) . '</b> · ' . h(t('imp.que_' . $tp)) . '</label>';
     }
     $html .= '</div></fieldset>'
-        . '<div class="camp ample"><label>' . h(t('imp.fitxer')) . '</label><input type="file" name="fitxer" required accept=".xlsx,.csv,.txt"><small>' . h(t('imp.fitxer_ajuda')) . '</small></div>'
+        . '<div class="camp ample"><label>' . h(t('imp.fitxer')) . '</label><input type="file" name="fitxer" required accept=".xlsx,.ods,.csv,.txt"><small>' . h(t('imp.fitxer_ajuda')) . '</small></div>'
         . '<div class="camp camp-check"><label><input type="checkbox" name="capcalera" value="1" checked> ' . h(t('imp.capcalera')) . '</label></div>'
         . '</div><div class="accions"><button>' . h(t('imp.seguent')) . ' →</button></div></form>'
         . '<section class="fill"><header><h2>' . h(t('imp.plantilles')) . '</h2></header><p class="nota">' . h(t('imp.plantilles_text')) . '</p><div class="accions">';

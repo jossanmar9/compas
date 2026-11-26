@@ -155,7 +155,7 @@ function pagina_configuracio(): void
         foreach (array_merge($camps, $campsDocs) as $c) {
             desa_config($c, mb_substr((string)post($c), 0, 200) ?: null);
         }
-        foreach (['consentiment_extra', 'full_alta_intro', 'full_alta_peu'] as $c) {
+        foreach (['consentiment_extra', 'full_alta_intro', 'full_alta_peu', 'cessio_condicions'] as $c) {
             desa_config($c, mb_substr(trim((string)post($c)), 0, 3000) ?: null);
         }
         $l = post('idioma');
@@ -216,6 +216,10 @@ function pagina_configuracio(): void
     foreach (['full_alta_intro' => t('alta.intro_defecte', $societat), 'full_alta_peu' => t('alta.peu_defecte', $societat, (string)(config('societat_email') ?: '…'))] as $c => $defecte) {
         $html .= '<div class="camp ample"><label>' . h(t('camp.' . $c)) . '</label><textarea name="' . $c . '" rows="3" placeholder="' . h($defecte) . '">' . h(config($c)) . '</textarea>'
             . '<small>' . h(t('config.full_alta_ajuda')) . ' <a target="_blank" href="' . h(url('full_alta')) . '">' . h(t('alta.boto')) . '</a></small></div>';
+    }
+    if (modul_actiu('instruments')) {
+        $html .= '<div class="camp ample"><label>' . h(t('camp.cessio_condicions')) . '</label><textarea name="cessio_condicions" rows="6" placeholder="' . h(t('cessio.condicions_defecte', $societat)) . '">'
+            . h(config('cessio_condicions')) . '</textarea><small>' . h(t('config.cessio_ajuda')) . '</small></div>';
     }
     $html .= '</div></fieldset>';
     $html .= '</div><div class="accions"><button>' . h(t('desa')) . '</button></div></form>';

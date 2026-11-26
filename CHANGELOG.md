@@ -8,6 +8,28 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent de publicar]
+
+### Socis
+- **Número de soci únic i automàtic.** En donar d'alta un soci, el número ja ve posat: el següent al més alt que s'ha donat mai. Dos socis no poden tindre el mateix número, i el de qui es dona de baixa (o s'esborra) no es torna a donar. Es pot canviar a mà si l'entitat ja tenia els seus números.
+- La importació respecta els números del full i, als que no en porten o en porten un que ja és d'algú, els dona el següent lliure.
+- Si una base de dades d'abans ja té números repetits, l'inici avisa de quins són.
+
+### Escola
+- **NIA de cada alumne** (número d'identificació de l'alumne): a la fitxa, a l'alta d'alumne en una pantalla, als llistats, al cercador de dalt (porta directament a la fitxa), al butlletí i al certificat de matrícula. No es pot repetir. Al llistat, el filtre «Alumnat en actiu sense NIA».
+- La importació d'alumnat porta el NIA i el completa en els alumnes que ja hi eren.
+
+### Importació
+- **Fitxers de LibreOffice (.ods)**, a més d'Excel (.xlsx) i CSV.
+
+### Instruments i material
+- **Contracte de cessió** per a imprimir des de la fitxa de cada cessió: entitat i qui la representa, persona que rep l'instrument, instrument, condicions, signatures i un requadre per a la devolució. Si qui el rep és menor el dia de l'entrega, hi ixen les dades del pare, la mare o el tutor/a legal, que són qui signa. Les condicions es canvien a Configuració. En les entitats amb material, «contracte de préstec de material».
+
+### Dades d'exemple
+- Els socis de baixa conserven el seu número (abans tenien números a partir del 900) i l'alumnat de la societat musical té NIA.
+
+*Socios: número único y automático. Escuela: NIA. Importación de LibreOffice (.ods). Contrato de cesión de instrumentos.*
+
 ## [2.7.1] - 2026-11-23
 
 ### Accessibilitat
