@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -uo pipefail
 
-APK="${1:?Falta l'APK}"
+APK="${1:?Falta el fitxer APK}"
 PKG=io.github.jossanmar9.compas
 OUT=android/proves
 mkdir -p "$OUT"

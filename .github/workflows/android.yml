@@ -154,6 +154,7 @@ jobs:
           api-level: ${{ matrix.api }}
           arch: x86_64
           target: google_apis
+          profile: pixel_6
           disable-animations: true
           script: android/prova-emulador.sh apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4

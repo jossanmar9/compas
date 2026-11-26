@@ -8,6 +8,21 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent de publicar]
+
+### Android
+- **Compàs per a mòbils i tauletes Android** (10 o posterior): el mateix programa, amb les mateixes pantalles, i les dades només en el mòbil. Es baixa de la pàgina de versions (`Compas-X.Y.Z-android.apk`).
+- Les baixades (CSV, còpies, remeses, PDF) van a **Baixades/Compàs**, i **Imprimeix** obri el diàleg d'Android (impressora o PDF).
+- Cada còpia de seguretat es guarda també a **Documents/Compàs**, que no s'esborra si es desinstal·la l'app. Es fa una còpia en deixar l'app, si hi ha hagut canvis.
+- Les dades es passen entre l'ordinador i el mòbil amb una còpia de seguretat (baixar-la en un i restaurar-la en l'altre).
+- Sense el codi de recuperació, l'administrador/a pot posar una contrasenya nova des del mateix mòbil.
+- Només l'app de Compàs pot parlar amb el seu servidor: la resta d'apps del mòbil no hi poden entrar.
+
+### Millores
+- En pantalles estretes, les targetes de resum es posen de dos en dos.
+
+*Compàs para Android: el mismo programa en el móvil o la tableta, con los datos solo en el dispositivo y copias en Documents/Compàs.*
+
 ## [2.7.3] - 2026-11-26
 
 ### Loteria
