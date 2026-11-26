@@ -44,7 +44,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: php-${{ matrix.arq }}
-          key: php-android-${{ matrix.arq }}-${{ env.PHP_VERSIO }}-${{ hashFiles('.github/workflows/android.yml') }}
+          key: php-android-v1-${{ matrix.arq }}-${{ env.PHP_VERSIO }}-${{ env.PHP_EXT }}
       - name: Compila PHP (musl, estàtic)
         if: steps.cau.outputs.cache-hit != 'true'
         run: |
