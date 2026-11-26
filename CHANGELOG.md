@@ -8,7 +8,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
-## [Pendent de publicar]
+## [2.7.3] - 2026-11-26
 
 ### Loteria
 - **Talonaris i paperets per separat.** Al sorteig s'apunta quants talonaris s'han fet; després, a cada persona se li entreguen els paperets que s'endú (un talonari sencer, uns quants o solts), amb els números seguits. El programa no deixa donar dos vegades el mateix número ni més paperets dels que s'han fet. També es poden apuntar els que es venen a la caixa de l'entitat.
