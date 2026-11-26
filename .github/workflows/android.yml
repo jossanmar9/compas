@@ -73,6 +73,17 @@ jobs:
         run: |
           mkdir -p bin && cp php-x86_64 bin/php
           PATH="$PWD/bin:$PATH" python3 tests/integracio.py ca
+      # Android talla les crides al sistema que no fa servir bionic (seccomp). Les proves de Compàs passen
+      # amb el PHP d'arm64 dins de strace i es comprova que totes les crides que fa estan permeses.
+      - name: Crides al sistema permeses a Android (arm64)
+        if: matrix.arq == 'aarch64'
+        run: |
+          sudo apt-get install -y -qq strace > /dev/null
+          mkdir -p bin st
+          printf '#!/bin/sh\nexec strace -f -qq -c -o "%s/st/$$.txt" "%s/php-aarch64" "$@"\n' "$PWD" "$PWD" > bin/php
+          chmod +x bin/php
+          PATH="$PWD/bin:$PATH" python3 tests/integracio.py economia importacio android interficie ca || true
+          python3 android/comprova-seccomp.py st/*.txt
       - uses: actions/upload-artifact@v4
         with:
           name: php-${{ matrix.arq }}
@@ -98,8 +109,12 @@ jobs:
         with:
           gradle-version: '8.10.2'
       - name: Prepara el programa i el PHP
-        run: android/prepara.sh phps
-      - name: Compila (prova, amb x86_64 per a l'emulador)
+        run: |
+          android/prepara.sh phps
+          # Només arm64, com els mòbils: l'emulador x86_64 l'executa amb la traducció d'ARM que porta Android.
+          # (El PHP musl per a x86_64 fa crides al sistema antigues que Android no deixa fer en x86_64.)
+          rm -rf android/app/src/main/jniLibs/x86_64
+      - name: Compila (prova)
         run: gradle -p android assembleDebug --stacktrace
       - name: Compila (per a publicar, només arm64)
         env:
@@ -107,7 +122,6 @@ jobs:
           ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: |
-          rm -rf android/app/src/main/jniLibs/x86_64
           if [ -n "$ANDROID_KEYSTORE_B64" ]; then
             echo "$ANDROID_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/compas.jks"
             export ANDROID_KEYSTORE="$RUNNER_TEMP/compas.jks"

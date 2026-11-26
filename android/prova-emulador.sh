@@ -15,9 +15,13 @@ sleep 3
 adb wait-for-device
 adb install -r "$APK" || exit 1
 lib=$(adb shell pm path "$PKG" | head -1 | tr -d '\r' | sed 's#^package:##; s#/base.apk$##')
-echo "== PHP de l'app ($lib)"
-adb shell run-as "$PKG" "$lib/lib/x86_64/libphp.so" -v
-adb shell run-as "$PKG" "$lib/lib/x86_64/libphp.so" -m > "$OUT/moduls-$api.txt"
+php=""
+for a in arm64 x86_64; do
+    adb shell run-as "$PKG" ls "$lib/lib/$a/libphp.so" >/dev/null 2>&1 && { php="$lib/lib/$a/libphp.so"; break; }
+done
+echo "== PHP de l'app ($php)"
+adb shell run-as "$PKG" "$php" -v
+adb shell run-as "$PKG" "$php" -m > "$OUT/moduls-$api.txt"
 cat "$OUT/moduls-$api.txt"
 falten=0
 for m in pdo_sqlite sqlite3 mbstring sodium SimpleXML dom zlib iconv fileinfo session ctype "Zend OPcache"; do
