@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Compàs per a Android: el mateix programa, amb les dades només en este mòbil -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Només per a parlar amb el servidor de PHP de dins del mòbil (127.0.0.1): Compàs no es connecta a Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Android 10: per a guardar les còpies a Documents/Compàs -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+
+    <!-- allowBackup=false: les dades no es copien al núvol de Google sense que l'entitat ho sàpiga -->
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/sense_copia"
+        android:extractNativeLibs="true"
+        android:networkSecurityConfig="@xml/xarxa"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/Tema">
+
+        <activity
+            android:name=".Principal"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|navigation|uiMode|density|fontScale|locale|layoutDirection"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

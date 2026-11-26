@@ -49,7 +49,12 @@ BATERIES = {
     'subvencions': (['subvencions.py'], True),
     'tipus': (['tipus.py'], False),
     'interficie': (['interficie.py'], True),
+    'android': (['android.py'], True),
 }
+
+# Bateries que arranquen Compàs com l'app d'Android (amb la galeta secreta de l'app)
+APP_TOKEN = 'secret-de-proves-android'
+ENTORN = {'android': {'COMPAS_ANDROID': '1', 'COMPAS_APP_TOKEN': APP_TOKEN}}
 
 ERR_PHP = ['Fatal error', 'Warning:', 'Notice:', 'Deprecated:', 'Uncaught']
 
@@ -63,21 +68,30 @@ def port_lliure() -> int:
 class Compas:
     """Una instal·lació temporal de Compàs amb el servidor de PHP"""
 
-    def __init__(self, idioma: str, installa: bool, tipus: str | None = None, exemple: str = '1'):
+    def __init__(self, idioma: str, installa: bool, tipus: str | None = None, exemple: str = '1', entorn: dict | None = None):
         self.idioma = idioma
         self.dades = tempfile.mkdtemp(prefix='compas-proves-')
+        self.entorn = dict(entorn or {})
+        if self.entorn.get('COMPAS_ANDROID'):
+            self.entorn['COMPAS_CARPETA_EXTERNA'] = str(Path(self.dades) / 'Documents' / 'Compàs')
         self.port = port_lliure()
         self.url = f'http://127.0.0.1:{self.port}/'
         self.registre = open(Path(self.dades) / 'servidor.log', 'w')
         self.srv = subprocess.Popen(['php', '-S', f'127.0.0.1:{self.port}', '-t', str(ARREL / 'app'), str(ARREL / 'app' / 'index.php')],
-                                    env=dict(os.environ, COMPAS_DADES=self.dades), stdout=subprocess.DEVNULL, stderr=self.registre)
+                                    env=dict(os.environ, COMPAS_DADES=self.dades, **self.entorn), stdout=subprocess.DEVNULL, stderr=self.registre)
         for _ in range(100):
             try:
                 urllib.request.urlopen(self.url, timeout=1).read()
                 break
+            except urllib.error.HTTPError:
+                break  # ja respon (sense la galeta de l'app, amb un 403)
             except Exception:
                 time.sleep(0.1)
-        self.op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+        self.galetes = http.cookiejar.CookieJar()
+        if self.entorn.get('COMPAS_APP_TOKEN'):
+            self.galetes.set_cookie(http.cookiejar.Cookie(0, 'compas_app', self.entorn['COMPAS_APP_TOKEN'], None, False, '127.0.0.1', False, False,
+                                                          '/', True, False, None, False, None, None, {}))
+        self.op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.galetes))
         self.fallades: list[str] = []
         self.correctes = 0
         self.csrf = self.token(self.obri(''))
@@ -167,7 +181,7 @@ class Compas:
 
 def executa(bateria: str, idioma: str) -> tuple[int, list[str]]:
     fitxers, installa = BATERIES[bateria]
-    c = Compas(idioma, installa)
+    c = Compas(idioma, installa, entorn=ENTORN.get(bateria))
     try:
         for f in fitxers:
             ruta = DIR / f

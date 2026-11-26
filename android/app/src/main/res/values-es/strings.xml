@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="carregant">Abriendo Compàs…</string>
+    <string name="primera_vegada">La primera vez tarda un poco más.</string>
+    <string name="error_titol">Compàs no ha podido arrancar</string>
+    <string name="error_text">Cierra la app y vuelve a abrirla. Si sigue pasando, envía este texto en una incidencia en GitHub:</string>
+    <string name="torna_a_provar">Vuelve a probar</string>
+    <string name="baixada_desada">Guardado en Descargas/Compàs: %s</string>
+    <string name="baixada_error">No se ha podido guardar el archivo.</string>
+    <string name="sense_app">No hay ninguna app para abrirlo.</string>
+</resources>

@@ -23,6 +23,7 @@ function carpeta_copies(): string
 
 function carpeta_externa(): ?string
 {
+    android_carpeta_externa_inicial();
     $c = config('copia_externa');
     return $c ? rtrim($c, '/\\') : null;
 }
@@ -441,9 +442,9 @@ function pagina_copia(): void
 
     // Configuració
     if (pot('config.manage')) {
-        $html .= '<section class="fill"><header><h2>' . h(t('copia.configuracio')) . '</h2></header><p class="nota">' . h(t('copia.externa_text')) . '</p>'
+        $html .= '<section class="fill"><header><h2>' . h(t('copia.configuracio')) . '</h2></header><p class="nota">' . h(t(es_android() ? 'copia.externa_text_android' : 'copia.externa_text')) . '</p>'
             . '<form method="post" class="formulari">' . csrf_camp() . '<input type="hidden" name="accio" value="configura"><div class="camps">'
-            . '<div class="camp ample"><label>' . h(t('copia.externa')) . '</label><input name="copia_externa" value="' . h($ext) . '" placeholder="E:\Copies Compàs"><small>' . h(t('copia.externa_ajuda')) . '</small></div>'
+            . '<div class="camp ample"><label>' . h(t('copia.externa')) . '</label><input name="copia_externa" value="' . h($ext) . '" placeholder="' . h(es_android() ? (string)getenv('COMPAS_CARPETA_EXTERNA') : 'E:\Copies Compàs') . '"><small>' . h(t('copia.externa_ajuda')) . '</small></div>'
             . '<div class="camp"><label>' . h(t('copia.mesos')) . '</label>' . select_simple('copia_mesos', [1 => t('copia.mesos_1'), 3 => t('copia.mesos_n', 3), 6 => t('copia.mesos_n', 6),
                 12 => t('copia.mesos_12'), 24 => t('copia.mesos_24')], mesos_copies(), false, '', false) . '<small>' . h(t('copia.mesos_ajuda', ROTACIO_DIES, ROTACIO_SETMANES)) . '</small></div>'
             . '<fieldset class="camp ample"><legend>🔒 ' . h(t('copia.xifrat')) . '</legend>'

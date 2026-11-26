@@ -1,0 +1,18 @@
+// Compàs per a Android. Es compila amb GitHub Actions (.github/workflows/android.yml), que hi posa
+// el PHP per a Android i el programa (app/src/main/assets/compas.zip) abans de compilar.
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = 'Compas'
+include ':app'

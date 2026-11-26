@@ -23,4 +23,19 @@ function comprova_xarxa(): void
         http_response_code(403);
         exit('403');
     }
+    comprova_app();
+}
+
+/**
+ * A Android, qualsevol altra app del mòbil podria connectar-se a 127.0.0.1. Per això l'app de Compàs posa
+ * al seu WebView una galeta amb un secret que canvia cada vegada que arranca (COMPAS_APP_TOKEN), i sense
+ * ella no es respon res.
+ */
+function comprova_app(): void
+{
+    $token = (string)getenv('COMPAS_APP_TOKEN');
+    if ($token !== '' && !hash_equals($token, (string)($_COOKIE['compas_app'] ?? ''))) {
+        http_response_code(403);
+        exit('403');
+    }
 }

@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.application'
+}
+
+// La versió ve de l'etiqueta (COMPAS_VERSIO=2.7.3); versionCode 2.7.3 → 20703
+def versio = System.getenv('COMPAS_VERSIO') ?: '0.0.1'
+def xifres = (versio.tokenize('.-') + ['0', '0', '0']).take(3).collect { (it.replaceAll(/\D.*/, '') ?: '0') as int }
+def clau = System.getenv('ANDROID_KEYSTORE')
+
+android {
+    namespace 'io.github.jossanmar9.compas'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'io.github.jossanmar9.compas'
+        minSdk 29
+        targetSdk 35
+        versionCode Math.max(1, xifres[0] * 10000 + xifres[1] * 100 + xifres[2])
+        versionName versio
+    }
+
+    signingConfigs {
+        if (clau) {
+            release {
+                storeFile file(clau)
+                storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: 'compas'
+                keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: System.getenv('ANDROID_KEYSTORE_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (clau) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    // PHP va com a «biblioteca» (lib/<abi>/libphp.so): Android només deixa executar programes d'eixa carpeta
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
+    // El programa ja va comprimit dins del zip: no cal tornar-lo a comprimir
+    androidResources {
+        noCompress 'zip'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

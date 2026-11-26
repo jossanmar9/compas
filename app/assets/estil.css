@@ -270,6 +270,13 @@ body.simple { min-height: 100vh; display: flex; flex-direction: column; align-it
     .fitxa { grid-template-columns: 1fr; gap: 2px; }
     .fitxa dd { margin-bottom: 8px; }
 }
+/* Mòbil: dos targetes per fila i menys aire */
+@media (max-width: 520px) {
+    .targetes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .targetes .targeta { padding: 12px 14px; min-width: 0; }
+    .targetes .targeta b { font-size: 1.35rem; overflow-wrap: anywhere; }
+    .resum-subvencio .targeta { min-width: 0; }
+}
 /* Llistats i informes */
 .graella-informes { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin: 16px 0; }
 .informe { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; background: var(--superficie); border: 1px solid var(--vora); border-left: 4px solid var(--or); border-radius: var(--radi); color: var(--text); }

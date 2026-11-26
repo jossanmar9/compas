@@ -1,0 +1,153 @@
+# Compàs per a Android: PHP estàtic, APK i prova en un emulador.
+# Es llança amb cada canvi a android/ o a este fitxer, i a mà. L'APK que es publica el fa publica.yml.
+name: Android
+
+on:
+  push:
+    branches: ['main', 'android']
+    paths: ['android/**', '.github/workflows/android.yml', 'src/android.php', 'src/xarxa.php']
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      versio:
+        type: string
+        default: ''
+    secrets:
+      ANDROID_KEYSTORE_B64:
+        required: false
+      ANDROID_KEYSTORE_PASSWORD:
+        required: false
+
+permissions:
+  contents: read
+
+env:
+  PHP_VERSIO: '8.3'
+  # Les mateixes extensions que la versió de Windows, i les que PHP necessita per a elles
+  PHP_EXT: 'ctype,dom,fileinfo,filter,iconv,mbstring,opcache,pdo,pdo_sqlite,session,simplexml,sodium,sqlite3,tokenizer,xml,xmlreader,xmlwriter,zlib'
+
+jobs:
+  php:
+    name: PHP estàtic (${{ matrix.arq }})
+    strategy:
+      matrix:
+        include:
+          - arq: aarch64
+            runner: ubuntu-24.04-arm
+          - arq: x86_64
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Memòria cau del PHP compilat
+        id: cau
+        uses: actions/cache@v4
+        with:
+          path: php-${{ matrix.arq }}
+          key: php-android-${{ matrix.arq }}-${{ env.PHP_VERSIO }}-${{ hashFiles('.github/workflows/android.yml') }}
+      - name: Compila PHP (musl, estàtic)
+        if: steps.cau.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p spc && cd spc
+          for i in 1 2 3; do curl -fsSL -o spc "https://dl.static-php.dev/static-php-cli/spc-bin/nightly/spc-linux-${{ matrix.arq }}" && break; sleep 20; done
+          chmod +x spc
+          ./spc --version
+          ./spc doctor --auto-fix
+          ./spc download --with-php=$PHP_VERSIO --for-extensions="$PHP_EXT" --prefer-pre-built --retry=3
+          ./spc build "$PHP_EXT" --build-cli
+          cp buildroot/bin/php ../php-${{ matrix.arq }}
+      - name: Comprova el PHP
+        run: |
+          file php-${{ matrix.arq }}
+          ls -la php-${{ matrix.arq }}
+          ./php-${{ matrix.arq }} -v
+          ./php-${{ matrix.arq }} -m | tee moduls.txt
+          for m in pdo_sqlite sqlite3 mbstring sodium SimpleXML dom zlib iconv fileinfo session ctype 'Zend OPcache'; do
+            grep -qx "$m" moduls.txt || { echo "Falta $m"; exit 1; }
+          done
+      - name: Proves de Compàs amb este PHP
+        if: matrix.arq == 'x86_64'
+        run: |
+          mkdir -p bin && cp php-x86_64 bin/php
+          PATH="$PWD/bin:$PATH" python3 tests/integracio.py ca
+      - uses: actions/upload-artifact@v4
+        with:
+          name: php-${{ matrix.arq }}
+          path: php-${{ matrix.arq }}
+          retention-days: 7
+
+  apk:
+    name: APK
+    needs: php
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: php-*
+          path: phps
+          merge-multiple: true
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Prepara el programa i el PHP
+        run: android/prepara.sh phps
+      - name: Compila (prova, amb x86_64 per a l'emulador)
+        run: gradle -p android assembleDebug --stacktrace
+      - name: Compila (per a publicar, només arm64)
+        env:
+          COMPAS_VERSIO: ${{ inputs.versio }}
+          ANDROID_KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          rm -rf android/app/src/main/jniLibs/x86_64
+          if [ -n "$ANDROID_KEYSTORE_B64" ]; then
+            echo "$ANDROID_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/compas.jks"
+            export ANDROID_KEYSTORE="$RUNNER_TEMP/compas.jks"
+          else
+            echo "::warning::Sense ANDROID_KEYSTORE_B64: l'APK per a publicar no es pot signar"
+          fi
+          gradle -p android assembleRelease --stacktrace
+          ls -la android/app/build/outputs/apk/*/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: android/app/build/outputs/apk/*/*.apk
+          retention-days: 14
+
+  emulador:
+    name: Prova en l'emulador (Android ${{ matrix.api }})
+    needs: apk
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [30, 35]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk
+          path: apk
+      - name: Activa KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          script: android/prova-emulador.sh apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proves-${{ matrix.api }}
+          path: android/proves
+          retention-days: 7

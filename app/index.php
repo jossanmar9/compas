@@ -34,6 +34,7 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-i
 
 inicia_sessio();
 comprova_csrf();
+android_captura_baixades();
 
 $r = (string)get('r', 'inici');
 $post = $_SERVER['REQUEST_METHOD'] === 'POST';
@@ -78,6 +79,9 @@ try {
     if (!usuari()) {
         pagina_entrada();
         exit;
+    }
+    if ($r === 'baixada' && es_android()) {
+        serveix_baixada();
     }
     if (es_consultor() && !consultor_pot_ruta($r, $post)) {
         requereix('__cap__');

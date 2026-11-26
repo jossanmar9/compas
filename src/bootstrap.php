@@ -25,6 +25,7 @@ require SRC_DIR . '/markdown.php';
 require SRC_DIR . '/xifrat.php';
 require SRC_DIR . '/sepa.php';
 require SRC_DIR . '/xlsx.php';
+require SRC_DIR . '/android.php';
 
 /* ---------------- Base de dades ---------------- */
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Compàs</string>
+    <string name="carregant">S\'està obrint Compàs…</string>
+    <string name="primera_vegada">La primera vegada tarda un poc més.</string>
+    <string name="error_titol">Compàs no ha pogut arrancar</string>
+    <string name="error_text">Tanca l\'app i torna-la a obrir. Si continua passant, envia este text en una incidència a GitHub:</string>
+    <string name="torna_a_provar">Torna a provar</string>
+    <string name="baixada_desada">Desat a Baixades/Compàs: %s</string>
+    <string name="baixada_error">No s\'ha pogut desar el fitxer.</string>
+    <string name="sense_app">No hi ha cap app per a obrir-ho.</string>
+</resources>

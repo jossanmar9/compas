@@ -94,6 +94,11 @@ function pagina_codi(): void
 /** Pàgina pública «He oblidat la contrasenya» */
 function pagina_recuperacio(): void
 {
+    // A Android, el fitxer el crea la mateixa app (és tindre el mòbil a la mà, com crear-lo a l'ordinador)
+    if (es_android() && $_SERVER['REQUEST_METHOD'] === 'POST' && post('accio') === 'fitxer_android') {
+        touch(DADES_DIR . DIRECTORY_SEPARATOR . FITXER_RECUPERACIO);
+        redirigeix('recupera');
+    }
     $fitxer = fitxer_recuperacio();
     $error = null;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -157,9 +162,11 @@ function pagina_recuperacio(): void
         . '<button>' . h(t('recup.canvia')) . '</button></form>';
     if (!$fitxer) {
         $html .= '<details class="sense-codi"><summary>' . h(t('recup.sense_codi')) . '</summary>'
-            . '<ol><li>' . h(t('recup.pas1')) . '<br><code class="ruta">' . h(DADES_DIR) . '</code></li>'
+            . (es_android() ? '<p>' . h(t('recup.android', RECUPERACIO_MINUTS)) . '</p><form method="post" action="' . h(url('recupera')) . '">' . csrf_camp()
+                . '<button name="accio" value="fitxer_android" class="secundari">' . h(t('recup.android_boto')) . '</button></form></details>' : '')
+            . (es_android() ? '' : '<ol><li>' . h(t('recup.pas1')) . '<br><code class="ruta">' . h(DADES_DIR) . '</code></li>'
             . '<li>' . t('recup.pas2', '<code>' . FITXER_RECUPERACIO . '</code>') . '</li>'
-            . '<li>' . h(t('recup.pas3', RECUPERACIO_MINUTS)) . '</li></ol></details>';
+            . '<li>' . h(t('recup.pas3', RECUPERACIO_MINUTS)) . '</li></ol></details>');
     }
     $html .= '<p><a href="?">← ' . h(t('recup.torna')) . '</a></p>';
     pagina_simple(t('recup.oblit_titol'), $html);
