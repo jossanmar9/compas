@@ -283,11 +283,55 @@ CREATE TABLE IF NOT EXISTS loteries (
     preu                    REAL NOT NULL,
     juga                    REAL NOT NULL,
     participacions_talonari INTEGER NOT NULL DEFAULT 50,
+    talonaris               INTEGER,             -- quants talonaris s'han fet (paperets = talonaris × participacions_talonari)
+    decims                  INTEGER,             -- dècims comprats a l'administració
+    preu_decim              REAL,
+    pagat_administracio     REAL,
+    data_pagament_administracio TEXT,
+    forma_pagament_administracio INTEGER REFERENCES formes_pagament(id) ON DELETE SET NULL,
     estat                   TEXT NOT NULL DEFAULT 'actiu',
     peu                     TEXT,
     observacions            TEXT
 );
 
+-- Categories del llibre de caixa: les de sempre per a començar, i les que afig l'entitat. «codi» és el que guarden els moviments;
+-- sense «nom», es veu el nom de sempre (traduït). Les automàtiques les fan servir els rebuts, la loteria i les subvencions.
+CREATE TABLE IF NOT EXISTS categories_caixa (
+    id         INTEGER PRIMARY KEY,
+    codi       TEXT UNIQUE,
+    nom        TEXT,
+    ordre      INTEGER,
+    automatica INTEGER NOT NULL DEFAULT 0
+);
+
+-- Formes de pagament (efectiu, Bizum, transferència…): les edita l'entitat; «compte» diu on entren els diners
+CREATE TABLE IF NOT EXISTS formes_pagament (
+    id      INTEGER PRIMARY KEY,
+    nom     TEXT NOT NULL,
+    compte  TEXT NOT NULL DEFAULT 'caixa',
+    ordre   INTEGER,
+    estat   TEXT NOT NULL DEFAULT 'actiu',
+    codi    TEXT
+);
+
+-- Paperets (participacions) que s'endú cada persona, o que es venen a la caixa de l'entitat (sense persona)
+CREATE TABLE IF NOT EXISTS loteria_entregues (
+    id                INTEGER PRIMARY KEY,
+    loteria_id        INTEGER NOT NULL REFERENCES loteries(id) ON DELETE CASCADE,
+    persona_id        INTEGER REFERENCES persones(id) ON DELETE RESTRICT,
+    data_entrega      TEXT,
+    participacions    INTEGER NOT NULL,
+    des_de            INTEGER,
+    fins_a            INTEGER,
+    tornades          INTEGER,
+    import_pagat      REAL,
+    forma_pagament_id INTEGER REFERENCES formes_pagament(id) ON DELETE SET NULL,
+    data_pagament     TEXT,
+    observacions      TEXT
+);
+
+-- Fins a la 2.7.2 cada talonari anava sencer a una persona. Ara s'usa loteria_entregues: les dades d'esta taula s'hi passen
+-- (migra_esquema) i es conserva només per si calguera consultar-les.
 CREATE TABLE IF NOT EXISTS talonaris (
     id              INTEGER PRIMARY KEY,
     loteria_id      INTEGER NOT NULL REFERENCES loteries(id) ON DELETE CASCADE,
@@ -663,6 +707,8 @@ CREATE INDEX IF NOT EXISTS idx_rebuts_estat ON rebuts(estat, forma_pagament);
 CREATE INDEX IF NOT EXISTS idx_linies_rebut ON rebut_linies(rebut_id);
 DROP INDEX IF EXISTS idx_mandats_persona; -- el cobreix idx_mandats_persona_estat_data
 CREATE INDEX IF NOT EXISTS idx_talonaris_loteria ON talonaris(loteria_id);
+CREATE INDEX IF NOT EXISTS idx_entregues_loteria ON loteria_entregues(loteria_id);
+CREATE INDEX IF NOT EXISTS idx_entregues_persona ON loteria_entregues(persona_id);
 CREATE INDEX IF NOT EXISTS idx_carrecs_persona ON carrecs(persona_id);
 CREATE INDEX IF NOT EXISTS idx_moviments_data ON moviments(data);
 CREATE INDEX IF NOT EXISTS idx_ucompres_uniforme ON uniforme_compres(uniforme_id);

@@ -37,7 +37,7 @@ Los nombres de las baterías y de los ficheros están en valenciano, como el có
 
 | Batería | Ficheros (en `tests/integracio/`) | Qué comprueba |
 |---|---|---|
-| `economia` | `economia.py`, `iban.py`, `societat.py`, `repas.py`, `actualitzacio.py` | Tarifas, recibos, remesas SEPA, domiciliaciones y lotería; IBAN en las fichas y al importar; junta, actas, documentos, hoja de alta, comunicados, RGPD y caja; un repaso de todas las pantallas (listados, CSV, fichas y formularios) sin errores de PHP; y que la base de datos solo se actualiza una vez por versión, con una copia antes. |
+| `economia` | `economia.py`, `iban.py`, `societat.py`, `repas.py`, `actualitzacio.py` | Tarifas, recibos, remesas SEPA, domiciliaciones y lotería (entregas de papeletas, números repetidos, formas de pago y dinero que hay que tener); IBAN en las fichas y al importar; junta, actas, documentos, hoja de alta, comunicados, RGPD y caja (con las categorías propias); un repaso de todas las pantallas (listados, CSV, fichas y formularios) sin errores de PHP; y que la base de datos solo se actualiza una vez por versión, con una copia antes. |
 | `uniformes` | `uniformes_moduls.py` | Tipos de socio propios (y la migración de los antiguos), uniformes por talla, módulos y avisos desactivables. |
 | `repertori` | `repertori.py`, `assistencia.py` | Catálogo, búsqueda, filtros, orden, CSV, número de archivo e importación desde una hoja; hojas de asistencia en Excel por agrupación. |
 | `gran` | `gran.py` | Sociedades grandes: el campo de persona con búsqueda cuando hay cientos, el repertorio por páginas y los listados largos. |

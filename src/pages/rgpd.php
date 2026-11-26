@@ -16,7 +16,7 @@ function activitats_tractament(): array
         'imatge' => $n("SELECT COUNT(*) FROM persones WHERE consentiment_imatge <> 'pendent'"),
         'junta' => $n("SELECT COUNT(DISTINCT persona_id) FROM carrecs"),
         'comunicacions' => $n("SELECT COUNT(*) FROM persones WHERE actiu = 1 AND COALESCE(email, '') <> ''"),
-        'loteria' => $n("SELECT COUNT(DISTINCT persona_id) FROM talonaris"),
+        'loteria' => $n("SELECT COUNT(DISTINCT persona_id) FROM loteria_entregues"),
         'instruments' => $n("SELECT COUNT(DISTINCT persona_id) FROM cessions"),
         'uniformes' => $n("SELECT COUNT(DISTINCT persona_id) FROM uniforme_lliuraments"),
     ];

@@ -650,20 +650,7 @@ foreach ([[$L - 1, 'tancat', '04512, 61207'], [$L, 'actiu', '18326, 70954']] as 
     $lo = $id();
     $musics = q("SELECT DISTINCT persona_id FROM membres WHERE estat = 'actiu' AND funcio = 'membre' ORDER BY persona_id")->fetchAll(PDO::FETCH_COLUMN);
     shuffle($musics);
-    $musics = array_slice($musics, 0, 70);
-    foreach ($musics as $k => $p) {
-        $entrega = "$any-10-" . sprintf('%02d', $rnd(3, 18));
-        if ($any === $L - 1 || $prob(.15)) {
-            $v = $rnd(30, 50);
-            q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes, tornades, import_liquidat, data_liquidacio) VALUES(?,?,?,?,?,?,?,?)',
-                [$lo, $k + 1, $p, $entrega, $v, 50 - $v, $v * 5, $any === $L - 1 ? "$any-12-" . sprintf('%02d', $rnd(1, 19)) : max($entrega, $abans(2))]);
-        } else {
-            q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega) VALUES(?,?,?,?)', [$lo, $k + 1, $p, $entrega]);
-        }
-    }
-    for ($k = count($musics) + 1; $k <= count($musics) + 10; $k++) {
-        q('INSERT INTO talonaris(loteria_id, numero) VALUES(?,?)', [$lo, $k]);
-    }
+    exemple_entregues_loteria($lo, array_slice($musics, 0, 70), $any, $any === $L - 1, 5, 4, $rnd, $prob, $tria, $abans, $AVUI);
 }
 
 // ---------- Junta, reunions, documents i comunicats ----------

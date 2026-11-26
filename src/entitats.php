@@ -12,8 +12,24 @@ const NOM_PERSONA_SQL = "COALESCE(NULLIF(p.cognoms,'') || ', ', '') || p.nom";
 const CARRECS = ['presidencia', 'vicepresidencia', 'secretaria', 'tresoreria', 'vocal', 'altre_carrec'];
 const ORDRE_CARRECS_SQL = "CASE t.carrec WHEN 'presidencia' THEN 1 WHEN 'vicepresidencia' THEN 2 WHEN 'secretaria' THEN 3 WHEN 'tresoreria' THEN 4 WHEN 'vocal' THEN 5 ELSE 6 END";
 const TIPUS_DOCUMENTS = ['estatuts', 'reglament', 'acta', 'registre', 'fiscal', 'asseguranca', 'contracte', 'conveni', 'llicencia', 'subvencio', 'altre_document'];
-const CATEGORIES_CAIXA = ['quotes', 'escola', 'loteria', 'subvencions', 'actuacions', 'donatius', 'instruments', 'material', 'personal', 'lloguers',
-    'subministraments', 'assegurances', 'federacio', 'desplacaments', 'comissions', 'altres_moviments'];
+
+/** Categories del llibre de caixa: [codi => nom que es veu], en l'ordre de l'entitat */
+function categories_caixa(): array
+{
+    static $cache = null;
+    if ($cache === null) {
+        $cache = [];
+        foreach (q('SELECT codi, nom FROM categories_caixa ORDER BY COALESCE(ordre, 999999), id')->fetchAll() as $c) {
+            $cache[$c['codi']] = $c['nom'] !== null && $c['nom'] !== '' ? $c['nom'] : t('opt.' . $c['codi']);
+        }
+    }
+    return $cache;
+}
+
+function nom_categoria_caixa(?string $codi): string
+{
+    return $codi === null ? '' : (categories_caixa()[$codi] ?? t('opt.' . $codi));
+}
 const FITXERS_PERMESOS = ['pdf' => 'application/pdf', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'txt' => 'text/plain',
     'odt' => 'application/vnd.oasis.opendocument.text', 'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     'doc' => 'application/msword', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -65,8 +81,8 @@ const MODULS = [
     'uniformes' => ['uniformes', 'uniforme_compres', 'uniforme_lliuraments'],
     'economia' => ['economia', 'rebuts', 'rebut_linies', 'genera_rebuts', 'remeses', 'remesa', 'remesa_xml', 'rebut_accio', 'rebut_doc', 'mandat_doc', 'mandats',
         'tarifes', 'economia_config'],
-    'loteria' => ['loteries', 'talonaris', 'loteria', 'participacions'],
-    'caixa' => ['caixa', 'moviments'],
+    'loteria' => ['loteries', 'loteria_entregues', 'formes_pagament', 'loteria', 'participacions'],
+    'caixa' => ['caixa', 'moviments', 'categories_caixa'],
     'junta' => ['junta', 'junta_doc', 'carrecs', 'reunions', 'reunio_doc'],
     'documents' => ['documents', 'document_fitxer', 'rgpd'],
     'comunicats' => ['comunicats'],
@@ -699,6 +715,12 @@ function entitats(): array
                 'preu' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.loteria_preu')],
                 'juga' => ['tipus' => 'decimal', 'req' => 1, 'euros' => 1, 'ajuda' => t('ajuda.loteria_juga')],
                 'participacions_talonari' => ['tipus' => 'number', 'req' => 1, 'defecte' => 50],
+                'talonaris' => ['tipus' => 'number', 'ajuda' => t('ajuda.loteria_talonaris')],
+                'decims' => ['tipus' => 'number', 'ajuda' => t('ajuda.loteria_decims')],
+                'preu_decim' => ['tipus' => 'decimal', 'euros' => 1, 'defecte' => '20', 'ajuda' => t('ajuda.loteria_preu_decim')],
+                'pagat_administracio' => ['tipus' => 'decimal', 'euros' => 1, 'secundari' => 1, 'ajuda' => t('ajuda.loteria_pagat')],
+                'data_pagament_administracio' => ['tipus' => 'date', 'secundari' => 1],
+                'forma_pagament_administracio' => ['tipus' => 'ref', 'ref' => 'formes_pagament', 'secundari' => 1],
                 'estat' => ['tipus' => 'select', 'opcions' => ['actiu', 'tancat'], 'llista' => 1],
                 'peu' => ['tipus' => 'textarea', 'ajuda' => t('ajuda.loteria_peu')],
                 'observacions' => $obs,
@@ -710,40 +732,84 @@ function entitats(): array
                 if ($d['participacions_talonari'] < 1 || $d['participacions_talonari'] > 500) {
                     return t('err.loteria_talonari');
                 }
+                if (($d['talonaris'] ?? 0) < 0 || ($d['talonaris'] ?? 0) > 2000 || ($d['decims'] ?? 0) < 0 || ($d['preu_decim'] ?? 0) < 0 || ($d['pagat_administracio'] ?? 0) < 0) {
+                    return t('err.loteria_quantitats');
+                }
                 return null;
             },
-            'fills' => [['talonaris', 'loteria_id']],
+            'fills' => [['loteria_entregues', 'loteria_id']],
         ],
-        'talonaris' => [
+        'loteria_entregues' => [
             'cap' => 'economia',
-            'from' => 'talonaris t LEFT JOIN persones p ON p.id = t.persona_id',
+            'from' => 'loteria_entregues t LEFT JOIN persones p ON p.id = t.persona_id',
             'cerca' => ['p.nom', 'p.cognoms'],
-            'ordre' => 't.loteria_id DESC, t.numero',
+            'ordre' => 't.loteria_id DESC, (t.des_de IS NULL), t.des_de, t.id',
             'pare' => ['loteries', 'loteria_id'],
-            'etiqueta' => "SELECT ta.id, lo.nom || ' · ' || ta.numero AS e FROM talonaris ta JOIN loteries lo ON lo.id = ta.loteria_id ORDER BY lo.id DESC, ta.numero",
-            'avis_fila' => 'avis_talonari',
-            'accions_fitxa' => fn(array $f) => boto_document(url('participacions', ['talonari' => $f['id']]), t('loteria.imprimeix')),
+            'etiqueta' => "SELECT e.id, lo.nom || ' · ' || COALESCE(" . NOM_PERSONA_SQL . ", '" . str_replace("'", "''", t('loteria.caixa')) . "') || ' · ' || e.participacions AS e
+                FROM loteria_entregues e JOIN loteries lo ON lo.id = e.loteria_id LEFT JOIN persones p ON p.id = e.persona_id ORDER BY lo.id DESC, e.id",
+            'avis_fila' => 'avis_entrega',
+            'accions_fitxa' => fn(array $f) => $f['des_de'] ? boto_document(url('participacions', ['entrega' => $f['id']]), t('loteria.imprimeix')) : '',
             'camps' => [
                 'loteria_id' => ['tipus' => 'ref', 'ref' => 'loteries', 'req' => 1, 'llista' => 1],
-                'numero' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'etiqueta' => 'camp.numero_talonari', 'ajuda' => t('ajuda.talonari_numero')],
-                'persona_id' => ['tipus' => 'ref', 'ref' => 'persones', 'llista' => 1, 'etiqueta' => 'loteria.col_persona'],
+                'persona_id' => ['tipus' => 'ref', 'ref' => 'persones', 'llista' => 1, 'etiqueta' => 'loteria.col_persona', 'buit_text' => t('loteria.caixa'), 'ajuda' => t('ajuda.entrega_persona')],
                 'data_entrega' => ['tipus' => 'date', 'defecte' => 'avui'],
-                'venudes' => ['tipus' => 'number', 'llista' => 1],
-                'tornades' => ['tipus' => 'number', 'llista' => 1],
-                'import_liquidat' => ['tipus' => 'decimal', 'llista' => 1, 'euros' => 1],
-                'data_liquidacio' => ['tipus' => 'date'],
+                'participacions' => ['tipus' => 'number', 'req' => 1, 'llista' => 1, 'ajuda' => t('ajuda.entrega_participacions')],
+                'des_de' => ['tipus' => 'number', 'ajuda' => t('ajuda.entrega_numeros')],
+                'fins_a' => ['tipus' => 'number'],
+                'tornades' => ['tipus' => 'number', 'llista' => 1, 'ajuda' => t('ajuda.entrega_tornades')],
+                'import_pagat' => ['tipus' => 'decimal', 'llista' => 1, 'euros' => 1],
+                'forma_pagament_id' => ['tipus' => 'ref', 'ref' => 'formes_pagament', 'llista' => 1],
+                'data_pagament' => ['tipus' => 'date'],
                 'observacions' => $obs,
             ],
-            'valida' => function (array $d): ?string {
-                $mida = (int)valor('SELECT participacions_talonari FROM loteries WHERE id = ?', [$d['loteria_id']]);
-                if (($d['venudes'] ?? 0) < 0 || ($d['tornades'] ?? 0) < 0 || ($d['venudes'] ?? 0) + ($d['tornades'] ?? 0) > $mida) {
-                    return t('err.talonari_quantitats', $mida);
+            'valida' => fn(array $d, ?int $id) => error_entrega_loteria($d, $id),
+            'despres' => function (int $id, array $d): void {
+                // Amb el primer número n'hi ha prou: l'últim es calcula amb els paperets
+                if ($d['des_de'] !== null && $d['fins_a'] === null) {
+                    q('UPDATE loteria_entregues SET fins_a = des_de + participacions - 1 WHERE id = ?', [$id]);
                 }
-                if ($d['numero'] < 1) {
-                    return t('err.talonari_numero');
+                if ($d['import_pagat'] !== null && $d['data_pagament'] === null) {
+                    q("UPDATE loteria_entregues SET data_pagament = date('now','localtime') WHERE id = ?", [$id]);
                 }
-                return null;
             },
+        ],
+        'categories_caixa' => [
+            'cap' => 'economia',
+            'ordre' => 'COALESCE(t.ordre, 999999), t.id',
+            'camps' => [
+                'nom_visible' => ['tipus' => 'text', 'virtual' => 1, 'llista' => 1, 'etiqueta' => 'camp.nom', 'carrega' => fn(array $f) => nom_categoria_caixa($f['codi'] ?? null)],
+                'nom' => ['tipus' => 'text', 'ajuda' => t('ajuda.categoria_caixa_nom')],
+                'ordre' => ['tipus' => 'number'],
+                'moviments' => ['tipus' => 'number', 'virtual' => 1, 'llista' => 1, 'etiqueta' => 'caixa.n_moviments',
+                    'carrega' => fn(array $f) => (int)valor('SELECT COUNT(*) FROM moviments WHERE categoria = ?', [$f['codi'] ?? ''])],
+            ],
+            'valida' => fn(array $d, ?int $id) => !$id && $d['nom'] === null ? t('err.obligatori', t('camp.nom')) : null,
+            // Les noves: el codi que guardaran els moviments
+            'despres' => fn(int $id) => q("UPDATE categories_caixa SET codi = 'c' || id WHERE id = ? AND codi IS NULL", [$id]),
+            'elimina_permes' => function (int $id): ?string {
+                $c = fila('SELECT * FROM categories_caixa WHERE id = ?', [$id]);
+                if (!$c) {
+                    return null;
+                }
+                if ($c['automatica']) {
+                    return t('err.categoria_automatica');
+                }
+                $n = (int)valor('SELECT COUNT(*) FROM moviments WHERE categoria = ?', [$c['codi']]);
+                return $n ? t('err.categoria_usada', $n) : null;
+            },
+        ],
+        'formes_pagament' => [
+            'cap' => 'economia',
+            'ordre' => "(t.estat <> 'actiu'), COALESCE(t.ordre, 999999), t.nom",
+            'etiqueta' => "SELECT id, nom AS e FROM formes_pagament ORDER BY (estat <> 'actiu'), COALESCE(ordre, 999999), nom",
+            'camps' => [
+                'nom' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
+                'compte' => ['tipus' => 'select', 'opcions' => ['caixa', 'banc'], 'llista' => 1, 'ajuda' => t('ajuda.forma_compte')],
+                'ordre' => ['tipus' => 'number'],
+                'estat' => ['tipus' => 'select', 'opcions' => ['actiu', 'baixa'], 'llista' => 1],
+            ],
+            'elimina_permes' => fn(int $id) => valor('SELECT COUNT(*) FROM loteria_entregues WHERE forma_pagament_id = ?', [$id]) + valor('SELECT COUNT(*) FROM loteries WHERE forma_pagament_administracio = ?', [$id])
+                ? t('err.forma_usada') : null,
         ],
         // ---------- Societat: junta, reunions, documents i comunicats ----------
         'carrecs' => [
@@ -965,7 +1031,7 @@ function entitats(): array
                 'data' => ['tipus' => 'date', 'req' => 1, 'llista' => 1, 'defecte' => 'avui'],
                 'tipus' => ['tipus' => 'select', 'opcions' => ['despesa', 'ingres'], 'llista' => 1],
                 'compte' => ['tipus' => 'select', 'opcions' => ['banc', 'caixa'], 'llista' => 1],
-                'categoria' => ['tipus' => 'select', 'opcions' => CATEGORIES_CAIXA, 'llista' => 1],
+                'categoria' => ['tipus' => 'select', 'opcions' => fn() => array_keys(categories_caixa()), 'noms' => fn() => categories_caixa(), 'llista' => 1],
                 'concepte' => ['tipus' => 'text', 'req' => 1, 'llista' => 1],
                 'import' => ['tipus' => 'decimal', 'req' => 1, 'llista' => 1, 'euros' => 1, 'ajuda' => t('ajuda.moviment_import')],
                 'justificant' => ['tipus' => 'text', 'ajuda' => t('ajuda.justificant')],

@@ -155,6 +155,15 @@ function migra_esquema(PDO $pdo): void
             'descompte_pct' => 'REAL',
             'nia' => 'TEXT', // 2.8: número d'identificació de l'alumne
         ],
+        // 2.8: loteria amb paperets per persona, dècims i pagament a l'administració
+        'loteries' => [
+            'talonaris' => 'INTEGER',
+            'decims' => 'INTEGER',
+            'preu_decim' => 'REAL',
+            'pagat_administracio' => 'REAL',
+            'data_pagament_administracio' => 'TEXT',
+            'forma_pagament_administracio' => 'INTEGER REFERENCES formes_pagament(id) ON DELETE SET NULL',
+        ],
         // 1.16: dades de la factura (per a justificar subvencions) i document lligat a una subvenció
         'moviments' => [
             'proveidor' => 'TEXT',
@@ -188,6 +197,9 @@ function migra_esquema(PDO $pdo): void
         sembra_tipus_socis($pdo);
         sembra_tipus_obres($pdo);
         sembra_subvencions($pdo);
+        sembra_formes_pagament($pdo);
+        sembra_categories_caixa($pdo);
+        migra_talonaris($pdo);
         // 2.0: les instal·lacions anteriors són societats musicals; els mòduls nous d'altres tipus queden desactivats
         if (!$pdo->query("SELECT valor FROM config WHERE clau = 'tipus_entitat'")->fetchColumn()) {
             $desactivats = array_filter(explode(',', (string)$pdo->query("SELECT valor FROM config WHERE clau = 'moduls_desactivats'")->fetchColumn()));
@@ -254,6 +266,71 @@ function sembra_subvencions(PDO $pdo, ?string $idioma = null): void
     if ($propia) {
         $pdo->commit();
     }
+}
+
+/** Categories del llibre de caixa per a començar (després les edita cada entitat: taula categories_caixa) */
+const CATEGORIES_CAIXA = ['quotes', 'escola', 'loteria', 'subvencions', 'actuacions', 'donatius', 'instruments', 'material', 'personal', 'lloguers',
+    'subministraments', 'assegurances', 'federacio', 'desplacaments', 'comissions', 'altres_moviments'];
+/** Les que posen soles els rebuts, les remeses, la loteria i les subvencions: es poden canviar de nom, però no eliminar */
+const CATEGORIES_CAIXA_AUTOMATIQUES = ['quotes', 'escola', 'loteria', 'subvencions', 'altres_moviments'];
+
+/** Categories del llibre de caixa inicials (una sola vegada): les de CATEGORIES_CAIXA; després l'entitat n'afig o en lleva */
+function sembra_categories_caixa(PDO $pdo): void
+{
+    if ($pdo->query("SELECT valor FROM config WHERE clau = 'categories_caixa_inicials'")->fetchColumn()) {
+        return;
+    }
+    if ((int)$pdo->query('SELECT COUNT(*) FROM categories_caixa')->fetchColumn() === 0) {
+        foreach (CATEGORIES_CAIXA as $i => $codi) {
+            $pdo->prepare('INSERT INTO categories_caixa(codi, ordre, automatica) VALUES(?, ?, ?)')
+                ->execute([$codi, ($i + 1) * 10, in_array($codi, CATEGORIES_CAIXA_AUTOMATIQUES, true) ? 1 : 0]);
+        }
+        // Si una base de dades antiga té moviments amb una categoria que ja no és a la llista, també s'hi posa
+        foreach ($pdo->query('SELECT DISTINCT categoria FROM moviments WHERE categoria IS NOT NULL')->fetchAll(PDO::FETCH_COLUMN) as $codi) {
+            $pdo->prepare('INSERT OR IGNORE INTO categories_caixa(codi, nom, ordre) VALUES(?, ?, 9999)')->execute([$codi, $codi]);
+        }
+    }
+    $pdo->exec("INSERT INTO config(clau, valor) VALUES('categories_caixa_inicials', '1') ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor");
+}
+
+/** Formes de pagament inicials (una sola vegada): efectiu a la caixa; Bizum i transferència al banc. Després l'entitat n'afig o en lleva */
+function sembra_formes_pagament(PDO $pdo, ?string $idioma = null): void
+{
+    if ($pdo->query("SELECT valor FROM config WHERE clau = 'formes_pagament_inicials'")->fetchColumn()) {
+        return;
+    }
+    $idioma ??= (string)($pdo->query("SELECT valor FROM config WHERE clau = 'idioma'")->fetchColumn() ?: 'ca');
+    if ((int)$pdo->query('SELECT COUNT(*) FROM formes_pagament')->fetchColumn() === 0) {
+        foreach ([['efectiu', $idioma === 'es' ? 'Efectivo' : 'Efectiu', 'caixa'], ['bizum', 'Bizum', 'banc'],
+            ['transferencia', $idioma === 'es' ? 'Transferencia' : 'Transferència', 'banc']] as $i => [$codi, $nom, $compte]) {
+            $pdo->prepare('INSERT INTO formes_pagament(nom, compte, ordre, codi) VALUES(?, ?, ?, ?)')->execute([$nom, $compte, ($i + 1) * 10, $codi]);
+        }
+    }
+    $pdo->exec("INSERT INTO config(clau, valor) VALUES('formes_pagament_inicials', '1') ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor");
+}
+
+/**
+ * Fins a la 2.7.2, cada talonari anava sencer a una persona i es liquidava sencer. Una sola vegada, cada talonari
+ * repartit passa a ser una entrega de paperets (amb els seus números, els tornats i els diners, en efectiu com abans)
+ * i el sorteig recorda quants talonaris s'havien fet.
+ */
+function migra_talonaris(PDO $pdo): void
+{
+    if ($pdo->query("SELECT valor FROM config WHERE clau = 'talonaris_migrats'")->fetchColumn()) {
+        return;
+    }
+    if ((int)$pdo->query('SELECT COUNT(*) FROM loteria_entregues')->fetchColumn() === 0) {
+        $efectiu = $pdo->query("SELECT id FROM formes_pagament WHERE codi = 'efectiu'")->fetchColumn() ?: null;
+        $ins = $pdo->prepare('INSERT INTO loteria_entregues(loteria_id, persona_id, data_entrega, participacions, des_de, fins_a, tornades, import_pagat, forma_pagament_id, data_pagament, observacions)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        foreach ($pdo->query('SELECT t.*, lo.participacions_talonari AS mida FROM talonaris t JOIN loteries lo ON lo.id = t.loteria_id WHERE t.persona_id IS NOT NULL ORDER BY t.loteria_id, t.numero')->fetchAll(PDO::FETCH_ASSOC) as $t) {
+            $mida = (int)$t['mida'];
+            $ins->execute([$t['loteria_id'], $t['persona_id'], $t['data_entrega'], $mida, ($t['numero'] - 1) * $mida + 1, $t['numero'] * $mida,
+                $t['tornades'], $t['import_liquidat'], $t['import_liquidat'] !== null ? $efectiu : null, $t['data_liquidacio'], $t['observacions']]);
+        }
+        $pdo->exec('UPDATE loteries SET talonaris = (SELECT MAX(numero) FROM talonaris t WHERE t.loteria_id = loteries.id) WHERE talonaris IS NULL');
+    }
+    $pdo->exec("INSERT INTO config(clau, valor) VALUES('talonaris_migrats', '1') ON CONFLICT(clau) DO UPDATE SET valor = excluded.valor");
 }
 
 /** Tipus d'obra inicials del repertori (una sola vegada); després cada societat els canvia */

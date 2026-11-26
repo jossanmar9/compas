@@ -175,12 +175,15 @@ function carrega_dades_exemple(): void
     q("UPDATE rebuts SET estat = 'retornat' WHERE id = (SELECT MAX(id) FROM rebuts WHERE tipus = 'quota_soci' AND forma_pagament = 'domiciliacio')");
 
     $nadal = (int)date('n') >= 2 ? (int)date('Y') : (int)date('Y') - 1;
-    q('INSERT INTO loteries(nom, data_sorteig, numeros, preu, juga, participacions_talonari) VALUES(?, ?, ?, ?, ?, ?)',
-        [$tr('Loteria de Nadal', 'Lotería de Navidad') . " $nadal", "$nadal-12-22", '12345, 67890', 5, 4, 50]);
+    // 6 talonaris de 50 (300 paperets que juguen 4 € = 60 dècims de 20 €); a cadascú el que s'endú, i uns quants venuts a la caixa
+    q('INSERT INTO loteries(nom, data_sorteig, numeros, preu, juga, participacions_talonari, talonaris, decims, preu_decim) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [$tr('Loteria de Nadal', 'Lotería de Navidad') . " $nadal", "$nadal-12-22", '12345, 67890', 5, 4, 50, 6, 60, 20]);
     $lo = $id();
-    foreach ([[$musics[0], 50, 0, 250], [$musics[1], 38, 12, 180], [$tutors[0], null, null, null], [$tutors[1], null, null, null]] as $i => [$p, $v, $tor, $liq]) {
-        q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes, tornades, import_liquidat, data_liquidacio) VALUES(?,?,?,?,?,?,?,?)',
-            [$lo, $i + 1, $p, "$nadal-10-15", $v, $tor, $liq, $liq !== null ? "$nadal-11-30" : null]);
+    $forma = fn(string $codi) => valor('SELECT id FROM formes_pagament WHERE codi = ?', [$codi]);
+    foreach ([[$musics[0], 50, 1, 0, 250, 'efectiu'], [$musics[1], 50, 51, 12, 180, 'bizum'], [$tutors[0], 25, 101, null, null, null], [$tutors[1], 75, 126, null, null, null],
+        [null, 70, 201, 0, 350, 'efectiu']] as [$p, $n, $de, $tor, $pagat, $f]) {
+        q('INSERT INTO loteria_entregues(loteria_id, persona_id, data_entrega, participacions, des_de, fins_a, tornades, import_pagat, forma_pagament_id, data_pagament) VALUES(?,?,?,?,?,?,?,?,?,?)',
+            [$lo, $p, "$nadal-10-15", $n, $de, $de + $n - 1, $tor, $pagat, $f ? $forma($f) : null, $pagat !== null ? "$nadal-11-30" : null]);
     }
 
     // Societat: junta actual i l'anterior, reunions, documents, certificat del professorat, caixa i un comunicat

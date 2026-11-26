@@ -10,6 +10,19 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 ## [Pendent de publicar]
 
+### Loteria
+- **Talonaris i paperets per separat.** Al sorteig s'apunta quants talonaris s'han fet; després, a cada persona se li entreguen els paperets que s'endú (un talonari sencer, uns quants o solts), amb els números seguits. El programa no deixa donar dos vegades el mateix número ni més paperets dels que s'han fet. També es poden apuntar els que es venen a la caixa de l'entitat.
+- **Forma de pagament** de cada persona en liquidar: efectiu, Bizum o transferència, i se'n poden afegir més. Cada forma diu si els diners van a la caixa o al banc, i el llibre de caixa els posa on toca.
+- **Resum de diners clar:** el que hauríem de cobrar, el cobrat per forma de pagament, el que s'ha de pagar a l'administració (dècims × preu del dècim), el que ja s'ha pagat i **els diners de la loteria que hauríem de tindre ara**, separats entre caixa i banc.
+- **Paperets a la caixa:** els que no s'han repartit més els tornats.
+- El pagament a l'administració s'apunta a la fitxa del sorteig i ix al llibre de caixa com a despesa.
+- Els talonaris repartits de les versions d'abans es passen sols a entregues.
+
+### Llibre de caixa
+- **Categories pròpies:** les de sempre queden com a base, però cada entitat pot canviar-los el nom, ordenar-les, afegir-ne de noves o eliminar les que no gaste. No es pot eliminar una categoria amb moviments ni les dels apunts automàtics.
+
+*Lotería: talonarios y papeletas por separado, forma de pago de cada persona, papeletas en la caja y resumen claro del dinero que deberíamos tener y de lo que hay que pagar a la administración. Libro de caja: categorías propias de cada entidad.*
+
 ### Documentació
 - **Tota la documentació també en castellà:** el README (`README.es.md`), l'arquitectura (`docs/arquitectura.es.md`), les proves (`tests/README.es.md`) i la guia de contribució sencera. Cada document té dalt l'enllaç a l'altra llengua.
 - Correccions: noms dels formularis d'incidències a la guia de contribució, els PDF que ja no es guarden a `docs/pdf/`, la lectura dels .ods i el contracte de cessió a l'arquitectura, i algunes formes més pròpies del valencià de l'AVL («vore», «ixen»).

@@ -497,3 +497,10 @@ details.fill summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
 .mes-dades > summary { cursor: pointer; font-weight: 600; color: var(--blau); padding: 8px 0; }
 .mes-dades > summary small { font-weight: 400; color: var(--suau); margin-left: 6px; }
 .mes-dades[open] > .camps { margin-top: 8px; }
+
+/* Loteria: el quadre de diners i la taula d'entregues */
+.diners-loteria th { text-transform: none; letter-spacing: 0; font-size: .9rem; width: 34%; }
+.diners-loteria tr.destacat th, .diners-loteria tr.destacat td { font-weight: 700; background: var(--blau-clar); }
+.loteria-resum td.rang { white-space: nowrap; }
+.loteria-resum td.rang small { display: block; }
+.loteria-resum small.forma { display: block; color: var(--suau); font-size: .8rem; }

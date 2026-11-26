@@ -232,7 +232,7 @@ function buida_dades_gestio(): string
     // La còpia ha d'haver acabat abans de tocar cap dada. No es roten les còpies manuals.
     [$copia] = fes_copia('manual');
     $conserva = ['config', 'usuaris', 'rols', 'rol_capacitats', 'usuari_rols',
-        'tipus_socis', 'tipus_obres', 'categories', 'organismes', 'requisits_justificacio', 'organisme_requisits'];
+        'tipus_socis', 'tipus_obres', 'categories', 'formes_pagament', 'categories_caixa', 'organismes', 'requisits_justificacio', 'organisme_requisits'];
     $pdo = db();
     $pdo->exec('PRAGMA foreign_keys = OFF');
     try {

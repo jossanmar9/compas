@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # L'executa tests/integracio.py, que hi posa les funcions comunes (G, P, ok, n, db…).
 
-entitats = ['obres','tipus_obres','tipus_socis','uniformes','uniforme_compres','uniforme_lliuraments','carrecs','reunions','documents','comunicats','moviments','persones','socis','alumnes','professors','tutories','agrupacions','membres','cursos','periodes','assignatures','aules','grups','horaris','matricules','matricula_grups','instruments','manteniments','cessions','tarifes','mandats','rebuts','rebut_linies','remeses','loteries','talonaris']
+entitats = ['obres','tipus_obres','tipus_socis','uniformes','uniforme_compres','uniforme_lliuraments','carrecs','reunions','documents','comunicats','moviments','persones','socis','alumnes','professors','tutories','agrupacions','membres','cursos','periodes','assignatures','aules','grups','horaris','matricules','matricula_grups','instruments','manteniments','cessions','tarifes','mandats','rebuts','rebut_linies','remeses','loteries','loteria_entregues','formes_pagament']
 for e in entitats:
     for q in [f'r=llista&e={e}', f'r=llista&e={e}&csv=1', f'r=fitxa&e={e}&id=1', f'r=edita&e={e}', f'r=edita&e={e}&id=1']:
         h = G(q)

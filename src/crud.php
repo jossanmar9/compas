@@ -84,6 +84,18 @@ function etiqueta_camp(string $camp, array $def = []): string
     return t($def['etiqueta'] ?? 'camp.' . $camp);
 }
 
+/** Opcions d'un camp «select»: una llista fixa o, si les edita l'entitat, una funció que les llig de la base de dades */
+function opcions_select(array $d): array
+{
+    return is_callable($d['opcions']) ? ($d['opcions'])() : $d['opcions'];
+}
+
+/** Nom que es veu d'una opció d'un «select»: el que diu «noms» (si les opcions són de l'entitat) o el text «opt.…» */
+function nom_opcio(array $d, $v): string
+{
+    return isset($d['noms']) ? (string)((($d['noms'])())[$v] ?? $v) : t('opt.' . $v);
+}
+
 function mostra_valor(array $def, $v, bool $enllac = false): string
 {
     if ($v === null || $v === '' || $v === []) {
@@ -95,7 +107,7 @@ function mostra_valor(array $def, $v, bool $enllac = false): string
         case 'date':
             return h(data_llegible($v));
         case 'select':
-            return h(t('opt.' . $v));
+            return h(nom_opcio($def, $v));
         case 'dia':
             return h(t('dia.' . $v));
         case 'decimal':
@@ -199,10 +211,10 @@ function expressio_ordre(array $e, string $c, array $d): array
             return ["NULLIF($col, '')"];
         case 'select':
             // Per l'etiqueta que es veu (en l'idioma de la pantalla), no pel valor intern
-            $opcions = $d['opcions'];
+            $opcions = opcions_select($d);
             $etiquetes = [];
             foreach ($opcions as $op) {
-                $etiquetes[$op] = clau_alfabetica(t('opt.' . $op));
+                $etiquetes[$op] = clau_alfabetica(nom_opcio($d, $op));
             }
             asort($etiquetes, SORT_NATURAL);
             $cas = '';
@@ -354,7 +366,7 @@ function taula_files(array $e, array $files, array $cols, ?array $ordre = null):
         $html .= '<tr data-href="' . $href . '"' . ($avis ? ' class="fila-avis" title="' . h($avis) . '"' : '') . '>';
         $primer = true;
         foreach ($cols as $c => $d) {
-            $val = mostra_valor($d, $f[$c]);
+            $val = mostra_valor($d, valor_camp($d, $f, $c));
             if ($primer) {
                 $val = ($avis ? '<span class="icona-avis" aria-label="' . h($avis) . '">⚠</span> ' : '')
                     . '<a href="' . $href . '">' . ($val !== '' ? $val : '#' . (int)$f['id']) . '</a>';
@@ -382,7 +394,7 @@ function exporta_csv(array $e, string $where, array $params, ?string $ordre = nu
             if ($d['tipus'] === 'ref' && $v !== null) {
                 $v = opcions_ref($d['ref'])[$v] ?? $v;
             } elseif ($d['tipus'] === 'select' && $v !== null) {
-                $v = t('opt.' . $v);
+                $v = nom_opcio($d, $v);
             } elseif ($d['tipus'] === 'dia' && $v !== null) {
                 $v = t('dia.' . $v);
             }
@@ -540,7 +552,7 @@ function camp_formulari(string $c, array $d, $v): string
         case 'dia':
         case 'ref':
             if ($d['tipus'] === 'select') {
-                $ops = array_combine($d['opcions'], array_map(fn($o) => t('opt.' . $o), $d['opcions']));
+                $ops = array_combine(opcions_select($d), array_map(fn($o) => nom_opcio($d, $o), opcions_select($d)));
             } elseif ($d['tipus'] === 'dia') {
                 $ops = [];
                 for ($i = 1; $i <= 7; $i++) {
@@ -631,7 +643,7 @@ function normalitza(array $d, $v)
         case 'time':
             return preg_match('/^\d{2}:\d{2}$/', $v) ? $v : null;
         case 'select':
-            return in_array($v, $d['opcions'], true) ? $v : null;
+            return in_array($v, opcions_select($d), true) ? $v : null;
         case 'iban':
             return $v === '' ? null : iban_entrada($v);
         case 'fitxer':
@@ -725,7 +737,7 @@ function pagina_edita(string $nom, ?int $id): void
             } elseif (isset($prefix[$c])) {
                 $dades[$c] = $prefix[$c];
             } else {
-                $def = $d['defecte'] ?? ($d['tipus'] === 'select' && empty($d['buit']) ? $d['opcions'][0] : null);
+                $def = $d['defecte'] ?? ($d['tipus'] === 'select' && empty($d['buit']) ? (opcions_select($d)[0] ?? null) : null);
                 $dades[$c] = $def instanceof Closure ? $def() : match ($def) {
                     'avui' => date('Y-m-d'),
                     'curs' => curs_actual()['id'] ?? null,

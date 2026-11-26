@@ -187,6 +187,8 @@ def executa(bateria: str, idioma: str) -> tuple[int, list[str]]:
             except Exception as e:
                 c.fallades.append(f'{f}: excepció {type(e).__name__}: {e}')
                 print(f'    EXCEPCIÓ en {f}: {type(e).__name__}: {e}')
+                import traceback, os as _os
+                if _os.environ.get("TRACA"): traceback.print_exc()
         # Errors de PHP que hagen eixit al registre del servidor
         c.registre.flush()
         # (els avisos d'arrancada de PHP, «in Unknown on line 0», són de la instal·lació de PHP, no de Compàs)

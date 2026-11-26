@@ -616,10 +616,12 @@ Menú **Economía → Libro de caja**. Muestra todos los ingresos y gastos del a
 
 - los recibos cobrados en efectivo (en la caja) o por transferencia (en el banco);
 - las remesas cobradas, en una sola línea, como aparecen en el banco;
-- el dinero de la lotería que entrega cada talonario;
+- el dinero de la lotería que paga cada persona (en la caja o en el banco, según la forma de pago) y el pago de los décimos a la administración;
 - los cobros de las subvenciones (apartado 13.8).
 
 El resto (facturas, la cuota de la Federación…) se anota con **+ Nuevo movimiento**: fecha, ingreso o gasto, banco o caja, categoría, concepto e importe. En las facturas, pon también el **proveedor**, el **NIF** y el **número de factura**: hacen falta para justificar subvenciones. Al final de la página se pone el **saldo inicial** del 1 de enero del banco y de la caja, para que los saldos sean los reales. Se puede ver solo el banco o solo la caja, imprimirlo y exportarlo a CSV. El resumen **por categorías** sirve para presentar las cuentas a la asamblea y para la memoria.
+
+**Categorías.** El botón **Categorías** abre la lista de categorías del libro. Para empezar están las de siempre (cuotas, escuela, lotería, subvenciones, material, actuaciones…), pero cada entidad puede cambiarles el nombre, ordenarlas, añadir nuevas o eliminar las que no use. No se puede eliminar una categoría que ya tiene movimientos, ni las que el programa usa para los apuntes automáticos (cuotas, escuela, lotería, subvenciones y otros movimientos).
 
 ![Libro de caja](imatges/es/76-caixa.webp)
 
@@ -645,25 +647,46 @@ Menú **Economía → Subvenciones**. Cada subvención tiene una ficha con todo 
 
 ## 14. Lotería
 
-Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por ejemplo, «Lotería de Navidad 2026»), la fecha, los **números**, el **precio** de cada participación, el importe que **juega** (el resto es el donativo para la entidad) y cuántas participaciones lleva cada talonario. En la ficha, **Talonarios y liquidación** abre el resumen.
+Menú **Economía → Lotería → + Nuevo**. Escribe el nombre del sorteo (por ejemplo, «Lotería de Navidad 2026»), la fecha, los **números**, el **precio** de cada papeleta (participación), el importe que **juega** (el resto es el donativo para la entidad) y cuántas papeletas lleva cada talonario. Apunta también:
 
-### Repartir los talonarios
+- **Talonarios hechos**: cuántos talonarios se han hecho. Las papeletas se numeran seguidas: el talonario 1 lleva de la 0001 a la 0050 (si lleva 50), el 2 de la 0051 a la 0100, etc.
+- **Décimos comprados** y **precio del décimo** (normalmente 20 €): lo que hay que pagar a la administración de lotería.
 
-Elige la persona y cuántos talonarios se lleva, y pulsa **Reparte talonarios**. Compàs los numera seguidos: el talonario 1 lleva las participaciones 0001–0050, el 2 las 0051–0100, etc.
+En la ficha, **Papeletas y dinero** abre el resumen.
 
-![Talonarios y liquidación](imatges/es/65-loteria.webp)
+![Papeletas y dinero de un sorteo](imatges/es/65-loteria.webp)
 
-### Imprimir las participaciones
+### Entregar papeletas
 
-En la ficha de cada talonario, **Imprime las participaciones** hace sus 50 participaciones (8 por hoja), con el logotipo, los números, el precio y el número de participación. Desde el resumen se pueden imprimir todas de golpe. El texto legal del pie se cambia en la ficha del sorteo.
+Cada persona se lleva las papeletas que quiere: un talonario entero, unos cuantos o unas papeletas sueltas. Elige **a quién**, pon **cuántas** y pulsa **Entrega**. Si dejas vacío **Desde el número**, se le dan las siguientes que quedan (y el resumen dice de qué talonarios son). Si son papeletas que se venden directamente en la caja de la entidad (en la sede, en un acto…), deja **A quién** en **Venta en la caja**.
 
-![Participaciones](imatges/es/67-participacions.webp)
+Dos personas no pueden tener los mismos números, ni se pueden dar más papeletas de las que se han hecho.
 
-### Liquidar
+### Cuando vuelven: devueltas, dinero y forma de pago
 
-Cuando alguien devuelve el talonario, ábrelo y anota cuántas participaciones ha **vendido**, cuántas **devuelve** sin vender y cuánto **dinero entrega**. El resumen muestra lo que falta por entregar (en rojo), cuánto hay que comprar en la administración de lotería y lo que queda para la entidad.
+Abre la entrega de la persona (en el resumen, haz clic en su nombre) y apunta cuántas papeletas **devuelve** sin vender, cuánto **dinero** ha pagado y **cómo** ha pagado (efectivo, Bizum, transferencia…). Las papeletas devueltas vuelven a la caja.
 
-![Liquidar un talonario](imatges/es/66-talonari.webp)
+![Liquidar una entrega](imatges/es/66-entrega.webp)
+
+**Formas de pago.** En el resumen, **Formas de pago** lleva a la lista: para empezar hay efectivo, Bizum y transferencia, y se pueden añadir más. Cada una dice si el dinero va a la **caja** o al **banco**, y así el libro de caja lo pone donde toca. Una forma que ya se ha usado no se elimina: se da de baja.
+
+### El resumen
+
+- **Papeletas:** las hechas, las repartidas, las devueltas, las vendidas (de las que ya han liquidado), las que todavía están **fuera** (entregas sin liquidar) y las que quedan **en la caja** (las que no se han repartido más las devueltas).
+- **Dinero:** lo que deberíamos cobrar por las papeletas vendidas, lo cobrado (separado por forma de pago), lo que falta cobrar y lo que vendría si se venden todas las que todavía están fuera.
+- **Administración de lotería:** lo que hay que pagar (décimos × precio del décimo), lo ya pagado y lo que falta.
+- **Dinero de la lotería que deberíamos tener ahora:** lo cobrado menos lo pagado a la administración, separado entre la caja y el banco. Es lo que tiene que cuadrar con lo que tenéis.
+- **Beneficio previsto** para la entidad.
+
+En la tabla de abajo está cada entrega con sus números, lo que tiene que pagar, lo que ha pagado y lo que falta (en rojo).
+
+Cuando paguéis los décimos a la administración, apúntalo en la ficha del sorteo (**Más datos**: importe, fecha y cómo se ha pagado). Sale en el libro de caja como gasto.
+
+### Imprimir las papeletas
+
+En el resumen, **Imprime todas las papeletas** hace todas las papeletas del sorteo (8 por hoja), con el logotipo, los números, el precio, el número de papeleta y el talonario. En la ficha de cada entrega se pueden imprimir solo las suyas. El texto legal del pie se cambia en la ficha del sorteo.
+
+![Papeletas para imprimir](imatges/es/67-participacions.webp)
 
 ## 15. Junta directiva y actas
 

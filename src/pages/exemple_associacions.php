@@ -173,11 +173,14 @@ function carrega_exemple_associacio(string $tipus): void
     // Loteria
     if (in_array('loteria', $info['moduls'], true)) {
         $nadal = (int)date('n') >= 2 ? (int)date('Y') : (int)date('Y') - 1;
-        q('INSERT INTO loteries(nom, data_sorteig, numeros, preu, juga, participacions_talonari) VALUES(?, ?, ?, ?, ?, ?)',
-            [$tr('Loteria de Nadal', 'Lotería de Navidad') . " $nadal", "$nadal-12-22", '24680', 5, 4, 50]);
+        q('INSERT INTO loteries(nom, data_sorteig, numeros, preu, juga, participacions_talonari, talonaris, decims, preu_decim) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [$tr('Loteria de Nadal', 'Lotería de Navidad') . " $nadal", "$nadal-12-22", '24680', 5, 4, 50, 5, 50, 20]);
         $lo = $id();
+        $forma = fn(string $codi) => valor('SELECT id FROM formes_pagament WHERE codi = ?', [$codi]);
         foreach (array_slice($adults, 0, 4) as $k => $p) {
-            q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes) VALUES(?, ?, ?, ?, ?)', [$lo, $k + 1, $p, "$nadal-10-15", $k < 2 ? 50 - $k * 9 : null]);
+            [$tor, $f] = [[0, 'efectiu'], [9, 'bizum'], [null, null], [null, null]][$k];
+            q('INSERT INTO loteria_entregues(loteria_id, persona_id, data_entrega, participacions, des_de, fins_a, tornades, import_pagat, forma_pagament_id, data_pagament) VALUES(?,?,?,?,?,?,?,?,?,?)',
+                [$lo, $p, "$nadal-10-15", 50, $k * 50 + 1, $k * 50 + 50, $tor, $tor !== null ? (50 - $tor) * 5 : null, $f ? $forma($f) : null, $tor !== null ? "$nadal-11-30" : null]);
         }
     }
 

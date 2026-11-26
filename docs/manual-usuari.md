@@ -616,10 +616,12 @@ Menú **Economia → Llibre de caixa**. Mostra tots els ingressos i despeses de 
 
 - els rebuts cobrats en efectiu (a la caixa) o per transferència (al banc);
 - les remeses cobrades, en una sola línia, com apareixen al banc;
-- els diners de la loteria que lliura cada talonari;
+- els diners de la loteria que paga cada persona (a la caixa o al banc, segons la forma de pagament) i el pagament dels dècims a l'administració;
 - els cobraments de les subvencions (apartat 13.8).
 
 La resta (factures, la quota de la Federació…) s'apunta amb **+ Nou moviment**: data, ingrés o despesa, banc o caixa, categoria, concepte i import. En les factures, posa també el **proveïdor**, el **NIF** i el **número de factura**: fan falta per a justificar subvencions. Al final de la pàgina es posa el **saldo inicial** de l'1 de gener del banc i de la caixa, perquè els saldos siguen els reals. Es pot vore només el banc o només la caixa, imprimir-lo i exportar-lo a CSV. El resum **per categories** serveix per a presentar els comptes a l'assemblea i per a la memòria.
+
+**Categories.** El botó **Categories** obri la llista de categories del llibre. Per a començar hi ha les de sempre (quotes, escola, loteria, subvencions, material, actuacions…), però cada entitat pot canviar-los el nom, ordenar-les, afegir-ne de noves o eliminar les que no gaste. No es pot eliminar una categoria que ja té moviments, ni les que el programa fa servir per als apunts automàtics (quotes, escola, loteria, subvencions i altres moviments).
 
 ![Llibre de caixa](imatges/ca/76-caixa.webp)
 
@@ -645,25 +647,46 @@ Menú **Economia → Subvencions**. Cada subvenció té una fitxa amb tot el que
 
 ## 14. Loteria
 
-Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple, «Loteria de Nadal 2026»), la data, els **números**, el **preu** de cada participació, l'import que **juga** (la resta és el donatiu per a l'entitat) i quantes participacions porta cada talonari. A la fitxa, **Talonaris i liquidació** obri el resum.
+Menú **Economia → Loteria → + Nou**. Escriu el nom del sorteig (per exemple, «Loteria de Nadal 2026»), la data, els **números**, el **preu** de cada paperet (participació), l'import que **juga** (la resta és el donatiu per a l'entitat) i quants paperets porta cada talonari. Apunta també:
 
-### Repartir els talonaris
+- **Talonaris fets**: quants talonaris s'han fet. Els paperets es numeren seguits: el talonari 1 porta del 0001 al 0050 (si en porta 50), el 2 del 0051 al 0100, etc.
+- **Dècims comprats** i **preu del dècim** (normalment 20 €): el que s'ha de pagar a l'administració de loteria.
 
-Tria la persona i quants talonaris s'endú, i prem **Reparteix talonaris**. Compàs els numera seguits: el talonari 1 porta les participacions 0001–0050, el 2 les 0051–0100, etc.
+A la fitxa, **Paperets i diners** obri el resum.
 
-![Talonaris i liquidació](imatges/ca/65-loteria.webp)
+![Paperets i diners d'un sorteig](imatges/ca/65-loteria.webp)
 
-### Imprimir les participacions
+### Entregar paperets
 
-A la fitxa de cada talonari, **Imprimeix les participacions** fa les seues 50 participacions (8 per full), amb el logotip, els números, el preu i el número de participació. Des del resum es poden imprimir totes de colp. El text legal del peu es canvia a la fitxa del sorteig.
+Cada persona s'endú els paperets que vol: un talonari sencer, uns quants o uns paperets solts. Tria **a qui**, posa **quants** i prem **Entrega**. Si deixes buit **Des del número**, se li donen els següents que queden (i el resum diu de quins talonaris són). Si són paperets que es venen directament a la caixa de l'entitat (a la seu, en un acte…), deixa **A qui** en **Venda a la caixa**.
 
-![Participacions](imatges/ca/67-participacions.webp)
+Dos persones no poden tindre els mateixos números, ni es poden donar més paperets dels que s'han fet.
 
-### Liquidar
+### Quan tornen: tornats, diners i forma de pagament
 
-Quan algú torna el talonari, obri'l i apunta quantes participacions ha **venut**, quantes **torna** sense vendre i quants **diners lliura**. El resum mostra el que falta per lliurar (en roig), quant cal comprar a l'administració de loteria i el que queda per a l'entitat.
+Obri l'entrega de la persona (al resum, fes clic en el seu nom) i apunta quants paperets **torna** sense vendre, quants **diners** ha pagat i **com** ha pagat (efectiu, Bizum, transferència…). Els paperets tornats tornen a la caixa.
 
-![Liquidar un talonari](imatges/ca/66-talonari.webp)
+![Liquidar una entrega](imatges/ca/66-entrega.webp)
+
+**Formes de pagament.** Al resum, **Formes de pagament** porta a la llista: per a començar hi ha efectiu, Bizum i transferència, i se n'hi poden afegir més. Cada una diu si els diners van a la **caixa** o al **banc**, i així el llibre de caixa els posa on toca. Una forma que ja s'ha fet servir no s'elimina: es dona de baixa.
+
+### El resum
+
+- **Paperets:** els fets, els repartits, els tornats, els venuts (dels que ja han liquidat), els que encara estan **fora** (entregues sense liquidar) i els que queden **a la caixa** (els que no s'han repartit més els tornats).
+- **Diners:** el que hauríem de cobrar pels paperets venuts, el cobrat (separat per forma de pagament), el que falta cobrar i el que vindria si es venen tots els que encara estan fora.
+- **Administració de loteria:** el que s'ha de pagar (dècims × preu del dècim), el que ja s'ha pagat i el que falta.
+- **Diners de la loteria que hauríem de tindre ara:** el cobrat menys el que s'ha pagat a l'administració, separat entre la caixa i el banc. És el que ha de quadrar amb el que teniu.
+- **Benefici previst** per a l'entitat.
+
+A la taula de baix hi ha cada entrega amb els seus números, el que ha de pagar, el que ha pagat i el que falta (en roig).
+
+Quan pagueu els dècims a l'administració, apunta-ho a la fitxa del sorteig (**Més dades**: import, data i com s'ha pagat). Ix al llibre de caixa com a despesa.
+
+### Imprimir els paperets
+
+Al resum, **Imprimeix tots els paperets** fa tots els paperets del sorteig (8 per full), amb el logotip, els números, el preu, el número de paperet i el talonari. A la fitxa de cada entrega es poden imprimir només els seus. El text legal del peu es canvia a la fitxa del sorteig.
+
+![Paperets per a imprimir](imatges/ca/67-participacions.webp)
 
 ## 15. Junta directiva i actes
 

@@ -72,7 +72,7 @@ function enllac_ajuda(): ?string
         'horari' => '5.5', 'passa_curs' => '5.6', 'notes' => '10', 'butlleti' => '11', 'agrupacions' => '9', 'membres' => '9', 'assistencia' => '9', 'repertori' => '9',
         'obres' => '9', 'instruments' => '12', 'cessions' => '12', 'manteniments' => '12', 'uniformes' => '12', 'uniforme_compres' => '12', 'uniforme_lliuraments' => '12',
         'economia' => '13', 'tarifes' => '13.1', 'genera_rebuts' => '13.3', 'mandats' => '13.4', 'remeses' => '13.5', 'remesa' => '13.5', 'rebuts' => '13.6',
-        'caixa' => '13.7', 'moviments' => '13.7', 'subvencions' => '13.8', 'loteries' => '14', 'loteria' => '14', 'talonaris' => '14', 'junta' => '15.1', 'carrecs' => '15.1',
+        'caixa' => '13.7', 'moviments' => '13.7', 'categories_caixa' => '13.7', 'subvencions' => '13.8', 'loteries' => '14', 'loteria' => '14', 'loteria_entregues' => '14', 'formes_pagament' => '14', 'junta' => '15.1', 'carrecs' => '15.1',
         'reunions' => '15.2', 'documents' => '16', 'rgpd' => '16', 'comunicats' => '17', 'activitats' => '18', 'activitat_inscripcions' => '18', 'categories' => '19',
         'llicencies' => '20', 'carrecs_festa' => '21', 'entitats_federades' => '22', 'llistats' => '23', 'certificat' => '23', 'importa' => '24', 'perfil' => '26',
     ];
@@ -136,8 +136,8 @@ function html_menu(): string
     if (in_array($actual, ['llista', 'fitxa', 'edita'], true)) {
         $actual = get('e');
     }
-    $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'talonaris' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia',
-        'carrecs' => 'junta', 'moviments' => 'caixa', 'rgpd' => 'documents',
+    $actual = ['remesa' => 'remeses', 'loteria' => 'loteries', 'loteria_entregues' => 'loteries', 'formes_pagament' => 'loteries', 'rebut_linies' => 'rebuts', 'economia_config' => 'economia',
+        'carrecs' => 'junta', 'moviments' => 'caixa', 'categories_caixa' => 'caixa', 'rgpd' => 'documents',
         'uniforme_compres' => 'uniformes', 'uniforme_lliuraments' => 'uniformes', 'tipus_socis' => 'socis', 'full_alta' => 'socis', 'obres' => 'repertori', 'tipus_obres' => 'repertori',
         'organismes' => 'subvencions', 'requisits_justificacio' => 'subvencions', 'subvencio_cobraments' => 'subvencions', 'subvencio_despeses' => 'subvencions',
         'activitat_inscripcions' => 'activitats', 'categories' => 'socis',

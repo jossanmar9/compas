@@ -1,5 +1,5 @@
 <?php
-// Llibre de caixa: moviments apuntats a mà i, sense apuntar-los, els rebuts cobrats, les remeses i la loteria liquidada
+// Llibre de caixa: moviments apuntats a mà i, sense apuntar-los, els rebuts cobrats, les remeses, la loteria i les subvencions
 // Copyright (C) 2026 José Vicente Sanjuan
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -27,11 +27,17 @@ function moviments_caixa(int $any): array
         WHERE re.estat = 'cobrada' AND re.data_cobrament BETWEEN ? AND ? GROUP BY re.id", [$ini, $fi])->fetchAll() as $re) {
         $m[] = [$re['data_cobrament'], t('caixa.remesa', $re['referencia'], $re['n']), 'quotes', 'banc', (float)$re['s'], url('remesa', ['id' => $re['id']]), $re['referencia']];
     }
-    // Loteria: diners lliurats de cada talonari
-    foreach (q("SELECT t.*, lo.nom AS loteria, " . NOM_PERSONA_SQL . " AS persona FROM talonaris t JOIN loteries lo ON lo.id = t.loteria_id
-        LEFT JOIN persones p ON p.id = t.persona_id WHERE t.import_liquidat > 0 AND COALESCE(t.data_liquidacio, t.data_entrega) BETWEEN ? AND ?", [$ini, $fi])->fetchAll() as $t) {
-        $m[] = [$t['data_liquidacio'] ?: $t['data_entrega'], t('caixa.talonari', $t['loteria'], $t['numero'], $t['persona'] ?? ''), 'loteria', 'caixa', (float)$t['import_liquidat'],
-            url('fitxa', ['e' => 'talonaris', 'id' => $t['id']]), null];
+    // Loteria: el que paga cada persona (a la caixa o al banc, segons la forma de pagament) i el pagament a l'administració
+    foreach (q("SELECT e.*, lo.nom AS loteria, " . NOM_PERSONA_SQL . " AS persona, f.nom AS forma, f.compte FROM loteria_entregues e JOIN loteries lo ON lo.id = e.loteria_id
+        LEFT JOIN persones p ON p.id = e.persona_id LEFT JOIN formes_pagament f ON f.id = e.forma_pagament_id
+        WHERE e.import_pagat > 0 AND COALESCE(e.data_pagament, e.data_entrega) BETWEEN ? AND ?", [$ini, $fi])->fetchAll() as $e) {
+        $m[] = [$e['data_pagament'] ?: $e['data_entrega'], t('caixa.loteria_entrega', $e['loteria'], $e['persona'] ?? t('loteria.caixa'), (int)$e['participacions'], (string)$e['forma']),
+            'loteria', $e['compte'] === 'banc' ? 'banc' : 'caixa', (float)$e['import_pagat'], url('fitxa', ['e' => 'loteria_entregues', 'id' => $e['id']]), null];
+    }
+    foreach (q("SELECT lo.*, f.compte FROM loteries lo LEFT JOIN formes_pagament f ON f.id = lo.forma_pagament_administracio
+        WHERE lo.pagat_administracio > 0 AND lo.data_pagament_administracio BETWEEN ? AND ?", [$ini, $fi])->fetchAll() as $lo) {
+        $m[] = [$lo['data_pagament_administracio'], t('caixa.loteria_admin', $lo['nom']), 'loteria', $lo['compte'] === 'caixa' ? 'caixa' : 'banc', -(float)$lo['pagat_administracio'],
+            url('loteria', ['id' => $lo['id']]), null];
     }
     // Subvencions: cada cobrament (bestreta, pagament final…) entra sol, sense apuntar-lo
     if (modul_actiu('subvencions')) {
@@ -71,7 +77,7 @@ function pagina_caixa(): void
         fwrite($out, "\xEF\xBB\xBF");
         fputcsv($out, [t('camp.data'), t('camp.concepte'), t('camp.categoria'), t('camp.compte'), t('camp.justificant'), t('caixa.ingres'), t('caixa.despesa')], ';', '"', '');
         foreach ($movs as [$d, $c, $cat, $cmp, $imp, , $just]) {
-            fputcsv($out, [data_llegible($d), $c, t('opt.' . $cat), t('opt.' . $cmp), $just, $imp > 0 ? number_format($imp, 2, ',', '') : '', $imp < 0 ? number_format(-$imp, 2, ',', '') : ''], ';', '"', '');
+            fputcsv($out, [data_llegible($d), $c, nom_categoria_caixa($cat), t('opt.' . $cmp), $just, $imp > 0 ? number_format($imp, 2, ',', '') : '', $imp < 0 ? number_format(-$imp, 2, ',', '') : ''], ';', '"', '');
         }
         audita('exporta', 'caixa', null, (string)$any);
         exit;
@@ -85,7 +91,7 @@ function pagina_caixa(): void
         $saldo += $imp;
         $imp > 0 ? $ingressos += $imp : $despeses -= $imp;
         $perCategoria[$cat][$imp > 0 ? 0 : 1] = ($perCategoria[$cat][$imp > 0 ? 0 : 1] ?? 0) + abs($imp);
-        $files .= '<tr data-href="' . h($enllac) . '"><td>' . h(data_llegible($d)) . '</td><td><a href="' . h($enllac) . '">' . h($c) . '</a></td><td>' . h(t('opt.' . $cat)) . '</td><td>' . h(t('opt.' . $cmp))
+        $files .= '<tr data-href="' . h($enllac) . '"><td>' . h(data_llegible($d)) . '</td><td><a href="' . h($enllac) . '">' . h($c) . '</a></td><td>' . h(nom_categoria_caixa($cat)) . '</td><td>' . h(t('opt.' . $cmp))
             . '</td><td class="num">' . ($imp > 0 ? h(euros($imp)) : '') . '</td><td class="num">' . ($imp < 0 ? h(euros(-$imp)) : '') . '</td><td class="num' . ($saldo < 0 ? ' dif-neg' : '') . '">' . h(euros($saldo)) . '</td></tr>';
     }
 
@@ -101,6 +107,7 @@ function pagina_caixa(): void
         . '<select name="compte" aria-label="' . h(t('camp.compte')) . '" onchange="this.form.submit()">' . $comptes . '</select><span class="espai"></span>'
         . '<a class="boto secundari" href="' . h(url('caixa', ['any' => $any, 'compte' => $compte, 'csv' => 1])) . '">' . h(t('exporta_csv')) . '</a>'
         . '<button type="button" class="secundari" onclick="window.print()">🖨 ' . h(t('llist.imprimeix')) . '</button>'
+        . '<a class="boto secundari" href="' . h(url('llista', ['e' => 'categories_caixa'])) . '">🏷 ' . h(t('ent.categories_caixa')) . '</a>'
         . (pot('economia.edit') ? '<a class="boto" href="' . h(url('edita', ['e' => 'moviments', 'tornar' => url('caixa', ['any' => $any])])) . '">+ ' . h(t('caixa.nou')) . '</a>' : '') . '</form>';
     $html .= '<div class="targetes">' . targeta(euros($ingressos), t('caixa.ingressos', $any)) . targeta(euros($despeses), t('caixa.despeses', $any))
         . targeta(euros($ingressos - $despeses), t('caixa.resultat')) . targeta(euros($saldo), t('caixa.saldo_final')) . '</div>';
@@ -110,11 +117,13 @@ function pagina_caixa(): void
 
     // Resum per categories, per a la memòria i l'assemblea
     if ($perCategoria) {
-        ksort($perCategoria);
+        // En l'ordre de les categories de l'entitat
+        $ordre = array_flip(array_keys(categories_caixa()));
+        uksort($perCategoria, fn($a, $b) => ($ordre[$a] ?? 9999) <=> ($ordre[$b] ?? 9999));
         $html .= '<section class="fill"><header><h2>' . h(t('caixa.per_categoria')) . '</h2></header><div class="taula-wrap"><table class="taula taula-informe"><thead><tr><th>' . h(t('camp.categoria'))
             . '</th><th class="num">' . h(t('caixa.ingressos_col')) . '</th><th class="num">' . h(t('caixa.despeses_col')) . '</th></tr></thead><tbody>';
         foreach ($perCategoria as $cat => $v) {
-            $html .= '<tr><td>' . h(t('opt.' . $cat)) . '</td><td class="num">' . h(euros($v[0] ?? 0)) . '</td><td class="num">' . h(euros($v[1] ?? 0)) . '</td></tr>';
+            $html .= '<tr><td>' . h(nom_categoria_caixa($cat)) . '</td><td class="num">' . h(euros($v[0] ?? 0)) . '</td><td class="num">' . h(euros($v[1] ?? 0)) . '</td></tr>';
         }
         $html .= '</tbody></table></div></section>';
     }

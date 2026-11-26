@@ -687,19 +687,7 @@ if ($te('loteria') && !empty($P['loteria'])) {
             $tr('Caduca als tres mesos del sorteig.', 'Caduca a los tres meses del sorteo.')]);
         $lo = $id();
         shuffle($venedors);
-        foreach (array_slice($venedors, 0, $P['loteria']) as $k => $p) {
-            $entrega = date('Y-m-d', min(strtotime("$any-10-" . sprintf('%02d', $rnd(1, 20))), strtotime($AVUI)));
-            if ($any === $L - 1 || $prob(.2)) {
-                $v = $rnd(25, 50);
-                q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega, venudes, tornades, import_liquidat, data_liquidacio) VALUES(?,?,?,?,?,?,?,?)',
-                    [$lo, $k + 1, $p, $entrega, $v, 50 - $v, $v * ($festa ? 3 : 5), $any === $L - 1 ? "$any-12-" . sprintf('%02d', $rnd(1, 19)) : max($entrega, $abans(1))]);
-            } else {
-                q('INSERT INTO talonaris(loteria_id, numero, persona_id, data_entrega) VALUES(?,?,?,?)', [$lo, $k + 1, $p, $entrega]);
-            }
-        }
-        for ($k = $P['loteria'] + 1; $k <= $P['loteria'] + 8; $k++) {
-            q('INSERT INTO talonaris(loteria_id, numero) VALUES(?,?)', [$lo, $k]);
-        }
+        exemple_entregues_loteria($lo, array_slice($venedors, 0, $P['loteria']), $any, $any === $L - 1, $festa ? 3 : 5, $festa ? 2.4 : 4, $rnd, $prob, $tria, $abans, $AVUI);
     }
 }
 

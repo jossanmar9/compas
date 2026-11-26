@@ -510,10 +510,10 @@ async def fes_captures(l: str):
             await c.ves('?r=rebut_doc')
             await c.foto('64-rebut-imprés', zona='.full', alt_max=1300)
             await c.ves('?r=loteria&id=1')
-            await c.foto('65-loteria', 'select[name="persona_id"]', 'form.formulari .accions button', alt_max=1200)
-            await c.ves('?r=edita&e=talonaris&id=2')
-            await c.foto('66-talonari', 'input[name="venudes"]', 'input[name="tornades"]', 'input[name="import_liquidat"]')
-            await c.ves('?r=participacions&talonari=1')
+            await c.foto('65-loteria', 'table.diners-loteria tr.destacat', alt_max=1500)
+            await c.ves('?r=edita&e=loteria_entregues&id=2')
+            await c.foto('66-entrega', 'input[name="tornades"]', 'input[name="import_pagat"]', 'select[name="forma_pagament_id"]')
+            await c.ves('?r=participacions&loteria=1&talonari=1')
             await c.foto('67-participacions', zona='.full', alt_max=700)
 
             # --- Societat i llibre de caixa ---
