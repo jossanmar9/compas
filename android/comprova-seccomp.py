@@ -4,13 +4,13 @@ Comprova que el PHP d'Android només fa crides al sistema que Android deixa fer 
 
 Android (des de la 8) talla amb seccomp les crides al sistema que bionic no fa servir: un programa que en
 fa una mor amb SIGSYS (codi 159). El PHP de l'app està compilat amb musl, no amb bionic, així que es
-comprova amb les crides que ha fet de veres (strace -c, mentre passen les proves de Compàs en un
+comprova amb les crides que ha fet de veres (strace, mentre passen les proves de Compàs en un
 ordinador arm64) contra la llista d'Android 10 per a arm64, que és la versió més antiga que admet l'app.
 
 La llista es fa com la fa Android (bionic/libc/tools/genseccomp.py): les crides de SYSCALLS.TXT i de les
 llistes permeses, menys les de les llistes prohibides.
 
-Ús: comprova-seccomp.py <fitxer de strace -c>...
+Ús: comprova-seccomp.py <registres de strace>...
 SPDX-License-Identifier: AGPL-3.0-or-later
 """
 import base64
@@ -48,12 +48,13 @@ def llista(nom: str) -> set[str]:
 
 
 def fetes(fitxers: list[str]) -> set[str]:
+    """Noms de les crides d'un registre de strace (una crida per línia, «pid nom(…»)"""
     crides = set()
     for f in fitxers:
         for l in open(f, errors='replace'):
-            p = l.split()
-            if len(p) >= 5 and re.match(r'^[\d.]+$', p[0]) and re.match(r'^[a-z_0-9]+$', p[-1]) and p[-1] != 'total':
-                crides.add(p[-1])
+            m = re.match(r'^(?:\d+\s+)?([a-z_][a-z_0-9]*)\(', l)
+            if m:
+                crides.add(m.group(1))
     return crides
 
 

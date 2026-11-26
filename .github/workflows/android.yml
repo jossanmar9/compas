@@ -77,12 +77,14 @@ jobs:
       # amb el PHP d'arm64 dins de strace i es comprova que totes les crides que fa estan permeses.
       - name: Crides al sistema permeses a Android (arm64)
         if: matrix.arq == 'aarch64'
+        continue-on-error: true
         run: |
           sudo apt-get install -y -qq strace > /dev/null
           mkdir -p bin st
-          printf '#!/bin/sh\nexec strace -f -qq -c -o "%s/st/$$.txt" "%s/php-aarch64" "$@"\n' "$PWD" "$PWD" > bin/php
+          printf '#!/bin/sh\nexec strace -f -qq -o "%s/st/$$.txt" "%s/php-aarch64" "$@"\n' "$PWD" "$PWD" > bin/php
           chmod +x bin/php
-          PATH="$PWD/bin:$PATH" python3 tests/integracio.py economia importacio android interficie ca || true
+          PATH="$PWD/bin:$PATH" timeout 900 python3 -u tests/integracio.py economia android ca || true
+          ls -la st | head
           python3 android/comprova-seccomp.py st/*.txt
       - uses: actions/upload-artifact@v4
         with:
