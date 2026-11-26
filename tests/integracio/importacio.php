@@ -62,19 +62,20 @@ $ok($num('Repetit') !== $ja && (int)$num('Repetit') > $seg + 5 && (int)$num('Sen
 
 // 2.8 · Fitxers de LibreOffice (.ods) i NIA
 $files = llig_full(dirname(__DIR__) . '/fitxers/alumnes.ods', 'alumnes.ods');
-$ok(count($files) === 4 && $files[1][1] === 'Ferrer  Vidal' && $files[1][2] === '2016-03-04' && $files[1][4] === '600123456' && $files[2][1] === 'Sorribes & Fills', '.ods: dates, números, & i files buides');
+$ok(count($files) === 5 && $files[1][1] === 'Ferrer  Vidal' && $files[1][2] === '2016-03-04' && $files[1][4] === '600123456' && $files[2][1] === 'Sorribes & Fills', '.ods: dates, números, & i files buides');
 $ok(endevina_camp('NIA', 'alumnes') === 'nia' && endevina_camp('NIA', 'socis') === null, 'columna NIA reconeguda per a l alumnat');
 $imp = ['tipus' => 'alumnes', 'nom_fitxer' => 'alumnes.ods', 'capcalera' => true, 'files' => $files, 'assignacio' => array_map(fn($c) => endevina_camp($c, 'alumnes'), $files[0])];
 $a = analitza_importacio($imp);
 executa_importacio($imp, $a, array_fill(0, count($a), 0));
 $nia = fn($nom) => valor("SELECT a.nia FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE p.nom = ?", [$nom]);
-$ok($nia('Pau') === '10999001' && $nia('Àngela') === '10999002' && $nia('Noa') === null, '.ods importat amb el NIA');
+$ok($nia('Pau') === '109901' && $nia('Àngela') === '012345' && $nia('Noa') === null, '.ods importat amb el NIA (i el zero de davant que el full havia llevat)');
+$ok($nia('Iu') === null && str_contains(implode(' ', $a[3]['avisos']), '12-AB'), 'un NIA que no té 6 xifres no es posa i s avisa');
 // Tornar a importar completa el NIA dels que no en tenien, i no el posa si ja és d'un altre
 q("UPDATE alumnes SET nia = NULL WHERE persona_id = (SELECT id FROM persones WHERE nom = 'Àngela')");
-$files[3][3] = '10999001';
+$files[3][3] = '109901';
 $a = analitza_importacio(['files' => $files] + $imp);
 $mateixa = []; foreach ($a as $i => $r) $mateixa[$i] = $r['persona_id'] ? 1 : 0;
-$ok(str_contains(implode(' ', $a[2]['avisos']), '10999001'), 'avisa del NIA que ja té un altre alumne');
+$ok(str_contains(implode(' ', $a[2]['avisos']), '109901'), 'avisa del NIA que ja té un altre alumne');
 executa_importacio(['files' => $files] + $imp, $a, $mateixa);
-$ok($nia('Àngela') === '10999002', 'completa el NIA d un alumne que ja hi era');
+$ok($nia('Àngela') === '012345', 'completa el NIA d un alumne que ja hi era');
 $ok($nia('Noa') === null, 'no posa un NIA que ja és d un altre');

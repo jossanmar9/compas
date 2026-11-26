@@ -100,26 +100,26 @@ function dades_informe(string $inf): ?array
             if (!$grup) {
                 return null;
             }
-            $alumnes = q("SELECT p.* FROM matricula_grups mg JOIN matricules m ON m.id = mg.matricula_id JOIN alumnes al ON al.id = m.alumne_id
+            $alumnes = q("SELECT p.*, al.nia FROM matricula_grups mg JOIN matricules m ON m.id = mg.matricula_id JOIN alumnes al ON al.id = m.alumne_id
                 JOIN persones p ON p.id = al.persona_id WHERE mg.grup_id = ? AND m.estat = 'actiu' ORDER BY p.cognoms, p.nom", [$grup['id']])->fetchAll();
             $files = [];
+            $ambNia = (bool)array_filter(array_column($alumnes, 'nia'));
             foreach ($alumnes as $a) {
                 $tutors = tutors_persona((int)$a['id']);
-                $files[] = [
-                    nom_complet($a),
+                $files[] = array_merge([nom_complet($a)], $ambNia ? [(string)$a['nia']] : [], [
                     (string)(edat($a['data_naixement']) ?? ''),
                     implode("\n", array_map(fn($tu) => trim($tu['nom'] . ' ' . $tu['cognoms']) . ($tu['tipus_relacio'] ? ' (' . t('opt.' . $tu['tipus_relacio']) . ')' : ''), $tutors)),
                     implode("\n", array_filter($tutors ? array_column($tutors, 'telefon') : [$a['telefon']])),
                     implode("\n", array_filter($tutors ? array_column($tutors, 'email') : [$a['email']])),
                     t('imatge.' . $a['consentiment_imatge']),
-                ];
+                ]);
             }
             return [
                 'titol' => $grup['assignatura'] . ' · ' . $grup['nom'],
                 'subtitol' => t('camp.curs_id') . ' ' . $grup['curs'] . ($grup['professor'] ? ' · ' . t('camp.professor_id') . ': ' . $grup['professor'] : ''),
                 'seccions' => [[
-                    'cols' => [t('ent1.alumnes'), t('llist.edat'), t('llist.tutors'), t('camp.telefon'), t('camp.email'), t('llist.imatge')],
-                    'num' => [1], 'files' => $files,
+                    'cols' => array_merge([t('ent1.alumnes')], $ambNia ? [t('camp.nia')] : [], [t('llist.edat'), t('llist.tutors'), t('camp.telefon'), t('camp.email'), t('llist.imatge')]),
+                    'num' => [$ambNia ? 2 : 1], 'files' => $files,
                     'destacats' => array_keys(array_filter($alumnes, fn($a) => $a['consentiment_imatge'] !== 'autoritza')),
                 ]],
                 'nota' => t('llist.nota_imatge'),

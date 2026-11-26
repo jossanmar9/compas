@@ -195,7 +195,7 @@ while ($i < count($plans)) {
         $instr = $edat >= 7 && $bossaInstr ? array_pop($bossaInstr) : null;
         // NIA: el que té l'alumnat de l'escola de música (n'hi ha algun que encara no l'ha portat)
         q('INSERT INTO alumnes(persona_id, nia, data_alta, descompte_pct, observacions) VALUES(?,?,?,?,?)',
-            [$p, count($alumnes) % 13 !== 5 ? (string)(10380000 + 23 * count($alumnes)) : null, $alta, $prob(.02) ? 50 : null, $prob(.04) ? $tr('Beca de l\'ajuntament', 'Beca del ayuntamiento') : null]);
+            [$p, count($alumnes) % 13 !== 5 ? (string)(380000 + 23 * count($alumnes)) : null, $alta, $prob(.02) ? 50 : null, $prob(.04) ? $tr('Beca de l\'ajuntament', 'Beca del ayuntamiento') : null]);
         $al = $id();
         foreach ($tutors as $k => [$t, $rel]) {
             q('INSERT INTO tutories(alumne_id, tutor_id, tipus_relacio, principal, rep_comunicacions) VALUES(?,?,?,?,?)', [$al, $t, $rel, $k === 0 ? 1 : 0, $k === 0 || $prob(.6) ? 1 : 0]);

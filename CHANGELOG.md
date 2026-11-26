@@ -8,7 +8,7 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
-## [Pendent de publicar]
+## [2.7.2] - 2026-11-26
 
 ### Socis
 - **Número de soci únic i automàtic.** En donar d'alta un soci, el número ja ve posat: el següent al més alt que s'ha donat mai. Dos socis no poden tindre el mateix número, i el de qui es dona de baixa (o s'esborra) no es torna a donar. Es pot canviar a mà si l'entitat ja tenia els seus números.
@@ -16,19 +16,20 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 - Si una base de dades d'abans ja té números repetits, l'inici avisa de quins són.
 
 ### Escola
-- **NIA de cada alumne** (número d'identificació de l'alumne): a la fitxa, a l'alta d'alumne en una pantalla, als llistats, al cercador de dalt (porta directament a la fitxa), al butlletí i al certificat de matrícula. No es pot repetir. Al llistat, el filtre «Alumnat en actiu sense NIA».
-- La importació d'alumnat porta el NIA i el completa en els alumnes que ja hi eren.
+- **NIA de cada alumne** (número d'identificació de l'alumne, de 6 xifres): a la fitxa, a l'alta d'alumne en una pantalla, als llistats, al cercador de dalt (porta directament a la fitxa), al butlletí i al certificat de matrícula. No es pot repetir. Al llistat, el filtre «Alumnat en actiu sense NIA».
+- La importació d'alumnat porta el NIA i el completa en els alumnes que ja hi eren. Torna a posar el zero de davant que els fulls de càlcul lleven, i no posa els que no tenen 6 xifres.
+- El llistat d'alumnes d'un grup porta el NIA.
 
 ### Importació
 - **Fitxers de LibreOffice (.ods)**, a més d'Excel (.xlsx) i CSV.
 
 ### Instruments i material
-- **Contracte de cessió** per a imprimir des de la fitxa de cada cessió: entitat i qui la representa, persona que rep l'instrument, instrument, condicions, signatures i un requadre per a la devolució. Si qui el rep és menor el dia de l'entrega, hi ixen les dades del pare, la mare o el tutor/a legal, que són qui signa. Les condicions es canvien a Configuració. En les entitats amb material, «contracte de préstec de material».
+- **Contracte de cessió** per a imprimir des de la fitxa de cada cessió: entitat i qui la representa, persona que rep l'instrument, instrument, condicions, signatures i un requadre per a la devolució. Si qui el rep és menor el dia de l'entrega, hi ixen les dades del pare, la mare o el tutor/a legal, que són qui signa. També es fa des de la fitxa de la persona o de l'alumne (un botó per cada instrument que té cedit). Les condicions es canvien a Configuració. En les entitats amb material, «contracte de préstec de material».
 
 ### Dades d'exemple
 - Els socis de baixa conserven el seu número (abans tenien números a partir del 900) i l'alumnat de la societat musical té NIA.
 
-*Socios: número único y automático. Escuela: NIA. Importación de LibreOffice (.ods). Contrato de cesión de instrumentos.*
+*Socios: número único y automático. Escuela: NIA de 6 cifras. Importación de LibreOffice (.ods). Contrato de cesión de instrumentos.*
 
 ## [2.7.1] - 2026-11-23
 

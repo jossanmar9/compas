@@ -130,9 +130,9 @@ function pagina_alta_alumne(): void
                 $dupId = (int)$dup;
             }
         }
-        $nia = trim((string)post('a_nia')) ?: null;
-        if ($nia !== null && ($ja = valor('SELECT ' . NOM_PERSONA_SQL . ' FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE a.nia = ?', [$nia]))) {
-            $errors[] = t('err.nia', $nia, (string)$ja);
+        $nia = preg_replace('/\s+/', '', (string)post('a_nia')) ?: null;
+        if ($e = error_nia($nia, null)) {
+            $errors[] = $e;
         }
         $grups = array_values(array_unique(array_filter(array_map('intval', (array)($_POST['grups'] ?? [])))));
         if (!$errors) {
@@ -196,7 +196,7 @@ function pagina_alta_alumne(): void
         }
         $html .= '</div>';
     }
-    $html .= '<div class="camps">' . camp_formulari('a_nia', ['tipus' => 'text', 'etiqueta' => 'camp.nia', 'ajuda' => t('ajuda.nia')], $v('a_nia')) . '</div>';
+    $html .= '<div class="camps">' . camp_formulari('a_nia', ['tipus' => 'text', 'etiqueta' => 'camp.nia', 'ajuda' => t('ajuda.nia'), 'attrs' => 'inputmode="numeric" pattern="[0-9]{6}" maxlength="6"'], $v('a_nia')) . '</div>';
     $html .= '</fieldset>';
     // 2. La família
     $modeT = $v('t_mode', 'nova');

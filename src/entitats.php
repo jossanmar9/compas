@@ -149,6 +149,25 @@ function seguent_numero_soci(): string
     return (string)(max($max, (int)config('ultim_numero_soci')) + 1);
 }
 
+/** El NIA (número d'identificació de l'alumne) té 6 xifres */
+function nia_valid(?string $nia): bool
+{
+    return $nia === null || $nia === '' || preg_match('/^\d{6}$/', $nia) === 1;
+}
+
+/** Error del NIA d'un alumne (format o repetit), o null si és correcte */
+function error_nia(?string $nia, ?int $alumneId): ?string
+{
+    if ($nia === null || $nia === '') {
+        return null;
+    }
+    if (!nia_valid($nia)) {
+        return t('err.nia_format', $nia);
+    }
+    $ja = valor('SELECT ' . NOM_PERSONA_SQL . ' FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE a.nia = ? AND a.id IS NOT ?', [$nia, $alumneId]);
+    return $ja ? t('err.nia', $nia, (string)$ja) : null;
+}
+
 /** Recorda el número més alt donat, perquè no es torne a donar encara que s'esborre el soci */
 function recorda_numero_soci(?string $numero): void
 {
@@ -180,6 +199,20 @@ function dades_que_falten(array $p): array
 function boto_document(string $url, string $text): string
 {
     return '<a class="boto secundari" target="_blank" href="' . h($url) . '">🖨 ' . h($text) . '</a>';
+}
+
+/** Botons del contracte de cada instrument que la persona té ara cedit (per a la seua fitxa i la d'alumne) */
+function botons_contracte_cessio(int $personaId): string
+{
+    if (!pot('instruments.view') || es_consultor() || !disponible('cessions')) {
+        return '';
+    }
+    $html = '';
+    foreach (q('SELECT c.id, i.inventari, i.tipus FROM cessions c JOIN instruments i ON i.id = c.instrument_id
+        WHERE c.persona_id = ? AND c.data_retorn IS NULL ORDER BY c.data_entrega', [$personaId])->fetchAll() as $c) {
+        $html .= boto_document(url('contracte_cessio', ['id' => $c['id']]), t('cessio.boto_de', $c['tipus'] . ' ' . $c['inventari']));
+    }
+    return $html;
 }
 
 function entitats(): array
@@ -230,7 +263,7 @@ function entitats(): array
                 'actiu' => ['tipus' => 'bool', 'llista' => 1, 'defecte' => 1],
             ] + ($ambIban ? ['iban' => camp_iban(fn(array $f) => $f['id'] ?? null) + ['nomes_major' => 1]] : [])
               + ['categoria' => ['tipus' => 'text', 'virtual' => 1, 'nomes_fitxa' => 1, 'carrega' => fn(array $f) => categoria_edat($f['data_naixement'] ?? null)]],
-            'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')),
+            'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['id']]), t('consent.full')) . botons_contracte_cessio((int)$f['id']),
             'fills' => [['socis', 'persona_id'], ['alumnes', 'persona_id'], ['professors', 'persona_id'],
                 ['membres', 'persona_id'], ['tutories', 'tutor_id'], ['cessions', 'persona_id'],
                 ['mandats', 'persona_id'], ['rebuts', 'persona_id'], ['carrecs', 'persona_id'], ['carrecs_festa', 'persona_id'], ['llicencies', 'persona_id'],
@@ -266,10 +299,10 @@ function entitats(): array
         'alumnes' => ['cerca' => ['p.nom', 'p.cognoms', 't.nia']] + $perfil('alumnes') + [
             'cap' => 'escola',
             'filtres' => ['sense_nia' => "t.nia IS NULL AND t.estat = 'actiu'"],
-            'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['persona_id']]), t('consent.full')),
+            'accions_fitxa' => fn(array $f) => boto_document(url('consentiment', ['persona' => $f['persona_id']]), t('consent.full')) . botons_contracte_cessio((int)$f['persona_id']),
             'camps' => [
                 'persona_id' => $persona,
-                'nia' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.nia')],
+                'nia' => ['tipus' => 'text', 'llista' => 1, 'ajuda' => t('ajuda.nia'), 'attrs' => 'inputmode="numeric" pattern="[0-9]{6}" maxlength="6"'],
                 'data_alta' => ['tipus' => 'date', 'llista' => 1, 'defecte' => 'avui'],
                 'data_baixa' => ['tipus' => 'date'],
                 'estat' => $estat,
@@ -277,8 +310,7 @@ function entitats(): array
                 'descompte_pct' => ['tipus' => 'decimal', 'pct' => 1, 'ajuda' => t('ajuda.descompte_pct'), 'secundari' => 1],
                 'observacions' => $obs,
             ],
-            'valida' => fn(array $d, ?int $id) => $d['nia'] !== null && valor('SELECT id FROM alumnes WHERE nia = ? AND id IS NOT ?', [$d['nia'], $id])
-                ? t('err.nia', $d['nia'], (string)valor('SELECT ' . NOM_PERSONA_SQL . ' FROM alumnes a JOIN persones p ON p.id = a.persona_id WHERE a.nia = ?', [$d['nia']])) : null,
+            'valida' => fn(array $d, ?int $id) => error_nia($d['nia'], $id),
             'fills' => [['tutories', 'alumne_id'], ['matricules', 'alumne_id']],
         ],
         'professors' => $perfil('professors') + [

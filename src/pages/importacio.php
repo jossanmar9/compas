@@ -382,7 +382,15 @@ function analitza_importacio(array $imp): array
                 $numeros[$num] = true;
             }
         } elseif ($tipus === 'alumnes') {
-            $nia = trim($v('nia'));
+            // Els fulls de càlcul lleven els zeros de davant dels números: «012345» arriba com «12345»
+            $nia = preg_replace('/\s+/', '', $v('nia'));
+            if ($nia !== '' && ctype_digit($nia) && strlen($nia) < 6) {
+                $nia = str_pad($nia, 6, '0', STR_PAD_LEFT);
+            }
+            if (!nia_valid($nia)) {
+                $r['avisos'][] = t('imp.av_nia_format', $v('nia'));
+                $nia = '';
+            }
             $r['extra'] = ['data_alta' => data_importada($v('data_alta')), 'nia' => $nia];
             if ($r['persona_id'] && isset($alumnes[$r['persona_id']])) {
                 $r['avisos'][] = t('imp.av_ja_alumne');

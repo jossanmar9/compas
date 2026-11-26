@@ -263,7 +263,7 @@ Para repartirlas a principio de curso, en **Listados e informes → Derechos de 
 
 La forma más rápida: en el inicio, **¿Qué quieres hacer? → Alta de alumno** (o, desde la ficha de una persona que ya está en Compàs, **Alta de alumno**). En la misma pantalla:
 
-1. **Quién se apunta**: nombre, apellidos, fecha de nacimiento y el resto de datos. Si es mayor de edad, hacen falta el DNI y el teléfono. Si ya tiene **NIA** (el número de identificación del alumno que da la Conselleria de Educación), escríbelo: cada alumno tiene el suyo y Compàs no deja repetirlo. En el listado de alumnado, el filtro **Alumnado en activo sin NIA** muestra a quién le falta.
+1. **Quién se apunta**: nombre, apellidos, fecha de nacimiento y el resto de datos. Si es mayor de edad, hacen falta el DNI y el teléfono. Si ya tiene **NIA** (el número de identificación del alumno que da la Conselleria de Educación, de 6 cifras), escríbelo: cada alumno tiene el suyo y Compàs no deja repetirlo. En el listado de alumnado, el filtro **Alumnado en activo sin NIA** muestra a quién le falta.
 2. **La familia**: si es menor, la madre, el padre o el tutor/a legal. Si ya está en Compàs (por ejemplo, porque tiene otro hijo en la escuela), elige **Ya está en Compàs** y búscala; si no, **Es una persona nueva** y escribe sus datos. **Vive en la misma dirección** le copia la dirección. Si es mayor de edad, la familia es opcional.
 3. **Grupos**: marca los grupos del curso actual en los que se apunta (con el horario y cuántos hay en cada uno).
 
@@ -502,6 +502,8 @@ Un instrumento no se puede prestar a dos personas a la vez.
 En la ficha de la cesión, el botón **Contrato de cesión** prepara el documento para imprimir y firmar: los datos de la entidad y de quien la representa (la presidencia), de la persona que recibe el instrumento, del instrumento (tipo, marca, modelo, número de serie, inventario, fianza, fechas y estado) y las condiciones. Si la persona es **menor de edad** el día de la entrega, aparecen también los datos de la madre, el padre o el tutor/a legal (los de su ficha de alumno), y firma él o ella; si no tiene ninguno, quedan líneas para rellenar a mano. Abajo hay un recuadro para cuando se devuelva el instrumento. Imprímelo dos veces: una copia para cada parte.
 
 ![Contrato de cesión de un instrumento a una alumna menor](imatges/es/32a-contracte-cessio.webp)
+
+El contrato también se puede hacer desde la ficha de la persona o del alumno: hay un botón por cada instrumento que tiene cedido ahora.
 
 Las condiciones se pueden cambiar en **Configuración** (Manual de administración).
 
@@ -798,7 +800,7 @@ Menú **Documentos y datos → Listados e informes**. Cada listado se puede ver 
 
 ### Alumnos de un grupo
 
-Elige el curso y el grupo. Sale cada alumno con la edad, el padre, la madre o el tutor/a y sus teléfonos y correos. Es el listado que necesita el profesorado. En amarillo, los que no autorizan fotos.
+Elige el curso y el grupo. Sale cada alumno con el NIA (si lo tienen), la edad, el padre, la madre o el tutor/a y sus teléfonos y correos. Es el listado que necesita el profesorado. En amarillo, los que no autorizan fotos.
 
 ![Alumnos de un grupo con los teléfonos de los tutores](imatges/es/44-llistat-grup.webp)
 
@@ -854,7 +856,7 @@ Si la entidad ya tiene los socios o el alumnado en un Excel, no hace falta volve
 
 1. Elige qué quieres importar: **Personas**, **Socios** (con el número, el tipo y la fecha de alta; el tipo se busca por el nombre), **Alumnado** (con el NIA y el padre, la madre o el tutor/a, si la hoja los lleva) o el **Repertorio** (ver más abajo).
 
-   Los socios sin número, o con un número que ya tiene otra persona, reciben el siguiente libre. En el alumnado que ya está en Compàs, la importación completa el NIA si todavía no tenía: así se pueden traer los NIA de toda la escuela de una vez.
+   Los socios sin número, o con un número que ya tiene otra persona, reciben el siguiente libre. En el alumnado que ya está en Compàs, la importación completa el NIA si todavía no tenía: así se pueden traer los NIA de toda la escuela de una vez. Si la hoja ha quitado el cero de delante (012345 → 12345), Compàs lo vuelve a poner; los que no tienen 6 cifras no se ponen y se avisa.
 2. Elige el archivo: Excel (**.xlsx**), LibreOffice (**.ods**) o **CSV**. Si es un .xls antiguo, ábrelo con Excel o LibreOffice y guárdalo como .xlsx u .ods.
 3. Deja marcado **La primera fila tiene los títulos de las columnas** si es el caso, y pulsa **Siguiente**.
 

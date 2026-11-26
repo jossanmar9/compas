@@ -572,6 +572,8 @@ function camp_formulari(string $c, array $d, $v): string
         default:
             $tipus = ['date' => 'date', 'time' => 'time', 'email' => 'email', 'tel' => 'tel', 'number' => 'number', 'decimal' => 'text'][$d['tipus']] ?? 'text';
             $extra = $d['tipus'] === 'decimal' ? ' inputmode="decimal"' : '';
+            // Atributs fixos de la definició (per exemple, el format del NIA: pattern, maxlength, inputmode)
+            $extra .= isset($d['attrs']) ? ' ' . $d['attrs'] : '';
             if ($d['tipus'] === 'talla') {
                 // Les talles de cada article: app.js mostra només les de l'article triat
                 $talles = $preus = [];

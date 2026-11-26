@@ -168,8 +168,13 @@ ok(nia and 'class="fitxa"' in hs and _html.escape(nomNia, quote=False) in hs, 'c
 ok('name="a_nia"' in G('r=alta_alumne'), 'alta: camp NIA')
 hn = P('r=alta_alumne', dict(base, a_nom='Duna', a_data_naixement='1995-01-01', a_document='11223344B', a_telefon='600 555 666', t_mode='cap', a_nia=nia))
 ok('class="avis error"' in hn and n("select count(*) from persones where nom = 'Duna'") == 0, 'alta: el NIA no es pot repetir')
-P('r=alta_alumne', dict(base, a_nom='Duna', a_data_naixement='1995-01-01', a_document='11223344B', a_telefon='600 555 666', t_mode='cap', a_nia='19999999'))
-ok(n("select a.nia from alumnes a join persones p on p.id = a.persona_id where p.nom = 'Duna'") == '19999999', 'alta: es guarda el NIA')
+hn = P('r=alta_alumne', dict(base, a_nom='Duna', a_data_naixement='1995-01-01', a_document='11223344B', a_telefon='600 555 666', t_mode='cap', a_nia='12345678'))
+ok('class="avis error"' in hn and n("select count(*) from persones where nom = 'Duna'") == 0, 'alta: el NIA ha de tindre 6 xifres')
+he = P(f'r=edita&e=alumnes&id={nil}', dict(persona_id=n('select persona_id from alumnes where id = ?', nil), nia='ABC123', data_alta='2026-09-10', data_baixa='', estat='actiu', pagador_id='', descompte_pct='', observacions=''))
+ok('class="avis error"' in he and n('select nia from alumnes where id = ?', nil) is None, 'fitxa: el NIA ha de tindre 6 xifres')
+ok('pattern="[0-9]{6}"' in G(f'r=edita&e=alumnes&id={nil}'), 'fitxa: el camp NIA demana 6 xifres')
+P('r=alta_alumne', dict(base, a_nom='Duna', a_data_naixement='1995-01-01', a_document='11223344B', a_telefon='600 555 666', t_mode='cap', a_nia='199999'))
+ok(n("select a.nia from alumnes a join persones p on p.id = a.persona_id where p.nom = 'Duna'") == '199999', 'alta: es guarda el NIA')
 
 # 2.8 · Contracte de cessió: amb el tutor si és menor
 ces = n("select c.id from cessions c join persones p on p.id = c.persona_id join alumnes a on a.persona_id = p.id join tutories t on t.alumne_id = a.id limit 1")
@@ -183,3 +188,12 @@ hc = G(f'r=contracte_cessio&id={ces}')
 ok(hc.count('<li>') == 2 and 'Primera condició de prova' in hc, 'contracte: condicions de la configuració')
 hl = G('r=llista&e=alumnes&filtre=sense_nia')
 ok('value="sense_nia"' in hl and not err(hl), 'alumnat: filtre sense NIA')
+pc = n('select persona_id from cessions where id = ?', ces)
+ok('r=contracte_cessio&amp;id=%d' % ces in G(f'r=fitxa&e=persones&id={pc}'), 'contracte: botó a la fitxa de la persona')
+alc = n('select id from alumnes where persona_id = ?', pc)
+ok('r=contracte_cessio&amp;id=%d' % ces in G(f'r=fitxa&e=alumnes&id={alc}'), 'contracte: botó a la fitxa de l alumne')
+
+# 2.7.2 · NIA al llistat del grup
+gnia = n("select mg.grup_id from matricula_grups mg join matricules m on m.id = mg.matricula_id join alumnes a on a.id = m.alumne_id where a.nia is not null and m.estat = 'actiu' limit 1")
+hg = G(f'r=llistats&informe=alumnes_grup&grup={gnia}')
+ok('<th>NIA</th>' in hg and not err(hg), 'llistat del grup amb el NIA')
