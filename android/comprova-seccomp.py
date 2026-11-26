@@ -21,7 +21,7 @@ import urllib.request
 
 ETIQUETA = 'android10-release'
 ARQ = 'arm64'
-BASE = f'https://android.googlesource.com/platform/bionic/+/refs/tags/{ETIQUETA}/libc/'
+BASE = f'https://android.googlesource.com/platform/bionic/+/refs/heads/{ETIQUETA}/libc/'
 PERMESES = ['SYSCALLS.TXT', 'SECCOMP_WHITELIST_COMMON.TXT', 'SECCOMP_WHITELIST_APP.TXT']
 PROHIBIDES = ['SECCOMP_BLACKLIST_COMMON.TXT', 'SECCOMP_BLACKLIST_APP.TXT']
 LINIA = re.compile(r'^\s*[^(]*?\s\*?([\w|]+)(?::(\w+))?(?::\d+)?\s*\(.*\)\s+([\w,]+)\s*$')
