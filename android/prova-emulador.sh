@@ -10,6 +10,9 @@ OUT=android/proves
 mkdir -p "$OUT"
 api=$(adb shell getprop ro.build.version.sdk | tr -d '\r')
 
+adb root >/dev/null 2>&1 || true
+sleep 3
+adb wait-for-device
 adb install -r "$APK" || exit 1
 lib=$(adb shell pm path "$PKG" | head -1 | tr -d '\r' | sed 's#^package:##; s#/base.apk$##')
 echo "== PHP de l'app ($lib)"
@@ -35,6 +38,9 @@ echo "== php-errors.log"
 adb shell run-as "$PKG" cat files/dades/php-errors.log 2>/dev/null || true
 echo "== logcat de Compàs"
 adb logcat -d -s Compas:V AndroidRuntime:E System.err:W chromium:E | tail -60
+echo "== seccomp (crides al sistema que Android no deixa fer)"
+adb shell dmesg 2>/dev/null | grep -iE "type=1326|seccomp|syscall=" | tail -20
+adb logcat -d -b all | grep -iE "type=1326|seccomp" | tail -20
 echo "== fitxers"
 adb shell run-as "$PKG" ls -la files files/dades files/compas 2>&1 | head -40
 echo "== processos"
