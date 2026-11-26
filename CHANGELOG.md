@@ -8,6 +8,15 @@ Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: la **correcció** (1.
 
 *Registro de cambios de Compàs: cada versión, de la más nueva a la más antigua.*
 
+## [Pendent de publicar]
+
+### Documentació
+- **Tota la documentació també en castellà:** el README (`README.es.md`), l'arquitectura (`docs/arquitectura.es.md`), les proves (`tests/README.es.md`) i la guia de contribució sencera. Cada document té dalt l'enllaç a l'altra llengua.
+- Correccions: noms dels formularis d'incidències a la guia de contribució, els PDF que ja no es guarden a `docs/pdf/`, la lectura dels .ods i el contracte de cessió a l'arquitectura, i algunes formes més pròpies del valencià de l'AVL («vore», «ixen»).
+- Dins del programa, la privacitat i la llicència en castellà ja no repeteixen el títol.
+
+*Toda la documentación también en castellano.*
+
 ## [2.7.2] - 2026-11-26
 
 ### Socis

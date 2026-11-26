@@ -1,5 +1,7 @@
 # Privacitat de Compàs
 
+*Valencià · [Castellano](#privacidad-de-compàs) · [English](#privacy-statement-english)*
+
 **En resum: Compàs no recull, no envia i no comparteix cap dada. Tot es queda a l'ordinador de l'entitat.**
 
 ## El programa

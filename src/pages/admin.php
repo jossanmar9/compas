@@ -391,7 +391,7 @@ function pagina_privacitat(): void
 {
     $fitxer = ARREL_DIR . DIRECTORY_SEPARATOR . 'PRIVACITAT.md';
     $parts = preg_split('/^---\s*$/m', is_file($fitxer) ? (string)file_get_contents($fitxer) : '');
-    $md = preg_replace('/^# .*\R/', '', $parts[idioma() === 'es' ? 1 : 0] ?? $parts[0]);
+    $md = preg_replace(['/^# .*\R/', '/^\*Valencià · .*\*\R/m'], '', ltrim($parts[idioma() === 'es' ? 1 : 0] ?? $parts[0])); // sense el títol ni els enllaços d'idioma
     $html = '<div class="accions"><a class="boto secundari" href="' . h(url('ajuda')) . '">← ' . h(t('menu.ajuda')) . '</a></div>'
         . '<article class="manual">' . markdown_simple($md) . '</article>';
     pagina(t('ajuda.privacitat'), $html);
@@ -402,7 +402,7 @@ function pagina_llicencia(): void
 {
     $fitxer = ARREL_DIR . DIRECTORY_SEPARATOR . 'LLICENCIA.md';
     $parts = preg_split('/^---\s*$/m', is_file($fitxer) ? (string)file_get_contents($fitxer) : '');
-    $md = preg_replace('/^# .*\R/', '', $parts[idioma() === 'es' ? 1 : 0] ?? $parts[0]);
+    $md = preg_replace(['/^# .*\R/', '/^\*Valencià · .*\*\R/m'], '', ltrim($parts[idioma() === 'es' ? 1 : 0] ?? $parts[0])); // sense el títol ni els enllaços d'idioma
     $md = str_replace('(LICENSE)', '(https://www.gnu.org/licenses/agpl-3.0.html)', $md);
     $html = '<div class="accions"><a class="boto secundari" href="' . h(url('ajuda')) . '">← ' . h(t('menu.ajuda')) . '</a></div>'
         . '<article class="manual">' . markdown_simple($md) . '</article>';

@@ -12,7 +12,7 @@ Compàs és el programa de gestió de l'entitat: persones, socis, escola de mús
 | Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ | — |
 | Llibre de caixa | ✔ | ✔ | — |
 | Junta, actes, documents i comunicats | ✔ | ✔ | — |
-| Llistats, certificats i importació des d'Excel | ✔ | ✔ | — |
+| Llistats, certificats i importació de fulls de càlcul | ✔ | ✔ | — |
 | Fer i baixar còpies de seguretat | ✔ | ✔ | — |
 | Canviar la pròpia contrasenya | ✔ | ✔ | ✔ |
 | Configuració de l'entitat, logotip, mòduls i avisos | ✔ | — | — |
@@ -43,7 +43,7 @@ La primera vegada que s'obri Compàs apareix la **Configuració inicial**:
 5. Si vols, crea també el compte d'**usuari/ària** (es pot fer després).
 6. En **Dades d'exemple**, tria si vols començar amb l'entitat buida (**Cap**) o provar el programa amb persones i dades inventades:
    - **Unes poques**: una vintena de persones, per a fer-se una idea de cada apartat.
-   - **Una entitat gran**: centenars de persones amb les seues famílies, grups, escola o tallers, rebuts de dos exercicis, remeses, loteria, activitats, junta i caixa, com una entitat de veres del tipus que has triat. Va bé per a veure com es treballa amb molt de volum. Tarda uns segons.
+   - **Una entitat gran**: centenars de persones amb les seues famílies, grups, escola o tallers, rebuts de dos exercicis, remeses, loteria, activitats, junta i caixa, com una entitat de veres del tipus que has triat. Va bé per a vore com es treballa amb molt de volum. Tarda uns segons.
 7. Llig l'**avís de responsabilitat** i marca que l'acceptes.
 8. Prem **Comença**.
 

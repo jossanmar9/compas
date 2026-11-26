@@ -1,5 +1,7 @@
 # Seguretat de Compàs
 
+*Valencià · [Castellano](#seguridad-de-compàs)*
+
 Compàs gestiona dades personals i econòmiques, també de menors. Si trobes una possible vulnerabilitat, comunica-la **en privat**, encara que el programa funcione només en un ordinador.
 
 ## Comunicar una vulnerabilitat

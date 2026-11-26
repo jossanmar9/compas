@@ -1,5 +1,7 @@
 # Proves de Compàs
 
+*Valencià · [Castellano](README.es.md)*
+
 Proves automàtiques sense PHPUnit ni Composer. No toquen `data/compas.db`.
 
 ## Proves de funcionament
@@ -44,7 +46,7 @@ Arranquen Compàs de veres (el servidor de PHP amb dades d'exemple en una carpet
 | `subvencions` | `subvencions.py` | Organismes i requisits editables, cobraments a la caixa, despeses imputades, relació per a la justificació i còpia per a l'any següent. |
 | `buidar` | `buidar.py` | Buidatge de les dades de gestió des de Còpies de seguretat: contrasenya i confirmació, còpia prèvia, només l'administrador. |
 | `comptes` | `comptes.py` | Comptes amb noms ASCII i únics (també davant SQLite i en migrar noms antics), permisos del consultor davant peticions directes, sessions que caduquen en canviar la contrasenya, galetes inventades i accés només des d'este ordinador. |
-| `interficie` | `interficie.py` | Menú curt i plegable, enllaços al que n'ha eixit, cercador (també pel número de soci i el telèfon), «Què vols fer?», botó d'ajuda de cada pantalla, fitxa de persona amb accions i pestanyes, «Més dades» als formularis, alta d'alumne en una pantalla i accessibilitat (cada camp amb nom, salt al contingut, errors anunciats). |
+| `interficie` | `interficie.py` | Menú curt i plegable, enllaços al que n'ha eixit, cercador (també pel número de soci i el telèfon), «Què vols fer?», botó d'ajuda de cada pantalla, fitxa de persona amb accions i pestanyes, «Més dades» als formularis, alta d'alumne en una pantalla, accessibilitat (cada camp amb nom, salt al contingut, errors anunciats), número de soci (el següent lliure, únic, no es torna a donar), NIA (6 xifres, únic, cercador) i contracte de cessió (amb el tutor si és menor, des de les fitxes, condicions de la configuració). |
 | `seguretat` | `seguretat.py` | Només respon a este ordinador (DNS rebinding), capçaleres de seguretat, redireccions del canvi d'idioma, documents aïllats i límit d'intents d'entrada. |
 
 Cada fitxer rep de `tests/integracio.py` les funcions comunes: `G(consulta)` obri una pàgina, `P(consulta, dades)` envia un formulari, `n(sql)` consulta la base de dades, `ok(condició, missatge)` apunta el resultat, etc. Per a afegir proves d'una funció nova, crea un fitxer i posa'l en una bateria de `BATERIES`.

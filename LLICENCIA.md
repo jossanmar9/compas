@@ -1,5 +1,7 @@
 # Llicència de Compàs (resum)
 
+*Valencià · [Castellano](#licencia-de-compàs-resumen)*
+
 > Este resum és orientatiu i no substituïx la llicència. L'únic text vàlid és l'original en anglés, al fitxer [LICENSE](LICENSE): *GNU Affero General Public License*, versió 3 o posterior (AGPL-3.0-or-later).
 
 Compàs és **programari lliure**. Copyright © 2026 José Vicente Sanjuan.

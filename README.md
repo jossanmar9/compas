@@ -21,6 +21,8 @@
   <img src="https://img.shields.io/badge/SQLite-local-003B57" alt="SQLite">
 </p>
 
+<p align="center"><strong>Valencià</strong> · <a href="README.es.md">Castellano</a></p>
+
 <p align="center">
   <strong>🖥️ Windows i Linux · 🔒 Dades locals · 🌐 Sense Internet · 💶 Sense subscripcions · 🆓 Programari lliure</strong>
 </p>
@@ -46,8 +48,6 @@ Serveix per a **societats musicals, clubs esportius, colles, muixerangues, colle
 ### ⭐ T'agrada Compàs?
 
 Si Compàs et sembla útil, pots ajudar el projecte donant-li una **estrela a GitHub**. Ajuda a donar-li visibilitat i a fer que més associacions el descobrisquen.
-
-*Compàs también está disponible en castellano. El programa, los manuales y la documentación de uso están en valenciano y castellano.*
 
 Un projecte de **José Vicente Sanjuan**.
 
@@ -109,7 +109,7 @@ Compàs concentra en un únic programa les àrees habituals de gestió d'una ass
 A més, el tipus d'entitat activa funcionalitats específiques com **repertori musical, llicències esportives, càrrecs de festa, esquadres, comissions o entitats federades**.
 
 <details>
-<summary><strong>Veure totes les funcionalitats de Compàs</strong></summary>
+<summary><strong>Vore totes les funcionalitats de Compàs</strong></summary>
 
 <br>
 
@@ -225,7 +225,7 @@ Els noms de compte són únics sense distingir majúscules: de 3 a 40 caràcters
 | Quotes, rebuts, domiciliacions, remeses, loteria i subvencions | ✔ | ✔ | — |
 | Llibre de caixa | ✔ | ✔ | — |
 | Junta, actes, documents i comunicats | ✔ | ✔ | — |
-| Llistats, certificats i importació des d'Excel | ✔ | ✔ | — |
+| Llistats, certificats i importació de fulls de càlcul | ✔ | ✔ | — |
 | Fer i baixar còpies de seguretat | ✔ | ✔ | — |
 | Canviar la pròpia contrasenya | ✔ | ✔ | ✔ |
 | Configuració de l'entitat, tipus, logotip, mòduls i avisos | ✔ | — | — |
@@ -260,8 +260,9 @@ Si l'administrador/a oblida la contrasenya, la pot canviar des de la pantalla d'
 | Manual d'administració: configuració, comptes, còpies i actualitzacions | [MD](docs/manual-administracio.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-administracio.pdf) | [MD](docs/manual-administracion.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/manual-administracion.pdf) |
 | Guia d'instal·lació | [MD](docs/guia-installacio.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/guia-installacio.pdf) | [MD](docs/guia-instalacion.md) · [PDF](https://github.com/jossanmar9/compas/releases/latest/download/guia-instalacion.pdf) |
 | Declaració de privacitat | [PRIVACITAT](PRIVACITAT.md) | [PRIVACITAT](PRIVACITAT.md#privacidad-de-compàs) |
-| Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | |
-| Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | |
+| Arquitectura i detalls tècnics | [MD](docs/arquitectura.md) | [MD](docs/arquitectura.es.md) |
+| Proves automàtiques | [MD](tests/README.md) | [MD](tests/README.es.md) |
+| Registre de canvis de cada versió | [CHANGELOG](CHANGELOG.md) | Resum en castellà a cada versió |
 
 Els manuals també es poden consultar dins del programa, al menú **Ajuda** (el d'administració, només l'administrador/a).
 
@@ -286,7 +287,7 @@ src/          lògica: base de dades, permisos, entitats, pantalles i traduccion
   pages/      pantalles específiques (inici, cercador, escola, butlletins, activitats, còpies…)
   exemple/    dades d'exemple de l'entitat gran de cada tipus
 launcher/     llançador de Windows (Compas.cs), php.ini, script de l'instal·lador i, a linux/, el llançador i l'instal·lador per a Linux
-docs/         manuals, guies, captures (imatges/) i PDF (pdf/)
+docs/         manuals, guies i captures (imatges/); els PDF es fan en publicar cada versió
 eines/        generació de captures, PDF, web i entitat gran de prova
 tests/        proves automàtiques, d'integració i de rendiment
 .github/      construcció de l'instal·lador (publica.yml) i de la web (web.yml)

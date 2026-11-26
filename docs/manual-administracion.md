@@ -12,7 +12,7 @@ Compàs es el programa de gestión de la entidad: personas, socios, escuela de m
 | Cuotas, recibos, domiciliaciones, remesas, lotería y subvenciones | ✔ | ✔ | — |
 | Libro de caja | ✔ | ✔ | — |
 | Junta, actas, documentos y comunicados | ✔ | ✔ | — |
-| Listados, certificados e importación desde Excel | ✔ | ✔ | — |
+| Listados, certificados e importación de hojas de cálculo | ✔ | ✔ | — |
 | Hacer y descargar copias de seguridad | ✔ | ✔ | — |
 | Cambiar la propia contraseña | ✔ | ✔ | ✔ |
 | Configuración de la entidad, logotipo, módulos y avisos | ✔ | — | — |

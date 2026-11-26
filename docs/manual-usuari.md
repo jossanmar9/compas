@@ -762,7 +762,7 @@ Menú **Llicències** (clubs esportius; en altres entitats s'activa a **Configur
 3. Posa la **data de caducitat** de la llicència, si caduca abans de la fi de la temporada, i fins quan és vàlida la **revisió mèdica**.
 4. L'estat és **En tràmit** mentre la federació no la dona per bona, i **Actiu** després.
 
-Les llicències que han caducat o que caduquen en 30 dies, i les revisions mèdiques en la mateixa situació, es marquen en groc i surten en un avís a l'inici. El filtre **Caducades o que caduquen en 30 dies** del llistat les mostra totes. **Llistats i informes → Llicències per equip** les imprimeix agrupades per equip, amb la categoria de cada jugador.
+Les llicències que han caducat o que caduquen en 30 dies, i les revisions mèdiques en la mateixa situació, es marquen en groc i ixen en un avís a l'inici. El filtre **Caducades o que caduquen en 30 dies** del llistat les mostra totes. **Llistats i informes → Llicències per equip** les imprimeix agrupades per equip, amb la categoria de cada jugador.
 
 En començar una temporada nova, afig les llicències noves; les de la temporada anterior es queden com a historial (o posa-les de baixa).
 
@@ -776,7 +776,7 @@ Menú **Entitat → Càrrecs de festa** (falles, gaiates, fogueres i comparses).
 2. Escriu el **càrrec** o tria'l de la llista: Compàs suggerix els del tipus d'entitat i els que ja s'han fet servir.
 3. Tria la persona i, si vols, la data de la proclamació.
 
-Cada càrrec té un **certificat** per a imprimir («és Fallera Major de l'exercici…» o «va ser…»), amb les signatures, i **Llistats i informes → Càrrecs de festa per exercici** fa l'historial de l'entitat. Els càrrecs també surten a la fitxa de cada persona.
+Cada càrrec té un **certificat** per a imprimir («és Fallera Major de l'exercici…» o «va ser…»), amb les signatures, i **Llistats i informes → Càrrecs de festa per exercici** fa l'historial de l'entitat. Els càrrecs també ixen a la fitxa de cada persona.
 
 Els càrrecs de la junta directiva (presidència, secretaria, tresoreria…) no van ací, sinó a **Junta directiva**.
 
