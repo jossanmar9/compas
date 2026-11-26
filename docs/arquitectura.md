@@ -94,10 +94,6 @@ Els camps de relació (`ref`) amb més de `MAX_DESPLEGABLE` opcions (400) no fan
 - Còpies externes xifrades (opcional): clau derivada de la contrasenya amb Argon2id (`crypto_pwhash`) i xifrat en blocs d'1 MB amb XChaCha20-Poly1305 (`crypto_secretstream`), que detecta qualsevol modificació o tall del fitxer. A l'ordinador només es guarda la clau derivada, per a poder fer les còpies automàtiques; la contrasenya fa falta per a restaurar.
 - Importació: els .xlsx es llegeixen sense DTD (`LIBXML_NONET`, sense entitats externes); les dades entre passos es guarden en un fitxer temporal de la carpeta de dades amb un nom aleatori lligat a la sessió, i s'esborren en acabar o al cap d'un dia.
 
-## Pendent (pròximes versions)
-
-La llista està al [README](../README.md#pròximes-versions).
-
 ## Notes
 
 - Economia (`src/pages/economia.php`): els rebuts generats porten una `clau` única (soci i període, o pagador, curs i període) perquè generar dues vegades el mateix període no duplique res. L'import d'un rebut amb línies és la suma de les línies (`recalcula_rebut`). Numeració correlativa per any (`2026/0001`). Una remesa preparada fixa el mandat de cada rebut; marcar-la com a cobrada posa els rebuts pagats i l'`ultim_us` dels mandats (el següent cobrament ja és RCUR). Compàs fa rebuts, no factures, per a no entrar en el reglament dels sistemes de facturació (Verifactu).

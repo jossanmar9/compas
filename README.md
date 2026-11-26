@@ -64,7 +64,6 @@ Un projecte de **José Vicente Sanjuan**.
 - [Documentació](#documentació)
 - [Per a desenvolupar](#per-a-desenvolupar)
 - [Publicar una versió](#publicar-una-versió)
-- [Pròximes versions](#pròximes-versions)
 - [Col·laborar](#collaborar)
 - [Autoria i ús d'intel·ligència artificial](#autoria-i-ús-dintelligència-artificial)
 - [Avís de responsabilitat](#avís-de-responsabilitat)
@@ -332,13 +331,6 @@ i obri `http://127.0.0.1:8740`. Les dades es guarden a `data/` o a la carpeta qu
 La web es torna a publicar sola amb cada canvi a `main` (`web.yml`).
 
 Les versions segueixen el format `MAJOR.MENOR.CORRECCIÓ`: `v1.0.1` per a correccions i `v1.1.0` per a funcionalitats noves.
-
-## Pròximes versions
-
-- Calendari d'assajos, entrenaments, partits i actes, amb els espais que cal demanar a l'ajuntament.
-- Passar llista dels assajos, entrenaments i activitats dins del programa (ara es fa amb els fulls d'assistència en Excel).
-- Repertori interpretat en cada concert, per a la declaració a la SGAE.
-- Cobrament per Bizum o TPV en el registre dels rebuts.
 
 ## Col·laborar
 
