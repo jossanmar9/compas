@@ -19,6 +19,7 @@ import android.print.PrintAttributes;
 import android.print.PrintManager;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.util.Log;
 import android.view.WindowInsets;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
@@ -119,9 +120,10 @@ public class Principal extends Activity {
                     web.loadUrl(srv.url() + (cami != null ? cami : ""));
                     arrancant = false;
                 });
-            } catch (IOException e) {
+            } catch (Throwable e) {
+                Log.e("Compas", "No ha arrancat", e);
                 runOnUiThread(() -> {
-                    mostra(pantalla(getString(R.string.error_titol), getString(R.string.error_text), e.getMessage()));
+                    mostra(pantalla(getString(R.string.error_titol), getString(R.string.error_text), e + (e.getMessage() != null && e.getMessage().contains("\n") ? "" : "\n\n" + srv.finalRegistre())));
                     arrancant = false;
                 });
             }

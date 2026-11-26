@@ -33,8 +33,14 @@ echo "== servidor.log"
 adb shell run-as "$PKG" cat files/dades/servidor.log
 echo "== php-errors.log"
 adb shell run-as "$PKG" cat files/dades/php-errors.log 2>/dev/null || true
-echo "== logcat"
-adb logcat -d -s chromium:E AndroidRuntime:E ActivityManager:W | tail -40
+echo "== logcat de Compàs"
+adb logcat -d -s Compas:V AndroidRuntime:E System.err:W chromium:E | tail -60
+echo "== fitxers"
+adb shell run-as "$PKG" ls -la files files/dades files/compas 2>&1 | head -40
+echo "== processos"
+adb shell ps -A | grep -i -E "libphp|compas"
+echo "== pantalla (text)"
+adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1 && adb shell cat /sdcard/ui.xml | grep -o 'text="[^"]*"' | grep -v 'text=""' | head -40
 
 # Una còpia de seguretat en passar a segon pla (només si hi ha canvis: ara no n'hi ha, però no ha de fallar)
 adb shell input keyevent KEYCODE_HOME

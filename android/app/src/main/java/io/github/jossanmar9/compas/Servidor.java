@@ -6,6 +6,7 @@ package io.github.jossanmar9.compas;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -126,6 +127,7 @@ final class Servidor {
         env.put("HOME", ctx.getFilesDir().getAbsolutePath());
         pb.redirectErrorStream(true);
         pb.redirectOutput(ProcessBuilder.Redirect.appendTo(registre));
+        Log.i("Compas", "Arranca PHP: " + pb.command());
         proc = pb.start();
 
         // Espera que el servidor escolte (fins a 20 s)
